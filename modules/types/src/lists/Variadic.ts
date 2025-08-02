@@ -114,7 +114,7 @@ export type HasVariadicInterior<
         : IsVariadicArray<R> extends true
             ? Not<Or<[
                 HasVariadicHead<R>,
-                HasVariadicTail<R>
+                HasVariadicTail<R>,
             ]>> extends true
                 ? SplitAtVariadic<R> extends [...unknown[], []]
                     ? false

@@ -7,12 +7,16 @@ describe("AsArray<T>", () => {
     type T1 = AsArray<4>;
     type T2 = AsArray<[4, 5, 6]>;
     type T3 = AsArray<T2>;
+    type T4 = AsArray<undefined>;
+    type T5 = AsArray<null>;
 
     type cases = [
       //
       Expect<Test<T1, "equals",  [4]>>,
       Expect<Test<T2, "equals", [4, 5, 6]>>,
       Expect<Test<T3, "equals", [4, 5, 6]>>,
+      Expect<Test<T4, "equals", []>>,
+      Expect<Test<T5, "equals", [null]>>,
     ];
   });
 

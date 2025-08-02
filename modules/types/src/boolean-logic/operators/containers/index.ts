@@ -9,6 +9,7 @@ export * from "./HasSameKeys";
 export * from "./HasSameValues";
 export * from "./IsArray";
 export * from "./IsContainer";
+export * from "./IsDictionary";
 export * from "./IsEmptyArray";
 export * from "./IsEmptyObject";
 export * from "./IsIterable";
@@ -19,3 +20,4 @@ export * from "./IsReadonlyObject";
 export * from "./IsSameContainerType";
 export * from "./IsValidIndex";
 export * from "./KeysOverlap";
+

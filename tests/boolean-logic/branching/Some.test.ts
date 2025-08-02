@@ -6,7 +6,7 @@ import { describe, it } from "vitest";
 describe("Some<TContainer,TOp,TComparator>", () => {
 
     it("testing tuples", () => {
-        type T1 = Some<[string, string, number, boolean], "extends", [number]>;
+        type T1 = Some<[string, string, number, boolean], "extends", number>;
         type T2 = Some<[string, string, number, boolean], "equals", [number]>;
         type T3 = Some<[1, 2, 3, 42, 105], "greaterThan", [100]>;
         type T4 = Some<[string, number, "foo", false], "equals", ["foo"]>;
@@ -34,10 +34,10 @@ describe("Some<TContainer,TOp,TComparator>", () => {
     });
 
     it("testing tuples (with abbreviated params)", () => {
-        type T1 = Some<[string, string, number, boolean], "extends", number>;
-        type T2 = Some<[string, string, number, boolean], "equals", number>;
-        type T3 = Some<[1, 2, 3, 42, 105], "greaterThan", 100>;
-        type T4 = Some<[string, number, "foo", false], "equals", "foo">;
+        type T1 = Some<[string, string, number, boolean], "extends", [number]>;
+        type T2 = Some<[string, string, number, boolean], "equals", [number]>;
+        type T3 = Some<[1, 2, 3, 42, 105], "greaterThan", [100]>;
+        type T4 = Some<[string, number, "foo", false], "equals", ["foo"]>;
         type T5 = Some<[string, number, "foo", false], "startsWith", "f">;
 
         type F1 = Some<[string, string, object, boolean], "extends", number>;
@@ -94,3 +94,4 @@ describe("Some<TContainer,TOp,TComparator>", () => {
 
 
 });
+

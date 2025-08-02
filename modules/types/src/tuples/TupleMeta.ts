@@ -1,7 +1,6 @@
 import type {
     And,
     As,
-    DoesNotExtend,
     DropVariadic,
     GetNonVariadicLength,
     GetOptionalElementCount,
@@ -11,16 +10,14 @@ import type {
     If,
     IsEqual,
     IsLiteralLikeArray,
-    IsNotEqual,
+    IsTuple,
     IsVariadicArray,
-    IsWideContainer,
     Length,
     MaxLength,
     MaxSafeInteger,
     MinLength,
     Not,
     NotEqual,
-    Or,
     VariadicType
 } from "inferred-types/types";
 
@@ -62,6 +59,12 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
         number
     >;
     length: Length<T>;
+
+    /**
+     * Returns a boolean flag indicating whether the number of parameters is a known and _fixed_
+     * number.
+     */
+    isTuple: IsTuple<T>;
 
     /**
      * whether the number of elements in the array is _unconstrained_

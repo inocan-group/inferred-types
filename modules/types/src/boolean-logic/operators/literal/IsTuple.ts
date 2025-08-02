@@ -1,4 +1,4 @@
-import type { IsAny, IsNever } from "inferred-types/types";
+import type { IsAny, IsNever, IsUnknown } from "inferred-types/types";
 
 /**
  * **IsTuple**`<T>`
@@ -8,12 +8,14 @@ import type { IsAny, IsNever } from "inferred-types/types";
  * - must extends `readonly any[]`,
  * - must have a _known_ number of elements
  */
-export type IsTuple<T> = [IsNever<T>] extends [true]
+export type IsTuple<T> = [IsAny<T>] extends [true]
     ? false
-    : [IsAny<T>] extends [true]
+: [IsNever<T>] extends [true]
+    ? false
+: [IsUnknown<T>] extends [true]
+    ? boolean
+: [T] extends [readonly any[]]
+    ? [number] extends [T["length"]]
         ? false
-        : [T] extends [readonly any[]]
-            ? [number] extends [T["length"]]
-                ? false
-                : true
-            : false;
+        : true
+    : false;

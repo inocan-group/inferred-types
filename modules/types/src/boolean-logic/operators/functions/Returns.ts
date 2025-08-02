@@ -1,4 +1,4 @@
-import type { TypedFunction } from "inferred-types/types";
+import type { IsAny, IsNever, IsUnknown, TypedFunction } from "inferred-types/types";
 
 /**
  * **Returns**`<TFn,TExpected>`
@@ -7,10 +7,17 @@ import type { TypedFunction } from "inferred-types/types";
  * and _extends_ `TExpected` in it's return type.
  */
 export type Returns<
-    TFn,
+    T,
     TExpected,
-> = TFn extends TypedFunction
-    ? ReturnType<TFn> extends TExpected
+> =
+[IsAny<T>] extends [true]
+    ? false
+: [IsNever<T>] extends [true]
+    ? false
+: [IsUnknown<T>] extends [true]
+    ? boolean
+: T extends TypedFunction
+    ? ReturnType<T> extends TExpected
         ? true
         : false
     : false;

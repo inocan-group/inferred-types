@@ -10,6 +10,7 @@ import type {
     Contains,
     ContainsAll,
     DateLike,
+    Dictionary,
     DoesExtend,
     EndsWith,
     EndsWithNumber,
@@ -47,12 +48,14 @@ import type {
     Narrowable,
     NumberLike,
     NumericChar,
+    ObjectKey,
     Or,
     RetainChars,
     Second,
     SomeEqual,
     StartsWith,
     Suggest,
+    ToStringArray,
     TupleToUnion,
     TypedFunction,
     Unset
@@ -91,77 +94,73 @@ type Process__DateTime<
         : Err<`invalid-value/not-date-like`>
 
     : TOp extends "before"
-        ? IsDateLike<TVal> extends false
-            ? Err<
+        ? TVal extends DateLike
+            ? First<TParams> extends DateLike
+                ? IsBefore<TVal, First<TParams>>
+                : Err<
+                    `invalid-params/not-date-like`,
+                    `The '${TOp}' operation expects the parameter used for comparator to be a valid representation of a date but it was not!`,
+                { param: TVal, val: TVal }
+                >
+            : Err<
                 `invalid-value/not-date-like`,
                 `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
                 { val: TVal }
             >
-            : TParams extends Base<TOp>
-                ? IsLiteralLike<C<"before", TParams>> extends true
-                    ? IsBefore<As<TVal, DateLike>, C<"before", TParams>>
-                    : boolean
-                : IsBoolean<IsDateLike<TVal>> extends true
-                    ? boolean
-                    : false
 
-        : TOp extends "sameDay"
-            ? [IsDateLike<TVal>] extends [false]
-                ? Err<
-                    `invalid-value/not-date-like`,
+    : TOp extends "sameDay"
+        ? TVal extends DateLike
+            ? First<TParams> extends DateLike
+                ? IsSameDay<TVal,First<TParams>>
+                : Err<`invalid-params/not-date-like`>
+            : Err<`invalid-value/not-date-like`>
+
+
+    : TOp extends "sameMonthYear"
+        ? TVal extends DateLike
+            ? First<TParams> extends DateLike
+                ? IsSameMonthYear<TVal, First<TParams>>
+                : Err<
+                    `invalid-params/not-date-like`,
+                    `The '${TOp}' operation expects the parameter used for comparator to be a valid representation of a date but it was not!`,
+                { param: TVal, val: TVal }
+                >
+            : Err<
+                `invalid-value/not-date-like`,
                 `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
                 { val: TVal }
+            >
+
+    : TOp extends "sameMonth"
+        ? TVal extends DateLike
+            ? First<TParams> extends DateLike
+                ? IsSameMonth<TVal, First<TParams>>
+                : Err<
+                    `invalid-params/not-date-like`,
+                    `The '${TOp}' operation expects the parameter used for comparator to be a valid representation of a date but it was not!`,
+                { param: TVal, val: TVal }
                 >
-                : TParams extends Base<TOp>
-                    ? IsLiteralLike<C<"sameDay", TParams>> extends true
-                        ? IsSameDay<As<TVal, DateLike>, C<"sameDay", TParams>>
-                        : boolean
-                    : IsBoolean<IsDateLike<TVal>> extends true
-                        ? boolean
-                        : false
+            : Err<
+                `invalid-value/not-date-like`,
+                `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
+                { val: TVal }
+            >
 
-            : TOp extends "sameMonthYear"
-                ? IsFalse<IsDateLike<TVal>> extends true
-                    ? false
-                    : TParams extends Base<TOp>
-                        ? IsLiteralLike<C<"sameMonthYear", TParams>> extends true
-                            ? IsSameMonthYear<
-                                As<TVal, DateLike>,
-                                C<"sameMonthYear", TParams>
-                            >
-                            : boolean
-                        : IsBoolean<IsDateLike<TVal>> extends true
-                            ? boolean
-                            : false
-
-                : TOp extends "sameMonth"
-                    ? IsFalse<IsDateLike<TVal>> extends true
-                        ? false
-                        : TParams extends Base<TOp>
-                            ? IsLiteralLike<C<"sameMonth", TParams>> extends true
-                                ? IsSameMonth<
-                                    As<TVal, DateLike>,
-                                    C<"sameMonth", TParams>
-                                >
-                                : boolean
-                            : IsBoolean<IsDateLike<TVal>> extends true
-                                ? boolean
-                                : false
-
-                    : TOp extends "sameYear"
-                        ? IsFalse<IsDateLike<TVal>> extends true
-                            ? false
-                            : TParams extends Base<TOp>
-                                ? IsLiteralLike<C<"sameYear", TParams>> extends true
-                                    ? IsSameYear<
-                                        As<TVal, DateLike>,
-                                        C<"sameYear", TParams>
-                                    >
-                                    : boolean
-                                : IsBoolean<IsDateLike<TVal>> extends true
-                                    ? boolean
-                                    : false
-                        : Unset;
+    : TOp extends "sameYear"
+        ? TVal extends DateLike
+            ? First<TParams> extends DateLike
+                ? IsSameYear<TVal, First<TParams>>
+                : Err<
+                    `invalid-params/not-date-like`,
+                    `The '${TOp}' operation expects the parameter used for comparator to be a valid representation of a date but it was not!`,
+                { param: TVal, val: TVal }
+                >
+            : Err<
+                `invalid-value/not-date-like`,
+                `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
+                { val: TVal }
+            >
+        : Unset;
 
 type Process__General<
     TVal,
@@ -238,107 +237,74 @@ type Process__String<
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[],
 > = TOp extends "startsWith"
-    ? [TParams] extends [Base<"startsWith">]
-        ? [TVal] extends [ComparisonAccept<"startsWith">]
-            ? [TVal] extends [readonly (string | number | boolean)[]]
-                ? {
-                    [K in keyof TVal]: StartsWith<
-                        [TVal[K]] extends [boolean | number]
-                            ? `${TVal[K]}`
-                            : [TVal[K]] extends [string]
-                                ? TVal[K]
-                                : never,
-                        C<"startsWith", TParams>
-                    >
-                }
+    ? TVal extends ComparisonAccept<"startsWith">
+        ? TParams extends readonly (string | number)[]
+            ? StartsWith<TVal, TParams>
+            : Err<`invalid-type/parameters`>
+        : Err<
+            `invalid-value/wrong-type`,
+            `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
+            { val: TVal }
+        >
 
-                : [TVal] extends [(string | number | boolean)]
-                    ? StartsWith<
-                        [TVal] extends [boolean | number]
-                            ? `${TVal}`
-                            : [TVal] extends [string]
-                                ? TVal
-                                : never,
-                        C<"startsWith", TParams>
-                    >
-                    : false
-            : false
-        : false
 
     : TOp extends "endsWith"
-        ? [TParams] extends [Base<"endsWith">]
-            ? [TVal] extends [ComparisonAccept<"endsWith">]
-                ? [TVal] extends [readonly (string | number | boolean)[]]
-                    ? {
-                        [K in keyof TVal]: EndsWith<
-                            [TVal[K]] extends [boolean | number]
-                                ? `${TVal[K]}`
-                                : [TVal[K]] extends [string]
-                                    ? TVal[K]
-                                    : never,
-                            C<"endsWith", TParams>
-                        >
-                    }
+        ? TVal extends ComparisonAccept<"startsWith">
+            ? TParams extends readonly (string | number)[]
+                ? EndsWith<TVal, TParams>
+                : Err<`invalid-type/parameters`>
+            : Err<
+                `invalid-value/wrong-type`,
+                `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
+                { val: TVal }
+            >
 
-                    : [TVal] extends [(string | number | boolean)]
-                        ? EndsWith<
-                            [TVal] extends [boolean | number]
-                                ? `${TVal}`
-                                : [TVal] extends [string]
-                                    ? TVal
-                                    : never,
-                            C<"endsWith", TParams>
-                        >
-                        : false
-                : false
-            : false
-
-        : TOp extends "endsWithNumber"
+    : TOp extends "endsWithNumber"
             ? EndsWithNumber<TVal>
 
-            : TOp extends "startsWithNumber"
+    : TOp extends "startsWithNumber"
+        ? IsStringLiteral<TVal> extends true
+            ? FirstChar<As<TVal, string>> extends NumericChar
+                ? true
+                : false
+            : IsString<TVal> extends true ? boolean : false
+
+    : TOp extends "onlyNumbers"
+        ? IsStringLiteral<TVal> extends true
+            ? TVal extends ""
+                ? false
+                : IsEqual<
+                    RetainChars<As<TVal, string>, NumericChar>,
+                    TVal
+                >
+    : IsString<TVal> extends true ? boolean : false
+
+            : TOp extends "onlyLetters"
                 ? IsStringLiteral<TVal> extends true
-                    ? FirstChar<As<TVal, string>> extends NumericChar
-                        ? true
-                        : false
+                    ? TVal extends ""
+                        ? false
+                        : IsEqual<
+                            RetainChars<As<TVal, string>, AlphaChar>,
+                            TVal
+                        >
                     : IsString<TVal> extends true ? boolean : false
 
-                : TOp extends "onlyNumbers"
-                    ? IsStringLiteral<TVal> extends true
-                        ? TVal extends ""
-                            ? false
-                            : IsEqual<
-                                RetainChars<As<TVal, string>, NumericChar>,
-                                TVal
-                            >
-                        : IsString<TVal> extends true ? boolean : false
+    : TOp extends "alphaNumeric"
+        ? IsStringLiteral<TVal> extends true
+            ? TVal extends ""
+                ? false
+                : IsEqual<
+                    RetainChars<As<TVal, string>, AlphaNumericChar>,
+                    TVal
+                >
+            : IsString<TVal> extends true ? boolean : false
 
-                    : TOp extends "onlyLetters"
-                        ? IsStringLiteral<TVal> extends true
-                            ? TVal extends ""
-                                ? false
-                                : IsEqual<
-                                    RetainChars<As<TVal, string>, AlphaChar>,
-                                    TVal
-                                >
-                            : IsString<TVal> extends true ? boolean : false
+    : TOp extends "isTemplateLiteral"
+        ? IsStringLiteral<TVal> extends true
+            ? IsTemplateLiteral<TVal>
+            : false
 
-                        : TOp extends "alphaNumeric"
-                            ? IsStringLiteral<TVal> extends true
-                                ? TVal extends ""
-                                    ? false
-                                    : IsEqual<
-                                        RetainChars<As<TVal, string>, AlphaNumericChar>,
-                                        TVal
-                                    >
-                                : IsString<TVal> extends true ? boolean : false
-
-                            : TOp extends "isTemplateLiteral"
-                                ? IsStringLiteral<TVal> extends true
-                                    ? IsTemplateLiteral<TVal>
-                                    : false
-
-                                : Unset;
+        : Unset;
 
 type Process__Object<
     TVal,
@@ -422,7 +388,7 @@ type Process__Object<
                 ? IsDictionary<TVal> extends false
                     ? Err<
                         `invalid-value/wrong-type`,
-                `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
+                        `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
                     >
                     : [Extends<Second<TParams>, NumberLike>] extends [true]
                         ? [First<TParams>] extends [keyof TVal]
@@ -433,120 +399,142 @@ type Process__Object<
                                 >
                                 : Err<
                                     `invalid-value/non-numeric`,
-                    `The '${TOp}' operation expects the key '${AsString<First<TParams>>}' in the value passed in to be a numeric value but it wasn't!`,
-                    { val: TVal }
+                                    `The '${TOp}' operation expects the key '${AsString<First<TParams>>}' in the value passed in to be a numeric value but it wasn't!`,
+                                    { val: TVal }
                                 >
                             : false // not a key of
                         : Err<
-            `invalid-params/${TOp}`,
-            `The '${TOp}' operation expects the second param to be NumberLike but it wasn't!`,
-            { val: TVal; params: TParams; invalid: TParams[1] }
+                            `invalid-params/${TOp}`,
+                            `The '${TOp}' operation expects the second param to be NumberLike but it wasn't!`,
+                            { val: TVal; params: TParams; invalid: TParams[1] }
                         >
 
-                : TOp extends "objectKeyEquals"
-                    ? IsDictionary<TVal> extends false
-                        ? Err<
-                            `invalid-value/wrong-type`,
-                `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
-                        >
-                        : [First<TParams>] extends [keyof TVal]
-                            ? IsEqual<TVal[First<TParams>], Second<TParams>>
-                            : false
+    : TOp extends "objectKeyEquals"
+        ? IsDictionary<TVal> extends false
+            ? Err<
+                `invalid-value/wrong-type`,
+    `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
+            >
+            : [First<TParams>] extends [keyof TVal]
+                ? IsEqual<TVal[First<TParams>], Second<TParams>>
+                : false
 
-                    : TOp extends "objectKeyExtends"
-                        ? TParams extends Base<"objectKeyExtends">
-                            ? C<"objectKeyExtends", TParams> extends [
-                                infer Key extends string,
-                                infer Val
-                            ]
-                                ? IsStringLiteral<Key> extends true
-                                    ? Extends<TVal[As<Key, keyof TVal>], Val>
-                                    : boolean
-                                : false
-                            : IsDictionary<TVal> extends true ? boolean : false
+    : TOp extends "objectKeyExtends"
+        ? TVal extends Dictionary
+            ? First<TParams> extends keyof TVal
+                ? TVal[First<TParams>] extends Second<TParams>
+                    ? true
+                    : false
+            : false
+        : Err<`invalid-value`,`The operation '' expects values to be a valid container!`,{val: TVal, params: TParams}>
 
-                        : Unset;
+: Unset;
 
 type Process__Numeric<
     TVal,
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[],
-> = TOp extends "greaterThan"
+> =
+TOp extends "greaterThan"
     ? TVal extends NumberLike
-        ? TParams[0] extends NumberLike
-            ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
-                ? boolean
-                : IsGreaterThan<
-                    TVal,
-                    TParams[0]
-                >
+        ? First<TParams> extends NumberLike
+            ? IsGreaterThan<
+                TVal,
+                First<TParams>
+            >
+            : Err<
+                `invalid-param/not-number-like`,
+                `The operation '${TOp}' expects the first parameter to be NumberLike!`,
+                { val: TVal, params: TParams }
+            >
+        : Err<
+            `invalid-value/not-number-like`,
+            `The operation '${TOp}' expects the value to be compared with the comparator to be NumberLike!`,
+                { val: TVal, params: TParams }
+        >
+
+: TOp extends "greaterThanOrEqual"
+    ? TVal extends NumberLike
+        ? First<TParams> extends NumberLike
+            ? IsGreaterThanOrEqual<
+                TVal,
+                First<TParams>
+            >
+            : Err<
+                `invalid-param/not-number-like`,
+                `The operation '${TOp}' expects the first parameter to be NumberLike!`,
+                { val: TVal, params: TParams }
+            >
+        : Err<
+            `invalid-value/not-number-like`,
+            `The operation '${TOp}' expects the value to be compared with the comparator to be NumberLike!`,
+                { val: TVal, params: TParams }
+        >
+
+: TOp extends "lessThan"
+    ? TVal extends NumberLike
+        ? First<TParams> extends NumberLike
+            ? IsLessThan<
+                TVal,
+                First<TParams>
+            >
+            : Err<
+                `invalid-param/not-number-like`,
+                `The operation '${TOp}' expects the first parameter to be NumberLike!`,
+                { val: TVal, params: TParams }
+            >
+        : Err<
+            `invalid-value/not-number-like`,
+            `The operation '${TOp}' expects the value to be compared with the comparator to be NumberLike!`,
+                { val: TVal, params: TParams }
+        >
+
+: TOp extends "lessThanOrEqual"
+    ? TVal extends NumberLike
+        ? First<TParams> extends NumberLike
+            ? IsLessThanOrEqual<
+                TVal,
+                First<TParams>
+            >
+            : Err<
+                `invalid-param/not-number-like`,
+                `The operation '${TOp}' expects the first parameter to be NumberLike!`,
+                { val: TVal, params: TParams }
+            >
+        : Err<
+            `invalid-value/not-number-like`,
+            `The operation '${TOp}' expects the value to be compared with the comparator to be NumberLike!`,
+                { val: TVal, params: TParams }
+        >
+
+: TOp extends "betweenExclusively"
+    ? TVal extends NumberLike
+        ? TParams extends readonly [
+            infer Min extends NumberLike,
+            infer Max extends NumberLike
+        ]
+            ? IsBetweenExclusively<
+                TVal,
+                Min,
+                Max
+            >
             : false
         : false
 
-    : TOp extends "greaterThanOrEqual"
-        ? TVal extends NumberLike
-            ? TParams[0] extends NumberLike
-                ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
-                    ? boolean
-                    : IsGreaterThanOrEqual<
-                        TVal,
-                        TParams[0]
-                    >
-                : false
+: TOp extends "betweenInclusively"
+    ? TVal extends NumberLike
+        ? TParams extends readonly [
+            infer Min extends NumberLike,
+            infer Max extends NumberLike
+        ]
+            ? IsBetweenInclusively<
+                TVal,
+                Min,
+                Max
+            >
             : false
-
-        : TOp extends "lessThan"
-            ? TVal extends NumberLike
-                ? TParams[0] extends NumberLike
-                    ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
-                        ? boolean
-                        : IsLessThan<
-                            TVal,
-                            TParams[0]
-                        >
-                    : false
-                : false
-
-            : TOp extends "lessThanOrEqual"
-                ? TVal extends NumberLike
-                    ? TParams[0] extends NumberLike
-                        ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
-                            ? boolean
-                            : IsLessThanOrEqual<
-                                TVal,
-                                TParams[0]
-                            >
-                        : false
-                    : false
-
-                : TOp extends "betweenExclusively"
-                    ? TVal extends NumberLike
-                        ? TParams extends readonly [
-                            infer Min extends NumberLike,
-                            infer Max extends NumberLike
-                        ]
-                            ? IsBetweenExclusively<
-                                TVal,
-                                Min,
-                                Max
-                            >
-                            : false
-                        : false
-
-                    : TOp extends "betweenInclusively"
-                        ? TVal extends NumberLike
-                            ? TParams extends readonly [
-                                infer Min extends NumberLike,
-                                infer Max extends NumberLike
-                            ]
-                                ? IsBetweenInclusively<
-                                    TVal,
-                                    Min,
-                                    Max
-                                >
-                                : false
-                            : false
-                        : Unset;
+        : false
+    : Unset;
 
 type Process__Other<
     TVal,

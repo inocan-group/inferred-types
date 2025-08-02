@@ -2,6 +2,9 @@ import type {
     And,
     Contains,
     HasCharacters,
+    IsAny,
+    IsNever,
+    IsUnknown,
     Split,
     Trim,
     Unset,
@@ -35,7 +38,14 @@ type Validate<
 export type IsCsv<
     T extends string,
     K extends string | Unset = Unset,
-> = HasCharacters<T, ","> extends true
+> =
+[IsAny<T>] extends [true]
+    ? false
+: [IsNever<T>] extends [true]
+    ? false
+: [IsUnknown<T>] extends [true]
+    ? boolean
+: HasCharacters<T, ","> extends true
     ? Contains<T, ",,"> extends true
         ? false
         : And<Validate<Split<T, ",">, K>>

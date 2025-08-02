@@ -1,4 +1,5 @@
-import { Expect, Test, IsDateLike, EmptyObject } from "inferred-types/types";
+import { IsIsoDate } from "inferred-types";
+import { Expect, Test, IsDateLike, EmptyObject, IsIsoYear } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsDateLike<T>", () => {
@@ -11,20 +12,36 @@ describe("IsDateLike<T>", () => {
   });
 
   it("ISO Year Strings", () => {
+    type T1 = IsDateLike<"2023">;
+    type T1a = IsIsoYear<"2023">;
+    type T2 = IsDateLike<"2024">;
+    type T3 = IsDateLike<"1999">;
+    type T4 = IsDateLike<"2025">;
+
+    type F1 = IsDateLike<"23">;
+    type F2 = IsDateLike<"20234">;
+    type F3 = IsDateLike<"abcd">;
+
     type cases = [
       // Valid 4-digit years
-      Expect<Test<IsDateLike<"2023">, "equals", true>>,
-      Expect<Test<IsDateLike<"2024">, "equals", true>>,
-      Expect<Test<IsDateLike<"1999">, "equals", true>>,
-      Expect<Test<IsDateLike<"2025">, "equals", true>>,
+      Expect<Test<T1, "equals", true>>,
+      Expect<Test<T2, "equals", true>>,
+      Expect<Test<T3, "equals", true>>,
+      Expect<Test<T4, "equals", true>>,
+
       // Invalid year formats
-      Expect<Test<IsDateLike<"23">, "equals", false>>,
-      Expect<Test<IsDateLike<"20234">, "equals", false>>,
-      Expect<Test<IsDateLike<"abcd">, "equals", false>>,
+      Expect<Test<F1, "equals", false>>,
+      Expect<Test<F2, "equals", false>>,
+      Expect<Test<F3, "equals", false>>,
     ];
   });
 
   it("ISO Date Strings", () => {
+    type F1 = IsDateLike<"2023-1-1">;
+    type F2 = IsDateLike<"23-01-01">;
+    type F2a = IsIsoDate<"23-01-01">;
+    type F3 = IsDateLike<"January 1, 2023">;
+
     type cases = [
       // Valid ISO date formats
       Expect<Test<IsDateLike<"2023-01-01">, "equals", true>>,
@@ -33,7 +50,7 @@ describe("IsDateLike<T>", () => {
       Expect<Test<IsDateLike<"2024-02-29">, "equals", true>>,
       Expect<Test<IsDateLike<"2023-06-15">, "equals", true>>,
       // Invalid date formats
-      Expect<Test<IsDateLike<"2023-1-1">, "equals", false>>,
+      Expect<Test<F1, "equals", false>>,
       Expect<Test<IsDateLike<"23-01-01">, "equals", false>>,
       Expect<Test<IsDateLike<"2023/01/01">, "equals", false>>,
       Expect<Test<IsDateLike<"January 1, 2023">, "equals", false>>,

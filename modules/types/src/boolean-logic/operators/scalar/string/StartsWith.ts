@@ -1,32 +1,28 @@
 import type {
-    AsArray,
-    AsString,
+    FirstChar,
+    IsAny,
     IsEqual,
-    IsWideType,
-    TupleToUnion,
+    IsNever,
+    IsUnion,
+    IsUnknown,
+    IsWideUnion,
+    Or,
+    ToStringArray,
+    UnionToTuple,
 } from "inferred-types/types";
 
 type Check<
     TValue extends string,
-    TComparator extends string | number,
-> = TComparator extends ""
-    ? false
-    : [TValue] extends [`${TComparator}${string}`]
-        ? true
+    TComparator extends readonly string[],
+> = Or<{
+    [K in keyof TComparator]: TValue extends `${TComparator[K]}${string}`
+        ? IsEqual<TComparator[K], ""> extends true
+            ? false
+            : true
         : false;
+}>
 
-type Process<
-    TValue extends string,
-    TComparator extends string | number | readonly string[],
-> = TComparator extends readonly string[]
-    ? Check<
-        [TValue] extends [number] ? `${TValue}` : TValue,
-        TupleToUnion<TComparator>
-    >
-    : Check<
-        [TValue] extends [number] ? `${TValue}` : TValue,
-        AsString<TComparator>
-    >;
+
 
 /**
  * **StartsWith**<TValue, TComparator>
@@ -41,20 +37,35 @@ type Process<
  * - a union type for `TComparator` is allowed so long as it's only for a single character
  *    - this can be much more type efficient for unions with lots of characters
  *    - if you need larger pattern matches then use a Tuple for `TComparator`
+ *
  */
 export type StartsWith<
     TValue extends string | number,
     TComparator extends string | number | readonly (string | number)[],
-> = [IsWideType<TValue>] extends [true]
+> =
+[IsUnion<TComparator>] extends [true]
+    ? FirstChar<`${TValue}`> extends TComparator
+        ? true
+        : false
+: [IsAny<TValue>] extends [true]
+    ? false
+: [IsNever<TValue>] extends [true]
+    ? false
+: [IsUnknown<TValue>] extends [true]
     ? boolean
-    : [IsWideType<TComparator>] extends [true]
-        ? boolean
-        : IsEqual<
-            Process<AsString<TValue>, AsArray<TComparator>[number]>,
-            boolean
-        > extends true
-            ? true
-            : Process<
-                AsString<TValue>,
-                AsArray<TComparator>[number]
-            >;
+: string extends TValue
+? boolean
+: number extends TValue
+? boolean
+: number extends TComparator
+? boolean
+: string extends TComparator
+? boolean
+: Check<
+    `${TValue}`,
+    TComparator extends readonly (string | number)[]
+        ? ToStringArray<TComparator>
+        : TComparator extends (string | number)
+            ? [`${TComparator}`]
+            : never
+>

@@ -35,12 +35,12 @@ describe("IsJsDate<T>", () => {
         ];
     });
 
-    it("any and unknown", () => {
+    it("any -> false, unknown -> unknown", () => {
         type Any = IsJsDate<any>;
         type Unknown = IsJsDate<unknown>;
 
         type cases = [
-            Expect<Test<Any, "equals", boolean>>,
+            Expect<Test<Any, "equals", false>>,
             Expect<Test<Unknown, "equals", boolean>>,
         ];
     });

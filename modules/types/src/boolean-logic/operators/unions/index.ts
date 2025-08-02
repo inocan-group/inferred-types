@@ -6,3 +6,6 @@ export * from "./IsUnion";
 export * from "./IsUnionArray";
 export * from "./IsWideUnion";
 export * from "./UnionHasArray";
+export * from "./UnionMemberEquals";
+export * from "./UnionMemberExtends";
+

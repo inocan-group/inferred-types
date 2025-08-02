@@ -1,24 +1,41 @@
 import type {
-    AfterFirst,
-    First,
+    And,
+    FourDigitYear,
+    IsAny,
+    IsNever,
     IsUnion,
-    Length,
-    UnionToTuple
+    Or,
+    UnionToTuple,
 } from "inferred-types/types";
 
-type HandleUnion<
-    T extends readonly unknown[],
-    THasIso extends boolean = false,
-    TNonIso extends boolean = false
-> = [] extends T
-    ? THasIso extends true
-        ? TNonIso extends true
-            ? boolean
+
+/**
+ * - if all elements in the tuple are valid ISO year's then returns `true`,
+ * - if some of the elements in the tuple are valid ISO year's then returns `boolean`
+ * - otherwise return false.
+ */
+type CheckUnion<
+    T
+> = T extends readonly string[]
+
+? And<{
+    [K in keyof T]: T[K] extends `${number}`
+        ? FourDigitYear<T[K]> extends Error
+            ? false
             : true
         : false
-    : IsIsoYear<First<T>> extends true
-        ? HandleUnion<AfterFirst<T>, true, TNonIso>
-        : HandleUnion<AfterFirst<T>, THasIso, true>;
+}> extends true
+    ? true
+    : Or<{
+        [K in keyof T]: T[K] extends `${number}`
+            ? FourDigitYear<T[K]> extends Error
+                ? false
+                : true
+            : false
+    }> extends true
+        ? boolean
+        : false
+: false;
 
 /**
  * **IsIsoYear**`<T>`
@@ -27,14 +44,20 @@ type HandleUnion<
  * a four digit year)
  */
 export type IsIsoYear<T>
-= [IsUnion<T>] extends [true]
-    ? HandleUnion<UnionToTuple<T>>
-    : [T] extends [string]
-        ? [string] extends [T]
-            ? boolean
-            : T extends `${number}`
-                ? Length<T> extends 4
-                    ? true
-                    : false
-                : false
-        : false;
+=
+[IsAny<T>] extends [true]
+? false
+: [IsNever<T>] extends [true]
+? false
+: string extends T
+    ? boolean
+: [IsUnion<T>] extends [true]
+        ? CheckUnion<UnionToTuple<T>>
+
+: T extends `${number}`
+    ? FourDigitYear<T> extends Error
+        ? false
+        : true
+: false;
+
+

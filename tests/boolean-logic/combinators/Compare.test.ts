@@ -95,7 +95,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
         ];
     });
 
-
     it("isTemplateLiteral", () => {
         type T1 = Compare<`hi${string}`, "isTemplateLiteral", []>;
         type T2 = Compare<`${string} is${number} years old`, "isTemplateLiteral", []>;
@@ -116,9 +115,59 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
         type F1 = Compare<"42", "greaterThan", [42]>;
         type B1 = Compare<number, "greaterThan", [42]>;
 
+
         type cases = [
             Expect<Test<T1, "equals",  true>>,
             Expect<Test<T2, "equals",  true>>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<B1, "equals",  boolean>>,
+        ];
+    });
+
+    it("greaterThanOrEqual", () => {
+        type T1 = Compare<42, "greaterThanOrEqual", [30]>;
+        type T2 = Compare<"42", "greaterThanOrEqual", [30]>;
+        type T3 = Compare<"42", "greaterThanOrEqual", [42]>;
+        type F1 = Compare<"41", "greaterThanOrEqual", [42]>;
+
+        type B1 = Compare<number, "greaterThanOrEqual", [42]>;
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<B1, "equals",  boolean>>,
+        ];
+    });
+
+    it("lessThan", () => {
+        type T1 = Compare<42, "lessThan", [55]>;
+        type T2 = Compare<"42", "lessThan", [55]>;
+        type F1 = Compare<"42", "lessThan", [42]>;
+        type B1 = Compare<number, "lessThan", [42]>;
+
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<B1, "equals",  boolean>>,
+        ];
+    });
+
+    it("lessThanOrEqual", () => {
+        type T1 = Compare<42, "lessThanOrEqual", [55]>;
+        type T2 = Compare<"42", "lessThanOrEqual", [55]>;
+        type T3 = Compare<"42", "lessThanOrEqual", [42]>;
+        type F1 = Compare<"43", "lessThanOrEqual", [42]>;
+        type B1 = Compare<number, "lessThanOrEqual", [42]>;
+
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
             Expect<Test<F1, "equals",  false>>,
             Expect<Test<B1, "equals",  boolean>>,
         ];
@@ -295,8 +344,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             Expect<Test<T5, "equals", true>>,
         ];
     });
-
-
 
     it("objectKey numeric ops", () => {
         type Obj = { foo: 2, bar: "bye" };

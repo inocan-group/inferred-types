@@ -128,7 +128,7 @@ Each module (`constants`, `types`, `runtime`, `inferred-types`) has consistent s
     # type test all test files
     pnpm test:types
     # type test a filtered down set of files
-    pnpm test:types --filter datetime
+    pnpm test:types datetime
     ```
 
 - **Test organization**: `/tests/` directory with subdirectories by feature area
@@ -204,7 +204,7 @@ Type tests use a custom CLI tool separate from npm scripts:
 ```bash
 # NOT npm commands - use directly:
 typed test                    # Test all type files
-typed test --filter datetime  # Test filtered files
+typed test datetime  # Test filtered files
 ```
 
 The type testing framework uses `Test` and `Expect` utilities with these comparison operators:

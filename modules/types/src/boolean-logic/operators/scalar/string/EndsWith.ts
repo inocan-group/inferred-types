@@ -1,36 +1,17 @@
-import type { AsString, IsStringLiteral, IsWideType, Or } from "inferred-types/types";
+import type {  IsEqual, LastChar, IsUnion, Or, IsAny, IsNever, IsUnknown, ToStringArray } from "inferred-types/types";
 
-type Test<
-    TValue extends string,
-    TComparator extends string,
-> = TValue extends `${string}${TComparator}`
-    ? true
-    : false;
 
-type Process<
-    TValue extends string,
-    TComparator extends string,
-> = IsStringLiteral<TComparator> extends true
-    ? IsStringLiteral<TValue> extends true // both literals
-        ? Test<TValue, TComparator>
-        : boolean
-    : boolean;
-
-type ProcessEach<
+type Check<
     TValue extends string,
     TComparator extends readonly string[],
 > = Or<{
-    [K in keyof TComparator]: Process<TValue, TComparator[K]>
-}>;
+    [K in keyof TComparator]: TValue extends `${string}${TComparator[K]}`
+        ? IsEqual<TComparator[K], ""> extends true
+            ? false
+            : true
+        : false;
+}>
 
-type PreProcess<
-    TValue extends string,
-    TComparator extends string | readonly string[],
-> = TComparator extends readonly string[]
-    ? ProcessEach<TValue, TComparator>
-    : TComparator extends string
-        ? Process<TValue, TComparator>
-        : never;
 
 /**
  * **EndsWith**<TValue, TComparator>
@@ -45,14 +26,30 @@ type PreProcess<
  */
 export type EndsWith<
     TValue extends string | number,
-    TComparator extends string | number | readonly string[],
-> = [IsWideType<TValue>] extends [true]
+    TComparator extends string | number | readonly (string|number)[],
+> = [IsUnion<TComparator>] extends [true]
+    ? LastChar<`${TValue}`> extends TComparator
+        ? true
+        : false
+: [IsAny<TValue>] extends [true]
+    ? false
+: [IsNever<TValue>] extends [true]
+    ? false
+: [IsUnknown<TValue>] extends [true]
     ? boolean
-    : [IsWideType<TComparator>] extends [true]
-        ? boolean
-        : PreProcess<
-            AsString<TValue>,
-            TComparator extends number
-                ? AsString<TComparator>
-                : TComparator
-        >;
+: string extends TValue
+? boolean
+: number extends TValue
+? boolean
+: number extends TComparator
+? boolean
+: string extends TComparator
+? boolean
+: Check<
+    `${TValue}`,
+    TComparator extends readonly (string | number)[]
+        ? ToStringArray<TComparator>
+        : TComparator extends (string | number)
+            ? [`${TComparator}`]
+            : never
+>

@@ -129,17 +129,15 @@ describe("IsIsoYear<T>", () => {
         type PositiveYear = IsIsoYear<"+123">;    // 4 chars, valid positive number
 
         type cases = [
-            Expect<Test<NegativeYear1, "equals", true>>,  // -123 is a valid 4-char number
-            Expect<Test<NegativeYear2, "equals", false>>, // Too long
-            Expect<Test<PlusSign, "equals", false>>,      // Too long
-            Expect<Test<MinusOnly, "equals", false>>,     // Too short
-            Expect<Test<PositiveYear, "equals", true>>    // +123 is a valid 4-char number
+            Expect<Test<NegativeYear1, "equals", false>>,
+            Expect<Test<NegativeYear2, "equals", false>>,
+            Expect<Test<PlusSign, "equals", false>>,
+            Expect<Test<MinusOnly, "equals", false>>,
+            Expect<Test<PositiveYear, "equals", false>>
         ];
     });
 
-    it("decimal numbers (valid numeric strings)", () => {
-        // NOTE: IsIsoYear only checks format (4 chars + extends ${number}), not semantic validity
-        // These are technically valid numeric strings that happen to be 4 chars, so they pass
+    it("decimal numbers are always invalid ISO years", () => {
         type Decimal1 = IsIsoYear<"12.3">;
         type Decimal2 = IsIsoYear<"1.23">;
         type Decimal3 = IsIsoYear<".123">;   // 4 chars, valid number
@@ -147,11 +145,11 @@ describe("IsIsoYear<T>", () => {
         type ScientificNotation = IsIsoYear<"1e23">;  // 4 chars, valid number
 
         type cases = [
-            Expect<Test<Decimal1, "equals", true>>,   // 12.3 is a valid 4-char number
-            Expect<Test<Decimal2, "equals", true>>,   // 1.23 is a valid 4-char number
-            Expect<Test<Decimal3, "equals", true>>,   // .123 is a valid 4-char number
-            Expect<Test<Decimal4, "equals", true>>,   // 0.12 is a valid 4-char number
-            Expect<Test<ScientificNotation, "equals", true>>  // 1e23 is a valid 4-char number
+            Expect<Test<Decimal1, "equals", false>>,
+            Expect<Test<Decimal2, "equals", false>>,
+            Expect<Test<Decimal3, "equals", false>>,
+            Expect<Test<Decimal4, "equals", false>>,
+            Expect<Test<ScientificNotation, "equals", false>>
         ];
     });
 

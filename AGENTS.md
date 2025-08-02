@@ -5,7 +5,7 @@
 - `pnpm build`: Build all modules
 - `pnpm test`: Run all tests
 - `pnpm test <file>`: Run specific test file (e.g., `pnpm test datetime/asDate.test.ts`)
-- `pnpm test --grep "pattern"`: Run tests matching a pattern
+- `pnpm test FILTER_PATTERN`: Run tests matching a pattern
 - `pnpm lint`: Lint all modules
 
 ## Code Style Guidelines
@@ -40,7 +40,7 @@ When testing Type Utilities we rely exclusively on "type testing" but for runtim
 
 ### Type Testing
 
-- Run type tests with `typed test` or `typed test --filter <pattern>`.
+- Run type tests with `typed test` or `typed test <pattern>`.
 - Type tests use `Expect` and `Test` utilities for assertions.
 - `Test` comparisons: `equals`, `extends`, `hasSameKeys`, `hasSameValues`, `isError<T>`.
 

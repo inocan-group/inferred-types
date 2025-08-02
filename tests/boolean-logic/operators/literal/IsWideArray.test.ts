@@ -1,5 +1,6 @@
 import { describe, it } from "vitest";
 import {
+    DropVariadic,
     Expect,
     IsWideArray,
     Test,
@@ -42,6 +43,7 @@ describe("IsWideArray<T>", () => {
         // Tuple with rest elements but fixed start
         type F4 = IsWideArray<[string, ...number[]]>;
         type F5 = IsWideArray<[...string[], number]>;
+        type X = DropVariadic<[...string[]]>;
 
         type cases = [
             Expect<Test<F1, "equals", false>>,

@@ -1,4 +1,4 @@
-import type { IsBoolean, TypedFunction } from "inferred-types/types";
+import type { IsAny, IsBoolean, IsNever, IsUnknown, TypedFunction } from "inferred-types/types";
 
 /**
  * **ReturnsBoolean**`<T>`
@@ -8,6 +8,13 @@ import type { IsBoolean, TypedFunction } from "inferred-types/types";
  *
  * Note: any non-functions passed in as `T` are always a **false** value
  */
-export type ReturnsBoolean<T> = T extends TypedFunction
+export type ReturnsBoolean<T> =
+[IsAny<T>] extends [true]
+    ? false
+: [IsNever<T>] extends [true]
+    ? false
+: [IsUnknown<T>] extends [true]
+    ? boolean
+: T extends TypedFunction
     ? IsBoolean<ReturnType<T>>
     : false;

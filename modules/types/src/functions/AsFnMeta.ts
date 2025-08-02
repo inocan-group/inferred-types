@@ -27,4 +27,4 @@ export type AsFnMeta<
 
     : FnMeta<TypedFunction, any[], any, EmptyObject>;
 
-type _x = FnMeta<TypedFunction, any[], any, EmptyObject>;
+
