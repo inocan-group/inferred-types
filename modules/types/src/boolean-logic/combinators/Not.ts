@@ -5,6 +5,7 @@ import type {
     IsFalse,
     IsNever,
     IsTrue,
+    IsUnknown,
     Logic,
     LogicHandler,
 } from "inferred-types/types";
@@ -28,17 +29,19 @@ export type Not<
     TVal,
     TNotBoolean extends LogicHandler = "false",
 > = [IsAny<TVal>] extends [true]
+    ? Logic<false, TNotBoolean>
+: [IsNever<TVal>] extends [true]
+    ? Logic<false, TNotBoolean>
+: [IsUnknown<TVal>] extends [true]
+    ? Logic<false, TNotBoolean>
+: [TVal] extends [readonly unknown[]]
+    ? {
+        [K in keyof TVal]: Logic<TVal, TNotBoolean>
+    }
+: [IsTrue<Logic<TVal, TNotBoolean>>] extends [true]
     ? false
-    : [IsNever<TVal>] extends [true]
-        ? false
-        : [TVal] extends [readonly unknown[]]
-            ? {
-                [K in keyof TVal]: Logic<TVal, TNotBoolean>
-            }
-            : [IsTrue<Logic<TVal, TNotBoolean>>] extends [true]
-                ? false
-                : [IsFalse<Logic<TVal, TNotBoolean>>] extends [true]
-                    ? true
-                    : [IsBoolean<Logic<TVal, TNotBoolean>>] extends [true]
-                        ? boolean
-                        : never;
+: [IsFalse<Logic<TVal, TNotBoolean>>] extends [true]
+    ? true
+    : [IsBoolean<Logic<TVal, TNotBoolean>>] extends [true]
+        ? boolean
+        : never;

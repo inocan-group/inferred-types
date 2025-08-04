@@ -1,4 +1,4 @@
-import type { IsUnion } from "inferred-types/types";
+import type { And, IsAny, IsLiteralUnion, IsNever, IsUnion, IsUnknown, IsWideUnion, Not } from "inferred-types/types";
 
 /**
  * **IsMixedUnion**`<T>`
@@ -10,7 +10,16 @@ import type { IsUnion } from "inferred-types/types";
  *
  * **Related:** `IsLiteralUnion`, `IsNonLiteralUnion`, `IsWideUnion`
  */
-export type IsMixedUnion<T> = IsUnion<T> extends true
-    ? // TODO
-    false
-    : false;
+export type IsMixedUnion<T> = [IsAny<T>] extends [true]
+? false
+: [IsNever<T>] extends [true]
+? false
+: [IsUnknown<T>] extends [true]
+? boolean
+: And<[
+    IsUnion<T>,
+    Not<IsLiteralUnion<T>>,
+    Not<IsWideUnion<T>>
+]>;
+
+

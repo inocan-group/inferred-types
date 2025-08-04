@@ -94,30 +94,30 @@ export type FnReturn<
 
 // DEBUG
 
-type F1 = <A extends number>(age: A) => `${A} years old`;
-type F2 = (age: number) => `${typeof age} years old`;
-type F3 = <T extends readonly [age: number]>(...args: T) => `${T[0]} years old`;
+// type F1 = <A extends number>(age: A) => `${A} years old`;
+// type F2 = (age: number) => `${typeof age} years old`;
+// type F3 = <T extends readonly [age: number]>(...args: T) => `${T[0]} years old`;
 
-type A2 = ArgUnion<F1>; // =>
+// type A2 = ArgUnion<F1>; // =>
 
-type RT1 = ReturnType<F1>; // =>
-type RT2 = ReturnType<F2>; // =>
-type RT3 = ReturnType<F3>; // =>
+// type RT1 = ReturnType<F1>; // =>
+// type RT2 = ReturnType<F2>; // =>
+// type RT3 = ReturnType<F3>; // =>
 
-type TP1 = TemplateParams<ReturnType<F1>>; // =>
+// type TP1 = TemplateParams<ReturnType<F1>>; // =>
 
-type P1 = Parameters<F1>; // =>
-type P2 = Parameters<F2>; // =>
-type P3 = Parameters<F3>; // =>
+// type P1 = Parameters<F1>; // =>
+// type P2 = Parameters<F2>; // =>
+// type P3 = Parameters<F3>; // =>
 
-type C1 = Comparators<P1>; // =>
-type C2 = Comparators<P2>; // =>
-type C3 = Comparators<P2>; // =>
+// type C1 = Comparators<P1>; // =>
+// type C2 = Comparators<P2>; // =>
+// type C3 = Comparators<P2>; // =>
 
-type Similar1 = Similar<F1, P1>; // =>
-type Similar2 = Similar<F2, P2>; // =>
-type Similar3 = Similar<F3, P2>; // =>
+// type Similar1 = Similar<F1, P1>; // =>
+// type Similar2 = Similar<F2, P2>; // =>
+// type Similar3 = Similar<F3, P2>; // =>
 
-type R1 = FnReturn<F1>; // =>
-type R2 = FnReturn<F2>; // =>
-type R3 = FnReturn<F3>; // =>
+// type R1 = FnReturn<F1>; // =>
+// type R2 = FnReturn<F2>; // =>
+// type R3 = FnReturn<F3>; // =>

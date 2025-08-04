@@ -12,7 +12,7 @@ describe("IsEmptyObject", () => {
 
     type cases = [
       Expect<Test<T1, "equals", true>>,
-      Expect<Test<T2, "equals", true>>,
+      Expect<Test<T2, "equals", false>>,
     ];
   });
 

@@ -5,7 +5,6 @@ import type { IsAny, IsNever } from "inferred-types/types";
  *
  * - T must be an object (but not a function and not an array/tuple)
  * - T must expose **no known keys** (`keyof T` is `never`)
- * - No index signatures (implied by the previous point)
  * - `any`, `unknown`, and `never` are rejected
  */
 export type IsEmptyObject<T>
@@ -15,5 +14,9 @@ export type IsEmptyObject<T>
           : T extends object
               ? T extends (...args: any) => any ? false
                   : T extends readonly any[] ? false
-                      : [keyof T] extends [never] ? true : false
+                      : [keyof T] extends [never]
+                          ? T extends { [x: string]: any }
+                              ? false  // has index signature
+                              : true   // truly empty object
+                          : false
               : false;

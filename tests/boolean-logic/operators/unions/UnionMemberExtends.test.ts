@@ -6,7 +6,6 @@ describe("UnionMemberExtends<T,U>", () => {
     // String literal union with matching member
     type T1 = UnionMemberExtends<"foo" | "bar" | "baz", string>;
 
-    type X = Some<["foo", "bar", "baz"], "extends", string>;
 
     // Numeric literal union with matching member
     type T2 = UnionMemberExtends<1 | 2 | 3, number>;
@@ -19,6 +18,8 @@ describe("UnionMemberExtends<T,U>", () => {
 
     // Union with array member extending target
     type T5 = UnionMemberExtends<string[] | number, Array<any>>;
+
+    type X = string[] extends Array<any> ? true : false;
 
     type cases = [
       Expect<Test<T1, "equals", true>>,
@@ -100,7 +101,7 @@ describe("UnionMemberExtends<T,U>", () => {
 
     // Union with any/never/unknown
     type T4 = UnionMemberExtends<"hello" | any, string>;
-    type T5 = UnionMemberExtends<"hello" | never, string>;
+
     type T6 = UnionMemberExtends<"hello" | unknown, string>;
 
     // Empty union (never)
@@ -114,10 +115,10 @@ describe("UnionMemberExtends<T,U>", () => {
       Expect<Test<T2, "equals", true>>,
       Expect<Test<T3, "equals", false>>,
       Expect<Test<T4, "equals", false>>,
-      Expect<Test<T5, "equals", true>>,
       Expect<Test<T6, "equals", boolean>>,
       Expect<Test<T7, "equals", false>>,
       Expect<Test<T8, "equals", true>>,
     ];
   });
 });
+

@@ -5,6 +5,18 @@ import { describe, it } from "vitest";
 
 describe("Or<T>", () => {
 
+
+    it("global error conditions", () => {
+        type E1 = Or<never>;
+        type E2 = Or<any>;
+
+        type cases = [
+            Expect<Test<E1, "isError",  "invalid/or">>,
+            Expect<Test<E2, "isError",  "invalid/or">>,
+        ];
+    });
+
+
     it("boolean literals", () => {
         type T1 = Or<[true, false, true]>; // true
         type T2 = Or<[false, false, false]>; //false
@@ -12,7 +24,7 @@ describe("Or<T>", () => {
         type T4 = Or<[true, false, boolean]>; // true
         type T5 = Or<[false, false, boolean]>; // boolean
         type T6 = Or<[boolean, false, false]>; // boolean
-        type T7 = Or<never>;
+
 
         type cases = [
             Expect<Test<T1, "equals",  true>>, //
@@ -21,7 +33,6 @@ describe("Or<T>", () => {
             Expect<Test<T4, "equals",  true>>,
             Expect<Test<T5, "equals",  boolean>>,
             Expect<Test<T6, "equals",  boolean>>,
-            Expect<Test<T7, "isError",  "invalid/never">>,
         ];
     });
 
@@ -41,6 +52,32 @@ describe("Or<T>", () => {
             Expect<Test<T5, "equals",  boolean>>,
         ];
     });
+
+
+    it("any as element", () => {
+        type E1 = Or<[true, false, any]>;
+        type E2 = Or<[any, false, any]>;
+        type E3 = Or<[any]>;
+
+        type cases = [
+            Expect<Test<E1, "isError", "invalid/or">>,
+            Expect<Test<E2, "isError", "invalid/or">>,
+            Expect<Test<E3, "isError", "invalid/or">>,
+        ];
+    });
+
+    it("never as element", () => {
+        type E1 = Or<[true, false, never]>;
+        type E2 = Or<[never, false, never]>;
+        type E3 = Or<[never]>;
+
+        type cases = [
+            Expect<Test<E1, "isError", "invalid/or">>,
+            Expect<Test<E2, "isError", "invalid/or">>,
+            Expect<Test<E3, "isError", "invalid/or">>,
+        ];
+    });
+
 
 
 });

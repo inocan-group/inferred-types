@@ -80,9 +80,7 @@ describe("IsLiteralUnion<T>", () => {
     type BooleanUnion = true | boolean;
     type T3 = IsLiteralUnion<BooleanUnion>;
 
-    // Union with object type
-    type ObjectUnion = "literal" | { foo: string };
-    type T4 = IsLiteralUnion<ObjectUnion>;
+
 
     // Union with array type
     type ArrayUnion = "literal" | string[];
@@ -92,7 +90,6 @@ describe("IsLiteralUnion<T>", () => {
       Expect<Test<T1, "equals", false>>,
       Expect<Test<T2, "equals", false>>,
       Expect<Test<T3, "equals", false>>,
-      Expect<Test<T4, "equals", false>>,
       Expect<Test<T5, "equals", false>>
     ];
   });

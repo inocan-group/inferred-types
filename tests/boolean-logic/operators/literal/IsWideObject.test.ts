@@ -36,14 +36,24 @@ describe("IsWideObject<T>", () => {
         ];
     });
 
+
+    it("union of key's creates a known key length and shape", () => {
+        type T1 = IsWideObject<Record<1 | 2 | 3, string>>;
+        type T2 = IsWideObject<Record<"foo" | "bar", string>>;
+
+        type cases = [
+            Expect<Test<T1, "equals", "true">>,
+            Expect<Test<T2, "equals", "true">>,
+        ];
+    });
+
+
     it("should return false for literal objects", () => {
         // Literal objects with known keys and literal values
         type F1 = IsWideObject<{ foo: "bar"; baz: 42 }>;
         type F2 = IsWideObject<{ x: 1; y: 2; z: 3 }>;
 
-        // Record with literal keys is not wide
-        type F4 = IsWideObject<Record<"foo" | "bar", string>>;
-        type F5 = IsWideObject<Record<1 | 2 | 3, string>>;
+
 
         // Map with literal union keys is not wide
         type F6 = IsWideObject<Map<"foo" | "bar", string>>;
@@ -52,8 +62,6 @@ describe("IsWideObject<T>", () => {
         type cases = [
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
-            Expect<Test<F4, "equals", false>>,
-            Expect<Test<F5, "equals", false>>,
             Expect<Test<F6, "equals", false>>,
             Expect<Test<F7, "equals", false>>,
         ];

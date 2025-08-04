@@ -1,12 +1,17 @@
 import type {
     AfterFirst,
-    As,
+    Container,
+    Err,
     First,
+    HasAny,
+    HasFalse,
+    HasNever,
+    HasWideBoolean,
     IfEqual,
-    IsEqual,
-    LogicalReturns,
+    IsAny,
+    IsNever,
     LogicFunction,
-    NarrowlyContains,
+    TypedFunction,
 } from "inferred-types/types";
 
 type Process<
@@ -21,6 +26,45 @@ type Process<
             TBooleanSeen
         >;
 
+type Reduce<T extends readonly (boolean | LogicFunction)[]> = {
+    [K in keyof T]: T[K] extends TypedFunction
+        ? ReturnType<T[K]>
+        : T[K]
+};
+
+
+type Validate<T extends readonly unknown[]> = [IsAny<T>] extends [true]
+? Err<
+    `invalid/and`,
+    `The And<T> logical combinator has a 'any' type! Or is expecting a tuple of boolean values (or functions which return boolean).`,
+    { library: "inferred-types" }
+>
+: [IsNever<T>] extends [true]
+? Err<
+    `invalid/and`,
+    `The And<T> logical combinator has a 'never' type! Or is expecting a tuple of boolean values (or functions which return boolean).`,
+    { library: "inferred-types" }
+>
+: [HasNever<T>] extends [true]
+    ? Err<
+        `invalid/and`,
+        `The And<T> found elements in T which were the 'never' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.`,
+        { value: T, library: "inferred-types" }
+    >
+: [HasAny<T>] extends [true]
+    ? Err<
+        `invalid/and`,
+        `The And<T> found elements in T which were the 'any' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.`,
+        { value: T, library: "inferred-types" }
+    >
+
+
+: T extends readonly (boolean | LogicFunction)[]
+    ? Reduce<T> extends readonly boolean[]
+        ? Reduce<T>
+        : Err<`invalid/and`, `The And<T> utility found invalid types in the elements of T. Or<T> expects either a boolean value or a function which returns a boolean value.`, { value: T }>
+    : Err<`invalid/and`, `The And<T> found invalid types in the elements of T. Or<T> expects either a boolean value or a function which returns a boolean value.`, { value: T }>;
+
 /**
  * **And**`<TConditions, [TEmpty]>`
  *
@@ -28,18 +72,18 @@ type Process<
  * function which evaluates to a boolean value to be logically AND'd together.
  */
 export type And<
-    TConditions,
+    TConditions extends readonly (boolean | LogicFunction)[],
     TEmpty extends boolean = false,
-> = As<
-    TConditions extends readonly (boolean | LogicFunction)[]
-        ? IsEqual<TConditions, []> extends true
-            ? TEmpty
-            : LogicalReturns<TConditions> extends readonly boolean[]
-                ? Process<
-                    LogicalReturns<TConditions>,
-                    NarrowlyContains<LogicalReturns<TConditions>, boolean>
-                >
-                : never
-        : never,
-    boolean
->;
+> = Validate<TConditions> extends Error
+? Validate<TConditions>
+: [] extends TConditions
+? TEmpty
+
+
+: Validate<TConditions> extends readonly boolean[]
+    ? HasFalse<Validate<TConditions>> extends true
+        ? false
+    : HasWideBoolean<Validate<TConditions>> extends true
+        ? boolean
+        : true
+    : never;

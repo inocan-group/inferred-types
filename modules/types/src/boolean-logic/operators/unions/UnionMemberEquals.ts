@@ -3,7 +3,7 @@ import { IsAny, IsNever, IsUnion, IsUnknown, Some, UnionToTuple } from "inferred
 
 
 /**
- * **UnionMemberEquals**`<T,U>`
+ * **UnionMembersEqual**`<T,U>`
  *
  * Boolean operator which tests whether any of the union elements in `T` equal
  * the type `U`.
@@ -14,12 +14,21 @@ import { IsAny, IsNever, IsUnion, IsUnknown, Some, UnionToTuple } from "inferred
  *
  * **Related:** `UnionMemberExtends`, `UnionFilter`, `IsUnion`, `IsUnionArray`
  */
-export type UnionMemberEquals<T,U> = [IsAny<T>] extends [true]
+export type UnionMembersEqual<T,U> = [IsAny<T>] extends [true]
     ? false
+: [IsAny<U>] extends [true]
+    ? true
+: any[] extends U
+    ? true
 : [IsNever<T>] extends [true]
+    ? false
+: [IsNever<U>] extends [true]
     ? false
 : [IsUnknown<T>] extends [true]
     ? boolean
+: [IsUnknown<U>] extends [true]
+    ? boolean
+
 
 : IsUnion<T> extends true
     ? U extends readonly unknown[]
@@ -30,3 +39,4 @@ export type UnionMemberEquals<T,U> = [IsAny<T>] extends [true]
             UnionToTuple<T>, "equalsSome", [U]
         >
 : false;
+

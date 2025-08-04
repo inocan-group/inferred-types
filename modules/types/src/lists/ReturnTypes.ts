@@ -8,7 +8,7 @@ import type { TypedFunction } from "inferred-types/types";
  * in the array. Non-function types will be ignored as will functions
  * which don't return a boolean value.
  *
- * **See Also**: `LogicalReturns` and `TruthyReturns`
+ * **See Also**: `LogicalReturns`, `TruthyReturns`
  */
 export type ReturnTypes<T extends readonly unknown[]> = {
     [K in keyof T]: T[K] extends TypedFunction

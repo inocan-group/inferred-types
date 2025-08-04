@@ -7,7 +7,7 @@ import {
 
 describe("IsLiteralLike<T>", () => {
 
-    it("happy path - includes all literal types", () => {
+    it("includes all literal types", () => {
         type T1 = IsLiteralLike<"foo">;
         type T2 = IsLiteralLike<42>;
         type T3 = IsLiteralLike<true>;
@@ -23,7 +23,7 @@ describe("IsLiteralLike<T>", () => {
         ];
     });
 
-    it("happy path - literal-like objects with mixed value types", () => {
+    it("literal-like objects with mixed value types", () => {
         type T1 = IsLiteralLike<{ foo: 1; bar: string }>;
         type T2 = IsLiteralLike<{ foo: number; bar: string }>;
         type T3 = IsLiteralLike<Record<"foo"|"bar"|"baz", string>>;
@@ -35,7 +35,7 @@ describe("IsLiteralLike<T>", () => {
         ];
     });
 
-    it("happy path - literal unions", () => {
+    it("literal unions", () => {
         type T1 = IsLiteralLike<"foo" | "bar">;
         type T2 = IsLiteralLike<1 | 2 | 3>;
         type T3 = IsLiteralLike<true | false>;

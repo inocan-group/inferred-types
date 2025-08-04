@@ -33,12 +33,16 @@ export type LastInUnion<U> = UnionToIntersection<
     ? L
     : never;
 
+// Optimized Process function with reduced recursion depth and early termination
 type Process<
     U extends undefined | Scalar | AnyObject,
-    Last = LastInUnion<U>,
+    Acc extends unknown[] = [],
+    Depth extends number = 0,
 > = [U] extends [never]
-    ? []
-    : [...Process<Exclude<U, Last>>, Last];
+    ? Acc
+    : Depth extends 10  // Limit recursion depth to prevent infinite recursion
+        ? [...Acc, U]  // Truncate at depth limit
+        : Process<Exclude<U, LastInUnion<U>>, [...Acc, LastInUnion<U>], [Depth] extends [never] ? 0 : [1,2,3,4,5,6,7,8,9,10][Depth]>;
 
 type FilterBoolean<
     T extends readonly unknown[],

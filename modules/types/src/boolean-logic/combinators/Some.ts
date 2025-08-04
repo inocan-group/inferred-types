@@ -1,16 +1,14 @@
 import type {
     AsArray,
     Compare,
+    ComparisonAccept,
     ComparisonOperation,
     Container,
-    Dictionary,
     Err,
-    First,
     GetComparisonParamInput,
     IsDictionary,
     IsLiteralLikeArray,
     IsLiteralLikeObject,
-    NumberLike,
     Or,
     Values
 } from "inferred-types/types";
@@ -18,10 +16,15 @@ import type {
 type Process<
     T extends readonly unknown[],
     TOp extends ComparisonOperation,
-    TComparator extends GetComparisonParamInput<TOp>,
-> = Or<{
-    [K in keyof T]:
-        Compare<T[K], TOp,  TComparator>
+    TComparator extends readonly unknown[],
+> = [] extends TComparator
+? false
+:
+
+Or<{
+    [K in keyof T]: T[K] extends ComparisonAccept<TOp>
+        ? Compare<T[K], TOp,  TComparator>
+        : false
 }>;
 
 /**
@@ -38,10 +41,10 @@ type Process<
 export type Some<
     TContainer extends Container,
     TOp extends ComparisonOperation,
-    TComparator extends GetComparisonParamInput<TOp> | First<GetComparisonParamInput<TOp>>,
+    TComparator extends readonly unknown[],
 > = AsArray<TComparator> extends GetComparisonParamInput<TOp>
-    ? TContainer extends readonly unknown[]
-        ? IsLiteralLikeArray<TContainer> extends true
+    ? [TContainer] extends [readonly unknown[]]
+        ? [IsLiteralLikeArray<TContainer>] extends [true]
             ? Process<TContainer, TOp, AsArray<TComparator>>
             : boolean
         : IsDictionary<TContainer> extends true
@@ -59,5 +62,7 @@ export type Some<
         requirement: GetComparisonParamInput<TOp>;
     }
     >;
+
+
 
 
