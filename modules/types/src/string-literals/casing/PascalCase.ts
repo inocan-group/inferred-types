@@ -27,10 +27,10 @@ export type PascalCase<
         ? Trim<DashDelim<LowerAllCaps<T>>> extends `${infer Begin}${Delimiter}${infer Rest}`
             ? PascalCase<`${Capitalize<Begin>}${Capitalize<Rest>}`>
             : Capitalize<Trim<LowerAllCaps<T>>>
-        : T extends readonly unknown[]
-            ? {
-                [K in keyof T]: T[K] extends string
-                    ? PascalCase<T[K]>
-                    : T[K]
-            }
-            : never;
+    : T extends readonly unknown[]
+        ? {
+            [K in keyof T]: T[K] extends string
+                ? PascalCase<T[K]>
+                : T[K]
+        }
+        : never;

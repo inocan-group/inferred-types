@@ -1,6 +1,7 @@
 import {
     AfterFirst,
     Container,
+    Dictionary,
     Err,
     First,
     IsAny,
@@ -21,11 +22,14 @@ type Test<
         AfterFirst<T>
     >;
 
-type Validate<T> = [IsAny<T>] extends [true]
-? Err<`invalid/has-any`, `The type passed into 'HasAny<T>' was 'any'! This utility requires that T be a container type.`>
-: [IsNever<T>] extends [true]
-? Err<`invalid/has-any`, `The type passed into 'HasAny<T>' was 'never'! This utility requires that T be a container type.`>
-: T;
+// type Validate<T extends Container> = [IsAny<T>] extends [true]
+// ? Err<
+//     `invalid/has-any`,
+//     `The type passed into 'HasAny<T>' was 'any'! This utility requires that T be a container type.`
+// >
+// : [IsNever<T>] extends [true]
+// ? Err<`invalid/has-any`, `The type passed into 'HasAny<T>' was 'never'! This utility requires that T be a container type.`>
+// : T;
 
 /**
  * **HasAny**`<T>`
@@ -34,8 +38,15 @@ type Validate<T> = [IsAny<T>] extends [true]
  *
  * - if `T` is a wide type then this utility will always return `boolean`
  */
-export type HasAny<T extends Container> = Validate<T> extends Error
-? Validate<T>
+export type HasAny<
+    T extends Container
+> = [IsAny<T>] extends [true]
+? Err<
+    `invalid/has-any`,
+    `The type passed into 'HasAny<T>' was 'any'! This utility requires that T be a container type.`
+>
+: [IsNever<T>] extends [true]
+? Err<`invalid/has-any`, `The type passed into 'HasAny<T>' was 'never'! This utility requires that T be a container type.`>
 : T extends readonly any[]
 ? IsWideArray<T> extends true
     ? boolean
@@ -45,3 +56,5 @@ export type HasAny<T extends Container> = Validate<T> extends Error
         ? boolean
         : Test<Values<T>>
 : false;
+
+type X = IsWideArray<

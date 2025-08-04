@@ -6,7 +6,7 @@ import type { KebabCase, PascalCase, RetainUntil } from "types/string-literals";
 /**
  * **TypedError**
  *
- * An `Error` which is guarenteed to have a `type` property
+ * An `Error` which is guaranteed to have a `type` property
  * and may optionally have a `subType` property.
  */
 export type TypedError<
@@ -31,7 +31,13 @@ export type Err<
         Expand<
         {
             __kind: "Error";
-            name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
+            name: PascalCase<
+                TCtx["name"] extends string
+                    ? TCtx["name"]
+                : RetainUntil<TType, "/"> extends string
+                    ? RetainUntil<TType, "/">
+                    : never
+                >;
             type: KebabCase<Type>;
             subType: Subtype extends string ? KebabCase<Subtype> : undefined;
             message: TMsg;

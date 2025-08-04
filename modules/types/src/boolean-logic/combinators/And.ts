@@ -1,3 +1,4 @@
+
 import type {
     AfterFirst,
     Container,
@@ -10,6 +11,7 @@ import type {
     IfEqual,
     IsAny,
     IsNever,
+    IsWideArray,
     LogicFunction,
     TypedFunction,
 } from "inferred-types/types";
@@ -76,10 +78,10 @@ export type And<
     TEmpty extends boolean = false,
 > = Validate<TConditions> extends Error
 ? Validate<TConditions>
+: IsWideArray<TConditions> extends true
+    ? boolean
 : [] extends TConditions
 ? TEmpty
-
-
 : Validate<TConditions> extends readonly boolean[]
     ? HasFalse<Validate<TConditions>> extends true
         ? false

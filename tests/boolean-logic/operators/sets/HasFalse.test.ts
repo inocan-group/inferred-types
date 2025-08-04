@@ -2,32 +2,30 @@ import { describe, it } from "vitest";
 import {
     EmptyObject,
     Expect,
-    HasAny,
+    HasFalse,
     Test,
 } from "inferred-types/types";
 import { Dictionary } from "inferred-types";
 
-describe("HasAny<T>", () => {
+describe("HasFalse<T>", () => {
 
     describe("array", () => {
         it("positive tests", () => {
-            type T1 = HasAny<[any]>;
-            type T2 = HasAny<[1,2,3, any]>;
-            type T3 = HasAny<[any, 1,2,3]>;
-            type T4 = HasAny<readonly [any, 1,2,3]>;
+            type T1 = HasFalse<[false]>;
+            type T2 = HasFalse<[1, 2, 3, false]>;
+            type T3 = HasFalse<[false, 1, 2, 3]>;
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
                 Expect<Test<T3, "equals", true>>,
-                Expect<Test<T4, "equals", true>>,
             ];
         });
 
         it("negative tests", () => {
-            type F1 = HasAny<[]>;
-            type F2 = HasAny<[1,2,3]>;
-            type F3 = HasAny<[1,2,3]>;
+            type F1 = HasFalse<[]>;
+            type F2 = HasFalse<[1, 2, 3]>;
+            type F3 = HasFalse<[1, 2, 3]>;
 
             type cases = [
                 Expect<Test<F1, "equals", false>>,
@@ -38,8 +36,8 @@ describe("HasAny<T>", () => {
 
 
         it("wide input", () => {
-            type W1 = HasAny<string[]>;
-            type W2 = HasAny<unknown[]>;
+            type W1 = HasFalse<string[]>;
+            type W2 = HasFalse<unknown[]>;
 
             type cases = [
                 Expect<Test<W1, "equals", boolean>>,
@@ -48,22 +46,20 @@ describe("HasAny<T>", () => {
         });
 
 
-
-
         it("any,never -> error", () => {
-            type E1 = HasAny<any>;
-            type E2 = HasAny<never>;
+            type E1 = HasFalse<any>;
+            type E2 = HasFalse<never>;
 
             type cases = [
-                Expect<Test<E1, "isError", "invalid/has-any">>,
-                Expect<Test<E2, "isError", "invalid/has-any">>,
+                Expect<Test<E1, "isError", "invalid/has-false">>,
+                Expect<Test<E2, "isError", "invalid/has-false">>,
             ];
         });
 
 
         it("forced invalid type -> false", () => {
             // @ts-expect-error
-            type E1 = HasAny<42>;
+            type E1 = HasFalse<42>;
 
             type cases = [
                 Expect<Test<E1, "equals", false>>,
@@ -71,22 +67,20 @@ describe("HasAny<T>", () => {
         });
     })
 
-        describe("object", () => {
+    describe("object", () => {
         it("positive tests", () => {
-            type T1 = HasAny<{foo: any}>;
-            type T2 = HasAny<{foo: 1, bar: 2, baz: any}>;
-            type T3 = HasAny<[any, 1,2,3]>;
+            type T1 = HasFalse<{ foo: false }>;
+            type T2 = HasFalse<{ foo: 1, bar: 2, baz: false }>;
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
-                Expect<Test<T3, "equals", true>>,
             ];
         });
 
         it("negative tests", () => {
-            type F1 = HasAny<EmptyObject>;
-            type F2 = HasAny<{foo:1, bar: 2, baz:3}>;
+            type F1 = HasFalse<EmptyObject>;
+            type F2 = HasFalse<{ foo: 1, bar: 2, baz: 3 }>;
 
             type cases = [
                 Expect<Test<F1, "equals", false>>,
@@ -96,8 +90,8 @@ describe("HasAny<T>", () => {
 
 
         it("wide input", () => {
-            type W1 = HasAny<object>;
-            type W2 = HasAny<Dictionary>;
+            type W1 = HasFalse<object>;
+            type W2 = HasFalse<Dictionary>;
 
             type cases = [
                 Expect<Test<W1, "equals", boolean>>,
@@ -107,19 +101,19 @@ describe("HasAny<T>", () => {
 
 
         it("any,never -> error", () => {
-            type E1 = HasAny<any>;
-            type E2 = HasAny<never>;
+            type E1 = HasFalse<any>;
+            type E2 = HasFalse<never>;
 
             type cases = [
-                Expect<Test<E1, "isError", "invalid/has-any">>,
-                Expect<Test<E2, "isError", "invalid/has-any">>,
+                Expect<Test<E1, "isError", "invalid/has-false">>,
+                Expect<Test<E2, "isError", "invalid/has-false">>,
             ];
         });
 
 
         it("forced invalid type -> false", () => {
             // @ts-expect-error
-            type E1 = HasAny<42>;
+            type E1 = HasFalse<42>;
 
             type cases = [
                 Expect<Test<E1, "equals", false>>,
