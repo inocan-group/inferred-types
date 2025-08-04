@@ -1,11 +1,9 @@
 import type {
     And,
-    As,
     Container,
     Dictionary,
     IsAny,
     IsNever,
-    IsObject,
     Or,
     Values
 } from "inferred-types/types";

@@ -1,8 +1,11 @@
 import type {
+    As,
+    AsUnion,
     Dictionary,
     EmptyObject,
     If,
     IsEqual,
+    NotFilter,
     ObjectKey,
     UnionToTuple,
     Unset,
@@ -51,7 +54,9 @@ export type OptionalKeys<
 export type OptionalKeysTuple<
     T,
 > = T extends Dictionary
-    ? UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
-        ? UnionToTuple<OptionalKeys<T>>
-        : never
-    : never;
+    ? As<
+        NotFilter< UnionToTuple<OptionalKeys<T>>, "equals", [boolean]>,
+        readonly ObjectKey[]
+    >
+
+: never;

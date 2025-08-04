@@ -55,6 +55,8 @@ describe("HasAny<T>", () => {
             type E2 = HasAny<never>;
 
             type cases = [
+                Expect<Test<E1, "extends", Error>>,
+                Expect<Test<E2, "extends", Error>>,
                 Expect<Test<E1, "isError", "invalid/has-any">>,
                 Expect<Test<E2, "isError", "invalid/has-any">>,
             ];

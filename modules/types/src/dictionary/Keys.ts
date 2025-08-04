@@ -12,10 +12,10 @@ import type {
     Filter,
     First,
     IsEqual,
+    IsLiteralLikeObject,
     IsLiteralUnion,
     IsNever,
     IsNumericLiteral,
-    IsObjectLiteral,
     IsStringLiteral,
     IsSymbol,
     IsTemplateLiteral,
@@ -59,7 +59,7 @@ type ProcessObject<
     TContainer extends Dictionary,
 > = IsEqual<ExplicitlyEmptyObject, TContainer> extends true
     ? []
-    : [IsObjectLiteral<RemoveIndexKeys<TContainer>>] extends [true]
+    : [IsLiteralLikeObject<RemoveIndexKeys<TContainer>>] extends [true]
         ? ProcessObj<RemoveIndexKeys<TContainer>> extends readonly (keyof TContainer & ObjectKey)[]
             ? As<ProcessObj<RemoveIndexKeys<TContainer>>, readonly ObjectKey[]>
             : never
@@ -114,71 +114,7 @@ export type WithTemplateKeys<
     TTemplate extends readonly string[]
 > = true;
 
-/**
- * handle union types which are not literal unions
- *
- * 1. if the keyof has 1 or more template keys then
- *      - extract the template keys and create a union of them
- *      - make them be of type `...U[]`
- * 2. if the keyof is `string | number` then we're dealing with
- * with an index key and we can only return ObjectKey[]
- */
-type HandleUnion<
-    T extends object
-> = IsEqual<keyof T, string | number> extends true
-    ? ObjectKey[]
-    : Some<UnionToTuple<keyof T>, "isTemplateLiteral", []> extends true
-        ? WithTemplateKeys<
-            NotFilter<UnionToTuple<keyof T>, "isTemplateLiteral", []>,
-            Filter<UnionToTuple<keyof T>, "isTemplateLiteral", []>
-        >
-        : never;
 
-/**
- * **ObjectKeys**`<TObj>`
- *
- * Provides the keys of a given object. If a _wide_ representation of
- * an object is sent in -- in most cases -- the value returned will with
- * a _wide_ array. The one exception is if the keys can still be determined
- * even in the wide format (for instance, `Record<"foo" | "bar", any>` we know
- * the keys must be `["foo", "bar"])
- */
-export type ObjectKeys<
-    TObj extends object
-> = [IsNever<keyof TObj>] extends [true]
-    ? [TObj] extends [AnyMap]
-        ? any[]
-        : [TObj] extends [AnyWeakMap]
-            ? any[]
-            : [TObj] extends [AnySet]
-                ? any[]
-                : PropertyKey[]
-    : [IsLiteralUnion<keyof TObj>] extends [true]
-        ? As<UnionToTuple<keyof TObj>, readonly ObjectKey[]>
-
-        : [IsUnion<keyof TObj>] extends [true]
-            ? [IsEqual<keyof TObj, string | symbol>] extends [true]
-                ? ObjectKey[]
-                : [IsEqual<keyof TObj, symbol | string | symbol>] extends [true]
-                    ? PropertyKey[]
-                    : [And<[
-                        Extends<TObj, Dictionary>,
-                        IsEqual<Values<TObj>, []>
-                    ]>] extends [true]
-                        ? As<[], readonly ObjectKey[]>
-                        : TObj extends Dictionary
-                            ? HandleUnion<TObj>
-                            : "union"
-
-            : [IsStringLiteral<keyof TObj>] extends [true]
-                ? [IsTemplateLiteral<keyof TObj>] extends [true]
-                    ? As<(keyof TObj)[], readonly ObjectKey[]>
-                    : As<[keyof TObj], readonly ObjectKey[]>
-                : [IsNumericLiteral<keyof TObj>] extends [true]
-                    ? As<[keyof TObj], readonly ObjectKey[]>
-                    : [IsSymbol<keyof TObj>] extends [true]
-                        ? As<[keyof TObj], readonly ObjectKey[]>
-                        : As<(keyof TObj)[], readonly ObjectKey[]>;
 
 type _Public<
     TInput extends readonly PropertyKey[],

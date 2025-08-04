@@ -11,16 +11,13 @@ import type { DropVariadic, HasVariadicTail, IsAny, IsEqual, IsNever, IsUnknown,
  * - `unknown` returns `boolean`
  */
 export type IsWideArray<T> = [IsAny<T>] extends [true]
-    ? false
+? false
 : [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-
-    : T extends readonly unknown[]
-        ? IsEqual<T["length"], number> extends true
-            ? number extends DropVariadic<T>["length"]
-                ? true
-                : false
+? false
+: T extends readonly unknown[]
+    ? IsEqual<T["length"], number> extends true
+        ? number extends DropVariadic<T>["length"]
+            ? true
             : false
-        : false;
+        : false
+    : false;

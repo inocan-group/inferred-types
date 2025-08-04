@@ -13,7 +13,7 @@ describe("Values<T>", () => {
     baz: true;
   }
 
-  it("Values<T> where T is an object", () => {
+  it("Values<T> where T is a wide object", () => {
     type VObj = Values<Obj>;
     type VEmpty = Values<Dictionary>;
     type VRecord = Values<Record<ObjectKey, unknown>>;
@@ -27,6 +27,16 @@ describe("Values<T>", () => {
     ];
 
   });
+
+
+  it("Values<T> ", () => {
+
+
+    type cases = [
+        /** type tests */
+    ];
+  });
+
 
   it("Values<T> where T is an array", () => {
     type VArr = Values<[1, 2, 3]>;

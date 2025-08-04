@@ -2,36 +2,16 @@ import type { Marked } from "inferred-types/constants";
 import type {
     Compare,
     ComparisonAccept,
-    ComparisonLookup,
     ComparisonOperation,
-    GetComparisonParamInput,
     RemoveMarked,
 } from "inferred-types/types";
 
-type ProcessFalsyRecursive<
-    TList extends readonly unknown[],
-    TResult extends readonly unknown[] = []
-> = TList extends readonly [infer THead, ...infer TTail]
-    ? [THead] extends [null]
-        ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
-        : [THead] extends [undefined]
-            ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
-            : [THead] extends [false]
-                ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
-                : [THead] extends [0]
-                    ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
-                    : [THead] extends [""]
-                        ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
-                        : ProcessFalsyRecursive<TTail, TResult>
-    : TResult;
 
 type Process<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
-> = TOp extends "falsy"
-    ? ProcessFalsyRecursive<TList>
-    : RemoveMarked<{
+    TParams extends readonly unknown[]
+> = RemoveMarked<{
         [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
             ? TList[K]
             : Marked
@@ -58,7 +38,7 @@ type Process<
 export type Filter<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp>
+    TParams extends readonly unknown[]
 > = Process<
     TList,
     TOp,

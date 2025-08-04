@@ -12,6 +12,7 @@ import {
     UpperAlphaChar,
     IsAfter
 } from "inferred-types/types";
+import { StartsWith } from "inferred-types";
 
 describe("Compare<TVal,TOp,TComparator> type util", () => {
 
@@ -81,10 +82,27 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
     it("startsWith", () => {
         type T1 = Compare<420, "startsWith", [42]>;
+        type A1 = StartsWith<420, 42>;
         type T2 = Compare<"foobar", "startsWith", ["foo"]>;
         type T3 = Compare<"Foo", "startsWith", [UpperAlphaChar]>;
 
         type F1 = Compare<"foo", "startsWith", [UpperAlphaChar]>;
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+
+            Expect<Test<F1, "equals",  false>>,
+        ];
+    });
+
+    it("endsWith", () => {
+        type T1 = Compare<420, "endsWith", [42]>;
+        type T2 = Compare<"foobar", "endsWith", ["foo"]>;
+        type T3 = Compare<"Foo", "endsWith", [UpperAlphaChar]>;
+
+        type F1 = Compare<"foo", "endsWith", [UpperAlphaChar]>;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,

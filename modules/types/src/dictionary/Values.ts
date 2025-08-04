@@ -1,15 +1,15 @@
 import type {
     AfterFirst,
-    As,
     Container,
+    Dictionary,
     First,
-    IsObject,
+    IsWideObject,
     ObjectKeys,
 } from "inferred-types/types";
 
 type GetValues<
-    TObj extends object,
-    TKeys extends readonly PropertyKey[],
+    TObj extends Dictionary,
+    TKeys extends readonly unknown[],
     TResult extends readonly unknown[] = []
 > = [] extends TKeys
     ? TResult
@@ -34,6 +34,14 @@ export type Values<
     T extends Container,
 > = T extends readonly unknown[]
     ? T
-    : IsObject<T> extends true
-        ? GetValues<T, As<ObjectKeys<T>, readonly PropertyKey[]>>
+    : T extends Dictionary
+        ? IsWideObject<T> extends true
+            ? T extends Record<PropertyKey, infer V>
+                ? V[]  // For wide objects, return array of value type
+                : unknown[]
+            : ObjectKeys<T> extends readonly unknown[]
+                ? GetValues<T,ObjectKeys<T>>
         : never;
+
+
+type X = ObjectKeys<{foo: string; bar: number}>;

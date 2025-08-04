@@ -1,43 +1,29 @@
-import type {
-    Concat,
-    If,
-    IsTrue,
-    LeftWhitespace,
-    PascalCase,
-    RightWhitespace,
-} from "inferred-types/types";
-
-type Process<
-    TString extends string,
-    TPreserveWhitespace extends boolean = false,
-> = If<
-    IsTrue<TPreserveWhitespace>,
-    string extends TString
-        ? string
-        : Concat<[
-            LeftWhitespace<TString>,
-            Uncapitalize<PascalCase<TString>>,
-            RightWhitespace<TString>,
-        ]>,
-    string extends TString
-        ? string
-        : Uncapitalize<PascalCase<TString>>
->;
+import type { PascalCase, Trim, IsAllCaps } from "inferred-types/types";
 
 /**
- * **CamelCase**`<TString,TPreserveWhitespace>`
+ * Direct camelCase conversion that leverages optimized PascalCase
+ */
+type CamelCaseSimple<T extends string> = 
+    IsAllCaps<T> extends true
+        ? Uncapitalize<PascalCase<Lowercase<Trim<T>>>>
+        : Uncapitalize<PascalCase<Trim<T>>>;
+
+/**
+ * **CamelCase**`<TString>`
  *
- * Converts a string to `CamelCase` format while optionally preserving
- * surrounding whitespace.
+ * Converts a string to `CamelCase` format.
  */
 export type CamelCase<
     T extends string | readonly unknown[],
-> = T extends string
-    ? Process<T>
-    : T extends readonly unknown[]
-        ? {
-            [K in keyof T]: T[K] extends string
-                ? CamelCase<T[K]>
-                : T[K]
-        }
-        : never;
+    TPreserve extends boolean = false,
+> = string extends T
+    ? string
+    : T extends string
+        ? CamelCaseSimple<T>
+        : T extends readonly unknown[]
+            ? {
+                [K in keyof T]: T[K] extends string
+                    ? CamelCase<T[K], TPreserve>
+                    : T[K]
+            }
+            : never;

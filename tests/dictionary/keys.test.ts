@@ -47,7 +47,9 @@ describe("ObjectKeys<T>", () => {
     // which works on both objects and arrays
     describe("objects", () => {
         it("narrow/discrete", () => {
+            type N = ObjectKeys<any>;
             type Foobar = ObjectKeys<{ foo: 1; bar: 2 }>;
+            type Wide = ObjectKeys<object>;
             type FoobarWideVal = ObjectKeys<{ foo: number; bar: string }>;
             type FooBar_RO = ObjectKeys<Readonly<{ foo: 1; bar: 2 }>>;
 

@@ -249,7 +249,7 @@ type Process__String<
 
 
     : TOp extends "endsWith"
-        ? TVal extends ComparisonAccept<"startsWith">
+        ? TVal extends ComparisonAccept<"endsWith">
             ? TParams extends readonly (string | number)[]
                 ? EndsWith<TVal, TParams>
                 : Err<`invalid-type/parameters`>
