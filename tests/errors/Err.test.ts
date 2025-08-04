@@ -20,6 +20,17 @@ describe("Err<...>", () => {
         ];
     });
 
+
+    it("long text works", () => {
+        type Long = Err<`this-is-a-long/error-that-goes-forever`>;
+
+        type cases = [
+            Expect<Test<Long, "extends", Error>>,
+            Expect<Test<Long, "isError", "this-is-a-long">>
+        ];
+    });
+
+
 });
 
 describe("err()", () => {

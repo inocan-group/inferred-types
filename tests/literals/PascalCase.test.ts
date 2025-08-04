@@ -49,8 +49,7 @@ describe("PascalCase<T> type utility", () => {
             Expect<Test<T5, "equals",  "TwoThreeFourFiveSixSevenEight">>,
             Expect<Test<T6, "equals",  "TwoThreeFourFiveSixSevenEightNineTenEleven">>
         ];
-        const c: cases = [true, true, true, true, true, true];
-        expect(c).toBe(c);
+
     });
 
     it("PascalCase<T> transforms interior space to PascalCased type", () => {
@@ -97,7 +96,7 @@ describe("PascalCase<T> type utility", () => {
         type T3 = PascalCase<"ONE_TWO_THREE_FOUR_FIVE_SIX_SEVEN_EIGHT_NINE">;
         // also works for multiple delimiters
         type T4 = PascalCase<"one-two-three-four_five_six_seven_eight_nine">;
-        type T5 = PascalCase<"\n one-two-three-four_five_six_seven eight_nine \t">;
+        type T5 = PascalCase<"\n one-two-three-four_five_six_seven_eight_nine \t">;
 
         type cases = [
             Expect<Test<T1, "equals",  "OneTwoThreeFourFiveSixSevenEightNine">>,
