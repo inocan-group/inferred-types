@@ -74,7 +74,7 @@ describe("DistinguishEmptyTypes utilities", () => {
                 Expect<Test<ExplicitTest, "equals", "not-empty">>,  // ExplicitlyEmptyObject doesn't match the conditions perfectly
                 Expect<Test<LiteralTest, "equals", "explicit">>,  // {} has no keys and matches never signatures
                 Expect<Test<NonEmptyTest, "equals", "not-empty">>,
-                Expect<Test<StringTest, "equals", "not-empty">>,
+                Expect<Test<StringTest, "equals", "not-object">>,
             ];
         });
     });

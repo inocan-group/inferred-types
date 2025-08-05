@@ -1,7 +1,6 @@
 import {
     Expect,
     Test,
-    ErrorCondition,
     IsDotPath,
     Validate
 } from "inferred-types/types";
@@ -38,7 +37,7 @@ describe("Validate<T>", () => {
             Expect<Test<F5, "equals",  never>>,
             Expect<Test<F6, "equals",  never>>,
 
-            Expect<Test<E1, "extends", ErrorCondition<"wide-return-not-allowed">>>,
+            Expect<Test<E1, "isError", Error>>,
         ];
     });
 

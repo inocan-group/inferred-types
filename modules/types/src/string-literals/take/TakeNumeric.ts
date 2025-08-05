@@ -54,11 +54,7 @@ type Take<
     >
     : TOpt["ignore"] extends string
         ? TRemaining extends `${infer _Ignore extends TOpt["ignore"]}${infer Rest extends string}`
-            ? Take<
-                Rest,
-                TOpt,
-                TTake
-            >
+            ? Take<Rest, TOpt, TTake, TDecimal>  // Keep TDecimal state
             : Finish<TRemaining, TOpt, TTake>
         : Finish<TRemaining, TOpt, TTake>;
 
@@ -100,17 +96,16 @@ export type TakeNumeric<
 > = As<
     IsWideType<T> extends true
         ? [`${number}` | undefined, string]
-        : StartsWithTemplateLiteral<T> extends true
-            ? [`${number}` | undefined, string]
-            : StartsWith<T, `-.${Chars<true>}`> extends true
-                ? Take<StripLeading<T, "-.">, TOpt, "-.", true>
-                : StartsWith<T, `.${Chars<true>}`> extends true
-                    ? Take<StripLeading<T, ".">, TOpt, ".", true>
-                    : StartsWith<T, `-${Chars<true>}`> extends true
-                        ? Take<StripLeading<T, "-">, TOpt, "-">
-                        : StartsWith<T, Chars<true>> extends true
-                            ? Take<T, TOpt, "">
-                            : [undefined, T],
-    [ take: `${number}` | undefined, remaining: string ]
-    | Error
+    : StartsWithTemplateLiteral<T> extends true
+        ? [`${number}` | undefined, string]
+    : T extends `-.${Chars<true>}${string}`
+        ? Take<StripLeading<T, "-.">, TOpt, "-.", true>
+    : T extends `.${Chars<true>}${string}`
+        ? Take<StripLeading<T, ".">, TOpt, ".", true>
+    : T extends `-${Chars<true>}${string}`
+        ? Take<StripLeading<T, "-">, TOpt, "-">
+    : T extends `${Chars<true>}${string}`
+        ? Take<T, TOpt, "">
+    : [undefined, T],
+    [ take: `${number}` | undefined, remaining: string ] | Error
 >;
