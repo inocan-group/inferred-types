@@ -24,9 +24,13 @@ type Check<
         : First<A> extends `${number}`
             ? First<B> extends `${number}`
                 ? IsGreaterThan<First<A>, First<B>>
-                : true
-            : First<B> extends `${number}`
-                ? false
+                : First<B> extends null
+                    ? Check<AfterFirst<A>, AfterFirst<B>>
+                    : true
+            : First<A> extends null
+                ? First<B> extends `${number}`
+                    ? Check<AfterFirst<A>, AfterFirst<B>>
+                    : Check<AfterFirst<A>, AfterFirst<B>>
                 : Check<
                     AfterFirst<A>,
                     AfterFirst<B>

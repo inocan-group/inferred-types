@@ -1,12 +1,11 @@
 import type {
-    As,
     Container,
-    Dictionary,
     Err,
     IsAny,
     IsNever,
-    IsStringLiteral,
-    ObjectKeys,
+    IsTuple,
+    Keys,
+    UnionMemberEquals,
 } from "inferred-types/types";
 
 type Validate<T extends Container> = [IsAny<T>] extends [true]
@@ -17,22 +16,40 @@ type Validate<T extends Container> = [IsAny<T>] extends [true]
 
 // Single-pass implementation with bounded recursion to avoid deep instantiation errors
 type GetValues<
-    TObj extends Dictionary,
-    TKeys extends readonly PropertyKey[],
+    TObj extends Container,
+    TKeys extends readonly (PropertyKey | (PropertyKey | undefined))[],
     TAcc extends readonly unknown[] = [],
 > = [] extends TKeys
     ? TAcc // Return what we have so far to avoid deep recursion error
-    : TKeys extends readonly [infer First, ...infer Rest]
+    : Required<TKeys> extends readonly [infer First, ...infer Rest]
         ? First extends keyof TObj
             ? Rest extends readonly PropertyKey[]
-                ? GetValues<
-                    TObj,
-                    Rest,
-                    [
-                        ...TAcc,
-                        TObj[First]
-                    ]
-                >
+                ? IsTuple<TObj[First]> extends true
+                    ? UnionMemberEquals<TObj[First], undefined> extends true
+                        ? GetValues<
+                            TObj,
+                            Rest,
+                            [
+                                ...TAcc,
+                                TObj[First]?
+                            ]
+                        >
+                        : GetValues<
+                            TObj,
+                            Rest,
+                            [
+                                ...TAcc,
+                                TObj[First]
+                            ]
+                        >
+                    : GetValues<
+                        TObj,
+                        Rest,
+                        [
+                            ...TAcc,
+                            TObj[First]
+                        ]
+                    >
                 : never
             : never
         : TAcc;
@@ -50,15 +67,12 @@ export type Values<
     T extends Container,
 > = Validate<T> extends Error
     ? Validate<T>
-    : As<
-        T extends readonly unknown[]
-            ? T
-            : T extends Dictionary
-                ? T extends Record<infer K, infer V>
-                    ? IsStringLiteral<K> extends true
-                        ? GetValues<T, As<ObjectKeys<T>, readonly PropertyKey[]>>
-                        : V[] // For wide objects, return array of value type
-                    : unknown[]
-                : unknown[],
-        readonly unknown[]
-    >;
+: Keys<T> extends readonly unknown[]
+    ? number extends Keys<T>["length"]
+        ? T extends Record<any, infer V>
+            ? V[]
+            : T extends readonly (infer V)[]
+                ? V[]
+                : unknown[]
+        : GetValues<T, Keys<T>>
+    : never;

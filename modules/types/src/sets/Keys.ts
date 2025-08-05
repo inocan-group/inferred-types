@@ -38,10 +38,8 @@ export type Keys<
 > = As<
     TContainer extends readonly unknown[]
         ? NumericKeys<TContainer>
-        : TContainer extends object
-            ? ObjectKeys<TContainer>
-            : never,
-    readonly PropertyKey[]
+        : ObjectKeys<TContainer>,
+    readonly (PropertyKey | (PropertyKey | undefined))[]
 >;
 
 /**

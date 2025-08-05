@@ -2,10 +2,13 @@ import type {
     As,
     Dictionary,
     EmptyObject,
+    ExtractOptionalElements,
     If,
     IsEqual,
     NotFilter,
     ObjectKey,
+    Subtract,
+    TupleMeta,
     UnionToTuple,
     Unset,
 } from "inferred-types/types";
@@ -46,7 +49,7 @@ export type OptionalKeys<
  * **OptionalKeysTuple**`<T>`
  *
  * Provides a tuple of the _keys_ in `T` which are
- * **required** properties.
+ * **optional** properties.
  *
  * **Related:** `RequiredKeys`, `OptionalProps`
  */
@@ -57,5 +60,7 @@ export type OptionalKeysTuple<
         NotFilter<UnionToTuple<OptionalKeys<T>>, "equals", [boolean]>,
         readonly ObjectKey[]
     >
+: never;
 
-    : never;
+
+

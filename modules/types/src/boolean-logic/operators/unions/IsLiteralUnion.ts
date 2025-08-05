@@ -1,4 +1,4 @@
-import type { IsLiteralLike, IsTrue, IsUnion, UnionToTuple } from "inferred-types/types";
+import type { As, IsLiteralLike, IsTrue, IsUnion, UnionToTuple } from "inferred-types/types";
 
 // Check if all elements in a tuple are literal types
 type AllElementsAreLiteral<
@@ -22,11 +22,15 @@ type AllElementsAreLiteral<
  * - is a union type, AND
  * - all elements of the union are `LiteralLike`
  */
-export type IsLiteralUnion<T> = [IsUnion<T>] extends [true]
-    ? AllElementsAreLiteral<UnionToTuple<T>>
-    : false;
+export type IsLiteralUnion<T> = As<
+    [IsUnion<T>] extends [true]
+        ? AllElementsAreLiteral<UnionToTuple<T>>
+        : false,
+        boolean
+>
 
-type Debug = 1 | 2 | 3 | 42;
-type Test = IsLiteralUnion<Debug>;
-type Any = IsLiteralLike<any>; // =>
-type Never = IsLiteralLike<never>; // =>
+
+// type Debug = 1 | 2 | 3 | 42;
+// type Test = IsLiteralUnion<Debug>;
+// type Any = IsLiteralLike<any>; // =>
+// type Never = IsLiteralLike<never>; // =>

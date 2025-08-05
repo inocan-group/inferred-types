@@ -1,4 +1,19 @@
-import type { AfterFirst, AnyFunction, AsNarrowingFn, AsStaticFn, Decrement, Dictionary, First, FnKeyValue, IsNarrowingFn, IsUnion, Tuple, TupleToUnion, TypedFunction, UnionToTuple } from "inferred-types/types";
+import type {
+    AfterFirst,
+    AnyFunction,
+    AsNarrowingFn,
+    AsStaticFn,
+    Decrement,
+    Dictionary,
+    First,
+    FnKeyValue,
+    IsNarrowingFn,
+    IsUnion,
+    Tuple,
+    TupleToUnion,
+    TypedFunction,
+    UnionToTuple
+} from "inferred-types/types";
 
 type _ExpandTuple<
     TLength extends number,

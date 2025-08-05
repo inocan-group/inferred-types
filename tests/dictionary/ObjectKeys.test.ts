@@ -3,12 +3,10 @@ import {
     Dictionary,
     EmptyObject,
     Expect,
-    HasSameValues,
     ObjectKeys,
     Test,
     ObjectKey
 } from "inferred-types/types";
-import { OptionalKeys } from "inferred-types";
 
 
 describe("ObjectKeys<T>", () => {
@@ -66,7 +64,7 @@ describe("ObjectKeys<T>", () => {
         //   ^?
 
         type cases = [
-            Expect<Test<Shape, "equals", ["foo", "bar", (`_${string}` | undefined)?]>>
+            Expect<Test<Shape, "equals", ["foo", "bar", `_${string}`]>>
         ];
     });
 

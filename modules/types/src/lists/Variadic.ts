@@ -9,6 +9,7 @@ import type {
     Or,
     Slice,
     Subtract,
+    NumericRange
 } from "inferred-types/types";
 
 /** Does T have at least one fixed (non-variadic) element? */
@@ -207,7 +208,7 @@ export type GetOptionalElementCount<T extends readonly unknown[]>
  * type Test = ExtractOptionalElements<[1,42, string?, number?]>;
  * ```
  *
- * **Related:** `ExtractRequiredElements`
+ * **Related:** `ExtractRequiredElements`, `ExtractOptionalKeys`
  */
 export type ExtractOptionalElements<
     T extends readonly unknown[],
@@ -218,6 +219,14 @@ export type ExtractOptionalElements<
 ]
     ? Partial<Rest>
     : [];
+
+export type ExtractOptionalKeys<
+    T extends readonly unknown[],
+    R extends readonly unknown[] = Required<DropVariadicTail<T>>
+> = NumericRange<
+    Subtract<R["length"], GetOptionalElementCount<R>>,
+    R["length"]
+>;
 
 export type ExtractRequiredElements<
     T extends readonly unknown[],

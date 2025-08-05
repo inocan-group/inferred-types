@@ -14,13 +14,13 @@ import {
     ThreeDigitMillisecond,
     TimezoneOffset,
     ParsedDate,
-    DateMeta
+    DateMeta,
+    IsTwoDigitDate
 } from "inferred-types/types";
 import { parseDate } from "inferred-types/runtime";
 import moment from "moment";
 import { DateTime } from "luxon";
 import { parseISO } from "date-fns";
-import { IsTwoDigitDate } from "../../modules/types/dist";
 
 describe("ParseDate<T>", () => {
 

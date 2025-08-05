@@ -114,7 +114,9 @@ describe("isYesterday()", () => {
     });
 
     it("should handle invalid inputs", () => {
+        // @ts-expect-error
         expect(() => isYesterday(null, mockNow)).toThrow();
+        // @ts-expect-error
         expect(() => isYesterday(undefined, mockNow)).toThrow();
         // @ts-expect-error
         expect(() => isYesterday("not a date", mockNow)).toThrow();

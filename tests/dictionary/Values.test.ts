@@ -4,6 +4,7 @@ import { valuesOf } from "inferred-types/runtime";
 import { Expect,  Dictionary, ObjectKey, Values, EmptyObject, Test } from "inferred-types/types";
 
 
+
 describe("Values<T>", () => {
 
 
@@ -29,6 +30,14 @@ describe("Values<T>", () => {
 
         type cases = [
             Expect<Test<FooBar, "hasSameValues", [1,2]>>,
+        ];
+    });
+
+    it("Values<T> where T is a LiteralLike object with optional props", () => {
+        type FooBar = Values<{ foo: 1; bar?: 2}>;
+
+        type cases = [
+            Expect<Test<FooBar, "equals", [1,2?]>>,
         ];
     });
 
@@ -70,7 +79,7 @@ describe("valuesOf()", () => {
         type cases = [
             Expect<Test<typeof v_obj, "hasSameValues", [1, "bar", true]>>,
             Expect<Test<typeof v_infer, "hasSameValues", [1, "bar", true]>>,
-            Expect<Test<typeof v_empty, "equals", never[]>>,
+            Expect<Test<typeof v_empty, "equals", []>>,
         ];
 
     });

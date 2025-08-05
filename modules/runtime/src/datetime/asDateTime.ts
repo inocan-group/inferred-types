@@ -127,13 +127,13 @@ export function asDateTime<T extends DateLike>(input: T) {
         const d = input.toJSDate() as DatePlus;
 
         // Luxon gives offset (minutes) + zone name
-        d.offset = input.isOffsetFixed ? offsetMinutesToString(input.offset) : null;
+        (input as any).offset = input.isOffsetFixed ? offsetMinutesToString((input as any).offset) : null;
         d.tz = isIanaTimezone(input.zoneName) ? input.zoneName : null;
 
         d.source = "luxon";
         // For UTC Luxon objects, preserve the Z format
         d.sourceIso = input.zoneName === "UTC"
-            ? input.toUTC().toISO() as IsoDateTime
+            ? (input as any).toUTC().toISO() as IsoDateTime
             : input.toISO() as IsoDateTime;
         return d as Returns<T>;
     }
@@ -142,8 +142,8 @@ export function asDateTime<T extends DateLike>(input: T) {
     if (isTemporalDate(input)) {
         // Accept both Temporal.ZonedDateTime and Temporal.Instant
         const zdt = "epochNanoseconds" in input
-            ? (input as Temporal.Instant).toZonedDateTimeISO(getLocalIanaZone())
-            : (input as Temporal.ZonedDateTime);
+            ? (input as any).toZonedDateTimeISO(getLocalIanaZone())
+            : (input as any);
 
         const d = new Date(zdt.epochMilliseconds) as DatePlus<"temporal">;
 

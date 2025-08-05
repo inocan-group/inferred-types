@@ -8,6 +8,7 @@ import type {
     Dictionary,
     HasSameValues,
     Test,
+    ObjectKeys,
 } from "inferred-types/types";
 import { keysOf } from "inferred-types/runtime";
 
@@ -46,6 +47,7 @@ describe("Keys<T>", () => {
             type Uno = Keys<{ baz: 3 }>;
 
             type Foobar = Keys<{ foo: 1; bar: 2 }>;
+            type Foobar_Alt = ObjectKeys<{ foo: 1; bar: 2 }>;
             type FooBar_RO = Keys<Readonly<{ foo: 1; bar: 2 }>>;
             type FoobarWideVal = Keys<{ foo: number; bar: string }>;
 
@@ -59,10 +61,21 @@ describe("Keys<T>", () => {
                 Expect<HasSameValues<FoobarWideVal, ["foo", "bar"]>>,
                 Expect<HasSameValues<FooBar_RO, ["foo", "bar"]>>,
 
-                Expect<Test<UnionRec, "equals", ["foo", "bar"]>>,
+                Expect<Test<UnionRec, "hasSameValues", ["foo", "bar"]>>,
             ];
         });
 
+
+        it("narrow with optional", () => {
+            type Uno = Keys<{ baz?: 3 }>;
+            type FooBar = Keys<{ foo: 1; bar?: 2 }>;
+            type A_Foobar = ObjectKeys<{ foo: 1; bar?: 2 }>;
+
+            type cases = [
+                Expect<Test<Uno, "equals", [("baz" | undefined)?]>>,
+                Expect<Test<FooBar, "equals", ["foo", ("bar" | undefined)?]>>,
+            ];
+        });
 
         it("wide", () => {
             type Obj = Keys<object>;

@@ -37,7 +37,7 @@ describe("ToStringLiteral<T>", () => {
             Expect<Test<Str, "equals", `"42"`>>,
             Expect<Test<True, "equals", "true">>,
             Expect<Test<False, "equals", "false">>,
-            Expect<Test<Bool, "equals", "boolean">>,
+            Expect<Test<Bool, "equals", "false | true">>,
 
             Expect<Test<WideStr, "equals", "string">>,
             Expect<Test<WideNum, "equals", "number">>,
@@ -109,7 +109,7 @@ describe("ToStringLiteral<T>", () => {
         type cases = [
             Expect<Test<StrArr, "equals", `string[]`>>,
             Expect<Test<NumArr, "equals", `number[]`>>,
-            Expect<Test<BoolArr, "equals", `boolean[]`>>,
+            Expect<Test<BoolArr, "equals", `(false | true)[]`>>,
 
             Expect<Test<
                 UnionArr, "extends",
@@ -184,7 +184,7 @@ describe("toStringLiteral(val)", () => {
             Expect<Test<typeof str, "equals", `"42"`>>,
             Expect<Test<typeof yup, "equals", "true">>,
             Expect<Test<typeof nope, "equals", "false">>,
-            Expect<Test<typeof bool, "equals", "boolean">>,
+            Expect<Test<typeof bool, "equals", "false | true">>,
             Expect<Test<typeof missing, "equals", "null">>,
         ];
     });

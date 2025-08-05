@@ -6,7 +6,7 @@ import {
     Test,
 } from "inferred-types/types";
 import moment from "moment";
-import { getMonthNumber, parseIsoDate } from "runtime/datetime";
+import { getMonthNumber } from "runtime/datetime";
 
 describe("GetMonthNumber<T>", () => {
 
@@ -122,8 +122,6 @@ describe("getMonthNumber(date)", () => {
 
 
     it("ISO Date", () => {
-        const e = parseIsoDate("2022-02-33");
-        const p = parseIsoDate("2022-02-15");
         const feb = getMonthNumber("2022-02-15");
         const oct = getMonthNumber("2022-10-15");
         const dec = getMonthNumber("2022-12-01");
@@ -138,6 +136,21 @@ describe("getMonthNumber(date)", () => {
             Expect<Test<typeof dec, "equals", 12>>,
         ];
     });
+
+
+    it("named month", () => {
+        const feb = getMonthNumber("February");
+        const feb2 = getMonthNumber("Feb");
+
+        expect(feb).toBe(2);
+        expect(feb2).toBe(2);
+
+        type cases = [
+            Expect<Test<typeof feb, "equals", 2>>,
+            Expect<Test<typeof feb2, "equals", 2>>,
+        ];
+    });
+
 
 
 

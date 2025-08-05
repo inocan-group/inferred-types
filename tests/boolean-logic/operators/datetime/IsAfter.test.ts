@@ -137,6 +137,9 @@ describe("IsAfter<A, B>", () => {
         type F1 = IsAfter<"2023-01-01", "2024">;
         type F2 = IsAfter<"2023-01-01T00:00:00Z", "2024">;
 
+        // these dates are equal but have mixed resolution
+        // because they are equal then the IsAfter utility
+        // should return `false`
         type E1 = IsAfter<"2023-01-01", "2023-01-01T00:00:00Z">;
         type E2 = IsAfter<"2023-01-01T00:00:00Z", "2023-01-01">;
 
@@ -145,8 +148,9 @@ describe("IsAfter<A, B>", () => {
             Expect<Test<T2, "equals", true>>,
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
+
             Expect<Test<E1, "equals", false>>,
-            Expect<Test<E2, "equals", boolean>>,
+            Expect<Test<E2, "equals", false>>,
         ];
     });
 

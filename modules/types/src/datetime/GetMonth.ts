@@ -8,21 +8,18 @@ import type {
     AsNumber,
     Err,
     ErrContext,
-    ToStringLiteral__Tuple
-} from "inferred-types/types";
-import type {
-    IsInteger,
-    IsIsoYear,
-    IsWideType
-} from "types/boolean-logic/operators";
-import type {
+    ToStringLiteral__Tuple,
     DateLike,
     MonthAbbrev,
     MonthName,
     MonthNumber,
     ParseDate,
     ParsedDate,
-} from "types/datetime";
+    IsInteger,
+    IsIsoYear,
+    IsWideType
+} from "inferred-types/types";
+
 
 /**
  * **GetMonthAbbrev**`<T>`
@@ -79,37 +76,60 @@ type MonthAbbrevLookup = typeof MONTH_ABBREV_LOOKUP;
  * - if `T` is not parsable or the Date which was provided no date information (e.g.,
  * an `IsoYear`) then an error will be returned
  */
+// Helper type to extract month from ISO date string directly
+type ExtractMonthFromIsoDate<T extends string> = 
+    T extends `${infer Year}-${infer Month}-${infer Rest}`
+        ? Month extends `01` ? 1
+        : Month extends `02` ? 2
+        : Month extends `03` ? 3
+        : Month extends `04` ? 4
+        : Month extends `05` ? 5
+        : Month extends `06` ? 6
+        : Month extends `07` ? 7
+        : Month extends `08` ? 8
+        : Month extends `09` ? 9
+        : Month extends `10` ? 10
+        : Month extends `11` ? 11
+        : Month extends `12` ? 12
+        : never
+        : never;
+
 export type GetMonthNumber<
-    T extends DateLike | MonthName | MonthAbbrev
-> = T extends object
+    T
+> = [T] extends [object]
     ? MonthNumber
-    : IsWideType<T> extends true
+: [T] extends [MonthName]
+    ? MonthNameLookup[T]["num"]
+: [T] extends [MonthAbbrev]
+    ? MonthAbbrevLookup[T]["num"]
+: [T] extends [string]
+    ? string extends T
+        ? boolean
+    // Try direct extraction first for ISO dates
+    : ExtractMonthFromIsoDate<T> extends never
+        ? [ParseDate<T>] extends [ParsedDate]
+            ? [ParseDate<T>["1"]] extends [null]
+                ? Err<
+                    `month-number/missing`,
+                    `The type passed into GetMonthNumber<T> was successfully parsed but there is no month information. This typically means that an IsoYear was passed in.`,
+                    { parse: ToStringLiteral__Tuple<ParseDate<T>> }
+                >
+                : ParseDate<T>[1] extends `${infer N extends number}`
+                    ? N
+                    : AsNumber<ParseDate<T>[1]>
+        : [ParseDate<T>] extends [Error]
+            ? ErrContext<
+                ParseDate<T>,
+                { fn: "GetMonthNumber" }
+            >
+        : never
+        : ExtractMonthFromIsoDate<T>
+: [T] extends [number]
+    ? IsInteger<T> extends true
         ? MonthNumber
-        : T extends MonthName
-            ? MonthNameLookup[T]["num"]
-            : T extends MonthAbbrev
-                ? MonthAbbrevLookup[T]["num"]
-                : T extends string
-                    ? ParseDate<T> extends ParsedDate
-                        ? [ParseDate<T>["1"]] extends [null]
-                            ? Err<
-                                `month-number/missing`,
-                                `The type passed into GetMonthNumber<T> was successfully parsed but there is no month information. This typically means that an IsoYear was passed in.`,
-                                { parse: ToStringLiteral__Tuple<ParseDate<T>> }
-                            >
-                            : AsNumber<ParseDate<T>[1]>
-                        : ParseDate<T> extends Error
-                            ? ErrContext<
-                                ParseDate<T>,
-                                { fn: "GetMonthNumber" }
-                            >
-                            : never
-                    : T extends number
-                        ? IsInteger<T> extends true
-                            ? MonthNumber
-                            : Err<`month-number/parse`>
-                        : Err<
-                            `month-number/invalid-type`,
-                            `The type passed into GetMonthNumber<T> is invalid!`,
-                            { parse: T }
-                        >;
+        : Err<`month-number/parse`>
+    : Err<
+        `month-number/invalid-type`,
+        `The type passed into GetMonthNumber<T> is invalid!`,
+        { parse: T }
+    >;

@@ -9,7 +9,9 @@ import {
     GetNonVariadicLength,
     SplitAtVariadic,
     HasVariadicInterior,
-    DropVariadicHead
+    DropVariadicHead,
+    ExtractOptionalKeys,
+    ExtractOptionalElements
 } from "inferred-types/types";
 
 describe("Variadic Type Utilities", () => {
@@ -468,6 +470,30 @@ describe("Variadic Type Utilities", () => {
     });
 
 
+    describe("Optional and Required Elements", () => {
+
+        type V1 = [ 1, 2, 3? ];
+
+        it("ExtractOptionalElements", () => {
+
+            type T1 = ExtractOptionalElements<V1>;
+
+            type cases = [
+                Expect<Test<T1, "equals", [(3 | undefined)?]
+            ]
+        })
+
+        it("ExtractOptionalKeys", () => {
+
+            type T1 = ExtractOptionalKeys<V1>;
+
+            type cases = [
+
+            ]
+        })
+
+
+    })
 
 
 

@@ -7,15 +7,18 @@ describe("Or<T>", () => {
 
 
     it("global error conditions", () => {
-        type E1 = Or<never>;
-        type E2 = Or<any>;
+        type E1 = Or<never, {err: "error"}>;
+        type E2 = Or<any, { err: "error"}>;
+        type F1 = Or<never>;
+        type F2 = Or<any>;
 
         type cases = [
             Expect<Test<E1, "isError",  "invalid/or">>,
             Expect<Test<E2, "isError",  "invalid/or">>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
         ];
     });
-
 
     it("boolean literals", () => {
         type T1 = Or<[true, false, true]>; // true
@@ -55,9 +58,9 @@ describe("Or<T>", () => {
 
 
     it("any as element", () => {
-        type E1 = Or<[true, false, any]>;
-        type E2 = Or<[any, false, any]>;
-        type E3 = Or<[any]>;
+        type E1 = Or<[true, false, any], { err: "error" }>;
+        type E2 = Or<[any, false, any], { err: "error" }>;
+        type E3 = Or<[any], { err: "error" }>;
 
         type cases = [
             Expect<Test<E1, "isError", "invalid/or">>,
@@ -67,9 +70,9 @@ describe("Or<T>", () => {
     });
 
     it("never as element", () => {
-        type E1 = Or<[true, false, never]>;
-        type E2 = Or<[never, false, never]>;
-        type E3 = Or<[never]>;
+        type E1 = Or<[true, false, never], { err: "error" }>;
+        type E2 = Or<[never, false, never], { err: "error" }>;
+        type E3 = Or<[never], { err: "error" }>;
 
         type cases = [
             Expect<Test<E1, "isError", "invalid/or">>,
