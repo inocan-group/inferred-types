@@ -3,7 +3,9 @@ import type {
     EmptyObject,
     HasRequiredProps,
     Test,
-    RequiredKeysTuple
+    RequiredKeysTuple,
+    Keys,
+    ObjectKeys
 } from "inferred-types/types";
 import { describe, it } from "vitest";
 
@@ -12,6 +14,7 @@ describe("HasRequiredProps<T>", () => {
     it("happy path", () => {
         type T1 = HasRequiredProps<{ foo: 1; bar: 2 }>;
         type T2 = HasRequiredProps<{ foo: 1; bar?: 2 }>;
+
 
         type F1 = HasRequiredProps<{ foo?: 1; bar?: 2 }>;
         type F2 = HasRequiredProps<EmptyObject>;

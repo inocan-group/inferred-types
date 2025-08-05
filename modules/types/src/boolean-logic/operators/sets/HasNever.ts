@@ -9,7 +9,7 @@ import {
     Values
 } from "inferred-types/types";
 
-type TestArray<T extends readonly unknown[]> =
+type TestArray<T> =
     T extends readonly []
         ? false
     : T extends readonly [infer First, ...infer Rest]
@@ -39,9 +39,7 @@ type Validate<T> = [IsAny<T>] extends [true]
  *
  * - if `T` is a wide type then this utility will always return `boolean`
  */
-export type HasNever<T extends Container> = [[]] extends [T]
-    ? false
-: [Validate<T>] extends [Error]
+export type HasNever<T extends Container> = [Validate<T>] extends [Error]
     ? Validate<T>
 : [IsWideArray<T>] extends [true]
     ? boolean
@@ -49,10 +47,10 @@ export type HasNever<T extends Container> = [[]] extends [T]
     ? [IsWideArray<T>] extends [true]
         ? boolean
         : TestArray<T>
-    : IsDictionary<T> extends true
-        ? IsWideObject<T> extends true
-            ? boolean
-            : TestArray<Values<T>>
-    : false;
+: [IsWideObject<T>] extends [true]
+    ? boolean
+: IsDictionary<T> extends true
+    ? TestArray<Values<T>>
+: false;
 
 

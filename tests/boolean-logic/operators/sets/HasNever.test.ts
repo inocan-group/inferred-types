@@ -4,8 +4,8 @@ import {
     Expect,
     HasNever,
     Test,
+    Dictionary
 } from "inferred-types/types";
-import { Dictionary } from "inferred-types";
 
 describe("HasNever<T>", () => {
 

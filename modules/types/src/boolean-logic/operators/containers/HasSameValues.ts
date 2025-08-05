@@ -1,47 +1,41 @@
 import type {
     And,
     Container,
-    Dictionary,
     IsAny,
     IsNever,
-    Or,
+    NarrowlyContains,
     Values
 } from "inferred-types/types";
 
-type Find<
-    TList extends readonly unknown[],
-    TComparator,
-> = Or<{
-    [K in keyof TList]: [TList[K]] extends [TComparator] ? true : false
-}>;
+type CheckAllExist<
+    A extends readonly unknown[],
+    B extends readonly unknown[]
+> = [] extends A
+    ? true  // Empty array case - all elements exist (vacuously true)
+    : And<{
+        [K in keyof A]: NarrowlyContains<B, A[K]>
+    }>;
 
-type Compare<
-    TList extends readonly unknown[],
-    TComparator extends readonly unknown[],
-> = And<{
-    [K in keyof TList]: Find<TComparator, TList[K]> extends boolean
-        ? Find<TComparator, TList[K]>
-        : never
-}, true>;
-
-type Process<
-    TList extends readonly unknown[],
-    TComparator extends readonly unknown[],
-> = TList["length"] extends TComparator["length"]
-    ? Compare<
-        TList,
-        TComparator
-    >
-    : false;
-
-type _HasSameValues<
-    TContainer extends readonly unknown[],
-    TComparator extends readonly unknown[],
-> = TContainer extends readonly unknown[]
-    ? Process<TContainer, TComparator>
-    : TContainer extends Dictionary
-        ? Process<Values<TContainer>, TComparator>
-        : never;
+type Test<
+    A,
+    B
+> = A extends readonly unknown[]
+? B extends readonly unknown[]
+    ? [] extends A
+        ? [] extends B
+            ? true  // Both arrays are empty
+            : false  // A is empty, B is not
+        : [] extends B
+            ? false  // B is empty, A is not
+        : A["length"] extends B["length"]
+            ? CheckAllExist<A, B> extends true
+                ? CheckAllExist<B, A> extends true
+                    ? true  // Bidirectional check passes
+                    : false  // A elements exist in B, but B elements don't exist in A
+                : false  // A elements don't all exist in B
+            : false
+    : false
+: false;
 
 /**
  * **HasSameValues**`<TContainer,TComparator>`
@@ -66,8 +60,12 @@ export type HasSameValues<
     TException = false
 > = [IsAny<TContainer>] extends [true]
     ? TException
-    : [IsNever<TContainer>] extends [true]
-        ? TException
-        : [IsAny<TComparator>] extends [true]
-            ? TException
-            : _HasSameValues<Values<TContainer>, Values<TComparator>>;
+: [IsNever<TContainer>] extends [true]
+    ? TException
+: [IsAny<TComparator>] extends [true]
+    ? TException
+: [IsNever<TComparator>] extends [true]
+    ? TException
+: Test<Values<TContainer>, Values<TComparator>> extends true
+    ? true
+    : TException;

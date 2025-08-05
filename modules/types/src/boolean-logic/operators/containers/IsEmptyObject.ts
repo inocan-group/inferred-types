@@ -1,4 +1,4 @@
-import type { IsAny, IsNever } from "inferred-types/types";
+import type { AnyFunction, IsAny, IsNever, IsNull, IsObject, IsUndefined, ObjectKeys, TupleMeta } from "inferred-types/types";
 
 /**
  * **IsEmptyObject**`<T>`
@@ -7,16 +7,14 @@ import type { IsAny, IsNever } from "inferred-types/types";
  * - T must expose **no known keys** (`keyof T` is `never`)
  * - `any`, `unknown`, and `never` are rejected
  */
-export type IsEmptyObject<T>
-  = IsAny<T> extends true ? false
-      : IsNever<T> extends true ? false
-      // `unknown` is not assignable to object; this branch will be false
-          : T extends object
-              ? T extends (...args: any) => any ? false
-                  : T extends readonly any[] ? false
-                      : [keyof T] extends [never]
-                          ? T extends { [x: string]: any }
-                              ? false  // has index signature
-                              : true   // truly empty object
-                          : false
-              : false;
+export type IsEmptyObject<T> =
+IsAny<T> extends true ? false
+: IsNever<T> extends true ? false
+: IsNull<T> extends true ? false
+: IsUndefined<T> extends true ? false
+: T extends AnyFunction ? false
+: IsObject<T> extends true
+    ? ObjectKeys<T> extends readonly PropertyKey[]
+        ? TupleMeta<ObjectKeys<T>>["isEmpty"]
+        : false
+: false;

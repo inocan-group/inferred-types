@@ -43,7 +43,7 @@ type Shaped<
  * **Related:** `Keys`, `OptionalKeys`, `RequiredKeys`, `NumericKeys`
  */
 export type ObjectKeys<
-    TObj extends object
+    TObj
 > = [IsAny<TObj>] extends [true]
 ? Err<
     `invalid-type/object-keys`,
@@ -55,19 +55,19 @@ export type ObjectKeys<
         `Call to ObjectKeys<T> where T was 'never'!`
     >
 
+: TObj extends object
+    ? TObj extends Map<infer K, any>
 
-    : TObj extends Map<infer K, any>
-
-    ? IsUnion<K> extends true
-        ? IsLiteralUnion<K> extends true
-            ? Required<Shaped<
-                As< UnionToTuple<K>, readonly PropertyKey[]>,
-                OptionalKeysTuple<TObj>
-            >>
-            : IsWideUnion<K> extends true
-                ? UnionToTuple<K>[]
-                : "mixed"
-        : K[]
+        ? IsUnion<K> extends true
+            ? IsLiteralUnion<K> extends true
+                ? Required<Shaped<
+                    As< UnionToTuple<K>, readonly PropertyKey[]>,
+                    OptionalKeysTuple<TObj>
+                >>
+                : IsWideUnion<K> extends true
+                    ? UnionToTuple<K>[]
+                    : "mixed"
+            : K[]
     : TObj extends Set<any>
         ? Err<`invalid-type/object-keys`, `The type passed into ObjectKeys<T> was a Set. Set's do not have keys`>
     : TObj extends WeakMap<infer K, any>
@@ -91,6 +91,7 @@ export type ObjectKeys<
                 OptionalKeysTuple<TObj>
             >
             : K[]
-        : never;
+        : never
+: Err<`invalid-type/object-keys`, `The type passed into ObjectKeys<T> was not an object!`, { value: TObj }>;
 
 

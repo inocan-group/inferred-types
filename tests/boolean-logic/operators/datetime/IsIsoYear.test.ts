@@ -4,6 +4,7 @@ import {
     IsIsoYear,
     Test,
 } from "inferred-types/types";
+import { EmptyObject } from "inferred-types";
 
 describe("IsIsoYear<T>", () => {
 
@@ -195,7 +196,7 @@ describe("IsIsoYear<T>", () => {
         type NumericString = IsIsoYear<number>;
         type Boolean = IsIsoYear<true>;
         type Array = IsIsoYear<[]>;
-        type Object = IsIsoYear<{}>;
+        type Object = IsIsoYear<EmptyObject>;
         type Null = IsIsoYear<null>;
         type Undefined = IsIsoYear<undefined>;
         type Symbol = IsIsoYear<symbol>;

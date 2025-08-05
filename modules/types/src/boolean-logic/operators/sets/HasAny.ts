@@ -4,6 +4,7 @@ import {
     Err,
     IsAny,
     IsNever,
+    IsWideContainer,
     IsWideObject,
     Values
 } from "inferred-types/types";
@@ -55,6 +56,8 @@ export type HasAny<
     T extends Container
 > = Validate<T> extends Error
 ? Validate<T>
+: IsWideContainer<T> extends true
+    ? boolean
 : T extends readonly unknown[]
     ? TestArray<T>
     : T extends Dictionary

@@ -30,3 +30,8 @@ export type IsScalar<T> = [IsNever<T>] extends [true]
                 ? boolean
                 : false
         : [T] extends [Scalar] ? true : false;
+
+type T = number | number[];
+type SomeScalar = IsScalar<T>; // =>
+type U = UnionToTuple<T>; // =>
+type S = Some<UnionToTuple<T>, "extends", [Scalar]>; // =>

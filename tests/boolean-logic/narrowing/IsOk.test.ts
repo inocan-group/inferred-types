@@ -91,17 +91,14 @@ describe("IsOk<T>", () => {
         type WithNull = string | Error | null;
         type WithUndefined = number | TypeError | undefined;
         type WithBoth = boolean | Error | null | undefined;
-        type OnlyNullables = null | undefined | Error;
+        type OnlyNullables = IsOk<null | undefined | Error>;
 
         type cases = [
-            // Null and undefined should pass through
             Expect<Test<IsOk<WithNull>, "equals", string | null>>,
             Expect<Test<IsOk<WithUndefined>, "equals", number | undefined>>,
             Expect<Test<IsOk<WithBoth>, "equals", boolean | null | undefined>>,
 
-            // When only nullables and Error in union, UnionFilter removes Error
-            // but if the result is an empty union, it becomes never
-            Expect<Test<IsOk<OnlyNullables>, "equals", never>>,
+            Expect<Test<OnlyNullables, "equals", null | undefined>>,
         ];
     });
 

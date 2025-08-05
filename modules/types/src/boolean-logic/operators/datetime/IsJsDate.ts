@@ -1,4 +1,4 @@
-import type { IsNever, IsUnknown, IsDictionary, IsAny,  IsUnion, UnionMemberExtends } from "inferred-types/types";
+import type { IsNever, IsUnknown, IsDictionary, IsAny,  IsUnion, UnionMemberExtends, IsEqual, Extends } from "inferred-types/types";
 
 
 type Shape = {
@@ -21,6 +21,10 @@ export type IsJsDate<T> =
     ? false
 : [IsNever<T>] extends [true]
     ? false
+: [Extends<T, Date>] extends [true]
+    ? IsUnion<T> extends true
+        ? boolean
+        : true
 : [IsUnknown<T>] extends [true]
     ? boolean
 : [IsUnion<T>] extends true

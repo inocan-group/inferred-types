@@ -1,25 +1,21 @@
 import {
-    AfterFirst,
     Container,
-    Equals,
     Err,
     IsAny,
     IsDictionary,
     IsNever,
-    IsWideArray,
-    IsWideObject,
+    IsWideBoolean,
+    Keys,
     Values
 } from "inferred-types/types";
 
 type Test<
-    T extends readonly unknown[]
-> = [[]] extends [T]
-? false
-: [Equals<T, boolean>] extends [true]
+    T
+> = T extends readonly [infer Head, ...infer Rest]
+? IsWideBoolean<Head> extends true
     ? true
-    : Test<
-        AfterFirst<T>
-    >;
+    : Test<Rest>
+:  false;
 
 type Validate<T> = [IsAny<T>] extends [true]
 ? Err<`invalid/has-wide-boolean`, `The type passed into 'HasWideBoolean<T>' was 'any'! This utility requires that T be a container type.`>
@@ -37,11 +33,11 @@ type Validate<T> = [IsAny<T>] extends [true]
 export type HasWideBoolean<T extends Container> = [Validate<T>] extends [Error]
 ? Validate<T>
 : [T] extends [readonly any[]]
-? [IsWideArray<T>] extends [true]
-    ? boolean
-    : Test<T>
+    ? [number] extends [Keys<T>["length"]]
+        ? boolean
+        : Test<T>
 : [IsDictionary<T>] extends [true]
-    ? [IsWideObject<T>] extends [true]
+    ? [number] extends [Keys<T>["length"]]
         ? boolean
         : Test<Values<T>>
 : false;

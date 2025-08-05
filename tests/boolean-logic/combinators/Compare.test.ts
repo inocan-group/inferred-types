@@ -98,9 +98,9 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
     });
 
     it("endsWith", () => {
-        type T1 = Compare<420, "endsWith", [42]>;
-        type T2 = Compare<"foobar", "endsWith", ["foo"]>;
-        type T3 = Compare<"Foo", "endsWith", [UpperAlphaChar]>;
+        type T1 = Compare<420, "endsWith", [20]>;
+        type T2 = Compare<"foobar", "endsWith", ["bar"]>;
+        type T3 = Compare<"FooT", "endsWith", [UpperAlphaChar]>;
 
         type F1 = Compare<"foo", "endsWith", [UpperAlphaChar]>;
 
@@ -821,7 +821,8 @@ describe("compare() runtime function", () => {
             const t2 = gt5("6");
             const f1 = gt5(5);
             const f2 = gt5(4);
-            const b1 = gt5("not a number" as any);
+            // @ts-expect-error
+            const b1 = gt5("not a number");
 
             expect(t1).toBe(true);
             expect(t2).toBe(true);

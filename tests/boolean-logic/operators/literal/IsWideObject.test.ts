@@ -37,13 +37,15 @@ describe("IsWideObject<T>", () => {
     });
 
 
-    it("union of key's creates a known key length and shape", () => {
-        type T1 = IsWideObject<Record<1 | 2 | 3, string>>;
+    it("Record's key is a union", () => {
+        // unbounded keys
+        type T1 = IsWideObject<Record<`_${string}`, string>>;
+        // bounded keys
         type T2 = IsWideObject<Record<"foo" | "bar", string>>;
 
         type cases = [
-            Expect<Test<T1, "equals", "true">>,
-            Expect<Test<T2, "equals", "true">>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", false>>,
         ];
     });
 

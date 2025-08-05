@@ -1,11 +1,14 @@
 import type {
     AnyFunction,
+    Dictionary,
+    EmptyObject,
     IsAny,
     IsEqual,
-    IsLiteral,
-    IsLiteralObject,
+    IsLiteralLike,
+    IsLiteralLikeObject,
     IsNever,
     IsUnion,
+    Keys,
 } from "inferred-types/types";
 
 /**
@@ -25,31 +28,35 @@ export type IsWideObject<
 >
 = [IsAny<T>] extends [true]
     ? false
-    : [IsNever<T>] extends [true]
+: [IsNever<T>] extends [true]
+    ? false
+: [T] extends [AnyFunction]
+    ? false
+: [T] extends [Dictionary]
+    ? [number] extends [Keys<T>["length"]]
+        ? true
+        : false
+: [T] extends [object]
+    ? [IsEqual<T, object>] extends [true]
+        ? true
+: [T] extends [Map<infer Key, any>]
+    ? IsLiteralLike<Key> extends true
         ? false
-        : [T] extends [AnyFunction]
-            ? false
-            : [T] extends [object]
-                ? [IsEqual<T, object>] extends [true]
-                    ? true
-                    : [T] extends [Map<infer Key, any>]
-                        ? IsLiteral<Key> extends true
-                            ? false
-                            : true
-                        : [T] extends [WeakMap<infer Key, any>]
-                            ? IsLiteral<Key> extends true
-                                ? false
-                                : true
-                            : [T] extends [Set<infer Type>]
-                                ? IsLiteral<Type> extends true
-                                    ? false
-                                    : true
+        : true
+: [T] extends [WeakMap<infer Key, any>]
+    ? IsLiteralLike<Key> extends true
+        ? false
+        : true
+: [T] extends [Set<infer Type>]
+    ? IsLiteralLike<Type> extends true
+        ? false
+        : true
+: [IsLiteralLikeObject<T>] extends [true]
+    ? false
+: [IsUnion<keyof T>] extends [true]
+    ? false
+    : [keyof T] extends [never]
+        ? false
+        : true
+    : false;
 
-                                : [IsLiteralObject<T>] extends [true]
-                                    ? false
-                                    : [IsUnion<keyof T>] extends [true]
-                                        ? false
-                                        : [keyof T] extends [never]
-                                            ? false
-                                            : true
-                : false;

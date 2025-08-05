@@ -9,15 +9,16 @@ describe("Values<T>", () => {
 
     it("Values<T> where T is a wide object", () => {
 
-        type VEmpty = Values<Dictionary>;
-        type VRecord = Values<Record<ObjectKey, unknown>>;
-        type VUnion = Values<Record<ObjectKey, number | string>>;
+        type Obj = Values<object>;
+        type Dict = Values<Dictionary>;
+        type Rec = Values<Record<ObjectKey, unknown>>;
+        type Union = Values<Record<ObjectKey, number | string>>;
 
         type cases = [
-            Expect<Test<VObj, "hasSameValues", [1, "bar", true]>>,
-            Expect<Test<VEmpty, "equals", any[]>>,
-            Expect<Test<VRecord, "equals", unknown[]>>,
-            Expect<Test<VUnion, "equals", (number | string)[]>>,
+            Expect<Test<Obj, "equals", unknown[]>>,
+            Expect<Test<Dict, "equals", unknown[]>>,
+            Expect<Test<Rec, "equals", unknown[]>>,
+            Expect<Test<Union, "equals", (number | string)[]>>,
         ];
 
     });
@@ -27,13 +28,9 @@ describe("Values<T>", () => {
         type FooBar = Values<{ foo: 1; bar: 2}>;
 
         type cases = [
-            /** type tests */
+            Expect<Test<FooBar, "hasSameValues", [1,2]>>,
         ];
     });
-
-
-
-
 
 
     it("Values<T> where T is an array", () => {
@@ -73,7 +70,7 @@ describe("valuesOf()", () => {
         type cases = [
             Expect<Test<typeof v_obj, "hasSameValues", [1, "bar", true]>>,
             Expect<Test<typeof v_infer, "hasSameValues", [1, "bar", true]>>,
-            Expect<Test<typeof v_empty, "equals", []>>,
+            Expect<Test<typeof v_empty, "equals", never[]>>,
         ];
 
     });

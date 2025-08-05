@@ -3,34 +3,12 @@ import type {
     As,
     Container,
     Dictionary,
-    ExplicitlyEmptyObject,
     First,
-    IsDictionary,
-    IsEqual,
-    IsLiteralLikeObject,
     IsWideUnion,
     NumericKeys,
-    ObjectKey,
     ObjectKeys,
-    RemoveIndexKeys,
     TupleToUnion,
-    UnionToTuple,
 } from "inferred-types/types";
-
-type _Keys<
-    T extends Dictionary,
-> = UnionToTuple<keyof RemoveIndexKeys<T>>;
-
-type GetKeys<
-    T extends Dictionary,
-> = _Keys<T> extends [symbol]
-    ? ObjectKey[]
-    : _Keys<T> extends []
-        ? UnionToTuple<keyof T> extends [ObjectKey]
-            ? (keyof T)[]
-            : ObjectKey[]
-        : _Keys<T>;
-
 
 
 /**
@@ -58,11 +36,14 @@ type GetKeys<
  */
 export type Keys<
     TContainer extends readonly unknown[] | object,
-> = TContainer extends readonly unknown[]
-    ? NumericKeys<TContainer>
-    : TContainer extends object
-        ? ObjectKeys<TContainer>
-    : never;
+> = As<
+    TContainer extends readonly unknown[]
+        ? NumericKeys<TContainer>
+        : TContainer extends object
+            ? ObjectKeys<TContainer>
+        : never,
+    readonly PropertyKey[]
+>
 
 /**
  * **WithTemplateKeys**`<TLiteral,TTemplate>`

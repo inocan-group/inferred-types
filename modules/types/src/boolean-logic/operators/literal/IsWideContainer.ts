@@ -1,4 +1,4 @@
-import { Container, Dictionary,IsWideArray,IsWideObject } from "inferred-types/types";
+import { Container,IsWideArray,IsWideObject } from "inferred-types/types";
 
 
 /**
@@ -9,7 +9,7 @@ import { Container, Dictionary,IsWideArray,IsWideObject } from "inferred-types/t
 export type IsWideContainer<T> = T extends Container
 ? T extends readonly unknown[]
     ? IsWideArray<T>
-: T extends Dictionary
+: T extends object
     ? IsWideObject<T>
     : false
 : false;

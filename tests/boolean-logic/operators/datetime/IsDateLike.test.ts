@@ -5,9 +5,11 @@ import { describe, it } from "vitest";
 describe("IsDateLike<T>", () => {
 
   it("JavaScript Date Objects", () => {
+    const d = new Date();
+    type D = typeof d;
     type cases = [
       // JS Date objects should be DateLike
-      Expect<Test<IsDateLike<Date>, "equals", true>>,
+      Expect<Test<IsDateLike<D>, "equals", true>>,
     ];
   });
 

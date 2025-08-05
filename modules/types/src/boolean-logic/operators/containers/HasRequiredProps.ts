@@ -1,8 +1,6 @@
 import type {
     Dictionary,
-    IsNumericLiteral,
-    Keys,
-    ObjectKey,
+    IsWideObject,
     RequiredKeysTuple,
 } from "inferred-types/types";
 
@@ -14,13 +12,9 @@ import type {
  */
 export type HasRequiredProps<
     T extends Dictionary,
-> = [Keys<T>] extends [never]
-    ? boolean
+> = IsWideObject<T> extends true
+? boolean
+: [RequiredKeysTuple<T>["length"]] extends [0]
+        ? false
+        : true;
 
-    : [IsNumericLiteral<Keys<T>["length"]>] extends [true]
-        ? [RequiredKeysTuple<T>] extends [readonly ObjectKey[]]
-            ? [RequiredKeysTuple<T>["length"]] extends [0]
-                ? false
-                : true
-            : boolean
-        : never;

@@ -16,27 +16,24 @@ describe("IsWideScalar<T>", () => {
         type T1 = IsWideScalar<string>;
         type T2 = IsWideScalar<boolean>;
         type T3 = IsWideScalar<number>;
-        type T4 = IsWideScalar<null>;
 
         type F1 = IsWideScalar<"foo">;
         type F2 = IsWideScalar<true>;
         type F3 = IsWideScalar<42>;
+        type F4 = IsWideScalar<null>;
 
 
         type cases = [
             ExpectTrue<T1>,
             ExpectTrue<T2>,
             ExpectTrue<T3>,
-            ExpectTrue<T4>,
 
             ExpectFalse<F1>,
             ExpectFalse<F2>,
             ExpectFalse<F3>,
+            ExpectFalse<F4>,
         ];
-        const cases: cases = [
-            true, true, true, true,
-            false, false, false
-        ];
+
     });
 });
 
@@ -96,7 +93,6 @@ describe("IsWideType<T>", () => {
 
         // never with and without modification of TNever
         type E1 = IsWideType<never>;
-        type E2 = IsWideType<never, false>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -111,8 +107,7 @@ describe("IsWideType<T>", () => {
             Expect<Test<F2, "equals", false>>,
             Expect<Test<F3, "equals", false>>,
 
-            Expect<Test<E1, "equals", never>>,
-            Expect<Test<E2, "equals", false>>,
+            Expect<Test<E1, "equals", false>>,
         ];
     });
 

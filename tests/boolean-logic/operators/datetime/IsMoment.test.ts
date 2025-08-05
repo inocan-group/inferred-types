@@ -1,14 +1,18 @@
 import { IsMoment, MomentLike } from "inferred-types/types";
 import { Expect, Test } from "inferred-types/types";
+import moment from "moment";
 import { describe, it } from "vitest";
 
 describe("IsMoment<T>", () => {
 
   it("Valid Moment.js-like Objects", () => {
+    const m = moment();
+    type M = typeof m;
+    type Moment = IsMoment<M>;
 
     type cases = [
       // Complete Moment.js-like object should return true
-      Expect<Test<IsMoment<MomentLike>, "equals", true>>,
+      Expect<Test<Moment, "equals", true>>,
     ];
   });
 

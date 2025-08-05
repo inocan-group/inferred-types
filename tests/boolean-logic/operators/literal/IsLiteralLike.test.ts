@@ -39,25 +39,26 @@ describe("IsLiteralLike<T>", () => {
         type T1 = IsLiteralLike<"foo" | "bar">;
         type T2 = IsLiteralLike<1 | 2 | 3>;
         type T3 = IsLiteralLike<true | false>;
+        type T4 = IsLiteralLike<boolean>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
-            Expect<Test<T3, "equals", false>>,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
         ];
     });
 
     it("rejects wide types", () => {
         type F1 = IsLiteralLike<string>;
         type F2 = IsLiteralLike<number>;
-        type F3 = IsLiteralLike<boolean>;
+
         type F4 = IsLiteralLike<object>;
         type F5 = IsLiteralLike<Record<string,string>>;
 
         type cases = [
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
-            Expect<Test<F3, "equals", false>>,
             Expect<Test<F4, "equals", false>>,
             Expect<Test<F5, "equals", false>>,
         ];

@@ -1,8 +1,5 @@
 import type {
-    HasFunctionKeys,
-    HasIndex,
     IsAny,
-    IsDictionary,
     IsNever,
     IsUnion,
     IsUnknown,
@@ -20,7 +17,7 @@ type Shape = {
     calendar: Function;
     fromNow: Function;
     creationData: Function;
-    _isAMomentObject: any;
+    // _isAMomentObject: any;
 }
 
 /**
@@ -39,10 +36,8 @@ export type IsMoment<T> =
     ? UnionMemberExtends<T, Shape> extends true
         ? boolean
         : false
-: IsDictionary<T> extends true
-    ? T extends Shape
-            ? true
-            : false
-    : false;
+: T extends Shape
+    ? true
+    : false
 
 

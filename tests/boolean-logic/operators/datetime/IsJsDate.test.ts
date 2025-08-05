@@ -207,9 +207,9 @@ describe("IsJsDate<T>", () => {
         type Object = IsJsDate<object>;
 
         type cases = [
-            Expect<Test<Any, "equals", boolean>>,
+            Expect<Test<Any, "equals", false>>,
             Expect<Test<Unknown, "equals", boolean>>,
-            Expect<Test<Never, "equals", never>>,
+            Expect<Test<Never, "equals", false>>,
             Expect<Test<Object, "equals", false>>,
         ];
     });

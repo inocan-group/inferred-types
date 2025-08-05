@@ -53,12 +53,13 @@ describe("IsIsoDateTime<T>", () => {
   it("Non-String Types", () => {
     type Null = IsIsoDateTime<null>;
     type Undef = IsIsoDateTime<undefined>;
+    type Bool = IsIsoDateTime<boolean>;
 
     type cases = [
       // Non-string types should return false
       Expect<Test<IsIsoDateTime<number>, "equals", false>>,
       Expect<Test<IsIsoDateTime<Date>, "equals", false>>,
-      Expect<Test<IsIsoDateTime<boolean>, "equals", false>>,
+      Expect<Test<Bool, "equals", false>>,
       Expect<Test<Null, "equals", false>>,
       Expect<Test<Undef, "equals", false>>,
       Expect<Test<IsIsoDateTime<{}>, "equals", false>>,

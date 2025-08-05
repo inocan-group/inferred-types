@@ -45,9 +45,9 @@ describe("HasSameValues<TContainer,TComparator", () => {
         type F3 = HasSameValues<never, never>;
 
         type cases = [
-            Expect<Test<F3, "equals",  false>>,
             Expect<Test<F1, "equals",  false>>,
             Expect<Test<F2, "equals",  false>>,
+            Expect<Test<F3, "equals",  false>>,
         ];
     });
 

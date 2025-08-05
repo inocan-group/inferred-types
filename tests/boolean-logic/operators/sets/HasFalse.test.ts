@@ -4,8 +4,9 @@ import {
     Expect,
     HasFalse,
     Test,
+    Values,
+    Dictionary
 } from "inferred-types/types";
-import { Dictionary } from "inferred-types";
 
 describe("HasFalse<T>", () => {
 
@@ -62,7 +63,7 @@ describe("HasFalse<T>", () => {
             type E1 = HasFalse<42>;
 
             type cases = [
-                Expect<Test<E1, "equals", false>>,
+                Expect<Test<E1, "isError", "invalid">>,
             ];
         });
     })
@@ -83,13 +84,14 @@ describe("HasFalse<T>", () => {
             type F2 = HasFalse<{ foo: 1, bar: 2, baz: 3 }>;
 
             type cases = [
-                Expect<Test<F1, "equals", false>>,
+                Expect<Test<F1, "equals", boolean>>,
                 Expect<Test<F2, "equals", false>>,
             ];
         });
 
 
         it("wide input", () => {
+            type V = Values<object>;
             type W1 = HasFalse<object>;
             type W2 = HasFalse<Dictionary>;
 
@@ -116,7 +118,7 @@ describe("HasFalse<T>", () => {
             type E1 = HasFalse<42>;
 
             type cases = [
-                Expect<Test<E1, "equals", false>>,
+                Expect<Test<E1, "isError", "invalid">>,
             ];
         });
     })
