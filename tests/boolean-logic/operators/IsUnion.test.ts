@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, IsUnion, Test } from "inferred-types/types";
+import { Expect, IsNever, IsUnion, Test } from "inferred-types/types";
 
 
 
@@ -9,6 +9,7 @@ describe("IsUnion<T>", () => {
         type T1 = IsUnion<"foo" | "bar">;
         type T2 = IsUnion<string | number>;
         type T3 = IsUnion<boolean | 42>;
+        type T4 = IsUnion<boolean>;
 
         type F1 = IsUnion<"foo">;
         type F2 = IsUnion<boolean>;
@@ -21,9 +22,10 @@ describe("IsUnion<T>", () => {
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
             Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
 
             Expect<Test<F1, "equals", false>>,
-            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F2, "equals", true>>,
             Expect<Test<F3, "equals", false>>,
             Expect<Test<F4, "equals", false>>,
             Expect<Test<F5, "equals", false>>,
@@ -31,6 +33,18 @@ describe("IsUnion<T>", () => {
         ];
 
     });
+
+
+    it("edge cases", () => {
+        type Any = IsUnion<any>;
+        type Never = IsUnion<never>;
+
+        type cases = [
+            Expect<Test<Any, "equals", false>>,
+            Expect<Test<Never, "equals", false>>,
+        ];
+    });
+
 
 });
 

@@ -1,49 +1,32 @@
 import { describe, it } from "vitest";
-import { Expect, IsLiteralUnion, Test } from "inferred-types/types";
+import { Expect, IsLiteralLike, IsLiteralUnion, Test } from "inferred-types/types";
 
 describe("IsLiteralUnion<T>", () => {
   it("should return true for literal unions", () => {
-    // String literal unions
-    type StringLiterals = "red" | "green" | "blue";
-    type T1 = IsLiteralUnion<StringLiterals>;
+    type T1 = IsLiteralUnion<"red" | "green" | "blue">;
+    type T2 = IsLiteralUnion<1 | 2 | 3 | 42>;
+    type T3 = IsLiteralUnion<true | 4>;
+    type T4 = IsLiteralUnion<false | "foo">;
 
-    // Numeric literal unions
-    type NumericLiterals = 1 | 2 | 3 | 42;
-    type T2 = IsLiteralUnion<NumericLiterals>;
-
-    // Boolean literal unions
-    type BooleanLiterals = true | false;
-    type T3 = IsLiteralUnion<BooleanLiterals>;
-
-    // Mixed literal unions
-    type MixedLiterals = "hello" | 42 | true | null;
-    type T4 = IsLiteralUnion<MixedLiterals>;
+    type T5 = IsLiteralUnion<"hello" | 42 | true | null>;
 
     // Symbol literal unions
-    type SymbolLiterals = typeof Symbol.iterator | typeof Symbol.hasInstance;
-    type T5 = IsLiteralUnion<SymbolLiterals>;
+    type T6 = IsLiteralUnion<typeof Symbol.iterator | typeof Symbol.hasInstance>;
 
     type cases = [
       Expect<Test<T1, "equals", true>>,
       Expect<Test<T2, "equals", true>>,
       Expect<Test<T3, "equals", true>>,
       Expect<Test<T4, "equals", true>>,
-      Expect<Test<T5, "equals", true>>
+      Expect<Test<T5, "equals", true>>,
+      Expect<Test<T6, "equals", true>>,
     ];
   });
 
   it("should return false for non-union types", () => {
-    // Single literal (not a union)
-    type SingleLiteral = "hello";
-    type T1 = IsLiteralUnion<SingleLiteral>;
-
-    // Single primitive
-    type SinglePrimitive = string;
-    type T2 = IsLiteralUnion<SinglePrimitive>;
-
-    // Single number
-    type SingleNumber = number;
-    type T3 = IsLiteralUnion<SingleNumber>;
+    type T1 = IsLiteralUnion<"hello">;
+    type T2 = IsLiteralUnion<string>;
+    type T3 = IsLiteralUnion<number>;
 
     // Single boolean
     type SingleBoolean = boolean;
@@ -96,8 +79,7 @@ describe("IsLiteralUnion<T>", () => {
 
   it("should handle edge cases correctly", () => {
     // Empty union (never)
-    type EmptyUnion = never;
-    type T1 = IsLiteralUnion<EmptyUnion>;
+    type T1 = IsLiteralUnion<never>;
 
     // Union with undefined
     type UndefinedUnion = "hello" | undefined;
@@ -108,12 +90,10 @@ describe("IsLiteralUnion<T>", () => {
     type T3 = IsLiteralUnion<NullUnion>;
 
     // Union with both null and undefined
-    type NullableUnion = "hello" | null | undefined;
-    type T4 = IsLiteralUnion<NullableUnion>;
+    type T4 = IsLiteralUnion<"hello" | null | undefined>;
 
     // Union with literal objects
-    type LiteralObjectUnion = { type: "A" } | { type: "B" };
-    type T5 = IsLiteralUnion<LiteralObjectUnion>;
+    type T5 = IsLiteralUnion<{ type: "A" } | { type: "B" }>;
 
     // Union with literal tuples
     type LiteralTupleUnion = [1, 2] | [3, 4];
@@ -131,8 +111,7 @@ describe("IsLiteralUnion<T>", () => {
 
   it("should handle complex literal unions", () => {
     // Template literal unions
-    type TemplateLiterals = `prefix_${"a" | "b" | "c"}`;
-    type T1 = IsLiteralUnion<TemplateLiterals>;
+    type T1 = IsLiteralUnion<`prefix_${"a" | "b" | "c"}`>;
 
     // Discriminated union with literal types
     type DiscriminatedUnion =

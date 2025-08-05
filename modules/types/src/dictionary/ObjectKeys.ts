@@ -7,11 +7,15 @@ import {
     IsAny,
     IsEqual,
     IsLiteralString,
+    IsLiteralUnion,
     IsNever,
     IsTemplateLiteral,
+    IsUnion,
+    IsWideUnion,
     NotFilter,
     ObjectKey,
     OptionalKeysTuple,
+    Scalar,
     UnionToTuple
 } from "inferred-types/types";
 
@@ -49,6 +53,17 @@ export type ObjectKeys<
     `invalid-type/object-keys`,
     `Call to ObjectKeys<T> where T was 'any'!`
 >
+: TObj extends Map<infer K, any>
+    ? IsUnion<K> extends true
+        ? IsLiteralUnion<K> extends true
+            ? Shaped<
+                As< NotFilter<UnionToTuple<K>, "equals", [boolean]>, readonly PropertyKey[]>,
+                OptionalKeysTuple<TObj>
+            >
+        : IsWideUnion<K> extends true
+            ? UnionToTuple<K>[]
+            : "mixed"
+
 : Required<TObj> extends Record<infer K, any>
     ? IsEqual<K, string | symbol> extends true
         ? ObjectKey[]
@@ -60,7 +75,17 @@ export type ObjectKeys<
             OptionalKeysTuple<TObj>
         >
         : K[]
-    : [TObj];
+
+: TObj extends Set<infer K>
+    ? K extends Scalar | object | readonly unknown[]
+        ? UnionToTuple<K>
+        : unknown
+: TObj extends WeakMap<infer K, any>
+    ? K extends Scalar | object | readonly unknown[]
+        ? UnionToTuple<K>
+        : unknown
+
+: never;
 
 
 

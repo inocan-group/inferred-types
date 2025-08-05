@@ -56,7 +56,7 @@ type FilterBoolean<
  * **Related**: `UnionArrayToTuple`
  */
 export type UnionToTuple<
-    U extends Scalar,
+    U
 > = HasBoolean<Process<U>> extends true
     ? [...FilterBoolean<Process<U>>, boolean]
     : Process<U>;
