@@ -5,11 +5,13 @@ import type {
     Dictionary,
     ExplicitlyEmptyObject,
     First,
+    IsDictionary,
     IsEqual,
     IsLiteralLikeObject,
     IsWideUnion,
     NumericKeys,
     ObjectKey,
+    ObjectKeys,
     RemoveIndexKeys,
     TupleToUnion,
     UnionToTuple,
@@ -29,27 +31,7 @@ type GetKeys<
             : ObjectKey[]
         : _Keys<T>;
 
-type ProcessObj<
-    TContainer extends object,
-> = GetKeys<TContainer>;
 
-type ProcessTuple<
-    TContainer extends readonly unknown[],
-> = NumericKeys<TContainer> extends readonly number[]
-    ? NumericKeys<TContainer>
-    : never;
-
-type ProcessObject<
-    TContainer extends Dictionary,
-> = IsEqual<ExplicitlyEmptyObject, TContainer> extends true
-    ? []
-    : [IsLiteralLikeObject<RemoveIndexKeys<TContainer>>] extends [true]
-        ? ProcessObj<RemoveIndexKeys<TContainer>> extends readonly (keyof TContainer & ObjectKey)[]
-            ? As<ProcessObj<RemoveIndexKeys<TContainer>>, readonly ObjectKey[]>
-            : never
-        : IsEqual<TContainer, ExplicitlyEmptyObject> extends true
-            ? []
-            : ObjectKey[];
 
 /**
  * **Keys**`<TContainer>`
@@ -75,17 +57,12 @@ type ProcessObject<
  * **Related:** `ValidKey`, `PublicKeys`, `PrivateKeys`
  */
 export type Keys<
-    TContainer extends readonly unknown[] | Dictionary,
+    TContainer extends readonly unknown[] | object,
 > = TContainer extends readonly unknown[]
-    ? ProcessTuple<TContainer>
-    : As<
-        TContainer extends Dictionary
-            ? ProcessObject<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
-                ? ProcessObject<TContainer>
-                : never
-            : never,
-        readonly ObjectKey[]
-    >;
+    ? NumericKeys<TContainer>
+    : TContainer extends object
+        ? ObjectKeys<TContainer>
+    : never;
 
 /**
  * **WithTemplateKeys**`<TLiteral,TTemplate>`

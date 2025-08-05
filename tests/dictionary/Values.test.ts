@@ -1,19 +1,14 @@
-import { ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { valuesOf } from "inferred-types/runtime";
-import { Expect, HasSameValues, Dictionary, ObjectKey, Values, EmptyObject, Test } from "inferred-types/types";
+import { Expect,  Dictionary, ObjectKey, Values, EmptyObject, Test } from "inferred-types/types";
 
 
 describe("Values<T>", () => {
 
 
     it("Values<T> where T is a wide object", () => {
-        type VObj = Values<{
-            foo: 1;
-            bar: "bar";
-            baz: true;
-        }>;
+
         type VEmpty = Values<Dictionary>;
         type VRecord = Values<Record<ObjectKey, unknown>>;
         type VUnion = Values<Record<ObjectKey, number | string>>;
@@ -26,6 +21,16 @@ describe("Values<T>", () => {
         ];
 
     });
+
+
+    it("Values<T> where T is a LiteralLike object", () => {
+        type FooBar = Values<{ foo: 1; bar: 2}>;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
 
 
 
