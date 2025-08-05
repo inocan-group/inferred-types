@@ -87,7 +87,7 @@ describe("getWeekNumber()", () => {
 
     if (getWeekNumber(date)) {
       type ThisDate = typeof date;
-      // @ts-ignore
+
       type _cases = [
         ExpectTrue<Luxon>,
         Expect<Extends< DateTime<true>, ThisDate>>

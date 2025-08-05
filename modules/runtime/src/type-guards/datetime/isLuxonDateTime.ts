@@ -22,6 +22,8 @@ export function isLuxonDate(val: unknown): val is LuxonLikeDateTime {
         && "minute" in val
         && "second" in val
         && "millisecond" in val
+        && "zoneName" in val
         && typeof (val as any).isValid === "boolean"
-        && typeof (val as any).toISO === "function";
+        && typeof (val as any).toISO === "function"
+        && typeof (val as any).zoneName === "string";
 }

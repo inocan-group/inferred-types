@@ -8,10 +8,11 @@ import type {
 } from "inferred-types/types";
 
 type Shape = {
-    diff: Function;
-    diffNow: Function;
-    hasSame: Function;
-    getPossibleOffsets: Function;
+    isValid: boolean;
+    toISO: Function;
+    toFormat: Function;
+    year: number;
+    zoneName: string;
 };
 
 /**

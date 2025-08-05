@@ -127,7 +127,7 @@ export function asDateTime<T extends DateLike>(input: T) {
         const d = input.toJSDate() as DatePlus;
 
         // Luxon gives offset (minutes) + zone name
-        (input as any).offset = input.isOffsetFixed ? offsetMinutesToString((input as any).offset) : null;
+        d.offset = input.isOffsetFixed ? offsetMinutesToString((input as any).offset) : null;
         d.tz = isIanaTimezone(input.zoneName) ? input.zoneName : null;
 
         d.source = "luxon";
