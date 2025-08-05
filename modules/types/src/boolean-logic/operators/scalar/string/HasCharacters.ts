@@ -1,7 +1,6 @@
 import type {
     AllStringLiterals,
     And,
-    AsArray,
     IsStringLiteral,
     IsUnion,
     Or,

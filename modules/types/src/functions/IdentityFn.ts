@@ -1,4 +1,4 @@
-import type { Err, IsLiteralLike, IsUnion, Throw } from "inferred-types/types";
+import type { Err, IsLiteralLike, IsUnion } from "inferred-types/types";
 
 /**
  * **IdentityFn**`<TValue, [TNarrow]>`

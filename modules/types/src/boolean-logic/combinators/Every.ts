@@ -1,12 +1,9 @@
 import type {
     AfterFirst,
-    AsArray,
     Compare,
     ComparisonAccept,
     ComparisonOperation,
     Container,
-    Dictionary,
-    Err,
     First,
     GetComparisonParamInput,
     IsWideContainer,
@@ -33,7 +30,7 @@ type Process<
                 TOp,
                 TComparator
             >
-    : false;
+        : false;
 
 /**
  * **Every**`<TContainer, TOp, TComparator>`
@@ -55,15 +52,14 @@ export type Every<
     TComparator extends GetComparisonParamInput<TOp> | First<GetComparisonParamInput<TOp>>,
 > = IsWideContainer<TContainer> extends true
     ? boolean
-: Process<
-    Values<TContainer>,
-    TOp,
-    TComparator extends GetComparisonParamInput<TOp>
-        ? TComparator
-        : TComparator extends First<GetComparisonParamInput<TOp>>
-            ? [TComparator] extends GetComparisonParamInput<TOp>
-                ? [TComparator]
+    : Process<
+        Values<TContainer>,
+        TOp,
+        TComparator extends GetComparisonParamInput<TOp>
+            ? TComparator
+            : TComparator extends First<GetComparisonParamInput<TOp>>
+                ? [TComparator] extends GetComparisonParamInput<TOp>
+                    ? [TComparator]
+                    : never
                 : never
-            : never
->
-
+    >;

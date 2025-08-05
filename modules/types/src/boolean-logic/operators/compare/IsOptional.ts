@@ -1,4 +1,4 @@
-import type { Contains, IsUnion, Not, UnionToTuple } from "inferred-types/types";
+import type { Contains, IsUnion, UnionToTuple } from "inferred-types/types";
 
 /**
  * Tests to see if `T` is a union type where one of the union members is

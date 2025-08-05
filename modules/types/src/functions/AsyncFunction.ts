@@ -1,4 +1,4 @@
-import type { If, IsThenable } from "inferred-types/types";
+import type { IsThenable } from "inferred-types/types";
 
 /**
  * **AsyncFunction**`<[TParams], [TReturns]>`

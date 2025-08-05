@@ -26,5 +26,3 @@ export type AsFnMeta<
         : FnMeta<TFn, Parameters<TFn>, ReturnType<TFn>, EmptyObject>
 
     : FnMeta<TypedFunction, any[], any, EmptyObject>;
-
-

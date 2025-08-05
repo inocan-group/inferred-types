@@ -9,15 +9,15 @@ import type { IsAny, IsNever, IsUnknown, TypedFunction } from "inferred-types/ty
 export type Returns<
     T,
     TExpected,
-> =
-[IsAny<T>] extends [true]
+>
+= [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: T extends TypedFunction
-    ? ReturnType<T> extends TExpected
-        ? true
-        : false
-    : false;
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : T extends TypedFunction
+                ? ReturnType<T> extends TExpected
+                    ? true
+                    : false
+                : false;

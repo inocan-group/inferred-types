@@ -1,7 +1,6 @@
 import type {
     And,
     IsLiteralLike,
-    IsStringLiteral,
 } from "inferred-types/types";
 
 /**

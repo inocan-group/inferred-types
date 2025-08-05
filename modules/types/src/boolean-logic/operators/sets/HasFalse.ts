@@ -1,4 +1,4 @@
-import {
+import type {
     Container,
     Err,
     IsAny,
@@ -12,21 +12,20 @@ import {
 type Test<
     T
 > = IsWideArray<T> extends true
-? boolean
-: T extends readonly unknown[]
-? Or<{
-    [K in keyof T]: IsFalse<T[K]>
-}>
-: false;
-
+    ? boolean
+    : T extends readonly unknown[]
+        ? Or<{
+            [K in keyof T]: IsFalse<T[K]>
+        }>
+        : false;
 
 type Validate<T extends Container> = [IsAny<T>] extends [true]
     ? Err<`invalid/has-false`, `The type passed into 'HasFalse<T>' was 'any'! This utility requires that T be a container type.`>
-: [IsNever<T>] extends [true]
-    ? Err<`invalid/has-false`, `The type passed into 'HasFalse<T>' was 'never'! This utility requires that T be a container type.`>
-: T extends Container
-    ? T
-    : Err<`invalid/has-false`, `The type passed into HasFalse<T> was not a container!`, { value: T }>;
+    : [IsNever<T>] extends [true]
+        ? Err<`invalid/has-false`, `The type passed into 'HasFalse<T>' was 'never'! This utility requires that T be a container type.`>
+        : T extends Container
+            ? T
+            : Err<`invalid/has-false`, `The type passed into HasFalse<T> was not a container!`, { value: T }>;
 
 /**
  * **HasFalse**`<T>`
@@ -37,8 +36,4 @@ type Validate<T extends Container> = [IsAny<T>] extends [true]
  */
 export type HasFalse<T extends Container> = Validate<T> extends Error
     ? Validate<T>
-: Test<Values<T>>
-
-
-
-
+    : Test<Values<T>>;

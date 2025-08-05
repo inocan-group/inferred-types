@@ -1,33 +1,21 @@
-import type {
-    AfterFirst,
-    And,
-    AnyObject,
-    Dictionary,
-    First,
-    Scalar,
-} from "inferred-types/types";
-
-
-
-
 /**
  * UnionToIntersection<{ foo: string } | { bar: string }> =
  *  { foo: string } & { bar: string }.
  */
 type UnionToIntersection<U> = (
-  U extends unknown ? (arg: U) => 0 : never
+    U extends unknown ? (arg: U) => 0 : never
 ) extends (arg: infer I) => 0
-  ? I
-  : never;
+    ? I
+    : never;
 
 /**
  * LastInUnion<1 | 2> = 2.
  */
 type LastInUnion<U> = UnionToIntersection<
-  U extends unknown ? (x: U) => 0 : never
+    U extends unknown ? (x: U) => 0 : never
 > extends (x: infer L) => 0
-  ? L
-  : never;
+    ? L
+    : never;
 
 /**
  * **UnionToTuple**`<1 | 2>` => [1, 2]
@@ -40,5 +28,5 @@ export type UnionToTuple<
     U,
     Last = LastInUnion<U>
 > = [U] extends [never]
-  ? []
-  : [...UnionToTuple<Exclude<U, Last>>, Last];;
+    ? []
+    : [...UnionToTuple<Exclude<U, Last>>, Last]; ;

@@ -1,4 +1,4 @@
-import type { Contains,  IsUnion, UnionToTuple } from "inferred-types/types";
+import type { Contains, IsUnion, UnionToTuple } from "inferred-types/types";
 
 type AnyError<
     T extends readonly unknown[],

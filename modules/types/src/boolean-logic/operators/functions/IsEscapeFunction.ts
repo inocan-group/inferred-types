@@ -1,5 +1,4 @@
 import type { EscapeFunction, FnKeyValue, IsAny, IsNever } from "inferred-types/types";
-import { TypedFunction } from "inferred-types/types";
 
 /**
  * **IsEscapeFunction**

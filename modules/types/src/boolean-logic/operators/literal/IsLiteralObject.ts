@@ -1,5 +1,4 @@
 import type { And, AnyFunction, Container, DefineModifiers, HasModifier, IsAny, IsLiteralContainer, IsLiteralScalar, IsNever, IsTuple, Scalar, Values } from "inferred-types/types";
-import { EmptyObject } from "inferred-types/types";
 
 // Forward declare to avoid circular dependencies
 type IsLiteralValue<T> = T extends string | number | bigint | boolean | symbol | null | undefined

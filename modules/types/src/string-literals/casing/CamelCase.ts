@@ -1,10 +1,10 @@
-import type { PascalCase, Trim, IsAllCaps } from "inferred-types/types";
+import type { IsAllCaps, PascalCase, Trim } from "inferred-types/types";
 
 /**
  * Direct camelCase conversion that leverages optimized PascalCase
  */
-type CamelCaseSimple<T extends string> = 
-    IsAllCaps<T> extends true
+type CamelCaseSimple<T extends string>
+    = IsAllCaps<T> extends true
         ? Uncapitalize<PascalCase<Lowercase<Trim<T>>>>
         : Uncapitalize<PascalCase<Trim<T>>>;
 

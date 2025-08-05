@@ -38,28 +38,27 @@ type Reduce<T extends readonly (boolean | LogicFunction)[]> = {
 };
 
 type Validate<T extends readonly unknown[]> = [IsAny<T>] extends [true]
-? Err<
-    `invalid/or`,
-    `The Or<...> logical combinator has a 'any' type! Or is expecting a tuple of boolean values (or functions which return boolean).`,
-    { library: "inferred-types" }
->
-: [IsNever<T>] extends [true]
-? Err<
-    `invalid/or`,
-    `The Or<...> logical combinator has a 'never' type! Or is expecting a tuple of boolean values (or functions which return boolean).`,
-    { library: "inferred-types" }
->
-: [HasNever<T>] extends [true]
-    ? Err<`invalid/or`, `The Or<T> found elements in T which were the 'never' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.`, { value: T }>
-: [HasAny<T>] extends [true]
-    ? Err<`invalid/or`, `The Or<T> found elements in T which were the 'any' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.`, { value: T }>
+    ? Err<
+        `invalid/or`,
+        `The Or<...> logical combinator has a 'any' type! Or is expecting a tuple of boolean values (or functions which return boolean).`,
+        { library: "inferred-types" }
+    >
+    : [IsNever<T>] extends [true]
+        ? Err<
+            `invalid/or`,
+            `The Or<...> logical combinator has a 'never' type! Or is expecting a tuple of boolean values (or functions which return boolean).`,
+            { library: "inferred-types" }
+        >
+        : [HasNever<T>] extends [true]
+            ? Err<`invalid/or`, `The Or<T> found elements in T which were the 'never' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.`, { value: T }>
+            : [HasAny<T>] extends [true]
+                ? Err<`invalid/or`, `The Or<T> found elements in T which were the 'any' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.`, { value: T }>
 
-
-: T extends readonly (boolean | LogicFunction)[]
-    ? Reduce<T> extends readonly boolean[]
-        ? Reduce<T>
-        : Err<`invalid/or`, `The Or<T> utility found invalid types in the elements of T. Or<T> expects either a boolean value or a function which returns a boolean value.`, { value: T }>
-    : Err<`invalid/or`, `The Or<T> found invalid types in the elements of T. Or<T> expects either a boolean value or a function which returns a boolean value.`, { value: T }>;
+                : T extends readonly (boolean | LogicFunction)[]
+                    ? Reduce<T> extends readonly boolean[]
+                        ? Reduce<T>
+                        : Err<`invalid/or`, `The Or<T> utility found invalid types in the elements of T. Or<T> expects either a boolean value or a function which returns a boolean value.`, { value: T }>
+                    : Err<`invalid/or`, `The Or<T> found invalid types in the elements of T. Or<T> expects either a boolean value or a function which returns a boolean value.`, { value: T }>;
 
 /**
  * **Or**`<T>`
@@ -78,12 +77,9 @@ export type Or<
     T extends readonly (boolean | LogicFunction)[],
     U extends boolean = false
 > = Validate<T> extends Error
-? Validate<T>
-: [] extends T
-    ? U
-    : Validate<T> extends readonly boolean[]
-        ? Process<Validate<T>>
-        : never;
-
-
-
+    ? Validate<T>
+    : [] extends T
+        ? U
+        : Validate<T> extends readonly boolean[]
+            ? Process<Validate<T>>
+            : never;

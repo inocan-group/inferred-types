@@ -5,10 +5,8 @@ import type {
     IsNever,
     IsUnion,
     IsUnknown,
-    IsWideUnion,
     Or,
     ToStringArray,
-    UnionToTuple,
 } from "inferred-types/types";
 
 type Check<
@@ -20,9 +18,7 @@ type Check<
             ? false
             : true
         : false;
-}>
-
-
+}>;
 
 /**
  * **StartsWith**<TValue, TComparator>
@@ -42,30 +38,30 @@ type Check<
 export type StartsWith<
     TValue extends string | number,
     TComparator extends string | number | readonly (string | number)[],
-> =
-[IsUnion<TComparator>] extends [true]
+>
+= [IsUnion<TComparator>] extends [true]
     ? FirstChar<`${TValue}`> extends TComparator
         ? true
         : false
-: [IsAny<TValue>] extends [true]
-    ? false
-: [IsNever<TValue>] extends [true]
-    ? false
-: [IsUnknown<TValue>] extends [true]
-    ? boolean
-: string extends TValue
-? boolean
-: number extends TValue
-? boolean
-: number extends TComparator
-? boolean
-: string extends TComparator
-? boolean
-: Check<
+    : [IsAny<TValue>] extends [true]
+        ? false
+        : [IsNever<TValue>] extends [true]
+            ? false
+            : [IsUnknown<TValue>] extends [true]
+                ? boolean
+                : string extends TValue
+                    ? boolean
+                    : number extends TValue
+                        ? boolean
+                        : number extends TComparator
+                            ? boolean
+                            : string extends TComparator
+                                ? boolean
+                                : Check<
     `${TValue}`,
     TComparator extends readonly (string | number)[]
         ? ToStringArray<TComparator>
         : TComparator extends (string | number)
             ? [`${TComparator}`]
             : never
->
+                                >;

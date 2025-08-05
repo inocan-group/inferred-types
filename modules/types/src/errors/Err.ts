@@ -34,10 +34,10 @@ export type Err<
             name: PascalCase<
                 TCtx["name"] extends string
                     ? TCtx["name"]
-                : RetainUntil<TType, "/"> extends string
-                    ? RetainUntil<TType, "/">
-                    : never
-                >;
+                    : RetainUntil<TType, "/"> extends string
+                        ? RetainUntil<TType, "/">
+                        : never
+            >;
             type: KebabCase<Type>;
             subType: Subtype extends string ? KebabCase<Subtype> : undefined;
             message: TMsg;

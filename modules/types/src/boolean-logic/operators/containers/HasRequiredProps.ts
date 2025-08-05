@@ -13,8 +13,7 @@ import type {
 export type HasRequiredProps<
     T extends Dictionary,
 > = IsWideObject<T> extends true
-? boolean
-: [RequiredKeysTuple<T>["length"]] extends [0]
+    ? boolean
+    : [RequiredKeysTuple<T>["length"]] extends [0]
         ? false
         : true;
-

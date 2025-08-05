@@ -20,4 +20,3 @@ export * from "./IsReadonlyObject";
 export * from "./IsSameContainerType";
 export * from "./IsValidIndex";
 export * from "./KeysOverlap";
-

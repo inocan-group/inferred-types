@@ -5,4 +5,3 @@ export * from "./HasAny";
 export * from "./HasFalse";
 export * from "./HasNever";
 export * from "./HasWideBoolean";
-

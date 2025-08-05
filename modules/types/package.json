@@ -13,7 +13,7 @@
     "scripts": {
         "build": "tsdown",
         "test": "vitest run",
-        "lint": "eslint src --fix",
+        "lint": "eslint src",
         "watch": "run-p watch:*",
         "watch:build": "tsdown --watch",
         "watch:test": "vitest"

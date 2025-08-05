@@ -10,7 +10,6 @@ import type {
     TupleToUnion,
 } from "inferred-types/types";
 
-
 /**
  * **Keys**`<TContainer>`
  *
@@ -41,9 +40,9 @@ export type Keys<
         ? NumericKeys<TContainer>
         : TContainer extends object
             ? ObjectKeys<TContainer>
-        : never,
+            : never,
     readonly PropertyKey[]
->
+>;
 
 /**
  * **WithTemplateKeys**`<TLiteral,TTemplate>`
@@ -55,8 +54,6 @@ export type WithTemplateKeys<
     TLiteral extends readonly unknown[],
     TTemplate extends readonly string[]
 > = true;
-
-
 
 type _Public<
     TInput extends readonly PropertyKey[],

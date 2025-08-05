@@ -1,6 +1,5 @@
 import type {
     Dictionary,
-    EmptyObject,
     ExplicitlyEmptyObject,
     IsAny,
     IsEqual,
@@ -28,20 +27,18 @@ type CheckIt<T extends Dictionary> = IsNever<keyof T> extends true
  * - any KV-like type which has an **explicit** number of keys
  * - if `Keys<T>["length"]` translates to `number` than this is **not** a literal.
  */
-export type IsLiteralLikeObject<T> =
-[IsAny<T>] extends [true]
+export type IsLiteralLikeObject<T>
+= [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: [T] extends [readonly any[]]
-    ? false
-: T extends Dictionary
-    ? IsEqual<T, ExplicitlyEmptyObject> extends true
-        ? true
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : [T] extends [readonly any[]]
+                ? false
+                : T extends Dictionary
+                    ? IsEqual<T, ExplicitlyEmptyObject> extends true
+                        ? true
 
-            : CheckIt<T>
-    : false;
-
-
+                        : CheckIt<T>
+                    : false;

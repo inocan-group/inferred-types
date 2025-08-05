@@ -46,17 +46,17 @@ type CheckUnion<
 export type IsIsoYear<T>
 = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: IsObject<T> extends true
-    ? false
-: string extends T
-    ? boolean
-: [IsUnion<T>] extends [true]
-    ? CheckUnion<UnionToTuple<T>>
-
-: T extends `${number}`
-    ? FourDigitYear<T> extends Error
+    : [IsNever<T>] extends [true]
         ? false
-        : true
-: false;
+        : IsObject<T> extends true
+            ? false
+            : string extends T
+                ? boolean
+                : [IsUnion<T>] extends [true]
+                    ? CheckUnion<UnionToTuple<T>>
+
+                    : T extends `${number}`
+                        ? FourDigitYear<T> extends Error
+                            ? false
+                            : true
+                        : false;

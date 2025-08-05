@@ -1,4 +1,4 @@
-import type { Dictionary, IsLiteralLikeObject, IsTuple, IsUnion, TupleToUnion } from "inferred-types/types";
+import type { Dictionary, IsLiteralLikeObject, IsTuple, IsUnion } from "inferred-types/types";
 
 type MutableObject<T> = [T] extends [boolean]
     ? T
@@ -23,11 +23,11 @@ type MutableArray<T extends readonly unknown[]> = [...{
  * Makes a readonly value to a mutable value without
  * widening the type.
  */
-export type Mutable<T> =
-[IsUnion<T>] extends [true]
-? [T]
-: [T] extends [readonly unknown[]]
-    ? MutableArray<T>
-    : [IsLiteralLikeObject<T>] extends [true]
-        ? MutableObject<T>
-        : T;
+export type Mutable<T>
+= [IsUnion<T>] extends [true]
+    ? [T]
+    : [T] extends [readonly unknown[]]
+        ? MutableArray<T>
+        : [IsLiteralLikeObject<T>] extends [true]
+            ? MutableObject<T>
+            : T;

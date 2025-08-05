@@ -16,11 +16,11 @@ type RegularFn<Fn> = Fn extends ((...args: any[]) => any)
  */
 export type IsStaticFn<T> = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
 
-: T extends AnyFunction
-    ? IsEqual<RegularFn<T>, T>
-    : false;
+            : T extends AnyFunction
+                ? IsEqual<RegularFn<T>, T>
+                : false;

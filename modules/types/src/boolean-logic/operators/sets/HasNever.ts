@@ -1,4 +1,4 @@
-import {
+import type {
     Container,
     Err,
     IsAny,
@@ -9,28 +9,28 @@ import {
     Values
 } from "inferred-types/types";
 
-type TestArray<T> =
-    T extends readonly []
+type TestArray<T>
+    = T extends readonly []
         ? false
-    : T extends readonly [infer First, ...infer Rest]
-        ? [IsNever<First>] extends [true]
-            ? true
-            : Rest extends readonly unknown[]
-                ? TestArray<Rest>
-                : false
-        : false;  // This handles wide arrays that don't match tuple patterns
+        : T extends readonly [infer First, ...infer Rest]
+            ? [IsNever<First>] extends [true]
+                ? true
+                : Rest extends readonly unknown[]
+                    ? TestArray<Rest>
+                    : false
+            : false; // This handles wide arrays that don't match tuple patterns
 
 type Validate<T> = [IsAny<T>] extends [true]
-? Err<
-    `invalid/has-never`,
-    `The type passed into 'HasNever<T>' was 'any'! This utility requires that T be a container type.`
-    >
-: [IsNever<T>] extends [true]
     ? Err<
         `invalid/has-never`,
-        `The type passed into 'HasNever<T>' was 'never'! This utility requires that T be a container type.`
+        `The type passed into 'HasNever<T>' was 'any'! This utility requires that T be a container type.`
     >
-: T;
+    : [IsNever<T>] extends [true]
+        ? Err<
+            `invalid/has-never`,
+            `The type passed into 'HasNever<T>' was 'never'! This utility requires that T be a container type.`
+        >
+        : T;
 
 /**
  * **HasNever**`<T>`
@@ -41,16 +41,14 @@ type Validate<T> = [IsAny<T>] extends [true]
  */
 export type HasNever<T extends Container> = [Validate<T>] extends [Error]
     ? Validate<T>
-: [IsWideArray<T>] extends [true]
-    ? boolean
-: [T] extends [readonly any[]]
-    ? [IsWideArray<T>] extends [true]
+    : [IsWideArray<T>] extends [true]
         ? boolean
-        : TestArray<T>
-: [IsWideObject<T>] extends [true]
-    ? boolean
-: IsDictionary<T> extends true
-    ? TestArray<Values<T>>
-: false;
-
-
+        : [T] extends [readonly any[]]
+            ? [IsWideArray<T>] extends [true]
+                ? boolean
+                : TestArray<T>
+            : [IsWideObject<T>] extends [true]
+                ? boolean
+                : IsDictionary<T> extends true
+                    ? TestArray<Values<T>>
+                    : false;

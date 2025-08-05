@@ -1,6 +1,5 @@
 import type {
     As,
-    AsString,
     Chars,
     IsEqual,
     IsStringLiteral,

@@ -1,6 +1,5 @@
 import type {
     DefineModifiers,
-    DropVariadic,
     HasModifier,
     HasVariadicTail,
     IsAny,
@@ -8,12 +7,10 @@ import type {
     IsTuple,
     IsUnknown,
     Not,
-    TupleMeta,
     TypedFunction
 } from "inferred-types/types";
 
 export type LiteralFnModifiers = DefineModifiers<["allow-variadic-tail"]>;
-
 
 /**
  * **IsLiteralFn**`<T>`
@@ -32,25 +29,25 @@ export type LiteralFnModifiers = DefineModifiers<["allow-variadic-tail"]>;
  * - `IsFunction`, `IsWideFn`
  * - `IsStaticFn`, `IsNarrowingFn`
  */
-export type IsLiteralFn<T, U extends LiteralFnModifiers = null> =
-[IsAny<T>] extends [true]
+export type IsLiteralFn<T, U extends LiteralFnModifiers = null>
+= [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: T extends TypedFunction
-    ? Not<IsTuple<Parameters<T>>> extends true
-        ? HasModifier<"allow-variadic-tail",U,LiteralFnModifiers> extends true
-            ? HasVariadicTail<Parameters<T>> extends true
-                ? true
-                : false
-            : false
-        : IsUnknown<ReturnType<T>> extends true
-            ? false
-        : IsAny<ReturnType<T>> extends true
-            ? false
-        : IsNever<ReturnType<T>> extends true
-            ? false
-            : true
-    : false;
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : T extends TypedFunction
+                ? Not<IsTuple<Parameters<T>>> extends true
+                    ? HasModifier<"allow-variadic-tail", U, LiteralFnModifiers> extends true
+                        ? HasVariadicTail<Parameters<T>> extends true
+                            ? true
+                            : false
+                        : false
+                    : IsUnknown<ReturnType<T>> extends true
+                        ? false
+                        : IsAny<ReturnType<T>> extends true
+                            ? false
+                            : IsNever<ReturnType<T>> extends true
+                                ? false
+                                : true
+                : false;

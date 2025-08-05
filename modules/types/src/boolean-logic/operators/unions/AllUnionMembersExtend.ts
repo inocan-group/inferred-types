@@ -1,4 +1,4 @@
-import { Every, IsUnion, UnionToTuple } from "inferred-types/types";
+import type { Every, IsUnion, UnionToTuple } from "inferred-types/types";
 
 /**
  * **AllUnionMembersExtend**`<T>`
@@ -8,5 +8,5 @@ import { Every, IsUnion, UnionToTuple } from "inferred-types/types";
  * - if `T` is _not_ a union then this will always return `false`
  */
 export type AllUnionMembersExtend<T, U> = IsUnion<T> extends true
-? Every<UnionToTuple<T>, "extends", U>
-: false;
+    ? Every<UnionToTuple<T>, "extends", U>
+    : false;

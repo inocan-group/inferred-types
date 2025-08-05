@@ -2,13 +2,9 @@ import type {
     As,
     AsNumericArray,
     Container,
-    Each,
-    Filter,
     Get,
     IsEqual,
     IsStringLiteral,
-    NotFilter,
-    NumberLike,
     Reverse
 } from "inferred-types/types";
 

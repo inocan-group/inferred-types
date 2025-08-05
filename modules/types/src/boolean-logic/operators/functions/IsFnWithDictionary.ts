@@ -1,12 +1,10 @@
-
-
 import type {
     AnyFunction,
-    TypedFunction,
     AsFnMeta,
     IsAny,
     IsNever,
-    IsUnknown
+    IsUnknown,
+    TypedFunction
 } from "inferred-types/types";
 
 /**
@@ -17,15 +15,15 @@ import type {
  */
 export type IsFnWithDictionary<
     T,
-> =
-[IsAny<T>] extends [true]
+>
+= [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: T extends AnyFunction
-? T extends TypedFunction
-    ? AsFnMeta<T>["hasProps"]
-    : boolean
-: false;
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : T extends AnyFunction
+                ? T extends TypedFunction
+                    ? AsFnMeta<T>["hasProps"]
+                    : boolean
+                : false;

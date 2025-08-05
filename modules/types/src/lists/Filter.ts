@@ -6,16 +6,15 @@ import type {
     RemoveMarked,
 } from "inferred-types/types";
 
-
 type Process<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[]
 > = RemoveMarked<{
-        [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
-            ? TList[K]
-            : Marked
-    }>;
+    [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
+        ? TList[K]
+        : Marked
+}>;
 
 /**
  * **Filter**`<TList, TOp, TFilter>`

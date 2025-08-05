@@ -1,7 +1,5 @@
 import type {
     As,
-    AsTemplateType,
-    AsTemplateTypes,
     Filter,
     FromLiteralTemplate,
     Split,

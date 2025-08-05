@@ -1,5 +1,4 @@
 import type { IsAny, IsNever, IsUnion } from "inferred-types/types";
-import { And, Not, TupleMeta } from "inferred-types/types";
 
 /**
  * **IsLiteralLikeTuple**`<T>`

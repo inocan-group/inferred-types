@@ -1,5 +1,4 @@
-import type { IsAny,  IsLiteralLike, IsNever,  IsUnknown,  IsWideBoolean } from "inferred-types/types";
-
+import type { IsAny, IsLiteralLike, IsNever, IsUnknown, IsWideBoolean } from "inferred-types/types";
 
 /**
  * **IsWideType**`<T>`
@@ -21,13 +20,13 @@ export type IsWideType<
     T
 > = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsWideBoolean<T>] extends [true]
-    ? true
-: [IsUnknown<T>] extends [true]
-    ? boolean
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsWideBoolean<T>] extends [true]
+            ? true
+            : [IsUnknown<T>] extends [true]
+                ? boolean
 
-: [IsLiteralLike<T>] extends [true]
-    ? false
-    : true;
+                : [IsLiteralLike<T>] extends [true]
+                    ? false
+                    : true;

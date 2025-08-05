@@ -1,14 +1,11 @@
 import type {
     As,
     Container,
-    Each,
-    Filter,
     Get,
     IsEqual,
     IsStringLiteral,
     IsWideString,
     Length,
-    NotFilter,
     Reverse
 } from "inferred-types/types";
 

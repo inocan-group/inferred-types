@@ -2,8 +2,6 @@ import type { Each, UnionFrom, Values } from "inferred-types/types";
 import type { Container, Dictionary } from "types/base-types";
 import type { As, Contains, If, IsDictionary, IsEqual, IsLiteralLike, IsNever, IsSameContainerType, IsWideContainer, Or } from "types/boolean-logic";
 import type { Err } from "types/errors";
-import { First, Widen } from "inferred-types/types";
-import { Xor } from "types/boolean-logic";
 
 // Helper to get type intersection
 type TypeIntersection<A, B> = A & B extends never ? never : A & B;

@@ -45,20 +45,20 @@ type HandleUnionResult<T extends readonly boolean[]>
  */
 export type IsIsoDateTime<T> = IsNull<T> extends true
     ? false
-: IsBoolean<T> extends true
-    ? false
-: IsUnion<T> extends true
-    ? HandleUnionResult<TupleMap<UnionToTuple<T>>>
-    : T extends string
-        ? string extends T
-            ? boolean
-        : T extends IsoDateTime<"branded">
-            ? true
-            : AsDateMeta<T> extends Error
-                ? false
-                : AsDateMeta<T> extends DateMeta
-                    ? AsDateMeta<T>["dateType"] extends "datetime"
+    : IsBoolean<T> extends true
+        ? false
+        : IsUnion<T> extends true
+            ? HandleUnionResult<TupleMap<UnionToTuple<T>>>
+            : T extends string
+                ? string extends T
+                    ? boolean
+                    : T extends IsoDateTime<"branded">
                         ? true
-                        : false
-                    : false
-            : false;
+                        : AsDateMeta<T> extends Error
+                            ? false
+                            : AsDateMeta<T> extends DateMeta
+                                ? AsDateMeta<T>["dateType"] extends "datetime"
+                                    ? true
+                                    : false
+                                : false
+                : false;

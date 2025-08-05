@@ -8,13 +8,13 @@ import type { IsAny, IsBoolean, IsNever, IsUnknown, TypedFunction } from "inferr
  *
  * Note: any non-functions passed in as `T` are always a **false** value
  */
-export type ReturnsBoolean<T> =
-[IsAny<T>] extends [true]
+export type ReturnsBoolean<T>
+= [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: T extends TypedFunction
-    ? IsBoolean<ReturnType<T>>
-    : false;
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : T extends TypedFunction
+                ? IsBoolean<ReturnType<T>>
+                : false;

@@ -40,41 +40,41 @@ export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> = [Is
     ? false
     : [IsNever<T>] extends [true]
         ? false
-    : [string] extends [T]
+        : [string] extends [T]
             ? false
-    : [number] extends [T]
+            : [number] extends [T]
                 ? false
-    : [bigint] extends [T]
+                : [bigint] extends [T]
                     ? false
-    : [symbol] extends [T]
+                    : [symbol] extends [T]
                         ? false
-    : [T] extends [string]
+                        : [T] extends [string]
                             ? true
-    : [T] extends [number]
+                            : [T] extends [number]
                                 ? true
-    : [T] extends [bigint]
+                                : [T] extends [bigint]
                                     ? true
 
-    : [IsTrue<T>] extends [true]
-        ? true
-    : [IsFalse<T>] extends [true]
-        ? true
-    : [IsWideBoolean<T>] extends [true]
-        ? false
-    : [T] extends [symbol]
-        ? true
-    : [T] extends [null | undefined]
-        ? true
-    : [IsUnion<T>] extends [true]
-        ? [HasModifier<"exclude-unions", U, LiteralLikeModifiers>] extends [true]
-            ? false
-            : IsLiteralUnion<T>
-    : [T] extends [readonly unknown[]]
-        ? IsLiteralTuple<T>
-    : [object] extends [T]
-        ? false
-    : [string] extends [keyof T]
-        ? false
-    : [T] extends [object]
-        ? IsLiteralLikeObject<T>
-    : false;
+                                    : [IsTrue<T>] extends [true]
+                                        ? true
+                                        : [IsFalse<T>] extends [true]
+                                            ? true
+                                            : [IsWideBoolean<T>] extends [true]
+                                                ? false
+                                                : [T] extends [symbol]
+                                                    ? true
+                                                    : [T] extends [null | undefined]
+                                                        ? true
+                                                        : [IsUnion<T>] extends [true]
+                                                            ? [HasModifier<"exclude-unions", U, LiteralLikeModifiers>] extends [true]
+                                                                ? false
+                                                                : IsLiteralUnion<T>
+                                                            : [T] extends [readonly unknown[]]
+                                                                ? IsLiteralTuple<T>
+                                                                : [object] extends [T]
+                                                                    ? false
+                                                                    : [string] extends [keyof T]
+                                                                        ? false
+                                                                        : [T] extends [object]
+                                                                            ? IsLiteralLikeObject<T>
+                                                                            : false;

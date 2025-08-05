@@ -1,4 +1,4 @@
-import {
+import type {
     Container,
     Dictionary,
     Err,
@@ -10,10 +10,10 @@ import {
 } from "inferred-types/types";
 
 // Test arrays for any values recursively
-type TestArray<T extends readonly unknown[]> =
+type TestArray<T extends readonly unknown[]>
     // Check for wide arrays first
-    T extends (infer U)[]
-        ? any[] extends T  // Only wide if any[] extends it
+    = T extends (infer U)[]
+        ? any[] extends T // Only wide if any[] extends it
             ? boolean
             : T extends readonly []
                 ? false
@@ -34,16 +34,14 @@ type TestArray<T extends readonly unknown[]> =
                         : false
                 : false;
 
-
-
 type Validate<T extends Container> = IsAny<T> extends true
-? Err<
-    `invalid/has-any`,
-    `The type passed into 'HasAny<T>' was 'any'! This utility requires that T be a container type.`
->
-: IsNever<T> extends true
-? Err<`invalid/has-any`, `The type passed into 'HasAny<T>' was 'never'! This utility requires that T be a container type.`>
-: T;
+    ? Err<
+        `invalid/has-any`,
+        `The type passed into 'HasAny<T>' was 'any'! This utility requires that T be a container type.`
+    >
+    : IsNever<T> extends true
+        ? Err<`invalid/has-any`, `The type passed into 'HasAny<T>' was 'never'! This utility requires that T be a container type.`>
+        : T;
 
 /**
  * **HasAny**`<T>`
@@ -55,17 +53,15 @@ type Validate<T extends Container> = IsAny<T> extends true
 export type HasAny<
     T extends Container
 > = Validate<T> extends Error
-? Validate<T>
-: IsWideContainer<T> extends true
-    ? boolean
-: T extends readonly unknown[]
-    ? TestArray<T>
-    : T extends Dictionary
-        ? IsWideObject<T> extends true
-            ? boolean
-            : Values<T> extends readonly unknown[]
-                ? TestArray<Values<T>>
-                : never
-        : false;
-
-
+    ? Validate<T>
+    : IsWideContainer<T> extends true
+        ? boolean
+        : T extends readonly unknown[]
+            ? TestArray<T>
+            : T extends Dictionary
+                ? IsWideObject<T> extends true
+                    ? boolean
+                    : Values<T> extends readonly unknown[]
+                        ? TestArray<Values<T>>
+                        : never
+                : false;

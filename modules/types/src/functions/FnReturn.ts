@@ -8,7 +8,6 @@ import type {
     FnFrom,
     IsAny,
     IsTemplateLiteral,
-    TemplateParams,
     TypedFunction
 } from "inferred-types/types";
 

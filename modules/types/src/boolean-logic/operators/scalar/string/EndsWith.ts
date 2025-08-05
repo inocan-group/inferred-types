@@ -1,5 +1,4 @@
-import type {  IsEqual, LastChar, IsUnion, Or, IsAny, IsNever, IsUnknown, ToStringArray } from "inferred-types/types";
-
+import type { IsAny, IsEqual, IsNever, IsUnion, IsUnknown, LastChar, Or, ToStringArray } from "inferred-types/types";
 
 type Check<
     TValue extends string,
@@ -10,8 +9,7 @@ type Check<
             ? false
             : true
         : false;
-}>
-
+}>;
 
 /**
  * **EndsWith**<TValue, TComparator>
@@ -26,30 +24,30 @@ type Check<
  */
 export type EndsWith<
     TValue extends string | number,
-    TComparator extends string | number | readonly (string|number)[],
+    TComparator extends string | number | readonly (string | number)[],
 > = [IsUnion<TComparator>] extends [true]
     ? LastChar<`${TValue}`> extends TComparator
         ? true
         : false
-: [IsAny<TValue>] extends [true]
-    ? false
-: [IsNever<TValue>] extends [true]
-    ? false
-: [IsUnknown<TValue>] extends [true]
-    ? boolean
-: string extends TValue
-? boolean
-: number extends TValue
-? boolean
-: number extends TComparator
-? boolean
-: string extends TComparator
-? boolean
-: Check<
+    : [IsAny<TValue>] extends [true]
+        ? false
+        : [IsNever<TValue>] extends [true]
+            ? false
+            : [IsUnknown<TValue>] extends [true]
+                ? boolean
+                : string extends TValue
+                    ? boolean
+                    : number extends TValue
+                        ? boolean
+                        : number extends TComparator
+                            ? boolean
+                            : string extends TComparator
+                                ? boolean
+                                : Check<
     `${TValue}`,
     TComparator extends readonly (string | number)[]
         ? ToStringArray<TComparator>
         : TComparator extends (string | number)
             ? [`${TComparator}`]
             : never
->
+                                >;

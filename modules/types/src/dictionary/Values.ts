@@ -10,10 +10,10 @@ import type {
 } from "inferred-types/types";
 
 type Validate<T extends Container> = [IsAny<T>] extends [true]
-? Err<`invalid-type/values`, `Values<T> was called where T was the 'any' type`>
-: [IsNever<T>] extends [true]
-? Err<`invalid-type/values`, `Values<T> was called where T was the 'never' type`>
-: T
+    ? Err<`invalid-type/values`, `Values<T> was called where T was the 'any' type`>
+    : [IsNever<T>] extends [true]
+        ? Err<`invalid-type/values`, `Values<T> was called where T was the 'never' type`>
+        : T;
 
 // Single-pass implementation with bounded recursion to avoid deep instantiation errors
 type GetValues<
@@ -21,7 +21,7 @@ type GetValues<
     TKeys extends readonly PropertyKey[],
     TAcc extends readonly unknown[] = [],
 > = [] extends TKeys
-    ? TAcc  // Return what we have so far to avoid deep recursion error
+    ? TAcc // Return what we have so far to avoid deep recursion error
     : TKeys extends readonly [infer First, ...infer Rest]
         ? First extends keyof TObj
             ? Rest extends readonly PropertyKey[]
@@ -49,16 +49,16 @@ type GetValues<
 export type Values<
     T extends Container,
 > = Validate<T> extends Error
-? Validate<T>
-: As<
-    T extends readonly unknown[]
-        ? T
-    : T extends Dictionary
-        ? T extends Record<infer K, infer V>
-            ? IsStringLiteral<K> extends true
-                ? GetValues<T, As<ObjectKeys<T>, readonly PropertyKey[]>>
-                : V[]  // For wide objects, return array of value type
-            : unknown[]
-    : unknown[],
-    readonly unknown[]
->
+    ? Validate<T>
+    : As<
+        T extends readonly unknown[]
+            ? T
+            : T extends Dictionary
+                ? T extends Record<infer K, infer V>
+                    ? IsStringLiteral<K> extends true
+                        ? GetValues<T, As<ObjectKeys<T>, readonly PropertyKey[]>>
+                        : V[] // For wide objects, return array of value type
+                    : unknown[]
+                : unknown[],
+        readonly unknown[]
+    >;

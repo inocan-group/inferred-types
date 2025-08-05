@@ -1,6 +1,4 @@
-import { IsAny, IsNever, IsUnion, IsUnknown, Some, UnionToTuple } from "inferred-types/types";
-
-
+import type { IsAny, IsNever, IsUnion, IsUnknown, Some, UnionToTuple } from "inferred-types/types";
 
 /**
  * **UnionMembersEqual**`<T,U>`
@@ -14,29 +12,31 @@ import { IsAny, IsNever, IsUnion, IsUnknown, Some, UnionToTuple } from "inferred
  *
  * **Related:** `UnionMemberExtends`, `UnionFilter`, `IsUnion`, `IsUnionArray`
  */
-export type UnionMembersEqual<T,U> = [IsAny<T>] extends [true]
+export type UnionMembersEqual<T, U> = [IsAny<T>] extends [true]
     ? false
-: [IsAny<U>] extends [true]
-    ? true
-: any[] extends U
-    ? true
-: [IsNever<T>] extends [true]
-    ? false
-: [IsNever<U>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: [IsUnknown<U>] extends [true]
-    ? boolean
+    : [IsAny<U>] extends [true]
+        ? true
+        : any[] extends U
+            ? true
+            : [IsNever<T>] extends [true]
+                ? false
+                : [IsNever<U>] extends [true]
+                    ? false
+                    : [IsUnknown<T>] extends [true]
+                        ? boolean
+                        : [IsUnknown<U>] extends [true]
+                            ? boolean
 
-
-: IsUnion<T> extends true
-    ? U extends readonly unknown[]
-        ? Some<
-            UnionToTuple<T>, "equalsSome", U
-        >
-        : Some<
-            UnionToTuple<T>, "equalsSome", [U]
-        >
-: false;
-
+                            : IsUnion<T> extends true
+                                ? U extends readonly unknown[]
+                                    ? Some<
+                                        UnionToTuple<T>,
+                                        "equalsSome",
+                                        U
+                                    >
+                                    : Some<
+                                        UnionToTuple<T>,
+                                        "equalsSome",
+                                        [U]
+                                    >
+                                : false;

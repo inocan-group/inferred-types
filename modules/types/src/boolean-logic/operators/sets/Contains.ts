@@ -1,9 +1,7 @@
 import type {
-    And,
     AsArray,
     AsString,
     AsUnion,
-    Extends,
     IsEqual,
     IsNull,
     IsSubstring,

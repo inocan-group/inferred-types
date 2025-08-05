@@ -1,5 +1,4 @@
 import type { TemplateBlock } from "inferred-types/types";
-import { Err } from "inferred-types/types";
 
 /**
  * **AsTemplateType**

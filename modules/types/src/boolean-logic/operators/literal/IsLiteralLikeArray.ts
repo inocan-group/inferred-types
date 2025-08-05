@@ -4,9 +4,6 @@ import type {
     IsNever,
     IsVariadicArray
 } from "inferred-types/types";
-import {
-    TupleMeta,
-} from "inferred-types/types";
 
 /**
  * **IsLiteralLikeArray**`<T>`

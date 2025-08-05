@@ -11,7 +11,7 @@ type CheckAllExist<
     A extends readonly unknown[],
     B extends readonly unknown[]
 > = [] extends A
-    ? true  // Empty array case - all elements exist (vacuously true)
+    ? true // Empty array case - all elements exist (vacuously true)
     : And<{
         [K in keyof A]: NarrowlyContains<B, A[K]>
     }>;
@@ -20,22 +20,22 @@ type Test<
     A,
     B
 > = A extends readonly unknown[]
-? B extends readonly unknown[]
-    ? [] extends A
-        ? [] extends B
-            ? true  // Both arrays are empty
-            : false  // A is empty, B is not
-        : [] extends B
-            ? false  // B is empty, A is not
-        : A["length"] extends B["length"]
-            ? CheckAllExist<A, B> extends true
-                ? CheckAllExist<B, A> extends true
-                    ? true  // Bidirectional check passes
-                    : false  // A elements exist in B, but B elements don't exist in A
-                : false  // A elements don't all exist in B
-            : false
-    : false
-: false;
+    ? B extends readonly unknown[]
+        ? [] extends A
+            ? [] extends B
+                ? true // Both arrays are empty
+                : false // A is empty, B is not
+            : [] extends B
+                ? false // B is empty, A is not
+                : A["length"] extends B["length"]
+                    ? CheckAllExist<A, B> extends true
+                        ? CheckAllExist<B, A> extends true
+                            ? true // Bidirectional check passes
+                            : false // A elements exist in B, but B elements don't exist in A
+                        : false // A elements don't all exist in B
+                    : false
+        : false
+    : false;
 
 /**
  * **HasSameValues**`<TContainer,TComparator>`
@@ -60,12 +60,12 @@ export type HasSameValues<
     TException = false
 > = [IsAny<TContainer>] extends [true]
     ? TException
-: [IsNever<TContainer>] extends [true]
-    ? TException
-: [IsAny<TComparator>] extends [true]
-    ? TException
-: [IsNever<TComparator>] extends [true]
-    ? TException
-: Test<Values<TContainer>, Values<TComparator>> extends true
-    ? true
-    : TException;
+    : [IsNever<TContainer>] extends [true]
+        ? TException
+        : [IsAny<TComparator>] extends [true]
+            ? TException
+            : [IsNever<TComparator>] extends [true]
+                ? TException
+                : Test<Values<TContainer>, Values<TComparator>> extends true
+                    ? true
+                    : TException;

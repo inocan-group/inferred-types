@@ -16,38 +16,37 @@ type Process<
     TComparator extends GetComparisonParamInput<TOp>,
     THasBool extends boolean = false
 > = [] extends TComparator
-? IsTrue<THasBool> extends true
-    ? boolean
-    : false
-: T extends readonly unknown[]
-    ? T extends readonly [infer First, ...infer Rest]
-        ? First extends ComparisonAccept<TOp>
-            ? [Compare<First, TOp, TComparator>] extends [false]
-                ? Process<
-                    Rest,
-                    TOp,
-                    TComparator,
-                    THasBool
-                >
-                : [Compare<First, TOp, TComparator>] extends [true]
-                    ? true
-                : [Compare<First, TOp, TComparator>] extends [boolean]
+    ? IsTrue<THasBool> extends true
+        ? boolean
+        : false
+    : T extends readonly unknown[]
+        ? T extends readonly [infer First, ...infer Rest]
+            ? First extends ComparisonAccept<TOp>
+                ? [Compare<First, TOp, TComparator>] extends [false]
                     ? Process<
                         Rest,
                         TOp,
                         TComparator,
-                        true
+                        THasBool
                     >
-            : Process<
-                AfterFirst<T>,
-                TOp,
-                TComparator,
-                THasBool
-            >
-        : false
-    : false
-: false;
-
+                    : [Compare<First, TOp, TComparator>] extends [true]
+                        ? true
+                        : [Compare<First, TOp, TComparator>] extends [boolean]
+                            ? Process<
+                                Rest,
+                                TOp,
+                                TComparator,
+                                true
+                            >
+                            : Process<
+                                AfterFirst<T>,
+                                TOp,
+                                TComparator,
+                                THasBool
+                            >
+                : false
+            : false
+        : false;
 
 /**
  * **Some**`<TContainer, TOp, TComparator>`
@@ -66,19 +65,14 @@ export type Some<
     TComparator extends GetComparisonParamInput<TOp> | GetComparisonParamInput<TOp>[0],
 > = IsWideContainer<TContainer> extends true
     ? boolean
-: Process<
-    Values<TContainer>,
-    TOp,
-    TComparator extends GetComparisonParamInput<TOp>
-        ? TComparator
-        : TComparator extends GetComparisonParamInput<TOp>[0]
-            ? [TComparator] extends GetComparisonParamInput<TOp>
-                ? [TComparator]
+    : Process<
+        Values<TContainer>,
+        TOp,
+        TComparator extends GetComparisonParamInput<TOp>
+            ? TComparator
+            : TComparator extends GetComparisonParamInput<TOp>[0]
+                ? [TComparator] extends GetComparisonParamInput<TOp>
+                    ? [TComparator]
+                    : never
                 : never
-            : never
->
-
-
-
-
-
+    >;
