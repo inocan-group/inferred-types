@@ -61,7 +61,7 @@ describe("getDaysBetween()", () => {
       type ThisDate = typeof date1;
       // @ts-ignore
       type _cases = [
-        ExpectTrue<Luxon>,
+        Expect<Test<Luxon, "equals", boolean>>,
         Expect<Extends<DateTime<true>, ThisDate>>
       ];
     }

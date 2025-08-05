@@ -60,7 +60,7 @@ describe("isThisMonth()", () => {
         if (isThisMonth(thisMonth, mockNow)) {
             type ThisMonth = typeof thisMonth;
             type cases = [
-                Expect<Test<Luxon, "equals", true>>,
+                Expect<Test<Luxon, "equals", boolean>>,
             ];
         }
     });

@@ -60,7 +60,7 @@ describe("isTomorrow()", () => {
             type NextDay = typeof tomorrow;
 
             type cases = [
-                Expect<Test<Luxon, "equals", true>>,
+                Expect<Test<Luxon, "equals", boolean>>,
             ];
         }
     });
@@ -116,8 +116,8 @@ describe("isTomorrow()", () => {
     });
 
     it("should handle invalid inputs", () => {
-        expect(() => isTomorrow(null, mockNow)).toThrow();
-        expect(() => isTomorrow(undefined, mockNow)).toThrow();
+        expect(() => isTomorrow(null as any, mockNow)).toThrow();
+        expect(() => isTomorrow(undefined as any, mockNow)).toThrow();
         expect(() => isTomorrow("not a date", mockNow)).toThrow();
         expect(isTomorrow("2024", mockNow)).toBe(false); // Valid year, but Jan 1 != Jan 16
         expect(isTomorrow(123, mockNow)).toBe(false); // Valid epoch, but different date

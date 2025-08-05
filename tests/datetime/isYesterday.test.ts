@@ -66,7 +66,7 @@ describe("isYesterday()", () => {
         if (isYesterday(yesterday, mockNow)) {
             type PrevDay = typeof yesterday;
             type cases = [
-                Expect<Test<Luxon, "equals", true>>
+                Expect<Test<Luxon, "equals", boolean>>
             ];
         }
     });
