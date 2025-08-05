@@ -1,4 +1,4 @@
-import type { HasUnionType, Narrowable, NarrowObject, ObjectKey, Throw, WithKeys } from "inferred-types/types";
+import type { Err, HasUnionType, Narrowable, NarrowObject, ObjectKey,  WithKeys } from "inferred-types/types";
 
 /**
  * **retainKeys**(obj,...keys)
@@ -22,10 +22,9 @@ export function retainKeys<
     }
 
     return output as unknown as HasUnionType<TKeys> extends true
-        ? Throw<
+        ? Err<
             "invalid-union",
             "the retain(obj, keys) function was called with keys which included a value which was a union type; this would make the typing inconsistent with the runtime type and should be avoided. Note that at runtime this will not produce an error but rather produce the valid runtime value.",
-            "retain()",
             { keys: TKeys }
         >
         : WithKeys<TObj, TKeys>;

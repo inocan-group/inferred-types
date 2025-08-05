@@ -4,7 +4,7 @@ import type {
     AlphaChar,
     And,
     As,
-    AsLiteralFn,
+    AsStaticFn,
     AsNarrowingFn,
     Asynchronous,
     CharCount,
@@ -291,7 +291,7 @@ type BuildFunction<T extends InfoBlock> = T["narrowing"] extends true
             : If<IsDefined<T["props"]>, EmptyObject, { name: T["name"] }>
     >
     : // normal fn (aka, not narrowing)
-    AsLiteralFn<
+    AsStaticFn<
         GetEach<T["args"], "type"> extends readonly any[]
             ? GetEach<T["args"], "type">
             : never,

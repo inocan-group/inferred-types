@@ -1,10 +1,11 @@
+
 import type {
     AfterFirst,
     As,
     Contains,
     Dictionary,
     First,
-    IsObjectLiteral,
+    IsLiteralLikeObject,
     Keys,
     KeyValue,
     ObjectKey,
@@ -45,6 +46,6 @@ type Process<
  */
 export type ToKv<
     TObj extends Dictionary
-> = IsObjectLiteral<TObj> extends true
+> = IsLiteralLikeObject<TObj> extends true
     ? Process<TObj>
     : KeyValue[];

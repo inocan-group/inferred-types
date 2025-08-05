@@ -6,7 +6,6 @@ export * from "./If";
 export * from "./IfAllExtend";
 export * from "./IfAllLiteral";
 export * from "./IfEqual";
-export * from "./IfErrorCondition";
 export * from "./IfLength";
 export * from "./IfNever";
 export * from "./IfUnset";

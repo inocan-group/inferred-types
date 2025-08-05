@@ -9,7 +9,6 @@ export * from "./EnsureKeys";
 export * from "./FromMaybeRef";
 export * from "./Get";
 export * from "./KebabKeys";
-export * from "./Keys";
 export * from "./KeysEqualValue";
 export * from "./KeysNotEqualValue";
 export * from "./KeysWithError";

@@ -1,6 +1,6 @@
 import type {
     AsString,
-    ErrorCondition,
+    Err,
     IsBoolean,
     IsFalse,
     IsTrue,
@@ -8,12 +8,12 @@ import type {
     LogicFunction,
 } from "inferred-types/types";
 
-type WideBooleanNotAllowed = ErrorCondition<
+type WideBooleanNotAllowed = Err<
     "wide-boolean-not-allowed",
     `Call to Validate<T,E> received a wide boolean type for T!`
 >;
 
-type WideReturnNotAllowed<T> = ErrorCondition<
+type WideReturnNotAllowed<T> = Err<
     "wide-return-not-allowed",
   `Call to Validate<T,E> returned a wide type: ${AsString<T>}!`
 >;

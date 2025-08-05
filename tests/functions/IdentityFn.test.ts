@@ -1,7 +1,6 @@
 import { describe, it } from "vitest";
 import {
     Expect,
-    IsErrorCondition,
     IdentityFn,
     Test
 } from "inferred-types/types";
@@ -37,10 +36,10 @@ describe("IdentityFn<T,[TNarrow]>", () => {
             Expect<Test<Bool, "equals",  <T extends boolean>(v: T) => T>>,
 
             Expect<Test<
-                IsErrorCondition<Err, "invalid-literal">, "equals", true
+                Err, "isError", "invalid-literal"
             >>,
             Expect<Test<
-                IsErrorCondition<Err2, "invalid-literal">, "equals", true
+                Err2, "isError", "invalid-literal"
             >>,
         ];
     });

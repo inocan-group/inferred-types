@@ -42,7 +42,7 @@ export type NarrowingFn<
  * Constructs a `NarrowingFn` from component aspects of
  * a function.
  *
- * **Related:** `LiteralFn`, `NarrowingFn`, `AsLiteralFn`
+ * **Related:** `LiteralFn`, `NarrowingFn`, `AsStaticFn`
  */
 export type AsNarrowingFn<
     TParams extends readonly any[] | TypedFunction,

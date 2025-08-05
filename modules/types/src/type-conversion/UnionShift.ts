@@ -1,4 +1,4 @@
-import type { IsUnion, LastInUnion } from "inferred-types/types";
+import type { IsUnion } from "inferred-types/types";
 
 type Process<U, Last = LastInUnion<U>> = [U] extends [never]
     ? []

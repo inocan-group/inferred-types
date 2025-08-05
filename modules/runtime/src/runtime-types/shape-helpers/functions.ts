@@ -1,5 +1,5 @@
 import type {
-    AsLiteralFn,
+    AsStaticFn,
     FnArgsDefn,
     FnPropertiesDefn,
     FnReturnTypeDefn,
@@ -17,14 +17,14 @@ export function fn<TArgs extends readonly FnArgsDefn[]>(..._args: TArgs) {
         returns: <TReturn extends FnReturnTypeDefn>(_rtn: TReturn) => ({
             addProperties: <TProps extends FnPropertiesDefn>(_kv: TProps) => {
                 // TODO
-                return null as unknown as AsLiteralFn<
+                return null as unknown as AsStaticFn<
                     FromWideTokens<TArgs, FromDefn<TArgs>>,
                     FromWideTokens<TReturn, FromDefn<TReturn>>,
                     FromDefn<TProps>
                 >;
             },
             done: () => {
-                return null as unknown as AsLiteralFn<
+                return null as unknown as AsStaticFn<
                     FromDefn<TArgs>,
                     FromDefn<TReturn>
                 >;
@@ -32,7 +32,7 @@ export function fn<TArgs extends readonly FnArgsDefn[]>(..._args: TArgs) {
         }),
         done: () => {
             const result: unknown = null;
-            return result as unknown as AsLiteralFn<FromDefn<TArgs>>;
+            return result as unknown as AsStaticFn<FromDefn<TArgs>>;
         },
     };
 }

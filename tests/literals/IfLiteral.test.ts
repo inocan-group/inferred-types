@@ -4,9 +4,9 @@ import {
     Test,
     IsLiteralLike,
     EmptyObject,
-    IsObjectLiteral,
     ExplicitlyEmptyObject,
-    Dictionary
+    Dictionary,
+    IsLiteralObject
 } from "inferred-types/types";
 import { IsWideType, Keys } from "inferred-types";
 
@@ -56,7 +56,7 @@ describe("IsLiteral<T>", () => {
     it("Edge Cases", () => {
         type Empty = IsLiteralLike<EmptyObject>;
         type Explicit = IsLiteralLike<ExplicitlyEmptyObject>;
-        type BaseDictionary = IsObjectLiteral<Dictionary>;
+        type BaseDictionary = IsLiteralLike<Dictionary>;
         // eslint-disable-next-line @typescript-eslint/ban-types
         type Curly = IsLiteralLike<{}>;
 

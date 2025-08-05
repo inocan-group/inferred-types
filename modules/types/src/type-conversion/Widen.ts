@@ -1,8 +1,8 @@
 import type {
     AfterFirst,
     AnyFunction,
-    AsLiteralFn,
     AsNarrowingFn,
+    AsStaticFn,
     Container,
     Dictionary,
     EmptyObject,
@@ -11,10 +11,10 @@ import type {
     First,
     FnKeyValue,
     IsLiteralLike,
+    IsLiteralLikeObject,
     IsLiteralUnion,
     IsNarrowingFn,
     IsNonEmptyContainer,
-    IsObjectLiteral,
     IsUnion,
     Keys,
     Mutable,
@@ -190,7 +190,7 @@ export type WidenFunction<
             ? WidenFnProps<TProps, Keys<TProps>>
             : EmptyObject
     >
-    : AsLiteralFn<
+    : AsStaticFn<
         WidenFnParams<TParams>,
         Widen<TReturn>,
         [IsNonEmptyContainer<TProps>] extends [true]
@@ -220,7 +220,7 @@ export type WidenContainer<
               : Function
           : T extends readonly unknown[] ? WidenTuple<T>
               : T extends Dictionary
-                  ? [IsObjectLiteral<T>] extends [true]
+                  ? [IsLiteralLikeObject<T>] extends [true]
                       ? Keys<T> extends readonly (keyof T)[]
                           ? Mutable<ExpandRecursively<WidenObj<T, Keys<T>>>>
                           : never

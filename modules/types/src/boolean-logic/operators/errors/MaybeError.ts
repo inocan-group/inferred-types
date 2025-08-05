@@ -1,8 +1,8 @@
-import type { Contains, ErrorCondition, IsUnion, UnionToTuple } from "inferred-types/types";
+import type { Contains,  IsUnion, UnionToTuple } from "inferred-types/types";
 
 type AnyError<
     T extends readonly unknown[],
-> = Contains<T, ErrorCondition> extends true
+> = Contains<T, Error> extends true
     ? true
     : Contains<T, Error> extends true
         ? true

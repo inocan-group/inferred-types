@@ -1,6 +1,6 @@
 import {  ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AnyFunction, AsLiteralFn, Extends } from "inferred-types/types";
+import { AnyFunction,  AsStaticFn,  Extends } from "inferred-types/types";
 
 
 
@@ -12,7 +12,7 @@ describe("AnyFunction", () => {
     type T3 = Extends<(name: string) => "hi",AnyFunction>;
     type T4 = Extends<<T extends string>(name: T) => "hi",AnyFunction>;
     type T5 = Extends<(<T extends string>(name: T) => "hi") & { foo: 1},AnyFunction>;
-    type T6 = Extends<AsLiteralFn<[name: string, age: number],string, {foo:1}>, AnyFunction>;
+    type T6 = Extends<AsStaticFn<[name: string, age: number],string, {foo:1}>, AnyFunction>;
 
     type cases = [
       ExpectTrue<T1>,
@@ -22,9 +22,7 @@ describe("AnyFunction", () => {
       ExpectTrue<T5>,
       ExpectTrue<T6>,
     ];
-    const cases: cases = [
-      true, true, true, true, true, true
-    ];
+
   });
 
 });

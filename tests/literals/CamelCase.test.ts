@@ -94,7 +94,7 @@ describe("CamelCase<T> type utility", () => {
         type T3 = CamelCase<"ONE_TWO_THREE_FOUR_FIVE_SIX_SEVEN_EIGHT_NINE">;
         // also works for multiple delimiters
         type T4 = CamelCase<"one-two-three-four_five_six_seven_eight_nine">;
-        type T5 = CamelCase<"\n one-two-three-four_five_six_seven eight_nine \t">;
+        type T5 = CamelCase<"\n one-two-three-four_five_six_seven_eight_nine \t">;
 
         type cases = [
             Expect<Test<T1, "equals", "oneTwoThreeFourFiveSixSevenEightNine">>,

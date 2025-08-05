@@ -1,7 +1,7 @@
 import type {
     As,
     CountryPhoneNumber,
-    ErrorCondition,
+    Err,
     InternationalPhoneNumber,
     IsNumericLiteral,
     IsStringLiteral,
@@ -104,9 +104,9 @@ export type PhoneNumber<
         : IsNumericLiteral<T> extends true
             ? Process<`${As<T, number>}`, TDelimiter>
             : T extends string
-                ? string | ErrorCondition<"invalid-phone-number">
+                ? string | Err<"invalid-phone-number">
                 : T extends number
-                    ? number | ErrorCondition<"invalid-phone-number">
+                    ? number | Err<"invalid-phone-number">
                     : never;
 
 export type PhoneNumberWithCountryCode = `+${PhoneCountryCode} ${string}`;

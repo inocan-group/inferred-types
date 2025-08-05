@@ -1,22 +1,19 @@
 import type {
     Dictionary,
     FromTo,
-    IsObjectLiteral,
-    ObjectKey,
-    ObjectKeys,
+    IsLiteralLikeObject,
     Values,
 } from "inferred-types/types";
 
 /** converts an object's key values into FromTo tuple */
 type ConvertFromTo<
     TObj extends Dictionary,
-    TKey extends readonly ObjectKey[] = ObjectKeys<TObj>
 > = Values<{
     [K in keyof TObj]: {
         from: K;
         to: TObj[K];
     }
-}, true>;
+}>;
 
 /**
  * **AsFromTo**`<T>`
@@ -31,7 +28,7 @@ type ConvertFromTo<
  */
 export type AsFromTo<
     T extends Dictionary<string, string>,
-> = IsObjectLiteral<T> extends true
+> = IsLiteralLikeObject<T> extends true
     ? ConvertFromTo<T> extends readonly FromTo[]
         ? ConvertFromTo<T>
         : never

@@ -1,4 +1,4 @@
-import type { IsLiteralLike, IsUnion, Throw } from "inferred-types/types";
+import type { Err, IsLiteralLike, IsUnion, Throw } from "inferred-types/types";
 
 /**
  * **IdentityFn**`<TValue, [TNarrow]>`
@@ -12,6 +12,10 @@ export type IdentityFn<
     ? [IsLiteralLike<TValue>] extends [true]
         ? [IsUnion<TValue>] extends [true]
             ? <T extends TValue>(v: T) => T
-            : Throw<"invalid-literal", `A narrowing identity function must be based off a wide type or a union of literals!`, "IdentityFn", { value: TValue }>
+            : Err<
+                "invalid-literal",
+                `A narrowing identity function must be based off a wide type or a union of literals!`,
+                { value: TValue }
+            >
         : <T extends TValue>(v: T) => T
     : () => TValue;

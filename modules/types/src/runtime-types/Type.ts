@@ -11,7 +11,7 @@ import type {
     AnyFunction,
     As,
     Box,
-    ErrorCondition,
+    Err,
     Extends,
     If,
     IsArray,
@@ -267,7 +267,7 @@ export type TypeHasUnderlying = "no-underlying" | "literals" | "children";
  * A function which is provided a value `T` and must either return
  * `true` or an `ErrorCondition` which describes the issue.
  */
-export type ValidationFunction = <T, E extends string>(value: T) => true | ErrorCondition<E>;
+export type ValidationFunction = <T, E extends string>(value: T) => true | Err<E>;
 
 /**
  * A type definition which retains valuable runtime characteristics

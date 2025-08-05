@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 import {
     Expect,
     AsFnMeta,
-    AsLiteralFn,
+    AsStaticFn,
     AsNarrowingFn,
     IsNarrowingFn,
     StaticFn,
@@ -108,12 +108,12 @@ describe("LiteralFn<T>", () => {
 
 });
 
-describe("AsLiteralFn<TParam,TReturn,TProps>", () => {
+describe("AsStaticFn<TParam,TReturn,TProps>", () => {
 
   it("happy path", () => {
-    type Basic = AsLiteralFn<[], "hi">;
-    type WithParams = AsLiteralFn<[name: string], "hi">;
-    type WithProps = AsLiteralFn<[], "hi", { foo: 1}>;
+    type Basic = AsStaticFn<[], "hi">;
+    type WithParams = AsStaticFn<[name: string], "hi">;
+    type WithProps = AsStaticFn<[], "hi", { foo: 1}>;
 
 
     type cases = [

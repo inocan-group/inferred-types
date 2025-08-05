@@ -19,7 +19,6 @@ export * from "./isDoneFn";
 export * from "./isEmail";
 export * from "./isEmpty";
 export * from "./isError";
-export * from "./isErrorCondition";
 export * from "./isEven";
 export * from "./isFalse";
 export * from "./isFalsy";

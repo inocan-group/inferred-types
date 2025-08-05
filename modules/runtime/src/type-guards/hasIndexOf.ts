@@ -1,5 +1,5 @@
 import type { Container, Dictionary, IsValidIndex, Tuple } from "inferred-types/types";
-import { isDictionary, isErrorCondition } from "inferred-types/runtime";
+import { isDictionary, isError } from "inferred-types/runtime";
 
 /**
  * **hasIndexOf**(value, idx) => boolean
@@ -23,7 +23,7 @@ export function hasIndexOf<
             ? Number(idx) in value
             : false;
     return (
-        isErrorCondition(result, "invalid-index")
+        isError(result)
             ? false
             : result
     ) as IsValidIndex<TContainer, TIndex>;

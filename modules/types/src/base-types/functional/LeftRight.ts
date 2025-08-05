@@ -1,4 +1,4 @@
-import type { AsError, Concat, Contains, Defined, IfEqual, NarrowlyContains, Tuple } from "inferred-types/types";
+import type { Concat, Contains, Defined, Err, IfEqual, NarrowlyContains, Tuple } from "inferred-types/types";
 
 type left = 1;
 type right = 2;
@@ -225,15 +225,15 @@ export type WhereLeft<
     TOp extends LeftRight__Operations,
     TLeftRight extends LeftRight,
     IF = TEval & TLeftRight[left],
-    ELSE = AsError<[
+    ELSE = Err<
         "conditional-failure-left",
         Concat<[
             "While using the '",
             TOp,
             "' operation to compare to the LEFT value",
         ]>,
-        { library: "inferred-types/constants"; utility: "IfLeft" },
-    ]>,
+        { library: "inferred-types/constants"; utility: "IfLeft" }
+    >,
 >
 = TOp extends "extends"
     ? LeftExtends<TEval, TLeftRight> extends true ? IF : ELSE

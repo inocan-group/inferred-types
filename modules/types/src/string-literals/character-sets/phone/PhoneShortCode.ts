@@ -1,8 +1,8 @@
 import type {
+    Err,
     IsGreaterThan,
     IsStringLiteral,
     NumericChar,
-    Throw,
 } from "inferred-types/types";
 
 /**
@@ -29,8 +29,8 @@ export type PhoneShortCode<
         ? IsStringLiteral<T> extends true
             ? T extends `${number}`
                 ? IsGreaterThan<T["length"], 6> extends true
-                    ? Throw<"invalid-short-code", `Short codes must be less than 7 digits [${T["length"]}]`>
+                    ? Err<"invalid-short-code", `Short codes must be less than 7 digits [${T["length"]}]`>
                     : T
-                : Throw<"invalid-short-code", `Short codes may vary from region to region but they must always contain only numbers: ${T}!`>
+                : Err<"invalid-short-code", `Short codes may vary from region to region but they must always contain only numbers: ${T}!`>
             : string
         : never;

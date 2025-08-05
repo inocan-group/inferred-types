@@ -1,5 +1,4 @@
 import type {
-    ErrorCondition,
     IsBoolean,
     IsBooleanLiteral,
     IsFalse,
@@ -22,7 +21,7 @@ export type If<
     TError = never,
 > = [IsNever<TTest>] extends [true]
     ? TNever
-    : [TTest] extends [ErrorCondition]
+    : [TTest] extends [Error]
         ? TError
         : [TTest] extends [boolean]
             ? [IsTrue<TTest>] extends [true]

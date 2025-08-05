@@ -1,7 +1,5 @@
 import type { GetEach, Narrowable } from "inferred-types/types";
-
-import { Never } from "inferred-types/constants";
-import { get, isErrorCondition } from "inferred-types/runtime";
+import { get, isError } from "inferred-types/runtime";
 
 export interface GetEachOptions<
     THandleErrors,
@@ -36,9 +34,9 @@ export function getEach<
                 ? get(i as Narrowable, dotPath as string)
                 : Array.isArray(i)
                     ? get(i as readonly unknown[], dotPath as string)
-                    : Never,
+                    : null as never,
         )
-        .filter(i => !isErrorCondition(i));
+        .filter(i => !isError(i));
 
     return result as unknown as GetEach<
         [...TList],

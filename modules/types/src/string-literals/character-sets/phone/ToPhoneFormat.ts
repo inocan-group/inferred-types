@@ -3,7 +3,6 @@ import type {
 } from "inferred-types/constants";
 
 import type {
-    ErrorCondition,
     GetPhoneCountryCode,
     GetPhoneNumberType,
     HasPhoneCountryCode,
@@ -40,4 +39,4 @@ export type ToPhoneFormat<
     ? PhoneNumber<TPhone> extends string
         ? FormatLookup<TPhone>[TFormat]
         : PhoneNumber<TPhone>
-    : FormatLookup<TPhone>[TFormat] | ErrorCondition<"invalid-phone-number">;
+    : FormatLookup<TPhone>[TFormat] | Error;

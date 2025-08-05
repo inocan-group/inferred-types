@@ -1,5 +1,5 @@
 import type { Constant } from "inferred-types/constants";
-import type { AsString, Dictionary, IfEqual, Throw, Tuple } from "inferred-types/types";
+import type { AsString, Dictionary, Err, IfEqual,  Tuple } from "inferred-types/types";
 
 /**
  * **AsIndexOf**`<T,K,[ERR]>`
@@ -15,10 +15,9 @@ export type AsIndexOf<
     : IfEqual<
         ERR,
         Constant<"NoErr">,
-        Throw<
+        Err<
             "invalid-key",
-      `the key '${AsString<K>}' is not a valid key of the passed container`,
-      "AsIndexOf"
+            `the key '${AsString<K>}' is not a valid key of the passed container`,
         >,
         ERR
     >;
