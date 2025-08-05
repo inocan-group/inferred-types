@@ -10,5 +10,5 @@ import type { ObjectKey } from "inferred-types/types";
  */
 export type Dictionary<
     K extends ObjectKey = ObjectKey,
-    V = any,
+    V = unknown,
 > = Record<K, V>;

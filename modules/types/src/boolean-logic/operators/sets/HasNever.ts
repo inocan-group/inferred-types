@@ -35,7 +35,7 @@ type Validate<T> = [IsAny<T>] extends [true]
 /**
  * **HasNever**`<T>`
  *
- * Test whether the container `T` has any values which are the `any` type.
+ * Test whether the container `T` has any _values_ which are the `never` type.
  *
  * - if `T` is a wide type then this utility will always return `boolean`
  */

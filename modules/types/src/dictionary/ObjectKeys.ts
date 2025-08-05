@@ -2,6 +2,8 @@ import {
     AfterFirst,
     As,
     Contains,
+    Dictionary,
+    EmptyObject,
     Err,
     First,
     IsAny,
@@ -12,7 +14,6 @@ import {
     IsTemplateLiteral,
     IsUnion,
     IsWideUnion,
-    NotFilter,
     ObjectKey,
     OptionalKeysTuple,
     Scalar,
@@ -27,12 +28,7 @@ type Shaped<
     O extends readonly PropertyKey[] = [], // optional
     V extends readonly PropertyKey[] = [], // variadic
 > = [] extends TKeys
-? [
-    ...L,
-    ...(Partial<O>),
-    ...(Partial<V>)
-]
-
+? [...L, ...Partial<O>, ...Partial<V>]
 : IsTemplateLiteral<First<TKeys>> extends true
     ? Shaped<AfterFirst<TKeys>, TOpt, L, O, [...V, First<TKeys>]>
     : Contains<TOpt, First<TKeys>> extends true
@@ -48,44 +44,53 @@ type Shaped<
  */
 export type ObjectKeys<
     TObj extends object
-> = [IsAny<TObj>] extends [TObj]
+> = [IsAny<TObj>] extends [true]
 ? Err<
     `invalid-type/object-keys`,
     `Call to ObjectKeys<T> where T was 'any'!`
 >
-: TObj extends Map<infer K, any>
+: IsNever<TObj> extends true
+    ? Err<
+        `invalid-type/object-keys`,
+        `Call to ObjectKeys<T> where T was 'never'!`
+    >
+
+
+    : TObj extends Map<infer K, any>
+
     ? IsUnion<K> extends true
         ? IsLiteralUnion<K> extends true
+            ? Required<Shaped<
+                As< UnionToTuple<K>, readonly PropertyKey[]>,
+                OptionalKeysTuple<TObj>
+            >>
+            : IsWideUnion<K> extends true
+                ? UnionToTuple<K>[]
+                : "mixed"
+        : K[]
+    : TObj extends Set<any>
+        ? Err<`invalid-type/object-keys`, `The type passed into ObjectKeys<T> was a Set. Set's do not have keys`>
+    : TObj extends WeakMap<infer K, any>
+        ? IsUnion<K> extends true
+            ? K
+            : K extends Scalar | object | readonly unknown[]
+                ? K[]
+                : unknown
+    : Required<TObj> extends Record<infer K, any>
+        ? IsNever<K> extends true
+            ? TObj extends Dictionary
+                ? []
+                : PropertyKey[]
+        : IsEqual<K, string | symbol> extends true
+            ? ObjectKey[]
+        : IsNever<K> extends true
+            ? PropertyKey[]
+        : IsLiteralString<K, "allow-union"> extends true
             ? Shaped<
-                As< NotFilter<UnionToTuple<K>, "equals", [boolean]>, readonly PropertyKey[]>,
+                As< UnionToTuple<K>, readonly PropertyKey[]>,
                 OptionalKeysTuple<TObj>
             >
-        : IsWideUnion<K> extends true
-            ? UnionToTuple<K>[]
-            : "mixed"
-
-: Required<TObj> extends Record<infer K, any>
-    ? IsEqual<K, string | symbol> extends true
-        ? ObjectKey[]
-    : IsNever<K> extends true
-        ? PropertyKey[]
-    : IsLiteralString<K, "allow-union"> extends true
-        ? Shaped<
-            As< NotFilter<UnionToTuple<K>, "equals", [boolean]>, readonly PropertyKey[]>,
-            OptionalKeysTuple<TObj>
-        >
-        : K[]
-
-: TObj extends Set<infer K>
-    ? K extends Scalar | object | readonly unknown[]
-        ? UnionToTuple<K>
-        : unknown
-: TObj extends WeakMap<infer K, any>
-    ? K extends Scalar | object | readonly unknown[]
-        ? UnionToTuple<K>
-        : unknown
-
-: never;
-
+            : K[]
+        : never;
 
 
