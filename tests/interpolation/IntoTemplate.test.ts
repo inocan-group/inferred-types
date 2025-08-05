@@ -3,6 +3,8 @@ import {
     Expect,
     FromLiteralTemplate,
     IntoTemplate,
+    TemplateBlocks,
+    TemplateParams,
     Test,
 } from "inferred-types/types";
 
@@ -10,6 +12,8 @@ describe("IntoTemplate<TTpl, TArgs>", () => {
 
     it("single string interpolation", () => {
         type V = IntoTemplate<`Hi ${string}`, ["Bob"]>;
+        type B = TemplateBlocks<`Hi ${string}`>; // =>
+        type P = TemplateParams<`Hi ${string}`>; // =>
         type L = FromLiteralTemplate<`Hi ${string}`>;
 
         type cases = [

@@ -8,12 +8,13 @@ import type {
     Keys,
     KeyValue,
     ObjectKey,
+    ObjectKeys,
     OptionalKeysTuple,
 } from "inferred-types/types";
 
 type Process<
     TObj extends Dictionary,
-    TKeys extends readonly (ObjectKey & keyof TObj)[] = As<Keys<TObj>, readonly (keyof TObj & ObjectKey)[]>,
+    TKeys extends readonly ObjectKey[],
     TOptional extends readonly ObjectKey[] = OptionalKeysTuple<TObj>,
     TKv extends readonly KeyValue[] = [],
 > = [] extends TKeys
@@ -46,5 +47,8 @@ type Process<
 export type ToKv<
     TObj extends Dictionary
 > = IsLiteralLikeObject<TObj> extends true
-    ? Process<TObj>
+    ? Process<
+        TObj,
+        As<ObjectKeys<Required<TObj>>, readonly ObjectKey[]>
+    >
     : KeyValue[];

@@ -64,8 +64,6 @@ type ProcessTemplate<
  * This implementation processes template literals in left-to-right order,
  * correctly matching template placeholders to arguments sequentially.
  *
- * @example
- *
  * ```ts
  * // "Hello World!"
  * type Result = IntoTemplate<`Hello ${string}!`, ["World"]>;
@@ -77,5 +75,7 @@ type ProcessTemplate<
  */
 export type IntoTemplate<
     TTpl extends string,
-    TArgs extends TemplateParams<TTpl> extends readonly (string | number | boolean)[] ? TemplateParams<TTpl> : []
-> = ProcessTemplate<TTpl, TArgs>;
+    TArgs extends TemplateParams<TTpl>
+> = TArgs extends readonly unknown[]
+? ProcessTemplate<TTpl, TArgs>
+: never;
