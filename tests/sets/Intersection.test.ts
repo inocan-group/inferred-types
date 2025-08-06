@@ -192,9 +192,9 @@ describe("Intersection<A,B>", () => {
         type T8 = Intersection<{ arr: [1, 2, 3], obj: { x: 1 } }, { arr: [1, 2, 3], str: "hello" }>;
 
         type cases = [
-            Expect<Test<T1, "equals", never[]>>,
-            Expect<Test<T2, "equals", never[]>>,
-            Expect<Test<T3, "equals", never[]>>,
+            Expect<Test<T1, "equals", []>>,
+            Expect<Test<T2, "equals", []>>,
+            Expect<Test<T3, "equals", []>>,
             Expect<Test<T4, "equals", [null]>>,
             Expect<Test<T5, "equals", [undefined]>>,
             Expect<Test<T6, "hasSameValues", [undefined, null]>>,

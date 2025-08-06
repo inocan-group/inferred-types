@@ -6,7 +6,6 @@ import type {
     MergeScalars,
     MergeTuples,
     Merge,
-    IsErrorCondition,
     Test
 } from "inferred-types/types";
 import { mergeScalars, mergeTuples } from "inferred-types/runtime";

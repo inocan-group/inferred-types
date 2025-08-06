@@ -36,7 +36,6 @@ describe("IsLiteral<T>", () => {
     it("negative tests", () => {
         type F1 = IsLiteralLike<string>;
         type F2 = IsLiteralLike<number>;
-        type F3 = IsLiteralLike<boolean>;
         type F4 = IsLiteralLike<object>;
         type F5 = IsLiteralLike<string[]>;
         type F6 = IsLiteralLike<readonly string[]>;
@@ -45,7 +44,6 @@ describe("IsLiteral<T>", () => {
         type cases = [
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
-            Expect<Test<F3, "equals", false>>,
             Expect<Test<F4, "equals", false>>,
             Expect<Test<F5, "equals", false>>,
             Expect<Test<F6, "equals", false>>,

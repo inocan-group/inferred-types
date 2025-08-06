@@ -67,7 +67,7 @@ type Iterate<
  */
 export type MakeKeysOptional<
     TObj extends Dictionary,
-    TKeys extends IsWideObject<TObj> extends true ? readonly ObjectKey[] : readonly (keyof TObj & ObjectKey)[]
+    TKeys extends readonly ObjectKey[]
 > = OptionalKeysTuple<TObj> extends readonly ObjectKey[]
     ? Keys<TObj> extends readonly ObjectKey[]
         ? Iterate<TObj, TKeys, OptionalKeysTuple<TObj>, Keys<TObj>>

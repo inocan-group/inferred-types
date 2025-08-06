@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { AddKeyValue, DoesExtend, ErrorCondition, Test } from "inferred-types/types";
+import { AddKeyValue, DoesExtend, Test } from "inferred-types/types";
 
 
 
@@ -16,9 +16,8 @@ describe("AddKeyValue<TObj,K,V>", () => {
 
         type cases = [
             Expect<Test<Valid, "equals",  { foo: 1; bar: 2; baz: 42 }>>,
-            DoesExtend<Invalid, ErrorCondition<"duplicate-key">>
+            Expect<Test<Invalid, "isError", true>>
         ];
-        const cases: cases = [true, true];
     });
 
 });

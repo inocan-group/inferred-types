@@ -138,7 +138,10 @@ describe("createFnWithProps()", () => {
             Expect<Test<FnKeyValue<typeof original>, "equals",  { foo: 42 }>>,
             Expect<Equal<
                 typeof fn,
-                (() => "hi") & { foo: 42; bar: 99 }
+                (() => "hi") & {
+                    readonly foo: 42;
+                    readonly bar: 99;
+                }
             >>
         ];
     });
@@ -161,7 +164,10 @@ describe("createFnWithProps()", () => {
             >>,
             Expect<Equal<
                 typeof fn,
-                (() => string) & { foo: 42; bar: 99 }
+                (() => string) & {
+                    readonly foo: 42;
+                    readonly bar: 99;
+                }
             >>
         ];
     });

@@ -4,6 +4,7 @@ import {
     Test,
     FnReturn
 } from "inferred-types/types";
+import { FnReturns } from "types/runtime-types/type-defn/input-tokens";
 
 
 describe("FnReturn<TFn>", () => {
@@ -52,9 +53,9 @@ describe("FnReturn<TFn>", () => {
         type F4 = (age: number) => `${typeof age} years old`;
 
         type RT1 = ReturnType<F1>; // =>
-        type R1 = FnReturn<F1>;
-        type R2 = FnReturn<F4>;
-        type R3 = FnReturn<F2>;
+        type R1 = FnReturns<F1>;
+        type R2 = FnReturns<F4>;
+        type R3 = FnReturns<F2>;
 
         type cases = [
             Expect<Test<R1, "equals",  `${number} years old`>>,

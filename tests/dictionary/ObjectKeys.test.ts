@@ -64,7 +64,7 @@ describe("ObjectKeys<T>", () => {
         //   ^?
 
         type cases = [
-            Expect<Test<Shape, "equals", ["foo", "bar", `_${string}`]>>
+            Expect<Test<Shape, "equals", ["foo", "bar", (`_${string}` | undefined)?]>>
         ];
     });
 

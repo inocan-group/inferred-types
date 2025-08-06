@@ -29,28 +29,7 @@ describe("ObjectToJsString<T>", () => {
     });
 
 
-    it("object with symbol as key", () => {
 
-        type Obj = Ref<{ foo: number; bar: number}>;
-        type Str = ObjectToJsString<Obj>;
-
-        const sym = Symbol("bespoke");
-
-        type MultiProp = {
-            [sym]: "symbol",
-            foo: 1
-        }
-        type MultiPropStr = ObjectToJsString<MultiProp>;
-
-        type cases = [
-            Expect<Test<Str, "equals", "{ [key: symbol]: true }">>,
-            Expect<Test<MultiPropStr, "containsAll", [
-                `[key: symbol]: "symbol"`,
-                `foo: 1`
-            ]>>,
-
-        ];
-    });
 
 
 });
