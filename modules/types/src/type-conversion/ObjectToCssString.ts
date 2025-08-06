@@ -1,4 +1,5 @@
 import type {
+    As,
     AsString,
     Dictionary,
     ExplicitlyEmptyObject,
@@ -31,7 +32,7 @@ type Process<
  * **Related:** `ObjectToJsString`, `ObjectToJsonString`, `ObjectToTuple`
  */
 export type ObjectToCssString<
-    TObj extends Dictionary,
+    TObj extends object,
     TExpand extends boolean = false,
 > = Or<[
     TObj extends ExplicitlyEmptyObject ? true : false,
@@ -39,7 +40,7 @@ export type ObjectToCssString<
 ]> extends true
     ? "{}"
     : Surround<
-        Process<ToKv<TObj>, false>,
+        Process<ToKv<As<TObj, Dictionary>>, false>,
         TExpand extends false ? "{ " : "{",
         TExpand extends false ? " }" : "\n}"
     >;

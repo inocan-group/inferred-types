@@ -40,6 +40,7 @@ describe("IsLiteralLike<T>", () => {
         type T2 = IsLiteralLike<1 | 2 | 3>;
         type T3 = IsLiteralLike<true | false>;
         type T4 = IsLiteralLike<boolean>;
+        type T5 = IsLiteralLike<true>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,

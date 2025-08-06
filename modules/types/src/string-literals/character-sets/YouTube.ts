@@ -141,8 +141,8 @@ type FeedMap<T extends YouTubeFeedType> = IsUnion<T> extends true
 export type YouTubeFeedUrl<
     T extends YouTubeFeedType = YouTubeFeedType,
 >
-    = | `https://www.youtube.com/${AsString<FeedMap<T>>}${string}`
-    | `https://youtube.com/${AsString<FeedMap<T>>}${string}`;
+    = | `https://www.youtube.com/feed/${T}${string}`
+    | `https://youtube.com/feed/${T}${string}`;
 
 /**
  * **YouTubeUsersPlaylistUrl**
@@ -193,41 +193,45 @@ export type YouTubeSubscriptionsUrl = `https://www.youtube.com/feed/subscription
 export type GetYouTubePageType<T> = T extends YouTubeUrl
     ? T extends YouTubeHome
         ? "home"
-        : T extends YouTubeVideoUrl
-            ? HasQueryParameter<T, "list"> extends true
-                ? T extends YouTubeShareUrl
-                    ? HasQueryParameter<T, "t"> extends true
-                        ? "play::video::in-list::share-link::with-timestamp"
-                        : "play::video::in-list::share-link"
-                    : "play::video::in-list"
-                : T extends YouTubeShareUrl
-                    ? HasQueryParameter<T, "t"> extends true
-                        ? "play::video::solo::share-link::with-timestamp"
-                        : "play::video::solo::share-link"
-                    : "play::video::solo"
-            : T extends YouTubeCreatorUrl
-                ? GetUrlPath<T> extends `${string}/videos`
-                    ? "creator::videos"
-                    : GetUrlPath<T> extends `${string}/playlists`
-                        ? "creator::playlists"
-                        : Last<Split<GetUrlPath<T>, "/">> extends `@${string}`
+    : T extends YouTubeVideoUrl
+        ? HasQueryParameter<T, "list"> extends true
+            ? T extends YouTubeShareUrl
+                ? HasQueryParameter<T, "t"> extends true
+                    ? "play::video::in-list::share-link::with-timestamp"
+                    : "play::video::in-list::share-link"
+                : "play::video::in-list"
+            : T extends YouTubeShareUrl
+                ? HasQueryParameter<T, "t"> extends true
+                    ? "play::video::solo::share-link::with-timestamp"
+                    : "play::video::solo::share-link"
+                : "play::video::solo"
+    : T extends YouTubeCreatorUrl
+            ? GetUrlPath<T> extends `${string}/videos`
+                ? "creator::videos"
+                : GetUrlPath<T> extends `${string}/playlists`
+                    ? "creator::playlists"
+                    : Last<Split<GetUrlPath<T>, "/">> extends `@${string}`
+                        ? "creator::featured"
+                        : GetUrlPath<T> extends `${string}/featured`
                             ? "creator::featured"
-                            : GetUrlPath<T> extends `${string}/featured`
-                                ? "creator::featured"
-                                : "creator::other"
-                : T extends YouTubeFeedUrl
-                    ? T extends YouTubeFeedUrl<"history">
-                        ? "feed::history"
-                        : T extends YouTubeFeedUrl<"playlists">
-                            ? "feed::playlists"
-                            : T extends YouTubeFeedUrl<"liked">
-                                ? "feed::liked"
-                                : T extends YouTubeFeedUrl<"subscriptions">
-                                    ? "feed::subscriptions"
-                                    : T extends YouTubeFeedUrl<"trending">
-                                        ? "feed::trending"
-                                        : "feed::other"
-                    : T extends YouTubeVideosInPlaylist
-                        ? "playlist::show"
-                        : "other"
+                            : "creator::other"
+    : T extends YouTubeFeedUrl
+                ? T extends YouTubeFeedUrl<"history">
+                    ? "feed::history"
+                    : T extends YouTubeFeedUrl<"playlists">
+                        ? "feed::playlists"
+                        : T extends YouTubeFeedUrl<"liked">
+                            ? "feed::liked"
+                            : T extends YouTubeFeedUrl<"subscriptions">
+                                ? "feed::subscriptions"
+                                : T extends YouTubeFeedUrl<"trending">
+                                    ? "feed::trending"
+                                    : "feed::other"
+    : T extends YouTubeVideosInPlaylist
+                    ? "playlist::show"
+                    : "other"
     : never;
+
+
+type X = YouTubeFeedUrl<"playlists">; // =>
+

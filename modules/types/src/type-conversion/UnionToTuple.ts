@@ -1,3 +1,6 @@
+import { NotFilter } from "inferred-types/types";
+import { As, HasFalse, HasTrue } from "types/boolean-logic";
+
 /**
  * UnionToIntersection<{ foo: string } | { bar: string }> =
  *  { foo: string } & { bar: string }.
@@ -17,6 +20,7 @@ type LastInUnion<U> = UnionToIntersection<
     ? L
     : never;
 
+
 /**
  * **UnionToTuple**`<1 | 2>` => [1, 2]
  *
@@ -29,4 +33,4 @@ export type UnionToTuple<
     Last = LastInUnion<U>
 > = [U] extends [never]
     ? []
-    : [...UnionToTuple<Exclude<U, Last>>, Last]; ;
+    : [...UnionToTuple<Exclude<U, Last>>, Last];

@@ -2,6 +2,7 @@ import type {
     DefineModifiers,
     HasModifier,
     IsAny,
+    IsBoolean,
     IsLiteralLikeObject,
     IsLiteralUnion,
     IsMixedUnion,
@@ -66,12 +67,8 @@ export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> =
     : [T] extends [bigint]
         ? true
 
-    : [IsTrue<T>] extends [true]
+    : [IsBoolean<T>] extends [true]
         ? true
-    : [IsFalse<T>] extends [true]
-        ? true
-    : [IsWideBoolean<T>] extends [true]
-        ? false
     : [T] extends [symbol]
         ? true
     : [T] extends [null | undefined]
@@ -80,7 +77,11 @@ export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> =
         ? [HasModifier<"exclude-unions", U, LiteralLikeModifiers>] extends [true]
             ? false
             : [HasModifier<"allow-mixed-unions", U, LiteralLikeModifiers>] extends [true]
-                ? Or<[ IsLiteralUnion<T>, IsMixedUnion<T> ]>
+                ? IsLiteralUnion<T> extends true
+                    ? true
+                    : IsMixedUnion<T> extends true
+                        ? true
+                    : false
                 : IsLiteralUnion<T>
     : [T] extends [readonly unknown[]]
         ? IsLiteralTuple<T>
@@ -91,3 +92,5 @@ export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> =
     : [T] extends [object]
         ? IsLiteralLikeObject<T>
         : false;
+
+type X = IsLiteralUnion<boolean>;

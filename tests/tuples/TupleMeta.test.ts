@@ -1,6 +1,7 @@
 import { Length } from "inferred-types";
 import {  DropVariadicTail, Expect, MaxSafeInteger, Test, TupleMeta } from "inferred-types/types";
 import { describe, it } from "vitest";
+import { DropVariadic } from '../../modules/types/src/lists/Variadic';
 
 describe("TupleMeta<T>", () => {
 
@@ -94,14 +95,17 @@ describe("TupleMeta<T>", () => {
         type Single = TupleMeta<[string]>;
         type Multiple = TupleMeta<[string, number]>;
         type WithOptional = TupleMeta<[string, number?]>;
+        type VariadicWithOptional = TupleMeta<[string, number?, ...string[]]>;
         type Variadic = TupleMeta<[string, ...number[]]>;
         type HeadVariadic = TupleMeta<[...string[], number]>;
+        type Wide = TupleMeta<string[]>;
 
         type cases = [
             Expect<Test<Empty["nonVariadicLength"], "equals", 0>>,
             Expect<Test<Single["nonVariadicLength"], "equals", 1>>,
             Expect<Test<Multiple["nonVariadicLength"], "equals", 2>>,
-            Expect<Test<WithOptional["nonVariadicLength"], "equals", 2>>,
+            Expect<Test<WithOptional["nonVariadicLength"], "equals", 1|2>>,
+            Expect<Test<VariadicWithOptional["nonVariadicLength"], "equals", 1|2>>,
             Expect<Test<Variadic["nonVariadicLength"], "equals", 1>>,
             Expect<Test<HeadVariadic["nonVariadicLength"], "equals", 1>>,
         ];

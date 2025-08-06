@@ -19,7 +19,7 @@ import { keysOf, sortByKey } from "inferred-types/runtime";
  * - a Tuple representation benefits from two main things:
  *    - ensured **order**
  *    - it is an **iterable** structure
- * - narrow types are preserved whereever possible
+ * - narrow types are preserved wherever possible
  * - you may optionally position certain key's at the "top"
  * or "bottom" of the stack by using the sort callback.
  *

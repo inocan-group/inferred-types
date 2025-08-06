@@ -28,8 +28,8 @@ describe("UnionToTuple<U>", () => {
         type Wide = UnionToTuple<string | boolean>;
 
         type cases = [
-            Expect<Test<StrBool, "hasSameValues", ["foo", "bar", boolean]>>,
-            Expect<Test<Wide, "hasSameValues", [string, boolean]>>
+            Expect<Test<StrBool, "hasSameValues", ["foo", "bar", true, false]>>,
+            Expect<Test<Wide, "hasSameValues", [string, true, false]>>
         ];
     });
 

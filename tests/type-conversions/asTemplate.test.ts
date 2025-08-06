@@ -4,7 +4,6 @@ import {
     Expect,
     Csv,
     Integer,
-    IsoDateLike,
     Test
 } from "inferred-types/types";
 

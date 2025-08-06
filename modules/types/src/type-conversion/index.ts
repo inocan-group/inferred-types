@@ -63,7 +63,6 @@ export * from "./TupleToUnion";
 export * from "./TypeReplace";
 export * from "./UnionArrayToTuple";
 export * from "./UnionFilter";
-export * from "./UnionShift";
 export * from "./UnionToIntersection";
 export * from "./UnionToTuple";
 export * from "./UnionWithAll";

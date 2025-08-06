@@ -2,8 +2,10 @@ import { describe, it } from "vitest";
 import {
     Expect,
     IsWideObject,
+    Keys,
     Test,
 } from "inferred-types/types";
+import { EmptyObject } from "inferred-types";
 
 describe("IsWideObject<T>", () => {
     it("should return true for wide object types", () => {
@@ -40,6 +42,7 @@ describe("IsWideObject<T>", () => {
     it("Record's key is a union", () => {
         // unbounded keys
         type T1 = IsWideObject<Record<`_${string}`, string>>;
+
         // bounded keys
         type T2 = IsWideObject<Record<"foo" | "bar", string>>;
 
@@ -68,6 +71,16 @@ describe("IsWideObject<T>", () => {
             Expect<Test<F7, "equals", false>>,
         ];
     });
+
+
+    it("an empty object is NOT a wide object", () => {
+        type F1 = IsWideObject<EmptyObject>;
+
+        type cases = [
+            Expect<Test<F1, "equals", false>>,
+        ];
+    });
+
 
     it("should return false for non-object types", () => {
         // Primitive types

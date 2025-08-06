@@ -5,6 +5,8 @@ import type {
     GetNonVariadicLength,
     GetOptionalElementCount,
     GetRequiredElementCount,
+    HasNonTemplateLiteral,
+    HasTemplateLiteral,
     HasVariadicHead,
     HasVariadicTail,
     If,
@@ -75,7 +77,7 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
      *
      * - if there is no variadic tail on `T` then this number will match `length`
      */
-    nonVariadicLength: GetNonVariadicLength<T>;
+    nonVariadicLength: DropVariadic<T>["length"];
     /**
      * whether or not `T` has a _variadic_ signature (but is NOT
      * a wide type)
@@ -84,6 +86,14 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
         IsVariadicArray<T>,
         IsLiteralLikeArray<T>
     ]>;
+
+    /**
+     * boolean indicator on whether the length of the array is
+     * known and fixed.
+     */
+    isFixedLength: number extends T["length"]
+        ? false
+        : IsEqual<MinLength<T>, MaxLength<T>>;
 
     /**
      * the _head_ position of the array is a _variadic_ type
@@ -114,6 +124,15 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
     ]>;
 
     excludingVariadicElement: DropVariadic<T>;
+
+    /**
+     * whether or not the given array as one or more elements
+     * who's type includes a template literal like `${string}`,
+     * `${number}`, etc.
+     */
+    hasTemplateLiterals: HasTemplateLiteral<T>;
+
+    hasNonTemplateLiterals: HasNonTemplateLiteral<T>;
 
     variadicType: VariadicType<T>;
     /**

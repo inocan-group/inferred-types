@@ -39,7 +39,7 @@ describe("defineObj(literals)(wide) runtime utility", () => {
             Expect<Test<
                 typeof narrowFnWithProps, "equals",
                     {
-                        fn: (() => "hi") &
+                        fn: (() => string) &
                         {
                             foo: 1;
                             bar: 2;

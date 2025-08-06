@@ -84,7 +84,7 @@ describe("HasFalse<T>", () => {
             type F2 = HasFalse<{ foo: 1, bar: 2, baz: 3 }>;
 
             type cases = [
-                Expect<Test<F1, "equals", boolean>>,
+                Expect<Test<F1, "equals", false>>,
                 Expect<Test<F2, "equals", false>>,
             ];
         });

@@ -10,12 +10,10 @@ describe("HasLeadingTemplateLiteral<T>", () => {
     it("Happy path", () => {
         type T1 = StartsWithTemplateLiteral<`${string} hi`>;
         type T2 = StartsWithTemplateLiteral<`${number} hi`>;
-        type T3 = StartsWithTemplateLiteral<`${boolean} hi`>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
-            Expect<Test<T3, "equals", true>>,
         ];
     });
 

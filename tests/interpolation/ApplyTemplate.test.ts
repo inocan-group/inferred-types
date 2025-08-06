@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { ApplyTemplate } from "inferred-types/types";
+import { ApplyTemplate, Test } from "inferred-types/types";
 
 describe("ApplyTemplate<TContent,TTemplate>", () => {
 
@@ -12,8 +12,8 @@ describe("ApplyTemplate<TContent,TTemplate>", () => {
         type Applied2 = ApplyTemplate<Actual, Template, false>;
 
         type cases = [
-            Expect<Test<Applied, [Actual, "42","190","Bob", "equals",  "true"]>>,
-            Expect<Test<Applied2, [Actual, 42, 190, "Bob", "equals",  true]>>,
+            Expect<Test<Applied, "equals",[Actual, "42","190","Bob",   "true"]>>,
+            Expect<Test<Applied2,"equals", [Actual, 42, 190, "Bob",   true]>>,
         ];
     });
 
@@ -25,8 +25,8 @@ describe("ApplyTemplate<TContent,TTemplate>", () => {
         type Applied2 = ApplyTemplate<Actual, Template, false>;
 
         type cases = [
-            Expect<Test<Applied, [Actual, "42","190","true", "equals",  "Bob"]>>,
-            Expect<Test<Applied2, [Actual, 42, 190, true, "equals",  "Bob"]>>,
+            Expect<Test<Applied,"equals",  [Actual, "42","190","true",  "Bob"]>>,
+            Expect<Test<Applied2, "equals",[Actual, 42, 190, true,   "Bob"]>>,
         ];
     });
 
@@ -38,8 +38,8 @@ describe("ApplyTemplate<TContent,TTemplate>", () => {
         type Applied2 = ApplyTemplate<Actual, Template, false>;
 
         type cases = [
-            Expect<Test<Applied, [Actual, "42","190","Bob", "true", "equals",  " That's all."]>>,
-            Expect<Test<Applied2, [Actual, 42, 190, "Bob", true, "equals",  " That's all."]>>,
+            Expect<Test<Applied, "equals",[Actual, "42","190","Bob", "true",   " That's all."]>>,
+            Expect<Test<Applied2,"equals",  [Actual, 42, 190, "Bob", true,  " That's all."]>>,
         ];
     });
 

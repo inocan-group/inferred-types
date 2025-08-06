@@ -50,7 +50,7 @@ describe("ToNumber<T>", () => {
 
             Expect<Test<PartBad, "equals", [1, 2, never]>>,
             Expect<Test<AllBad, "equals", [never, never, never]>>,
-            Expect<Test<Empty, "equals", []>>,
+            Expect<Test<Empty, "equals", number[]>>,
 
             Expect<Test<Bool, "equals", [0 | 1, 0 | 1, 0 | 1]>>,
             Expect<Test<TrueFalse, "equals", [1, 1, 0]>>,

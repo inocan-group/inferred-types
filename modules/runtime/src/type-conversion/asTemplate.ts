@@ -55,6 +55,3 @@ export function asTemplate<T extends string>(template: T) {
     return template as Interpolate<T, Find>;
 }
 
-export function applyTemplate() {
-    // TODO
-}

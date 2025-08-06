@@ -5,7 +5,7 @@ import {
 } from "inferred-types/types";
 import { Equal } from "@type-challenges/utils";
 
-describe("HasTemplateLiterals<T>", () => {
+describe("IsTemplateLiteral<T>", () => {
     type Start = IsTemplateLiteral<`${number} is a number`>;
     type End = IsTemplateLiteral<`you age is ${number}`>;
     type Mid1 = IsTemplateLiteral<`what up ${string}?`>;

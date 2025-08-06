@@ -39,14 +39,26 @@ describe("MergeObjects<A,B>", () => {
     });
 
 
-    it.todo("merging with optional params overriding", () => {
+    it("merging with optional params overriding", () => {
         type T1 = MergeObjects<
             { foo: 1; bar: 2 },
-            { bar: 4; baz?: "howdy"
-        }>;
+            { bar: 4; baz: "howdy"}
+        >;
+
+        type T2 = MergeObjects<
+            { foo: 1; bar: 2 },
+            { bar: 4; baz?: "howdy"}
+        >;
 
         type cases = [
-            /** type tests */
+            Expect<Test<
+                T1, "equals",
+                { foo: 1; bar: 4; baz: "howdy" }
+            >>,
+            Expect<Test<
+                T2, "equals",
+                { foo: 1; bar: 4; baz?: "howdy" }
+            >>
         ];
     });
 

@@ -5,6 +5,7 @@ import type {
     Narrowable,
     ObjectKey,
     TypedFunction,
+    FnReturn,
 } from "inferred-types/types";
 import { fnProps } from "runtime/functions";
 
@@ -12,7 +13,7 @@ type FnWithProps<
     TFn extends TypedFunction,
     TProps extends Record<ObjectKey, Narrowable>,
     TNarrowing extends boolean,
-    Fn extends <A extends Parameters<TFn>>(...args: A) => ReturnType<TFn> = <A extends Parameters<TFn>>(...args: A) => ReturnType<TFn>
+    Fn extends <A extends Parameters<TFn>>(...args: A) => FnReturn<TFn> = <A extends Parameters<TFn>>(...args: A) => FnReturn<TFn>
 > = TNarrowing extends true
     ? Fn & MergeObjects<FnKeyValue<TFn>, TProps>
     : StaticFn<Fn> & MergeObjects<FnKeyValue<TFn>, TProps>;
@@ -28,12 +29,9 @@ type FnWithProps<
  * instead.
  */
 export function createFnWithProps<
-    TArgs extends readonly any[],
-    TRtn extends Narrowable,
-    TProps extends Record<ObjectKey, N>,
+    const TProps extends Record<ObjectKey, N>,
     N extends Narrowable,
-    // R extends Narrowable,
-    TFn extends (...args: TArgs) => TRtn,
+    const TFn extends TypedFunction,
     TNarrowing extends boolean = false,
 >(
     fn: TFn,

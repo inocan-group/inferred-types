@@ -1,5 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { StripLeadingStringTemplate, StripSurroundingStringTemplate, StripTrailingStringTemplate } from "inferred-types/types";
+import {
+    StripLeadingStringTemplate,
+    StripSurroundingStringTemplate,
+    StripTrailingStringTemplate,
+    Test
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("StripSurroundingStringTemplate<T>", () => {
