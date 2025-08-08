@@ -48,14 +48,14 @@ export type UnionFilter<
     E,
 > = [U] extends [never]
     ? never
-    : IsUnion<U> extends true
-        ? Some<UnionToTuple<E>, "extends", EmptyObject> extends true
-            ? Exclude<
-                RemoveEmptyObject<UnionToTuple<U>>,
-                RemoveEmptyObject<UnionToTuple<E>>
-            >
-            : Exclude<U, E>
-        : U; // not union
+: IsUnion<U> extends true
+    ? Some<UnionToTuple<E>, "extends", EmptyObject> extends true
+        ? Exclude<
+            RemoveEmptyObject<UnionToTuple<U>>,
+            RemoveEmptyObject<UnionToTuple<E>>
+        >
+        : Exclude<U, E>
+    : U; // not union
 
 export type UnionMutationOp
     = | "Capitalize"

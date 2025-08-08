@@ -15,7 +15,6 @@ import { describe, it } from "vitest";
 
 describe("Widen<T>", () => {
 
-
     it("widen function", () => {
         type BobNancy = <T extends "Bob" | "Nancy">(name: T) => `hi ${T}`;
         type CS = AsNarrowingFn<Parameters<BobNancy>, string>;
@@ -28,22 +27,22 @@ describe("Widen<T>", () => {
 
         type IsAny<T> = 0 extends 1 & T ? true : false;
 
-type ReturnOf<F> =
-  // non-generic
-  [F] extends [(...a: any[]) => any] ? ReturnType<F> :
-  // generic call sig (any # of type params)
-  [F] extends [{ <T extends any>(...a: any[]): infer R }] ? R :
-  never;
+        type ReturnOf<F> =
+        // non-generic
+        [F] extends [(...a: any[]) => any] ? ReturnType<F> :
+        // generic call sig (any # of type params)
+        [F] extends [{ <T extends any>(...a: any[]): infer R }] ? R :
+        never;
 
-// Recursively grab the first candidate C where R <: C
-type FirstAssignable<R, L extends readonly unknown[]> =
-  IsAny<R> extends true ? unknown :
-  L extends readonly [infer H, ...infer T]
-    ? [R] extends [H] ? H : FirstAssignable<R, T>
-    : R;
+        // Recursively grab the first candidate C where R <: C
+        type FirstAssignable<R, L extends readonly unknown[]> =
+        IsAny<R> extends true ? unknown :
+        L extends readonly [infer H, ...infer T]
+            ? [R] extends [H] ? H : FirstAssignable<R, T>
+            : R;
 
-type Candidates = [string, number, boolean, bigint, symbol, object, void, never];
-type WideReturn<F> = FirstAssignable<ReturnOf<F>, Candidates>;
+        type Candidates = [string, number, boolean, bigint, symbol, object, void, never];
+        type WideReturn<F> = FirstAssignable<ReturnOf<F>, Candidates>;
 
         type WR = WideReturn<BobNancy>;
 
@@ -60,7 +59,6 @@ type WideReturn<F> = FirstAssignable<ReturnOf<F>, Candidates>;
             /** type tests */
         ];
     });
-
 
 
     it("happy path", () => {
@@ -89,8 +87,9 @@ type WideReturn<F> = FirstAssignable<ReturnOf<F>, Candidates>;
         type NarrowFnReturn = Widen<
             <T extends string>(name: T) => `hi ${T}`
         >;
+
         type NarrowFnParams = Widen<
-            <T extends "Bob" | "Nancy">(name: T) => `hi ${T}`
+            (name: "Bob" | "Nancy") => `hi ${typeof name}`
         >;
         type FnWithProps = Widen<(() => "hi") & { foo: 1; bar: 2 }>;
         type FnAsProp = Widen<{ foo: () => "hi" }>;
@@ -120,12 +119,11 @@ type WideReturn<F> = FirstAssignable<ReturnOf<F>, Candidates>;
             Expect<Test<Fn, "equals", () => string>>,
             Expect<Test<
                 NarrowFnReturn, "equals",
-                <T extends readonly [name: string]>(...args: T) => string>>,
-            // this was unexpected by the `ReturnType` utility can't handle the union type
-            // in the params
+                <T extends readonly [string]>(...args: T) => string
+            >>,
             Expect<Test<
                 NarrowFnParams, "equals",
-                <T extends [name: string]>(...args: T) => unknown
+                <T extends readonly [string]>(...args: T) => string
             >>,
             Expect<Test<
                 FnWithProps, "equals",

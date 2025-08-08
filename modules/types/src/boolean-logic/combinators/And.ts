@@ -9,7 +9,6 @@ import type {
     IsNever,
     LogicFunction,
     LogicOptions,
-    MergeObjects,
     TypedFunction,
 } from "inferred-types/types";
 
@@ -67,10 +66,15 @@ type DefaultOptions = {
 }
 
 type O<T extends LogicOptions> = As<
-    MergeObjects<
-        DefaultOptions,
-        T
-    >,
+    // Use a simpler approach to merge options to avoid deep recursion
+    {
+        empty: "empty" extends keyof T 
+            ? T["empty"] 
+            : DefaultOptions["empty"];
+        err: "err" extends keyof T 
+            ? T["err"] 
+            : DefaultOptions["err"];
+    },
     Required<LogicOptions>
 >
 

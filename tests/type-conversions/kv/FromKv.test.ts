@@ -3,7 +3,7 @@ import { describe, it } from "vitest";
 
 
 describe("FromKv<T>", () => {
-    it("happy path", () => {
+    it("all required", () => {
         type Foobar = FromKv<[
             { key: "foo", value: 1, required: true },
             { key: "bar", value: "hi", required: true }
@@ -12,13 +12,35 @@ describe("FromKv<T>", () => {
 
         type cases = [
             Expect<Test<Foobar, "equals",  { foo: 1; bar: "hi" }>>,
-            Expect<Test<
-                Empty,
-                "equals",
-                EmptyObject
-            >>
+            Expect<Test<Empty, "equals", EmptyObject>>
         ];
     });
+
+
+    it("all optional", () => {
+       type Foobar = FromKv<[
+            { key: "foo", value: 1, required: false },
+            { key: "bar", value: "hi", required: false }
+        ]>
+
+        type cases = [
+            Expect<Test<Foobar, "equals",  { foo?: 1; bar?: "hi" }>>,
+        ];
+    });
+
+
+    it("mixture of required and optional", () => {
+        type Foobar = FromKv<[
+            { key: "foo", value: 1, required: false },
+            { key: "bar", value: "hi", required: true }
+        ]>
+
+        type cases = [
+            Expect<Test<Foobar, "equals",  { foo?: 1; bar: "hi" }>>,
+        ];
+    });
+
+
 
 
     it("nested", () => {

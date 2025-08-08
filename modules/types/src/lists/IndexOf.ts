@@ -1,16 +1,22 @@
 import type { Constant } from "inferred-types/constants";
 import type {
     Abs,
+    As,
     AsPropertyKey,
     AsString,
     Concat,
+    Container,
     Decrement,
     Dictionary,
     Err,
+    Flatten,
     If,
+    InvertNumericSign,
     IsNegativeNumber,
     IsNull,
     IsValidIndex,
+    IsWideContainer,
+    Keys,
     ObjectKey,
     Reverse,
     ToString,
@@ -110,6 +116,18 @@ type Process<
             >
 >;
 
+type WithNegativeIndex<T extends readonly unknown[]> = T extends readonly number[]
+?  Flatten<{
+    [K in keyof T]: T[K] extends 0
+        ? T[K]
+        : [
+            T[K],
+            InvertNumericSign<T[K]>
+        ]
+}>
+: T;
+
+
 /**
  * **IndexOf**<TValue, TIdx, [TOverride]>
  *
@@ -123,16 +141,17 @@ type Process<
  *
  * **Related:** `Get`, `IsValidIndex`
  *
- * **Errors:** produces an `ErrorCondition<"invalid-index">` when an a bad index value
+ * **Errors:** produces an Error when an a bad index value
  * is passed in for the given container
  */
 export type IndexOf<
-    TValue,
-    TIdx extends PropertyKey | null,
+    TValue extends Container,
+    TIdx extends If<IsWideContainer<TValue>, PropertyKey | null, WithNegativeIndex<Keys<TValue>>[number] | null>,
     TOverride = Constant<"no-override">,
 > = TIdx extends null
     ? TValue
     : Override<
-        Process<TValue, TIdx>,
+        Process<TValue, As<TIdx, PropertyKey | null>>,
         TOverride
     >;
+

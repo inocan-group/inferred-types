@@ -1,5 +1,3 @@
 export * from "./FromKv";
-export * from "./KvTuple";
-export * from "./ObjectToTuple";
-export * from "./ToKeyValueTuple";
 export * from "./ToKv";
+export * from "./KeyValue"

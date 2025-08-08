@@ -1,6 +1,7 @@
 import type {
     AfterFirst,
     AnyFunction,
+    As,
     AsNarrowingFn,
     AsStaticFn,
     Container,
@@ -9,22 +10,28 @@ import type {
     ExpandDictionary,
     ExpandRecursively,
     First,
+    FnFrom,
     FnKeyValue,
     IsLiteralLike,
-    IsLiteralLikeObject,
     IsLiteralUnion,
     IsNarrowingFn,
     IsNonEmptyContainer,
     IsUnion,
+    IsWideArray,
     Keys,
-    Mutable,
+    FnReturn,
+    ObjectKey,
+    ObjectKeys,
     Scalar,
     StaticFn,
     StringKeys,
     TypedFunction,
     UnionToTuple,
+    AnyMap,
+    AnySet,
+    AnyWeakMap,
 } from "inferred-types/types";
-import type { OnlyFnProps } from "types/functions/OnlyFnProps";
+import type {  } from "types/functions/OnlyFnProps";
 
 /**
  * **WidenScalar**`<T>`
@@ -59,33 +66,20 @@ type Process<T> = T extends Scalar
         : T extends readonly unknown[]
             ? WidenTuple<T>
             : T extends Dictionary
-                ? WidenObj<T, StringKeys<T>>
+                ? WidenDictionary<T, StringKeys<T>>
                 : T;
 
-type WidenObj<
+type WidenDictionary<
     T extends Dictionary,
-    TKeys extends readonly (keyof T)[],
+    K extends readonly ObjectKey[] = As<ObjectKeys<T>, readonly ObjectKey[]>,
     TResults extends Dictionary = EmptyObject,
-> = [] extends TKeys
-    ? TResults
-    : WidenObj<
-        T,
-        AfterFirst<TKeys>,
-        TResults
-        & Record<
-            First<TKeys>,
-            T[First<TKeys>] extends AnyFunction
-                ? WidenFunction<
-                    IsNarrowingFn<T[First<TKeys>]>,
-                    Parameters<T[First<TKeys>]>,
-                    ReturnType<T[First<TKeys>]>,
-                    ExpandDictionary<FnKeyValue<T[First<TKeys>]>>
-                >
-                : IsLiteralLike<T[First<TKeys>]> extends true
-                    ? WidenLiteral<T[First<TKeys>]>
-                    : Process<T[First<TKeys>]>
-        >
-    >;
+> = K extends [infer Head extends ObjectKey, ...infer Rest extends ObjectKey[]]
+? WidenDictionary<
+    T,
+    Rest,
+    TResults & Record<Head, Widen<T[Head]>>
+>
+: ExpandRecursively<TResults>;
 
 export type WidenTuple<
     T extends readonly unknown[],
@@ -121,8 +115,20 @@ export type WidenLiteral<
         : T extends readonly unknown[]
             ? WidenTuple<T>
             : T extends Dictionary
-                ? WidenObj<T, StringKeys<T>>
+                ? WidenDictionary<T, StringKeys<T>>
                 : never;
+
+type WidenArray<
+    T extends readonly unknown[],
+    R extends readonly unknown[] = []
+> = number extends T["length"]
+    ? T
+    : T extends [infer Head, ...infer Rest]
+        ? WidenArray<
+            Rest,
+            [...R, Widen<Head>]
+        >
+        : R;
 
 type WidenFnProps<
     TObj extends Dictionary,
@@ -156,8 +162,6 @@ type DetermineNarrowingReturn<TParams, TReturn>
                 : Widen<TReturn>
         : Widen<TReturn>;
 
-type ReturnFor<F, A>
-  = F extends (a: A, ...r: any[]) => infer R ? R : never;
 
 export type WidenFn<
     TFn extends TypedFunction
@@ -166,7 +170,7 @@ export type WidenFn<
     literal: StaticFn<TFn>;
     parameters: Parameters<TFn>;
     returns: TFn extends <T extends readonly any[]>(...args: T) => infer R ? R : never;
-    props: OnlyFnProps<TFn>;
+    props: FnKeyValue<TFn>;
 
 };
 
@@ -201,36 +205,32 @@ export type WidenFunction<
 export type WidenContainer<
     T extends Container,
     TForce extends boolean = false,
->
-  = [TForce] extends [true]
-      ? T extends readonly unknown[] ? readonly unknown[]
-          : T extends Map<unknown, unknown> ? Map<unknown, unknown>
-              : T extends Set<unknown> ? Set<unknown>
-                  : T extends WeakMap<object, unknown> ? WeakMap<object, unknown>
-                      : T extends Dictionary ? Dictionary
-                          : never
-      : T extends AnyFunction
-          ? T extends TypedFunction
-              ? WidenFunction<
-                  IsNarrowingFn<T>,
-                  Parameters<T>,
-                  ReturnType<T>,
-                  ExpandDictionary<FnKeyValue<T>>
-              >
-              : Function
-          : T extends readonly unknown[] ? WidenTuple<T>
-              : T extends Dictionary
-                  ? [IsLiteralLikeObject<T>] extends [true]
-                      ? Keys<T> extends readonly (keyof T)[]
-                          ? Mutable<ExpandRecursively<WidenObj<T, Keys<T>>>>
-                          : never
-                      : EmptyObject
-                  : T extends Map<infer K, infer V> ? Map<Widen<K>, Widen<V>>
-                      : T extends WeakMap<infer O, infer V>
-                          ? WeakMap<O, Widen<V>>
-                          : T extends Set<infer V>
-                              ? Set<Widen<V>>
-                              : object;
+> =
+[T] extends [readonly unknown[]]
+    ? TForce extends true
+            ? readonly unknown[]
+        : WidenArray<T>
+: [T] extends [Dictionary]
+    ? TForce extends true
+        ? Dictionary
+        : WidenDictionary<T>
+: [T] extends [Map<infer K, infer V>]
+    ? TForce extends true
+        ? AnyMap
+        : Map<K, Widen<V>>
+: [T] extends [WeakMap<infer K, infer V>]
+    ? TForce extends true
+        ? AnyWeakMap
+        : WeakMap<
+            K extends object ? K : any,
+            Widen<V>
+        >
+: [T] extends [Set<infer V>]
+    ? TForce extends true
+        ? AnySet
+        : Set<Widen<V>>
+: T;
+
 
 /**
  * **Widen**`<T, [TForce]>`
@@ -247,10 +247,22 @@ export type WidenContainer<
 export type Widen<
     T,
     TForce extends boolean = false,
-> = [IsUnion<T>] extends [true]
+> =
+[IsUnion<T>] extends [true]
     ? WidenUnion<T>
-    : T extends Container
-        ? WidenContainer<T, TForce>
-        : T extends Scalar
-            ? WidenScalar<T>
-            : Process<T>;
+: [T] extends [TypedFunction]
+    ? FnFrom<
+        IsWideArray<Parameters<T>> extends true
+        ? Parameters<T>
+        : WidenArray<Parameters<T>>,
+        Widen<FnReturn<T>>,
+        WidenDictionary<FnKeyValue<T>>
+    >
+: [T] extends [Scalar]
+    ? WidenScalar<T>
+: [T] extends [Container]
+    ? WidenContainer<T, TForce>
+    : T extends Scalar
+        ? WidenScalar<T>
+        : Process<T>;
+

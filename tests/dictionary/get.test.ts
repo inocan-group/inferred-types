@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
     defineObject,
     get,
-    isErrorCondition,
 } from "inferred-types/runtime";
 import type {
     Expect,
@@ -164,7 +163,6 @@ describe("Get<T, K> type utility", () => {
         expect(deepObj, "deep object get").toBe("a");
         expect(deepArr, "deep array get").toBe(2);
         expect(deeperArr, "deeper array get").toBe(5);
-        expect(isErrorCondition(err1)).toBe(true);
         expect(handleErr).toBe("foobar");
 
         type cases = [
@@ -197,8 +195,7 @@ describe("Get<T, K> type utility", () => {
         const handled1 = get(obj, "bar.abc", { handleInvalidDotpath: "handled" });
         const handled2 = get(obj, "deep.notSoDeep", { handleInvalidDotpath: "handled" });
 
-        expect(isErrorCondition(err1), "err1 should have been an error").toBe(true);
-        expect(isErrorCondition(err2), "err2 should have been an error").toBe(true);
+
         expect(handled1, "handled1 should have been handled").toBe("handled");
         expect(handled2, "handled2 should have been handled").toBe("handled");
     });

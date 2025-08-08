@@ -1,10 +1,25 @@
-import type { Dictionary, Mutable, ObjectKey } from "inferred-types/types";
+import type { As, Dictionary, Mutable, ObjectKey, SortOrder, SortOptions } from "inferred-types/types";
+
+/**
+ * default options for sorting
+ */
+type SortDefaults = As<{
+    first: [],
+    last: [],
+    order: "natural"
+}, Required<SortOptions>
+>
 
 export type SortByKeyOptions<T extends ObjectKey = ObjectKey> = {
-    /** Object Key's  */
+    /** Object Key's that should be pinned to the start of the array  */
     start?: T | readonly T[];
+    /** Object keys's that should be pinned to the end of the array */
     end?: T | readonly T[];
+
+    order?: SortOrder;
 };
+
+
 
 // Helper to convert single value to array
 type ToArray<T> = T extends readonly unknown[] ? T : readonly [T];

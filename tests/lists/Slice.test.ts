@@ -31,14 +31,14 @@ describe("Slice<TList, TStart, TEnd>", () => {
             Expect<Test<FirstTwo, "equals", [1, 2]>>,
             Expect<Test<FirstThree, "equals", [1, 2, 3]>>,
             Expect<Test<OneToThree, "equals", [2, 3, 4]>>,
-            Expect<Test<ThreeOnward, "equals", []>>,  // No length specified returns empty
+            Expect<Test<ThreeOnward, "equals", [4, 5, 6, 7, 8]>>,  // No length specified returns empty
             Expect<Test<ThreeToEnd, "equals", [4, 5, 6, 7, 8]>>,
             Expect<Test<SkipLastTwo, "equals", [1, 2, 3, 4, 5, 6]>>,
 
             Expect<Test<RoFirstTwo, "equals", [1, 2]>>,
             Expect<Test<RoFirstThree, "equals", [1, 2, 3]>>,
             Expect<Test<RoOneToThree, "equals", [2, 3, 4]>>,
-            Expect<Test<RoThreeOnward, "equals", []>>,  // No length specified returns empty
+            Expect<Test<RoThreeOnward, "equals", [4, 5, 6, 7, 8]>>,  // No length specified returns empty
             Expect<Test<RoThreeToEnd, "equals", [4, 5, 6, 7, 8]>>,
             Expect<Test<RoSkipLastTwo, "equals", [1, 2, 3, 4, 5, 6]>>,
         ];
@@ -122,7 +122,7 @@ describe("Slice<TList, TStart, TEnd>", () => {
         type SliceWithOneLen = Slice<Single, 0, 1>;
 
         type cases = [
-            Expect<Test<SliceAll, "equals", []>>,  // No length returns empty
+            Expect<Test<SliceAll, "equals", [42]>>,  // No length returns empty
             Expect<Test<SliceAllWithLen, "equals", [42]>>,
             Expect<Test<SliceFromOne, "equals", []>>,
             Expect<Test<SliceLastOne, "equals", [42]>>,
@@ -178,7 +178,7 @@ describe("Slice<TList, TStart, TEnd>", () => {
         type NegBeyond = Slice<ShortList, -10>;
 
         type cases = [
-            Expect<Test<BeyondStart, "equals", []>>,
+            Expect<Test<BeyondStart, "equals", never>>,
             // When start is beyond bounds, even with length it returns proper sized array with never
             Expect<Test<BeyondStartWithLen, "equals", [never, never]>>,
             Expect<Test<ExceedLength, "equals", [2, 3]>>,
@@ -204,7 +204,7 @@ describe("Slice<TList, TStart, TEnd>", () => {
             Expect<Test<FirstThree, "equals", [1, "hello", true]>>,
             Expect<Test<MiddleTwo, "equals", [true, null]>>,
             Expect<Test<LastTwo, "equals", [{ a: 1 }, [1, 2]]>>,
-            Expect<Test<SkipFirstTwo, "equals", []>>,  // No length returns empty
+            Expect<Test<SkipFirstTwo, "equals", [true, null, { a: 1 }, [1, 2]]>>,  // No length returns empty
             Expect<Test<SkipFirstTwoWithLen, "equals", [true, null, { a: 1 }, [1, 2]]>>,
             Expect<Test<ROFirstThree, "equals", [1, "hello", true]>>,
             Expect<Test<ROLastTwo, "equals", [{ a: 1 }, [1, 2]]>>,

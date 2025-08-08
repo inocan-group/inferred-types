@@ -1,15 +1,10 @@
 import type {
-    If,
     IsArray,
     IsDictionary,
     IsFalse,
-    IsNull,
     IsNumericLiteral,
     IsStringLiteral,
     IsTrue,
-    IsUndefined,
-    Or,
-    SomeEqual,
 } from "inferred-types/types";
 
 /**
@@ -20,33 +15,35 @@ import type {
  *
  * **See Also:** `IfTruthy`, `IfSomeTruthy`, `IfAllTruthy`, and `TruthyReturns`
  */
-export type IsTruthy<T> = [T] extends [string]
-    ? [T] extends [""]
+export type IsTruthy<T> = 
+    // Handle exact falsy values first
+    [T] extends [null | undefined | false | 0 | -0 | ""]
         ? false
-        : If<IsStringLiteral<T>, true, boolean>
+    // Handle exact truthy values
+    : [T] extends [true]
+        ? true
+    // Handle string literals
+    : [T] extends [string]
+        ? IsStringLiteral<T> extends true
+            ? true  // non-empty string literal
+            : boolean // wide string type
+    // Handle numeric literals  
     : [T] extends [number]
-        ? If<
-            IsNumericLiteral<T>,
-            If<SomeEqual<[0, -0], T>, false, true>,
-            boolean
-        >
-        : If<
-            Or<[IsNull<T>, IsUndefined<T>]>,
-            false,
-            If<
-                Or<[IsArray<T>, IsDictionary<T>]>,
-                true,
-                [T] extends [boolean]
-                    ? If<
-                        IsFalse<T>,
-                        false,
-                        If<
-                            IsTrue<T>,
-                            true,
-                            boolean
-                        >
-                    >
-                    : never
-            >
-
-        >;
+        ? IsNumericLiteral<T> extends true
+            ? [T] extends [0 | -0]
+                ? false
+                : true
+            : boolean // wide number type
+    // Handle boolean literals
+    : [T] extends [boolean]
+        ? IsFalse<T> extends true
+            ? false
+            : IsTrue<T> extends true
+                ? true
+                : boolean // wide boolean type
+    // Handle arrays and objects (always truthy)
+    : IsArray<T> extends true
+        ? true
+        : IsDictionary<T> extends true
+            ? true
+            : never;

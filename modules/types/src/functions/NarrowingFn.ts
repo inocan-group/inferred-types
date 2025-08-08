@@ -2,6 +2,8 @@ import type {
     AnyFunction,
     Dictionary,
     EmptyObject,
+    ExpandRecursively,
+    FnKeyValue,
     IsEqual,
     IsNarrowingFn,
     IsNonEmptyObject,
@@ -26,15 +28,12 @@ import type {
  * **Related:** `LiteralFn`, `IsNarrowingFn`
  */
 export type NarrowingFn<
-    TFn extends AnyFunction,
-> = TFn extends TypedFunction
-    ? IsEqual<Parameters<TFn>, []> extends true
-        // no parameters so no change
-        ? TFn
-        : IsNarrowingFn<TFn> extends true
-            ? TFn
-            : (<T extends readonly [...Parameters<TFn>]>(...args: T) => ReturnType<TFn>)
-    : NarrowingFn<TypedFunction>;
+    TFn extends TypedFunction,
+> = IsEqual<Parameters<TFn>, []> extends true
+? TFn
+: IsNarrowingFn<TFn> extends true
+    ? TFn
+    : (<T extends readonly [...Parameters<TFn>]>(...args: T) => ReturnType<TFn>);
 
 /**
  * **AsNarrowingFn**`<TParams,TReturns,TProps>`
@@ -51,11 +50,11 @@ export type AsNarrowingFn<
 > = TParams extends TypedFunction
     ? NarrowingFn<TParams>
     : TParams extends readonly unknown[] // this is the normal call structure
-        ? [IsNonEmptyObject<TProps>] extends [true]
-            ? [IsEqual<TParams, []>] extends [true]
-                ? (() => TReturn) & TProps
-                : (<T extends readonly [...TParams]>(...args: T) => TReturn) & TProps
-            : [IsEqual<TParams, []>] extends [true]
+        ? EmptyObject extends TProps
+            ? TParams["length"] extends 0
                 ? () => TReturn
                 : <T extends readonly [...TParams]>(...args: T) => TReturn
+            : [IsEqual<TParams, []>] extends [true]
+                ? (() => TReturn) & ExpandRecursively<TProps>
+                : (<T extends readonly [...TParams]>(...args: T) => TReturn) & TProps
         : never;

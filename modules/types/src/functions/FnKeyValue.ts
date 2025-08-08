@@ -1,8 +1,10 @@
 import type {
     AnyFunction,
+    Dictionary,
     EmptyObject,
     IsEqual,
     ObjectKey,
+    TypedFunction,
 } from "inferred-types/types";
 
 type Process<
@@ -21,4 +23,9 @@ type Process<
  */
 export type FnKeyValue<
     T extends AnyFunction,
-> = Process<T>;
+> = Function extends T
+? Dictionary
+: T extends TypedFunction
+    ? Process<T>
+: never
+    ;

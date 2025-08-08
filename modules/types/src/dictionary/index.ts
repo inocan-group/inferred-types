@@ -4,6 +4,7 @@ export * from "./CombinedKeys";
 export * from "./ConstrainObject";
 export * from "./CreateKV";
 export * from "./CreateLookup";
+export * from "./DefaultOptions";
 export * from "./DictChangeValue";
 export * from "./EnsureKeys";
 export * from "./FromMaybeRef";
@@ -52,3 +53,4 @@ export * from "./WithoutKeys";
 export * from "./WithoutValue";
 export * from "./WithStringKeys";
 export * from "./WithValue";
+

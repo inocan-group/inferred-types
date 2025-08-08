@@ -54,7 +54,7 @@ export type IsBetweenInclusively<
     IsWideType<TMax>
 ]> extends true
     ? boolean
-    : And<[
-        IsGreaterThanOrEqual<TVal, TMin>,
-        IsLessThanOrEqual<TVal, TMax>
-    ]>;
+    : // Avoid And combinator to prevent deep recursion in simple cases
+    IsGreaterThanOrEqual<TVal, TMin> extends true
+        ? IsLessThanOrEqual<TVal, TMax>
+        : false;

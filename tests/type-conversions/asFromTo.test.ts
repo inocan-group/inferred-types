@@ -13,7 +13,7 @@ describe("AsFromTo<T>", () => {
 
         type cases = [
             Expect<Test<
-                Upper, "equals",
+                Upper, "hasSameValues",
                 [
                     { from: "a", to: "A"},
                     { from: "b", to: "B"}

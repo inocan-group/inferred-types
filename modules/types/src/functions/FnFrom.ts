@@ -1,4 +1,4 @@
-import type { Dictionary, EmptyObject, Tuple } from "inferred-types/types";
+import type { AsNarrowingFn, AsStaticFn, Dictionary, EmptyObject, ExpandRecursively, Tuple } from "inferred-types/types";
 
 /**
  * **FnFrom**`<TParams,[TReturn],[TProps]>`
@@ -6,9 +6,13 @@ import type { Dictionary, EmptyObject, Tuple } from "inferred-types/types";
  * Type utility  to build a type from it's constituent parts.
  */
 export type FnFrom<
-    TParams extends Tuple,
+    TParams extends readonly unknown[],
     TReturn = unknown,
     TProps extends Dictionary = EmptyObject,
-> = TProps extends EmptyObject
-    ? <T extends TParams>(...args: T) => TReturn
-    : (<T extends TParams>(...args: T) => TReturn) & TProps;
+> = EmptyObject extends TProps
+    ? TParams["length"] extends 0
+        ? () => TReturn
+        : AsNarrowingFn<TParams, TReturn>
+    : TParams["length"] extends 0
+        ? (() => TReturn) & ExpandRecursively<TProps>
+        : AsNarrowingFn<TParams,TReturn, TProps>

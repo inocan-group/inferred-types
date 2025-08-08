@@ -479,7 +479,7 @@ describe("Variadic Type Utilities", () => {
             type T1 = ExtractOptionalElements<V1>;
 
             type cases = [
-                Expect<Test<T1, "equals", [(3 | undefined)?]
+                Expect<Test<T1, "equals", [(3 | undefined)?]>>
             ]
         })
 
@@ -494,7 +494,5 @@ describe("Variadic Type Utilities", () => {
 
 
     })
-
-
 
 });

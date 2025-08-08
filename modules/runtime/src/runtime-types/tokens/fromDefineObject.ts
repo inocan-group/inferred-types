@@ -8,7 +8,7 @@ import { toStringLiteral } from "inferred-types/runtime";
  * - converts the _type_ to be the type this token is representing.
  */
 export function fromDefineObject<
-    T extends DefineObject
+    const T extends DefineObject
 >(defn: T) {
     return toStringLiteral(
         defn,

@@ -1,5 +1,4 @@
-import type { ObjectKey } from "types/base-types";
-import type { MakeKeysOptional } from "types/dictionary/MakeKeysOptional";
+import type { ObjectKey, MakeKeysOptional } from "inferred-types/types";
 
 /**
  * **OptRecord**`<T,U>`

@@ -29,11 +29,11 @@ import { keysOf, sortByKey } from "inferred-types/runtime";
  * //   { key: "foo", value: 1 },
  * //   { key: "bar", value: 2 },
  * // ]
- * const rec = toKeyValue({foo: 1, bar: 2, id: 123 }, o => o.toTop("id"));
+ * const rec = toKeyValue({foo: 1, bar: 2, id: 123 }, { start: "id" });
  * ```
  */
 export function toKeyValue<
-    TObj extends NarrowObject<O>,
+    const TObj extends NarrowObject<O>,
     O extends Narrowable,
     S extends ObjectKey,
     TSort extends SortByKeyOptions<S> | undefined = undefined,

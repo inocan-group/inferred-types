@@ -33,6 +33,16 @@ describe("toKeyValue(obj)", () => {
         ];
     });
 
+
+    it("nesting", () => {
+        const fooBar = toKeyValue({ foo: 1, bar: { uno: 1, dos: 2 } });
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
+
     it("forcing a key to start position", () => {
         const fooBar = toKeyValue({ foo: 1, bar: "hi", id: 123 }, { start: "id" });
         const kv = toKeyValue({ foo: 1, bar: "hi", id: 123 });
@@ -99,6 +109,10 @@ describe("toKeyValue(obj)", () => {
             start: ["type", "kind", "category", "subcategory"],
             end: "desc"
         });
+
+        const tt = toKeyValue(obj, {
+
+        })
 
         const kv = tuple(
             { key: "type", value: "[[kind/types/AI.md|AI]]", required: true },

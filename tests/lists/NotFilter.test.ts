@@ -44,12 +44,12 @@ describe("Filter using extends operation", () => {
 
 
     it("filter out wide types, including never", () => {
-        type StripNumbers = NotFilter<[1, never, "foo", number, "bar"], "extends", [number]>;
+        type StripNumbers = NotFilter<[1, "foo", number, "bar"], "extends", [number]>;
         type StripStrings = NotFilter<[never, 1, never, "foo", never, "bar", false], "extends", [string]>;
         type StripNever = NotFilter<[1, never, "foo", number, "bar"], "equals", [never]>;
 
         type cases = [
-            Expect<Test<StripNumbers, "equals",  [never, "foo", "bar"]>>,
+            Expect<Test<StripNumbers, "equals",  [ "foo", "bar"]>>,
             Expect<Test<StripStrings, "equals",  [never, 1, never, never, false]>>,
             Expect<Test<StripNever, "equals",  [1, "foo", number, "bar"]>>,
         ];

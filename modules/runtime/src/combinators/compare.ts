@@ -26,6 +26,7 @@ import { isString } from "runtime/type-guards/isString"
 import {
     asChars,
     asDate,
+    asDateTime,
     asNumber,
     contains,
     createFnWithProps,
@@ -448,19 +449,20 @@ function handle_datetime<
                     return outcome;
                 }
                 else if (isError(value)) {
-                    err(
+                    return err(
                         "invalid-value/compare",
                         `The sameDay operation got a value which was unable to be parsed into a date!`,
                         { op, params, val }
                     );
                 }
                 else if (isError(comparator)) {
-                    err(
+                    return err(
                         "invalid-params/compare",
                         `The sameDay operation was configured with a parameter which was unable to be parsed into a date!`,
                         { op, params, val }
                     );
                 }
+                break;
             }
 
             case "sameMonth": {
@@ -485,14 +487,14 @@ function handle_datetime<
             }
 
             case "after": {
-                return isNumberLike(params[0])
-                    ? isAfter(val)(params[0]) as unknown as IsAfter<TVal,First<TParams>>
+                return isDateLike(params[0])
+                    ? isAfter(params[0])(val) as unknown as IsAfter<TVal,First<TParams>>
                     : err('invalid-params/not-date-like') as unknown as IsAfter<TVal,First<TParams>>;
             }
 
             case "before": {
-                const value = asDate(val as DateLike);
-                const comparator = asDate(params[0] as TParams[0] & DateLike);
+                const value = asDateTime(val as DateLike);
+                const comparator = asDateTime(params[0] as TParams[0] & DateLike);
                 outcome = value.getTime() < comparator.getTime();
                 return outcome;
             }
@@ -600,11 +602,6 @@ function compareFn<
             }
 
             result = handle_general(val, op, params);
-            if (isBoolean(result) || isError(result)) {
-                return result as Compare<TVal,TOp,TParams>;
-            }
-
-            result = handle_datetime(val, op, params);
             if (isBoolean(result) || isError(result)) {
                 return result as Compare<TVal,TOp,TParams>;
             }
