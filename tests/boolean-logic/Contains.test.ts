@@ -32,19 +32,22 @@ describe("Contains<T,A>", () => {
     });
 
     it("using equals operation", () => {
-        type T1 = [number, 32, 64, "foo"];
-        type T2 = [false, true];
-        type T3 = [42, 64, 128];
-        type T4 = ["foo", "bar"];
+        type T1 = Contains<[number, 32, 64, "foo"], "foo">;
+        type T2 = Contains<[number, 32, 64, "foo"], "foo", "equals">;
+        type T3 = Contains<[42, 64, 128], 42, "equals">
+
+        type F1 = Contains<[number, 32, 64, "foo"], string, "equals">;
+        type F2 = Contains<[42, 64, 128], 442, "equals">;
+        type F3 = Contains<[false, true], boolean, "equals">;
 
         type cases = [
-            Expect<Test<Contains<T1, string, "equals">, "equals",  false>>,
-            Expect<Test<Contains<T1, "foo">, "equals",  true>>,
-            Expect<Test<Contains<T4, string, "equals">, "equals",  false>>,
-            Expect<Test<Contains<T1, number, "equals">, "equals",  true>>,
-            Expect<Test<Contains<T3, 42, "equals">, "equals",  true>>,
-            Expect<Test<Contains<T3, 442, "equals">, "equals",  false>>,
-            Expect<Test<Contains<T2, boolean, "equals">, "equals",  false>>
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
+            Expect<Test<F3, "equals",  false>>,
         ];
 
     });
@@ -57,10 +60,13 @@ describe("Contains<T,A>", () => {
         type F1 = Contains<[undefined], null>; // =>
         type F2 = Contains<[null], undefined>; // =>
 
-        type X = IsEqual<undefined, null>;
 
         type cases = [
-            /** type tests */
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
         ];
     });
 

@@ -1,5 +1,7 @@
 import type {
+    As,
     DefineModifiers,
+    EmptyObject,
     HasModifier,
     IsAny,
     IsBoolean,
@@ -10,6 +12,7 @@ import type {
     IsTrue,
     IsUnion,
     IsWideBoolean,
+    ObjectKeys,
     Or,
 } from "inferred-types/types";
 import type { IsFalse } from "../scalar/boolean/IsFalse";
@@ -52,6 +55,10 @@ export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> =
         ? false
     : [IsNever<T>] extends [true]
         ? false
+    : [EmptyObject] extends [T]
+        ? number extends As<ObjectKeys<T>, readonly unknown[]>["length"]
+            ? false
+            : true
     : [string] extends [T]
         ? false
     : [number] extends [T]
@@ -66,6 +73,7 @@ export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> =
         ? true
     : [T] extends [bigint]
         ? true
+
 
     : [IsBoolean<T>] extends [true]
         ? true

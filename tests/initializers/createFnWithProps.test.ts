@@ -5,7 +5,7 @@ import {
     createFnWithProps,
     fnProps
 } from "inferred-types/runtime";
-import { FnKeyValue, Test } from "inferred-types/types";
+import { FnKeyValue, FnWithProps, Test } from "inferred-types/types";
 
 
 const fn = () => "hi" as const;
@@ -21,6 +21,8 @@ describe("createFnWithProps()", () => {
         const fooWithParam = createFnWithProps(fnWithParam, { foo: 42 });
         const fooWithTwo = createFnWithProps(fnWithTwoParam, { foo: 42 });
         const fooNarrowing = createFnWithProps(fnNarrowing, { foo: 42 });
+
+        type N = FnWithProps<typeof fnNarrowing, {foo:42}>
 
         const n_foo = createFnWithProps(fn, { foo: 42 }, true);
         const n_fooWithParam = createFnWithProps(fnWithParam, { foo: 42 }, true);
@@ -42,7 +44,7 @@ describe("createFnWithProps()", () => {
             Expect<Test<
                 typeof fooNarrowing,
                 "equals",
-                ((name: string) => `hi ${string}`) & { foo: 42 }
+                (<T extends string>(name: T) => `hi ${T}`) & { foo: 42 }
             >>,
 
             Expect<Test<
@@ -63,7 +65,7 @@ describe("createFnWithProps()", () => {
             Expect<Test<
                 typeof n_fooNarrowing,
                 "equals",
-                (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: 42 }
+                (<T extends string>(name: T) => `hi ${T}`) & { foo: 42 }
             >>,
         ];
 
@@ -124,7 +126,7 @@ describe("createFnWithProps()", () => {
     });
 
     it("key/values in original function are retained", () => {
-        const original = createFnWithProps(() => "hi" as const, { foo: 42 });
+        const original = createFnWithProps(() => "hi", { foo: 42 });
 
         expect(fnProps(original)).toEqual({ foo: 42 });
 
@@ -148,6 +150,7 @@ describe("createFnWithProps()", () => {
 
     it("key/values in original function are retained but new values are retained", () => {
         const original = createFnWithProps(() => "hi", { foo: 42, bar: 50 });
+
         expect(fnProps(original)).toEqual({ foo: 42, bar: 50 });
 
         const fn = createFnWithProps(original, { bar: 99 });

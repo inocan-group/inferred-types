@@ -3,9 +3,9 @@ import type {
     IsError,
     IsStringLiteral,
     IsTrue,
-    MaybeError,
     PhoneCountryCode,
     PhoneNumber,
+    UnionMemberExtends,
 } from "inferred-types/types";
 
 // BOOLEAN OPERATORS for PHONE TYPES
@@ -27,7 +27,7 @@ import type {
  */
 export type IsPhoneNumber<T extends string | number> = IsError<PhoneNumber<T>> extends true
     ? false
-    : MaybeError<PhoneNumber<T>> extends true
+    : UnionMemberExtends<T, Error> extends true
         ? boolean
         : true;
 

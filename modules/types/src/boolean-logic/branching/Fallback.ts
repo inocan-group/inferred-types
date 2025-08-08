@@ -1,10 +1,5 @@
-import { If, IsNever, IsNull, IsUndefined, UnionFilter } from "inferred-types/types";
+import {  IsNull,  IsUndefined, IsUnion, IsUnknown, UnionFilter, UnionMemberExtends } from "inferred-types/types";
 
-type Process<TVal, TFallback> = [TVal] extends [undefined]
-    ? TFallback
-    : [TVal] extends [null]
-        ? TFallback
-        : TVal;
 
 /**
  * **Fallback**`<TVal,TFallback>`
@@ -14,13 +9,15 @@ type Process<TVal, TFallback> = [TVal] extends [undefined]
  */
 export type Fallback<
     TVal,
-    TFallback extends UnionFilter<TVal, undefined>,
-> = [IsNever<TVal>] extends [true]
-    ? TFallback
-: [IsUndefined<TVal>] extends [true]
-    ? TFallback
-: [IsNull<TVal>] extends [true]
-    ? TFallback
-: TVal;
+    TFallback
+> = [IsUnion<TVal>] extends [true]
+    ? [UnionMemberExtends<TVal, undefined | null>] extends [true]
+        ? UnionFilter<TVal, undefined | null> | TFallback
+        : TVal
+    : IsNull<TVal> extends true
+        ? TFallback
+    : IsUndefined<TVal> extends true
+        ? TFallback
+    : TVal;
 
 

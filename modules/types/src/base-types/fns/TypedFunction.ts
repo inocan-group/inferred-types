@@ -10,7 +10,7 @@ import type { Narrowable } from "src/literals";
  */
 export type TypedFunction<
     P extends readonly any[] = readonly any[],
-    R = any
+    R = unknown
 > = ((...args: P) => R);
 
 export type TypedFunctionWithDictionary<

@@ -1,8 +1,6 @@
+import { ExpandRecursively } from '../literals/ExpandRecursively';
 import type {
     Dictionary,
-    If,
-    IsTrue,
-    JustFunction,
     TypedFunction,
 } from "inferred-types/types";
 
@@ -16,9 +14,4 @@ import type {
 export type FnWithProps<
     TFn extends TypedFunction,
     TProps extends Dictionary,
-    TClone extends boolean | null | undefined = true,
-> = If<
-    IsTrue<TClone>,
-  JustFunction<TFn> & TProps,
-  TFn & TProps
->;
+> = TFn & ExpandRecursively<TProps>;

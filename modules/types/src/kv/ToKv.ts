@@ -1,10 +1,8 @@
 import type {
     As,
-    DefaultOptions,
     Dictionary,
     EmptyObject,
     Fallback,
-    IndexOf,
     IsFalse,
     IsLiteralLikeObject,
     KeyValue,
@@ -13,7 +11,6 @@ import type {
     ObjectKeys,
     OptionalKeysTuple,
     SortOptions,
-    UnionFilter,
 } from "inferred-types/types";
 
 export type ToKvOptions = MergeObjects<
@@ -25,9 +22,9 @@ export type ToKvOptions = MergeObjects<
 
 type Recurse<
     TVal,
-    TOpt extends Required<ToKvOptions>
+    TOpt extends ToKvOptions
 > = TVal extends Dictionary
-? [IsFalse<TOpt["recurse"]>] extends [true]
+? [IsFalse<Fallback<TOpt["recurse"], false>>] extends [true]
     ? TVal
     : ToKv<TVal>
 : TVal;
@@ -35,7 +32,7 @@ type Recurse<
 type Convert<
     TObj extends Dictionary,
     TKeys extends readonly ObjectKey[],
-    TOpt extends Required<ToKvOptions>,
+    TOpt extends ToKvOptions,
     TOptional extends readonly ObjectKey[] = OptionalKeysTuple<TObj>,
     TKv extends readonly KeyValue[] = [],
 > = TKeys extends [infer Head extends ObjectKey, ...infer Rest extends ObjectKey[]]
@@ -66,12 +63,12 @@ type Convert<
 : TKv;
 
 type Options<T extends ToKvOptions> = {
-    order: Fallback<T["order"], "natural">;
-    start: Fallback<T["start"], []>;
-    end: Fallback<T["end"], []>;
-    offset: Fallback<T["offset"], "key">;
-    recurse: Fallback<T["recurse"], false>;
-} & Required<ToKvOptions>
+    order: T["order"] extends SortOrder ? T["order"] : "natural";
+    start: T["start"] extends readonly unknown[] ? T["start"] : [];
+    end: T["end"] extends readonly unknown[] ? T["end"] : [];
+    offset: T["offset"] extends PropertyKey ? T["offset"] : "key";
+    recurse: T["recurse"] extends number | boolean ? T["recurse"] : false;
+}
 
 
 

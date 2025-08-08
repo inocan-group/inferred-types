@@ -6,7 +6,6 @@ import {
     EmptyObject,
     ExplicitlyEmptyObject,
     Dictionary,
-    IsLiteralObject
 } from "inferred-types/types";
 import { IsWideType, Keys } from "inferred-types";
 

@@ -3,7 +3,7 @@ import { describe, it } from "vitest";
 
 describe("Fallback<TVal,TDefault,[TProtect]>", () => {
 
-    it("happy path", () => {
+    it("non union type for T", () => {
         type NoChange = Fallback<"foo", "bar">;
         type Undef = Fallback<undefined, "foo">;
         type Null = Fallback<null, "foo">;
@@ -16,5 +16,17 @@ describe("Fallback<TVal,TDefault,[TProtect]>", () => {
             Expect<Test<Arr, "equals", ["error", "never"]>>
         ];
     });
+
+
+    it("union type for T", () => {
+        type T = "foo" | "bar" | undefined;
+
+        type U = Fallback<T, "baz">
+
+        type cases = [
+            Expect<Test<U, "equals", "foo" | "bar" | "baz">>
+        ];
+    });
+
 
 });
