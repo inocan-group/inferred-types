@@ -11,15 +11,15 @@ import type {
     IsNever,
     IsUnion,
     ObjectKeys,
-    Or,
+    IsLiteralTuple
 } from "inferred-types/types";
-import type { IsFalse } from "../scalar/boolean/IsFalse";
-import type { IsLiteralTuple } from "./IsLiteralTuple";
 
 /**
  * the _modifiers_ which `IsLiteralLike` utility exposes
  */
-export type LiteralLikeModifiers = DefineModifiers<["allow-variadic-tail", "exclude-unions", "allow-mixed-unions"]>;
+export type LiteralLikeModifiers = DefineModifiers<
+    ["allow-variadic-tail", "exclude-unions", "allow-mixed-unions"]
+>;
 
 /**
  * **IsLiteralLike**`<T,[U]>`
@@ -99,4 +99,3 @@ export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> =
         ? IsLiteralLikeObject<T>
         : false;
 
-type X = IsLiteralUnion<boolean>;

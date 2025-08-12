@@ -182,6 +182,9 @@ type ParseYearMonth<T extends string> = TakeYear<T> extends {
  * - `YYYY-MM-DD` _or_ `YYYYMMDD`
  * - `-YYYY-MM` _or_ `-YYYYMM` (_for year/month resolution and no date_)
  * - `--MM-DD` _or_ `--MMDD` (_for year independent dates_)
+ *
+ * Returns the type `ParsedDate` or `Error` if `T` couldn't be parsed as
+ * a ISO date/datetime type.
  */
 export type ParseDate<
     T,

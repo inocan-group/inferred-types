@@ -1,6 +1,4 @@
-import type { Scalar } from "types/base-types";
-import type { IsEqual, Not } from "types/boolean-logic";
-import type { IndexOf } from "types/lists";
+import type { Scalar, As, IndexOf, IsEqual, Not, Container } from "inferred-types/types";
 
 export declare const BrandSymbol: unique symbol;
 
@@ -26,11 +24,11 @@ export type Brand<
  * ```
  */
 export type Unbrand<T> = T extends Brand<infer B, any>
-    ? B
+    ? IsBranded<B> extends true ? Unbrand<B> : B
     : T;
 
 export type IsBranded<T> = Not<IsEqual<T, Unbrand<T>>>;
 
 export type GetBrand<T> = IsBranded<T> extends true
-    ? IndexOf<T, typeof BrandSymbol>
+    ? IndexOf<As<T, Container>, typeof BrandSymbol>
     : undefined;

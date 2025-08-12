@@ -3,7 +3,6 @@ export * from "./AnyMap";
 export * from "./AnyObject";
 export * from "./AnySet";
 export * from "./AnyWeakMap";
-export * from "./BaseType";
 export * from "./Container";
 export * from "./Defined";
 export * from "./Dictionary";

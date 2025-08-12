@@ -16,6 +16,7 @@ export * from "./AsStringUnion";
 export * from "./AsTuple";
 export * from "./AsUnion";
 export * from "./Awaited";
+export * from "./BaseType";
 export * from "./Break";
 export * from "./encoding/index";
 export * from "./form-fields";
