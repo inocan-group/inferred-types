@@ -1,4 +1,4 @@
-import type { ComparisonAccept, ComparisonOperation, Filter, GetComparisonParamInput } from "inferred-types/types";
+import type { ComparisonAccept, ComparisonOperation, Filter, GetComparisonParams } from "inferred-types/types";
 
 /**
  * **FilterFn**`<TOp, TParams>`
@@ -9,7 +9,7 @@ import type { ComparisonAccept, ComparisonOperation, Filter, GetComparisonParamI
  */
 export type FilterFn<
     TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp>
+    TParams extends GetComparisonParams<TOp>
 > = <const TList extends readonly ComparisonAccept<TOp>[]>(list: TList) => Filter<
     TList,
     TOp,

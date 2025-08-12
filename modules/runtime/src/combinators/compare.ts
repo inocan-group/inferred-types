@@ -7,7 +7,7 @@ import type {
     ComparisonAccept,
     Contains,
     DateLike,
-    GetComparisonParamInput,
+    GetComparisonParams,
     IndexOf,
     IsEqual,
     Narrowable,
@@ -26,7 +26,6 @@ import {
     asDateTime,
     asNumber,
     contains,
-    createFnWithProps,
     doesExtend,
     equalsSome,
     err,
@@ -57,6 +56,7 @@ import {
     isParsedDate,
     isTrue,
     isNumberLike,
+    isValidComparisonParams
 } from "runtime/type-guards";
 import { isBoolean } from "runtime/type-guards/isBoolean"
 
@@ -68,6 +68,7 @@ import {
 import { isStringOrNumericArray } from "runtime/type-guards/arrays/isStringOrNumericArray"
 import { not } from "runtime/boolean-logic/not";
 import { isComparisonOperation } from 'runtime/type-guards/comparison';
+import IsWideObject from 'inferred-types/types';
 
 function handle_string<
     TVal extends Narrowable,
@@ -404,10 +405,15 @@ function handle_object<
                         `The comparison using the 'objectKeyEquals' operation was unable to be performed because the value passed in was not an object!`,
                         { op, params }
                     )
-            ) as IsEqual<
-                IndexOf<TVal, As<TParams[0], ObjectKey>>,
-                TParams[1]
-            >;
+            ) as IsWideObject<TVal> extends true
+                ? boolean
+                :  First<TParams> extends ObjectKey
+                    ? First<TParams> extends keyof TVal
+                        ? IsEqual<TVal, Second<TParams>>
+                        : false
+                    : false;
+
+
         }
         case "objectKeyExtends": {
             return err(`not-done`, `the 'objectKeyExtends' operation is not yet implemented in the runtime`);
@@ -614,20 +620,19 @@ function compareFn<
         }
     };
 
-    const comparator: any = createFnWithProps<any[],any,any,any,any,any>(
-        fn,
-        {
-            kind: "comparator",
-            op,
-            params
-        }
-    );
+    // Create callable wrapper to maintain compatibility while avoiding intersection complexity
+    const comparator = Object.assign(fn, {
+        kind: "comparator" as const,
+        op,
+        params,
+        fn
+    });
 
-    return comparator as Comparator<TOp,TParams>
+    return comparator as unknown as Comparator<TOp,TParams>
 }
 
 type Returns<TOp extends string,TParams> = TOp extends ComparisonOperation
-? TParams extends GetComparisonParamInput<TOp>
+? TParams extends GetComparisonParams<TOp>
     ? Comparator<TOp,TParams>
     : Err<`invalid-params/${TOp}`>
 : Err<
@@ -644,7 +649,7 @@ type Returns<TOp extends string,TParams> = TOp extends ComparisonOperation
  */
 export function compare<
     const TOp extends ComparisonOperation,
-    const TParams extends GetComparisonParamInput<TOp>
+    const TParams extends GetComparisonParams<TOp>
 >(
     op: TOp,
     ...params: TParams
@@ -652,8 +657,17 @@ export function compare<
     let response: any;
 
     if(isComparisonOperation(op)) {
-        response = compareFn(op, params);
-    } else {
+        if (isValidComparisonParams(op, params)) {
+            response = compareFn(op, params);
+        } else {
+            response  = err(
+                "invalid-params",
+                `The parameters for the operation '${isString(op) ? op : "undefined"}' are invalid!`,
+                { op, params }
+            )
+        }
+    }
+    else {
         response = err(
             "invalid-operation",
             `The operation is not a recognized or valid comparison operation!`,

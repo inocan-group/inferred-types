@@ -578,7 +578,7 @@ Error: Type resolves to empty/never across module boundaries
 
 #### 4. Memory Usage Issues
 
-```
+```txt
 Error: Process ran out of memory during type checking
 ```
 

@@ -1,7 +1,9 @@
 import type {
     AnyFunction,
+    As,
     Dictionary,
     EmptyObject,
+    Err,
     IsEqual,
     ObjectKey,
     TypedFunction,
@@ -9,9 +11,7 @@ import type {
 
 type Process<
     T extends AnyFunction,
-> = IsEqual<T, Function> extends true
-    ? EmptyObject
-    : keyof T extends ObjectKey
+> = keyof T extends ObjectKey
         ? Pick<T, keyof T>
         : never;
 
@@ -23,9 +23,12 @@ type Process<
  */
 export type FnKeyValue<
     T extends AnyFunction,
-> = Function extends T
-? Dictionary
+> = As<
+Function extends T
+? EmptyObject
 : T extends TypedFunction
     ? Process<T>
-: never
-    ;
+: Err<`invalid-fn`, `the type passed into 'FnKeyValue<T>' appears not to be a function!`>,
+
+Dictionary | Error>;
+

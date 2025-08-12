@@ -4,7 +4,7 @@ import type {
     ComparisonOperation,
     Find,
     FindFunction,
-    GetComparisonParamInput,
+    GetComparisonParams,
     Suggest
 } from "inferred-types/types";
 import { compare } from "runtime/combinators";
@@ -19,7 +19,7 @@ import { isComparisonOperation } from "runtime/type-guards/comparison";
  */
 export function find<
     const TOp extends ComparisonOperation,
-    const TParams extends GetComparisonParamInput<TOp>
+    const TParams extends GetComparisonParams<TOp>
 >(
     op: TOp,
     ...params: TParams

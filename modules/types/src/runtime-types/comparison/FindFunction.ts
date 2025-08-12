@@ -1,4 +1,4 @@
-import type { ComparisonAccept, ComparisonOperation, Find, GetComparisonParamInput } from "inferred-types/types";
+import type { ComparisonAccept, ComparisonOperation, Find, GetComparisonParams } from "inferred-types/types";
 
 /**
  * **FindFunction**`<TOp, TParams>`
@@ -11,7 +11,7 @@ import type { ComparisonAccept, ComparisonOperation, Find, GetComparisonParamInp
  */
 export type FindFunction<
     TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp>
+    TParams extends GetComparisonParams<TOp>
 > = <const TList extends readonly ComparisonAccept<TOp>[]>(
     list: TList
 ) => Find<

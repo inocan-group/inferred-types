@@ -4,7 +4,7 @@ import type {
     ComparisonOperation,
     Filter,
     FilterFn,
-    GetComparisonParamInput,
+    GetComparisonParams,
 } from "inferred-types/types";
 import {
     compare,
@@ -14,7 +14,7 @@ import {
 
 function filterFn<
     const TOp extends ComparisonOperation,
-    const TParams extends GetComparisonParamInput<TOp>
+    const TParams extends GetComparisonParams<TOp>
 >(
     op: TOp,
     params: TParams
@@ -50,7 +50,7 @@ function filterFn<
  */
 export function filter<
     const TOp extends ComparisonOperation,
-    const TParams extends GetComparisonParamInput<TOp>
+    const TParams extends GetComparisonParams<TOp>
 >(
     op: TOp,
     ...params: TParams

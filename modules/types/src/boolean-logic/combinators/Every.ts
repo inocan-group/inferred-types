@@ -5,7 +5,7 @@ import type {
     ComparisonOperation,
     Container,
     First,
-    GetComparisonParamInput,
+    GetComparisonParams,
     IsWideContainer,
     Values
 } from "inferred-types/types";
@@ -13,7 +13,7 @@ import type {
 type Process<
     TElements,
     TOp extends ComparisonOperation,
-    TComparator extends GetComparisonParamInput<TOp>,
+    TComparator extends GetComparisonParams<TOp>,
 > = [] extends TElements
     ? true
     : TElements extends readonly unknown[]
@@ -49,16 +49,16 @@ type Process<
 export type Every<
     TContainer extends Container,
     TOp extends ComparisonOperation,
-    TComparator extends GetComparisonParamInput<TOp> | First<GetComparisonParamInput<TOp>>,
+    TComparator extends GetComparisonParams<TOp> | First<GetComparisonParams<TOp>>,
 > = IsWideContainer<TContainer> extends true
     ? boolean
     : Process<
         Values<TContainer>,
         TOp,
-        TComparator extends GetComparisonParamInput<TOp>
+        TComparator extends GetComparisonParams<TOp>
             ? TComparator
-            : TComparator extends First<GetComparisonParamInput<TOp>>
-                ? [TComparator] extends GetComparisonParamInput<TOp>
+            : TComparator extends First<GetComparisonParams<TOp>>
+                ? [TComparator] extends GetComparisonParams<TOp>
                     ? [TComparator]
                     : never
                 : never

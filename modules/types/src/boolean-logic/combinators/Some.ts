@@ -4,7 +4,7 @@ import type {
     ComparisonAccept,
     ComparisonOperation,
     Container,
-    GetComparisonParamInput,
+    GetComparisonParams,
     IsTrue,
     IsWideContainer,
     Values
@@ -13,7 +13,7 @@ import type {
 type Process<
     T,
     TOp extends ComparisonOperation,
-    TComparator extends GetComparisonParamInput<TOp>,
+    TComparator extends GetComparisonParams<TOp>,
     THasBool extends boolean = false
 > = [] extends TComparator
     ? IsTrue<THasBool> extends true
@@ -62,16 +62,16 @@ type Process<
 export type Some<
     TContainer extends Container,
     TOp extends ComparisonOperation,
-    TComparator extends GetComparisonParamInput<TOp> | GetComparisonParamInput<TOp>[0],
+    TComparator extends GetComparisonParams<TOp> | GetComparisonParams<TOp>[0],
 > = IsWideContainer<TContainer> extends true
     ? boolean
     : Process<
         Values<TContainer>,
         TOp,
-        TComparator extends GetComparisonParamInput<TOp>
+        TComparator extends GetComparisonParams<TOp>
             ? TComparator
-            : TComparator extends GetComparisonParamInput<TOp>[0]
-                ? [TComparator] extends GetComparisonParamInput<TOp>
+            : TComparator extends GetComparisonParams<TOp>[0]
+                ? [TComparator] extends GetComparisonParams<TOp>
                     ? [TComparator]
                     : never
                 : never

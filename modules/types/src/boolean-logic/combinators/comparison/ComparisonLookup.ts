@@ -36,10 +36,8 @@ export type ComparisonLookup = {
     };
 
     startsWith: {
-        params: readonly (string | number)[];
-        convert: "stringUnion";
+        params: readonly [startsWith: string | number, ...variants:(string | number)[]];
         accept: string | number;
-        take: 1;
     };
 
     endsWith: {

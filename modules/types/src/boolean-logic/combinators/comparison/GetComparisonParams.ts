@@ -1,4 +1,5 @@
 import type {
+    As,
     ComparisonLookup,
     ComparisonOperation,
     IsUnion,
@@ -10,14 +11,15 @@ import type {
  * and allows you to not be forced to enter parameter
  * that aren't required.
  */
-export type GetComparisonParamInput<
-    TOp extends string
-> = TOp extends ComparisonOperation
-    ? IsUnion<TOp> extends true
-        ? readonly unknown[]
-        : "params" extends keyof ComparisonLookup[TOp]
-            ? ComparisonLookup[TOp]["params"] extends readonly unknown[]
-                ? ComparisonLookup[TOp]["params"]
-                : never
-            : readonly unknown[]
-    : readonly unknown[];
+export type GetComparisonParams<
+    TOp extends ComparisonOperation
+> = As<
+    [IsUnion<TOp>] extends [true]
+    ? readonly unknown[]
+    : ["params"] extends [keyof ComparisonLookup[TOp]]
+        ? ComparisonLookup[TOp]["params"] extends readonly unknown[]
+            ? ComparisonLookup[TOp]["params"]
+            : never
+        : readonly unknown[],
+    readonly unknown[]
+>;

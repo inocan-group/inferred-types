@@ -3,7 +3,7 @@ import type { ComparisonOperation } from "inferred-types/types";
 import { isString } from "runtime/type-guards/isString";
 
 /**
- * Type guard which checks whether `val` is a `ComparisonOperation`.
+ * Type guard which checks whether `op` is a `ComparisonOperation`.
  */
 export function isComparisonOperation(
     op: unknown
