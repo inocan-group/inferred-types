@@ -137,7 +137,8 @@ type OptimizationImpact<TBefore, TAfter> =
 ```
 
 ### Directory Structure
-```
+
+```txt
 tests/type-performance/
 ├── benchmark.ts                 # Main benchmark file
 ├── optimized-benchmark.ts       # Complexity level testing
@@ -210,7 +211,8 @@ npx @typescript/analyze-trace traces/current
 ### Performance Indicators
 
 #### 1. Compilation Time
-```
+
+```txt
 ✓ Fast: < 100ms per test file
 ⚠ Moderate: 100ms - 1s per test file
 🐌 Slow: > 1s per test file
@@ -218,6 +220,7 @@ npx @typescript/analyze-trace traces/current
 ```
 
 #### 2. Union Size Growth
+
 ```typescript
 // Acceptable growth
 type SmallUnion = "a" | "b" | "c";  // Size: 3
@@ -229,7 +232,8 @@ type ExplodedUnion = Process<LargeUnion>; // Size: 86,400 (600x growth!)
 ```
 
 #### 3. Test Results Interpretation
-```
+
+```txt
 ✓ Passing: Type resolves correctly within performance bounds
 ⤬ Warning: Type resolves but with performance concerns
 ⛒ Error: Type fails to resolve or hits recursion limits
@@ -239,7 +243,8 @@ type ExplodedUnion = Process<LargeUnion>; // Size: 86,400 (600x growth!)
 ### Metrics Storage
 
 #### Trace Data Location
-```
+
+```txt
 traces/
 ├── baseline/
 │   ├── trace.json          # TypeScript compilation trace
@@ -251,6 +256,7 @@ traces/
 ```
 
 #### Performance History
+
 ```typescript
 // Stored in trace analysis results
 interface PerformanceMetrics {
@@ -434,6 +440,7 @@ type MeasureUnionGrowth<TBefore, TAfter> = {
 ### 1. Test Design Patterns
 
 #### Progressive Complexity
+
 ```typescript
 // Start small and increase complexity gradually
 type Level1 = MyUtility<SimpleInput>;      // 3-5 items
@@ -443,6 +450,7 @@ type Level4 = MyUtility<LargeInput>;       // 40-50 items (risk zone)
 ```
 
 #### Boundary Testing
+
 ```typescript
 // Test at known TypeScript limits
 type SafeZone = MyUtility<Input40>;        // Should always work
@@ -451,6 +459,7 @@ type DangerZone = MyUtility<Input100>;     // Likely to fail
 ```
 
 #### Control Groups
+
 ```typescript
 // Always include simple baseline tests
 type SimpleControl = MyUtility<[1, 2, 3], "equals", [2]>;
@@ -460,6 +469,7 @@ type ComplexTest = MyUtility<LargeData, "complexOp", ComplexParams>;
 ### 2. Performance Targets
 
 #### Union Size Limits
+
 ```typescript
 // Acceptable sizes
 type SmallUnion = Size < 10;        // ✓ Optimal
@@ -469,7 +479,8 @@ type HugeUnion = Size >= 1000;      // ❌ Problematic
 ```
 
 #### Compilation Time Targets
-```
+
+```txt
 - Simple operations: < 10ms
 - Moderate operations: < 100ms
 - Complex operations: < 1s
@@ -479,6 +490,7 @@ type HugeUnion = Size >= 1000;      // ❌ Problematic
 ### 3. Complexity Management
 
 #### Use Complexity Levels
+
 ```typescript
 // Implement performance controls like datetime utilities
 type MyUtility<T, TOp, TParams, TComplexity = "normal"> =
@@ -490,6 +502,7 @@ type MyUtility<T, TOp, TParams, TComplexity = "normal"> =
 ```
 
 #### Conditional Type Optimization
+
 ```typescript
 // Optimize for common cases
 type OptimizedUtility<T> =
@@ -505,6 +518,7 @@ type OptimizedUtility<T> =
 ### 4. Monitoring and Alerting
 
 #### Add Performance Assertions
+
 ```typescript
 // Assert performance characteristics
 type PerformanceCheck<T> = [
@@ -514,6 +528,7 @@ type PerformanceCheck<T> = [
 ```
 
 #### Create Regression Tests
+
 ```typescript
 // Track performance regressions
 type PerformanceRegression<TCurrent, TBaseline> =
@@ -527,17 +542,20 @@ type PerformanceRegression<TCurrent, TBaseline> =
 ### Common Issues
 
 #### 1. TypeScript Recursion Limit Errors
-```
+
+```txt
 Error: Type instantiation is excessively deep and possibly infinite.
 ```
 
 **Solutions**:
+
 - Reduce input size in tests
 - Add conditional type shortcuts for simple cases
 - Implement complexity levels
 - Use tail recursion optimization patterns
 
 #### 2. Union Size Explosions
+
 ```typescript
 // Problem: Cartesian product creates huge unions
 type Problem = CartesianProduct<A, B, C>; // 24 × 60 × 60 = 86,400 types
@@ -547,21 +565,25 @@ type Solution = SampleCartesian<A, B, C, 10>; // Limit to 10 combinations
 ```
 
 #### 3. Cross-Module Type Resolution Failures
-```
+
+```txt
 Error: Type resolves to empty/never across module boundaries
 ```
 
 **Solutions**:
+
 - Create local versions of utilities in same file
 - Use explicit type annotations
 - Avoid complex conditional types across modules
 
 #### 4. Memory Usage Issues
+
 ```
 Error: Process ran out of memory during type checking
 ```
 
 **Solutions**:
+
 - Reduce test data size
 - Implement complexity levels
 - Use TypeScript's `--max-old-space-size` flag
@@ -570,12 +592,14 @@ Error: Process ran out of memory during type checking
 ### Performance Debugging
 
 #### 1. Enable TypeScript Diagnostics
+
 ```bash
 # Run with extended diagnostics
 tsc --extendedDiagnostics --generateTrace traces/debug
 ```
 
 #### 2. Analyze Specific Types
+
 ```typescript
 // Add debug types to understand resolution
 type Debug_Step1 = FirstStep<Input>;
@@ -589,6 +613,7 @@ type Size_Final = UnionSize<Debug_Final>;
 ```
 
 #### 3. Isolate Performance Issues
+
 ```typescript
 // Test components in isolation
 type IsolatedComponent = ProblematicUtility<SimpleInput>;
@@ -602,6 +627,7 @@ type PipelineSize = UnionSize<FullPipeline>;
 ### Optimization Strategies
 
 #### 1. Early Termination
+
 ```typescript
 // Add early exits for simple cases
 type OptimizedUtility<T> =
@@ -613,6 +639,7 @@ type OptimizedUtility<T> =
 ```
 
 #### 2. Type-Level Memoization
+
 ```typescript
 // Cache expensive computations
 type MemoizedUtility<T> = T extends infer U
@@ -623,6 +650,7 @@ type MemoizedUtility<T> = T extends infer U
 ```
 
 #### 3. Complexity Sampling
+
 ```typescript
 // Sample large inputs for performance
 type SampledUtility<T> =

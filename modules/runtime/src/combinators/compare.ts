@@ -10,18 +10,15 @@ import type {
     GetComparisonParamInput,
     IndexOf,
     IsEqual,
-    IsFalse,
     Narrowable,
     ObjectKey,
     SomeEqual,
-    Suggest,
     Unset,
     IsAfter,
     First,
     IsError,
     Err,
 } from "inferred-types/types";
-import { isString } from "runtime/type-guards/isString"
 
 import {
     asChars,
@@ -43,6 +40,7 @@ import {
 } from "inferred-types/runtime";
 import {
     hasIndexOf,
+    isString,
     isAlpha,
     isArray,
     isDateLike,

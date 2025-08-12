@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "incremental": true,
+    "noUnusedLocals": false,
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "rootDir": "..",
+    "baseUrl": ".",
+    "outDir": "../../dist/none",
+    "paths": {
+      "inferred-types/types": [
+        "../modules/types/src/index.ts"
+      ],
+      "inferred-types/runtime": [
+        "../modules/runtime/src/index.ts"
+      ],
+      "inferred-types/constants": [
+        "../modules/constants/src/index.ts"
+      ],
+      "runtime/*": [ "../modules/runtime/src/*"],
+      "constants/*": [ "../modules/constants/src/*"],
+      "types/*": [ "../modules/types/src/*"],
+    }
+  },
+  "include": [
+    ".",
+    "../modules",
+    ".claude/hooks"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}

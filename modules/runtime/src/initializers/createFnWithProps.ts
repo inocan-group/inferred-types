@@ -1,13 +1,7 @@
 import type {
-    FnKeyValue,
-    StaticFn,
-    MergeObjects,
-    Narrowable,
     ObjectKey,
     TypedFunction,
-    FnReturn,
     FnWithProps,
-    Mutable
 } from "inferred-types/types";
 import { fnProps } from "runtime/functions";
 

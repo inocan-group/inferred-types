@@ -3,9 +3,7 @@ import type { IsStringLiteral } from "inferred-types/types";
 type Process<
     TStr extends string,
     TResult extends readonly string[] = [],
-> = TStr["length"] extends 0
-    ? []
-    : TStr extends `${infer Char}${infer Rest}`
+> = TStr extends `${infer Char}${infer Rest}`
         ? Process<
             Rest,
             [...TResult, Char]
@@ -19,8 +17,10 @@ type Process<
  */
 export type Chars<
     TStr extends string,
-> = IsStringLiteral<TStr> extends true
-    ? Process<TStr> extends string[]
+> = string extends TStr
+? string[]
+: TStr extends ""
+    ? []
+    : Process<TStr> extends string[]
         ? Process<TStr>
-        : never
-    : string[];
+        : never;

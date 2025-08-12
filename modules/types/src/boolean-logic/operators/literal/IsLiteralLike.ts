@@ -9,9 +9,7 @@ import type {
     IsLiteralUnion,
     IsMixedUnion,
     IsNever,
-    IsTrue,
     IsUnion,
-    IsWideBoolean,
     ObjectKeys,
     Or,
 } from "inferred-types/types";
