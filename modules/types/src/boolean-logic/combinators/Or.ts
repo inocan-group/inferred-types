@@ -1,100 +1,88 @@
-import type {
-    As,
+import type { 
     Err,
-    HasAny,
-    HasFalse,
-    HasNever,
-    HasTrue,
+    HasTrue, 
     HasWideBoolean,
     IsAny,
     IsNever,
-    LogicFunction,
-    LogicOptions,
     TypedFunction,
+    HasAny,
+    HasNever
 } from "inferred-types/types";
 
-type Process<
-    T extends readonly boolean[],
-    U extends Required<LogicOptions>
-> = HasTrue<T> extends true
-? true
-: HasWideBoolean<T> extends true
-? boolean
-: false;
+type LogicOptions = {
+    empty?: boolean | unknown;
+    err?: "false" | "error" | unknown;
+};
 
-type Reduce<T extends readonly (boolean | LogicFunction)[]> = As<{
+type Reduce<T extends readonly (boolean | TypedFunction)[]> = {
     [K in keyof T]: T[K] extends TypedFunction
         ? ReturnType<T[K]>
         : T[K]
-}, readonly boolean[]>;
-
-type Validate<T extends readonly unknown[]> = [IsAny<T>] extends [true]
-    ? Err<
-        `invalid/or`,
-        `The Or<...> logical combinator has a 'any' type! Or is expecting a tuple of boolean values (or functions which return boolean).`,
-        { library: "inferred-types" }
-    >
-    : [IsNever<T>] extends [true]
-        ? Err<
-            `invalid/or`,
-            `The Or<...> logical combinator has a 'never' type! Or is expecting a tuple of boolean values (or functions which return boolean).`,
-            { library: "inferred-types" }
-        >
-        : [HasNever<T>] extends [true]
-            ? Err<`invalid/or`, `The Or<T> found elements in T which were the 'never' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.`, { value: T }>
-        : [HasAny<T>] extends [true]
-            ? Err<`invalid/or`, `The Or<T> found elements in T which were the 'any' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.`, { value: T }>
-
-        : T extends readonly (boolean | LogicFunction)[]
-            ? Reduce<T> extends readonly boolean[]
-                ? Reduce<T>
-                : Err<`invalid/or`, `The Or<T> utility found invalid types in the elements of T. Or<T> expects either a boolean value or a function which returns a boolean value.`, { value: T }>
-        : Err<`invalid/or`, `The Or<T> found invalid types in the elements of T. Or<T> expects either a boolean value or a function which returns a boolean value.`, { value: T }>;
-
-
-type DefaultOptions = {
-    empty: false;
-    err: "false";
-}
-
-type Opt<T extends LogicOptions> = As<
-    {
-        empty: T extends { empty: infer E } ? E : DefaultOptions["empty"];
-        err: T extends { err: infer E } ? E : DefaultOptions["err"];
-    },
-    Required<LogicOptions>
->
+};
 
 /**
- * **Or**`<T, [U]>`
- *
- * Allows an array of conditions -- _either a boolean value or a function which evaluates
- * to a boolean value_ -- to be logically OR'd together.
- *
- * - if `T` is type `any` or `never` returns an Error
- * - if any element in `T` is `any` or `never` then returns an Error
- * - if `T` is type `unknown` returns `boolean | Error`
- * - if any element in `T` is `unknown` returns `boolean | Error`
- *
- * **Related:** `And`
+ * **Or**`<T, [TOpt]>`
+ * 
+ * Performs logical OR operation on an array of boolean values or functions returning boolean.
+ * 
+ * - Returns `true` if any element is `true`
+ * - Returns `boolean` if any element is wide `boolean` type
+ * - Returns `false` if all elements are `false`
+ * - Returns `false` for empty arrays (or value from options.empty)
+ * - Returns `boolean` for wide arrays (length not known at compile time)
+ * - Supports functions that return boolean values
+ * - Configurable error handling via options parameter
+ * 
+ * **Related:** `And`, `Not`
  */
 export type Or<
     T extends readonly unknown[],
-    U extends LogicOptions = { empty: false, err: "false" }
-> = Validate<T> extends Error
-    ? Opt<U>["err"] extends "error"
-        ? Validate<T>
-        : false
-: T extends readonly (boolean | LogicFunction)[]
-? number extends T["length"]
-    ? boolean
-: T extends readonly boolean[]
-    ? Process<T, Opt<U>>
-: Process<Reduce<T>, Opt<U>>
-: Opt<U>["err"] extends "error"
-    ? Err<
-        `invalid/or`,
-        `The Or<T> type utility requires that all elements passed to it are either a boolean value directly or a LogicFunction which returns a boolean value`,
-        { value: T }
-    >
-    : false;
+    TOpt extends LogicOptions = { empty: false; err: "false" }
+> = 
+    // Handle global any/never types
+    IsAny<T> extends true 
+        ? TOpt extends { err: "error" }
+            ? Err<"invalid/or", "The Or<...> logical combinator has a 'any' type! Or is expecting a tuple of boolean values (or functions which return boolean).", { library: "inferred-types" }>
+            : false
+    : IsNever<T> extends true
+        ? TOpt extends { err: "error" }
+            ? Err<"invalid/or", "The Or<...> logical combinator has a 'never' type! Or is expecting a tuple of boolean values (or functions which return boolean).", { library: "inferred-types" }>
+            : false
+    // Handle invalid array element types
+    : HasAny<T> extends true
+        ? TOpt extends { err: "error" }
+            ? Err<"invalid/or", "The Or<T> found elements in T which were the 'any' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.", { value: T }>
+            : false
+    : HasNever<T> extends true
+        ? TOpt extends { err: "error" }
+            ? Err<"invalid/or", "The Or<T> found elements in T which were the 'never' type! Or<T> expects all elements to be a boolean value or a function which returns a boolean value.", { value: T }>
+            : false
+    // Handle valid boolean/function arrays
+    : T extends readonly (boolean | TypedFunction)[]
+        // Handle wide arrays (unknown length at compile time)
+        ? number extends T["length"] 
+            ? boolean
+        // Handle empty arrays
+        : [] extends T 
+            ? TOpt extends { empty: infer E } ? E : false
+        // Process the array (reduce functions to booleans if needed)
+        : T extends readonly boolean[]
+            ? HasTrue<T> extends true 
+                ? true 
+            : HasWideBoolean<T> extends true 
+                ? boolean 
+            : false
+        // Handle arrays with functions
+        : Reduce<T> extends readonly boolean[]
+            ? HasTrue<Reduce<T>> extends true 
+                ? true 
+            : HasWideBoolean<Reduce<T>> extends true 
+                ? boolean 
+            : false
+        : TOpt extends { err: "error" }
+            ? Err<"invalid/or", "The conditions passed into Or<T> could not be reduced down to just a boolean array.", { library: "inferred-types"; value: T }>
+            : false
+    // Handle completely invalid types
+    : TOpt extends { err: "error" }
+        ? Err<"invalid/or", "The Or<T> type utility requires that all elements passed to it are either a boolean value directly or a LogicFunction which returns a boolean value", { value: T }>
+        : false;

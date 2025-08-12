@@ -48,15 +48,6 @@
         ]
     },
     "hooks": {
-        "PreToolUse": [
-            {
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "bun run ./.claude/hooks/pre_tool_use.ts"
-                    }
-                ]
-            }
-        ]
+
     }
 }

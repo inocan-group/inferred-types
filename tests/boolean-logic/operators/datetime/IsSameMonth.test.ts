@@ -41,8 +41,6 @@ describe("IsSameMonth<A, B>", () => {
     ];
   });
 
-
-
   it("Wide Types - Boolean Results", () => {
     type cases = [
       // @ts-expect-error
