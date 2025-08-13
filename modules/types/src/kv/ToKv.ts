@@ -11,6 +11,7 @@ import type {
     ObjectKeys,
     OptionalKeysTuple,
     SortOptions,
+    SortOrder,
 } from "inferred-types/types";
 
 export type ToKvOptions = MergeObjects<

@@ -5,11 +5,8 @@ import type {
     Find,
     FindFunction,
     GetComparisonParams,
-    Suggest
 } from "inferred-types/types";
 import { compare } from "runtime/combinators";
-import { err } from "runtime/errors";
-import { isComparisonOperation } from "runtime/type-guards/comparison";
 
 /**
  * **find**(op, ...params) => (value) => el | undefined

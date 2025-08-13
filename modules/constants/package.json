@@ -17,7 +17,8 @@
         "lint": "eslint src",
         "watch": "run-p watch:*",
         "watch:build": "tsdown --watch",
-        "watch:test": "vitest"
+        "watch:test": "vitest",
+        "source": "echo 'Constants Module' && npx typed source"
     },
     "devDependencies": {
         "@type-challenges/utils": "~0.1.1",

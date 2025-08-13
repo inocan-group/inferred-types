@@ -67,12 +67,3 @@ export const takeAtomicToken = createTakeFunction("static")
         return Lookup[found as keyof typeof Lookup];
     });
 
-const a = takeAtomicToken({ parse: "stringy" });
-
-const b = createStaticTakeFunction(
-    ["string", "number", "void", "true"],
-    (payload) => {
-        const { item, tokens } = payload;
-    },
-
-);

@@ -18,6 +18,7 @@ import type {
     First,
     IsError,
     Err,
+    IsWideObject
 } from "inferred-types/types";
 
 import {
@@ -56,19 +57,18 @@ import {
     isParsedDate,
     isTrue,
     isNumberLike,
-    isValidComparisonParams
+    isValidComparisonParams,
+    isStringOrNumericArray,
+    isComparisonOperation,
+    isBoolean
 } from "runtime/type-guards";
-import { isBoolean } from "runtime/type-guards/isBoolean"
 
 import {
     endsWith,
     startsWith
 } from "runtime/type-guards/higher-order"
 
-import { isStringOrNumericArray } from "runtime/type-guards/arrays/isStringOrNumericArray"
 import { not } from "runtime/boolean-logic/not";
-import { isComparisonOperation } from 'runtime/type-guards/comparison';
-import IsWideObject from 'inferred-types/types';
 
 function handle_string<
     TVal extends Narrowable,
@@ -492,8 +492,8 @@ function handle_datetime<
 
             case "after": {
                 return isDateLike(params[0])
-                    ? isAfter(params[0])(val) as unknown as IsAfter<TVal,First<TParams>>
-                    : err('invalid-params/not-date-like') as unknown as IsAfter<TVal,First<TParams>>;
+                    ? isAfter(params[0])(val) as IsAfter<TVal,First<TParams>>
+                    : err('invalid-params/not-date-like') as IsAfter<TVal,First<TParams>>;
             }
 
             case "before": {

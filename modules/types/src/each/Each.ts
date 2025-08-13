@@ -1,4 +1,4 @@
-import type { And, Err, Get, GetTypeOf, IsLiteralLike, IsWideType } from "inferred-types/types";
+import type { And, Err, Get, GetTypeOf, IsLiteral, IsLiteralLike, IsWideType } from "inferred-types/types";
 import type { TypedFunction } from "types/base-types";
 
 export type EachOperation = "returnType" | "get" | "isLiteral" | "isLiteralLike" | "isWide";
