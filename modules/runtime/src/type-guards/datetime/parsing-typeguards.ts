@@ -1,5 +1,7 @@
 import type {
+    As,
     FourDigitYear,
+    IsTrue,
     MinimalDigitDate,
     ThreeDigitMillisecond,
     TimezoneOffset,
@@ -47,11 +49,19 @@ export function isThreeDigitMillisecond(s: unknown): s is ThreeDigitMillisecond<
 }
 
 /**
- * Type-guard for TwoDigitMonth
- * Matches "01"–"09" or "10"–"12"
+ * **isTwoDigitMonth**`(val)`
+ *
+ * Typeguard that validates that `val` is a valid `TwoDigitMonth`.
+ *
+ * - the returned type will be a _branded_ variant of the string literal
+ * - if you want to just validate but keep the _type_ as a normal string
+ * you can pass in `false` to the `branded` variable.
  */
-export function isTwoDigitMonth(s: unknown): s is TwoDigitMonth<"branded"> {
-    return isString(s) && /^(?:0[1-9]|1[0-2])$/.test(s);
+export function isTwoDigitMonth<T, B extends boolean = true>(
+    val: T,
+    branded: B = true as B
+): val is IsTrue<B> extends true ? TwoDigitMonth<As<T, TwoDigitMonth>> & T : T {
+    return isString(val) && /^(?:0[1-9]|1[0-2])$/.test(val);
 }
 
 /**

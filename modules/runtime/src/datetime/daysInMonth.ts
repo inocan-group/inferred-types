@@ -5,8 +5,8 @@ import type {
     MonthName,
     TwoDigitMonth
 } from "inferred-types/types";
-import { asTwoDigitMonth, getMonthName } from "runtime/datetime";
 import {
+    asTwoDigitMonth,
     isTwoDigitMonth,
     getMonthNumber,
     isLeapYear,
@@ -46,6 +46,7 @@ export function daysInMonth(
         )
     }
 
+    const twoDigitMonth = asTwoDigitMonth(monthNum);
 
     return monthNum === 2
         ? isDefined(year)
@@ -55,7 +56,7 @@ export function daysInMonth(
                     : 29
             : 28
         : 28
-    : ISO_MONTH_WITH_30.includes(asTwoDigitMonth(monthNum) as any)
+    : ISO_MONTH_WITH_30.includes(twoDigitMonth as any)
         ? 30
         : 31
 }

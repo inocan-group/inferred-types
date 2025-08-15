@@ -29,7 +29,8 @@ import {
 export type AsTwoDigitMonth<
     T,
     B extends boolean = false
-> = T extends DateLike
+> = As<
+T extends DateLike
 ? IsInteger<T> extends true
     ? IsBetweenInclusively<As<T, number>, 1, 12> extends true
         ? IsTrue<B> extends true
@@ -59,4 +60,5 @@ export type AsTwoDigitMonth<
     "invalid-date/as-two-digit-month",
     `The type T passed into AsTwoDigitMonth<T> could not be parsed into a date!`,
     { date: T }
->;
+>,
+TwoDigitMonth | Error>;

@@ -141,16 +141,16 @@ export type TwoDigitMonth<
         : T extends "weak"
             ? `${"0" | "1"}${number}` & `${number}`
             : T extends "branded"
-                ? Brand<`${number}`, "TwoDigitMonth">
-                : T extends `${number}`
-                    ? [IsTwoDigitMonth<T>] extends [true]
-                        ? Brand<T, "TwoDigitMonth">
-                        : Err<
-                            `invalid-type/month`,
-                `The type passed into 'TwoDigitMonth<${T}>' is not a valid two digit month!`,
-                { month: T }
-                        >
-                    : never;
+                ? Brand<`${number}` & TwoDigitMonth, "TwoDigitMonth">
+            : T extends `${number}`
+                ? [IsTwoDigitMonth<T>] extends [true]
+                    ? Brand<T, "TwoDigitMonth">
+                    : Err<
+                        `invalid-type/month`,
+            `The type passed into 'TwoDigitMonth<${T}>' is not a valid two digit month!`,
+            { month: T }
+                    >
+                : never;
 
 /**
  * a union of valid month numbers
