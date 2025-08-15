@@ -1,7 +1,7 @@
-import { CamelCase, Contains, Filter, HasUnionType, IsUnion, KebabCase, NarrowlyContains, NotFilter, PascalCase, SnakeCase, UnionToTuple } from "inferred-types/types";
+import type { CamelCase, IsUnion, KebabCase, NotFilter, PascalCase, SnakeCase, UnionToTuple } from "inferred-types/types";
 
-export type UnionMutationOp =
-    | "Capitalize"
+export type UnionMutationOp
+    = | "Capitalize"
     | "Lowercase"
     | "Uppercase"
     | "CamelCase"
@@ -9,8 +9,6 @@ export type UnionMutationOp =
     | "SnakeCase"
     | "KebabCase"
     | "Required";
-
-
 
 type Mutate<
     TElements extends readonly unknown[],
@@ -27,42 +25,41 @@ type Mutate<
                 ? Uppercase<TElements[K]>
                 : TElements[K]
         }
-    : TOp extends "Lowercase"
-        ? {
-            [K in keyof TElements]: TElements[K] extends string
-                ? Lowercase<TElements[K]>
-                : TElements[K]
-        }
-    : TOp extends "CamelCase"
-        ? {
-            [K in keyof TElements]: TElements[K] extends string
-                ? CamelCase<TElements[K]>
-                : TElements[K]
-        }
-    : TOp extends "PascalCase"
-        ? {
-            [K in keyof TElements]: TElements[K] extends string
-                ? PascalCase<TElements[K]>
-                : TElements[K]
-        }
-    : TOp extends "KebabCase"
-        ? {
-            [K in keyof TElements]: TElements[K] extends string
-                ? KebabCase<TElements[K]>
-                : TElements[K]
-        }
-    : TOp extends "SnakeCase"
-        ? {
-            [K in keyof TElements]: TElements[K] extends string
-                ? SnakeCase<TElements[K]>
-                : TElements[K]
-        }
-    : TOp extends "Required"
-        ? NotFilter<TElements, "equals", [undefined]> extends readonly unknown[]
-            ? NotFilter<TElements, "equals", [undefined]>
-            : never
-    : never;
-
+        : TOp extends "Lowercase"
+            ? {
+                [K in keyof TElements]: TElements[K] extends string
+                    ? Lowercase<TElements[K]>
+                    : TElements[K]
+            }
+            : TOp extends "CamelCase"
+                ? {
+                    [K in keyof TElements]: TElements[K] extends string
+                        ? CamelCase<TElements[K]>
+                        : TElements[K]
+                }
+                : TOp extends "PascalCase"
+                    ? {
+                        [K in keyof TElements]: TElements[K] extends string
+                            ? PascalCase<TElements[K]>
+                            : TElements[K]
+                    }
+                    : TOp extends "KebabCase"
+                        ? {
+                            [K in keyof TElements]: TElements[K] extends string
+                                ? KebabCase<TElements[K]>
+                                : TElements[K]
+                        }
+                        : TOp extends "SnakeCase"
+                            ? {
+                                [K in keyof TElements]: TElements[K] extends string
+                                    ? SnakeCase<TElements[K]>
+                                    : TElements[K]
+                            }
+                            : TOp extends "Required"
+                                ? NotFilter<TElements, "equals", [undefined]> extends readonly unknown[]
+                                    ? NotFilter<TElements, "equals", [undefined]>
+                                    : never
+                                : never;
 
 /**
  * **UnionMutate**`<T, Op>`
@@ -83,5 +80,3 @@ export type UnionMutate<
     : IsUnion<T> extends true
         ? Mutate<UnionToTuple<T>, Op>[number]
         : T;
-
-

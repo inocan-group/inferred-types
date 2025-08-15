@@ -1,10 +1,10 @@
 import type { TemplateBlock, TemplateBlocks } from "inferred-types/types";
 
 type Map = {
-    "{{string}}": string,
-    "{{number}}": number,
-    "{{boolean}}": boolean
-}
+    "{{string}}": string;
+    "{{number}}": number;
+    "{{boolean}}": boolean;
+};
 
 /**
  * **TemplateParams**`<T>`
@@ -18,5 +18,4 @@ export type TemplateParams<
     [K in keyof B]: B[K] extends keyof Map
         ? Map[B[K]]
         : never
-}
-
+};

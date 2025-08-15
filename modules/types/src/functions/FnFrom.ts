@@ -1,4 +1,4 @@
-import type { AsNarrowingFn, AsStaticFn, Dictionary, EmptyObject, ExpandRecursively, Tuple } from "inferred-types/types";
+import type { AsNarrowingFn, Dictionary, EmptyObject, ExpandRecursively } from "inferred-types/types";
 
 /**
  * **FnFrom**`<TParams,[TReturn],[TProps]>`
@@ -15,4 +15,4 @@ export type FnFrom<
         : AsNarrowingFn<TParams, TReturn>
     : TParams["length"] extends 0
         ? (() => TReturn) & ExpandRecursively<TProps>
-        : AsNarrowingFn<TParams,TReturn, TProps>
+        : AsNarrowingFn<TParams, TReturn, TProps>;

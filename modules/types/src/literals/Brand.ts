@@ -1,4 +1,4 @@
-import type { Scalar, As, IndexOf, IsEqual, Not, Container } from "inferred-types/types";
+import type { As, Container, IndexOf, IsEqual, Not, Scalar } from "inferred-types/types";
 
 export declare const BrandSymbol: unique symbol;
 

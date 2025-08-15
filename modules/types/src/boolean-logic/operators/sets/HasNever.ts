@@ -41,15 +41,14 @@ type Validate<T> = [IsAny<T>] extends [true]
  */
 export type HasNever<T extends Container> = [Validate<T>] extends [Error]
     ? Validate<T>
-: [IsWideArray<T>] extends [true]
+    : [IsWideArray<T>] extends [true]
         ? boolean
-: [T] extends [readonly any[]]
+        : [T] extends [readonly any[]]
             ? [IsWideArray<T>] extends [true]
                 ? boolean
                 : TestArray<T>
-: [IsWideObject<T>] extends [true]
+            : [IsWideObject<T>] extends [true]
                 ? boolean
                 : IsDictionary<T> extends true
                     ? TestArray<Values<T>>
                     : false;
-

@@ -30,4 +30,3 @@ export type IsScalar<T> = [IsNever<T>] extends [true]
                 ? boolean
                 : false
         : [T] extends [Scalar] ? true : false;
-

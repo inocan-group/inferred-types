@@ -1,8 +1,8 @@
-import { ExpandRecursively } from '../literals/ExpandRecursively';
 import type {
     Dictionary,
     TypedFunction,
 } from "inferred-types/types";
+import type { ExpandRecursively } from "../literals/ExpandRecursively";
 
 /**
  * **FnWithProps**`<TFn,TProps,[TClone]>`

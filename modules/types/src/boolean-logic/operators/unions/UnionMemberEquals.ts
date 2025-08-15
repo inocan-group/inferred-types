@@ -1,23 +1,22 @@
 import type {
-    As,
+    AsArray,
     IsAny,
     IsNever,
+    IsUndefined,
     IsUnion,
     IsUnknown,
-    UnionToTuple,
     Some,
-    AsArray,
-    IsUndefined
+    UnionToTuple
 } from "inferred-types/types";
 
 type Process<
     T extends readonly unknown[],
     U extends readonly unknown[]
 > = T extends [infer First, ...infer Rest]
-? Some<U, "equals", First> extends true
-    ? true
-: Process<Rest, U>
-: false;
+    ? Some<U, "equals", First> extends true
+        ? true
+        : Process<Rest, U>
+    : false;
 
 ;
 
@@ -38,20 +37,18 @@ export type UnionMemberEquals<
     U
 > = [IsAny<T>] extends [true]
     ? false
-: [IsAny<U>] extends [true]
-    ? true
-: [IsNever<T>] extends [true]
-    ? false
-: [IsNever<U>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: [IsUnknown<U>] extends [true]
-    ? boolean
-: [IsUnion<T>] extends [true]
-    ? UnionToTuple<T> extends readonly unknown[]
-        ? Process<UnionToTuple<T>, IsUndefined<U> extends true ? [undefined] : AsArray<U>>
-        : false
-: false;
-
-
+    : [IsAny<U>] extends [true]
+        ? true
+        : [IsNever<T>] extends [true]
+            ? false
+            : [IsNever<U>] extends [true]
+                ? false
+                : [IsUnknown<T>] extends [true]
+                    ? boolean
+                    : [IsUnknown<U>] extends [true]
+                        ? boolean
+                        : [IsUnion<T>] extends [true]
+                            ? UnionToTuple<T> extends readonly unknown[]
+                                ? Process<UnionToTuple<T>, IsUndefined<U> extends true ? [undefined] : AsArray<U>>
+                                : false
+                            : false;

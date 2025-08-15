@@ -15,8 +15,6 @@ import type {
     IsNegativeNumber,
     IsNull,
     IsValidIndex,
-    IsWideContainer,
-    Keys,
     ObjectKey,
     Reverse,
     ToString,
@@ -118,16 +116,15 @@ type Process<
 >;
 
 type WithNegativeIndex<T extends readonly unknown[]> = T extends readonly number[]
-?  Flatten<{
-    [K in keyof T]: T[K] extends 0
-        ? T[K]
-        : [
-            T[K],
-            InvertNumericSign<T[K]>
-        ]
-}>
-: T;
-
+    ? Flatten<{
+        [K in keyof T]: T[K] extends 0
+            ? T[K]
+            : [
+                T[K],
+                InvertNumericSign<T[K]>
+            ]
+    }>
+    : T;
 
 /**
  * **IndexOf**<TValue, TIdx, [TOverride]>
@@ -155,4 +152,3 @@ export type IndexOf<
         Process<TValue, As<TIdx, PropertyKey | null>>,
         TOverride
     >;
-

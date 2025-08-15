@@ -1,4 +1,3 @@
-
 /**
  * a set of options for logical utilities like `And` and `Or` which receive an
  * array of logic based values.
@@ -18,5 +17,5 @@ export type LogicOptions = {
      * - `"false"` - all error conditions are converted to `false` to preserve the return
      * type as being exclusively a boolean value
      */
-    err?: "error" | "false"
-}
+    err?: "error" | "false";
+};

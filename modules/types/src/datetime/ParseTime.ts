@@ -93,14 +93,13 @@ type ParseTimeWithMinutes<
             rest: infer Rest extends string;
         }
             ? Rest extends ""
-                ?
-                    [
-                        THours,
-                        TMinutes,
-                        null,
-                        null,
-                        TZ
-                    ]
+                ? [
+                    THours,
+                    TMinutes,
+                    null,
+                    null,
+                    TZ
+                ]
                 : Err<
                     `parse-time/leftover`,
                     `Were able to parse out hours, minutes, and timezone but content still remains: ${Rest}`,

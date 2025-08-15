@@ -18,22 +18,22 @@ type Shape = {
 export type IsJsDate<T>
 = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
+    : [IsNever<T>] extends [true]
+        ? false
 
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: [IsUnion<T>] extends [true]
-    ? [UnionMemberExtends<T, Shape>] extends [true]
-        ? T extends Date
-            ? true
-            : boolean
-        : false
-: [Extends<T, Date>] extends [true]
-    ? true
-: IsDictionary<T> extends true
-    ? T extends Shape
-        ? true
-        : false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : [IsUnion<T>] extends [true]
+                ? [UnionMemberExtends<T, Shape>] extends [true]
+                    ? T extends Date
+                        ? true
+                        : boolean
+                    : false
+                : [Extends<T, Date>] extends [true]
+                    ? true
+                    : IsDictionary<T> extends true
+                        ? T extends Shape
+                            ? true
+                            : false
 
-: false;
+                        : false;

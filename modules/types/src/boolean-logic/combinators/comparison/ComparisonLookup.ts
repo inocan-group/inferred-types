@@ -36,7 +36,7 @@ export type ComparisonLookup = {
     };
 
     startsWith: {
-        params: readonly [startsWith: string | number, ...variants:(string | number)[]];
+        params: readonly [startsWith: string | number, ...variants: (string | number)[]];
         accept: string | number;
     };
 

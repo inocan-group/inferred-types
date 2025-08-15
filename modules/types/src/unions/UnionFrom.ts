@@ -27,6 +27,6 @@ export type UnionFrom<
             : Err<
                 `invalid-offset`,
                 `The UnionFrom<T,U> received an 'offset' value in the U generic. This feature is intended for tuples not objects!`,
-                { container: T, offset: U}
+                { container: T; offset: U }
             >
         : never;

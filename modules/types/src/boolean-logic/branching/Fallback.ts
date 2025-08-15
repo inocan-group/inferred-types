@@ -1,5 +1,4 @@
-import {  IsNull,  IsUndefined, IsUnion, IsUnknown, UnionFilter, UnionMemberExtends } from "inferred-types/types";
-
+import type { IsNull, IsUndefined, IsUnion, UnionFilter, UnionMemberExtends } from "inferred-types/types";
 
 /**
  * **Fallback**`<TVal,TFallback>`
@@ -16,8 +15,6 @@ export type Fallback<
         : TVal
     : IsNull<TVal> extends true
         ? TFallback
-    : IsUndefined<TVal> extends true
-        ? TFallback
-    : TVal;
-
-
+        : IsUndefined<TVal> extends true
+            ? TFallback
+            : TVal;

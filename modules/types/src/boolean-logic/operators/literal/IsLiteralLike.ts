@@ -6,12 +6,12 @@ import type {
     IsAny,
     IsBoolean,
     IsLiteralLikeObject,
+    IsLiteralTuple,
     IsLiteralUnion,
     IsMixedUnion,
     IsNever,
     IsUnion,
-    ObjectKeys,
-    IsLiteralTuple
+    ObjectKeys
 } from "inferred-types/types";
 
 /**
@@ -48,54 +48,52 @@ export type LiteralLikeModifiers = DefineModifiers<
  * - `IsLiteralLikeTuple`, `IsLiteralLikeObject`
  * - `IsLiteralUnion`, `IsWideUnion`, `IsMixedUnion`
  */
-export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> =
-[IsAny<T>] extends [true]
-        ? false
+export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null>
+= [IsAny<T>] extends [true]
+    ? false
     : [IsNever<T>] extends [true]
         ? false
-    : [EmptyObject] extends [T]
-        ? number extends As<ObjectKeys<T>, readonly unknown[]>["length"]
-            ? false
-            : true
-    : [string] extends [T]
-        ? false
-    : [number] extends [T]
-        ? false
-    : [bigint] extends [T]
-        ? false
-    : [symbol] extends [T]
-        ? false
-    : [T] extends [string]
-        ? true
-    : [T] extends [number]
-        ? true
-    : [T] extends [bigint]
-        ? true
+        : [EmptyObject] extends [T]
+            ? number extends As<ObjectKeys<T>, readonly unknown[]>["length"]
+                ? false
+                : true
+            : [string] extends [T]
+                ? false
+                : [number] extends [T]
+                    ? false
+                    : [bigint] extends [T]
+                        ? false
+                        : [symbol] extends [T]
+                            ? false
+                            : [T] extends [string]
+                                ? true
+                                : [T] extends [number]
+                                    ? true
+                                    : [T] extends [bigint]
+                                        ? true
 
-
-    : [IsBoolean<T>] extends [true]
-        ? true
-    : [T] extends [symbol]
-        ? true
-    : [T] extends [null | undefined]
-        ? true
-    : [IsUnion<T>] extends [true]
-        ? [HasModifier<"exclude-unions", U, LiteralLikeModifiers>] extends [true]
-            ? false
-            : [HasModifier<"allow-mixed-unions", U, LiteralLikeModifiers>] extends [true]
-                ? IsLiteralUnion<T> extends true
-                    ? true
-                    : IsMixedUnion<T> extends true
-                        ? true
-                    : false
-                : IsLiteralUnion<T>
-    : [T] extends [readonly unknown[]]
-        ? IsLiteralTuple<T>
-    : [object] extends [T]
-        ? false
-    : [string] extends [keyof T]
-        ? false
-    : [T] extends [object]
-        ? IsLiteralLikeObject<T>
-        : false;
-
+                                        : [IsBoolean<T>] extends [true]
+                                            ? true
+                                            : [T] extends [symbol]
+                                                ? true
+                                                : [T] extends [null | undefined]
+                                                    ? true
+                                                    : [IsUnion<T>] extends [true]
+                                                        ? [HasModifier<"exclude-unions", U, LiteralLikeModifiers>] extends [true]
+                                                            ? false
+                                                            : [HasModifier<"allow-mixed-unions", U, LiteralLikeModifiers>] extends [true]
+                                                                ? IsLiteralUnion<T> extends true
+                                                                    ? true
+                                                                    : IsMixedUnion<T> extends true
+                                                                        ? true
+                                                                        : false
+                                                                : IsLiteralUnion<T>
+                                                        : [T] extends [readonly unknown[]]
+                                                            ? IsLiteralTuple<T>
+                                                            : [object] extends [T]
+                                                                ? false
+                                                                : [string] extends [keyof T]
+                                                                    ? false
+                                                                    : [T] extends [object]
+                                                                        ? IsLiteralLikeObject<T>
+                                                                        : false;

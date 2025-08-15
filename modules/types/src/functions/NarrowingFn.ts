@@ -1,12 +1,9 @@
 import type {
-    AnyFunction,
     Dictionary,
     EmptyObject,
     ExpandRecursively,
-    FnKeyValue,
     IsEqual,
     IsNarrowingFn,
-    IsNonEmptyObject,
     TypedFunction,
 } from "inferred-types/types";
 
@@ -30,10 +27,10 @@ import type {
 export type NarrowingFn<
     TFn extends TypedFunction,
 > = IsEqual<Parameters<TFn>, []> extends true
-? TFn
-: IsNarrowingFn<TFn> extends true
     ? TFn
-    : (<T extends readonly [...Parameters<TFn>]>(...args: T) => ReturnType<TFn>);
+    : IsNarrowingFn<TFn> extends true
+        ? TFn
+        : (<T extends readonly [...Parameters<TFn>]>(...args: T) => ReturnType<TFn>);
 
 /**
  * **AsNarrowingFn**`<TParams,TReturns,TProps>`

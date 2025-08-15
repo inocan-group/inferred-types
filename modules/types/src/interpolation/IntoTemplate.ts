@@ -77,5 +77,5 @@ export type IntoTemplate<
     TTpl extends string,
     TArgs extends TemplateParams<TTpl>
 > = TArgs extends readonly unknown[]
-? ProcessTemplate<TTpl, TArgs>
-: never;
+    ? ProcessTemplate<TTpl, TArgs>
+    : never;

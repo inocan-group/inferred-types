@@ -1,4 +1,3 @@
-import { HasTemplateLiteral } from '../sets/HasTemplateLiteral';
 import type {
     Dictionary,
     IsWideObject,
@@ -18,5 +17,3 @@ export type HasRequiredProps<
     : [RequiredKeysTuple<T>["length"]] extends [0]
         ? false
         : true;
-
-

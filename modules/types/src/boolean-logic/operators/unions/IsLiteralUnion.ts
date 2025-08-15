@@ -26,9 +26,8 @@ export type IsLiteralUnion<T> = As<
     [IsUnion<T>] extends [true]
         ? AllElementsAreLiteral<UnionToTuple<T>>
         : false,
-        boolean
->
-
+    boolean
+>;
 
 // type Debug = 1 | 2 | 3 | 42;
 // type Test = IsLiteralUnion<Debug>;

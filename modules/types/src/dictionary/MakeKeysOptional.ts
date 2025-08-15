@@ -16,7 +16,7 @@ type Iterate<
             ? TObj[K]
             : never
     }
->
+>;
 
 /**
  * **MakeKeysOptional**`<TObj, TKeys>`
@@ -33,5 +33,3 @@ export type MakeKeysOptional<
 > = OptionalKeysTuple<TObj> extends readonly ObjectKey[]
     ? Iterate<TObj, TKeys>
     : never;
-
-

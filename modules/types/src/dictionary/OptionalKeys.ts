@@ -2,13 +2,10 @@ import type {
     As,
     Dictionary,
     EmptyObject,
-    ExtractOptionalElements,
     If,
     IsEqual,
     NotFilter,
     ObjectKey,
-    Subtract,
-    TupleMeta,
     UnionToTuple,
     Unset,
 } from "inferred-types/types";
@@ -60,7 +57,4 @@ export type OptionalKeysTuple<
         NotFilter<UnionToTuple<OptionalKeys<T>>, "equals", [boolean]>,
         readonly ObjectKey[]
     >
-: never;
-
-
-
+    : never;

@@ -53,54 +53,54 @@ export type ObjectKeys<
             `Call to ObjectKeys<T> where T was 'never'!`
         >
 
-    : TObj extends object
+        : TObj extends object
         // Map
-        ? TObj extends Map<infer K, any>
-            ? IsUnion<K> extends true
-                ? IsLiteralUnion<K> extends true
-                    ? Required<Shaped<
-                        As<UnionToTuple<K>, readonly PropertyKey[]>,
-                        OptionalKeysTuple<TObj>
-                    >>
-                    : IsWideUnion<K> extends true
-                        ? UnionToTuple<K>[]
-                        : "mixed"
-                : K[]
-        // Set
-        : TObj extends Set<any>
-            ? Err<
-                `invalid-type/object-keys`,
-                `The type passed into ObjectKeys<T> was a Set. Set's do not have keys`
-            >
-        // WeakMap
-        : TObj extends WeakMap<infer K, any>
-            ? IsUnion<K> extends true
-                ? K
-                : K extends Scalar | object | readonly unknown[]
-                    ? K[]
-                    : unknown
-        // Dictionary
-        : Required<TObj> extends Record<infer K, any>
-            ? IsNever<K> extends true
-                ? TObj extends Dictionary
-                    ? []
-                    : PropertyKey[]
-                : IsEqual<K, string | symbol> extends true
-                    ? ObjectKey[]
-                    : IsNever<K> extends true
-                        ? PropertyKey[]
-                    : IsLiteralString<K> extends true
-                        ? Shaped<
+            ? TObj extends Map<infer K, any>
+                ? IsUnion<K> extends true
+                    ? IsLiteralUnion<K> extends true
+                        ? Required<Shaped<
                             As<UnionToTuple<K>, readonly PropertyKey[]>,
                             OptionalKeysTuple<TObj>
-                        >
-                    : IsUnion<K> extends true
-                        ? Shaped<
-                            As<UnionToTuple<K>, readonly PropertyKey[]>,
-                            OptionalKeysTuple<TObj>
-                        >
-                    // wide type
+                        >>
+                        : IsWideUnion<K> extends true
+                            ? UnionToTuple<K>[]
+                            : "mixed"
                     : K[]
-        // object options exhausted
-        : never
-: Err<`invalid-type/object-keys`, `The type passed into ObjectKeys<T> was not an object!`, { value: TObj }>;
+            // Set
+                : TObj extends Set<any>
+                    ? Err<
+                        `invalid-type/object-keys`,
+                        `The type passed into ObjectKeys<T> was a Set. Set's do not have keys`
+                    >
+                // WeakMap
+                    : TObj extends WeakMap<infer K, any>
+                        ? IsUnion<K> extends true
+                            ? K
+                            : K extends Scalar | object | readonly unknown[]
+                                ? K[]
+                                : unknown
+                    // Dictionary
+                        : Required<TObj> extends Record<infer K, any>
+                            ? IsNever<K> extends true
+                                ? TObj extends Dictionary
+                                    ? []
+                                    : PropertyKey[]
+                                : IsEqual<K, string | symbol> extends true
+                                    ? ObjectKey[]
+                                    : IsNever<K> extends true
+                                        ? PropertyKey[]
+                                        : IsLiteralString<K> extends true
+                                            ? Shaped<
+                                                As<UnionToTuple<K>, readonly PropertyKey[]>,
+                                                OptionalKeysTuple<TObj>
+                                            >
+                                            : IsUnion<K> extends true
+                                                ? Shaped<
+                                                    As<UnionToTuple<K>, readonly PropertyKey[]>,
+                                                    OptionalKeysTuple<TObj>
+                                                >
+                                            // wide type
+                                                : K[]
+                        // object options exhausted
+                            : never
+            : Err<`invalid-type/object-keys`, `The type passed into ObjectKeys<T> was not an object!`, { value: TObj }>;

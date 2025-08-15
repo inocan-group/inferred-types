@@ -7,43 +7,39 @@ import type {
     OptRecord,
 } from "inferred-types/types";
 
-
 type Intersect<
     T extends readonly Dictionary[],
     R extends Dictionary = EmptyObject
 > = T extends [infer Head extends Dictionary, ...infer Rest extends Dictionary[]]
-? Intersect<
-    Rest,
+    ? Intersect<
+        Rest,
     R & Head
->
-: R;
-
+    >
+    : R;
 
 type Convert<
     T extends readonly KeyValue[],
     KV extends readonly Dictionary[] = []
 > = T extends [infer Head extends KeyValue, ...infer Rest extends KeyValue[]]
-? Head["required"] extends true
-    ? Convert<
-        Rest,
-        [
-            ...KV,
-            Record<Head["key"],Head["value"]>
-        ]
-    >
+    ? Head["required"] extends true
+        ? Convert<
+            Rest,
+            [
+                ...KV,
+                Record<Head["key"], Head["value"]>
+            ]
+        >
 
-    : Convert<
-        Rest,
-        [
-            ...KV,
-            OptRecord<Head["key"],Head["value"]>
-        ]
-    >
-: ExpandRecursively<
-    Intersect<KV>
->;
-
-
+        : Convert<
+            Rest,
+            [
+                ...KV,
+                OptRecord<Head["key"], Head["value"]>
+            ]
+        >
+    : ExpandRecursively<
+        Intersect<KV>
+    >;
 
 /**
  * **FromKv**`<T>`

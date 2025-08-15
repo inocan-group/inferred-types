@@ -6,10 +6,10 @@ import type {
     IsNotEqual,
     Mutable,
     Not,
+    NumericRange,
     Or,
     Slice,
-    Subtract,
-    NumericRange
+    Subtract
 } from "inferred-types/types";
 
 /** Does T have at least one fixed (non-variadic) element? */

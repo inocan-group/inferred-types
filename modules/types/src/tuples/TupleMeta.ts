@@ -2,7 +2,6 @@ import type {
     And,
     As,
     DropVariadic,
-    GetNonVariadicLength,
     GetOptionalElementCount,
     GetRequiredElementCount,
     HasNonTemplateLiteral,

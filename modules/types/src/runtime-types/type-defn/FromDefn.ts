@@ -117,10 +117,10 @@ export type FromDefn<
     TElse = Unset,
 > = T extends DefineObject
     ? FromDefineObject<T>
-: T extends SimpleToken
-    ? SimpleType<T>
-: T extends readonly unknown[]
-    ? IterateOverDefinitions<T, TElse>
-: IsUnset<TElse> extends true
-    ? T
-    : ToType<T, TElse>;
+    : T extends SimpleToken
+        ? SimpleType<T>
+        : T extends readonly unknown[]
+            ? IterateOverDefinitions<T, TElse>
+            : IsUnset<TElse> extends true
+                ? T
+                : ToType<T, TElse>;

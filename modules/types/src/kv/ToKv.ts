@@ -17,18 +17,18 @@ import type {
 export type ToKvOptions = MergeObjects<
     SortOptions, // offset will always be "key"
     {
-        recurse?: number | boolean
+        recurse?: number | boolean;
     }
->
+>;
 
 type Recurse<
     TVal,
     TOpt extends ToKvOptions
 > = TVal extends Dictionary
-? [IsFalse<Fallback<TOpt["recurse"], false>>] extends [true]
-    ? TVal
-    : ToKv<TVal>
-: TVal;
+    ? [IsFalse<Fallback<TOpt["recurse"], false>>] extends [true]
+        ? TVal
+        : ToKv<TVal>
+    : TVal;
 
 type Convert<
     TObj extends Dictionary,
@@ -37,31 +37,31 @@ type Convert<
     TOptional extends readonly ObjectKey[] = OptionalKeysTuple<TObj>,
     TKv extends readonly KeyValue[] = [],
 > = TKeys extends [infer Head extends ObjectKey, ...infer Rest extends ObjectKey[]]
-? Head extends keyof TObj
-    ? Head extends TOptional[number]
-        ? Convert<
-            TObj,
-            Rest,
-            TOpt,
-            TOptional,
-            [
-                ...TKv,
-                KeyValue<Head, Recurse<TObj[Head],TOpt> | undefined, false>
-            ]
-        >
+    ? Head extends keyof TObj
+        ? Head extends TOptional[number]
+            ? Convert<
+                TObj,
+                Rest,
+                TOpt,
+                TOptional,
+                [
+                    ...TKv,
+                    KeyValue<Head, Recurse<TObj[Head], TOpt> | undefined, false>
+                ]
+            >
 
-        : Convert<
-            TObj,
-            Rest,
-            TOpt,
-            TOptional,
-            [
-                ...TKv,
-                KeyValue<Head, Recurse<TObj[Head],TOpt>, true>
-            ]
-        >
-    : never
-: TKv;
+            : Convert<
+                TObj,
+                Rest,
+                TOpt,
+                TOptional,
+                [
+                    ...TKv,
+                    KeyValue<Head, Recurse<TObj[Head], TOpt>, true>
+                ]
+            >
+        : never
+    : TKv;
 
 type Options<T extends ToKvOptions> = {
     order: T["order"] extends SortOrder ? T["order"] : "natural";
@@ -69,9 +69,7 @@ type Options<T extends ToKvOptions> = {
     end: T["end"] extends readonly unknown[] ? T["end"] : [];
     offset: T["offset"] extends PropertyKey ? T["offset"] : "key";
     recurse: T["recurse"] extends number | boolean ? T["recurse"] : false;
-}
-
-
+};
 
 /**
  * **ToKv**`<TObj, [TOpt]>`

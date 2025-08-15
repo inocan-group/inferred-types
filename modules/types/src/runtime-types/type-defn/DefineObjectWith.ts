@@ -1,5 +1,4 @@
-import { EmptyObject, Err, ExpandRecursively, ObjectKeys, StringKeys, TokenMapper } from "inferred-types/types";
-
+import type { EmptyObject, Err, ExpandRecursively, StringKeys, TokenMapper } from "inferred-types/types";
 
 type Convert<
     TDefn extends Record<string, unknown>,
@@ -7,18 +6,18 @@ type Convert<
     TKeys extends readonly string[] = StringKeys<TDefn>,
     TResult extends Record<string, unknown> = EmptyObject
 > = TKeys extends [ infer Head extends string & keyof TDefn, ...infer Rest extends readonly string[]]
-? TDefn[Head] extends keyof TMap
-    ? Convert<
-        TDefn,
-        TMap,
-        Rest,
+    ? TDefn[Head] extends keyof TMap
+        ? Convert<
+            TDefn,
+            TMap,
+            Rest,
         TResult & Record<Head, TMap[TDefn[Head]]>
-    >
-    : Err<
-        `invalid-key/define-object-with`,
+        >
+        : Err<
+            `invalid-key/define-object-with`,
         `The TokenMapper provided to DefineObjectWith<T> was unable to map the token type '${Head}'`
-    >
-: ExpandRecursively<TResult>
+        >
+    : ExpandRecursively<TResult>
 
 ;
 
@@ -38,5 +37,5 @@ export type DefineObjectWith<
     /** the token based definition of the type */
     defn: TDefn;
     /** the type which the tokens represent */
-    type: Convert<TDefn,TMap>
-}
+    type: Convert<TDefn, TMap>;
+};

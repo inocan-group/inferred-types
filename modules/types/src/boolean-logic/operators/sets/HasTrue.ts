@@ -10,18 +10,18 @@ import type {
 type Test<
     T extends readonly unknown[]
 > = T extends [infer Head, ...infer Rest]
-? IsTrue<Head> extends true
-    ? true
-: Test<Rest>
-: false;
+    ? IsTrue<Head> extends true
+        ? true
+        : Test<Rest>
+    : false;
 
 type Validate<T extends Container> = [IsAny<T>] extends [true]
     ? Err<`invalid/has-true`, `The type passed into 'HasTrue<T>' was 'any'! This utility requires that T be a container type.`>
     : [IsNever<T>] extends [true]
         ? Err<`invalid/has-true`, `The type passed into 'HasTrue<T>' was 'never'! This utility requires that T be a container type.`>
-    : T extends Container
-        ? T
-        : Err<`invalid/has-true`, `The type passed into HasTrue<T> was not a container!`, { value: T }>;
+        : T extends Container
+            ? T
+            : Err<`invalid/has-true`, `The type passed into HasTrue<T> was not a container!`, { value: T }>;
 
 /**
  * **HasTrue**`<T>`

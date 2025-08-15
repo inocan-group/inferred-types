@@ -1,22 +1,17 @@
-import {
+import type {
     AsDateMeta,
     DateMeta,
     Err,
     If,
     IsNull,
     Or,
-    ParseDate,
     ParsedDate,
-    TwoDigitHour,
     Unbrand
 } from "inferred-types/types";
 
-
 type TimeInfo<T extends DateMeta> = T["hour"] extends null
-? `00:00.00`
-: `${Unbrand<T["hour"]>}:${Unbrand<T["minute"]>}:${If<IsNull<T["second"]>, "00", `${Unbrand<T["second"]>}`>}.${If<IsNull<T["ms"]>, "000", Unbrand<T["ms"]>>}`;
-
-
+    ? `00:00.00`
+    : `${Unbrand<T["hour"]>}:${Unbrand<T["minute"]>}:${If<IsNull<T["second"]>, "00", `${Unbrand<T["second"]>}`>}.${If<IsNull<T["ms"]>, "000", Unbrand<T["ms"]>>}`;
 
 /**
  * **ToUtc**`<T>`
@@ -50,7 +45,3 @@ export type ToUtc<
     >
     : `${Unbrand<M["year"]>}-${Unbrand<M["month"]>}-${Unbrand<M["date"]>}T${TimeInfo<M>}Z`;
 ;
-
-
-
-

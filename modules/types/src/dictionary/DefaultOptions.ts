@@ -1,4 +1,4 @@
-import { Dictionary } from "types/base-types";
+import type { Dictionary } from "types/base-types";
 
 /**
  * **DefaultOptions**`<TFor, TDef>`

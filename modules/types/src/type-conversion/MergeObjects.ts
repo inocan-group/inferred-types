@@ -16,7 +16,7 @@ export type MergeObjects<
     TOverride extends Dictionary,
 > = ExpandDictionary<
     // Take all properties from TDef that are not in TOverride
-    Omit<TDef, keyof TOverride> &
+    Omit<TDef, keyof TOverride>
     // Then add all properties from TOverride
-    TOverride
+    & TOverride
 >;

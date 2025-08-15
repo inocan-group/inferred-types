@@ -10,10 +10,10 @@ import type {
 type Test<
     T extends readonly unknown[]
 > = T extends [infer Head, ...infer Rest]
-? IsTemplateLiteral<Head> extends false
-    ? true
-: Test<Rest>
-: false;
+    ? IsTemplateLiteral<Head> extends false
+        ? true
+        : Test<Rest>
+    : false;
 
 type Validate<T extends Container> = [IsAny<T>] extends [true]
     ? Err<`invalid/has-template-literal`, `The type passed into 'HasNonTemplateLiteral<T>' was 'any'! This utility requires that T be a container type.`>
@@ -35,8 +35,8 @@ type Validate<T extends Container> = [IsAny<T>] extends [true]
 export type HasNonTemplateLiteral<
     T extends Container,
     R extends Container = Required<T>
-> =
-[Validate<T>] extends [Error]
+>
+= [Validate<T>] extends [Error]
     ? Validate<T> // return error
     : [Values<R>] extends [readonly unknown[]]
         ? [number] extends [Values<R>["length"]]

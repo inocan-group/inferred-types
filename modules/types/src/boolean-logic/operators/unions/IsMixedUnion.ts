@@ -25,15 +25,15 @@ import type {
  */
 export type IsMixedUnion<
     T
-> =
-[IsAny<T>] extends [true]
+>
+= [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: And<[
-    IsUnion<T>,
-    Not<IsLiteralUnion<T>>,
-    Not<IsWideUnion<T>>,
-]>;
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : And<[
+                IsUnion<T>,
+                Not<IsLiteralUnion<T>>,
+                Not<IsWideUnion<T>>,
+            ]>;
