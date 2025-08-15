@@ -1,6 +1,7 @@
 import type {
     FromDefn,
     InputTokenLike,
+    ObjectKeys,
 } from "inferred-types/types";
 
 /**
@@ -24,6 +25,9 @@ import type {
 export type DefineObject = {
     [key: string]: InputTokenLike;
 };
+
+
+
 
 /**
  * **DefineObjectApi**

@@ -5,4 +5,3 @@ export * from "./RemoveMarked";
 export * from "./RemoveNever";
 export * from "./RemoveUndefined";
 export * from "./SetKey";
-export * from "./UnionFrom";
