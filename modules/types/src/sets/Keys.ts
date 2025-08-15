@@ -49,8 +49,8 @@ export type Keys<
  * literal keys and then one or more _template_ keys
  */
 export type WithTemplateKeys<
-    TLiteral extends readonly unknown[],
-    TTemplate extends readonly string[]
+    _TLiteral extends readonly unknown[],
+    _TTemplate extends readonly string[]
 > = true;
 
 type _Public<

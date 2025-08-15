@@ -4,7 +4,6 @@ import type {
 } from "inferred-types/types";
 
 type ExceptionLookup = typeof PLURAL_EXCEPTIONS;
-type Consonant = "b" | "c" | "d" | "f" | "g" | "h" | "j" | "k" | "l" | "m" | "n" | "p" | "q" | "r" | "s" | "t" | "v" | "w" | "x" | "y" | "z";
 
 /**
  * Core pluralization logic with optimized direct pattern matching

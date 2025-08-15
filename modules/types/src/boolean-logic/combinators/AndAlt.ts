@@ -14,17 +14,6 @@ import type {
     TypedFunction,
 } from "inferred-types/types";
 
-type Process<
-    TConditions extends readonly boolean[],
-    TBooleanSeen extends boolean,
-> = [] extends TConditions
-    ? IfEqual<TBooleanSeen, true, boolean, true>
-    : [First<TConditions>] extends [false]
-        ? false
-        : Process<
-            AfterFirst<TConditions>,
-            TBooleanSeen
-        >;
 
 type Reduce<T extends readonly (boolean | LogicFunction)[]> = {
     [K in keyof T]: T[K] extends TypedFunction

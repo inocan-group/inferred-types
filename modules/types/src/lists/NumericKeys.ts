@@ -29,12 +29,3 @@ export type NumericKeys<
 > = HasVariadicTail<TList> extends true
     ? IndicesTuple<DropVariadicTail<TList>>
     : IndicesTuple<TList>;
-
-type X = HasVariadicTail<[]>;
-
-type A = HasVariadicTail<[]>; // false
-type B = HasVariadicTail<[1, 2, 3]>; // false
-type C = HasVariadicTail<[1, ...string[]]>; // true
-type D = HasVariadicTail<readonly [1, ...string[]]>; // true
-type E = HasVariadicTail<string[]>; // false
-type F = HasVariadicTail<readonly number[]>; // false

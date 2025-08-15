@@ -15,8 +15,6 @@ import type {
     Or,
 } from "inferred-types/types";
 
-type MS_IN_DAY = 86400000;
-type SEC_IN_DAY = 86400;
 
 /**
  * **IsSameDay**`<A,B>`

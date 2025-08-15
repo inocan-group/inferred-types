@@ -58,14 +58,14 @@ type WithContext<
 > = Take<T> extends Error
     ? Take<T>
     : Take<T> extends {
-        take: infer Date extends TwoDigitDate<"branded">;
+        take: infer _Date extends TwoDigitDate<"branded">;
         rest: infer _Rest extends string;
     }
         ? Take<T>
         : Err<
             `parse-date/date`,
             `Validation against the ISO date failed. This is likely due to the date being too large for the month of the date (leap and double leap is considered when both year and month were provided to TakeDate<T>)`,
-            { year: TYear; month: TMonth; date: Date; leap: IsLeapYear<TYear> }
+            { year: TYear; month: TMonth; date: TwoDigitDate<"branded">; leap: IsLeapYear<TYear> }
         >;
 
 /**

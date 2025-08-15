@@ -33,10 +33,8 @@ export type WithKeys<
     UnionToIntersection<
         MakeIntoUnion<K> extends keyof T
             ? T extends Tuple
-                ? // Tuple based container
-                MakeNumericIndex<Pick<T, MakeIntoUnion<K>>>
-                : // Object based container
-                Pick<T, MakeIntoUnion<K>>
+                ? MakeNumericIndex<Pick<T, MakeIntoUnion<K>>>
+                : Pick<T, MakeIntoUnion<K>>
             : never
     >
 >;

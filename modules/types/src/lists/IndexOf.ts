@@ -9,9 +9,7 @@ import type {
     Decrement,
     Dictionary,
     Err,
-    Flatten,
     If,
-    InvertNumericSign,
     IsNegativeNumber,
     IsNull,
     IsValidIndex,
@@ -114,17 +112,6 @@ type Process<
                 { library: "inferred-types/constants"; container: TValue; key: TIdx }
             >
 >;
-
-type WithNegativeIndex<T extends readonly unknown[]> = T extends readonly number[]
-    ? Flatten<{
-        [K in keyof T]: T[K] extends 0
-            ? T[K]
-            : [
-                T[K],
-                InvertNumericSign<T[K]>
-            ]
-    }>
-    : T;
 
 /**
  * **IndexOf**<TValue, TIdx, [TOverride]>

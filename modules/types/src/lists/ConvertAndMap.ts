@@ -53,10 +53,8 @@ type ConverterInputUnion<
     TConverted extends readonly unknown[],
     TRemaining extends readonly string[],
 > = [] extends TRemaining
-    ? // we're done iterating
-    TConverted
-    : // recurse
-    ConverterInputUnion<
+    ? TConverted
+    : ConverterInputUnion<
         [...TConverted, ConverterInputType<First<TRemaining>>],
         AfterFirst<TRemaining>
     >;

@@ -17,7 +17,7 @@ export type AsIndexOf<
         Constant<"NoErr">,
         Err<
             "invalid-key",
-            `the key '${AsString<K>}' is not a valid key of the passed container`,
+            `the key '${AsString<K>}' is not a valid key of the passed container`
         >,
         ERR
     >;

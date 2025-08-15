@@ -271,17 +271,17 @@ type Process<
                     ? Result extends "0" ? "0" : `-${Result}`
                     : `${number}`
                 : `${number}`
-    // A is negative, B is positive: -(|A| + |B|)
+        // A is negative, B is positive: -(|A| + |B|)
         : IsNegativeNumber<A> extends true
             ? AddPositive<Abs<A>, Abs<B>> extends infer Sum
                 ? Sum extends number | `${number}`
                     ? `-${Sum}`
                     : `${number}`
                 : `${number}`
-        // A is positive, B is negative: A + |B|
+            // A is positive, B is negative: A + |B|
             : IsNegativeNumber<B> extends true
-                ? `${AddPositive<A, Abs<B>>}`
-            // Both positive: check which is larger
+                ? AddPositive<A, Abs<B>>
+                // Both positive: check which is larger
                 : CompareNumbers<A, B> extends "less"
                     ? SubtractStrings<B, A> extends infer Result
                         ? Result extends string

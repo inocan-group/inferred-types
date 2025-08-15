@@ -6,7 +6,7 @@ type Process<
     R extends number = Subtract<T["length"], U>
 > = R extends 0
     ? Partial<T>
-    : T extends readonly [...FixedLengthArray<unknown, R>, ...infer Rest]
+    : T extends readonly [...FixedLengthArray<unknown, R>, ...infer _Rest]
         ? [
             ...(
                 Slice<T, 0, R> extends readonly unknown[]

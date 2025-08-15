@@ -231,4 +231,3 @@ export type GetYouTubePageType<T> = T extends YouTubeUrl
                         : "other"
     : never;
 
-type X = YouTubeFeedUrl<"playlists">; // =>

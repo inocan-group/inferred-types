@@ -11,13 +11,6 @@ import type { EmptyObject } from "inferred-types/types";
  * - `"explicit"` for `ExplicitlyEmptyObject` (cannot have properties)
  * - `"other"` for any other type
  */
-type IsStrictEmptyObject<T> = T extends object
-    ? T extends { [K in keyof T]: never }
-        ? "explicit"
-        : T extends EmptyObject
-            ? "empty"
-            : "other"
-    : "other";
 
 /**
  * **CanHaveProperties**`<T>`

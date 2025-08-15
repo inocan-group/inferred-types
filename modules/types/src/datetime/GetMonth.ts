@@ -77,7 +77,7 @@ type MonthAbbrevLookup = typeof MONTH_ABBREV_LOOKUP;
  */
 // Helper type to extract month from ISO date string directly
 type ExtractMonthFromIsoDate<T extends string>
-    = T extends `${infer Year}-${infer Month}-${infer Rest}`
+    = T extends `${infer _Year}-${infer Month}-${infer _Rest}`
         ? Month extends `01` ? 1
             : Month extends `02` ? 2
                 : Month extends `03` ? 3
