@@ -6,7 +6,7 @@ export function brand<
     A extends string
 >(
     val: T,
-    name: A
+    _name: A
 ): Brand<T, A> {
     return val as Brand<T, A>;
 }

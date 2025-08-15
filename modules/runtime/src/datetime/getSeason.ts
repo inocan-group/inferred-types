@@ -1,6 +1,6 @@
 import type { DateLike, GetSeason, Hemisphere } from "inferred-types/types";
 import { MONTH_TO_SEASON_LOOKUP } from "inferred-types/constants";
-import { asDate, getMonthAbbrev } from "inferred-types/runtime";
+import { getMonthAbbrev } from "inferred-types/runtime";
 
 /**
  * **getSeason**`(date, [hemisphere])`
@@ -14,7 +14,6 @@ export function getSeason<
     date: T,
     hemisphere: H = "northern" as H
 ): GetSeason<T, H> {
-    const d = asDate(date);
     const month = getMonthAbbrev(date);
 
     return MONTH_TO_SEASON_LOOKUP[hemisphere][month] as GetSeason<T, H>;

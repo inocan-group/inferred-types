@@ -317,7 +317,7 @@ function handle_object<
     params: TParams
 ) {
     switch (op) {
-        case "objectKeyGreaterThan":
+        case "objectKeyGreaterThan": {
             const [key, compare] = params;
             if (!isObjectKey(key)) {
                 return err(
@@ -326,6 +326,7 @@ function handle_object<
                     { key, compare }
                 );
             }
+
             if (!isNumber(compare)) {
                 return err(
                     "invalid-param/objectKeyGreaterThan",
@@ -346,6 +347,7 @@ function handle_object<
                         { op, params }
                     )
             );
+        }
 
         case "objectKeyGreaterThanOrEqual": {
             const [key, compare] = params as unknown as [ObjectKey, number];

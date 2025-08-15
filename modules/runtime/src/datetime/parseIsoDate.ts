@@ -1,7 +1,6 @@
 import type {
     AsDateMeta,
     DateMeta,
-    DateType,
     IsUnion,
     ParseDate,
     ParsedDate,
@@ -28,95 +27,95 @@ import { isTypedError } from "runtime/type-guards/isTypedError";
  * converts the parsed components of a `DateMeta` dictionary
  * to the representative ISO String.
  */
-function convert<
-    T extends DateMeta & { format: "auto" | DateType }
->(
-    meta: T
-) {
-    let {
-        format,
-        dateType,
-        hasTime,
-        year,
-        month,
-        date,
-        hour,
-        minute,
-        second,
-        ms,
-        timezone
-    } = meta;
+// function convert<
+//     T extends DateMeta & { format: "auto" | DateType }
+// >(
+//     meta: T
+// ) {
+//     let {
+//         format,
+//         dateType,
+//         hasTime,
+//         year,
+//         month,
+//         date,
+//         hour,
+//         minute,
+//         second,
+//         ms,
+//         timezone
+//     } = meta;
 
-    if (format === "auto") {
-        format = dateType;
-    }
+//     if (format === "auto") {
+//         format = dateType;
+//     }
 
-    switch (format) {
-        case "date":
-            return () => `${year}-${month}-${date}`;
-        case "datetime": {
-            let base: string;
-            if (hasTime) {
-                base = `${year}-${month}-${date}T${hour}:${minute}`;
-                if (second) {
-                    base = `${base}:${second}`;
-                    if (ms) {
-                        base = `${base}.${ms}`;
-                    }
-                }
-                if (timezone) {
-                    base = `${base}${timezone}`;
-                }
-                return () => base;
-            }
-            else {
-                return () => `${year}-${month}-${date}`;
-            }
-        }
-        case "year":
-            return () => `${year}`;
-        case "year-independent":
-            return () => `--${month}-${date}`;
-        case "year-month":
-            return () => `-${year}-${month}`;
-    }
-}
+//     switch (format) {
+//         case "date":
+//             return () => `${year}-${month}-${date}`;
+//         case "datetime": {
+//             let base: string;
+//             if (hasTime) {
+//                 base = `${year}-${month}-${date}T${hour}:${minute}`;
+//                 if (second) {
+//                     base = `${base}:${second}`;
+//                     if (ms) {
+//                         base = `${base}.${ms}`;
+//                     }
+//                 }
+//                 if (timezone) {
+//                     base = `${base}${timezone}`;
+//                 }
+//                 return () => base;
+//             }
+//             else {
+//                 return () => `${year}-${month}-${date}`;
+//             }
+//         }
+//         case "year":
+//             return () => `${year}`;
+//         case "year-independent":
+//             return () => `--${month}-${date}`;
+//         case "year-month":
+//             return () => `-${year}-${month}`;
+//     }
+// }
 
-function toString<
-    T extends DateMeta
->(meta: T) {
-    return convert({ format: "auto", ...meta });
-}
+// function toString<
+//     T extends DateMeta
+// >(meta: T) {
+//     return convert({ format: "auto", ...meta });
+// }
 
-function asYear<
-    T extends DateMeta
->(meta: T) {
-    return convert({ format: "year", ...meta });
-}
+// function asYear<
+//     T extends DateMeta
+// >(meta: T) {
+//     return convert({ format: "year", ...meta });
+// }
 
-function asYearIndependent<
-    T extends DateMeta
->(meta: T) {
-    return convert({ format: "year-independent", ...meta });
-}
+// function asYearIndependent<
+//     T extends DateMeta
+// >(meta: T) {
+//     return convert({ format: "year-independent", ...meta });
+// }
 
-function asYearMonth<
-    T extends DateMeta
->(meta: T) {
-    return convert({ format: "year-month", ...meta });
-}
+// function asYearMonth<
+//     T extends DateMeta
+// >(meta: T) {
+//     return convert({ format: "year-month", ...meta });
+// }
 
-function asDate<
-    T extends DateMeta
->(meta: T) {
-    return convert({ format: "date", ...meta });
-}
+// function asDate<
+//     T extends DateMeta
+// >(meta: T) {
+//     return convert({ format: "date", ...meta });
+// }
 
-function asDateTime<
-    T extends DateMeta
->(meta: T) {
-    return convert({ format: "datetime", ...meta });
-}
+// function asDateTime<
+//     T extends DateMeta
+// >(meta: T) {
+//     return convert({ format: "datetime", ...meta });
+// }
 
 type Returns<T extends string> = [IsUnion<T>] extends [true]
     ? DateMeta | Error

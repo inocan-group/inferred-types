@@ -98,8 +98,6 @@ export function createCssKeyframe<
         hasDone(rtn) ? rtn.done() : rtn
     ) as unknown as HandleDoneFn<ReturnType<TKeyframes>>;
 
-    type Frames = typeof frames;
-
     return {
         name,
         keyframes: frames,

@@ -57,7 +57,6 @@ export const takeAtomicToken = createTakeFunction("static")
     )
     .callback((p) => {
         const { found, state } = p;
-        const { parse, tokens } = state;
 
         if (!(found in Lookup)) {
             throw err(`parser/atomic`);

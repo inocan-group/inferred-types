@@ -34,10 +34,9 @@ import {
 
 const getLocalIanaZone = (() => {
     //  ❱❱  compute once, memoise
-    const tz
-        = (process.env.TZ && isIanaTimezone(process.env.TZ)
-            ? process.env.TZ
-            : Intl.DateTimeFormat().resolvedOptions().timeZone) ?? "UTC";
+    const tz = (process.env.TZ && isIanaTimezone(process.env.TZ)
+        ? process.env.TZ
+        : Intl.DateTimeFormat().resolvedOptions().timeZone) ?? "UTC";
 
     return () => tz as IanaZone;
 })();

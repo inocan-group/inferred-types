@@ -44,7 +44,7 @@ type WhileOptions = {
 function takeWhile(
     chars: string[],
     match: string[],
-    opts: WhileOptions
+    _opts: WhileOptions
 ): [Unset, string] | [string, string] {
     let head = "";
 

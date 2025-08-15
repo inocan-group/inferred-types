@@ -67,7 +67,7 @@ type Returns<K extends TakeFunctionKind, O extends TakeFunction__Options> = K ex
             ? any
             : never;
 
-function staticBuilder<O extends TakeFunction__Options>(opt: O) {
+function staticBuilder<O extends TakeFunction__Options>(_opt: O) {
     const builder: StaticBuilder<O> = {
         enum<TItems extends readonly string[]>(...items: TItems) {
             return {

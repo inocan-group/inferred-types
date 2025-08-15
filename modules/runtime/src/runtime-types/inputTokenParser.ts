@@ -7,16 +7,13 @@ import {
     createLexer,
     isLexerState
 } from "runtime/runtime-types/createLexer";
+import { takeAtomicToken } from "runtime/take/input-tokens/takeAtomicToken";
 
-import {
-    takeAtomicToken
-} from "runtime/take";
-
-function hasUnionToken<T extends LexerState>(state: T) {
+function hasUnionToken<T extends LexerState>(_state: T) {
     return false; // TODO
 }
 
-function hasIntersectionToken<T extends LexerState>(state: T) {
+function hasIntersectionToken<T extends LexerState>(_state: T) {
     return false; // TODO
 }
 

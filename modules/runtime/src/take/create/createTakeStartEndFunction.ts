@@ -6,12 +6,12 @@
  */
 export function createTakeStartEndFunction<
     const TStartEnd extends Record<string, string>,
-    const TOpt extends Take__StartEndOptions
+    const TOpt
 >(
-    startEnd: TStartEnd,
-    opts: TOpt
+    _startEnd: TStartEnd,
+    _opts: TOpt
 ) {
-    return <TParse extends string>(str: TParse) => {
+    return <TParse extends string>(_str: TParse) => {
 
     };
 }

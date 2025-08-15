@@ -14,17 +14,11 @@ export function isYesterday(
     input: DateLike,
     now: Date = new Date()
 ): boolean {
-    try {
-        const date = asDate(input);
-        const yesterdayDate = getYesterday(now);
+    const date = asDate(input);
+    const yesterdayDate = getYesterday(now);
 
-        // Extract ISO date string from the input date and compare
-        const inputDateStr = date.toISOString().split("T")[0];
+    // Extract ISO date string from the input date and compare
+    const inputDateStr = date.toISOString().split("T")[0];
 
-        return inputDateStr === yesterdayDate;
-    }
-    catch (e) {
-        // asDate throws for invalid input, rethrow for consistency
-        throw e;
-    }
+    return inputDateStr === yesterdayDate;
 }

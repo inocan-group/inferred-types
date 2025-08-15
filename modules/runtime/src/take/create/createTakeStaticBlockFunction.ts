@@ -10,7 +10,6 @@ import type {
 import { Never } from "constants/Never";
 
 import {
-    capitalize,
     find,
     isError
 } from "inferred-types/runtime";
@@ -113,12 +112,3 @@ export function createStaticTakeFunction<
         return NO_MATCH;
     };
 }
-
-const a = createStaticTakeFunction(
-    ["foo", "bar"],
-    (payload) => {
-        return [payload.found, capitalize(payload.found)];
-    }
-);
-
-const b = a({ parse: "foobar", tokens: [] });
