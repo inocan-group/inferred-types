@@ -1,25 +1,23 @@
-import { NUMERIC_CHAR } from "inferred-types/constants";
 import type {
-    As,
     Comparator,
     Compare,
-    ComparisonOperation,
     ComparisonAccept,
+    ComparisonOperation,
     Contains,
     DateLike,
+    Err,
+    First,
     GetComparisonParams,
-    IndexOf,
+    IsAfter,
     IsEqual,
+    IsError,
+    IsWideObject,
     Narrowable,
     ObjectKey,
     SomeEqual,
-    Unset,
-    IsAfter,
-    First,
-    IsError,
-    Err,
-    IsWideObject
+    Unset
 } from "inferred-types/types";
+import { NUMERIC_CHAR } from "inferred-types/constants";
 
 import {
     asChars,
@@ -32,17 +30,20 @@ import {
     err,
     firstChar,
     indexOf,
-    last,
     isAfter,
+    isTemplateLiteral,
+    last,
     parseDate,
-    unset,
-    isTemplateLiteral
+    unset
 } from "inferred-types/runtime";
+import { not } from "runtime/boolean-logic/not";
+
 import {
     hasIndexOf,
-    isString,
     isAlpha,
     isArray,
+    isBoolean,
+    isComparisonOperation,
     isDateLike,
     isDictionary,
     isError,
@@ -53,22 +54,19 @@ import {
     isNarrowable,
     isNarrowableTuple,
     isNumber,
+    isNumberLike,
     isObjectKey,
     isParsedDate,
-    isTrue,
-    isNumberLike,
-    isValidComparisonParams,
+    isString,
     isStringOrNumericArray,
-    isComparisonOperation,
-    isBoolean
+    isTrue,
+    isValidComparisonParams
 } from "runtime/type-guards";
 
 import {
     endsWith,
     startsWith
-} from "runtime/type-guards/higher-order"
-
-import { not } from "runtime/boolean-logic/not";
+} from "runtime/type-guards/higher-order";
 
 function handle_string<
     TVal extends Narrowable,
@@ -93,7 +91,7 @@ function handle_string<
                 (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
                     ? endsWith(...params as readonly (string | number)[])(val)
                     : false
-            )
+            );
         }
 
         case "endsWithNumber": {
@@ -113,7 +111,7 @@ function handle_string<
                 isString(val)
                     ? NUMERIC_CHAR.includes(firstChar(String(val)) as any)
                     : false
-            ) ;
+            );
         }
 
         case "onlyNumbers": {
@@ -407,13 +405,11 @@ function handle_object<
                     )
             ) as IsWideObject<TVal> extends true
                 ? boolean
-                :  First<TParams> extends ObjectKey
+                : First<TParams> extends ObjectKey
                     ? First<TParams> extends keyof TVal
                         ? IsEqual<TVal, Second<TParams>>
                         : false
                     : false;
-
-
         }
         case "objectKeyExtends": {
             return err(`not-done`, `the 'objectKeyExtends' operation is not yet implemented in the runtime`);
@@ -492,8 +488,8 @@ function handle_datetime<
 
             case "after": {
                 return isDateLike(params[0])
-                    ? isAfter(params[0])(val) as IsAfter<TVal,First<TParams>>
-                    : err('invalid-params/not-date-like') as IsAfter<TVal,First<TParams>>;
+                    ? isAfter(params[0])(val) as IsAfter<TVal, First<TParams>>
+                    : err("invalid-params/not-date-like") as IsAfter<TVal, First<TParams>>;
             }
 
             case "before": {
@@ -520,10 +516,10 @@ function handle_other<
         case "errors": {
             return (
                 val === null
-                ? false
-                : val === undefined
-                ? false
-                : val instanceof Error
+                    ? false
+                    : val === undefined
+                        ? false
+                        : val instanceof Error
             ) as IsError<TVal>;
         }
 
@@ -561,7 +557,6 @@ function handle_other<
     return unset;
 }
 
-
 function compareFn<
     const TOp extends string,
     const TParams extends readonly unknown[]
@@ -569,49 +564,49 @@ function compareFn<
     op: TOp,
     params: TParams
 ): Comparator<TOp, TParams> {
-
     const fn = <const TVal extends ComparisonAccept<TOp>>(
         val: TVal
-    ): Compare<TVal,TOp,TParams> => {
+    ): Compare<TVal, TOp, TParams> => {
         if (isComparisonOperation(op)) {
             let result: unknown = unset;
 
             result = handle_string(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Compare<TVal,TOp,TParams>;
+                return result as Compare<TVal, TOp, TParams>;
             }
 
             // Object operations
             result = handle_object(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Compare<TVal,TOp,TParams>;
+                return result as Compare<TVal, TOp, TParams>;
             }
 
             // Numeric operations
             result = handle_numeric(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Compare<TVal,TOp,TParams>;
+                return result as Compare<TVal, TOp, TParams>;
             }
 
             // DateTime operations
             result = handle_datetime(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Compare<TVal,TOp,TParams>;
+                return result as Compare<TVal, TOp, TParams>;
             }
 
             // Other operations (errors, errorsOfType, etc.)
             result = handle_other(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Compare<TVal,TOp,TParams>;
+                return result as Compare<TVal, TOp, TParams>;
             }
 
             result = handle_general(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Compare<TVal,TOp,TParams>;
+                return result as Compare<TVal, TOp, TParams>;
             }
 
-            return false as Compare<TVal,TOp,TParams>;
-        } else {
+            return false as Compare<TVal, TOp, TParams>;
+        }
+        else {
             return err(
                 `invalid-operation`,
                 `The operation '${String(op)}' is not a valid operation for the compare utility!`,
@@ -628,16 +623,17 @@ function compareFn<
         fn
     });
 
-    return comparator as unknown as Comparator<TOp,TParams>
+    return comparator as unknown as Comparator<TOp, TParams>;
 }
 
-type Returns<TOp extends string,TParams> = TOp extends ComparisonOperation
-? TParams extends GetComparisonParams<TOp>
-    ? Comparator<TOp,TParams>
-    : Err<`invalid-params/${TOp}`>
-: Err<
+type Returns<TOp extends string, TParams> = TOp extends ComparisonOperation
+    ? TParams extends GetComparisonParams<TOp>
+        ? Comparator<TOp, TParams>
+        : Err<`invalid-params/${TOp}`>
+    : Err<
         `invalid-operation/${TOp}`,
-        `The operation '${TOp}' is not a recognized or valid comparison operation!`, { op: TOp, params: TParams }
+        `The operation '${TOp}' is not a recognized or valid comparison operation!`,
+        { op: TOp; params: TParams }
     >
 ;
 
@@ -653,18 +649,19 @@ export function compare<
 >(
     op: TOp,
     ...params: TParams
-): Returns<TOp,TParams> {
+): Returns<TOp, TParams> {
     let response: any;
 
-    if(isComparisonOperation(op)) {
+    if (isComparisonOperation(op)) {
         if (isValidComparisonParams(op, params)) {
             response = compareFn(op, params);
-        } else {
-            response  = err(
+        }
+        else {
+            response = err(
                 "invalid-params",
                 `The parameters for the operation '${isString(op) ? op : "undefined"}' are invalid!`,
                 { op, params }
-            )
+            );
         }
     }
     else {
@@ -672,9 +669,8 @@ export function compare<
             "invalid-operation",
             `The operation is not a recognized or valid comparison operation!`,
             { op, params }
-        )
+        );
     }
 
-    return response as Returns<TOp,TParams>
+    return response as Returns<TOp, TParams>;
 }
-

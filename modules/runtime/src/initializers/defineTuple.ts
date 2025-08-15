@@ -1,6 +1,5 @@
 import type { Narrowable } from "inferred-types/types";
 
-
 /**
  * **createTuple**(...values) -> (...values) -> Tuple
  *

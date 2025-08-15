@@ -1,4 +1,4 @@
-import { ComparisonOperation, GetComparisonParams } from "inferred-types/types";
+import type { ComparisonOperation, GetComparisonParams } from "inferred-types/types";
 import { isComparisonOperation } from "runtime/type-guards/comparison/isComparisonOperation";
 
 /**
@@ -11,5 +11,5 @@ export function isValidComparisonParams<
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[]
 >(op: TOp, params: TParams): params is TParams & GetComparisonParams<TOp> {
-    return !!isComparisonOperation(op)
+    return !!isComparisonOperation(op);
 }

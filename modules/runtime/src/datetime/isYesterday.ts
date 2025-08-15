@@ -1,4 +1,4 @@
-import { DateLike } from "inferred-types/types";
+import type { DateLike } from "inferred-types/types";
 import { asDate, getYesterday } from "runtime/datetime";
 
 /**

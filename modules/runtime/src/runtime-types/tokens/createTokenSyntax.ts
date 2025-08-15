@@ -8,8 +8,8 @@ import type {
 export type GrammarEncoder<
     TReq extends readonly string[],
 > = ExpandDictionary<
-    Record<TReq[number], string> &
-    { [key: string]: string }
+    Record<TReq[number], string>
+    & { [key: string]: string }
 >;
 
 type DefaultEncoder<
@@ -17,12 +17,12 @@ type DefaultEncoder<
     TEnd extends string,
     TSep extends string,
 > = Expand<
-    Record<TStart, "^start!"> &
-    Record<TEnd, "^end!"> &
-    Record<TSep, "^sep"> &
-    Record<"\"", "^dq!"> &
-    Record<"\'", "^sq!"> &
-    Record<"`", "^grave!">
+    Record<TStart, "^start!">
+    & Record<TEnd, "^end!">
+    & Record<TSep, "^sep">
+    & Record<"\"", "^dq!">
+    & Record<"\'", "^sq!">
+    & Record<"`", "^grave!">
 >;
 
 function defaultEncoder<

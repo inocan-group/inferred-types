@@ -220,10 +220,10 @@ export function parseIsoDate<
             const val: DateMeta = {
                 dateType: "datetime",
                 hasTime: !(
-                    isTimezoneOffset(timezone) && timezone === "Z" &&
-                    hour === twoDigitHour("00") &&
-                    minute === twoDigitMinute("00") &&
-                    (
+                    isTimezoneOffset(timezone) && timezone === "Z"
+                    && hour === twoDigitHour("00")
+                    && minute === twoDigitMinute("00")
+                    && (
                         second === twoDigitSecond("00") || second === null
                     ) && (
                         ms === threeDigitMillisecond("000") || ms === null

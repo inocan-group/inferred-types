@@ -4,12 +4,9 @@ import type {
     GetUrlPath,
     HasQueryParameter,
     IsEqual,
-    IsUnion,
     Last,
     Opt,
     Split,
-    TupleToUnion,
-    UnionToTuple,
     UrlsFrom,
 } from "inferred-types/types";
 
@@ -116,17 +113,6 @@ type _FeedMap<T extends YouTubeFeedType> = IsEqual<T, YouTubeFeedType> extends t
             : `feed/${string}`;
 
 /**
- * Maps the feed type to a URL path
- */
-type FeedMap<T extends YouTubeFeedType> = IsUnion<T> extends true
-    ? TupleToUnion<{
-        [K in keyof UnionToTuple<T>]: UnionToTuple<T>[K] extends YouTubeFeedType
-            ? _FeedMap<UnionToTuple<T>[K]>
-            : never
-    }>
-    : _FeedMap<T>;
-
-/**
  * **YouTubeFeedUrl**`<[T]>`
  *
  * A URL pattern which matches all "feeds" on YouTube where
@@ -230,4 +216,3 @@ export type GetYouTubePageType<T> = T extends YouTubeUrl
                         ? "playlist::show"
                         : "other"
     : never;
-

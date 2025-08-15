@@ -31,7 +31,7 @@ export function isTwoDigitHour(s: unknown): s is TwoDigitHour<"branded"> {
 /**
  * Type-guard for TwoDigitMinute
  */
-export function isTwoDigitMinute(s: unknown): s is TwoDigitMinute<'branded'> {
+export function isTwoDigitMinute(s: unknown): s is TwoDigitMinute<"branded"> {
     return isString(s) && /^(?:0\d|1\d|2\d|3\d|4\d|5\d)$/.test(s);
 }
 

@@ -12,7 +12,7 @@ import type {
 // Test arrays for any values recursively
 type TestArray<T extends readonly unknown[]>
     // Check for wide arrays first
-    = T extends (infer U)[]
+    = T extends (infer _U)[]
         ? any[] extends T // Only wide if any[] extends it
             ? boolean
             : T extends readonly []

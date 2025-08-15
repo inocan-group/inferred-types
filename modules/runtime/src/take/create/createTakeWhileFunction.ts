@@ -70,8 +70,8 @@ export function createTakeWhileFunction<
     match: TMatch,
     opts: TOpt
 ): TOpt["callback"] extends TypedFunction
-        ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
-        : Error | Unset | [string, string] {
+    ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
+    : Error | Unset | [string, string] {
     return <TParse extends string>(str: TParse) => {
         const [head, rest] = takeWhile(
             asChars(str),

@@ -54,4 +54,3 @@ type Interpolate<
 export function asTemplate<T extends string>(template: T) {
     return template as Interpolate<T, Find>;
 }
-

@@ -1,5 +1,5 @@
-import { COMPARISON_OPERATIONS } from "inferred-types/constants";
 import type { ComparisonOperation } from "inferred-types/types";
+import { COMPARISON_OPERATIONS } from "inferred-types/constants";
 import { isString } from "runtime/type-guards/isString";
 
 /**

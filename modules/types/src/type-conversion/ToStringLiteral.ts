@@ -106,8 +106,7 @@ export type ToStringLiteral__Tuple<
                     ? `${ToStringLiteral__Object<Type>}[]`
                     : never
         : never
-    : // TUPLE
-    [T["length"]] extends [0]
+    : [T["length"]] extends [0]
         ? `[]`
         : `[ ${Join<InnerArray<T, O>, ", ">} ]`;
 

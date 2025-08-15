@@ -1,4 +1,4 @@
-import type { As, Dictionary, Mutable, ObjectKey, SortOptions, SortOrder } from "inferred-types/types";
+import type { Dictionary, Mutable, ObjectKey, SortOrder } from "inferred-types/types";
 
 /**
  * default options for sorting

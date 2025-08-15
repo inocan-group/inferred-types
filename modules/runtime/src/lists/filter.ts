@@ -8,9 +8,7 @@ import type {
 } from "inferred-types/types";
 import {
     compare,
-    isError,
 } from "inferred-types/runtime";
-
 
 function filterFn<
     const TOp extends ComparisonOperation,
@@ -18,16 +16,16 @@ function filterFn<
 >(
     op: TOp,
     params: TParams
-): FilterFn<TOp,TParams> {
+): FilterFn<TOp, TParams> {
     return <const TList extends ComparisonAccept<TOp>[]>(list: TList) => {
         return (
             list.filter((item) => {
-                const comparator = compare(op, ...params) as Comparator<TOp,TParams>;
+                const comparator = compare(op, ...params) as Comparator<TOp, TParams>;
                 const result = comparator(item) as unknown as boolean;
 
                 return result;
             })
-        ) as unknown as Filter<TList,TOp,TParams>;
+        ) as unknown as Filter<TList, TOp, TParams>;
     };
 }
 
@@ -55,5 +53,5 @@ export function filter<
     op: TOp,
     ...params: TParams
 ) {
-    return filterFn(op, params) as FilterFn<TOp,TParams>;
+    return filterFn(op, params) as FilterFn<TOp, TParams>;
 }

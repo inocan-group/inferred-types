@@ -169,8 +169,7 @@ type Process__General<
                 ? [boolean] extends [TVal]
                     ? boolean // TVal is exactly boolean
                     : IsFalse<TVal> // TVal is a literal boolean (true or false)
-                : // Handle specific cases that might have cross-module issues
-                [TVal] extends [null]
+                : [TVal] extends [null]
                     ? false
                     : [TVal] extends [undefined]
                         ? false
@@ -188,8 +187,7 @@ type Process__General<
                 ? IsFalsy<TVal>
 
                 : TOp extends "true"
-                    ? // Use AreIncompatible to determine if we can make specific determinations
-                    AreIncompatible<TVal, true> extends true
+                    ? AreIncompatible<TVal, true> extends true
                         ? false // If TVal is incompatible with true, it definitely isn't true
                         : IsTrue<TVal>
 

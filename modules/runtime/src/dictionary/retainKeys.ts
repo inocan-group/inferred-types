@@ -1,4 +1,4 @@
-import type { Err, HasUnionType, Narrowable, NarrowObject, ObjectKey,  WithKeys } from "inferred-types/types";
+import type { Err, HasUnionType, Narrowable, NarrowObject, ObjectKey, WithKeys } from "inferred-types/types";
 
 /**
  * **retainKeys**(obj,...keys)

@@ -15,7 +15,6 @@ import type {
     Or,
 } from "inferred-types/types";
 
-
 /**
  * **IsSameDay**`<A,B>`
  *

@@ -1,6 +1,5 @@
-import { Scalar } from "@inferred-types/types"
-import { Brand } from "inferred-types/types"
-
+import type { Scalar } from "@inferred-types/types";
+import type { Brand } from "inferred-types/types";
 
 export function brand<
     T extends Scalar,
@@ -8,6 +7,6 @@ export function brand<
 >(
     val: T,
     name: A
-): Brand<T,A> {
-    return val as Brand<T,A>
+): Brand<T, A> {
+    return val as Brand<T, A>;
 }

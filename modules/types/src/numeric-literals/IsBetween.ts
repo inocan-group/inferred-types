@@ -54,7 +54,6 @@ export type IsBetweenInclusively<
     IsWideType<TMax>
 ]> extends true
     ? boolean
-    : // Avoid And combinator to prevent deep recursion in simple cases
-    IsGreaterThanOrEqual<TVal, TMin> extends true
+    : IsGreaterThanOrEqual<TVal, TMin> extends true
         ? IsLessThanOrEqual<TVal, TMax>
         : false;

@@ -1,6 +1,5 @@
-import { Narrowable,IsTemplateLiteral } from "inferred-types/types";
+import type { IsTemplateLiteral, Narrowable } from "inferred-types/types";
 import { isString } from "inferred-types/runtime";
-
 
 /**
  * **isTemplateLiteral(val)** -> "maybe" / false
@@ -18,5 +17,5 @@ import { isString } from "inferred-types/runtime";
 export function isTemplateLiteral<T extends Narrowable>(val: T): IsTemplateLiteral<T> {
     return isString(val)
         ? "maybe" as unknown as IsTemplateLiteral<T>
-        : false as IsTemplateLiteral<T>
+        : false as IsTemplateLiteral<T>;
 }

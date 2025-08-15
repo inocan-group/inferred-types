@@ -10,8 +10,8 @@ import { isDictionary, isError } from "inferred-types/runtime";
 export function hasIndexOf<
     TContainer extends Container,
     TIndex extends PropertyKey,
->(value: TContainer, idx: TIndex): value is TContainer &
-(TContainer extends Tuple
+>(value: TContainer, idx: TIndex): value is TContainer
+& (TContainer extends Tuple
     ? Tuple<TIndex>
     : TContainer extends Dictionary
         ? Record<TIndex, unknown>

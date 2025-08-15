@@ -1,6 +1,6 @@
 import type { StripAfterLast } from "inferred-types/types";
+import { Never } from "inferred-types/constants";
 import { isArray, split } from "inferred-types/runtime";
-import { Never } from 'inferred-types/constants';
 
 /**
  * **stripAfterLast**(content, find)
@@ -21,7 +21,7 @@ export function stripAfterLast<
     const parts = split.inline(content, find) as any[];
     return (
         isArray(parts)
-        ? parts.slice(0, -2).join("")
-        : Never
+            ? parts.slice(0, -2).join("")
+            : Never
     ) as unknown as StripAfterLast<TContent, TBreak>;
 }

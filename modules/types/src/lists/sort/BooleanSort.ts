@@ -1,6 +1,7 @@
 import type {
     As,
     Container,
+    EmptyObject,
     Get,
     IsEqual,
     IsStringLiteral,
@@ -248,7 +249,7 @@ type _BooleanSortMain<
  */
 export type BooleanSort<
     T extends readonly (boolean | Container)[],
-    O extends BooleanSortOptions = {},
+    O extends BooleanSortOptions = EmptyObject,
 > = IsStringLiteral<O["offset"]> extends true
     ? T extends readonly Container[]
         ? [IsEqual<O["order"], "DESC">] extends [true]

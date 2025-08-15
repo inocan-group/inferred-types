@@ -1,6 +1,5 @@
 import type { FixedLengthArray, IsLiteralLike, Join } from "inferred-types/types";
 
-
 /**
  * A token representation of a **Parameter** definition inside
  * of a function token definition.

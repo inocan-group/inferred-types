@@ -8,7 +8,6 @@ import {
     isUndefined
 } from "inferred-types/runtime";
 
-
 const Lookup = {
     null: {
         kind: "atomic",
@@ -66,4 +65,3 @@ export const takeAtomicToken = createTakeFunction("static")
 
         return Lookup[found as keyof typeof Lookup];
     });
-

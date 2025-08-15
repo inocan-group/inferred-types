@@ -1,4 +1,3 @@
-import { NO_MATCH } from '../../constants/NO_MATCH';
 import type {
     Find,
     LexerState,
@@ -6,9 +5,9 @@ import type {
     Or,
     StartsWith,
     StripLeading,
-    TakeFunction,
     TakeWrapper,
 } from "inferred-types/types";
+import { Never } from "constants/Never";
 
 import {
     capitalize,
@@ -18,8 +17,8 @@ import {
 
 import {
     isDeltaReturn
-} from "runtime/type-guards"
-import { Never } from 'constants/Never';
+} from "runtime/type-guards";
+import { NO_MATCH } from "../../constants/NO_MATCH";
 
 export type StaticTakeFunction__CallBack<
     TItems extends readonly string[],
@@ -96,7 +95,7 @@ export function createStaticTakeFunction<
     TItems
 > {
     return (state) => {
-        const found = find("startsWith", state["parse"])(items);
+        const found = find("startsWith", state.parse)(items);
 
         if (found) {
             const rtn = cb({ found, state });
@@ -116,10 +115,10 @@ export function createStaticTakeFunction<
 }
 
 const a = createStaticTakeFunction(
-    ["foo",'bar'],
+    ["foo", "bar"],
     (payload) => {
-        return [ payload.found, capitalize(payload.found) ]
+        return [payload.found, capitalize(payload.found)];
     }
-)
+);
 
-const b = a({parse: "foobar", tokens: []});
+const b = a({ parse: "foobar", tokens: [] });

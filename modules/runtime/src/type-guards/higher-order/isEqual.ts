@@ -2,8 +2,6 @@ import type {
     Narrowable,
 } from "inferred-types/types";
 
-
-
 function compare<
     TBase extends readonly Narrowable[],
 >(base: TBase) {

@@ -13,19 +13,17 @@ import type {
     Or,
 } from "inferred-types/types";
 
-// Decrement a single digit
-type DecrementDigit<digit extends NumericChar>
-  = digit extends "0" ? "9"
-      : digit extends "1" ? "0"
-          : digit extends "2" ? "1"
-              : digit extends "3" ? "2"
-                  : digit extends "4" ? "3"
-                      : digit extends "5" ? "4"
-                          : digit extends "6" ? "5"
-                              : digit extends "7" ? "6"
-                                  : digit extends "8" ? "7"
-                                      : digit extends "9" ? "8"
-                                          : never;
+type DecrementDigit<digit extends NumericChar> = digit extends "0" ? "9"
+    : digit extends "1" ? "0"
+        : digit extends "2" ? "1"
+            : digit extends "3" ? "2"
+                : digit extends "4" ? "3"
+                    : digit extends "5" ? "4"
+                        : digit extends "6" ? "5"
+                            : digit extends "7" ? "6"
+                                : digit extends "8" ? "7"
+                                    : digit extends "9" ? "8"
+                                        : never;
 
 // Result of subtracting a single digit
 interface SingleDigitSubResult<

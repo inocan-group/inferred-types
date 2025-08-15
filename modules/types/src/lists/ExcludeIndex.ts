@@ -1,4 +1,4 @@
-import type { AsArray } from "inferred-types/types";
+import type { As, AsArray } from "inferred-types/types";
 
 type _ExcludeIndexHelper<
     TList extends readonly unknown[],
@@ -7,8 +7,8 @@ type _ExcludeIndexHelper<
     Output extends readonly unknown[]
 >
   = TList extends readonly [infer First, ...infer Rest]
-      ? /* if current index (Count['length']) is in the TIdx union, skip First */
-      Count["length"] extends TIdx[number]
+  /* if current index (Count['length']) is in the TIdx union, skip First */
+      ? Count["length"] extends TIdx[number]
           ? _ExcludeIndexHelper<Rest, TIdx, [...Count, unknown], Output>
       /* otherwise, include First in Output */
           : _ExcludeIndexHelper<Rest, TIdx, [...Count, unknown], [...Output, First]>
@@ -24,4 +24,4 @@ type _ExcludeIndexHelper<
 export type ExcludeIndex<
     TList extends readonly unknown[],
     TIdx extends number | readonly number[]
-> = _ExcludeIndexHelper<TList, AsArray<TIdx>, [], []>;
+> = _ExcludeIndexHelper<TList, As<AsArray<TIdx>, readonly number[]>, [], []>;

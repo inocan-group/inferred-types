@@ -1,5 +1,5 @@
-import { FALSY_VALUES } from "inferred-types/constants";
 import type { FalsyValue } from "inferred-types/types";
+import { FALSY_VALUES } from "inferred-types/constants";
 import { isNumber } from "runtime/type-guards/numeric";
 
 /**

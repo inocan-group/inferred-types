@@ -150,9 +150,9 @@ export function lookupCountryName<T extends Suggest<Iso3166_1_Alpha2 | Iso3166_1
  * standard.
  */
 export function lookupCountryAlpha2<
-    T extends Suggest<Iso3166_1_Alpha3 |
-    Iso3166_1_CountryCode |
-    Iso3166_1_CountryName
+    T extends Suggest<Iso3166_1_Alpha3
+    | Iso3166_1_CountryCode
+    | Iso3166_1_CountryName
     >,
 >(code: T) {
     const uc = toAllCaps(code);

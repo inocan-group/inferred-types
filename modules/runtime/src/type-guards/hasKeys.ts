@@ -1,6 +1,6 @@
 import type { Dictionary } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
-import {  indexOf, isDictionary, isSameTypeOf, keysOf } from "inferred-types/runtime";
+import { indexOf, isDictionary, isSameTypeOf, keysOf } from "inferred-types/runtime";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`
@@ -24,23 +24,24 @@ export function hasKeys(...keys: any[]) {
     return <V>(val: V): val is any => {
         const iterable = isDictionary(keys[0]) && keys.length === 1 ? keysOf(keys[0]) : keys;
         return !!(
-            ( isDictionary(val) ) && iterable.every(k => {
-            if(!indexOf(val, k as PropertyKey)) {
-                return false;
-            }
-
-            if(isDictionary(keys[0]) && keys.length === 1) {
-                const v = val[k as any];
-                const comparable = keys[0][k as any];
-
-                if(isSameTypeOf(v)(comparable)) {
-                    return true
-                } else {
-                    return false
+            (isDictionary(val)) && iterable.every((k) => {
+                if (!indexOf(val, k as PropertyKey)) {
+                    return false;
                 }
-            }
 
-            return true;
-        }))
+                if (isDictionary(keys[0]) && keys.length === 1) {
+                    const v = val[k as any];
+                    const comparable = keys[0][k as any];
+
+                    if (isSameTypeOf(v)(comparable)) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                return true;
+            }));
     };
 }

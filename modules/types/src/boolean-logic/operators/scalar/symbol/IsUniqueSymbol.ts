@@ -19,11 +19,9 @@ export type IsUniqueSymbol<T>
           ? false
           // must be a subtype of symbol
           : [T] extends [symbol]
-              ? // but not the wide symbol
-              IsEqual<T, symbol> extends true
+              ? IsEqual<T, symbol> extends true
                   ? false
-                  : // and not a union of multiple unique symbols
-                  IsUnion<T> extends true
+                  : IsUnion<T> extends true
                       ? false
                       : true
               : false;

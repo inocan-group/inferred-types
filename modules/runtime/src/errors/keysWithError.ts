@@ -1,8 +1,8 @@
+import type { KeysWithError } from "@inferred-types/types";
 import type {
     Dictionary,
 } from "inferred-types/types";
 import { indexOf, isError } from "inferred-types/runtime";
-import { KeysWithError } from "@inferred-types/types";
 
 /**
  * **keysWithError**`(obj)`

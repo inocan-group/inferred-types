@@ -1,4 +1,4 @@
-import type { Err } from "inferred-types/types"
+import type { Err } from "inferred-types/types";
 
 /**
  * **createErrorConditionTemplate**`(kind,[msg],[utility]) => ErrorCondition`

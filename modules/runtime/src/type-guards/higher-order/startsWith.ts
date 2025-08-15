@@ -1,13 +1,13 @@
-import type { Narrowable, StartsWith, ToStringArray } from "inferred-types/types";
-import { isNumber } from "runtime/type-guards/numeric";
+import type { StartsWith, ToStringArray } from "inferred-types/types";
 import { isString } from "runtime/type-guards/isString";
+import { isNumber } from "runtime/type-guards/numeric";
 
 /**
  * **StartingWithTypeGuard**`<literal>`
  *
  * A type guard built using the `startsWith` utility.
  */
-export type StartingWithTypeGuard<TStartsWith extends readonly (string|number)[]> = (
+export type StartingWithTypeGuard<TStartsWith extends readonly (string | number)[]> = (
     val: unknown
 ) => val is `${ToStringArray<TStartsWith>[number]}${string}`;
 

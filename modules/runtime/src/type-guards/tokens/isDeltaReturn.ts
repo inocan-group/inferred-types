@@ -6,5 +6,5 @@ import { isString } from "runtime/type-guards/isString";
  * guard validates whether `val` is one.
  */
 export function isDeltaReturn(val: unknown): val is [ string, unknown ] {
-    return isArray(val) && val.length === 2 && isString(val[0])
+    return isArray(val) && val.length === 2 && isString(val[0]);
 }

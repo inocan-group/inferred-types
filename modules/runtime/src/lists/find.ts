@@ -21,12 +21,11 @@ export function find<
     op: TOp,
     ...params: TParams
 ): FindFunction<TOp, TParams> {
-
     return <const TList extends readonly ComparisonAccept<As<TOp, string>>[]>(
         list: TList
     ): Find<TList, TOp, TParams> => {
         return list.find(
-            i => {
+            (i) => {
                 const comparator = compare(
                     op,
                     ...params
@@ -34,9 +33,6 @@ export function find<
 
                 return comparator(i) as any;
             }
-        ) as unknown as Find<TList, As<TOp, string>, TParams>
-    }
+        ) as unknown as Find<TList, As<TOp, string>, TParams>;
+    };
 }
-
-
-

@@ -1,5 +1,5 @@
-import { isNumber } from "runtime/type-guards/numeric/isNumber";
 import { isString } from "runtime/type-guards/isString";
+import { isNumber } from "runtime/type-guards/numeric/isNumber";
 
 /**
  * Type guard which validates that the passed in `val` is an array of

@@ -1,6 +1,5 @@
-import { As, DefineObject, StringKeys } from "inferred-types/types";
-import { DefineObjectWith, FromDefn, FromInputToken__Object } from "types/runtime-types";
-
+import type { DefineObject, StringKeys } from "inferred-types/types";
+import type { DefineObjectWith, FromInputToken__Object } from "types/runtime-types";
 
 export function defineObjectWith<
     TMapper extends DefineObject
@@ -12,10 +11,9 @@ export function defineObjectWith<
             kind: "define-object-with",
             defn,
             type: null as unknown as DefineObjectWith<
-                    TDefn,
-                    Mapper
-                >["type"]
-        } as DefineObjectWith<TDefn,Mapper>
-    }
-
+                TDefn,
+                Mapper
+            >["type"]
+        } as DefineObjectWith<TDefn, Mapper>;
+    };
 }

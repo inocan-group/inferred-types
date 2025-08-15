@@ -21,11 +21,14 @@ export function dropFirstStackFrame<T extends Error>(err: T): T {
     // Starting from line[1], find the *first* frame and remove exactly one.
     // But be defensive: sometimes extra blank lines appear.
     const frameIdx = lines.findIndex((l, i) => {
-        if (i === 0) return false;
+        if (i === 0)
+            return false;
         // V8 style: "    at func (file:line:col)" or "    at file:line:col"
-        if (/^\s*at\s+/.test(l)) return true;
+        if (/^\s*at\s+/.test(l))
+            return true;
         // Firefox style: "func@file:line:col" or "@file:line:col"
-        if (/^[^\s]*@.+:\d+:\d+$/.test(l)) return true;
+        if (/^[^\s@]*@.+:\d+:\d+$/.test(l))
+            return true;
         return false;
     });
 

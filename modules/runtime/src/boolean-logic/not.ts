@@ -1,4 +1,4 @@
-import { IsFalsy, Narrowable } from "inferred-types/types";
+import type { IsFalsy, Narrowable } from "inferred-types/types";
 import { isFalsy } from "runtime/type-guards";
 
 /**
@@ -10,6 +10,6 @@ export function not<T extends Narrowable>(
     val: T
 ): [IsFalsy<T>] extends [true] ? true : false {
     return (
-        isFalsy(val) ? true : false
-    ) as [IsFalsy<T>] extends [true] ? true : false
+        !!isFalsy(val)
+    ) as [IsFalsy<T>] extends [true] ? true : false;
 }

@@ -1,11 +1,9 @@
 import type {
+    FnWithProps,
     ObjectKey,
     TypedFunction,
-    FnWithProps,
 } from "inferred-types/types";
 import { fnProps } from "runtime/functions";
-
-
 
 /**
  * **createFnWithProps**`(fn, props)`

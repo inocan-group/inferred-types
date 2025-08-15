@@ -1,6 +1,7 @@
 import type {
     As,
     Container,
+    EmptyObject,
     Get,
     IsEqual,
     IsStringLiteral,
@@ -260,7 +261,7 @@ type SeparateWideStrings<T extends readonly string[]> = {
  */
 type ExtractFirst<
     T extends readonly string[],
-    TFirst extends unknown,
+    TFirst,
     TOut extends readonly string[] = []
 > = TFirst extends readonly unknown[]
     ? T extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
@@ -279,7 +280,7 @@ type ExtractFirst<
  */
 type RemoveFirst<
     T extends readonly string[],
-    TFirst extends unknown,
+    TFirst,
     TOut extends readonly string[] = []
 > = TFirst extends readonly unknown[]
     ? T extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
@@ -307,7 +308,7 @@ type RemoveFirst<
  */
 export type StringSort<
     T extends readonly (string | Container)[],
-    O extends StringSortOptions = {},
+    O extends StringSortOptions = EmptyObject,
 > = IsStringLiteral<O["offset"]> extends true
     ? T extends readonly Container[]
         ? [IsEqual<O["order"], "DESC">] extends [true]

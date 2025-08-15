@@ -1,6 +1,5 @@
 import type { And, AnyFunction, As, Container, DefineModifiers, HasModifier, IsAny, IsLiteralContainer, IsLiteralScalar, IsNever, IsTuple, Scalar, TypedFunction, Values } from "inferred-types/types";
 
-
 type AllValuesAreLiteral<T extends readonly unknown[]> = And<{
     [K in keyof T]: T[K] extends Scalar
         ? IsLiteralScalar<T[K]>

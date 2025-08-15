@@ -2,7 +2,7 @@ import type { Split } from "inferred-types/types";
 import { createFnWithProps } from "runtime/initializers";
 import { last } from "runtime/lists";
 
-type Policy = "omit" | "before" |  "inline";
+type Policy = "omit" | "before" | "inline";
 
 const SEP = `sep:\u00A0` as const;
 
@@ -83,8 +83,6 @@ function before<
 ): Split<T, S, "before"> {
     return splitUp([str], sep, "before") as unknown as Split<T, S, "before">;
 }
-
-
 
 function inline<
     T extends string,

@@ -83,7 +83,7 @@ type EmptyObjectKind<T> = T extends object
 type AcceptsProperties<T> = T extends { [x: string]: any }
     ? true
     : T extends object
-        ? {} extends T
+        ? EmptyObject extends T
             ? true
             : false
         : false;

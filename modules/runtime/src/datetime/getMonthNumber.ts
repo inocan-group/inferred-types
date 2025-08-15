@@ -34,8 +34,7 @@ export function getMonthNumber<
     else {
         const d = parseDate(date);
 
-        if(isParsedDate(d)) {
-
+        if (isParsedDate(d)) {
             if (!d.month) {
                 return err(
                     `month-number/missing`,
@@ -46,6 +45,6 @@ export function getMonthNumber<
             return asNumber(d.month) as GetMonthNumber<T>;
         }
 
-        return err(`invalid-date`, `Unable to parse the date when calling getMonthNumber()`) as unknown as GetMonthNumber<T>
+        return err(`invalid-date`, `Unable to parse the date when calling getMonthNumber()`) as unknown as GetMonthNumber<T>;
     }
 }

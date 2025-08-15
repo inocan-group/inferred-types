@@ -44,19 +44,19 @@ type ComparePositive<A extends string, B extends string>
     ? B extends `${infer _B1}${infer _B2}${infer _B3}${infer _B4}${infer BRest}`
         ? ComparePositive<ARest, BRest> // Continue comparing rest
         : false // A is longer, so A > B
-    : B extends `${infer B1}${infer B2}${infer B3}${infer B4}${infer BRest}`
+    : B extends `${infer _B1}${infer _B2}${infer _B3}${infer _B4}${infer _BRest}`
         ? true // B is longer, so A < B
         : A extends `${infer A1}${infer A2}${infer A3}`
             ? B extends `${infer B1}${infer B2}${infer B3}`
                 ? CompareByDigits<`${A1}${A2}${A3}`, `${B1}${B2}${B3}`>
                 : false // A is longer
-            : B extends `${infer B1}${infer B2}${infer B3}`
+            : B extends `${infer _B1}${infer _B2}${infer _B3}`
                 ? true // B is longer
                 : A extends `${infer A1}${infer A2}`
                     ? B extends `${infer B1}${infer B2}`
                         ? CompareByDigits<`${A1}${A2}`, `${B1}${B2}`>
                         : false // A is longer
-                    : B extends `${infer B1}${infer B2}`
+                    : B extends `${infer _B1}${infer _B2}`
                         ? true // B is longer
                         : CompareByDigits<A, B>; // Both single digit
 
@@ -199,7 +199,7 @@ type _SortOffset<
  */
 type ExtractFirstNumeric<
     T extends readonly number[],
-    TFirst extends unknown,
+    TFirst,
     TOut extends readonly number[] = []
 > = TFirst extends readonly unknown[]
     ? TFirst extends readonly [infer FirstHead, ...infer FirstTail]
@@ -234,7 +234,7 @@ type ExtractAllMatching<
  */
 type RemoveFirstNumeric<
     T extends readonly number[],
-    TFirst extends unknown,
+    TFirst,
     TOut extends readonly number[] = []
 > = TFirst extends readonly unknown[]
     ? T extends readonly [infer Head extends number, ...infer Tail extends readonly number[]]

@@ -1,2 +1,2 @@
 export * from "./isComparisonOperation";
-export * from "./isValidComparisionParams"
+export * from "./isValidComparisionParams";

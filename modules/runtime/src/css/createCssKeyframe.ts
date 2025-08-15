@@ -1,14 +1,7 @@
 import type {
-    AfterFirst,
     CssDefinition,
     CssKeyframeTimestamp,
-    Dictionary,
-    EmptyObject,
-    ExpandDictionary,
-    First,
     HandleDoneFn,
-    ObjectToCssString,
-    ObjectToKeyframeString,
 } from "inferred-types/types";
 
 import {
@@ -55,16 +48,16 @@ function api<
 type SimpleCssProps<T> = T extends { opacity: infer O; transform: infer Tr }
     ? `opacity: ${O extends string ? O : never}; transform: ${Tr extends string ? Tr : never}`
     : T extends Record<string, string>
-    ? string
-    : never;
+        ? string
+        : never;
 
-type FrameToCSSString<T extends readonly [CssKeyframeTimestamp, CssDefinition][], TName extends string> = 
-    T extends readonly [
+type FrameToCSSString<T extends readonly [CssKeyframeTimestamp, CssDefinition][], TName extends string>
+    = T extends readonly [
         [infer Stage1 extends CssKeyframeTimestamp, infer Defn1 extends CssDefinition],
         [infer Stage2 extends CssKeyframeTimestamp, infer Defn2 extends CssDefinition]
     ]
-    ? `@keyframes ${TName} {\n  ${Stage1} { ${SimpleCssProps<Defn1>} }\n  ${Stage2} { ${SimpleCssProps<Defn2>} }\n}`
-    : string;
+        ? `@keyframes ${TName} {\n  ${Stage1} { ${SimpleCssProps<Defn1>} }\n  ${Stage2} { ${SimpleCssProps<Defn2>} }\n}`
+        : string;
 
 export type CssKeyframeCallback = (cb: KeyframeApi<[]>) => unknown;
 
@@ -105,15 +98,15 @@ export function createCssKeyframe<
         hasDone(rtn) ? rtn.done() : rtn
     ) as unknown as HandleDoneFn<ReturnType<TKeyframes>>;
 
-  type Frames = typeof frames;
+    type Frames = typeof frames;
 
-  return {
-      name,
-      keyframes: frames,
-      css: `@keyframes ${name} {\n${frameToCss(frames)}\n}`,
-  } as {
-      name: TName;
-      keyframes: typeof frames;
-      css: FrameToCSSString<typeof frames, TName>;
-  };
+    return {
+        name,
+        keyframes: frames,
+        css: `@keyframes ${name} {\n${frameToCss(frames)}\n}`,
+    } as {
+        name: TName;
+        keyframes: typeof frames;
+        css: FrameToCSSString<typeof frames, TName>;
+    };
 }
