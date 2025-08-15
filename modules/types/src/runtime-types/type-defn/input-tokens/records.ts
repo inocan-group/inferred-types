@@ -87,7 +87,7 @@ type Value<
             ? NestedSplit<S["inner"], ",">[1]
             : Err<
                 `invalid-token/map`,
-                `The Map token did not provide a ',' separator to delinate the key token from the value token!`,
+                `The Map token did not provide a ',' separator to delineate the key token from the value token!`,
                 { key: S["inner"][0]; rest: Rest<T>; token: Trim<T> }
             >
         : S;

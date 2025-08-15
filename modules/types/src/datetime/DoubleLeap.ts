@@ -12,8 +12,4 @@ export type ModernDoubleLeap = typeof DOUBLE_LEAP_MODERN[number];
  *
  * **Related:** `ModernDoubleLeap`
  */
-export type IsoModernDoubleLeap = {
-    [K in keyof typeof DOUBLE_LEAP_MODERN]: typeof DOUBLE_LEAP_MODERN[K] extends number
-        ? `${typeof DOUBLE_LEAP_MODERN[K]}`
-        : never
-};
+export type IsoModernDoubleLeap = `${ModernDoubleLeap}`;

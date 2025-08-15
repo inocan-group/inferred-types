@@ -5,7 +5,7 @@ import { asDateTime, isError, parseIsoDate } from "inferred-types/runtime";
  * Parses an object-based Date container into a `ParsedDate` tuple.
  * Always uses the original ISO string (with offset/timezone) if available.
  */
-export function parseDateObject<T extends DateLike & object>(d: T) {
+export function parseDateObject<T extends DateLike | object>(d: T) {
     const date = d instanceof Date ? d : asDateTime(d);
 
     // For the time components, always use UTC (the actual time stored in the Date object)

@@ -1,5 +1,6 @@
 export * from "./AsDateMeta";
 export * from "./AsRelativeDate";
+export * from "./AsTwoDigitMonth";
 export * from "./DateLike";
 export * from "./DateMeta";
 export * from "./DatePlus";
@@ -12,8 +13,9 @@ export * from "./GetYear";
 export * from "./iana";
 export * from "./Iso";
 export * from "./Month";
-export * from "./object-types/index";
 export * from "./ParseDate";
 export * from "./ParseTime";
 export * from "./RenderTime";
 export * from "./seasonality";
+
+export * from "./object-types/index";

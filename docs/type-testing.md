@@ -15,13 +15,13 @@ At the end of the day, we value **type tests** at least as much as we do our **r
 You can test all the type tests by running:
 
 ```ts
-typed test
+pnpm typed
 ```
 
 But you'll often want to scope down testing to just a single file or some subset by using glob patterns like so:
 
 ```ts
-typed test datetime
+pnpm typed datetime
 ```
 
 **NOTE**: this is NOT an `npm` command so do not try running it via **npm**.

@@ -30,10 +30,10 @@ export type SerializedData<
     : TAs extends "unknown/unknown"
 
         ? (
-    string & {
-        kind: "SerializedData";
-        data: TData;
-    })
+            string & {
+                kind: "SerializedData";
+                data: TData;
+            })
 
         : (string & {
             kind: "SerializedData";

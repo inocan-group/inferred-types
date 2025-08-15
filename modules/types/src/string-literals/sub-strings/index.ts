@@ -3,7 +3,7 @@ export * from "./FillStringHole";
 export * from "./FirstChar";
 export * from "./InBetween";
 export * from "./LastChar";
-
+export * from "./pad/index";
 export * from "./retain/index";
 export * from "./strip/index";
 export * from "./trim/index";
