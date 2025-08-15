@@ -11,6 +11,7 @@ import {
     isDate,
     isEpochInMilliseconds,
     isEpochInSeconds,
+    isFourDigitYear,
     isIsoDate,
     isIsoDateTime,
     isIsoExplicitDate,
@@ -48,9 +49,9 @@ export function asDate<
         // Strips time, preserves local calendar day (no timezone shift)
         const toUtcMidnight = (d: Date) => {
             const utc = new Date(Date.UTC(
-                d.getFullYear(),
-                d.getMonth(),
-                d.getDate(),
+                d.getUTCFullYear(),
+                d.getUTCMonth(),
+                d.getUTCDate(),
                 0,
                 0,
                 0,
@@ -92,6 +93,18 @@ export function asDate<
             const month = Number(parsed.month);
             const day = Number(parsed.date);
             return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+        }
+
+        // Check for 4-digit year string (ISO standard)
+        if (isFourDigitYear(input)) {
+            const year = Number(input);
+            return new Date(Date.UTC(year, 0, 1, 0, 0, 0, 0));
+        }
+        
+        // Check if numeric input is a 4-digit year (between 1000 and 9999)
+        if (isNumber(input) && input >= 1000 && input <= 9999 && Math.floor(input) === input) {
+            // Treat as a year value
+            return new Date(Date.UTC(input, 0, 1, 0, 0, 0, 0));
         }
 
         if (isNumber(input) && isEpochInMilliseconds(input)) {

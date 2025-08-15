@@ -15,9 +15,10 @@ import {
 } from "runtime/type-guards/datetime/index";
 
 /**
- * **getMonthNumber()`
+ * **getMonthNumber**`(date | MonthName | MonthAbbrev)`
  *
- * Get's the a date's numeric index (aka., January is 1, etc.).
+ * Get's the a date's numeric index for the **month** being represented
+ * (aka., January is 1, etc.).
  *
  * - you can pass in a `DateLike` value _or_ a month name
  * or month abbreviation

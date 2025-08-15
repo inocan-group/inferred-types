@@ -33,7 +33,7 @@ import {
 } from "runtime/type-guards/datetime";
 
 const getLocalIanaZone = (() => {
-    //  ❱❱  compute once, memoise
+// compute once, memoise
     const tz = (process.env.TZ && isIanaTimezone(process.env.TZ)
         ? process.env.TZ
         : Intl.DateTimeFormat().resolvedOptions().timeZone) ?? "UTC";
