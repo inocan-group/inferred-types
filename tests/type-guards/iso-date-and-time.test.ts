@@ -1,5 +1,5 @@
-import { isIsoExplicitDate, isIsoImplicitDate } from "runtime/type-guards/datetime";
-import { Expect, IsoDate, IsoDateLike, Test } from "inferred-types/types"
+import { isIsoExplicitDate, isIsoImplicitDate } from "inferred-types/runtime";
+import { Expect, IsoDate,  Test } from "inferred-types/types"
 import { describe, expect, it } from "vitest";
 
 

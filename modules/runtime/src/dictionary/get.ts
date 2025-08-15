@@ -15,7 +15,7 @@ import {
     NOT_DEFINED,
 } from "inferred-types/constants";
 import {
-    createErrorCondition,
+    err,
     hasDefaultValue,
     hasIndexOf,
     indexOf,
@@ -72,7 +72,7 @@ function getValue<
     /** has handler for invalid dotpath */
     const hasHandler = !isSpecificConstant("not-defined")(handleInvalid);
 
-    const invalidDotPath = createErrorCondition(
+    const invalidDotPath = err(
         "invalid-dot-path",
         `The segment "${idx}" in the dotpath "${fullDotPath}" was not indexable and no default value existed on: ${JSON.stringify(value)}`,
     );

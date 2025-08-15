@@ -9,14 +9,13 @@ describe("IndexOf<T>", () => {
 
     it("type tests", () => {
         type Arr = IndexOf<[1, 2, 3], 1>;
-        // @ts-expect-error
         type ArrBadIdx = IndexOf<[1, 2, 3], 8>;
-        // @ts-expect-error
         type InvalidStrIdx = IndexOf<[1, 2, 3], "foo">;
 
         type Neg = IndexOf<[1, 2, 3], -1>;
 
         type Obj = IndexOf<{ foo: 1; bar: 2; baz: 3 }, "bar">;
+
         type Identity = IndexOf<{foo:1, bar: 2}, null>;
         // @ts-expect-error
         type Never = IndexOf<"foo", 1>;
@@ -50,9 +49,7 @@ describe("IndexOf<T>", () => {
 
 
     it("using Override feature", () => {
-        // @ts-expect-error
         type Arr = IndexOf<[1, 2, 3], 8, "oops">;
-        // @ts-expect-error
         type Obj = IndexOf<{ foo: 1 }, "bar", "oops">;
 
         type cases = [

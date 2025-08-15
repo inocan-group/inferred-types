@@ -1,4 +1,6 @@
 import type {
+    As,
+    Dictionary,
     FnKeyValue,
     Get,
     IndexOf,
@@ -11,9 +13,12 @@ import type {
 /**
  * extract props from functions
  */
-type F<T> = T extends TypedFunction
-    ? FnKeyValue<T>
-    : T;
+type F<T> = As<
+    T extends TypedFunction
+        ? FnKeyValue<T>
+        : T,
+    Dictionary
+>;
 
 type Process<
     TList extends readonly unknown[],

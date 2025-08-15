@@ -1,4 +1,4 @@
-import { isIsoDateTime } from "runtime/type-guards";
+import { isIsoDateTime } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 

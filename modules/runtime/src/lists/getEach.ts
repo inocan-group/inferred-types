@@ -14,7 +14,8 @@ export interface GetEachOptions<
  * of items.
  *
  * - the options allow for a "default value" to be substituted for any _undefined_ or _never_ values
- * - errors in looking up dot path's will -- by default -- be removed as this is typically the desired behavior but you can also choose from:
+ * - errors in looking up dot path's will -- by default -- be removed as this is typically the desired
+ * behavior but you can also choose from:
  *    - `to-never`: converts _type_ to `never` but runtime maintains error message
  */
 export function getEach<

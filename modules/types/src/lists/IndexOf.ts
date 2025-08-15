@@ -95,10 +95,11 @@ type Process<
         ? If<
             IsValidIndex<TValue, AsPropertyKey<TIdx>>,
             HandleArr<TValue, AsPropertyKey<TIdx>>,
+
             Err<
                 "invalid-index",
-        `Call to IndexOf<DescribeType<TValue>,${AsString<TIdx>}> is not allowed as an tuple based container must receive either null or numeric index value.`,
-        { library: "inferred-types/constants"; container: TValue; key: TIdx }
+                `Call to IndexOf<DescribeType<TValue>,${AsString<TIdx>}> is not allowed as an tuple based container must receive either null or numeric index value.`,
+                { library: "inferred-types/constants"; container: TValue; key: TIdx }
             >
         >
         : TValue extends Dictionary
@@ -106,12 +107,12 @@ type Process<
                 ? HandleObj<TValue, TIdx>
                 : Err<
                     "invalid-index",
-          `Call to IndexOf<DescribeType<TValue>,${AsString<TIdx>}> is not allowed as an object based container must receive either null, a string, or a symbol index value.`,
-          { library: "inferred-types/constants"; container: TValue; key: TIdx }
+                    `Call to IndexOf<DescribeType<TValue>,${AsString<TIdx>}> is not allowed as an object based container must receive either null, a string, or a symbol index value.`,
+                    { library: "inferred-types/constants"; container: TValue; key: TIdx }
                 >
             : Err<
                 "invalid-index",
-                `IndexOf<ToString<TValue>},${AsString<TIdx>}> was called but the a non-null value was used to index a non-container which will never work!`,
+                `IndexOf<ToString<TValue>,${AsString<TIdx>}> was called but a non-null value was used to index a non-container which will never work!`,
                 { library: "inferred-types/constants"; container: TValue; key: TIdx }
             >
 >;
@@ -146,7 +147,7 @@ type WithNegativeIndex<T extends readonly unknown[]> = T extends readonly number
  */
 export type IndexOf<
     TValue extends Container,
-    TIdx extends If<IsWideContainer<TValue>, PropertyKey | null, WithNegativeIndex<Keys<TValue>>[number] | null>,
+    TIdx extends PropertyKey | null,
     TOverride = Constant<"no-override">,
 > = TIdx extends null
     ? TValue

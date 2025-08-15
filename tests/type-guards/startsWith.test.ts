@@ -3,7 +3,7 @@ import {
     Expect,
     Test,
 } from "inferred-types/types";
-import { startsWith, startsWithTypeguard } from "runtime/type-guards";
+import { startsWith, startsWithTypeguard } from "inferred-types/runtime";
 
 
 describe("startsWithTypeguard(variants) -> (val) -> boolean", () => {

@@ -1,6 +1,6 @@
 import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
-import { isStringLiteral } from "runtime/type-guards";
+import { isStringLiteral } from "inferred-types/runtime";
 
 describe("isStringLiteral()()", () => {
 
