@@ -1,4 +1,4 @@
-import {ISO_MONTH_WITH_30} from "inferred-types/constants";
+import {ISO_DATE_30} from "inferred-types/constants";
 import type {
     DaysInMonth,
     FourDigitYear,
@@ -61,7 +61,7 @@ export function daysInMonth<
                     : 29
             : 28
         : 28
-    : ISO_MONTH_WITH_30.includes(twoDigitMonth as any)
+    : ISO_DATE_30.includes(twoDigitMonth as any)
         ? 30
         : 31
     ) as DaysInMonth<TMonth,TYear>

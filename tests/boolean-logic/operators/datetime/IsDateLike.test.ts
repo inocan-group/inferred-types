@@ -1,6 +1,7 @@
 import { IsIsoDate } from "inferred-types";
 import { Expect, Test, IsDateLike, EmptyObject, IsIsoYear } from "inferred-types/types";
 import { describe, it } from "vitest";
+import { IsIsoFullDate } from "../../../../modules/types/dist";
 
 describe("IsDateLike<T>", () => {
 
@@ -13,7 +14,7 @@ describe("IsDateLike<T>", () => {
         ];
     });
 
-    it("ISO Year Strings", () => {
+    it("IsoYear", () => {
         type T1 = IsDateLike<"2023">;
         type T1a = IsIsoYear<"2023">;
         type T2 = IsDateLike<"2024">;
@@ -25,55 +26,83 @@ describe("IsDateLike<T>", () => {
         type F3 = IsDateLike<"abcd">;
 
         type cases = [
-            // Valid 4-digit years
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
             Expect<Test<T3, "equals", true>>,
             Expect<Test<T4, "equals", true>>,
 
-            // Invalid year formats
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
             Expect<Test<F3, "equals", false>>,
         ];
     });
 
-    it("ISO Date Strings", () => {
-        type F1 = IsDateLike<"2023-1-1">;
-        type F2 = IsDateLike<"23-01-01">;
-        type F2a = IsIsoDate<"23-01-01">;
-        type F3 = IsDateLike<"January 1, 2023">;
+
+    it("valid ISO partial dates", () => {
+        type YearMonth = IsDateLike<"-2023-06">;
+        type YearMonthImplicit = IsDateLike<"-202306">;
+
+        type MonthDate = IsDateLike<"--11-01">;
+        type MonthDateImplicit = IsDateLike<"--1101">;
 
         type cases = [
-            // Valid ISO date formats
-            Expect<Test<IsDateLike<"2023-01-01">, "equals", true>>,
-            Expect<Test<IsDateLike<"2023-12-31">, "equals", true>>,
-            // valid because 2024 is a leap year
-            Expect<Test<IsDateLike<"2024-02-29">, "equals", true>>,
-            Expect<Test<IsDateLike<"2023-06-15">, "equals", true>>,
-            // Invalid date formats
+            Expect<Test<YearMonth, "equals", true>>,
+            Expect<Test<YearMonthImplicit, "equals", true>>,
+            Expect<Test<MonthDate, "equals", true>>,
+            Expect<Test<MonthDateImplicit, "equals", true>>,
+        ];
+    });
+
+
+    it("ISO Full Date Strings", () => {
+        type T1 = IsDateLike<"2023-01-01">;
+        type T2 = IsDateLike<"2023-12-31">
+        type T3 = IsDateLike<"2024-02-29">; // leap day
+
+
+        type F1 = IsDateLike<"2023-1-1">;
+        type F2 = IsDateLike<"23-01-01">;
+        type F3 = IsDateLike<"January 1, 2023">;
+        type F4 = IsDateLike<"1999-02-29">; // leap day in non-leap year
+        type F5 = IsDateLike<"2000-06-31">; // June only has 30 days
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+
             Expect<Test<F1, "equals", false>>,
-            Expect<Test<IsDateLike<"23-01-01">, "equals", false>>,
-            Expect<Test<IsDateLike<"2023/01/01">, "equals", false>>,
-            Expect<Test<IsDateLike<"January 1, 2023">, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
+            Expect<Test<F4, "equals", false>>,
+            Expect<Test<F5, "equals", false>>,
         ];
     });
 
     it("ISO DateTime Strings", () => {
+        type T1 = IsDateLike<"2023-01-01T00:00:00Z">;
+        type T2 = IsDateLike<"2023-12-25T12:30:45Z">;
+        type T3 = IsDateLike<"2023-06-15T18:45:30.123Z">;
+        type T4 = IsDateLike<"2023-01-01T12:00:00+05:00">;
+
+        type F1 = IsDateLike<"2023-01-01 12:00:00">; // invalid space, no `T`
+        type F2 = IsDateLike<"2023-01-01T25:00:00Z">; // invalid hours
+        type F3 = IsDateLike<"2023-01-01T12:60:00Z">
+
         type cases = [
             // Valid ISO datetime formats
-            Expect<Test<IsDateLike<"2023-01-01T00:00:00Z">, "equals", true>>,
-            Expect<Test<IsDateLike<"2023-12-25T12:30:45Z">, "equals", true>>,
-            Expect<Test<IsDateLike<"2023-06-15T18:45:30.123Z">, "equals", true>>,
-            Expect<Test<IsDateLike<"2023-01-01T12:00:00+05:00">, "equals", true>>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
             // Invalid datetime formats
-            Expect<Test<IsDateLike<"2023-01-01 12:00:00">, "equals", false>>,
-            Expect<Test<IsDateLike<"2023-01-01T25:00:00Z">, "equals", false>>,
-            Expect<Test<IsDateLike<"2023-01-01T12:60:00Z">, "equals", false>>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
         ];
     });
 
-    it("Integer Numbers", () => {
+    it("Numbers", () => {
         type cases = [
             // Integer numbers (timestamps) should be DateLike
             Expect<Test<IsDateLike<1234567890>, "equals", true>>,
@@ -82,6 +111,9 @@ describe("IsDateLike<T>", () => {
             // Non-integer numbers should not be DateLike
             Expect<Test<IsDateLike<12.34>, "equals", false>>,
             Expect<Test<IsDateLike<123.456>, "equals", false>>,
+            // Negative numbers of any sort are not DateLike
+            Expect<Test<IsDateLike<-123>, "equals", false>>,
+            Expect<Test<IsDateLike<-123.15>, "equals", false>>,
         ];
     });
 
@@ -130,12 +162,16 @@ describe("IsDateLike<T>", () => {
     });
 
     it("Union Types", () => {
+        type Every = IsDateLike<"2023" | "2024">;
+        type Every2 = IsDateLike<"2023" | "2024-12-12">;
+        type Some = IsDateLike<"2023" | "hello">;
+        type None = IsDateLike<"foo" | "bar">;
+
         type cases = [
-            // Unions containing DateLike values should return boolean (skip complex deep unions)
-            Expect<Test<IsDateLike<"2023" | "hello">, "equals", boolean>>,
-            // Pure DateLike unions
-            Expect<Test<IsDateLike<"2023" | "2024">, "equals", true>>,
-            Expect<Test<IsDateLike<"2023-01-01" | "2023-12-31">, "equals", true>>,
+            Expect<Test<Every, "equals", true>>,
+            Expect<Test<Every2, "equals", true>>,
+            Expect<Test<Some, "equals", boolean>>,
+            Expect<Test<None, "equals", false>>,
         ];
     });
 

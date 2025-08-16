@@ -198,84 +198,25 @@ export const DATE_TYPE = [
 ] as const;
 
 /**
- * valid dates for months with 30 days
+ * months with 30 days
  */
 export const ISO_DATE_30 = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "25",
-    "26",
-    "27",
-    "28",
-    "29",
-    "30"
-] as const;
-
-/**
- * valid dates for months with 30 days
- */
-export const ISO_DATE_31 = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "25",
-    "26",
-    "27",
-    "28",
-    "29",
-    "30",
-    "31"
-] as const;
-
-/**
- * the ISO month strings which map to a month with 30 days.
- */
-export const ISO_MONTH_WITH_30 = [
     "04",
     "06",
     "09",
     "11"
 ] as const;
+
+/**
+ * months with 31 days
+ */
+export const ISO_DATE_31 = [
+    "01",
+    "03",
+    "05",
+    "07",
+    "08",
+    "10",
+    "12"
+] as const;
+

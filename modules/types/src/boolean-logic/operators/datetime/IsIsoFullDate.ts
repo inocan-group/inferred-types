@@ -1,4 +1,16 @@
-import type { AsDateMeta, DateMeta } from "inferred-types/types";
+import type {
+    As,
+    DaysInMonth,
+    FourDigitYear,
+    IsAny,
+    IsNever,
+    IsUnknown,
+    ParseDate,
+    TwoDigitDate,
+    TwoDigitMonth,
+    IsGreaterThan,
+    AsNumber
+} from "inferred-types/types";
 
 /**
  * **IsIsoFullDate**`<T>`
@@ -16,12 +28,29 @@ import type { AsDateMeta, DateMeta } from "inferred-types/types";
  * branded type of `IsoDate` but if your runtime uses the
  * `isIsoDate()` type guard it will pass and be upgraded.
  */
-export type IsIsoFullDate<T> = T extends string
+export type IsIsoFullDate<T> = [IsAny<T>] extends [true]
+    ? boolean
+: [IsNever<T>] extends [true]
+    ? false
+: [IsUnknown<T>] extends [true]
+    ? boolean
+
+: T extends string
     ? string extends T
         ? boolean
-        : AsDateMeta<T> extends DateMeta
-            ? AsDateMeta<T>["dateType"] extends "date"
-                ? true
-                : false
+    : ParseDate<T> extends [
+        infer Year extends FourDigitYear,
+        infer Month extends TwoDigitMonth,
+        infer Date extends TwoDigitDate,
+        null
+    ]
+        ? DaysInMonth<Month,Year> extends number
+            ? IsGreaterThan<
+                AsNumber<Date>,
+                DaysInMonth<Month,Year>
+            > extends true
+                ? false
+                : true
             : false
-    : false;
+        : false
+: false;

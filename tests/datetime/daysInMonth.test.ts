@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { daysInMonth } from "inferred-types/runtime";
-import { DaysInMonth, Expect, Test } from "inferred-types/types";
+import { AsFourDigitYear, DaysInMonth, Expect, IsDoubleLeap, IsLeapYear, Test } from "inferred-types/types";
 
 describe("Days in Month", () => {
     describe("DaysInMonth<T>", () => {
@@ -8,9 +8,31 @@ describe("Days in Month", () => {
 
         it("numbers between 1 and 12 treated as month number", () => {
             type T1 = DaysInMonth<1>;
+            type T2 = DaysInMonth<2>;
+            type T3 = DaysInMonth<3>;
+            type T4 = DaysInMonth<4>;
+            type T5 = DaysInMonth<5>;
+            type T6 = DaysInMonth<6>;
+            type T7 = DaysInMonth<7>;
+            type T8 = DaysInMonth<8>;
+            type T9 = DaysInMonth<9>;
+            type T10 = DaysInMonth<10>;
+            type T11 = DaysInMonth<11>;
+            type T12 = DaysInMonth<12>;
 
             type cases = [
-                /** type tests */
+                Expect<Test<T1, "equals", 31>>,
+                Expect<Test<T2, "equals", 28>>,
+                Expect<Test<T3, "equals", 31>>,
+                Expect<Test<T4, "equals", 30>>,
+                Expect<Test<T5, "equals", 31>>,
+                Expect<Test<T6, "equals", 30>>,
+                Expect<Test<T7, "equals", 31>>,
+                Expect<Test<T8, "equals", 31>>,
+                Expect<Test<T9, "equals", 30>>,
+                Expect<Test<T10, "equals", 31>>,
+                Expect<Test<T11, "equals", 30>>,
+                Expect<Test<T12, "equals", 31>>,
             ];
         });
 
@@ -29,25 +51,41 @@ describe("Days in Month", () => {
             type T11 = DaysInMonth<"11">;
             type T12 = DaysInMonth<"12">;
 
-            // TwoDigitMonth literals are not treated as DateLike by the type utility
-            // They fall through to the final error case
             type cases = [
-                Expect<Test<T01, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T02, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T03, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T04, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T05, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T06, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T07, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T08, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T09, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T10, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T11, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<T12, "isError", "invalid-date/days-in-month">>,
+                Expect<Test<T01, "equals", 31>>,
+                Expect<Test<T02, "equals", 28>>,
+                Expect<Test<T03, "equals", 31>>,
+                Expect<Test<T04, "equals", 30>>,
+                Expect<Test<T05, "equals", 31>>,
+                Expect<Test<T06, "equals", 30>>,
+                Expect<Test<T07, "equals", 31>>,
+                Expect<Test<T08, "equals", 31>>,
+                Expect<Test<T09, "equals", 30>>,
+                Expect<Test<T10, "equals", 31>>,
+                Expect<Test<T11, "equals", 30>>,
+                Expect<Test<T12, "equals", 31>>,
             ];
         });
 
-        it("handles month name literals without year", () => {
+
+        it("February through the years", () => {
+            type NonLeap = DaysInMonth<"02", 1999>;
+            type Leap = DaysInMonth<"Feb", 2004>;
+            type Leap2 = DaysInMonth<"Feb", "2004">;
+            type DoubleLeap = DaysInMonth<"02", 2024>;
+            type DoubleLeap2 = DaysInMonth<"02", "2000">;
+
+            type cases = [
+                Expect<Test<NonLeap, "equals", 28>>,
+                Expect<Test<Leap, "equals", 29>>,
+                Expect<Test<Leap2, "equals", 29>>,
+                Expect<Test<DoubleLeap, "equals", 30>>,
+                Expect<Test<DoubleLeap2, "equals", 30>>,
+            ];
+        });
+
+
+        it("handles month name literals (without year)", () => {
             type TJan = DaysInMonth<"January">;
             type TFeb = DaysInMonth<"February">;
             type TApr = DaysInMonth<"April">;
@@ -63,7 +101,8 @@ describe("Days in Month", () => {
             ];
         });
 
-        it("handles month abbreviation literals without year", () => {
+
+        it("handles month abbreviation literals (without year)", () => {
             type TJan = DaysInMonth<"Jan">;
             type TFeb = DaysInMonth<"Feb">;
             type TApr = DaysInMonth<"Apr">;
@@ -87,8 +126,8 @@ describe("Days in Month", () => {
 
             type cases = [
                 // TwoDigitMonth with year falls through to error case
-                Expect<Test<TFeb2024, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<TFeb2023, "isError", "invalid-date/days-in-month">>,
+                Expect<Test<TFeb2024, "equals", 30>>,
+                Expect<Test<TFeb2023, "equals", 28>>,
                 Expect<Test<TFeb2020, "equals", 29>>, // MonthName works
                 Expect<Test<TFeb2021, "equals", 28>>,
             ];
@@ -101,7 +140,7 @@ describe("Days in Month", () => {
 
             type cases = [
                 // TwoDigitMonth with year falls through to error case
-                Expect<Test<TFeb2016, "isError", "invalid-date/days-in-month">>,
+                Expect<Test<TFeb2016, "equals", 30>>,
                 Expect<Test<TFeb2008, "equals", 30>>, // MonthName works
                 Expect<Test<TFeb4000, "equals", 29>>, // MonthAbbrev works
             ];
@@ -140,11 +179,10 @@ describe("Days in Month", () => {
             type TDec2020 = DaysInMonth<"December", 2020>;
 
             type cases = [
-                // TwoDigitMonth with year parameter errors
-                Expect<Test<TJan2024, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<TApr2024, "equals", 30>>, // MonthName works
-                Expect<Test<TJul2023, "equals", 31>>, // MonthAbbrev works
-                Expect<Test<TDec2020, "equals", 31>>, // MonthName works
+                Expect<Test<TJan2024, "equals", 31>>,
+                Expect<Test<TApr2024, "equals", 30>>,
+                Expect<Test<TJul2023, "equals", 31>>,
+                Expect<Test<TDec2020, "equals", 31>>,
             ];
         });
 
@@ -154,9 +192,9 @@ describe("Days in Month", () => {
             type TInvalid3 = DaysInMonth<"invalid-date">;
 
             type cases = [
-                Expect<Test<TInvalid1, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<TInvalid2, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<TInvalid3, "isError", "invalid-date/days-in-month">>,
+                Expect<Test<TInvalid1, "isError", "invalid-month/type">>,
+                Expect<Test<TInvalid2, "isError", "invalid-month/parsing">>,
+                Expect<Test<TInvalid3, "isError", "invalid-month/type">>,
             ];
         });
 
@@ -165,9 +203,8 @@ describe("Days in Month", () => {
             type TNumber = DaysInMonth<number>;
 
             type cases = [
-                // Wide types should result in errors since they can't be resolved at compile time
-                Expect<Test<TString, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<TNumber, "isError", "invalid-date/days-in-month">>,
+                Expect<Test<TString, "equals", 28 | 29 | 30 | 31 | Error>>,
+                Expect<Test<TNumber, "equals", 28 | 29 | 30 | 31 | Error>>,
             ];
         });
 
@@ -176,9 +213,8 @@ describe("Days in Month", () => {
             type TMonthDay = DaysInMonth<"--02-15">; // Month-day format
 
             type cases = [
-                // Partial dates are likely not supported
-                Expect<Test<TYearMonth, "isError", "invalid-date/days-in-month">>,
-                Expect<Test<TMonthDay, "equals", 28>>, // This might work with --MM-DD format
+                Expect<Test<TYearMonth, "isError", "invalid-month/parsing">>,
+                Expect<Test<TMonthDay, "equals", 28>>,
             ];
         });
     });
@@ -216,18 +252,18 @@ describe("Days in Month", () => {
 
             // type tests - runtime function returns DaysInMonth<T> which can be Error for TwoDigitMonth
             type cases = [
-                Expect<Test<typeof jan, "isError", "unknown-month">>,
-                Expect<Test<typeof feb, "isError", "unknown-month">>,
-                Expect<Test<typeof mar, "isError", "unknown-month">>,
-                Expect<Test<typeof apr, "isError", "unknown-month">>,
-                Expect<Test<typeof may, "isError", "unknown-month">>,
-                Expect<Test<typeof jun, "isError", "unknown-month">>,
-                Expect<Test<typeof jul, "isError", "unknown-month">>,
-                Expect<Test<typeof aug, "isError", "unknown-month">>,
-                Expect<Test<typeof sep, "isError", "unknown-month">>,
-                Expect<Test<typeof oct, "isError", "unknown-month">>,
-                Expect<Test<typeof nov, "isError", "unknown-month">>,
-                Expect<Test<typeof dec, "isError", "unknown-month">>,
+                Expect<Test<typeof jan, "equals", 31>>,
+                Expect<Test<typeof feb, "equals", 28>>,
+                Expect<Test<typeof mar, "equals", 31>>,
+                Expect<Test<typeof apr, "equals", 30>>,
+                Expect<Test<typeof may, "equals", 31>>,
+                Expect<Test<typeof jun, "equals", 30>>,
+                Expect<Test<typeof jul, "equals", 31>>,
+                Expect<Test<typeof aug, "equals", 31>>,
+                Expect<Test<typeof sep, "equals", 30>>,
+                Expect<Test<typeof oct, "equals", 31>>,
+                Expect<Test<typeof nov, "equals", 30>>,
+                Expect<Test<typeof dec, "equals", 31>>,
             ];
         });
 
@@ -289,11 +325,11 @@ describe("Days in Month", () => {
             expect(feb2021).toBe(28);
 
             type cases = [
-                // Runtime function returns complex types - just check they extend number
-                Expect<Test<typeof feb2024, "extends", number>>,
-                Expect<Test<typeof feb2023, "extends", number>>,
-                Expect<Test<typeof feb2020, "extends", number>>,
-                Expect<Test<typeof feb2021, "extends", number>>,
+                // Runtime function returns complex types - TwoDigitMonth returns errors
+                Expect<Test<typeof feb2024, "equals", 30>>,
+                Expect<Test<typeof feb2023, "equals", 28>>,
+                Expect<Test<typeof feb2020, "equals", 29>>,
+                Expect<Test<typeof feb2021, "equals", 28>>,
             ];
         });
 
@@ -327,25 +363,13 @@ describe("Days in Month", () => {
             expect(dec2020).toBe(31);
 
             type cases = [
-                // Runtime function returns complex types - just check they extend number
-                Expect<Test<typeof jan2024, "extends", number>>,
-                Expect<Test<typeof apr2024, "extends", number>>,
-                Expect<Test<typeof jul2023, "extends", number>>,
-                Expect<Test<typeof dec2020, "extends", number>>,
+                Expect<Test<typeof jan2024, "equals", 31>>,
+                Expect<Test<typeof apr2024, "equals", 30>>,
+                Expect<Test<typeof jul2023, "equals", 31>>,
+                Expect<Test<typeof dec2020, "equals", 31>>,
             ];
         });
 
-        it("handles edge cases and errors", () => {
-            // Invalid month strings should return errors
-            // Note: We'll test valid months since the function expects specific types
-            const valid = daysInMonth("01");
-
-            expect(valid).toBe(31);
-
-            type cases = [
-                Expect<Test<typeof valid, "isError", "unknown-month">>,
-            ];
-        });
     });
 })
 

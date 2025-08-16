@@ -1,4 +1,4 @@
-import type { As, Container, IndexOf, IsEqual, Not, Scalar } from "inferred-types/types";
+import type { As, Container, IndexOf, IsEqual, Not,  Scalar } from "inferred-types/types";
 
 export declare const BrandSymbol: unique symbol;
 
@@ -19,6 +19,7 @@ export type Brand<
  *
  * @example
  * ```ts
+ * // string & { [Brand Symbol]: "UserId" }
  * type Branded = Brand<string, "UserId">;
  * type Unbranded = Unbrand<Branded>; // string
  * ```
@@ -27,8 +28,23 @@ export type Unbrand<T> = T extends Brand<infer B, any>
     ? IsBranded<B> extends true ? Unbrand<B> : B
     : T;
 
-export type IsBranded<T> = Not<IsEqual<T, Unbrand<T>>>;
+/**
+ * **IsBranded**`<T>`
+ *
+ * Boolean operator which tests whether `T` has been _branded_ with the
+ * `Brand<T>` utility.
+ */
+export type IsBranded<T> = typeof BrandSymbol extends keyof T ? true : false;
 
-export type GetBrand<T> = IsBranded<T> extends true
-    ? IndexOf<As<T, Container>, typeof BrandSymbol>
+/**
+ * **GetBrand**`<T>`
+ *
+ * Get's the "brand" that the symbol has been
+ */
+export type GetBrand<T> = typeof BrandSymbol extends keyof T
+    ? T[typeof BrandSymbol]
+        // IndexOf<As<T, Container>, typeof BrandSymbol>
     : undefined;
+
+
+

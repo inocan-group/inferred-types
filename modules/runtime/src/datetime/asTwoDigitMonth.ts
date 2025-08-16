@@ -20,14 +20,14 @@ export function asTwoDigitMonth<T extends DateLike>(
         ? date > 0 && date < 13
             ? `${date}`.padStart(2, "0")
         : isError(asDate(date))
-            ? asDate(date)
+            ? asDate(date) // Error
         : isError(parseDateObject(date))
-            ? parseDateObject(date)
+            ? parseDateObject(date) // Error
         : parseDateObject(date)["month"]
     : isError(asDate(date))
-            ? asDate(date)
+            ? asDate(date) // Error
         : isError(parseDateObject(date))
-            ? parseDateObject(date)
+            ? parseDateObject(date) // Error
         : parseDateObject(date)["month"]
     ) as AsTwoDigitMonth<T>
 }

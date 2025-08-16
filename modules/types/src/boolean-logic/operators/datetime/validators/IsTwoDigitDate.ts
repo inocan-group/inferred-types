@@ -5,7 +5,6 @@ import type {
 import type {
     IsoDate30,
     IsoDate31,
-    IsoMonthsWith30Days
 } from "types/datetime";
 
 type TestFeb<
@@ -51,7 +50,7 @@ export type IsTwoDigitDate<
                 ? T extends IsoDate31
                     ? true
                     : false
-                : TMonth extends IsoMonthsWith30Days
+                : TMonth extends IsoDate30
                     ? T extends IsoDate30
                         ? true
                         : false

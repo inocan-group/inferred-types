@@ -18,7 +18,7 @@ type Convert<
     ? IsTrue<B> extends true
         ? FourDigitYear<"branded"> | Error
         : FourDigitYear | Error
-: IsInteger<T> extends true
+: IsInteger<T> extends false
     ? Err<
         `year-invalid/not-integer`,
         `The generic passed into AsFourDigitYear<T> was a number but not an integer!`,

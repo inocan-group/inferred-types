@@ -104,7 +104,6 @@ export type GetMonthNumber<
             : [T] extends [string]
                 ? string extends T
                     ? boolean
-                // Try direct extraction first for ISO dates
                     : ExtractMonthFromIsoDate<T> extends never
                         ? [ParseDate<T>] extends [ParsedDate]
                             ? [ParseDate<T>["1"]] extends [null]

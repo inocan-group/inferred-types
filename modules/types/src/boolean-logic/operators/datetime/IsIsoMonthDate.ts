@@ -1,5 +1,5 @@
 import type {
-    FourDigitYear,
+    IsoMonthDate,
     IsoYearMonth,
     IsWideString,
     ParseDate,
@@ -11,10 +11,10 @@ import type {
  * Tests whether `T` is a valid **ISO Date** which captures month
  * and date but not year:
  *
- * - `-YYYY-MM` _or_ `-YYYYMM`
+ * - `--MM-DD` _or_ `--MMDD`
  *
  * **Related:**
- * - `IsIsoMonthDateTime`
+ * - `IsIsoYearMonth`
  *
  * **Note:**
  * - if a type passes this test then it guaranteed to be a valid
@@ -23,12 +23,12 @@ import type {
  * branded type of `IsoDate` but if your runtime uses the
  * `isIsoDate()` it will pass.
  */
-export type IsIsoMonthDate<T> = T extends IsoYearMonth
-    ? IsWideString<T> extends true
+export type IsIsoMonthDate<T> = [T] extends [IsoMonthDate]
+    ? [string] extends [T]
         ? boolean
-        : ParseDate<T> extends ParsedDate
-            ? ParseDate<T> extends [FourDigitYear, TwoDigitDate, null, null]
-                ? true
-                : false
+    : [ParseDate<T>] extends [ParsedDate]
+        ? [ParseDate<T>] extends [[null, TwoDigitDate, TwoDigitDate, null]]
+            ? true
             : false
-    : false;
+        : false
+: false;

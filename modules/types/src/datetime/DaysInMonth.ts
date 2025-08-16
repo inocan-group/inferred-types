@@ -1,5 +1,3 @@
-import { ISO_DATE_30 } from "inferred-types/constants";
-import { IsBetweenInclusively } from '../numeric-literals/IsBetween';
 import {
     As,
     AsTwoDigitMonth,
@@ -12,49 +10,53 @@ import {
     ParsedDate,
     TwoDigitMonth,
     Unbrand,
-    Contains,
-    IsNull,
     FourDigitYear,
+    IsBetweenInclusively,
     IsLeapYear,
     IsUndefined,
-    IsTrue,
     IsDoubleLeap,
     IsInteger,
-    IsFourDigitYear
+    AsFourDigitYear,
+    NumberLike,
+    IsoDate30
 } from "inferred-types/types";
+
+type CalcFeb<T extends NumberLike | undefined> = IsUndefined<T> extends true
+? 28
+: AsFourDigitYear<T> extends FourDigitYear
+    ? IsLeapYear<T> extends true
+        ? IsDoubleLeap<T> extends true
+            ? 30
+            : 29
+    : 28
+: ParseDate<T> extends ParsedDate
+    ? ParseDate<T>[0] extends infer Year extends FourDigitYear
+        ? IsLeapYear<Unbrand<Year>> extends true
+            ? IsDoubleLeap<Unbrand<Year>> extends true
+                ? 30
+                : 29
+        : 28
+    : Err<
+        `invalid-year/missing`,
+        `The utility DaysInMonth<T,[Y]> was passed a value for Y and though it was parsed as a date, the year information was invalid!`,
+        { T:T, utility: "DaysInMonth"}
+    >
+: Err<
+    `invalid-year/parse`,
+    `The utility DaysInMonth<T,[Y]> was passed a value for Y but it was unable to be parsed into a valid year!`,
+    { T:T, utility: "DaysInMonth"}
+>;
 
 
 type Days<
     T extends TwoDigitMonth | number,
-    Y extends FourDigitYear | undefined = undefined,
-    U extends TwoDigitMonth | number = T extends number
-        ? AsTwoDigitMonth<T> extends infer Month extends TwoDigitMonth
-            ? Month
-            : never
-        : As<Unbrand<T>, TwoDigitMonth>,
-    TLeap extends boolean | null = IsUndefined<Y> extends true
-        ? null
-        : Y extends FourDigitYear
-            ? IsLeapYear<Y> extends Error
-                ? null
-            : As<IsLeapYear<T>, boolean>
-            : never
-> = U extends "02"
-? IsNull<TLeap> extends true
-    ? 28
-    : IsTrue<TLeap> extends true
-        ? IsDoubleLeap<As<Y, FourDigitYear>> extends true
-            ? 30
-            : 29
-        : 28
-: U extends number
-    ? Contains<typeof ISO_DATE_30, AsTwoDigitMonth<U>> extends true
-        ? 30
-        : 31
-
-    : Contains<typeof ISO_DATE_30, U> extends true
+    Y extends NumberLike | undefined = undefined,
+> = Unbrand<T> extends "02" | 2
+? CalcFeb<Y>
+: AsTwoDigitMonth<T> extends IsoDate30
     ? 30
     : 31;
+
 
 type IsNumericMonthIndex<T> = T extends number
 ? number extends T
@@ -88,57 +90,62 @@ type IsNumericMonthIndex<T> = T extends number
 export type DaysInMonth<
     T,
     Y extends FourDigitYear | number | undefined = undefined
-> = T extends DateLike
-? IsNumericMonthIndex<T> extends true
-    ? IsUndefined<Y> extends true
-        ? Days<As<T, number>>
-    : IsFourDigitYear<Y> extends true
-        ? Days<As<T,number>, As<Y,FourDigitYear>>
-    : Y extends number
-        ? AsFourDigitYear<Y>
-    : Err<
-        `invalid-year/days-in-month`,
-        `A value was passed in as a year into DaysInMonth<T,[Y]> but it was neither a FourDigitYear string literal or a number!`,
-        { T: T, Y: Y }
-    >
-
-: ParseDate<T> extends Error
-    ? Err<
-        `invalid-date/days-in-month`,
-        `The DaysInMonth<T> utility tried to parse T as a date but it failed!`,
-        { T: T }
-    >
-: ParseDate<T> extends ParsedDate
-    ? ParseDate<T>[1] extends infer Month extends TwoDigitMonth
-        ? ParseDate<T>[0] extends infer Year extends FourDigitYear
-            ? Days<Month, Year>
-            : IsUndefined<Y> extends true
-                ? Days<Month>
-                : Days<Month, As<Y, FourDigitYear>>
-        : Err<
-            `unknown-month/days-in-month`,
-            `The DaysInMonth<T> utility got a valid date like value but it does not contain information about the month!`,
-            { T:T, month: ParseDate<T>[1]}
+> = As<
+T extends number
+? number extends T
+    ? 28 | 29 | 30 | 31 | Error
+    : IsNumericMonthIndex<T> extends true
+        ? DaysInMonth<AsTwoDigitMonth<T>, Y>
+        : Err<`a`>
+: string extends T
+    ? 28 | 29 | 30 | 31 | Error
+: T extends TwoDigitMonth
+    ? Unbrand<Y> extends NumberLike
+        ? Days<Unbrand<T>, Unbrand<Y>>
+        : Days<Unbrand<T>>
+: T extends DateLike
+    ? ParseDate<T> extends ParsedDate
+        ? ParseDate<T>[1] extends infer Month extends TwoDigitMonth
+            ? ParseDate<T>[0] extends infer Year extends FourDigitYear
+                ? Days<Unbrand<Month>, Unbrand<Year>>
+                : Unbrand<Y> extends NumberLike
+                    ? Days<Unbrand<Month>, Unbrand<Y>>
+                    : Days<Unbrand<Month>>
+        : Err<`invalid-month/missing`>
+    : ParseDate<T> extends Error
+        ? Err<
+            `invalid-month/parsing`,
+            `The generic T passed to DaysInMonth<T,[Y]> was date-like but when parsing produced the following error: ${ParseDate<T>["message"]}`,
+            { T: T, utility: "DaysInMonth" }
         >
     : Err<
-        `invalid-date/days-in-month`,
-        `An error occurred trying to parse T as a DateLike representation in the DaysInMonth<T> utility`,
-        { T: T }
+        `invalid-month/parsing`,
+        `The generic T passed to DaysInMonth<T,[Y]> was date-like but when parsing it did not produce a ParsedDate or an Error (this should not happen)!`,
+        { T: T, utility: "DaysInMonth" }
     >
 : T extends MonthName
-    ? IsUndefined<Y> extends true
-        ? Days<As<GetMonthNumber<T>, number>>
-        : Days<As<GetMonthNumber<T>, number>, As<Y,FourDigitYear>>
+    ? GetMonthNumber<T> extends number
+        ? Unbrand<Y> extends NumberLike
+            ? Days<GetMonthNumber<T>, Unbrand<Y>>
+            : Days<GetMonthNumber<T>>
+    : Err<
+        `invalid-month/name`,
+        `The generic T passed to DaysInMonth<T,[Y]> extends MonthName but GetMonthNumber<T> was unable to convert it to a number! This should not happen.`,
+        { T: T, utility: "DaysInMonth"}
+    >
 : T extends MonthAbbrev
-    ? IsUndefined<Y> extends true
-        ? Days<As<GetMonthNumber<T>, number>>
-        : Days<As<GetMonthNumber<T>, number>, As<Y,FourDigitYear>>
-: T extends TwoDigitMonth
-    ? IsUndefined<Y> extends true
-        ? Days<T>
-        : Days<T, As<Y,FourDigitYear>>
+    ? GetMonthNumber<T> extends number
+        ? Unbrand<Y> extends NumberLike
+            ? Days<GetMonthNumber<T>, Unbrand<Y>>
+            : Days<GetMonthNumber<T>>
+    : Err<
+        `invalid-month/abbrev`,
+        `The generic T passed to DaysInMonth<T,[Y]> extends MonthAbbrev but GetMonthNumber<T> was unable to convert it to a number! This should not happen.`,
+        { T: T, utility: "DaysInMonth"}
+    >
 : Err<
-    `invalid-date/days-in-month`,
-    `The DaysInMonth<T> utility expects T to be 'DateLike' or either the name of a month or an abbreviated name of a month but it was unable to be parsed into a date or month name!`,
-    { T: T }
->;
+    `invalid-month/type`,
+    `The generic T passed to DaysInMonth<T,[Y]> was not a type in which a month could be extracted!`,
+    { T: T, utility: "DaysInMonth" }
+>,
+number | Error>;

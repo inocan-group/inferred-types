@@ -1,13 +1,27 @@
-import type { EmptyObject } from "types/base-types";
-import type { IsEqual } from "types/boolean-logic";
 import type {
+    IsNull,
     IsIsoFullDate,
     IsIsoMonthDate,
     IsIsoYear,
-    IsIsoYearMonth
-} from "types/boolean-logic/operators/datetime";
-import type { IsNull } from "types/boolean-logic/operators/scalar/IsNull";
-import type { IsoDate } from "types/datetime";
+    IsIsoYearMonth,
+    IsEqual,
+    EmptyObject,
+    IsNever,
+    IsAny,
+    IsUnknown,
+    IsUnion,
+    UnionMemberExtends,
+    Some,
+    UnionToTuple,
+    Every
+} from "inferred-types/types";
+
+type Member<
+    T extends readonly unknown[]
+> = {
+    [K in keyof T]: IsIsoDate<T[K]>
+};
+
 
 /**
  * **IsIsoDate**`<T>`
@@ -22,22 +36,30 @@ import type { IsoDate } from "types/datetime";
  * **Note:** this _does not_ match on DateTime combinations; use `IsIsoDateTime`
  * for that.
  */
-export type IsIsoDate<T> = IsNull<T> extends true
+export type IsIsoDate<T> = [IsNever<T>] extends [true]
     ? false
-    : IsEqual<T, EmptyObject> extends true
-        ? false
-        : string extends T
-            ? boolean
-            : T extends IsoDate<"branded">
-                ? true
-                : T extends IsoDate<"normal">
-                    ? IsIsoFullDate<T> extends true //
-                        ? true
-                        : IsIsoYearMonth<T> extends true
-                            ? true
-                            : IsIsoMonthDate<T> extends true
-                                ? true
-                                : IsIsoYear<T> extends true
-                                    ? true
-                                    : false
-                    : false;
+: [IsAny<T>] extends [true]
+    ? boolean
+: [IsUnknown<T>] extends [true]
+    ? boolean
+: [IsNull<T>] extends [true]
+    ? false
+: [IsEqual<T, EmptyObject>] extends [true]
+    ? false
+: [string] extends [T]
+    ? boolean
+: [IsUnion<T>] extends [true]
+    ? [Every<Member<UnionToTuple<T>>, "equals", true>] extends [true]
+        ? true
+        : [Some<Member<UnionToTuple<T>>, "equals", true>] extends [true]
+        ? boolean
+        : false
+: [IsIsoFullDate<T>] extends [true]
+        ? true
+: [IsIsoYearMonth<T>] extends [true]
+    ? true
+: [IsIsoMonthDate<T>] extends [true]
+    ? true
+: [IsIsoYear<T>] extends [true]
+    ? true
+: false;

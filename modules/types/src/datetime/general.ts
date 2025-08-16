@@ -1,7 +1,6 @@
 import type {
     ISO_DATE_30,
-    ISO_DATE_31,
-    ISO_MONTH_WITH_30
+    ISO_DATE_31
 } from "inferred-types/constants";
 import type { IsFourDigitYear, IsTwoDigitMonth } from "types/boolean-logic";
 import type { Err } from "types/errors";
@@ -27,7 +26,6 @@ export type IsoDate30 = typeof ISO_DATE_30[number];
  */
 export type IsoDate31 = typeof ISO_DATE_31[number];
 
-export type IsoMonthsWith30Days = typeof ISO_MONTH_WITH_30[number];
 
 export type TwoDigitHour<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"

@@ -4,6 +4,7 @@ import {
     BrandSymbol,
     Expect,
     FourDigitYear,
+    IsBranded,
     IsTwoDigitDate,
     IsTwoDigitMonth,
     TakeDate,
@@ -13,7 +14,9 @@ import {
     TwoDigitDate,
     TwoDigitMonth,
     Unbrand,
+    GetBrand
 } from "inferred-types/types";
+
 
 describe("Brand & Unbrand", () => {
 
@@ -37,6 +40,46 @@ describe("Brand & Unbrand", () => {
             Expect<Test<Revert2, "equals", "2024">>,
         ];
     });
+
+
+    it("IsBranded<T>", () => {
+        type NotBranded = "02";
+        type Branded = TwoDigitMonth<NotBranded>;
+        type Stripped = Unbrand<Branded>;
+
+        type T1 = IsBranded<Branded>;
+        type F1 = IsBranded<NotBranded>;
+        type F2 = IsBranded<Stripped>;
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+        ];
+    });
+
+
+    it("GetBrand<T>", () => {
+        type NotBranded = "02";
+        type Branded = TwoDigitMonth<NotBranded>;
+        type DirectBrand = Brand<"02", "TwoDigitMonth">;
+        type Stripped = Unbrand<Branded>;
+
+        type B = GetBrand<Branded>;
+        type DB = GetBrand<DirectBrand>;
+        type NB1 = GetBrand<NotBranded>;
+        type NB2 = GetBrand<Stripped>;
+
+        type cases = [
+            Expect<Test<B, "equals", "TwoDigitMonth">>,
+            Expect<Test<DB, "equals", "TwoDigitMonth">>,
+            Expect<Test<NB1, "equals", undefined>>,
+            Expect<Test<NB2, "equals", undefined>>,
+        ];
+    });
+
+
+
 });
 
 
@@ -96,7 +139,6 @@ describe("Branded Types", () => {
     it("TwoDigitDate", () => {
         type T1 = TwoDigitDate<"12">;
         type F1 = TwoDigitDate<"1">;
-        type I1 = IsTwoDigitDate<"1">;
         type U1 = Unbrand<T1>;
 
         type cases = [

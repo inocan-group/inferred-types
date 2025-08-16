@@ -10,8 +10,69 @@ import {
     ParsedDate,
     ParseDate,
     IsTrue,
-    Unbrand
+    Unbrand,
+    IsBranded,
+    IsNegativeNumber,
+    IsFloat
 } from 'inferred-types/types';
+
+type IsNumericMonthIndex<T> = T extends number
+? number extends T
+    ? false
+: IsInteger<T> extends true
+    ? IsBetweenInclusively<T,1,12>
+    : false
+: false;
+
+type ExtractMonth<
+    T,
+    B extends boolean = false
+> = [IsNumericMonthIndex<T>] extends [true]
+    ? PadStart<As<T, number>, "0", 2> extends TwoDigitMonth
+        ? [IsTrue<B>] extends [true]
+            ? TwoDigitMonth<PadStart<As<T, number>, "0", 2>>
+            : PadStart<As<T, number>, "0", 2>
+    : Err<
+        "invalid-month/number",
+        `The generic T in AsTwoDigitMonth<T> was a number but when an attempt was made to convert it to a TwoDigitMonth format something went wrong. This should not happen.`,
+        { T: T, utility: "AsTwoDigitMonth" }
+    >
+: [T] extends [DateLike]
+    ? [T] extends [number]
+        ? [IsNegativeNumber<T>] extends [true]
+            ? Err<
+                `invalid-month/negative`,
+                `The generic T passed to AsTwoDigitMonth<T> was an integer number but it was negative!`,
+                { T: T, utility: "AsTwoDigitMonth" }
+            >
+        : [IsFloat<T>] extends [true]
+            ? Err<`invalid-month/float`>
+        : [IsTrue<B>] extends [true]
+            ? TwoDigitMonth<'branded'>
+            : TwoDigitMonth
+    : [ParseDate<T>] extends [ParsedDate]
+        ? [ParseDate<T>[1]] extends [infer Month extends TwoDigitMonth]
+            ? [IsTrue<B>] extends [true]
+                ? Month
+                : Unbrand<Month>
+
+            : Err<
+                `invalid-month/missing`,
+                `The type passed in as T to AsTwoDigitMonth<T> was parsed as a date but the date type is a IsoYearMonth or IsoYear type and therefore has no month information!`,
+                { T: T, utility: "AsTwoDigitMonth" }
+            >
+        : Err<
+            `invalid-month/parse`,
+            `While trying to produce a TwoDigitMonth, T was unable to be parsed as a date!`,
+            { utility: "AsTwoDigitMonth", T: T }
+        >
+
+: Err<
+    "invalid-month/type",
+    `The type T passed into AsTwoDigitMonth<T> was not date like!`,
+    { T: T }
+>;
+
 
 /**
  * **AsTwoDigitMonth**`<T,[B]>`
@@ -29,36 +90,22 @@ import {
 export type AsTwoDigitMonth<
     T,
     B extends boolean = false
-> = As<
-T extends DateLike
-? IsInteger<T> extends true
-    ? IsBetweenInclusively<As<T, number>, 1, 12> extends true
-        ? IsTrue<B> extends true
-            ? TwoDigitMonth<
-                As<PadStart<As<T, number>, "0", 2>, TwoDigitMonth>
-            >
-            : PadStart<As<T, number>, "0", 2>
-        : IsTrue<B> extends true
-            ? TwoDigitMonth<"branded">
-            : TwoDigitMonth<"normal">
-: IsDateLike<T> extends true
-    ? ParseDate<T> extends ParsedDate
-        ? IsTrue<B> extends true
-            ? ParseDate<T>[1]
-            : Unbrand<ParseDate<T>[1]>
-    : Err<
-        `invalid-date/as-two-digit-month`,
-        `While trying to produce a TwoDigitMonth, T was unable to be parsed as a date!`,
-        { utility: "AsTwoDigitMonth", T: T }
-    >
-: Err<
-    `invalid-date/as-two-digit-month`,
-        `While trying to produce a TwoDigitMonth, T was unable to be parsed as a date!`,
-        { utility: "AsTwoDigitMonth", T: T }
->
-: Err<
-    "invalid-date/as-two-digit-month",
-    `The type T passed into AsTwoDigitMonth<T> could not be parsed into a date!`,
-    { date: T }
->,
-TwoDigitMonth | Error>;
+> = [number] extends [T]
+? [IsTrue<B>] extends [true]
+    ? TwoDigitMonth<"branded"> | Error
+    : TwoDigitMonth | Error
+: [string] extends [T]
+    ? [IsTrue<B>] extends [true]
+        ? TwoDigitMonth<"branded"> | Error
+        : TwoDigitMonth | Error
+: [T] extends [TwoDigitMonth]
+    ? IsTrue<B> extends true
+        ? [IsBranded<T>] extends [true]
+            ? T // already branded
+            : TwoDigitMonth<T> // brand
+        : Unbrand<T>
+: As<
+    ExtractMonth<Unbrand<T>,B>,
+    TwoDigitMonth | Error
+>;
+

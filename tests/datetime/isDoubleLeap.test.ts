@@ -11,13 +11,14 @@ describe("Double Leap Year", () => {
             type T1 = IsDoubleLeap<"1408">;
             type T2 = IsDoubleLeap<"1604">;
             type T3 = IsDoubleLeap<"1620">;
+            type T4 = IsDoubleLeap<"1636">;
 
             type cases = [
                 // Known double leap years from DOUBLE_LEAP_MODERN
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
                 Expect<Test<T3, "equals", true>>,
-                Expect<Test<IsDoubleLeap<"1636">, "equals", true>>,
+                Expect<Test<T4, "equals", true>>,
                 Expect<Test<IsDoubleLeap<"1748">, "equals", true>>,
                 Expect<Test<IsDoubleLeap<"1756">, "equals", true>>,
                 Expect<Test<IsDoubleLeap<"1976">, "equals", true>>,
@@ -70,7 +71,6 @@ describe("Double Leap Year", () => {
             type F3 = IsDoubleLeap<"2023">;
 
             type cases = [
-                // ISO date format tests - double leap years
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
                 Expect<Test<T3, "equals", true>>,

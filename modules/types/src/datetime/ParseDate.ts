@@ -1,3 +1,4 @@
+import { Unbrand } from "inferred-types/types";
 import type { As, IsFourDigitYear, IsLeapYear, IsTwoDigitDate } from "types/boolean-logic";
 import type { FourDigitYear, ParsedTime, ParseTime, TwoDigitDate, TwoDigitMonth } from "types/datetime";
 import type { Err, ErrContext } from "types/errors";
@@ -62,9 +63,8 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
     }
         ? TakeDate<Rest, "-", Year, Month> extends {
             take: infer D extends TwoDigitDate<"branded">;
-            rest: infer Rest extends string;
+            rest: infer _Rest extends string;
         }
-            ? IsTwoDigitDate<D, Year, Month> extends true
                 ? As<
                     [
                         Year,
@@ -74,11 +74,7 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
                     ],
                     ParsedDate
                 >
-                : Err<
-                    `parse-date/date`,
-                `This date [${D}] initially appeared valid but when considering both year and month it is clear that the date is incorrect. This could be due to the length of the month in general or could also be related to whether the given year is a leap year or not.`,
-                { year: Year; month: Month; date: D; rest: Rest; leap: IsLeapYear<Year> }
-                >
+
 
             : ErrContext<
                 As<TakeDate<Rest, "-", Year, Month>, Error>,
@@ -188,20 +184,21 @@ type ParseYearMonth<T extends string> = TakeYear<T> extends {
  */
 export type ParseDate<
     T,
-> = T extends string
-    ? string extends T
+    U = Unbrand<T>
+> = U extends string
+    ? string extends U
         ? ParsedDate | Error // wide string
-        : T extends `--${infer Rest extends string}`
+        : U extends `--${infer Rest extends string}`
             ? ParseMonthDate<Rest>
         // ----
-            : T extends `-${infer Rest extends string}`
+            : U extends `-${infer Rest extends string}`
                 ? ParseYearMonth<Rest>
             // ----
-                : T extends `${string}T${string}`
-                    ? ParseDateTime<T>
-                    : StrLen<T> extends 4
-                        ? ParseYear<T>
-                        : ParseFullDate<T>
+                : U extends `${string}T${string}`
+                    ? ParseDateTime<U>
+                    : StrLen<U> extends 4
+                        ? ParseYear<U>
+                        : ParseFullDate<U>
     : Err<
         `parse-date/wrong-type`,
         `A non-string type was passed into ParseDate<T>!`
