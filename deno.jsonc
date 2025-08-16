@@ -2,7 +2,7 @@
     "name": "@yankeeinlondon/inferred-types",
     "version": "0.55.23",
     "license": "MIT",
-    "exports": "./src/index.ts",
+    "exports": "./modules/inferred-types/src/index.ts",
     "tasks": {
         "test": "deno test --allow-net",
         "lint": "deno lint src/",
@@ -25,7 +25,7 @@
             "README.md",
             "package.json",
             "deno.jsonc",
-            "src"
+            "modules"
         ],
         "exclude": [
             ".ai/",
@@ -35,8 +35,6 @@
             "node_modules/",
             ".github/",
             "*.config.*",
-            "package.json",
-            "package-lock.json",
             "pnpm-lock.yaml"
         ]
     }
