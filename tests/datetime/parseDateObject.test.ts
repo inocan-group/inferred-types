@@ -114,6 +114,12 @@ describe("parseDateObject()", () => {
     it("parses Luxon DateTime object in UTC", () => {
         const l = DateTime.fromISO("2024-01-15T12:34:56.789Z");
         const result = parseDateObject(l);
+        
+        // Luxon converts UTC to local timezone, so we need to check what that is
+        // In UTC environments (like CI/CD), it stays as "Z"
+        // In local environments, it becomes the local offset (e.g., "-08:00" for PST)
+        const expectedTimezone = l.zone.name === 'UTC' ? 'Z' : l.toFormat('ZZ');
+        
         const expected = {
             dateType: "datetime",
             hasTime: true,
@@ -124,7 +130,7 @@ describe("parseDateObject()", () => {
             minute: "34",
             second: "56",
             ms: "789",
-            timezone: "-08:00" // Luxon is applying local timezone offset (PST)
+            timezone: expectedTimezone
         };
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
