@@ -3,7 +3,8 @@ import { isAfter, asDate } from "inferred-types/runtime";
 import {
     Test,
     Expect,
-    DateLike
+    DateLike,
+    IsAfter
 } from "inferred-types/types";
 
 describe("isAfter()", () => {
@@ -20,10 +21,17 @@ describe("isAfter()", () => {
             expect(checkAfterEarlier(later)).toBe(true);
             expect(checkAfterEarlier(same)).toBe(false);
             expect(checkAfterEarlier(earlier)).toBe(false);
+
+            // Type tests - Date objects should return boolean (not literal)
+            type CheckFn = typeof checkAfterEarlier;
+            type Result = ReturnType<CheckFn>;
+            type cases = [
+                Expect<Test<Result, "equals", boolean>>
+            ];
         });
 
         it("should work with ISO date strings", () => {
-            const checkAfter2024 = isAfter("2024-01-01");
+            const checkAfter2024 = isAfter("2024-01-01" as DateLike);
 
             expect(checkAfter2024("2024-01-02")).toBe(true);
             expect(checkAfter2024("2024-01-01")).toBe(false);
@@ -47,6 +55,14 @@ describe("isAfter()", () => {
 
             expect(checkAfterTimestamp1(timestamp2)).toBe(true);
             expect(checkAfterTimestamp1(timestamp1)).toBe(false);
+
+            // Type tests - number literals should give exact results
+            type Result1 = IsAfter<typeof timestamp2, typeof timestamp1>;
+            type Result2 = IsAfter<typeof timestamp1, typeof timestamp1>;
+            type cases = [
+                Expect<Test<Result1, "equals", true>>,
+                Expect<Test<Result2, "equals", false>>
+            ];
         });
 
         it("should work with year numbers", () => {
@@ -55,10 +71,20 @@ describe("isAfter()", () => {
             expect(checkAfter2023(2024)).toBe(true);
             expect(checkAfter2023(2023)).toBe(false);
             expect(checkAfter2023(2022)).toBe(false);
+
+            // Type tests - year literals should give exact results
+            type CheckAfter2023 = IsAfter<2024, 2023>;
+            type CheckSame = IsAfter<2023, 2023>;
+            type CheckBefore = IsAfter<2022, 2023>;
+            type cases = [
+                Expect<Test<CheckAfter2023, "equals", true>>,
+                Expect<Test<CheckSame, "equals", false>>,
+                Expect<Test<CheckBefore, "equals", false>>
+            ];
         });
 
         it("should handle mixed date types", () => {
-            const checkAfterIsoDate = isAfter("2024-01-01");
+            const checkAfterIsoDate = isAfter("2024-01-01" as DateLike);
             const dateObj = new Date(2024, 0, 2); // Jan 2, 2024
             const timestamp = 1704240000; // 2024-01-03 00:00:00 UTC
 
@@ -95,18 +121,56 @@ describe("isAfter()", () => {
 
     describe("type-level behavior", () => {
 
+        it("should provide exact literal types for comprehensive date comparisons", () => {
+            // Test comprehensive date literal comparisons
+            type YearComparisons = [
+                Expect<Test<IsAfter<2025, 2024>, "equals", true>>,
+                Expect<Test<IsAfter<2024, 2025>, "equals", false>>,
+                Expect<Test<IsAfter<2024, 2024>, "equals", false>>
+            ];
+
+            // Test ISO date string comparisons
+            type DateComparisons = [
+                Expect<Test<IsAfter<"2024-12-31", "2024-01-01">, "equals", true>>,
+                Expect<Test<IsAfter<"2024-01-01", "2024-12-31">, "equals", false>>,
+                Expect<Test<IsAfter<"2024-06-15", "2024-06-14">, "equals", true>>,
+                Expect<Test<IsAfter<"2024-02-29", "2024-02-28">, "equals", true>>, // Leap year
+                Expect<Test<IsAfter<"2024-03-01", "2024-02-29">, "equals", true>>
+            ];
+
+            // Test ISO datetime string comparisons
+            type DateTimeComparisons = [
+                Expect<Test<IsAfter<"2024-01-01T12:00:00Z", "2024-01-01T11:00:00Z">, "equals", true>>,
+                Expect<Test<IsAfter<"2024-01-01T11:00:00Z", "2024-01-01T12:00:00Z">, "equals", false>>,
+                Expect<Test<IsAfter<"2024-01-02T00:00:00Z", "2024-01-01T23:59:59Z">, "equals", true>>,
+                Expect<Test<IsAfter<"2024-01-01T00:00:01Z", "2024-01-01T00:00:00Z">, "equals", true>>
+            ];
+
+            // Test mixed precision comparisons  
+            type MixedPrecisionComparisons = [
+                Expect<Test<IsAfter<"2024-01-01", "2024-01-01T00:00:00Z">, "equals", false>>,
+                Expect<Test<IsAfter<"2024-01-01T00:00:00Z", "2024-01-01">, "equals", false>>,
+                Expect<Test<IsAfter<"2024-01-02", "2024-01-01T23:59:59Z">, "equals", true>>,
+                Expect<Test<IsAfter<"2024-01-01T00:00:01Z", "2024-01-01">, "equals", true>>
+            ];
+        });
+
         it("should infer correct return types for literal dates", () => {
-            const checkAfter2024 = isAfter("2024-01-01");
-            const result1 = checkAfter2024("2024-01-02");
-            const result2 = checkAfter2024("2023-12-31");
+            const checkAfter2024 = isAfter("2024-01-01" as const);
+            const result1 = checkAfter2024("2024-01-02" as const);
+            const result2 = checkAfter2024("2023-12-31" as const);
 
             // Runtime validation - these should work correctly
             expect(result1).toBe(true);
             expect(result2).toBe(false);
 
-            // Basic type validation
-            expect(typeof result1).toBe("boolean");
-            expect(typeof result2).toBe("boolean");
+            // Type tests - literal date string comparisons should be exact
+            type DirectTest1 = IsAfter<"2024-01-02", "2024-01-01">;
+            type DirectTest2 = IsAfter<"2023-12-31", "2024-01-01">;
+            type cases = [
+                Expect<Test<DirectTest1, "equals", true>>,
+                Expect<Test<DirectTest2, "equals", false>>
+            ];
         });
 
         it("should handle wide types correctly", () => {
@@ -152,6 +216,16 @@ describe("isAfter()", () => {
             // Runtime validation
             expect(result2024).toBe(true);
             expect(result2022).toBe(false);
+
+            // Type tests for literal year comparisons - should be exact
+            type Check2024After2023 = IsAfter<2024, 2023>;
+            type Check2022After2023 = IsAfter<2022, 2023>;
+            type Check2023After2023 = IsAfter<2023, 2023>;
+            type cases = [
+                Expect<Test<Check2024After2023, "equals", true>>,
+                Expect<Test<Check2022After2023, "equals", false>>,
+                Expect<Test<Check2023After2023, "equals", false>>
+            ];
         });
 
         it("should handle ISO datetime literal comparisons", () => {
@@ -166,6 +240,16 @@ describe("isAfter()", () => {
             // Runtime validation - since asDate strips time, only different days matter
             expect(result1).toBe(true);
             expect(result2).toBe(false);
+
+            // Type tests - ISO datetime literal comparisons should be exact
+            type DirectDateTimeTest1 = IsAfter<"2024-01-02T13:00:00Z", "2024-01-01T12:00:00Z">;
+            type DirectDateTimeTest2 = IsAfter<"2023-12-31T11:00:00Z", "2024-01-01T12:00:00Z">;
+            type SameDayDiffTime = IsAfter<"2024-01-01T23:59:59Z", "2024-01-01T00:00:00Z">;
+            type cases = [
+                Expect<Test<DirectDateTimeTest1, "equals", true>>,
+                Expect<Test<DirectDateTimeTest2, "equals", false>>,
+                Expect<Test<SameDayDiffTime, "equals", true>>
+            ];
         });
 
         it("should handle same date comparisons", () => {
@@ -175,6 +259,16 @@ describe("isAfter()", () => {
 
             // Same dates should not be "after" each other
             expect(result).toBe(false);
+
+            // Type tests for same date comparison - should be exact false
+            type SameDateCheck = IsAfter<"2024-01-01", "2024-01-01">;
+            type SameDateTimeCheck = IsAfter<"2024-01-01T12:00:00Z", "2024-01-01T12:00:00Z">;
+            type MixedPrecisionSame = IsAfter<"2024-01-01", "2024-01-01T00:00:00Z">;
+            type cases = [
+                Expect<Test<SameDateCheck, "equals", false>>,
+                Expect<Test<SameDateTimeCheck, "equals", false>>,
+                Expect<Test<MixedPrecisionSame, "equals", false>>
+            ];
         });
     });
 
@@ -188,7 +282,7 @@ describe("isAfter()", () => {
                 "2023-12-15"
             ];
 
-            const afterNewYear = dates.filter(isAfter("2024-01-01"));
+            const afterNewYear = dates.filter(isAfter("2024-01-01" as DateLike));
 
             expect(afterNewYear).toEqual([
                 "2024-01-15",
