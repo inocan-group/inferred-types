@@ -13,6 +13,9 @@ jobs:
     name: publish
     if: contains(github.event.head_commit.message, 'release v')
     needs: test  # This ensures tests pass before publishing
+    permissions:
+      contents: read
+      id-token: write  # Required for OIDC authentication with JSR
     uses: yankeeinlondon/gha/.github/workflows/publish.yml@main
     with:
       jsr_scope: '@yankeeinlondon'              # Optional: scope for JSR if package.json has root-level name
