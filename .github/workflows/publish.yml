@@ -1,33 +1,12 @@
 name: Publish
 on:
-  workflow_run:
-    workflows: ["Testing"]
-    types: [completed]
-    branches: [main]
+  push:
+    tags:
+        - 'v*'
 
 jobs:
-  check-release:
-    runs-on: ubuntu-latest
-    outputs:
-      should-release: ${{ steps.check.outputs.should-release }}
-    steps:
-      - name: Check if release commit
-        id: check
-        run: |
-          MESSAGE="${{ github.event.workflow_run.head_commit.message || '' }}"
-          if [[ "$MESSAGE" == *"release v"* ]]; then
-            echo "should-release=true" >> $GITHUB_OUTPUT
-            echo "📦 Release detected: $MESSAGE"
-          else
-            echo "should-release=false" >> $GITHUB_OUTPUT
-            echo "⏭️ Not a release - skipping publish"
-          fi
 
   publish:
-    needs: check-release
-    if: |
-      github.event.workflow_run.conclusion == 'success' &&
-      needs.check-release.outputs.should-release == 'true'
     uses: yankeeinlondon/gha/.github/workflows/publish.yml@main
     with:
       jsr_scope: '@yankeeinlondon'
