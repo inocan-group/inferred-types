@@ -54,6 +54,7 @@ frontend/.vite-ssg-dist/**
 
 .tsbuildinfo
 trace/*
+traces/
 .trace/*
 
 .name
