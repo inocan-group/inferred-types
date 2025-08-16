@@ -1,4 +1,5 @@
 import { ISO_DATE_30 } from "inferred-types/constants";
+import { IsBetweenInclusively } from '../numeric-literals/IsBetween';
 import {
     As,
     AsTwoDigitMonth,
@@ -17,7 +18,9 @@ import {
     IsLeapYear,
     IsUndefined,
     IsTrue,
-    IsDoubleLeap
+    IsDoubleLeap,
+    IsInteger,
+    IsFourDigitYear
 } from "inferred-types/types";
 
 
@@ -53,6 +56,14 @@ type Days<
     ? 30
     : 31;
 
+type IsNumericMonthIndex<T> = T extends number
+? number extends T
+    ? false
+: IsInteger<T> extends true
+    ? IsBetweenInclusively<T,1,12>
+    : false
+: false;
+
 /**
  * **DaysInMonth**`<T,[Y]>`
  *
@@ -63,6 +74,8 @@ type Days<
  *     month representation it will be used to calculate the days of the month
  *     - You can also pass in a month name (e.g., "January", "February", etc.)
  *     - You can also pass in a month abbreviation (e.g., "Jan", "Feb", etc.)
+ *     - You can also pass in a two digit month number (e.g., 01, 02, etc.)
+ *     - You can also pass in a numeric value between 1 and 12
  *
  * - Leap Year (and double leap)
  *     - if `T` has month and _year_ info then leap years and double leap years
@@ -74,9 +87,22 @@ type Days<
  */
 export type DaysInMonth<
     T,
-    Y = undefined
+    Y extends FourDigitYear | number | undefined = undefined
 > = T extends DateLike
-? ParseDate<T> extends Error
+? IsNumericMonthIndex<T> extends true
+    ? IsUndefined<Y> extends true
+        ? Days<As<T, number>>
+    : IsFourDigitYear<Y> extends true
+        ? Days<As<T,number>, As<Y,FourDigitYear>>
+    : Y extends number
+        ? AsFourDigitYear<Y>
+    : Err<
+        `invalid-year/days-in-month`,
+        `A value was passed in as a year into DaysInMonth<T,[Y]> but it was neither a FourDigitYear string literal or a number!`,
+        { T: T, Y: Y }
+    >
+
+: ParseDate<T> extends Error
     ? Err<
         `invalid-date/days-in-month`,
         `The DaysInMonth<T> utility tried to parse T as a date but it failed!`,
@@ -90,7 +116,7 @@ export type DaysInMonth<
                 ? Days<Month>
                 : Days<Month, As<Y, FourDigitYear>>
         : Err<
-            `missing-month/days-in-month`,
+            `unknown-month/days-in-month`,
             `The DaysInMonth<T> utility got a valid date like value but it does not contain information about the month!`,
             { T:T, month: ParseDate<T>[1]}
         >

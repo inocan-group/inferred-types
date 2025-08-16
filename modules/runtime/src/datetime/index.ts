@@ -1,10 +1,12 @@
 export * from "./asDate";
 export * from "./asDateTime";
 export * from "./asEpochTimestamp";
+export * from "./asFourDigitYear";
 export * from "./asIsoDate";
 export * from "./asIsoDateTime";
 export * from "./asTwoDigitMonth";
 export * from "./dateObjectToIso";
+export * from "./daysInMonth";
 export * from "./getDaysBetween";
 export * from "./getMonthAbbrev";
 export * from "./getMonthName";
@@ -34,3 +36,5 @@ export * from "./parseDateObject";
 export * from "./parseIsoDate";
 export * from "./parseNumericDate";
 export * from "./toIsoDateString";
+
+
