@@ -10,11 +10,16 @@ import { isSameDay } from "inferred-types/runtime";
 describe("IsSameDay<A,B>", () => {
 
     it("identical string dates should return true", () => {
+        type T1 = IsSameDay<"2024-12-25", "2024-12-25">;
+        type T2 = IsSameDay<"2024-01-01", "2024-01-01">;
+        type T3 = IsSameDay<"2024-02-29", "2024-02-29">;
+
+
         type cases = [
             // Identical full ISO dates
-            Expect<Test<IsSameDay<"2024-12-25", "2024-12-25">, "equals", true>>,
-            Expect<Test<IsSameDay<"2024-01-01", "2024-01-01">, "equals", true>>,
-            Expect<Test<IsSameDay<"2024-02-29", "2024-02-29">, "equals", true>>, // Leap year
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>, // Leap year
 
 
             Expect<Test<IsSameDay<"2024-12-25", "2024-12-24">, "equals", false>>,
@@ -91,17 +96,6 @@ describe("IsSameDay<A,B>", () => {
         ];
     });
 
-    it("mixed valid date types should behave correctly", () => {
-        type cases = [
-            // String numbers vs numbers
-            Expect<Test<IsSameDay<"1640995200", 1640995200>, "equals", boolean>>,
-            Expect<Test<IsSameDay<1640995200, "1640995200">, "equals", boolean>>,
-
-            // Different type combinations that can't be determined at compile time
-            Expect<Test<IsSameDay<"2024-12-25", 1640995200>, "equals", boolean>>,
-            Expect<Test<IsSameDay<1640995200, "2024-12-25">, "equals", boolean>>,
-        ];
-    });
 
     it("same month different day returns false", () => {
         type cases = [

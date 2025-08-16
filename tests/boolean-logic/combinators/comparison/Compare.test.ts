@@ -17,10 +17,6 @@ import { StartsWith } from "inferred-types";
 
 describe("Compare<TVal,TOp,TComparator> type util", () => {
 
-
-
-
-
     describe("general", () => {
 
         it("equals", () => {
@@ -443,7 +439,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
             type T1 = Compare<D, "sameDay", [D]>;
             type T2 = Compare<"2023-10-15T00:00Z", "sameDay", [D]>;
-            type A1 = IsSameDay<D, string>;
+            type A1 = IsSameDay<D, D>;
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,

@@ -2,25 +2,43 @@ import {
     As,
     Err,
     FourDigitYear,
+    IsAny,
+    IsBranded,
+    IsFourDigitYear,
     IsGreaterThan,
     IsInteger,
     IsNegativeNumber,
     IsTrue,
-    PadStart
+    PadStart,
+    Unbrand
 } from "inferred-types/types";
 
 
 type Convert<
     T,
     B extends boolean = false
-> = T extends number
+> = T extends string
+? IsBranded<T> extends true
+    ? Convert<Unbrand<T>,B>
+    : IsFourDigitYear<T> extends true
+        ? IsTrue<B> extends true
+            ? FourDigitYear<As<T, `${number}`>>
+            : T
+        : T extends `${number}`
+            ? IsFourDigitYear<PadStart<T,"0",4>> extends true
+                ? IsTrue<B> extends true
+                    ? FourDigitYear<As<PadStart<T,"0",4>, `${number}`>>
+                    : PadStart<T,"0",4>
+            : Err<"year-invalid/type">
+        : Err<"year-invalid/type">
+: T extends number
 ? number extends T
     ? IsTrue<B> extends true
         ? FourDigitYear<"branded"> | Error
         : FourDigitYear | Error
 : IsInteger<T> extends false
     ? Err<
-        `year-invalid/not-integer`,
+        `year-invalid/float`,
         `The generic passed into AsFourDigitYear<T> was a number but not an integer!`,
         { T: T }
     >
@@ -32,7 +50,7 @@ type Convert<
     >
 : IsNegativeNumber<T> extends true
     ? Err<
-        `year-invalid/negative-number`,
+        `year-invalid/negative`,
         `The generic passed into AsFourDigitYear<T> was a NEGATIVE number. This is not allowed!`,
         { T:T }
     >
@@ -58,7 +76,12 @@ type Convert<
 export type AsFourDigitYear<
     T,
     B extends boolean = false
-> = As<
+> = [IsAny<T>] extends [true]
+? IsTrue<B> extends true
+    ? FourDigitYear<"branded"> | Error
+    : FourDigitYear | Error
+
+: As<
     Convert<T,B>,
     IsTrue<B> extends true
         ? FourDigitYear<"branded"> | Error
