@@ -42,7 +42,7 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
     });
 
 
-    it.only("VueRef and IsRef<T>", () => {
+    it("VueRef and IsRef<T>", () => {
         const test_ref = ref("foobar");
 
         expect(isVueRef(test_ref)).toBe(true);
