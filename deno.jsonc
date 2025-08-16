@@ -1,0 +1,43 @@
+{
+    "name": "@yankeeinlondon/inferred-types",
+    "version": "0.55.23",
+    "license": "MIT",
+    "exports": "./src/index.ts",
+    "tasks": {
+        "test": "deno test --allow-net",
+        "lint": "deno lint src/",
+        "fmt": "deno fmt src/"
+    },
+    "imports": {
+        "inferred-types": "npm:inferred-types@^0.55.23",
+        "undici": "npm:undici@^7.10.0",
+        "~/types": "./src/types.ts"
+    },
+    "compilerOptions": {
+        "strict": true,
+        "lib": [
+            "deno.ns",
+            "es2022"
+        ]
+    },
+    "publish": {
+        "include": [
+            "README.md",
+            "package.json",
+            "deno.jsonc",
+            "src"
+        ],
+        "exclude": [
+            ".ai/",
+            ".claude/",
+            "CLAUDE.md",
+            "tests/",
+            "node_modules/",
+            ".github/",
+            "*.config.*",
+            "package.json",
+            "package-lock.json",
+            "pnpm-lock.yaml"
+        ]
+    }
+}
