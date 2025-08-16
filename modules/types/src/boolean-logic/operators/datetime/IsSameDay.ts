@@ -12,51 +12,51 @@ import type {
     StripAfter,
 } from "inferred-types/types";
 
-type IsWide<A,B> = string extends A
-? true
-: string extends B
-? true
-: number extends A
-? true
-: number extends B
-? true
-: false;
-
-type BothNumeric<A,B> = A extends number
-? B extends number
+type IsWide<A, B> = string extends A
     ? true
-    : false
-: false;
+    : string extends B
+        ? true
+        : number extends A
+            ? true
+            : number extends B
+                ? true
+                : false;
 
-type BothStrings<A,B> = A extends string
-? B extends string
-    ? true
-    : false
-: false;
+type BothNumeric<A, B> = A extends number
+    ? B extends number
+        ? true
+        : false
+    : false;
+
+type BothStrings<A, B> = A extends string
+    ? B extends string
+        ? true
+        : false
+    : false;
 
 type AreDateLike<A, B> = IsDateLike<A> extends true
-? IsDateLike<B> extends true
-    ? true
-    : false
-: false;
+    ? IsDateLike<B> extends true
+        ? true
+        : false
+    : false;
 
-type EitherAreDateObject<A,B> = IsJsDate<A> extends true
+type EitherAreDateObject<A, B> = IsJsDate<A> extends true
     ? true
-: IsJsDate<B> extends true
-    ? true
-: IsMoment<A> extends true
-    ? true
-: IsMoment<B> extends true
-    ? true
-: IsDayJs<A> extends true
-    ? true
-: IsDayJs<B> extends true
-    ? true
-: IsLuxonDateTime<A> extends true
-    ? true
-: IsLuxonDateTime<B> extends true
-    ? true
-: false
+    : IsJsDate<B> extends true
+        ? true
+        : IsMoment<A> extends true
+            ? true
+            : IsMoment<B> extends true
+                ? true
+                : IsDayJs<A> extends true
+                    ? true
+                    : IsDayJs<B> extends true
+                        ? true
+                        : IsLuxonDateTime<A> extends true
+                            ? true
+                            : IsLuxonDateTime<B> extends true
+                                ? true
+                                : false
 
 ;
 
@@ -84,32 +84,31 @@ type EitherAreDateObject<A,B> = IsJsDate<A> extends true
 export type IsSameDay<
     A,
     B
-> = IsWide<A,B> extends true
-? boolean
-: BothNumeric<A,B> extends true
-    ? IsFloat<A> extends true
-        ? Err<`invalid-date/float`>
-    : IsFloat<B> extends true
-        ? Err<`invalid-date/float`>
-    : IsNegativeNumber<B> extends true
-        ? Err<`invalid-date/negative`>
-    : IsNegativeNumber<B> extends true
-        ? Err<`invalid-date/negative`>
-    : IsEqual<A,B> extends true
-        ? true
-    : boolean
-: BothStrings<A,B> extends true
-    ? AreDateLike<A,B> extends true
-        ? IsEqual<A,B> extends true
-            ? true
-        : IsEqual<
-            StripAfter<As<A, string>,"T">,
-            StripAfter<As<B, string>,"T">
-        > extends true
-            ? true
-            : false
-    : Err<`invalid-date/type`>
-: EitherAreDateObject<A,B> extends true
+> = IsWide<A, B> extends true
     ? boolean
-: Err<`invalid-date/type`>;
-
+    : BothNumeric<A, B> extends true
+        ? IsFloat<A> extends true
+            ? Err<`invalid-date/float`>
+            : IsFloat<B> extends true
+                ? Err<`invalid-date/float`>
+                : IsNegativeNumber<B> extends true
+                    ? Err<`invalid-date/negative`>
+                    : IsNegativeNumber<B> extends true
+                        ? Err<`invalid-date/negative`>
+                        : IsEqual<A, B> extends true
+                            ? true
+                            : boolean
+        : BothStrings<A, B> extends true
+            ? AreDateLike<A, B> extends true
+                ? IsEqual<A, B> extends true
+                    ? true
+                    : IsEqual<
+                        StripAfter<As<A, string>, "T">,
+                        StripAfter<As<B, string>, "T">
+                    > extends true
+                        ? true
+                        : false
+                : Err<`invalid-date/type`>
+            : EitherAreDateObject<A, B> extends true
+                ? boolean
+                : Err<`invalid-date/type`>;

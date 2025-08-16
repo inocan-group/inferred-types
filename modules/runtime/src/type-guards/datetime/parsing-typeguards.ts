@@ -59,7 +59,7 @@ export function isThreeDigitMillisecond(s: unknown): s is ThreeDigitMillisecond<
  */
 export function isTwoDigitMonth<T, B extends boolean = true>(
     val: T,
-    branded: B = true as B
+    _branded: B = true as B
 ): val is IsTrue<B> extends true ? TwoDigitMonth<As<T, TwoDigitMonth>> & T : T {
     return isString(val) && /^(?:0[1-9]|1[0-2])$/.test(val);
 }

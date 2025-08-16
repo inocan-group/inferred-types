@@ -1,19 +1,18 @@
 import type {
-    IsNull,
+    EmptyObject,
+    Every,
+    IsAny,
+    IsEqual,
     IsIsoFullDate,
     IsIsoMonthDate,
     IsIsoYear,
     IsIsoYearMonth,
-    IsEqual,
-    EmptyObject,
     IsNever,
-    IsAny,
-    IsUnknown,
+    IsNull,
     IsUnion,
-    UnionMemberExtends,
+    IsUnknown,
     Some,
-    UnionToTuple,
-    Every
+    UnionToTuple
 } from "inferred-types/types";
 
 type Member<
@@ -21,7 +20,6 @@ type Member<
 > = {
     [K in keyof T]: IsIsoDate<T[K]>
 };
-
 
 /**
  * **IsIsoDate**`<T>`
@@ -38,28 +36,28 @@ type Member<
  */
 export type IsIsoDate<T> = [IsNever<T>] extends [true]
     ? false
-: [IsAny<T>] extends [true]
-    ? boolean
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: [IsNull<T>] extends [true]
-    ? false
-: [IsEqual<T, EmptyObject>] extends [true]
-    ? false
-: [string] extends [T]
-    ? boolean
-: [IsUnion<T>] extends [true]
-    ? [Every<Member<UnionToTuple<T>>, "equals", true>] extends [true]
-        ? true
-        : [Some<Member<UnionToTuple<T>>, "equals", true>] extends [true]
+    : [IsAny<T>] extends [true]
         ? boolean
-        : false
-: [IsIsoFullDate<T>] extends [true]
-        ? true
-: [IsIsoYearMonth<T>] extends [true]
-    ? true
-: [IsIsoMonthDate<T>] extends [true]
-    ? true
-: [IsIsoYear<T>] extends [true]
-    ? true
-: false;
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : [IsNull<T>] extends [true]
+                ? false
+                : [IsEqual<T, EmptyObject>] extends [true]
+                    ? false
+                    : [string] extends [T]
+                        ? boolean
+                        : [IsUnion<T>] extends [true]
+                            ? [Every<Member<UnionToTuple<T>>, "equals", true>] extends [true]
+                                ? true
+                                : [Some<Member<UnionToTuple<T>>, "equals", true>] extends [true]
+                                    ? boolean
+                                    : false
+                            : [IsIsoFullDate<T>] extends [true]
+                                ? true
+                                : [IsIsoYearMonth<T>] extends [true]
+                                    ? true
+                                    : [IsIsoMonthDate<T>] extends [true]
+                                        ? true
+                                        : [IsIsoYear<T>] extends [true]
+                                            ? true
+                                            : false;

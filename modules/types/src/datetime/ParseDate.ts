@@ -1,5 +1,5 @@
-import { Unbrand } from "inferred-types/types";
-import type { As, IsFourDigitYear, IsLeapYear, IsTwoDigitDate } from "types/boolean-logic";
+import type { Unbrand } from "inferred-types/types";
+import type { As, IsFourDigitYear } from "types/boolean-logic";
 import type { FourDigitYear, ParsedTime, ParseTime, TwoDigitDate, TwoDigitMonth } from "types/datetime";
 import type { Err, ErrContext } from "types/errors";
 import type { Split, StrLen, TakeDate, TakeMonth, TakeYear } from "types/string-literals";
@@ -75,12 +75,11 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
                     ],
                     ParsedDate
                 >
-            : Err<
-                `parse-date/leftover`,
+                : Err<
+                    `parse-date/leftover`,
                 `While parsing what appeared to be an ISO Date, we found extra content at the end which is invalid: ${Rest}`,
                 { year: Year; month: Month; date: Date; rest: Rest }
-            >
-
+                >
 
             : ErrContext<
                 As<TakeDate<Rest, "-", Year, Month>, Error>,

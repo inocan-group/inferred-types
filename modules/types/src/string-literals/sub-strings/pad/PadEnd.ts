@@ -1,4 +1,4 @@
-import { AsString, StringLength, IsGreaterThanOrEqual, Concat, Err, Repeat, Subtract } from "inferred-types/types";
+import type { AsString, Concat, Err, IsGreaterThanOrEqual, Repeat, StringLength, Subtract } from "inferred-types/types";
 
 /**
  * **PadEnd**`<TContent,TChar,TLen>`
@@ -17,17 +17,17 @@ export type PadEnd<
     TChar extends string,
     TLen extends number
 > = StringLength<TChar> extends 1
-? IsGreaterThanOrEqual<
-    StringLength<AsString<TContent>>,
-    TLen
-> extends true
-    ? AsString<TContent>
-    : Concat<[
-        AsString<TContent>,
-        Repeat<TChar, Subtract<TLen, StringLength<AsString<TContent>>>>
-    ]>
-: Err<
-    `invalid-char/pad-end`,
-    `The PadEnd<TContent,TChar,TLen> utility expects TChar to have exactly 1 character that condition was not met!`,
-    { char: TChar, content: TContent, len: TLen}
->
+    ? IsGreaterThanOrEqual<
+        StringLength<AsString<TContent>>,
+        TLen
+    > extends true
+        ? AsString<TContent>
+        : Concat<[
+            AsString<TContent>,
+            Repeat<TChar, Subtract<TLen, StringLength<AsString<TContent>>>>
+        ]>
+    : Err<
+        `invalid-char/pad-end`,
+        `The PadEnd<TContent,TChar,TLen> utility expects TChar to have exactly 1 character that condition was not met!`,
+        { char: TChar; content: TContent; len: TLen }
+    >;

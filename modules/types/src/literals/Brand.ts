@@ -1,4 +1,4 @@
-import type { As, Container, IndexOf, IsEqual, Not,  Scalar } from "inferred-types/types";
+import type { Scalar } from "inferred-types/types";
 
 export declare const BrandSymbol: unique symbol;
 
@@ -43,8 +43,5 @@ export type IsBranded<T> = typeof BrandSymbol extends keyof T ? true : false;
  */
 export type GetBrand<T> = typeof BrandSymbol extends keyof T
     ? T[typeof BrandSymbol]
-        // IndexOf<As<T, Container>, typeof BrandSymbol>
+    // IndexOf<As<T, Container>, typeof BrandSymbol>
     : undefined;
-
-
-

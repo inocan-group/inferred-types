@@ -36,5 +36,3 @@ export * from "./parseDateObject";
 export * from "./parseIsoDate";
 export * from "./parseNumericDate";
 export * from "./toIsoDateString";
-
-

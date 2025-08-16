@@ -1,4 +1,3 @@
-import {ISO_DATE_30} from "inferred-types/constants";
 import type {
     DaysInMonth,
     FourDigitYear,
@@ -6,15 +5,16 @@ import type {
     MonthName,
     TwoDigitMonth
 } from "inferred-types/types";
+import { ISO_DATE_30 } from "inferred-types/constants";
 import {
     asTwoDigitMonth,
-    isTwoDigitMonth,
-    getMonthNumber,
-    isLeapYear,
-    isError,
     err,
+    getMonthNumber,
+    isDefined,
     isDoubleLeap,
-    isDefined
+    isError,
+    isLeapYear,
+    isTwoDigitMonth
 } from "inferred-types/runtime";
 
 /**
@@ -42,27 +42,27 @@ export function daysInMonth<
         ? Number(month)
         : getMonthNumber(month) as number | Error;
 
-    if(isError(monthNum)) {
+    if (isError(monthNum)) {
         return err(
             "unknown-month/days-in-month",
             `The daysInMonth() function was unable to determine the month from the value passed in: ${month}. Remember that if you're using month names or abbreviations they must map to the MonthName and MonthAbbrev types which capitalize the names.`,
             { month, year }
-        ) as unknown as DaysInMonth<TMonth,TYear>
+        ) as unknown as DaysInMonth<TMonth, TYear>;
     }
 
     const twoDigitMonth = asTwoDigitMonth(monthNum);
 
     return (
         monthNum === 2
-        ? isDefined(year)
-            ? isLeapYear(year)
-                ? isDoubleLeap(year)
-                    ? 30
-                    : 29
-            : 28
-        : 28
-    : ISO_DATE_30.includes(twoDigitMonth as any)
-        ? 30
-        : 31
-    ) as DaysInMonth<TMonth,TYear>
+            ? isDefined(year)
+                ? isLeapYear(year)
+                    ? isDoubleLeap(year)
+                        ? 30
+                        : 29
+                    : 28
+                : 28
+            : ISO_DATE_30.includes(twoDigitMonth as any)
+                ? 30
+                : 31
+    ) as DaysInMonth<TMonth, TYear>;
 }

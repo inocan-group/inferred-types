@@ -26,7 +26,6 @@ export type IsoDate30 = typeof ISO_DATE_30[number];
  */
 export type IsoDate31 = typeof ISO_DATE_31[number];
 
-
 export type TwoDigitHour<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
 >
@@ -140,15 +139,15 @@ export type TwoDigitMonth<
             ? `${"0" | "1"}${number}` & `${number}`
             : T extends "branded"
                 ? Brand<`${number}` & TwoDigitMonth, "TwoDigitMonth">
-            : T extends `${number}`
-                ? [IsTwoDigitMonth<T>] extends [true]
-                    ? Brand<T, "TwoDigitMonth">
-                    : Err<
-                        `invalid-type/month`,
+                : T extends `${number}`
+                    ? [IsTwoDigitMonth<T>] extends [true]
+                        ? Brand<T, "TwoDigitMonth">
+                        : Err<
+                            `invalid-type/month`,
             `The type passed into 'TwoDigitMonth<${T}>' is not a valid two digit month!`,
             { month: T }
-                    >
-                : never;
+                        >
+                    : never;
 
 /**
  * a union of valid month numbers

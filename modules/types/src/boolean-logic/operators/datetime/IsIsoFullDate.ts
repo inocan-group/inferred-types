@@ -1,17 +1,16 @@
 import type {
-    As,
+    AsNumber,
     FourDigitYear,
     IsAny,
+    IsDoubleLeap,
+    IsLeapYear,
     IsNever,
+    IsoDate30,
     IsUnknown,
     ParseDate,
     TwoDigitDate,
     TwoDigitMonth,
-    AsNumber,
-    IsLeapYear,
-    IsDoubleLeap,
-    Unbrand,
-    IsoDate30
+    Unbrand
 } from "inferred-types/types";
 
 // Simplified validation that avoids complex default parameters
@@ -57,21 +56,19 @@ type IsValidDate<
  */
 export type IsIsoFullDate<T> = [IsAny<T>] extends [true]
     ? boolean
-: [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: T extends string
-    ? string extends T
-        ? boolean
-    : ParseDate<T> extends [
-        infer Year extends FourDigitYear,
-        infer Month extends TwoDigitMonth,
-        infer Date extends TwoDigitDate,
-        null
-    ]
-        ? IsValidDate<Year, Month, AsNumber<Unbrand<Date>>>
-        : false
-: false;
-
-
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : T extends string
+                ? string extends T
+                    ? boolean
+                    : ParseDate<T> extends [
+                        infer Year extends FourDigitYear,
+                        infer Month extends TwoDigitMonth,
+                        infer Date extends TwoDigitDate,
+                        null
+                    ]
+                        ? IsValidDate<Year, Month, AsNumber<Unbrand<Date>>>
+                        : false
+                : false;

@@ -100,7 +100,7 @@ export function asDate<
             const year = Number(input);
             return new Date(Date.UTC(year, 0, 1, 0, 0, 0, 0));
         }
-        
+
         // Check if numeric input is a 4-digit year (between 1000 and 9999)
         if (isNumber(input) && input >= 1000 && input <= 9999 && Math.floor(input) === input) {
             // Treat as a year value

@@ -19,7 +19,7 @@ function hasIntersectionToken<T extends LexerState>(_state: T) {
 
 export function inputTokenParser<TToken extends string>(token: TToken) {
     const lexer = createLexer(
-        takeAtomicToken,
+        takeAtomicToken as any
     );
 
     const result = lexer(token);
@@ -27,10 +27,10 @@ export function inputTokenParser<TToken extends string>(token: TToken) {
     if (isLexerState(result)) {
         if (result.parse.trim() === "") {
             if (hasUnionToken(result)) {
-
+                // TODO
             }
             else if (hasIntersectionToken(result)) {
-
+                // TODO
             }
 
             return result;

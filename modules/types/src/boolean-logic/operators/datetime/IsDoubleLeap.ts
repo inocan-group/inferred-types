@@ -1,4 +1,4 @@
-import { Unbrand } from "inferred-types/types";
+import type { Unbrand } from "inferred-types/types";
 import type { AsDateMeta, AsFourDigitYear, DateMeta, FourDigitYear, IsoModernDoubleLeap } from "types/datetime";
 
 export type IsDoubleLeap<T> = T extends object
@@ -13,12 +13,12 @@ export type IsDoubleLeap<T> = T extends object
                         : false
                     : false
                 : false
-    : T extends number
-        ? number extends T
-            ? boolean
-            : AsFourDigitYear<T> extends Error
-                ? false
-                : AsFourDigitYear<T> extends IsoModernDoubleLeap
-                    ? true
-                    : false
-    : false;
+        : T extends number
+            ? number extends T
+                ? boolean
+                : AsFourDigitYear<T> extends Error
+                    ? false
+                    : AsFourDigitYear<T> extends IsoModernDoubleLeap
+                        ? true
+                        : false
+            : false;
