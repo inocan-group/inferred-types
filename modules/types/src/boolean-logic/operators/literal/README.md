@@ -147,6 +147,7 @@ type T3 = IsLiteralLikeArray<[ ...string[] ], true>;
     ```
 
 - the big question is how to handle "optional" keys
+
     - it's not all that common to have optional parameters in an array but it is _very_ common to have that in an object
     - because of this we typically _do_ want to group up object's with or without optional keys.
     - for that reason we provide an optional generic `U` which let's you explicitly switch between allowing or disallowing but the default is to allow optional keys:
