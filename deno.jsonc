@@ -16,9 +16,6 @@
         "@inferred-types/runtime": "./modules/runtime/src/index.ts",
         "@inferred-types/constants": "./modules/constants/src/index.ts",
         "runtime/type-guards": "./modules/runtime/src/type-guards/index.ts",
-        "runtime/type-guards/higher-order": "./modules/runtime/src/type-guards/higher-order/index.ts",
-        "runtime/type-guards/datetime": "./modules/runtime/src/type-guards/datetime/index.ts",
-        "runtime/type-guards/numeric": "./modules/runtime/src/type-guards/numeric/index.ts",
         "runtime/boolean-logic": "./modules/runtime/src/boolean-logic/index.ts",
         "runtime/errors": "./modules/runtime/src/errors/index.ts",
         "runtime/constants": "./modules/runtime/src/constants/index.ts",
@@ -31,8 +28,7 @@
         "runtime/lists": "./modules/runtime/src/lists/index.ts",
         "runtime/combinators": "./modules/runtime/src/combinators/index.ts",
         "runtime/runtime-types": "./modules/runtime/src/runtime-types/index.ts",
-        "runtime/take/input-tokens/takeAtomicToken": "./modules/runtime/src/take/input-tokens/takeAtomicToken.ts",
-        "types/datetime": "./modules/types/src/datetime/index.ts"
+        "runtime/take": "./modules/runtime/src/take/index.ts"
     },
     "compilerOptions": {
         "strict": true,

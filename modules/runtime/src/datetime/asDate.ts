@@ -20,7 +20,7 @@ import {
     isLuxonDate,
     isMoment,
     isTemporalDate,
-} from "runtime/type-guards/datetime";
+} from "runtime/type-guards";
 
 /**
  * **asDate**`(input)`

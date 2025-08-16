@@ -8,7 +8,7 @@ import type {
     IsUnion
 } from "inferred-types/types";
 import { err } from "runtime/errors";
-import { isIsoDate } from "runtime/type-guards/datetime";
+import { isIsoDate } from "runtime/type-guards";
 
 type Return<T extends DateMeta> = [IsUnion<T["dateType"]>] extends [true]
     ? IsoDate | IsoDateTime

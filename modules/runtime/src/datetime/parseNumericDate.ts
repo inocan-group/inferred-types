@@ -2,7 +2,7 @@ import { parseIsoDate } from "runtime/datetime";
 import { err } from "runtime/errors";
 import {
     isEpochInSeconds,
-} from "runtime/type-guards/datetime";
+} from "runtime/type-guards";
 
 /**
  * Parses a number as a `epoch` timestamp (detects whether in

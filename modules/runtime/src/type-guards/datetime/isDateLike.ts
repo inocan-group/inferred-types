@@ -1,13 +1,5 @@
 import type { DateLike } from "inferred-types/types";
-import { isInteger, isNumber, isString } from "runtime/type-guards";
-import {
-    isDate,
-    isIsoDate,
-    isIsoDateTime,
-    isLuxonDate,
-    isMoment,
-    isTemporalDate
-} from "runtime/type-guards/datetime";
+import { isDate, isInteger, isIsoDate, isIsoDateTime, isLuxonDate, isMoment, isNumber, isString, isTemporalDate } from "runtime/type-guards";
 
 /**
  * A type guard which checks if `val` is _date like_:

@@ -12,7 +12,7 @@ import {
     isMonthAbbrev,
     isMonthName,
     isParsedDate
-} from "runtime/type-guards/datetime";
+} from "runtime/type-guards";
 
 /**
  * **getMonthNumber**`(date | MonthName | MonthAbbrev)`

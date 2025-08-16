@@ -1,6 +1,5 @@
 import type { EndsWith } from "inferred-types/types";
-import { isString } from "runtime/type-guards";
-import { isNumber } from "runtime/type-guards/numeric";
+import { isNumber, isString } from "runtime/type-guards";
 
 /**
  * **endsWith**(endingWith) => (val) -> true | false
