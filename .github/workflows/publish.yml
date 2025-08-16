@@ -1,18 +1,29 @@
-name: On Push
-
+name: Publish
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+
 jobs:
+  check-release:
+    runs-on: ubuntu-latest
+    outputs:
+      should-release: ${{ steps.check.outputs.should-release }}
+    steps:
+      - id: check
+        run: |
+          if [[ "${{ github.event.head_commit.message }}" == *"release v"* ]]; then
+            echo "should-release=true" >> $GITHUB_OUTPUT
+          else
+            echo "should-release=false" >> $GITHUB_OUTPUT
+          fi
   test:
-    name: testing
+    needs: [check-release]
     uses: yankeeinlondon/gha/.github/workflows/test.yml@main
 
   publish:
     name: publish
     if: contains(github.event.head_commit.message, 'release v')
-    needs: test  # This ensures tests pass before publishing
+    needs: [ check-release, test ]
     uses: yankeeinlondon/gha/.github/workflows/publish.yml@main
     with:
       # Optional: scope for JSR if package.json has root-level name
