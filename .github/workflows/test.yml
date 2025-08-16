@@ -7,8 +7,6 @@ on:
 jobs:
   test:
     name: testing
-    # Skip if it's a release commit (publish.yml will handle it)
-    if: ${{ !contains(github.event.head_commit.message, 'release v') }}
     uses: yankeeinlondon/gha/.github/workflows/test.yml@main
     with:
       os: '["ubuntu-latest", "windows-latest", "macos-latest"]'
