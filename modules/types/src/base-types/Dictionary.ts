@@ -1,4 +1,4 @@
-import type { ObjectKey } from "./ObjectKey";
+import type { ObjectKey } from "inferred-types/types";
 
 /**
  * **Dictionary**`<[K],[V]>`
@@ -10,5 +10,5 @@ import type { ObjectKey } from "./ObjectKey";
  */
 export type Dictionary<
     K extends ObjectKey = ObjectKey,
-    V = any,
+    V = unknown,
 > = Record<K, V>;

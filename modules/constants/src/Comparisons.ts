@@ -18,6 +18,8 @@ export const COMPARISON_OPERATIONS = [
     "objectKeyGreaterThanOrEqual",
     "objectKeyLessThan",
     "objectKeyLessThanOrEqual",
+    "objectKeyEquals",
+    "objectKeyExtends",
     "betweenInclusively",
     "betweenExclusively",
     "equals",
@@ -34,8 +36,7 @@ export const COMPARISON_OPERATIONS = [
     "falsy",
     "true",
     "false",
-    "objectKeyEquals",
-    "objectKeyExtends",
     "returnEquals",
-    "returnExtends"
+    "returnExtends",
+    "isTemplateLiteral"
 ] as const;

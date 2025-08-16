@@ -1,4 +1,4 @@
-import type { IsNever } from "../operators";
+import type { IsNever } from "inferred-types/types";
 
 /**
  * **WhenNever**`<T, [TMapTo]>`

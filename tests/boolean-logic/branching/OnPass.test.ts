@@ -1,8 +1,8 @@
 import {
     Expect,
     Test,
-    ErrorCondition,
     OnPass,
+    Err,
 } from "inferred-types/types";
 import { describe, it } from "vitest";
 
@@ -17,12 +17,12 @@ describe("OnPass<TTest,TPass", () => {
 
         type FF = OnPass<false, "pass">;
         type FN = OnPass<never, "pass">;
-        type FE = OnPass<ErrorCondition<"bad-juju">, "pass">;
+        type FE = OnPass<Err<"bad-juju">, "pass">;
 
         type Mapper = { false: "mapped"; never: "mapped"; error: "mapped" };
 
         type RF = OnPass<false, "mapped", Mapper>;
-        type RE = OnPass<ErrorCondition, "mapped", { error: "mapped" }>;
+        type RE = OnPass<Err, "mapped", { error: "mapped" }>;
 
 
         type cases = [
@@ -32,7 +32,7 @@ describe("OnPass<TTest,TPass", () => {
 
             Expect<Test<FF, "equals",  false>>,
             Expect<Test<FN, "equals",  never>>,
-            Expect<Test<FE, "equals",  ErrorCondition<"bad-juju">>>,
+            Expect<Test<FE, "isError",  "bad-juju">>,
 
             Expect<Test<RF, "equals",  "mapped">>,
             Expect<Test<RE, "equals",  "mapped">>,

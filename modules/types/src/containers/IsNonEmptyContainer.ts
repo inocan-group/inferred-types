@@ -1,6 +1,4 @@
-import type { Container } from "inferred-types/types";
-
-import type { IsEmptyContainer } from "./IsEmptyContainer";
+import type { Container, IsEmptyContainer } from "inferred-types/types";
 
 /**
  * **NonEmptyContainer**`<T>`

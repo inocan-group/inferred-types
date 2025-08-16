@@ -1,10 +1,24 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { ErrorCondition, Extends, Or, Test } from "inferred-types/types";
+import {  Or, Expect, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
 
 describe("Or<T>", () => {
+
+
+    it("global error conditions", () => {
+        type E1 = Or<never, {err: "error"}>;
+        type E2 = Or<any, { err: "error"}>;
+        type F1 = Or<never>;
+        type F2 = Or<any>;
+
+        type cases = [
+            Expect<Test<E1, "isError",  "invalid/or">>,
+            Expect<Test<E2, "isError",  "invalid/or">>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
+        ];
+    });
 
     it("boolean literals", () => {
         type T1 = Or<[true, false, true]>; // true
@@ -13,7 +27,7 @@ describe("Or<T>", () => {
         type T4 = Or<[true, false, boolean]>; // true
         type T5 = Or<[false, false, boolean]>; // boolean
         type T6 = Or<[boolean, false, false]>; // boolean
-        type T7 = Or<never>;
+
 
         type cases = [
             Expect<Test<T1, "equals",  true>>, //
@@ -21,6 +35,7 @@ describe("Or<T>", () => {
             Expect<Test<T3, "equals",  false>>,
             Expect<Test<T4, "equals",  true>>,
             Expect<Test<T5, "equals",  boolean>>,
+            Expect<Test<T6, "equals",  boolean>>,
         ];
     });
 
@@ -40,6 +55,32 @@ describe("Or<T>", () => {
             Expect<Test<T5, "equals",  boolean>>,
         ];
     });
+
+
+    it("any as element", () => {
+        type E1 = Or<[true, false, any], { err: "error" }>;
+        type E2 = Or<[any, false, any], { err: "error" }>;
+        type E3 = Or<[any], { err: "error" }>;
+
+        type cases = [
+            Expect<Test<E1, "isError", "invalid/or">>,
+            Expect<Test<E2, "isError", "invalid/or">>,
+            Expect<Test<E3, "isError", "invalid/or">>,
+        ];
+    });
+
+    it("never as element", () => {
+        type E1 = Or<[true, false, never], { err: "error" }>;
+        type E2 = Or<[never, false, never], { err: "error" }>;
+        type E3 = Or<[never], { err: "error" }>;
+
+        type cases = [
+            Expect<Test<E1, "isError", "invalid/or">>,
+            Expect<Test<E2, "isError", "invalid/or">>,
+            Expect<Test<E3, "isError", "invalid/or">>,
+        ];
+    });
+
 
 
 });

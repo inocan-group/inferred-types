@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Test, Expect } from "inferred-types/types";
-import { getYesterday } from "../../modules/runtime/src/datetime/getYesterday";
+import { Test, Expect, IsoDate } from "inferred-types/types";
+import { getYesterday } from "inferred-types/runtime";
 
 describe("getYesterday() -> Iso8601Date", () => {
 
@@ -64,7 +64,7 @@ describe("getYesterday() -> Iso8601Date", () => {
             // Should return a string (Iso8601Date)
             Expect<Test<typeof result, "extends", string>>,
             // Should be specifically an Iso8601Date type
-            Expect<Test<typeof result, "extends", `${number}-${number}-${number}`>>,
+            Expect<Test<typeof result, "extends", IsoDate>>,
         ];
     });
 });

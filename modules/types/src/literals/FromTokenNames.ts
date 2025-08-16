@@ -1,5 +1,4 @@
-import type { ObjectKey } from "../base-types/ObjectKey";
-import type { IsNever } from "../boolean-logic/operators/IsNever";
+import type { IsNever, ObjectKey } from "inferred-types/types";
 
 export type WideTokenNames = "string"
     | "number"

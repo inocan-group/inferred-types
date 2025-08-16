@@ -1,4 +1,4 @@
-import type { FnDefn, FnWithDescription } from "../functions/FnWithDescription";
+import type { FnDefn, FnWithDescription } from "inferred-types/types";
 
 /**
  * **KvFnDefn**

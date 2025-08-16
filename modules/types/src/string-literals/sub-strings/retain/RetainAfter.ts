@@ -1,4 +1,5 @@
 import type {
+    As,
     FindMaxLength,
     If,
     IfAllLiteral,
@@ -48,11 +49,14 @@ export type RetainAfter<
     TStr extends string,
     TBreak extends string,
     TInclude extends boolean = false,
-> = IsNever<_RetainAfter<TStr, TBreak, TInclude>> extends true
-    ? ""
-    : IsUnion<_RetainAfter<TStr, TBreak, TInclude>> extends true
-        ? FindMaxLength<UnionToTuple<_RetainAfter<TStr, TBreak, TInclude>>>
-        : _RetainAfter<TStr, TBreak, TInclude>;
+> = As<
+    IsNever<_RetainAfter<TStr, TBreak, TInclude>> extends true
+        ? ""
+        : IsUnion<_RetainAfter<TStr, TBreak, TInclude>> extends true
+            ? FindMaxLength<UnionToTuple<_RetainAfter<TStr, TBreak, TInclude>>>
+            : _RetainAfter<TStr, TBreak, TInclude>,
+    string
+>;
 
 export type RetainAfterLast<
     TStr extends string,

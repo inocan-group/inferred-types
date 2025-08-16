@@ -41,8 +41,8 @@ export type TwColor = TwNeutralColor | TwVibrantColor | TwStaticColor;
  * All of the [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
  * luminosity levels.
  */
-export type TwLuminosity =
-    | "50"
+export type TwLuminosity
+    = | "50"
     | "100"
     | "200"
     | "300"
@@ -62,8 +62,8 @@ export type TwLuminosity =
  *
  * **Related:** `TwColorOption`, `TwColorWithLuminosityOpacity`, `TwColor`, `TwNeutralColor`
  */
-export type TwColorWithLuminosity =
-    | `${TwNeutralColor}-${TwLuminosity}`
+export type TwColorWithLuminosity
+    = | `${TwNeutralColor}-${TwLuminosity}`
     | `${TwVibrantColor}-${TwLuminosity}`
     | TwStaticColor;
 

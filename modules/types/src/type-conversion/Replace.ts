@@ -1,4 +1,5 @@
 import type {
+    As,
     If,
     IsEqual,
     IsStringLiteral,
@@ -7,7 +8,7 @@ import type {
 type Process<
     TText extends string,
     TFind extends string,
-    TReplace extends string,
+    TReplace extends (string | number | boolean),
 > = TText extends ""
     ? If<IsEqual<TFind, "">, TReplace, "">
     : TFind extends ""
@@ -45,7 +46,7 @@ type Process<
 export type Replace<
     TText extends string,
     TFind extends string,
-    TReplace extends string,
+    TReplace extends string | number | boolean,
 > = IsStringLiteral<TText> extends true
-    ? Process<TText, TFind, TReplace>
+    ? As<Process<TText, TFind, TReplace>, string>
     : string;

@@ -1,7 +1,7 @@
 /**
  * **EmptyObject**
  *
- * An object/dictionary with explicitly **no** defined properties.
+ * An object/dictionary with **no** defined properties.
  */
 export type EmptyObject = NonNullable<unknown>;
 

@@ -1,7 +1,7 @@
 import type { CssGlobal } from "./global";
 
-export type CssBreak =
-    | "auto"
+export type CssBreak
+    = | "auto"
     | "avoid"
     | "always"
     | "all"
@@ -15,8 +15,8 @@ export type CssBreak =
     | "region"
     | CssGlobal;
 
-export type CssBreakInside =
-    | "auto"
+export type CssBreakInside
+    = | "auto"
     | "avoid"
     | "avoid-page"
     | "avoid-column"

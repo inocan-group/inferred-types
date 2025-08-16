@@ -1,5 +1,9 @@
-import type { SmartMark, SmartMarkPlus } from "./SmartMark";
-import type { StandardMark } from "./StandardMark";
+import type {
+
+    SmartMark,
+    SmartMarkPlus,
+    StandardMark
+} from "types/string-literals/character-sets/quotation-marks";
 
 /**
  * **QuotationMark**

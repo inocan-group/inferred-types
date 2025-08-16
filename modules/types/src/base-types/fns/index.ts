@@ -7,4 +7,5 @@ export * from "./NodeCallback";
 export * from "./OptionalParamFn";
 export * from "./ParameterlessFn";
 export * from "./RegularFn";
+export * from "./TakeFunction";
 export * from "./TypedFunction";

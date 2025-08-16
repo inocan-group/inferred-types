@@ -41,8 +41,8 @@ export * from "./us";
 /**
  * URLs which point to prominent news sites around the world.
  */
-export type NewsUrls =
-    | AustralianNewsUrls
+export type NewsUrls
+    = | AustralianNewsUrls
     | BelgianNewsUrls
     | CanadianNewsUrls
     | ChineseNewsUrls

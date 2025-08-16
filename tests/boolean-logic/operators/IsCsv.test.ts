@@ -17,7 +17,6 @@ describe("IsCsv<T,[K]>", () => {
     type F3 = IsCsv<"foo,,bar">;
 
 
-    // @ts-ignore
     type cases = [
         Expect<Test<T1, "equals", true>>,
         Expect<Test<T2, "equals", true>>,

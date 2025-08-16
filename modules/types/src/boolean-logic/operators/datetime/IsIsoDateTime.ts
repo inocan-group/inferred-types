@@ -1,77 +1,64 @@
 import type {
-    FourDigitYear,
-    IsoDateTimeLike,
-    NumericChar,
-    ParseDate,
-    ParsedTime,
-    TwoDigitMinute,
-    TwoDigitMonth
+    AsDateMeta,
+    DateMeta,
+    IsBoolean,
+    IsNull,
+    IsoDateTime,
+    IsUnion,
+    UnionToTuple
 } from "inferred-types/types";
 
-/**
- * **IsIso8601DateTime**`<T>`
- *
- * boolean operator which test whether `T` is a valid ISO 8601 DateTime string.
- */
-export type IsIsoDateTime<T> = T extends IsoDateTimeLike
-    ? ParseDate<T> extends [
-        FourDigitYear,
-        TwoDigitMonth,
-        TwoDigitMinute,
-        ParsedTime
-    ]
-        ? true
-        : ParseDate<T> extends [
-            null,
-            TwoDigitMonth,
-            TwoDigitMinute,
-            ParsedTime
-        ]
-            ? true
-            : ParseDate<T> extends [
-                FourDigitYear,
-                TwoDigitMonth,
-                null,
-                ParsedTime
-            ]
-                ? true
-                : false
-    : false;
+type TupleMap<T extends readonly any[]> = {
+    [K in keyof T]: IsIsoDateTime<T[K]>
+};
+
+// Helper to handle union results
+type HandleUnionResult<T extends readonly boolean[]>
+    = T extends readonly [infer First, ...infer Rest]
+        ? First extends true
+            ? Rest extends readonly boolean[]
+                ? HandleUnionResult<Rest> extends true
+                    ? true
+                    : boolean
+                : boolean
+            : First extends false
+                ? Rest extends readonly boolean[]
+                    ? HandleUnionResult<Rest> extends false
+                        ? false
+                        : boolean
+                    : boolean
+                : boolean
+        : true;
 
 /**
- * **IsIsoYearMonthTime**
+ * **IsIsoDateTime**`<T>`
  *
- * A boolean operator which tests whether `T` is ISO DateTime
- * which specifies year and month but not date.
+ * Boolean operator which test whether `T` is a valid ISO 8601
+ * DateTime string.
  *
- * **Related:** `IsIsoYearMonth`
+ * **Note:**
+ * - if a type passes this test then it guaranteed to be a valid
+ * ISO DateTime string
+ * - in the type system you can't upgrade it to the "blessed"
+ * branded type of `IsoDateTime` but if your runtime uses the
+ * `isIsoDateTime()` type guard it will pass and be upgraded.
  */
-export type IsIsoYearMonthTime<T> = T extends `-${NumericChar}${string}T${string}`
-    ? ParseDate<T> extends [
-        FourDigitYear,
-        TwoDigitMonth,
-        null,
-        ParsedTime
-    ]
-        ? true
-        : false
-    : false;
-
-/**
- * **IsIsoMonthDateTime**
- *
- * A boolean operator which tests whether `T` is ISO DateTime
- * which specifies month and date but not year.
- *
- * **Related:** `IsIsoMonthDate`
- */
-export type IsIsoMonthDateTime<T> = T extends `--${string}T${string}`
-    ? ParseDate<T> extends [
-        null,
-        TwoDigitMonth,
-        TwoDigitMinute,
-        ParsedTime
-    ]
-        ? true
-        : false
-    : false;
+export type IsIsoDateTime<T> = IsNull<T> extends true
+    ? false
+    : IsBoolean<T> extends true
+        ? false
+        : IsUnion<T> extends true
+            ? HandleUnionResult<TupleMap<UnionToTuple<T>>>
+            : T extends string
+                ? string extends T
+                    ? boolean
+                    : T extends IsoDateTime<"branded">
+                        ? true
+                        : AsDateMeta<T> extends Error
+                            ? false
+                            : AsDateMeta<T> extends DateMeta
+                                ? AsDateMeta<T>["dateType"] extends "datetime"
+                                    ? true
+                                    : false
+                                : false
+                : false;

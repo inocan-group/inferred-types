@@ -1,4 +1,12 @@
-import { getToday, isDate, isIsoExplicitDate, isLuxonDate, isMoment, isString, stripAfter } from "inferred-types/runtime";
+import { getToday } from "runtime/datetime";
+import { stripAfter } from "runtime/string-literals";
+import {
+    isDate,
+    isIsoExplicitDate,
+    isLuxonDate,
+    isMoment,
+    isString
+} from "runtime/type-guards";
 
 /**
  * **isToday`(val)`**

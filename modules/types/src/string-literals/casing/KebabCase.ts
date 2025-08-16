@@ -13,15 +13,13 @@ type Process<
     TString extends string,
     TPreserve extends boolean = false,
 > = TPreserve extends true
-    ? // preserve
-    Concat<[
+    ? Concat<[
         LeftWhitespace<TString>,
         KebabCase<TString, false>,
         RightWhitespace<TString>,
     ]>
 
-    : // remove whitespace
-    string extends TString
+    : string extends TString
         ? string
         : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
             ? KebabCase<`${Lowercase<Begin>}-${Rest}`>

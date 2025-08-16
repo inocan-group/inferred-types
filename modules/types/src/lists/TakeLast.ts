@@ -1,4 +1,8 @@
 import type {
+    GetOptionalElementCount,
+    HasOptionalElements,
+    MakeOptional,
+    Min,
     Reverse,
     TakeFirst,
 } from "inferred-types/types";
@@ -15,7 +19,25 @@ import type {
 export type TakeLast<
     TContent extends readonly unknown[],
     TLen extends number,
-> = Reverse<TakeFirst<
-    Reverse<TContent>,
-    TLen
->>;
+    TReq extends readonly unknown[] = Required<TContent>
+> = HasOptionalElements<TContent> extends true
+    ? MakeOptional<
+        Reverse<TakeFirst<
+            Reverse<TReq>,
+            TLen
+        >> extends readonly unknown[]
+            ? Reverse<TakeFirst<
+                Reverse<TReq>,
+                TLen
+            >>
+            : [],
+        Min<[
+            GetOptionalElementCount<TContent>,
+            TLen
+        ]>
+    >
+
+    : Reverse<TakeFirst<
+        Reverse<TContent>,
+        TLen
+    >>;

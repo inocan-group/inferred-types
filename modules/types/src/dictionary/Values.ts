@@ -1,77 +1,78 @@
 import type {
-    AfterFirst,
-    AnyObject,
-    Dictionary,
-    First,
-    IsObjectLiteral,
+    Container,
+    Err,
+    IsAny,
+    IsNever,
+    IsTuple,
     Keys,
-    ObjectKey,
-    StringKeys,
+    UnionMemberEquals,
 } from "inferred-types/types";
 
-type Process<
-    TKeys extends readonly ObjectKey[],
-    TObj extends Record<ObjectKey, unknown>,
-    TResult extends readonly unknown[] = [],
-> = [] extends TKeys
-    ? TResult
-    : Process<
-        AfterFirst<TKeys>,
-        TObj,
-        [
-            ...TResult,
-            First<TKeys> extends keyof TObj
-                ? TObj[First<TKeys>]
-                : never,
-        ]
-    >;
+type Validate<T extends Container> = [IsAny<T>] extends [true]
+    ? Err<`invalid-type/values`, `Values<T> was called where T was the 'any' type`>
+    : [IsNever<T>] extends [true]
+        ? Err<`invalid-type/values`, `Values<T> was called where T was the 'never' type`>
+        : T;
 
-type ProcessStr<
-    TKeys extends readonly string[],
-    TObj extends AnyObject,
-    TResult extends readonly unknown[] = [],
+// Single-pass implementation with bounded recursion to avoid deep instantiation errors
+type GetValues<
+    TObj extends Container,
+    TKeys extends readonly (PropertyKey | (PropertyKey | undefined))[],
+    TAcc extends readonly unknown[] = [],
 > = [] extends TKeys
-    ? TResult
-    : Process<
-        AfterFirst<TKeys>,
-        TObj,
-        [
-            ...TResult,
-            First<TKeys> extends keyof TObj
-                ? TObj[First<TKeys>]
-                : never,
-        ]
-    >;
+    ? TAcc // Return what we have so far to avoid deep recursion error
+    : Required<TKeys> extends readonly [infer First, ...infer Rest]
+        ? First extends keyof TObj
+            ? Rest extends readonly PropertyKey[]
+                ? IsTuple<TObj[First]> extends true
+                    ? UnionMemberEquals<TObj[First], undefined> extends true
+                        ? GetValues<
+                            TObj,
+                            Rest,
+                            [
+                                ...TAcc,
+                                TObj[First]?
+                            ]
+                        >
+                        : GetValues<
+                            TObj,
+                            Rest,
+                            [
+                                ...TAcc,
+                                TObj[First]
+                            ]
+                        >
+                    : GetValues<
+                        TObj,
+                        Rest,
+                        [
+                            ...TAcc,
+                            TObj[First]
+                        ]
+                    >
+                : never
+            : never
+        : TAcc;
 
 /**
  * **Values**`<T>`
  *
  * Produces a tuple of all the _values_ in an object.
  *
- * - if you know you're only concerned with _string_ keys
- * (aka, not symbols) then you can switch the generic `TOnlyStr`
- * to true to get a slightly higher performing type inference.
+ * - you _can_ run it on a tuple too but this is in effect an identity
+ * function and will just return the tuple's values/types "as is"
+ * - passing in `any` or `never` to this utility will result in an Error
  */
 export type Values<
-    TObj extends Dictionary | readonly unknown[],
-    TOnlyStr extends boolean = false,
-> = TObj extends readonly unknown[]
-    ? TObj
-    : TObj extends Dictionary
-        ? IsObjectLiteral<TObj> extends true
-            ? [TOnlyStr] extends [true]
-                ? ProcessStr<
-                    StringKeys<TObj>,
-                    TObj
-                >
-
-                : Process<
-                    Keys<TObj> extends readonly ObjectKey[]
-                        ? Keys<TObj>
-                        : never,
-                    TObj
-                >
-            : TObj extends Record<ObjectKey, infer Val>
-                ? Val[]
-                : never
+    T extends Container,
+> = Validate<T> extends Error
+    ? Validate<T>
+    : Keys<T> extends readonly unknown[]
+        ? number extends Keys<T>["length"]
+            ? T extends Record<any, infer V>
+                ? V[]
+                : T extends readonly (infer V)[]
+                    ? V[]
+                    : unknown[]
+            : GetValues<T, Keys<T>>
         : never;

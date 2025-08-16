@@ -235,8 +235,6 @@ describe("FromInputToken<Token>", () => {
     });
 
 
-
-
     it("error when function with leading parenthesis is unmatched", () => {
         type E = FromInputToken<"(() => string">;
 

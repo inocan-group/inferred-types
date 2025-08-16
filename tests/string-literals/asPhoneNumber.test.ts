@@ -27,9 +27,7 @@ describe("asPhoneNumber() and supporting utils", () => {
       Expect<Test<US, "equals",  "1">>,
       Expect<Test<US2, "equals",  "1">>,
     ];
-    const cases: cases = [
-      true, true, true, true, true
-    ];
+
   });
 
 

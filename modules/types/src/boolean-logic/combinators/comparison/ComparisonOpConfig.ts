@@ -3,8 +3,8 @@
  * to create a `Comparator`. These operations will reduce all
  * parameters to a single parameter.
  */
-export type ComparisonParamConvert__List =
-| "union"
+export type ComparisonParamConvert__List
+= | "union"
 | "stringUnion"
 | "stringArray";
 
@@ -13,8 +13,8 @@ export type ComparisonParamConvert__List =
  * comparision to create a `Comparator`. These operations
  * will not change the _arity_ of the Comparator vs. the params.
  */
-export type ComparisonParamConvert__Unit =
-| "token"
+export type ComparisonParamConvert__Unit
+= | "token"
 | "stringLiteral"
 | "none";
 
@@ -22,8 +22,8 @@ export type ComparisonParamConvert__Unit =
  * Ways to convert conversion parameters to a `Comparator`
  * type when the `convert` configuration is active.
  */
-export type ComparisonParamConvert =
-    | ComparisonParamConvert__List
+export type ComparisonParamConvert
+    = | ComparisonParamConvert__List
     | ComparisonParamConvert__Unit;
 
 /**

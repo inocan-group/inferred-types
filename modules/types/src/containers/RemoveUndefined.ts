@@ -24,8 +24,7 @@ type Process<
 > = [] extends TKeys
     ? TResults
     : First<TKeys> extends keyof T
-        ?
-        IsUndefined<T[First<TKeys>]> extends true
+        ? IsUndefined<T[First<TKeys>]> extends true
             ? Process<T, AfterFirst<TKeys>, TResults>
             : Process<
                 T,

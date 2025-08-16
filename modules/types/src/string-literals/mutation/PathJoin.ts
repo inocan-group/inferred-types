@@ -20,8 +20,8 @@ type Process<
     TPath extends string,
     TFirst extends string,
     TLast extends string,
-> =
-TFirst extends `/${string}`
+>
+= TFirst extends `/${string}`
     ? TLast extends `${string}/`
         ? `/${TPath}/`
         : `/${TPath}`

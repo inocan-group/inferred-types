@@ -1,14 +1,14 @@
-export type OldSchoolHtmlElement =
-    | "b"
+export type OldSchoolHtmlElement
+    = | "b"
     | "center"
     | "u"
     | "big"
     | "small"
     | "strong"
-;
+        ;
 
-export type EsotericHtmlElement =
-    | OldSchoolHtmlElement
+export type EsotericHtmlElement
+    = | OldSchoolHtmlElement
     | "base"
     | "bdi"
     | "bdo"
@@ -45,8 +45,8 @@ export type EsotericHtmlElement =
     | "wbr"
     | "xmp";
 
-export type HtmlTableElement =
-    | "col"
+export type HtmlTableElement
+    = | "col"
     | "colgroup"
     | "hgroup"
     | "table"
@@ -58,8 +58,8 @@ export type HtmlTableElement =
     | "time"
     | "tr";
 
-export type HtmlSymantecElement =
-    | "abbr"
+export type HtmlSymantecElement
+    = | "abbr"
     | "acronym"
     | "address"
     | "area"
@@ -83,10 +83,10 @@ export type HtmlSymantecElement =
     | "summary"
     | "section"
 
-;
+        ;
 
-export type HtmlInputElement =
-    | "button"
+export type HtmlInputElement
+    = | "button"
     | "form"
     | "label"
     | "optgroup"
@@ -94,10 +94,10 @@ export type HtmlInputElement =
     | "select"
     | "input"
     | "textarea"
-;
+        ;
 
-export type HtmlFunctionalElement =
-    | "a"
+export type HtmlFunctionalElement
+    = | "a"
     | "br"
     | "canvas"
     | "code"
@@ -116,45 +116,45 @@ export type HtmlFunctionalElement =
     | "picture"
     | "plaintext"
     | "pre"
-;
+        ;
 
-export type HtmlMediaElement =
-    | "audio"
+export type HtmlMediaElement
+    = | "audio"
     | "video"
-;
+        ;
 
-export type HtmlFrameworkElement =
-    | "template"
+export type HtmlFrameworkElement
+    = | "template"
     | "slot";
 
-export type HtmlStructuralElement =
-    | "div"
+export type HtmlStructuralElement
+    = | "div"
     | `h${"1" | "2" | "3" | "4" | "5" | "6"}`
     | "frame"
     | "frameset"
     | "html"
     | "head"
     | "span"
-;
+        ;
 
-export type HtmlListElement =
-    | "li"
+export type HtmlListElement
+    = | "li"
     | "ol"
     | "ul"
-;
+        ;
 
-export type HtmlHeaderElement =
-    | "meta"
+export type HtmlHeaderElement
+    = | "meta"
     | "link"
     | "noscript"
     | "script"
     | "title"
     | "style"
     | "source"
-;
+        ;
 
-export type HtmlBodyElement =
-    | "body"
+export type HtmlBodyElement
+    = | "body"
     | "main"
     | HtmlListElement
     | HtmlStructuralElement
@@ -174,8 +174,8 @@ export type HtmlBodyElement =
  * - `HtmlHeaderElement`
  * - `HtmlBodyElement`
  */
-export type CommonHtmlElement =
-    | HtmlHeaderElement
+export type CommonHtmlElement
+    = | HtmlHeaderElement
     | HtmlBodyElement;
 
 /**
@@ -185,6 +185,6 @@ export type CommonHtmlElement =
  * - `CommonHtmlElement` _(just the most common elements)_
  * - `HtmlHeaderElement`, `HeaderBodyElement`
  */
-export type HtmlElement =
-    | CommonHtmlElement
+export type HtmlElement
+    = | CommonHtmlElement
     | EsotericHtmlElement;

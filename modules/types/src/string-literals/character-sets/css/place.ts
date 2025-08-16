@@ -1,6 +1,12 @@
-import type { CssAlignContent, CssAlignItems, CssAlignSelf } from "./align";
-import type { CssGlobal } from "./global";
-import type { CssJustifyContent, CssJustifyItems, CssJustifySelf } from "./justify";
+import type {
+    CssAlignContent,
+    CssAlignItems,
+    CssAlignSelf,
+    CssGlobal,
+    CssJustifyContent,
+    CssJustifyItems,
+    CssJustifySelf
+} from "types/string-literals/character-sets/css";
 
 export type CssPlaceContent = `${CssAlignContent} ${CssJustifyContent}`
     | CssAlignContent

@@ -1,9 +1,7 @@
 import type { Zip5, ZipCode, ZipPlus4 } from "inferred-types/types";
 import { NUMERIC_CHAR } from "inferred-types/constants";
 import { retainWhile, stripChars } from "inferred-types/runtime";
-import { isNumberLike } from "../isNumericString";
-import { isString } from "../isString";
-import { isNumber } from "../numeric/isNumber";
+import { isNumber, isNumberLike, isString } from "runtime/type-guards";
 
 /**
  * Type guard which validates that passed in value is a US ZipCode

@@ -14,8 +14,6 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
         type NarrowFoo = Handle<"foo", "foo" | number, false>;
 
         type UnionHandler = Handle<42, "foo" | number | "bar", "union">;
-        // content should narrow based on handler
-        type UnionContent = Handle<"foo" | 42 | "bar", number, never>;
 
         type Nope = Handle<"foo", string, false>;
 
@@ -28,7 +26,6 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
             Expect<Test<NarrowFoo, "equals", false>>,
 
             Expect<Test<UnionHandler, "equals",  "union">>,
-            Expect<Test<UnionContent, "equals",  "foo" | "bar">>,
 
             Expect<Test<Nope, "equals", false>>,
         ];

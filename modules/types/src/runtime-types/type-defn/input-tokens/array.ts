@@ -17,7 +17,7 @@ type InnerRest = { inner: string; rest: string };
 
 type Segment<
     T extends string,
-    S extends readonly string[] = NestedSplit<
+    S = NestedSplit<
         RetainAfter<T, "Array<">,
         ">"
     >

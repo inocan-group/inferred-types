@@ -13,11 +13,11 @@ import { ALPHA_CHARS, Never } from "inferred-types/constants";
 import {
     indexOf,
     isArray,
+    isDictionary,
     isFalse,
     isInputToken__String,
     isNull,
     isNumber,
-    isObject,
     isScalar,
     isString,
     isSymbol,
@@ -145,7 +145,7 @@ export function toStringLiteral<
     return (
         isArray(val)
             ? toStringLiteral__Tuple(val as any, o)
-            : isObject(val)
+            : isDictionary(val)
                 ? toStringLiteral__Object(mutateObjectKeys(val, o))
                 : isTrue(val)
                     ? "true"

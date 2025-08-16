@@ -1,5 +1,4 @@
 {
-  "extends": "../ts-base.json",
   "compilerOptions": {
     "noEmit": true,
     "incremental": true,
@@ -8,6 +7,8 @@
     "declaration": true,
     "declarationMap": true,
     "tsBuildInfoFile": ".tsbuildinfo",
+    "strictNullChecks": true,
+    "esModuleInterop": true,
     "rootDir": "..",
     "baseUrl": ".",
     "outDir": "../../dist/none",
@@ -21,7 +22,9 @@
       "inferred-types/constants": [
         "../modules/constants/src/index.ts"
       ],
-      "runtime/*": [ "../modules/runtime/src/*"]
+      "runtime/*": [ "../modules/runtime/src/*"],
+      "constants/*": [ "../modules/constants/src/*"],
+      "types/*": [ "../modules/types/src/*"],
     }
   },
   "include": [

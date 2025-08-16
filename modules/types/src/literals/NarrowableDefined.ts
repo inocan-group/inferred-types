@@ -1,4 +1,4 @@
-import type { EmptyObject } from "../base-types";
+import type { EmptyObject } from "inferred-types/types";
 
 /**
  * **NarrowableDefined**

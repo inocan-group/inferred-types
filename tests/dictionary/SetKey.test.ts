@@ -1,11 +1,11 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { SetKeyForce, SetKey, Test } from "inferred-types/types";
+import { SetKeyForce, SetIndex, Test } from "inferred-types/types";
 
 describe("SetKey<T,K,V>", () => {
 
   it("happy path", () => {
-    type FooBar = SetKey<{foo: 1; bar: "hi"}, "foo", 2>;
+    type FooBar = SetIndex<{foo: 1; bar: "hi"}, "foo", 2>;
 
     // @ts-ignore
     type cases = [

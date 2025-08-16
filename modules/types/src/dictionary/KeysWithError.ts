@@ -1,24 +1,22 @@
 import type {
     AfterFirst,
-    As,
     Dictionary,
     First,
-    KeyValue,
     ObjectKey,
-    ToKv,
+    ObjectKeys,
 } from "inferred-types/types";
 
 type Process<
-    T extends readonly KeyValue[],
+    T extends Dictionary,
+    K extends readonly ObjectKey[] = ObjectKeys<T>,
     R extends readonly ObjectKey[] = []
-> = [] extends T
+> = [] extends K
     ? R
-    : Process<
-        AfterFirst<T>,
-        First<T>["value"] extends Error
-            ? [...R, First<T>["key"]]
-            : R
-    >;
+    : First<K> extends keyof T
+        ? T[First<K>] extends Error
+            ? Process<T, AfterFirst<K>, [...R, First<K>]>
+            : Process<T, AfterFirst<K>, R>
+        : never;
 
 /**
  * **KeysWithError**`<T>`
@@ -27,4 +25,4 @@ type Process<
  */
 export type KeysWithError<
     T extends Dictionary
-> = As<Process<ToKv<T>>, readonly ObjectKey[]>;
+> = Process<T>;

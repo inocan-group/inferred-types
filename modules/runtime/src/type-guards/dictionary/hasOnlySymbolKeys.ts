@@ -1,4 +1,4 @@
-import { isObject } from "runtime/type-guards/isObject";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * type-guard which validates that `val` is an object with **only** symbol
@@ -7,5 +7,7 @@ import { isObject } from "runtime/type-guards/isObject";
  * **Related:** `hasOnlySymbolKeys()`, `hasOnlyStringKeys()`
  */
 export function hasOnlySymbolKeys(val: unknown): val is Record<symbol, unknown> {
-    return isObject(val) && Object.getOwnPropertySymbols(val).length > 0 && Object.keys(val).length == 0;
+    return isDictionary(val)
+    && Object.getOwnPropertySymbols(val).length > 0
+    && Object.keys(val).length === 0;
 }

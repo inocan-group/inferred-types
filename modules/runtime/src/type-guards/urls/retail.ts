@@ -43,7 +43,7 @@ import {
     WHOLE_FOODS_DNS,
     ZARA_DNS,
 } from "inferred-types/constants";
-import { isString } from "../isString";
+import { isString } from "runtime/type-guards";
 
 /**
  * type guard which validates that the `val` passed in is a valid URL

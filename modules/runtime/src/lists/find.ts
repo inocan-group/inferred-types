@@ -1,54 +1,38 @@
 import type {
+    As,
+    ComparisonAccept,
+    ComparisonOperation,
     Find,
-    FromDefn,
-    Narrowable,
-    ShapeCallback,
-    Tuple,
+    FindFunction,
+    GetComparisonParams,
 } from "inferred-types/types";
-import { isArray, isObject } from "inferred-types/runtime";
+import { compare } from "runtime/combinators";
 
 /**
- * **Finder**
- *
- * A configured utility designed to find elements in a list.
- */
-export type Finder<
-    TList extends Tuple,
-    TDeref extends string | number | null,
-> = <TExtends extends Narrowable | ShapeCallback>(value: TExtends) => Find<
-    TList,
-    "equals",
-    FromDefn<TExtends>,
-    TDeref
->;
-
-// TODO: Fix this typing once the runtime types have settled
-
-/**
- * **find**(list, [deref]) => (value) => el | undefined
+ * **find**(op, ...params) => (value) => el | undefined
  *
  * A higher order function that allows _finding_ an element in a list
  * while preserving any available type information.
  */
 export function find<
-    TList extends Tuple,
-    TDeref extends string | number | null = null,
+    const TOp extends ComparisonOperation,
+    const TParams extends GetComparisonParams<TOp>
 >(
-    list: TList,
-    deref: TDeref = null as TDeref
-) {
-    return <
-        TExtends extends Narrowable | ShapeCallback,
-    >(comparator: TExtends) => {
-        return list.find((i: any) => {
-            const val: any = deref
-                ? isObject(i) || isArray(i)
-                    ? (deref as any) in i
-                        ? (i as any)[deref]
-                        : undefined
-                    : i
-                : i;
-            return val === comparator;
-        }) as unknown as Find<TList, "equals", FromDefn<TExtends>, TDeref>;
+    op: TOp,
+    ...params: TParams
+): FindFunction<TOp, TParams> {
+    return <const TList extends readonly ComparisonAccept<As<TOp, string>>[]>(
+        list: TList
+    ): Find<TList, TOp, TParams> => {
+        return list.find(
+            (i) => {
+                const comparator = compare(
+                    op,
+                    ...params
+                );
+
+                return comparator(i) as any;
+            }
+        ) as unknown as Find<TList, As<TOp, string>, TParams>;
     };
 }

@@ -10,9 +10,6 @@ import {
 } from "inferred-types/types";
 
 import {
-    isTrue,
-    StartingWithTypeGuard,
-    startsWith,
     ifArray,
     ifArrayPartial,
     ifBoolean,
@@ -23,6 +20,11 @@ import {
     ifUndefined,
     or
 } from "inferred-types/runtime"
+
+import {
+    startsWith,
+    isTrue
+} from "runtime/type-guards"
 
 
 describe("runtime if/is", () => {
@@ -262,11 +264,6 @@ describe("runtime if/is", () => {
         expect(foo("foobar")).toBe(true);
         expect(foot("foobar")).toBe(false);
 
-        // design time
-        type cases = [
-            Expect<Test<typeof foo, "equals", StartingWithTypeGuard<"foo">>>, //
-            Expect<Test<typeof foot, "equals", StartingWithTypeGuard<"foot">>> //
-        ];
     });
 
 

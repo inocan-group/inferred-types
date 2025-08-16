@@ -124,7 +124,7 @@ type InnerObject<
                             : never,
         ]
     >
-;
+    ;
 
 /**
  * **ToJsonObject**`<T>`

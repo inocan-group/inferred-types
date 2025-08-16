@@ -2,7 +2,7 @@ import type {
     AfterFirst,
     Dictionary,
     EmptyObject,
-    ErrorCondition,
+    Err,
     ExpandRecursively,
     Extends,
     Fail,
@@ -14,7 +14,6 @@ import type {
     PublicKeyOf,
     ReduceValues,
     RemoveNever,
-    Throw,
     Tuple,
     TupleToUnion,
     TypedFunction,
@@ -51,7 +50,7 @@ type _GetEscapeFunction<
             >
         }>
     >,
-    Throw<"no-escape-function">
+    Err<"no-escape-function">
 >;
 
 /**
@@ -233,7 +232,7 @@ export type AsApi<
     TSurface extends Dictionary | TypedFunction,
 > = HasEscapeFunction<TSurface> extends true
     ? Api<TSurface>
-    : Throw<"no-escape-function">;
+    : Err<"no-escape-function">;
 
 export type ApiStateInitializer<
     TApi,
@@ -307,5 +306,5 @@ export type ApiEscape<
  */
 export type ApiHandler<
     TApi extends Api,
-    _THandle extends (t: unknown, e: ErrorCondition) => unknown,
+    _THandle extends (t: unknown, e: Err) => unknown,
 > = (api: TApi) => <R>(result: R) => unknown;

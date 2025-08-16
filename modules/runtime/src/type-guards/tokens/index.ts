@@ -3,6 +3,7 @@
 // export * from "./isAtomicToken";
 // export * from "./isContainerToken";
 export * from "./isDefineObject";
+export * from "./isDeltaReturn";
 export * from "./isInputToken__String";
 export * from "./isInputToken__Tuple";
 // export * from "./isFunctionToken";

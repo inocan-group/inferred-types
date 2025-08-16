@@ -1,3 +1,4 @@
+export * from "./equalsSome";
 export * from "./ifArray";
 export * from "./ifArrayPartial";
 export * from "./ifBoolean";

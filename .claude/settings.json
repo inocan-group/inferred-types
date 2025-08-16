@@ -1,0 +1,53 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash(node:*)",
+            "Bash(pnpm test:*)",
+            "Bash(typed test *)",
+            "Bash(pnpm audit:*)",
+            "Bash(npx eslint:*)",
+            "Bash(mkdir:*)",
+            "Bash(pnpm build:*)",
+            "Bash(rm:*)",
+            "Bash(find:*)",
+            "Bash(grep:*)",
+            "Bash(pnpm -C modules/runtime build)",
+            "Bash(pnpm -C modules/runtime lint)",
+            "Bash(npx tsc:*)",
+            "Bash(pnpm:*)",
+            "Bash(git stash:*)",
+            "Bash(rg:*)",
+            "Bash(tsc:*)",
+            "Bash(timeout 10s npx tsc --noEmit)",
+            "Bash(ls:*)",
+            "Bash(true)",
+            "Bash(mv:*)",
+            "Bash(chmod:*)",
+            "Bash(./scripts/benchmark-types.sh:*)",
+            "Bash(./scripts/benchmark-performance.sh:*)",
+            "Bash(./scripts/display-metrics.sh:*)",
+            "Bash(npx @typescript/analyze-trace:*)",
+            "Bash(time npx tsc tests/type-performance/simple-benchmark.ts --noEmit --skipLibCheck)",
+            "Bash(time npx tsc tests/type-performance/optimized-benchmark.ts --noEmit --skipLibCheck)",
+            "Bash(time npx tsc test-perf.ts --noEmit --skipLibCheck)",
+            "Bash(time pnpm build)",
+            "Bash(git checkout:*)",
+            "Bash(npx tsx:*)",
+            "Bash(npm run test:*)",
+            "Bash(git restore:*)",
+            "Bash(git add:*)",
+            "Bash(git reset:*)",
+            "Bash(od:*)",
+            "Bash(sed:*)",
+            "Bash(typed test:*)",
+            "Write",
+            "Edit"
+        ],
+        "deny": [
+            "Bash(npm test)"
+        ]
+    },
+    "hooks": {
+
+    }
+}

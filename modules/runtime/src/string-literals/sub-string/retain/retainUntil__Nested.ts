@@ -105,7 +105,7 @@ export function retainUntil__Nested<
     const TStr extends string,
     const TFind extends string | readonly string[],
     const TInclude extends boolean = true,
-    const TNesting extends Nesting  | NestingConfig__Named= DefaultNesting
+    const TNesting extends Nesting | NestingConfig__Named = DefaultNesting
 
 >(
     str: TStr,
@@ -116,9 +116,9 @@ export function retainUntil__Nested<
     const config = isString(nesting)
         ? nesting === "default" || nesting === "brackets"
             ? DEFAULT_NESTING
-        : nesting === "quotes"
-            ? QUOTE_NESTING
-            : Never
+            : nesting === "quotes"
+                ? QUOTE_NESTING
+                : Never
         : nesting as Nesting;
     const idx = findIdx(asChars(str), find, config);
 

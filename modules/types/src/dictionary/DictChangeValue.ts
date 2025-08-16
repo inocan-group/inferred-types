@@ -27,8 +27,7 @@ export type DictChangeValue<
 > = SimplifyObject<
     {
         [K in keyof I]: I[K] extends V
-            ? // it's a function (or at least the scoped down type of function we're looking for)
-            Record<K, T>
+            ? Record<K, T>
             : never;
     }[keyof I]
 >;

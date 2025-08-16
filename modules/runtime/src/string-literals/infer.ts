@@ -15,9 +15,9 @@ type InferredBoolean = `infer ${string} extends boolean`;
 type InferenceVars<
     T extends string,
     Vars extends [strings: string[], nums: string[], bools: string[]] = [[], [], []],
-> =
+>
   // Peel off a block
-  T extends `${infer _HEAD}${START}${infer Content}${END}${infer REST}`
+  = T extends `${infer _HEAD}${START}${infer Content}${END}${infer REST}`
       ? (
           Content extends `${OptSpace}infer ${infer Var} extends ${infer Type extends Ext}${OptSpace}`
           // 2a) `{{ infer Foo extends string|number|boolean }}`
@@ -99,9 +99,9 @@ type NumVars<T extends string> = InferenceVars<T>[1];
 type BoolVars<T extends string> = InferenceVars<T>[2];
 
 type Shape<T extends string> = ExpandDictionary<
-    Record<StrVars<T>[number], string> &
-    Record<NumVars<T>[number], number> &
-    Record<BoolVars<T>[number], boolean>
+    Record<StrVars<T>[number], string>
+    & Record<NumVars<T>[number], number>
+    & Record<BoolVars<T>[number], boolean>
 >;
 
 type Lit = "string" | "number" | "boolean";
@@ -166,8 +166,8 @@ function parseTemplate(template: string) {
     let lastIndex = 0;
     let match: RegExpExecArray | null;
     const segments: Array<
-        { dynamic: false; text: string } |
-        { dynamic: true; varName: string; type: "string" | "number" | "boolean" }
+        { dynamic: false; text: string }
+        | { dynamic: true; varName: string; type: "string" | "number" | "boolean" }
     > = [];
 
     while ((match = pattern.exec(template))) {

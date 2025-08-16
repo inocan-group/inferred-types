@@ -1,25 +1,25 @@
 import type {
     DefaultNesting,
+    FromNamedNestingConfig,
+    NestedSplit,
     NestedSplitPolicy,
     Nesting,
-    NestedSplit,
-    NestingConfig__Named,
-    FromNamedNestingConfig
+    NestingConfig__Named
 } from "inferred-types/types";
 import { DEFAULT_NESTING, Never, QUOTE_NESTING } from "inferred-types/constants";
 import {
+    afterFirst,
     asArray,
     asChars,
-    afterFirst,
     err,
-    isNestingStart,
-    isNestingEndMatch,
-    mutable,
-    toStringLiteral,
     isArray,
-    isString,
+    isNestingEndMatch,
     isNestingKeyValue,
-    isNestingTuple
+    isNestingStart,
+    isNestingTuple,
+    isString,
+    mutable,
+    toStringLiteral
 } from "inferred-types/runtime";
 
 function splitProcessorMultiple<
@@ -67,7 +67,8 @@ function splitProcessorMultiple<
                 newWaiting = currentChar;
                 if (waiting === "" && result.length === 0) {
                     newResult = [];
-                } else {
+                }
+                else {
                     newResult.push(waiting);
                 }
                 break;
@@ -172,7 +173,8 @@ function splitProcessor<
                 newWaiting = currentChar;
                 if (waiting === "" && result.length === 0) {
                     newResult = [];
-                } else {
+                }
+                else {
                     newResult.push(waiting);
                 }
                 break;
@@ -253,18 +255,18 @@ export function nestedSplit<
     const config: Nesting = isString(nesting)
         ? nesting === "default" || nesting === "brackets"
             ? DEFAULT_NESTING
-        : nesting === "quotes"
-            ? QUOTE_NESTING
-        : Never
-    : nesting as Nesting;
+            : nesting === "quotes"
+                ? QUOTE_NESTING
+                : Never
+        : nesting as Nesting;
 
-    if(isNestingKeyValue(config) != true && isNestingTuple(config)) {
-       return err(`invalid-nesting/nested-split`) as NestedSplit<
-        TContent,
-        TSplit,
-        FromNamedNestingConfig<TNesting>,
-        TPolicy
-    >;
+    if (isNestingKeyValue(config) !== true && isNestingTuple(config)) {
+        return err(`invalid-nesting/nested-split`) as NestedSplit<
+            TContent,
+            TSplit,
+            FromNamedNestingConfig<TNesting>,
+            TPolicy
+        >;
     }
 
     if (isArray(split)) {
@@ -295,7 +297,7 @@ export function nestedSplit<
     }
 
     // Handle single string split
-    if (typeof split !== 'string' || split.length !== 1) {
+    if (typeof split !== "string" || split.length !== 1) {
         return err(
             `invalid-nesting/nested-split`,
             `A string of more than one character was provided as the 'split' character; this is not allowed!`,

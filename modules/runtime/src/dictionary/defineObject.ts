@@ -64,8 +64,8 @@ type HandleError<T> = T extends Dictionary
  *
  */
 export function defineObject<
-    T extends DefineObject,
-    P extends readonly (keyof T & string)[],
+    const T extends DefineObject,
+    const P extends readonly (keyof T & string)[],
 >(
     defn: T,
     ..._optProps: P
@@ -85,5 +85,5 @@ export function defineObject<
                 { keys: errProps, obj: defn }
             ) as any
             : fromDefineObject(defn) as any
-    ) as unknown as HandleError<Returns<T, P>>;
+    ) as unknown as Returns<T, P>;
 }

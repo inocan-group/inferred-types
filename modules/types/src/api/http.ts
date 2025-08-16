@@ -172,8 +172,8 @@ export type HttpHeader<T extends keyof HttpHeaders> = [
  *
  * The available HTTP _verbs_.
  */
-export type HttpVerb =
-| "GET"
+export type HttpVerb
+= | "GET"
 | "PUT"
 | "POST"
 | "PATCH"
@@ -186,8 +186,8 @@ export type HttpVerb =
 /**
  * HTTP verbs which _have_ -- or at least _can have_ -- a `body` property
  */
-export type HttpVerbsWithBody =
-| "POST"
+export type HttpVerbsWithBody
+= | "POST"
 | "PUT"
 | "DELETE"
 | "UPDATE";

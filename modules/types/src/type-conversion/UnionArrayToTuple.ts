@@ -1,4 +1,4 @@
-import type { ElementOf } from "../lists/ElementOf";
+import type { ElementOf } from "types/lists/ElementOf";
 
 // Existing utility: UnionToTuple (unchanged)
 type UnionToIntersection<U> = (

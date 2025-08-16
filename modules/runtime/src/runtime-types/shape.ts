@@ -9,7 +9,7 @@ import { SHAPE_PREFIXES } from "inferred-types/constants";
 import {
     handleDoneFn,
     hasKeys,
-    isObject,
+    isDictionary,
     isString,
 } from "inferred-types/runtime";
 import {
@@ -25,7 +25,7 @@ import { union } from "./shape-helpers/union";
 import { array, map, record, set, weakMap } from "./shape-helpers/wide-containers";
 
 function isAddOrDone<T>(val: T): val is ShapeTupleOrUnion & T {
-    return isObject(val) && hasKeys("add", "done") && typeof val.done === "function" && typeof val.add === "function";
+    return isDictionary(val) && hasKeys("add", "done") && typeof val.done === "function" && typeof val.add === "function";
 }
 
 /*

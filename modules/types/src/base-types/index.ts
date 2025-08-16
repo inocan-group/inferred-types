@@ -1,6 +1,8 @@
 export * from "./AnyArray";
+export * from "./AnyMap";
 export * from "./AnyObject";
-export * from "./BaseType";
+export * from "./AnySet";
+export * from "./AnyWeakMap";
 export * from "./Container";
 export * from "./Defined";
 export * from "./Dictionary";
@@ -21,9 +23,12 @@ export * from "./NotNull";
 export * from "./NumericSign";
 export * from "./ObjectKey";
 export * from "./ObjectMap";
+export * from "./objects/index";
 export * from "./Scalar";
 export * from "./ScalarNotSymbol";
 export * from "./Something";
+export * from "./TakeUtility";
+
 export * from "./Thenable";
 export * from "./Tuple";
 export * from "./Variable";

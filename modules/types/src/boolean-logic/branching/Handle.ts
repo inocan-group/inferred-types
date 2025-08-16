@@ -12,8 +12,10 @@ type Narrow<
     THandle,
 > = IsUnion<TContent> extends true
     ? UnionToTuple<TContent> extends readonly unknown[]
-        ? NotFilter<UnionToTuple<TContent>, "extends", THandle> extends readonly unknown[]
-            ? TupleToUnion<NotFilter<UnionToTuple<TContent>, "extends", THandle>>
+        ? UnionToTuple<TContent> extends readonly unknown[]
+            ? NotFilter<UnionToTuple<TContent>, "extends", [THandle]> extends readonly unknown[]
+                ? TupleToUnion<NotFilter<UnionToTuple<TContent>, "extends", [THandle]>>
+                : never
             : never
         : never
     : TContent;
@@ -21,7 +23,7 @@ type Narrow<
 /**
  * **Handle**`<TContent,THandle,TMapTo,[TSpecificity]>`
  *
- * Maps `TContent` when it _extends_ / _equals (based on `TSpecificity`) the type
+ * Maps `TContent` when it _extends_ / _equals_ (based on `TSpecificity`) the type
  * of `THandle` to `TMapTo`, otherwise it just proxies the value through.
  *
  * - `TSpecificity` defaults to _extends_ but can be set to _equals_
@@ -33,8 +35,8 @@ export type Handle<
     THandle,
     TMapTo,
     TSpecificity extends "extends" | "equals" = "extends",
-> =
-[THandle] extends never[]
+>
+= [THandle] extends [never[]]
     ? [TContent] extends never[]
         ? TMapTo
         : TContent

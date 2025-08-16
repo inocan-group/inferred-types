@@ -133,10 +133,8 @@ export type Flatten<
     TLevel extends 1 | 2 | 3 = 1,
     ToScalar extends boolean = false,
 > = [ToScalar] extends [false]
-    ? // normal operation when ToScalar is false
-    Process<TList, TLevel>
-    : // prep work when ToScalar is activated
-    [IsUnion<Process<TList, TLevel>>] extends [true]
+    ? Process<TList, TLevel>
+    : [IsUnion<Process<TList, TLevel>>] extends [true]
         ? IterateScalar<UnionToTuple<Process<TList, TLevel>>, TLevel>
         : [IsTuple<Process<TList, TLevel>>] extends [true]
             ? TupleToUnion<Process<TList, TLevel>>

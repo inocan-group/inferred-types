@@ -1,20 +1,93 @@
-import type { DateLike } from "inferred-types/types";
+import type {
+    DateLike,
+    DateMeta,
+    DatePlus,
+    IanaZone,
+    IsDayJs,
+    IsJsDate,
+    IsLuxonDateTime,
+    IsMoment,
+    IsoDate,
+    IsoDateTime,
+    IsoMonthDate,
+    IsoYear,
+    IsoYearMonth,
+    TimezoneOffset
+} from "inferred-types/types";
+import { parseIsoDate } from "runtime/datetime/parseIsoDate";
+import { isNumber } from "runtime/type-guards";
 import {
-    err,
     isDate,
-    isDateFnsDate,
+    isDayJs,
     isEpochInMilliseconds,
     isEpochInSeconds,
+    isIanaTimezone,
     isIsoDate,
     isIsoDateTime,
-    isIsoExplicitDate,
-    isIsoImplicitDate,
     isIsoYear,
+    isIsoYearMonth,
     isLuxonDate,
     isMoment,
-    isNumber,
-    isTemporalDate
-} from "inferred-types/runtime";
+    isTemporalDate,
+    isTimezoneOffset
+} from "runtime/type-guards/datetime";
+
+const getLocalIanaZone = (() => {
+// compute once, memoise
+    const tz = (process.env.TZ && isIanaTimezone(process.env.TZ)
+        ? process.env.TZ
+        : Intl.DateTimeFormat().resolvedOptions().timeZone) ?? "UTC";
+
+    return () => tz as IanaZone;
+})();
+
+function offsetMinutesToString(mins: number): TimezoneOffset {
+    const sign = mins >= 0 ? "+" : "-";
+    const abs = Math.abs(mins);
+    const hh = String(Math.floor(abs / 60)).padStart(2, "0");
+    const mm = String(abs % 60).padStart(2, "0");
+    return `${sign}${hh}:${mm}` as TimezoneOffset;
+}
+
+/****************************************************************
+ *  the main function
+ ****************************************************************/
+
+type Returns<T extends DateLike> = T extends IsoYear
+    ? DatePlus<"iso-year", TimezoneOffset<"Z">, `${T}-${number}-${number}T${string}` & IsoDateTime>
+    : T extends IsoYearMonth
+        ? DateMeta extends Error
+            ? DateMeta
+            : DatePlus<
+                "iso-year-month",
+                TimezoneOffset <"Z">,
+                IsoDateTime
+            >
+        : T extends IsoMonthDate
+            ? DatePlus<"iso-year-independent", TimezoneOffset <"Z">, `${number}`>
+            : T extends IsoDateTime
+                ? DatePlus<"iso-datetime">
+                : T extends IsoDate<"normal">
+                    ? DatePlus<"iso-date">
+                    : T extends number
+                        ? DatePlus<"epoch" | "epoch-milliseconds">
+                        : IsDayJs<T> extends true
+                            ? DatePlus<"day.js">
+                            : IsMoment<T> extends true
+                                ? DatePlus<
+                                    "moment",
+                                    "offset" extends keyof T
+                                        ? T["offset"] extends TimezoneOffset
+                                            ? TimezoneOffset<T["offset"]>
+                                            : null
+                                        : null
+                                >
+                                : IsLuxonDateTime<T> extends true
+                                    ? DatePlus<"luxon">
+                                    : IsJsDate<T> extends true
+                                        ? DatePlus<"date", null>
+                                        : DatePlus
+    ;
 
 /**
  * **asDateTime**`(input)`
@@ -23,64 +96,147 @@ import {
  *
  * - the goal is to have both **Date** and **Time** information preserved
  *     - use `asDate()` if you wish to only preserve date information
+ *     - this will return the `DatePlus` interface which is just the `Date`
+ * interface with a few extra properties to try and preserve the source
+ * timezone where that's feasible
  */
-export function asDateTime<T extends DateLike>(input: T): Date {
-    if (isDate(input)) {
-        return new Date(input.getTime()); // clone
-    }
-
+export function asDateTime<T extends DateLike>(input: T) {
+    // ——— Moment ————————————————————————————————————————————————
     if (isMoment(input)) {
-        return input.toDate();
+        const d = new Date(input.toISOString()) as DatePlus;
+        const tz: TimezoneOffset<"branded"> | null = isTimezoneOffset(offsetMinutesToString(input.parseZone().utcOffset()))
+            ? offsetMinutesToString(input.parseZone().utcOffset()) as TimezoneOffset<"branded">
+            : null;
+
+        d.offset = tz;
+        d.tz = isIanaTimezone((input as any)._z?.name) ? (input as any)._z.name : null;
+
+        d.source = "moment";
+        // Use parseZone().toISOString(true) to preserve the original timezone from input
+        // But if it's UTC, use the standard Z format
+        const sourceIso = input.parseZone().toISOString(true);
+        d.sourceIso = sourceIso.endsWith("+00:00")
+            ? sourceIso.replace("+00:00", "Z") as IsoDateTime
+            : sourceIso as IsoDateTime;
+        return d as Returns<T>;
     }
 
+    // ——— Luxon ————————————————————————————————————————————————
     if (isLuxonDate(input)) {
-        return input.toJSDate();
+        const d = input.toJSDate() as DatePlus;
+
+        // Luxon gives offset (minutes) + zone name
+        d.offset = input.isOffsetFixed ? offsetMinutesToString((input as any).offset) : null;
+        d.tz = isIanaTimezone(input.zoneName) ? input.zoneName : null;
+
+        d.source = "luxon";
+        // For UTC Luxon objects, preserve the Z format
+        d.sourceIso = input.zoneName === "UTC"
+            ? (input as any).toUTC().toISO() as IsoDateTime
+            : input.toISO() as IsoDateTime;
+        return d as Returns<T>;
     }
 
-    if (isDateFnsDate(input)) {
-        return new Date(input.toISOString());
-    }
-
+    // ——— Temporal ————————————————————————————————————————————————
     if (isTemporalDate(input)) {
-        // Temporal.PlainDate or PlainDateTime to ISO string
-        return new Date(input.toString());
+        // Accept both Temporal.ZonedDateTime and Temporal.Instant
+        const zdt = "epochNanoseconds" in input
+            ? (input as any).toZonedDateTimeISO(getLocalIanaZone())
+            : (input as any);
+
+        const d = new Date(zdt.epochMilliseconds) as DatePlus<"temporal">;
+
+        d.offset = isTimezoneOffset(zdt.offset) ? zdt.offset : null;
+        d.tz = isIanaTimezone(zdt.timeZone.id) ? zdt.timeZone.id : null;
+        d.source = "temporal";
+        d.sourceIso = zdt.toString() as IsoDateTime; // keeps both offset + tz
+        return d as Returns<T>;
     }
 
+    // ——— Day.js ————————————————————————————————————————————————
+    if (isDayJs(input)) {
+        const d = input.toDate() as DatePlus;
+        d.offset = null;
+        d.tz = null;
+        d.source = "day.js";
+        d.sourceIso = input.toISOString() as IsoDateTime;
+        return d as Returns<T>;
+    }
+
+    // ——— ISO strings ————————————————————————————————————————————
     if (isIsoDateTime(input)) {
-        // e.g. 2023-06-16T12:34:56Z or 2023-06-16T12:34:56+02:00
-        return new Date(input as string);
+        const meta = parseIsoDate(input) as unknown as DateMeta;
+        const d = new Date(input) as DatePlus;
+
+        d.offset = meta.timezone as TimezoneOffset<"branded">;
+        d.tz = null; // no zone in bare ISO
+        d.source = "iso-datetime";
+        d.sourceIso = input as IsoDateTime;
+
+        return d as Returns<T>;
     }
 
-    if (isIsoExplicitDate(input)) {
-        // e.g. 2023-06-16 (no time info)
-        return new Date(`${input}T00:00:00.000Z`);
-    }
+    if (isIsoYearMonth(input)) {
+        const meta = parseIsoDate(input) as unknown as DateMeta;
+        const d = new Date(`${meta.year}-${meta.month}-01T00:00:00.000Z`) as DatePlus<"iso-year-month">;
 
-    if (isNumber(input) && isEpochInMilliseconds(input)) {
-        return new Date(input);
-    }
-
-    if (isNumber(input) && isEpochInSeconds(input)) {
-        return new Date(input * 1000);
+        d.offset = "Z" as TimezoneOffset<"branded">;
+        d.tz = null;
+        d.source = "iso-year-month";
+        d.sourceIso = `${meta.year}-${meta.month}-01T00:00:00.000Z` as IsoDateTime;
+        return d as Returns<T>;
     }
 
     if (isIsoYear(input)) {
-        // e.g. 2023 (no time info)
-        return new Date(`${input}-01-01T00:00:00.000Z`);
-    }
+        const d = new Date(`${input}-01-01T00:00:00.000Z`) as DatePlus<"iso-year">;
 
-    if (isIsoImplicitDate(input)) {
-        // e.g. 20230616 (no time info)
-        const year = Number((input as string).slice(0, 4));
-        const month = Number((input as string).slice(4, 6));
-        const day = Number((input as string).slice(6, 8));
-        return new Date(Date.UTC(year, month - 1, day));
+        d.offset = "Z" as TimezoneOffset<"Z">;
+        d.tz = null;
+        d.source = "iso-year";
+        d.sourceIso = `${input}-01-01T00:00:00.000Z` as IsoDateTime;
+        return d as Returns<T>;
     }
 
     if (isIsoDate(input)) {
-        // e.g. 2023-06-16 (no time info)
-        return new Date(`${input}T00:00:00.000Z`);
+        const meta = parseIsoDate(input) as unknown as DateMeta;
+        const d = new Date(`${meta.year}-${meta.month}-${meta.date}T00:00:00.000Z`) as DatePlus;
+
+        d.offset = "Z" as TimezoneOffset<"Z">;
+        d.tz = null;
+        d.source = `iso-${meta.dateType}`;
+        d.sourceIso = `${input}T00:00:00.000Z` as IsoDateTime;
+        return d as Returns<T>;
     }
 
-    throw err(`invalid/date`, `The date-like value you passed to 'asDateTime()' function was unable to be converted to a Javascript Date object!`, { date: input });
+    // ——— Epoch numbers ——————————————————————————————————————————
+    if (isNumber(input)) {
+        if (isEpochInMilliseconds(input)) {
+            const d = new Date(input) as DatePlus;
+            d.offset = null;
+            d.tz = null;
+            d.source = "epoch-milliseconds";
+            d.sourceIso = d.toISOString() as IsoDateTime;
+            return d as Returns<T>;
+        }
+        if (isEpochInSeconds(input)) {
+            const d = new Date(input * 1_000) as DatePlus;
+            d.offset = null;
+            d.tz = null;
+            d.source = "epoch";
+            d.sourceIso = d.toISOString() as IsoDateTime;
+            return d as Returns<T>;
+        }
+    }
+
+    // ——— Native Date ————————————————————————————————————————————
+    if (isDate(input)) {
+        const d = new Date(input.getTime()) as DatePlus<"date">;
+        d.offset = null;
+        d.tz = null;
+        d.source = "date";
+        d.sourceIso = d.toISOString() as IsoDateTime;
+        return d as Returns<T>;
+    }
+
+    return null as never;
 }

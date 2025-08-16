@@ -1,7 +1,14 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsNever, IfNever, Something, Nothing } from "inferred-types/types";
+import {
+    IsNever,
+    IfNever,
+    Something,
+    Nothing,
+    Test,
+    Expect
+} from "inferred-types/types";
 
 
 

@@ -38,8 +38,8 @@ export type Cardinality0 = ZeroToOne | ZeroToMany | OneToOne | OneToMany;
  * _undefined_ -- and maps to 0,
  * 1, or many outputs.
  */
-export type CardinalityFilter0 =
-    | ZeroToOne
+export type CardinalityFilter0
+    = | ZeroToOne
     | ZeroToMany
     | OneToOne
     | OneToMany
@@ -51,8 +51,8 @@ export type CardinalityExplicit = `${number}:${number}`;
 /**
  * Cardinality of any sort between two types
  */
-export type Cardinality =
-    | CardinalityFilter0
+export type Cardinality
+    = | CardinalityFilter0
     | CardinalityFilter1
     | ManyToMany
     | ManyToOne

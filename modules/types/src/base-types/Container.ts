@@ -9,8 +9,8 @@ import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
  *  - any array or tuple
  *  - any `Map<K,V>`, `WeakMap<K,V>`, or `Set<T>`
  */
-export type Container =
-    | object
+export type Container
+    = | object
     | readonly unknown[];
 
 /**
@@ -19,6 +19,6 @@ export type Container =
  * Produces a type which has maximal runtime inference capabilility
  * of either a Tuple or Dictionary container type.
  */
-export type NarrowContainer<N extends Narrowable> =
-| Dictionary<ObjectKey, N>
+export type NarrowContainer<N extends Narrowable>
+= | Dictionary<ObjectKey, N>
 | readonly N[];

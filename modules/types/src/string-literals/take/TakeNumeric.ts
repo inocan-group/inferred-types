@@ -1,14 +1,8 @@
-import type {
-    As,
-    EmptyObject,
-    Err,
-    HasLeadingTemplateLiteral,
-    IsTrue,
-    IsWideType,
-    NumericChar,
-    StartsWith,
-    StripLeading
-} from "inferred-types/types";
+import type { EmptyObject } from "types/base-types";
+import type { As, IsTrue, IsWideType, StartsWith } from "types/boolean-logic";
+import type { Err } from "types/errors";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
+import type { NumericChar, StripLeading } from "types/string-literals";
 
 export type TakeNumericOptions = {
     /**
@@ -60,11 +54,7 @@ type Take<
     >
     : TOpt["ignore"] extends string
         ? TRemaining extends `${infer _Ignore extends TOpt["ignore"]}${infer Rest extends string}`
-            ? Take<
-                Rest,
-                TOpt,
-                TTake
-            >
+            ? Take<Rest, TOpt, TTake, TDecimal> // Keep TDecimal state
             : Finish<TRemaining, TOpt, TTake>
         : Finish<TRemaining, TOpt, TTake>;
 
@@ -106,17 +96,16 @@ export type TakeNumeric<
 > = As<
     IsWideType<T> extends true
         ? [`${number}` | undefined, string]
-        : HasLeadingTemplateLiteral<T> extends true
+        : StartsWithTemplateLiteral<T> extends true
             ? [`${number}` | undefined, string]
-            : StartsWith<T, `-.${Chars<true>}`> extends true
+            : T extends `-.${Chars<true>}${string}`
                 ? Take<StripLeading<T, "-.">, TOpt, "-.", true>
-                : StartsWith<T, `.${Chars<true>}`> extends true
+                : T extends `.${Chars<true>}${string}`
                     ? Take<StripLeading<T, ".">, TOpt, ".", true>
-                    : StartsWith<T, `-${Chars<true>}`> extends true
+                    : T extends `-${Chars<true>}${string}`
                         ? Take<StripLeading<T, "-">, TOpt, "-">
-                        : StartsWith<T, Chars<true>> extends true
+                        : T extends `${Chars<true>}${string}`
                             ? Take<T, TOpt, "">
                             : [undefined, T],
-    [ take: `${number}` | undefined, remaining: string ]
-    | Error
+    [ take: `${number}` | undefined, remaining: string ] | Error
 >;

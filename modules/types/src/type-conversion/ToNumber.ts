@@ -1,4 +1,5 @@
 import type {
+    Err,
     If,
     IsArray,
     IsEqual,
@@ -6,7 +7,6 @@ import type {
     IsTrue,
     IsTuple,
     Or,
-    Throw,
     ToNumericArray,
 } from "inferred-types/types";
 
@@ -24,10 +24,9 @@ export type ToNumber<TValue> = IsTuple<TValue> extends true
     ? TValue extends readonly unknown[]
         ? ToNumericArray<TValue> extends readonly (number | never)[]
             ? ToNumericArray<TValue>
-            : Throw<
+            : Err<
                 "can-not-convert",
                 `Attempt to convert a tuple into a numeric tuple failed!`,
-                "ToNumber",
                 { library: "inferred-types/constants"; value: TValue }
             >
         : never

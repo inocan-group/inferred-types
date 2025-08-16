@@ -1,5 +1,3 @@
-import type { ErrorCondition } from "inferred-types/types";
-
 /**
  * **AllowNonTupleWhenSingular**`<TTuple>`
  *
@@ -11,7 +9,7 @@ import type { ErrorCondition } from "inferred-types/types";
 export type AllowNonTupleWhenSingular<
     TTuple extends readonly unknown[],
 > = TTuple["length"] extends 1
-    ? TTuple[0] extends ErrorCondition
+    ? TTuple[0] extends Error
         ? TTuple[0]
         : TTuple | TTuple[0]
     : TTuple;

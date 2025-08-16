@@ -1,4 +1,4 @@
-import type { Dictionary, Tuple } from "../base-types";
+import type { Dictionary, Tuple } from "inferred-types/types";
 
 /**
  * **AsRecord**`<T>`

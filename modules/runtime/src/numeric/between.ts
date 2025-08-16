@@ -21,8 +21,8 @@ export function between<
     return <TVal extends number>(val: TVal) => {
         return (
             scope === "inclusively"
-                ? val > min && val < max
-                : val >= min && val <= max
+                ? val >= min && val <= max
+                : val > min && val < max
         ) as TScope extends "inclusively"
             ? IsBetweenInclusively<TVal, TMin, TMax>
             : TScope extends "exclusively"

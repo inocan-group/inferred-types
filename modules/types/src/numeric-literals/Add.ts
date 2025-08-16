@@ -1,18 +1,22 @@
-import type { And, As, If, IsNegativeNumber, IsString, IsWideType, Or } from "../boolean-logic";
-import type { AfterFirst } from "../lists/AfterFirst";
-import type { NumericChar } from "../string-literals/character-sets/NumericChar";
-import type { FixedLengthArray } from "../tuples/FixedLengthArray";
-import type { AsNumber } from "../type-conversion/AsNumber";
-import type { AsString } from "../type-conversion/AsString";
-import type { Abs } from "./Abs";
-import type { Decrement } from "./Decrement";
-import type { NumberLike } from "./NumberLike";
+import type {
+    Abs,
+    And,
+    As,
+    AsNumber,
+    If,
+    IsNegativeNumber,
+    IsString,
+    IsWideType,
+    NumberLike,
+    NumericChar,
+    Or,
+} from "inferred-types/types";
 
-type Either<left extends boolean, right extends boolean> =
-  left extends true ? true : right extends true ? true : false;
+type Either<left extends boolean, right extends boolean>
+  = left extends true ? true : right extends true ? true : false;
 
-type DecrementDigit<digit extends NumericChar> =
-  digit extends "1" ? "0"
+type DecrementDigit<digit extends NumericChar>
+  = digit extends "1" ? "0"
       : digit extends "2" ? "1"
           : digit extends "3" ? "2"
               : digit extends "4" ? "3"
@@ -24,8 +28,8 @@ type DecrementDigit<digit extends NumericChar> =
                                       : digit extends "10" ? "9"
                                           : never;
 
-type IncrementDigit<digit extends NumericChar> =
-  digit extends "0" ? { result: "1"; carry: false }
+type IncrementDigit<digit extends NumericChar>
+  = digit extends "0" ? { result: "1"; carry: false }
       : digit extends "1" ? { result: "2"; carry: false }
           : digit extends "2" ? { result: "3"; carry: false }
               : digit extends "3" ? { result: "4"; carry: false }
@@ -59,8 +63,8 @@ type SumSingleDigits<
 
 interface RightMostDigitResult<rest extends string, digit extends NumericChar> { rest: rest; digit: digit }
 
-type RightMostDigit<s extends string> =
-  s extends `${infer rest}${NumericChar}`
+type RightMostDigit<s extends string>
+  = s extends `${infer rest}${NumericChar}`
       ? s extends `${rest}${infer digit}`
           ? { rest: rest; digit: digit }
           : never
@@ -71,8 +75,8 @@ type SumStrings<
     right extends string,
     accumulatedResultDigits extends string = "",
     carry extends boolean = false,
-> =
-  "" extends left
+>
+  = "" extends left
   // Left is empty
       ? "" extends right
       // Right is empty
@@ -100,32 +104,17 @@ type SumStrings<
                   : never
               : never;
 
-type _Subtract<
-    TValue extends `${number}`,
-    TCountArr extends readonly unknown[],
-> = [] extends TCountArr
-    ? TValue
-    : _Subtract<Decrement<TValue>, AfterFirst<TCountArr>>;
-
-type AddNegatives<
-    A extends `${number}`,
-    B extends `${number}`,
-> = SumStrings<A, B>;
-
 type Process<
     A extends `${number}`,
     B extends `${number}`,
-> = And<[ IsNegativeNumber<A>, IsNegativeNumber<B> ]> extends true
-// Both operands are negative
-    ? `-${AddNegatives<Abs<A>, Abs<B>>}`
-    : IsNegativeNumber<B> extends true
-        ? FixedLengthArray<unknown, AsNumber<Abs<B>>> extends readonly unknown[]
-            ? _Subtract<A, FixedLengthArray<unknown, AsNumber<Abs<B>>>>
-            : never
-        : IsNegativeNumber<A> extends true
-            ? FixedLengthArray<unknown, AsNumber<Abs<A>>> extends readonly unknown[]
-                ? _Subtract<B, FixedLengthArray<unknown, AsNumber<Abs<A>>>>
-                : never
+>
+    // Both operands are negative: sum their absolutes, then apply negative sign
+    = And<[ IsNegativeNumber<A>, IsNegativeNumber<B> ]> extends true
+        ? `-${SumStrings<Abs<A>, Abs<B>>}`
+    // Mixed signs: would require subtraction, return wide type to avoid circular dependency
+        : Or<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
+            ? `${number}`
+        // Both positive: use digit-wise addition
             : SumStrings<A, B>;
 
 type CheckWide<
@@ -147,16 +136,31 @@ type PreProcess<
     : Or<[IsWideType<A>, IsWideType<B>]> extends true
     // wide types found
         ? If<IsString<A>, string, number>
-    // both are literals
-        : A extends `${number}`
-            ? B extends `${number}`
-                ? As<Process<A, B>, `${number}`>
-                : As<Process<A, AsString<B>>, `${number}`>
-            : A extends number
-                ? B extends number
-                    ? AsNumber<Process<`${A}`, `${B}`>>
-                    : AsNumber<Process<`${A}`, As<B, `${number}`>>>
-                : never;
+    // both are literals - check for mixed signs to avoid complexity
+        : And<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
+            // Both negative - safe to process
+            ? A extends `${number}`
+                ? B extends `${number}`
+                    ? As<Process<A, B>, `${number}`>
+                    : As<Process<A, `${As<B, number>}`>, `${number}`>
+                : A extends number
+                    ? B extends number
+                        ? AsNumber<Process<`${A}`, `${B}`>>
+                        : AsNumber<Process<`${A}`, As<B, `${number}`>>>
+                    : never
+            : Or<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
+            // One is negative, one is positive - return wide type to avoid complexity
+                ? A extends `${number}` ? `${number}` : number
+            // Same signs or both positive - proceed normally
+                : A extends `${number}`
+                    ? B extends `${number}`
+                        ? As<Process<A, B>, `${number}`>
+                        : As<Process<A, `${As<B, number>}`>, `${number}`>
+                    : A extends number
+                        ? B extends number
+                            ? AsNumber<Process<`${A}`, `${B}`>>
+                            : AsNumber<Process<`${A}`, As<B, `${number}`>>>
+                        : never;
 
 /**
  * **Add**`<A,B>`
@@ -165,6 +169,9 @@ type PreProcess<
  *
  * - if either or both `A` and `B` are a `${number}` then a `${number}` type is returned
  * - if both are numeric values than the type is `number`.
+ *
+ * **Related:**
+ * - `AddPositive` - a simpler utility that only handles positive numbers
  */
 export type Add<
     A extends NumberLike,

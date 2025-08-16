@@ -1,14 +1,25 @@
 import type {
-    FourDigitYear,
-    IsoDateLike,
-    IsoYearMonthLike,
-    IsStringLiteral,
-    IsWideString,
-    Length,
-    ParseDate,
-    ParsedDate,
-    TwoDigitDate,
+    EmptyObject,
+    Every,
+    IsAny,
+    IsEqual,
+    IsIsoFullDate,
+    IsIsoMonthDate,
+    IsIsoYear,
+    IsIsoYearMonth,
+    IsNever,
+    IsNull,
+    IsUnion,
+    IsUnknown,
+    Some,
+    UnionToTuple
 } from "inferred-types/types";
+
+type Member<
+    T extends readonly unknown[]
+> = {
+    [K in keyof T]: IsIsoDate<T[K]>
+};
 
 /**
  * **IsIsoDate**`<T>`
@@ -17,58 +28,36 @@ import type {
  * format:
  *
  *  - `YYYY-MM-DD`,
- *  - `--MM-DD` - _for year-independent dates_
- */
-export type IsIsoDate<T> = T extends IsoDateLike
-    ? ParseDate<T> extends Error
-        ? false
-        : true
-    : false;
-
-/**
- * Tests whether `T` is a valid ISO Date which captures year
- * and month but not date:
+ *  - `--MM-DD` or `--MMDD` - _for year-independent dates_
+ *  - `-YYYY-DD` or `-YYYYDD` - _for year-month resolution with specific date_
  *
- * - `-YYYY-MM` _or_ `-YYYYMM`
- *
- * **Related:** `IsIsoYearMonthTime`
+ * **Note:** this _does not_ match on DateTime combinations; use `IsIsoDateTime`
+ * for that.
  */
-export type IsIsoYearMonth<T> = T extends IsoYearMonthLike
-    ? IsWideString<T> extends true
+export type IsIsoDate<T> = [IsNever<T>] extends [true]
+    ? false
+    : [IsAny<T>] extends [true]
         ? boolean
-        : ParseDate<T> extends ParsedDate
-            ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, any, any]
-                ? true
-                : false
-            : false
-    : false;
-
-/**
- * Tests whether `T` is a valid **ISO Date** which captures month
- * and date but not year:
- *
- * - `-YYYY-MM` _or_ `-YYYYMM`
- *
- * **Related:** `IsIsoMonthDateTime`
- */
-export type IsIsoMonthDate<T> = T extends IsoYearMonthLike
-    ? IsWideString<T> extends true
-        ? boolean
-        : ParseDate<T> extends ParsedDate
-            ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, any, any]
-                ? true
-                : false
-            : false
-    : false;
-
-/**
- * Boolean operator which tests whether `T` is a ISO Year (
- * a four digit year)
- */
-export type IsIsoYear<T> = IsStringLiteral<T> extends true
-    ? T extends `${number}`
-        ? Length<T> extends 4
-            ? true
-            : false
-        : false
-    : boolean;
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : [IsNull<T>] extends [true]
+                ? false
+                : [IsEqual<T, EmptyObject>] extends [true]
+                    ? false
+                    : [string] extends [T]
+                        ? boolean
+                        : [IsUnion<T>] extends [true]
+                            ? [Every<Member<UnionToTuple<T>>, "equals", true>] extends [true]
+                                ? true
+                                : [Some<Member<UnionToTuple<T>>, "equals", true>] extends [true]
+                                    ? boolean
+                                    : false
+                            : [IsIsoFullDate<T>] extends [true]
+                                ? true
+                                : [IsIsoYearMonth<T>] extends [true]
+                                    ? true
+                                    : [IsIsoMonthDate<T>] extends [true]
+                                        ? true
+                                        : [IsIsoYear<T>] extends [true]
+                                            ? true
+                                            : false;

@@ -1,19 +1,54 @@
-import type { IsWideString, Replace, TwoDigitMonth } from "inferred-types/types";
+import type { As, Err, NumericChar, StartsWithTemplateLiteral, StripLeading, TwoDigitMonth } from "inferred-types/types";
+
+type InvalidMonth<T extends string> = Err<
+    `parse-date/month`,
+    `The value '${T}' can not be parsed into a valid TwoDigitMonth!`,
+    { month: T }
+>;
+
+type Take<T extends string> = string extends T
+    ? Error | { take: TwoDigitMonth<"branded">; rest: string }
+    : StartsWithTemplateLiteral<T> extends true
+        ? Error | { take: [TwoDigitMonth<"branded">]; rest: string }
+        : T extends `${infer C1}${infer C2}${infer Rest}`
+            ? C1 extends NumericChar
+                ? C2 extends NumericChar
+                    ? `${C1}${C2}` extends TwoDigitMonth<"normal">
+                        ? {
+                            take: TwoDigitMonth<`${C1}${C2}`>;
+                            rest: Rest;
+                        }
+                        : InvalidMonth<T>
+                    : InvalidMonth<T>
+                : InvalidMonth<T>
+            : InvalidMonth<T>;
 
 /**
- * **TakeMonth**`<T, [TOpt]>`
+ * **TakeMonth**`<T, TIgnoreLeading>`
  *
- * Looks for `TwoDigitSecond` at front of the string and if it finds
+ * Looks for `TwoDigitMonth` at front of the string and if it finds
  * it will return:
  *
- * - `[ TwoDigitMinute, Rest ]`
+ * - `{ take: TwoDigitMonth, rest: Rest }`
+ *
+ * If there is no match:
+ *
+ * - `{ take: null, rest: T }`
+ *
+ * @param TIgnoreLeading - Optional character to ignore if found at the beginning of the string
  */
 export type TakeMonth<
     T extends string,
-> = IsWideString<T> extends true
-    ? string
-    : T extends `${TwoDigitMonth}${infer Rest extends string}`
-        ? Replace<T, Rest, ""> extends TwoDigitMonth
-            ? [ Replace<T, Rest, "">, Rest ]
-            : [ undefined, T ]
-        : [ undefined, T ];
+    TIgnoreLeading extends string | null = null
+> = As<
+    TIgnoreLeading extends string
+        ? string extends TIgnoreLeading
+            ? never
+            : Take<
+                As<StripLeading<T, TIgnoreLeading>, string>
+            >
+
+        : Take<T>,
+
+    Error | { take: TwoDigitMonth<"branded">; rest: string }
+>;

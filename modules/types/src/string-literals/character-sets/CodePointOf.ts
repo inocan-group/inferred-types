@@ -107,8 +107,8 @@ type CharCodeMap = {
     "~": 126;
 };
 
-type CodePointsTuple<T extends readonly string[]> =
-  T extends [infer H extends string, ...infer R extends string[]]
+type CodePointsTuple<T extends readonly string[]>
+  = T extends [infer H extends string, ...infer R extends string[]]
       ? H extends keyof CharCodeMap
           ? [CharCodeMap[H], ...CodePointsTuple<R>]
           : [1, ...CodePointsTuple<R>]
@@ -126,8 +126,8 @@ type CodePointsTuple<T extends readonly string[]> =
  * you will get an `invalid-value/empty` or `invalid-value/wide-string`
  * error back respectively.
  */
-export type CodePointOf<T extends string> =
-  IsWideString<T> extends true
+export type CodePointOf<T extends string>
+  = IsWideString<T> extends true
       ? Err<`invalid-value/wide-string`, `Call to the type utility CodePointOf<T> with a wide string value is not allowed!`>
       : Chars<T> extends [infer Char extends string]
           ? Char extends keyof CharCodeMap

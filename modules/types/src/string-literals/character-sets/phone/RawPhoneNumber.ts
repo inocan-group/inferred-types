@@ -1,7 +1,7 @@
 import type {
     And,
     Contains,
-    ErrorCondition,
+    Err,
     If,
     IsEqual,
     IsGreaterThan,
@@ -9,7 +9,7 @@ import type {
     IsStringLiteral,
     NumericChar,
     OnPass,
-    Optional,
+    Opt,
     Or,
     StartsWith,
     StripChars,
@@ -21,15 +21,15 @@ type _RightLength<T extends string> = If<
     StartsWith<T, "+">,
     If<
         Contains<T, "1-">, // using 1- for country code nomenclature
-        If<StrLen<T> extends 16 ? true : false, T, ErrorCondition<"invalid-raw-phone-number", `Wrong number of characters for international number: ${T}`>>,
-        If<StrLen<T> extends 15 ? true : false, T, ErrorCondition<"invalid-raw-phone-number", `Wrong number of characters for international number: ${T}`>>
+        If<StrLen<T> extends 16 ? true : false, T, Err<"invalid-raw-phone-number", `Wrong number of characters for international number: ${T}`>>,
+        If<StrLen<T> extends 15 ? true : false, T, Err<"invalid-raw-phone-number", `Wrong number of characters for international number: ${T}`>>
     >,
     If<
         StartsWith<T, "00">,
         If<
             Contains<T, "1-">, // using 1- for country code nomenclature
-            If<StrLen<T> extends 15 ? true : false, T, ErrorCondition<"invalid-raw-phone-number", `Wrong number of characters for international number: ${T}`>>,
-            If<StrLen<T> extends 14 ? true : false, T, ErrorCondition<"invalid-raw-phone-number", `Wrong number of characters for international number: ${T}`>>
+            If<StrLen<T> extends 15 ? true : false, T, Err<"invalid-raw-phone-number", `Wrong number of characters for international number: ${T}`>>,
+            If<StrLen<T> extends 14 ? true : false, T, Err<"invalid-raw-phone-number", `Wrong number of characters for international number: ${T}`>>
         >,
         If<
             Or<[ IsEqual<StrLen<T>, 10>, IsEqual<StrLen<T>, 12> ]>,
@@ -37,7 +37,7 @@ type _RightLength<T extends string> = If<
             If<
                 And<[ IsGreaterThan<StrLen<T>, 2>, IsLessThan<StrLen<T>, 8>]>,
                 T,
-                ErrorCondition<"invalid-raw-phone-number">
+                Err<"invalid-raw-phone-number">
             >
         >
     >
@@ -45,7 +45,7 @@ type _RightLength<T extends string> = If<
 
 type _RightChars<T extends string> = StripChars<T, NumericChar | "+" | "-"> extends ""
     ? T
-    : ErrorCondition<
+    : Err<
         "invalid-raw-phone-number",
         `The only valid characters in a raw phone number is numeric characters with the rare exception of a "+" or "-" when used in the right manner`
     >;
@@ -72,7 +72,7 @@ type _RightChars<T extends string> = StripChars<T, NumericChar | "+" | "-"> exte
 export type RawPhoneNumber<
     T extends string | Unset = Unset,
 > = T extends Unset
-    ? `${Optional<"+">}${number}${NumericChar}${NumericChar}`
+    ? `${Opt<"+">}${number}${NumericChar}${NumericChar}`
     : T extends string
         ? IsStringLiteral<T> extends true
             ? OnPass<
@@ -82,5 +82,5 @@ export type RawPhoneNumber<
                 ],
                 T
             >
-            : T | ErrorCondition<"invalid-raw-phone-number">
+            : T | Error
         : never; //

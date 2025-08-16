@@ -1,6 +1,6 @@
 import type { Variable } from "inferred-types/types";
 import { ALPHA_CHARS, NUMERIC_CHAR } from "inferred-types/constants";
-import { asChars, isString, startsWith } from "inferred-types/runtime";
+import { asChars, isString, startsWithTypeguard } from "inferred-types/runtime";
 
 const VALID = [
     ...ALPHA_CHARS,
@@ -16,5 +16,5 @@ function valid(chars: string[]): boolean {
 }
 
 export function isVariable(val: unknown): val is Variable {
-    return isString(val) && startsWith(alpha)(val) && valid(asChars(val));
+    return isString(val) && startsWithTypeguard(alpha)(val) && valid(asChars(val));
 }

@@ -1,9 +1,9 @@
 import type { CsvToJsonTuple, CsvToTuple, CsvToTupleStr } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
-import { isNumberLike } from "../type-guards";
+import { isNumberLike } from "runtime/type-guards";
 
-export type CsvFormat =
-    | "string-tuple"
+export type CsvFormat
+    = | "string-tuple"
     | "string-numeric-tuple"
     | "json-tuple";
 

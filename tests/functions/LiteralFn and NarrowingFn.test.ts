@@ -2,14 +2,14 @@ import { describe, it } from "vitest";
 import {
     Expect,
     AsFnMeta,
-    AsLiteralFn,
+    AsStaticFn,
     AsNarrowingFn,
     IsNarrowingFn,
-    LiteralFn,
+    StaticFn,
     NarrowingFn,
     Test
 } from "inferred-types/types";
-import { IsEqual } from "transpiled/types";
+import { IsEqual } from "inferred-types/types";
 
 
 
@@ -84,10 +84,10 @@ describe("LiteralFn<T>", () => {
 
   it("happy path", () => {
     type Base = (name: string) => string;
-    type Fn1 = LiteralFn<Base>;
-    type Idempotent = LiteralFn<Fn1>;
-    type FromNarrowing = LiteralFn<NarrowingFn<Base>>;
-    type MyNarrow = LiteralFn<<TName extends string, TAge extends number>(name: TName, age: TAge) => `${TName} is ${TAge} years old`>;
+    type Fn1 = StaticFn<Base>;
+    type Idempotent = StaticFn<Fn1>;
+    type FromNarrowing = StaticFn<NarrowingFn<Base>>;
+    type MyNarrow = StaticFn<<TName extends string, TAge extends number>(name: TName, age: TAge) => `${TName} is ${TAge} years old`>;
 
     type Meta = AsFnMeta<MyNarrow>;
 
@@ -108,12 +108,12 @@ describe("LiteralFn<T>", () => {
 
 });
 
-describe("AsLiteralFn<TParam,TReturn,TProps>", () => {
+describe("AsStaticFn<TParam,TReturn,TProps>", () => {
 
   it("happy path", () => {
-    type Basic = AsLiteralFn<[], "hi">;
-    type WithParams = AsLiteralFn<[name: string], "hi">;
-    type WithProps = AsLiteralFn<[], "hi", { foo: 1}>;
+    type Basic = AsStaticFn<[], "hi">;
+    type WithParams = AsStaticFn<[name: string], "hi">;
+    type WithProps = AsStaticFn<[], "hi", { foo: 1}>;
 
 
     type cases = [

@@ -40,8 +40,8 @@ import type {
  *
  * **Related:** `Uom`, `Metric`
  */
-export type MetricCategory =
-    | "Acceleration"
+export type MetricCategory
+    = | "Acceleration"
     | "Area"
     | "Current"
     | "Distance"

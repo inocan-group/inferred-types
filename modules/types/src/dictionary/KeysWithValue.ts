@@ -2,7 +2,7 @@ import type {
     And,
     AnyFunction,
     Dictionary,
-    IsObjectLiteral,
+    IsLiteralLikeObject,
     ObjectKey,
 } from "inferred-types/types";
 
@@ -22,7 +22,7 @@ import type {
 export type KeysWithValue<
     TObj extends Dictionary,
     TValue,
-> = IsObjectLiteral<TObj> extends true
+> = IsLiteralLikeObject<TObj> extends true
     ? {
         [K in keyof TObj]: TObj[K] extends TValue
             ? TObj[K] extends AnyFunction

@@ -1,7 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { AsIndexOf, DoesExtend, ErrorCondition, Test } from "inferred-types/types";
+import { Expect, AsIndexOf,  Test } from "inferred-types/types";
 
 
 
@@ -23,13 +22,10 @@ describe("AsIndexOf<T,K>", () => {
             Expect<Test<T2, "equals",  2>>,
             Expect<Test<T3, "equals",  number>>,
 
-            Expect<DoesExtend<E1, ErrorCondition<"invalid-key">>>,
+            Expect<Test<E1, "isError", true>>,
             Expect<Test<E2, "equals",  "you fool!">>
         ];
-        const cases: cases = [
-            true, true, true,
-            true, true
-        ];
+
     });
 
 });

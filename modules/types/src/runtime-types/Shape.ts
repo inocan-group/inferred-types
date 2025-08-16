@@ -2,7 +2,6 @@ import type {
     As,
     AsArray,
     AsUnionToken,
-    CivilianTime,
     Container,
     FromDefn,
     FromShapeCallback,
@@ -13,12 +12,10 @@ import type {
     IsFalse,
     IsNever,
     IsTrue,
-    MilitaryTime,
     Narrowable,
     ObjectKey,
     SimpleToken,
     Suggest,
-    TimeResolution,
     Tuple,
     TupleToUnion,
     TypeTokenKind,
@@ -102,28 +99,7 @@ export interface StringTokenUtilities<T> {
      * A union type including both `zip` and `zipPlus4` patterns.
      */
     zipCode: () => ZipCode;
-    /**
-     * **militaryTime**
-     *
-     * Time based on a 24-hour military clock. You may optionally choose your time
-     * resolution but the default is `HH:MM`; options are:
-     *
-     * - `HH:MM` - 12:49, 22:15, etc.
-     * - `HH:MM:SS`
-     * - `HH:MM:SS.ms`
-     */
-    militaryTime: <T extends TimeResolution = "HH:MM">(resolution?: T) => MilitaryTime<T>;
-    /**
-     * **civilianTime**
-     *
-     * Time based on a 12-hour civilian clock. You may optionally choose your time
-     * resolution but the default is `HH:MM`; options are:
-     *
-     * - `HH:MM` - 9:45am, 3:45pm, etc.
-     * - `HH:MM:SS`
-     * - `HH:MM:SS.ms`
-     */
-    civilianTime: <T extends TimeResolution = "HH:MM">(resolution?: T) => CivilianTime<T>;
+
     /**
      * **ipv4Address**
      *
@@ -267,7 +243,7 @@ export type FnPropertiesDefn = DictionaryTypeDefn;
 //     });
 // }
 type ShapeApi__Functions = {
-    fn: <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) =>({
+    fn: <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) => ({
         returns: <TReturn extends FnReturnTypeDefn>(rtn: TReturn) => ({
             addProperties: <
                 TProps extends FnPropertiesDefn,
@@ -392,12 +368,12 @@ interface ShapeApi__LiteralContainers {
  * -- with the `ShapeCallback` type which simply gives this API to the caller of
  * the function.
  */
-export type ShapeApi = { kind: "shape" } &
-    ShapeApi__Scalars &
-    ShapeApi__Union &
-    ShapeApi__Functions &
-    ShapeApi__WideContainers &
-    ShapeApi__LiteralContainers;
+export type ShapeApi = { kind: "shape" }
+    & ShapeApi__Scalars
+    & ShapeApi__Union
+    & ShapeApi__Functions
+    & ShapeApi__WideContainers
+    & ShapeApi__LiteralContainers;
 
 /**
  * **ShapeCallback**

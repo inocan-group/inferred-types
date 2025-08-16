@@ -6,7 +6,7 @@ import type {
     TokenName,
     TokenType,
 } from "inferred-types/types";
-import { simpleType } from "./simpleToken";
+import { simpleType } from "inferred-types/runtime";
 
 function staticToken<TToken extends TokenName>(
     name: TToken,
@@ -39,7 +39,7 @@ function dynamicToken<
 }
 
 /**
- * **creeateToken**`(name,baseType,params,parser)`
+ * **createToken**`(name,baseType,params,parser)`
  *
  * Creates a token to be used in a `Grammar`.
  */

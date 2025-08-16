@@ -6,8 +6,8 @@ import type {
     Extends,
     First,
     IsBooleanLiteral,
+    IsLiteralLikeObject,
     IsNumericLiteral,
-    IsObjectLiteral,
     IsStringLiteral,
     IsUnion,
     IsWideContainer,
@@ -108,7 +108,7 @@ type InnerObject<
 export type ObjectToString<
     T extends Dictionary,
     O extends Required<ToJsonOptions> = { quote: "'"; encode: false }
-> = IsObjectLiteral<T> extends true
+> = IsLiteralLikeObject<T> extends true
     ? `{ ${InnerObject<T, StringKeys<T>, O>} }`
     : T extends Record<string, infer V>
         ? `Record<string, ${ToString<V>}>`

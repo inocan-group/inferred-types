@@ -11,7 +11,7 @@ import type {
     AnyFunction,
     As,
     Box,
-    ErrorCondition,
+    Err,
     Extends,
     If,
     IsArray,
@@ -106,8 +106,8 @@ type ToType<
 type ToBaseType<
     TKind extends TypeKind,
     TUnderlying extends TypeUnderlying = "no-underlying",
-> = //
-  TKind extends "string" ? string
+> //
+  = TKind extends "string" ? string
       : TKind extends "number" ? number
           : TKind extends "boolean" ? boolean
               : TKind extends "null" ? null
@@ -121,8 +121,8 @@ type ToBaseType<
                                               : TKind extends "unknownObject" ? Record<string, unknown>
                                                   : TKind extends "unknownFunction" ? AnyFunction
                                                       : TKind extends "unknownObject" ? Record<string, unknown>
-                                                          : TKind extends "fnWithDict" ?
-                                                              TUnderlying extends readonly [
+                                                          : TKind extends "fnWithDict"
+                                                              ? TUnderlying extends readonly [
                                                                   { kind: "fnType"; type: unknown; [key: string]: unknown },
                                                                   { kind: "object"; type: unknown; [key: string]: unknown },
                                                               ]
@@ -267,7 +267,7 @@ export type TypeHasUnderlying = "no-underlying" | "literals" | "children";
  * A function which is provided a value `T` and must either return
  * `true` or an `ErrorCondition` which describes the issue.
  */
-export type ValidationFunction = <T, E extends string>(value: T) => true | ErrorCondition<E>;
+export type ValidationFunction = <T, E extends string>(value: T) => true | Err<E>;
 
 /**
  * A type definition which retains valuable runtime characteristics

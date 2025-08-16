@@ -47,8 +47,8 @@ export type IT_LiteralToken = {
         : never
 }[number];
 
-type BaseSuggest =
-| `${IT_AtomicToken}`
+type BaseSuggest
+= | `${IT_AtomicToken}`
 | `string | undefined`
 | `number | undefined`
 | `boolean | undefined`
@@ -57,8 +57,8 @@ type BaseSuggest =
 | `string | undefined`
 | `string | number | undefined`;
 
-type LiteralSuggest =
-| `String(foo)` | `String(bar)`
+type LiteralSuggest
+= | `String(foo)` | `String(bar)`
 | `Number(1)` | `Number(42)`
 | `Boolean(true)` | `Boolean(false)`;
 
@@ -66,8 +66,8 @@ type LiteralSuggest =
  * A set of fairly simple `InputTokens` which can be used as a type
  * or a suggested type.
  */
-export type InputToken__SimpleTokens =
-| BaseSuggest
+export type InputToken__SimpleTokens
+= | BaseSuggest
 | `Array<string>` | `Array<number>` | `Array<boolean>` | `Array<unknown>`
 | `Array<string | number>`
 | `Array<string | undefined>` | `Array<number | undefined>` | `Array<boolean | undefined>`

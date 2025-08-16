@@ -1,4 +1,4 @@
-import type { If, IsThenable } from "inferred-types/types";
+import type { IsThenable } from "inferred-types/types";
 
 /**
  * **AsyncFunction**`<[TParams], [TReturns]>`
@@ -13,8 +13,6 @@ import type { If, IsThenable } from "inferred-types/types";
 export type AsyncFunction<
     TParams extends readonly unknown[] = readonly unknown[],
     TReturns = unknown,
-> = (...params: TParams) => If<
-    IsThenable<TReturns>,
-    TReturns,
-    Promise<TReturns>
->;
+> = (...params: TParams) => IsThenable<TReturns> extends true
+    ? TReturns
+    : Promise<TReturns>;

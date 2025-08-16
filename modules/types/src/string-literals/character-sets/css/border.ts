@@ -6,8 +6,8 @@ import type { CssSizing } from "./sizing";
  * CSS Border Styles
  * ([reference](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style))
  */
-export type CssBorderStyle =
-    | "none"
+export type CssBorderStyle
+    = | "none"
     | "hidden"
     | "dotted"
     | "dashed"
@@ -22,8 +22,8 @@ export type CssBorderStyle =
  * CSS Border Width
  * ([reference](https://developer.mozilla.org/en-US/docs/Web/CSS/border-width))
  */
-export type CssBorderWidth =
-    | "thin"
+export type CssBorderWidth
+    = | "thin"
     | "medium"
     | "thick"
     | CssSizing;
@@ -51,8 +51,8 @@ export type CssBorderCollapse = "collapse" | "separate" | CssGlobal;
  * an element's border image. The middle region can be displayed by using
  * the keyword "fill" in the border-image-slice property.
  */
-export type CssBorderImageRepeat =
-    | "stretch"
+export type CssBorderImageRepeat
+    = | "stretch"
     | "repeat"
     | "round"
     | "space";

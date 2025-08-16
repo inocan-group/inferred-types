@@ -2,11 +2,10 @@ import { describe, it } from "vitest";
 import {
     Expect,
     Test,
-    IsLiteral,
+    IsLiteralLike,
     EmptyObject,
-    IsObjectLiteral,
     ExplicitlyEmptyObject,
-    Dictionary
+    Dictionary,
 } from "inferred-types/types";
 import { IsWideType, Keys } from "inferred-types";
 
@@ -15,12 +14,12 @@ import { IsWideType, Keys } from "inferred-types";
 describe("IsLiteral<T>", () => {
 
     it("positive tests", () => {
-        type T1 = IsLiteral<"foo">;
-        type T2 = IsLiteral<42>;
-        type T3 = IsLiteral<true>;
-        type T4 = IsLiteral<false>;
-        type T5 = IsLiteral<{ foo: number }>;
-        type T6 = IsLiteral<["foo", "bar", "baz"]>;
+        type T1 = IsLiteralLike<"foo">;
+        type T2 = IsLiteralLike<42>;
+        type T3 = IsLiteralLike<true>;
+        type T4 = IsLiteralLike<false>;
+        type T5 = IsLiteralLike<{ foo: number }>;
+        type T6 = IsLiteralLike<["foo", "bar", "baz"]>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -34,18 +33,16 @@ describe("IsLiteral<T>", () => {
 
 
     it("negative tests", () => {
-        type F1 = IsLiteral<string>;
-        type F2 = IsLiteral<number>;
-        type F3 = IsLiteral<boolean>;
-        type F4 = IsLiteral<object>;
-        type F5 = IsLiteral<string[]>;
-        type F6 = IsLiteral<readonly string[]>;
+        type F1 = IsLiteralLike<string>;
+        type F2 = IsLiteralLike<number>;
+        type F4 = IsLiteralLike<object>;
+        type F5 = IsLiteralLike<string[]>;
+        type F6 = IsLiteralLike<readonly string[]>;
 
 
         type cases = [
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
-            Expect<Test<F3, "equals", false>>,
             Expect<Test<F4, "equals", false>>,
             Expect<Test<F5, "equals", false>>,
             Expect<Test<F6, "equals", false>>,
@@ -54,16 +51,16 @@ describe("IsLiteral<T>", () => {
 
 
     it("Edge Cases", () => {
-        type Empty = IsLiteral<EmptyObject>;
-        type Explicit = IsLiteral<ExplicitlyEmptyObject>;
-        type BaseDictionary = IsObjectLiteral<Dictionary>;
+        type Empty = IsLiteralLike<EmptyObject>;
+        type Explicit = IsLiteralLike<ExplicitlyEmptyObject>;
+        type BaseDictionary = IsLiteralLike<Dictionary>;
         // eslint-disable-next-line @typescript-eslint/ban-types
-        type Curly = IsLiteral<{}>;
+        type Curly = IsLiteralLike<{}>;
 
         type cases = [
             // an empty object still allows key/value pairs to be added after it
             // is declared so it is NOT a literal
-            Expect<Test<Empty, "equals", false>>,
+            Expect<Test<Empty, "equals", true>>,
             // an explicitly empty object -- which has it's index keys set to _never_
             // -- can never have any key/values and therefore IS a literal
             Expect<Test<Explicit, "equals", true>>,

@@ -1,5 +1,4 @@
-import type { FromDefn, Narrowable, ShapeCallback } from "inferred-types/types";
-import { handleDoneFn, isFunction, ShapeApiImplementation } from "inferred-types/runtime";
+import type { Narrowable } from "inferred-types/types";
 
 /**
  * **createTuple**(...values) -> (...values) -> Tuple
@@ -18,11 +17,7 @@ import { handleDoneFn, isFunction, ShapeApiImplementation } from "inferred-types
  * ```
  */
 export function defineTuple<
-    T extends readonly (Narrowable | ShapeCallback)[],
+    const T extends readonly Narrowable[],
 >(...values: T) {
-    return values.map(
-        i => isFunction(i)
-            ? handleDoneFn((i as ShapeCallback)(ShapeApiImplementation))
-            : i,
-    ) as unknown as FromDefn<T>;
+    return values as unknown as T;
 }

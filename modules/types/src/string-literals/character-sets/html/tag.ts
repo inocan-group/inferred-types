@@ -87,8 +87,8 @@ export type AsHtmlTag<
  * A type utility that narrows the input type to valid HTML component tags
  * (`kebab-case` or `PascalCase`) and ensures valid attributes.
  */
-export type AsHtmlComponentTag<T> =
-  T extends `<${infer Name} ${infer Attr}/>`
+export type AsHtmlComponentTag<T>
+  = T extends `<${infer Name} ${infer Attr}/>`
       ? T & (`<${PascalCase<Name>} ${Attr}/>` | `<${KebabCase<Name>} ${Attr}/>`)
       : T extends `<${infer Name} ${infer Attr}>`
           ? T & (`<${PascalCase<Name>} ${Attr}>` | `<${KebabCase<Name>} ${Attr}>`)

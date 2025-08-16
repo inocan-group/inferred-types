@@ -1,4 +1,4 @@
-import { asDate } from "./asDate";
+import { asDate } from "runtime/datetime/asDate";
 
 /**
  * Provides the number of days between two dates.

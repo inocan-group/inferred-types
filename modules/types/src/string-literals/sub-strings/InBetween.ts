@@ -1,6 +1,6 @@
 import type { And, Concat, Contains, IsWideString, Or, StripAfter, StripBefore } from "inferred-types/types";
 
-export type InbetweenOptions = {
+export type InBetweenOptions = {
     policy?: "inclusive" | "exclusive";
     noMatch?: unknown;
 };
@@ -22,7 +22,7 @@ export type InBetween<
     T extends string,
     TStart extends string,
     TEnd extends string,
-    TOpt extends InbetweenOptions = { noMatch: ""; policy: "exclusive" }
+    TOpt extends InBetweenOptions = { noMatch: ""; policy: "exclusive" }
 > = Or<[
     IsWideString<T>,
     IsWideString<TStart>,

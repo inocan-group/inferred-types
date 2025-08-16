@@ -1,35 +1,29 @@
 import type {
     Dictionary,
     ExpandDictionary,
-    ObjectKey,
-    TupleToUnion,
+    ObjectKey
 } from "inferred-types/types";
-
-type Process<
-    TObj extends Dictionary,
-    TKeys extends ObjectKey,
-> = [] extends TKeys
-    ? TObj
-    : Omit<TObj, TKeys>;
 
 /**
  * **WithoutKeys**`<TObj, TKeys>`
  *
- * Removes the keys in `TKeys` from an object `TObj`. This is
- * functionally equivalent to the `Omit<T,U>` built-in but rather than
- * taking a union type it takes an array of keys.
+ * Removes the keys in `TKeys` from an object `TObj`.
+ *
+ * **Note:** This is functionally equivalent to the `Omit<T,U>` built-in but:
+ *
+ * - allows passing in a union type (like Omit)
+ * - or a tuple of ObjectKey's (distinct from Omit).
  */
 export type WithoutKeys<
     TObj extends Dictionary,
     TKeys extends ObjectKey | readonly ObjectKey[],
 > = TKeys extends readonly ObjectKey[]
-    ? Process<
+    ? Omit<
         TObj,
-        TupleToUnion<TKeys>
+        TKeys[number]
     >
-    : ExpandDictionary<Process<
-        TObj,
-        TKeys extends readonly ObjectKey[]
-            ? TupleToUnion<TKeys>
-            : TKeys
-    >>;
+    : TKeys extends ObjectKey
+        ? ExpandDictionary<
+            Omit<TObj, TKeys>
+        >
+        : never;

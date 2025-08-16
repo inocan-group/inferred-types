@@ -1,8 +1,7 @@
-import type { CssGlobal } from "./global";
-import type { CssSizing } from "./sizing";
+import type { CssGlobal, CssSizing } from "types/string-literals/character-sets/css";
 
-type Overflow =
-    | "visible"
+type Overflow
+    = | "visible"
     | "hidden"
     | "clip"
     | "scroll"
@@ -47,8 +46,8 @@ export type CssOverflowAnchor = "auto" | "none";
  * being clipped. The bound defined by this property is called the
  * overflow clip edge of the box.
  */
-export type CssOverflowClipMargin =
-    | CssSizing
+export type CssOverflowClipMargin
+    = | CssSizing
     | `content-box ${CssSizing}`
     | CssGlobal;
 

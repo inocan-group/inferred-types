@@ -1,12 +1,12 @@
 import type {
     AnyObject,
+    AsString,
     ExplicitlyEmptyObject,
     IsWideContainer,
     Join,
     KeyValue,
     ToKv
 } from "inferred-types/types";
-import type { AsString } from "./AsString";
 
 type Prefix<T extends boolean> = T extends true
     ? "\n  "

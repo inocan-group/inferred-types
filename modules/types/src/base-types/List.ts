@@ -1,12 +1,12 @@
 import type {
     AnyFunction,
     AsArray,
+    BCP47,
     Dictionary,
     Fail,
     Flatten,
     IsInteger,
 } from "inferred-types/types";
-import type { BCP47 } from "../string-literals/character-sets/BCP";
 
 type ShallowCopy<T> = T;
 type New<T> = T;

@@ -1,8 +1,10 @@
 import type {
+    As,
     Dictionary,
     EmptyObject,
     If,
     IsEqual,
+    NotFilter,
     ObjectKey,
     UnionToTuple,
     Unset,
@@ -30,7 +32,8 @@ import type {
 export type OptionalKeys<
     T,
     V = Unset,
-> = T extends Dictionary
+>
+= T extends Dictionary
 
     ? {
         [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
@@ -43,14 +46,15 @@ export type OptionalKeys<
  * **OptionalKeysTuple**`<T>`
  *
  * Provides a tuple of the _keys_ in `T` which are
- * **required** properties.
+ * **optional** properties.
  *
  * **Related:** `RequiredKeys`, `OptionalProps`
  */
 export type OptionalKeysTuple<
     T,
 > = T extends Dictionary
-    ? UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
-        ? UnionToTuple<OptionalKeys<T>>
-        : never
+    ? As<
+        NotFilter<UnionToTuple<OptionalKeys<T>>, "equals", [boolean]>,
+        readonly ObjectKey[]
+    >
     : never;

@@ -20,10 +20,9 @@ type InnerRest = { inner: string; rest: string };
 
 type Segment<
     T extends string,
-    U extends readonly string[] = NestedSplit<
-        RetainAfter<T, "WeakMap<">,
-        ">"
-    >
+    U extends readonly string[] = NestedSplit<RetainAfter<T, "WeakMap<">, ">"> extends readonly string[]
+        ? NestedSplit<RetainAfter<T, "WeakMap<">, ">">
+        : []
 > = U extends [infer I extends string, ...(infer REST extends string[])]
     ? Contains<I, ","> extends true
         ? {
@@ -32,7 +31,7 @@ type Segment<
         }
         : Err<
             `invalid-token/weakmap`,
-            `A Map token did not provide a ',' seperator to delinate the key token from the value token!`,
+            `A Map token did not provide a ',' separator to delineate the key token from the value token!`,
             { token: I; rest: Join<REST> }
         >
     : Err<
@@ -51,8 +50,10 @@ type Key<
 > = IsWideString<T> extends true
     ? string | Error
     : S extends InnerRest
-        ? NestedSplit<S["inner"], ",">[0] extends string
-            ? NestedSplit<S["inner"], ",">[0]
+        ? NestedSplit<S["inner"], ","> extends readonly string[]
+            ? NestedSplit<S["inner"], ",">[0] extends string
+                ? NestedSplit<S["inner"], ",">[0]
+                : never
             : never
         : S extends Error
             ? S
@@ -71,13 +72,15 @@ type KeyType<T extends string> = IsWideString<T> extends true
 type Value<T extends string, S extends InnerRest | Error = Segment<T>> = IsWideString<T> extends true
     ? string | Error
     : S extends InnerRest
-        ? NestedSplit<S["inner"], ",">[1] extends string
-            ? NestedSplit<S["inner"], ",">[1]
-            : Err<
-                `invalid-token/weakmap`,
-                `The Map token did not provide a ',' separator to delinate the key token from the value token!`,
-                { key: S["inner"][0]; rest: Rest<T>; token: Trim<T> }
-            >
+        ? NestedSplit<S["inner"], ","> extends readonly string[]
+            ? NestedSplit<S["inner"], ",">[1] extends string
+                ? NestedSplit<S["inner"], ",">[1]
+                : Err<
+                    `invalid-token/weakmap`,
+                    `The Map token did not provide a ',' separator to delineate the key token from the value token!`,
+                    { key: S["inner"][0]; rest: Rest<T>; token: Trim<T> }
+                >
+            : never
         : S;
 
 type ValueType<T extends string> = IsWideString<T> extends true

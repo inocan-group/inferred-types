@@ -27,4 +27,5 @@ export type RuntimeTakeFunction<
     E extends Error = Error
 > = <
     TParseStr extends string
->(input: TParseStr) => Unset | [T, string] | E;
+>(input: TParseStr
+) => Unset | [T, string] | E;

@@ -1,8 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { defineObject } from "inferred-types/runtime"
-import { Test } from "inferred-types/types";
+import { Expect, Test } from "inferred-types/types";
 
 
 
@@ -14,7 +13,7 @@ describe("defineObject()", () => {
             bar: "String(foo) | String(bar) | String(baz)"
         });
 
-        // dictionary converted to string evivalent
+        // dictionary converted to string equivalent
         expect(fooBar).toEqual(
             `{ foo: string | undefined, bar: String(foo) | String(bar) | String(baz) }`
         );

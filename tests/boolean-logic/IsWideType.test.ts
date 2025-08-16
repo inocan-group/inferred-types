@@ -5,7 +5,8 @@ import {
     IsWideType,
     Dictionary,
     Test,
-    Expect
+    Expect,
+    Keys
 } from "inferred-types/types";
 import { describe, it } from "vitest";
 
@@ -15,27 +16,24 @@ describe("IsWideScalar<T>", () => {
         type T1 = IsWideScalar<string>;
         type T2 = IsWideScalar<boolean>;
         type T3 = IsWideScalar<number>;
-        type T4 = IsWideScalar<null>;
 
         type F1 = IsWideScalar<"foo">;
         type F2 = IsWideScalar<true>;
         type F3 = IsWideScalar<42>;
+        type F4 = IsWideScalar<null>;
 
 
         type cases = [
             ExpectTrue<T1>,
             ExpectTrue<T2>,
             ExpectTrue<T3>,
-            ExpectTrue<T4>,
 
             ExpectFalse<F1>,
             ExpectFalse<F2>,
             ExpectFalse<F3>,
+            ExpectFalse<F4>,
         ];
-        const cases: cases = [
-            true, true, true, true,
-            false, false, false
-        ];
+
     });
 });
 
@@ -48,9 +46,14 @@ describe("IsWideContainer<T>", () => {
         type T4 = IsWideContainer<string[]>;
         type T5 = IsWideContainer<readonly string[]>;
         type T6 = IsWideContainer<readonly unknown[]>;
+        type T7 = IsWideContainer<Map<string, string>>;
 
         type F1 = IsWideContainer<{ foo: 1 }>;
         type F2 = IsWideContainer<[1, 2]>;
+        type F3 = IsWideContainer<{ foo: 1, bar: 2 }>;
+        type F4 = IsWideContainer<{ foo: string, bar: number }>;
+
+        type K = Keys<Record<string, string>>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -59,9 +62,12 @@ describe("IsWideContainer<T>", () => {
             Expect<Test<T4, "equals", true>>,
             Expect<Test<T5, "equals", true>>,
             Expect<Test<T6, "equals", true>>,
+            Expect<Test<T7, "equals", true>>,
 
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
+            Expect<Test<F4, "equals", false>>,
         ];
 
     });
@@ -87,7 +93,6 @@ describe("IsWideType<T>", () => {
 
         // never with and without modification of TNever
         type E1 = IsWideType<never>;
-        type E2 = IsWideType<never, false>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -102,8 +107,7 @@ describe("IsWideType<T>", () => {
             Expect<Test<F2, "equals", false>>,
             Expect<Test<F3, "equals", false>>,
 
-            Expect<Test<E1, "equals", never>>,
-            Expect<Test<E2, "equals", false>>,
+            Expect<Test<E1, "equals", false>>,
         ];
     });
 

@@ -1,5 +1,5 @@
 import type { VueRef } from "inferred-types/types";
-import { isObject } from "./isObject";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * **isRef**(value)
@@ -7,7 +7,7 @@ import { isObject } from "./isObject";
  * Type guard which check whether the passed in value is a VueJS `Ref<T>` value.
  */
 export function isRef<T>(value: T): value is T & VueRef<T> {
-    return isObject(value)
+    return isDictionary(value)
         && ("value" in value)
         && Array.from(Object.keys(value)).includes("_value");
 }

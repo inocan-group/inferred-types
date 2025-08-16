@@ -1,9 +1,10 @@
+import type { Dictionary, StringKeys } from "@inferred-types/types";
 import type {
-    AnyObject,
+    Expand,
+    Mutable,
     Narrowable,
     NarrowObject,
     Suggest,
-    WithoutKeys,
 } from "inferred-types/types";
 
 /**
@@ -24,12 +25,12 @@ import type {
  * **Related:** `createOmission`, `withoutKeys`, `retainKeys`
  */
 export function omitKeys<
-    TObj extends NarrowObject<N> | AnyObject,
-    N extends Narrowable,
-    TKeys extends readonly string[],
+    const TObj extends NarrowObject<N> | Dictionary,
+    const N extends Narrowable,
+    const TKeys extends readonly Suggest<StringKeys<TObj>>[],
 >(
     obj: TObj,
-    ...removeKeys: Suggest<TKeys[number]>[]
+    ...removeKeys: TKeys
 ) {
     const keys = Object.keys(obj);
 
@@ -41,5 +42,5 @@ export function omitKeys<
                 [key]: obj[key as keyof TObj],
             },
         {},
-    ) as WithoutKeys<TObj, TKeys[number]>;
+    ) as Mutable<Expand<Omit<TObj, TKeys[number]>>>;
 }

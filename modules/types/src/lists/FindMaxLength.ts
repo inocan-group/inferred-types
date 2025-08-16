@@ -1,6 +1,4 @@
-import type { IsGreaterThan } from "../boolean-logic";
-import type { If } from "../boolean-logic/branching/If";
-import type { StrLen } from "../string-literals";
+import type { If, IsGreaterThan, StrLen } from "inferred-types/types";
 import type { AfterFirst } from "./AfterFirst";
 import type { First } from "./First";
 
@@ -34,8 +32,8 @@ type Reduce<
  * Utility which reduces a tuple of strings to only the
  * string which is longest.
  */
-export type FindMaxLength<T> =
-T extends readonly string[]
+export type FindMaxLength<T>
+= T extends readonly string[]
     ? Reduce<{
         [K in keyof T]: T[K] extends string
             ? [T[K], StrLen<T[K]>]

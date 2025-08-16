@@ -12,6 +12,12 @@
             ],
             "inferred-types/constants": [
                 "../constants/src/index.ts"
+            ],
+            "types/*": [
+                "./src/*"
+            ],
+            "constants/*": [
+                "../constants/*"
             ]
         },
         "strict": true,
@@ -19,6 +25,7 @@
         "declarationMap": true,
         "outDir": "dist",
         "preserveConstEnums": true,
+        "strictNullChecks": true,
         "sourceMap": true,
         "stripInternal": false,
         "forceConsistentCasingInFileNames": true,
@@ -33,7 +40,7 @@
     ],
     "include": [
         "src/**/*.ts"
-    ],
+, "src/string-literals/character-sets/Opt"    ],
     "exclude": [
         "node_modules",
         "tests",

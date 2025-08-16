@@ -14,10 +14,11 @@
     "scripts": {
         "build": "tsdown",
         "test": "vitest run",
-        "lint": "eslint src --fix",
+        "lint": "eslint src",
         "watch": "run-p watch:*",
         "watch:build": "tsdown --watch",
-        "watch:test": "vitest"
+        "watch:test": "vitest",
+        "source": "echo 'Constants Module' && npx typed source"
     },
     "devDependencies": {
         "@type-challenges/utils": "~0.1.1",
@@ -30,7 +31,7 @@
         "npm-run-all": "~4.1.5",
         "tsdown": "^0.12.7",
         "typecheck": "^0.1.2",
-        "typed-tester": "^0.6.3",
+        "typed-tester": "^0.9.5",
         "typescript": "^5.8.3",
         "typescript-eslint": "^8.33.1",
         "vitest": "^3.1.2",

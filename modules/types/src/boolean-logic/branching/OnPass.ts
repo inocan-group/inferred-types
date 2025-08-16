@@ -4,7 +4,6 @@ import type {
     As,
     ExpandDictionary,
     First,
-    IsErrorCondition,
     IsFalse,
     IsNever,
     Keys,
@@ -44,7 +43,7 @@ type Process<
     TRemap extends OnPassRemap<unknown, unknown, unknown>,
 > = [IsNever<TTest>] extends [true]
     ? TRemap["never"]
-    : [IsErrorCondition<TTest>] extends [true]
+    : [TTest] extends [Error]
         ? TRemap["error"] extends Constant<"not-set"> ? TTest : TRemap["error"]
         : [IsFalse<TTest>] extends [true]
             ? TRemap["false"]
@@ -73,13 +72,13 @@ type Iterate<
             TRemap
         >
 
-;
+    ;
 
 /**
  * **OnPass**`<TTest, TPass,[TRemap],[TFalse]>`
  *
  * Branching utility which evaluates `TTest` for being
- * `never`, `false`, and `Error` class or an `ErrorCondition` and
+ * `never`, `false`, or an `Error` class and
  * passes that through when it occurs.
  *
  * In all other cases, the type of `TPass` is proxied through

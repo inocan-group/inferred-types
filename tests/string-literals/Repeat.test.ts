@@ -13,4 +13,16 @@ describe("Repeat<TStr,TCount>", () => {
         ];
     });
 
+
+    it("zeros", () => {
+        type Three = Repeat<"0",3>;
+        type Ten = Repeat<"0",10>;
+
+        type cases = [
+            Expect<Test<Three, "equals", "000">>,
+            Expect<Test<Ten, "equals", "0000000000">>,
+        ];
+    });
+
+
 });

@@ -1,4 +1,5 @@
 import type {
+    As,
     Contains,
     DefineObject,
     Dictionary,
@@ -6,6 +7,7 @@ import type {
     FromSimpleRecordKey,
     FromWideTokens,
     HandleDoneFn,
+    IsUnset,
     NarrowableScalar,
     RecordKeyWideTokens,
     ShapeCallback,
@@ -44,7 +46,10 @@ export type AsUnionToken<T extends UnionElDefn | readonly [UnionElDefn, ...Union
         : never;
 
 export type IsDictionaryDefinition<T> = T extends Dictionary
-    ? Contains<Values<T>, ShapeCallback>
+    ? Contains<
+        As<Values<T>, readonly unknown[]>,
+        ShapeCallback
+    >
     : false;
 
 /**
@@ -116,4 +121,6 @@ export type FromDefn<
         ? SimpleType<T>
         : T extends readonly unknown[]
             ? IterateOverDefinitions<T, TElse>
-            : ToType<T, TElse>;
+            : IsUnset<TElse> extends true
+                ? T
+                : ToType<T, TElse>;

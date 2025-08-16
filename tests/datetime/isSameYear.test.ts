@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Test, Expect } from "inferred-types/types";
-import { isSameYear } from "../../modules/runtime/src/datetime/isSameYear";
+import { Test, Expect, DateLike } from "inferred-types/types";
+import { isSameYear } from "inferred-types/runtime";
 
 describe("isSameYear(comparator) -> (date) -> boolean", () => {
 
@@ -88,7 +88,7 @@ describe("isSameYear(comparator) -> (date) -> boolean", () => {
         ];
 
         months.forEach(date => {
-            expect(checkFn(date)).toBe(true);
+            expect(checkFn(date as DateLike)).toBe(true);
         });
     });
 

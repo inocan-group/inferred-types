@@ -1,6 +1,5 @@
 import type { TW_MODIFIERS_CORE, TW_MODIFIERS_ORDER, TW_MODIFIERS_RELN } from "inferred-types/constants";
-import type { Replace } from "inferred-types/types";
-import type { TwSizeResponsive } from "./TwSize";
+import type { Replace, TwSizeResponsive } from "inferred-types/types";
 
 /**
  * The _core_ state modifiers which are used frequently in

@@ -1,49 +1,63 @@
 import type {
     AfterFirst,
     As,
+    Contains,
     Dictionary,
-    EmptyObject,
-    ExpandDictionary,
     First,
+    FromKv,
     Keys,
-    MakeKeysOptional,
+    KeyValue,
     ObjectKey,
     OptionalKeysTuple,
     PascalCase,
 } from "inferred-types/types";
 
-type Convert<
-    TObj extends Dictionary,
-    TKeys extends readonly (ObjectKey & keyof TObj)[],
-    TResult extends Dictionary = EmptyObject,
-> = [] extends TKeys
-    ? ExpandDictionary<TResult>
-    : Convert<
-        TObj,
-        AfterFirst<TKeys>,
-        First<TKeys> extends string
-            ? (
-      Record<
-          PascalCase<First<TKeys>>,
-          TObj[First<TKeys>] extends Dictionary
-              ? PascalKeys<TObj[First<TKeys>]>
-              : TObj[First<TKeys>]
-      > &
-      TResult
-            )
-            : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
+type Pascalize<
+    T extends Dictionary,
+    K extends readonly (ObjectKey & keyof T)[] = As<Keys<T>, readonly (ObjectKey & keyof T)[]>,
+    R extends readonly KeyValue[] = [],
+    O extends readonly ObjectKey[] = OptionalKeysTuple<T>,
+> = [] extends K
+    ? As<R, readonly KeyValue[]>
+    : Pascalize<
+        T,
+        AfterFirst<K>,
+        [
+            ...R,
+            Contains<O, First<K>> extends true
+                ? KeyValue<
+                    // KEY
+                    First<K> extends string
+                        ? PascalCase<First<K>>
+                        : First<K>,
+                    // VALUE
+                    T[First<K>] extends Dictionary
+                        ? Pascalize<T[First<K>]>
+                        : T[First<K>],
+                    // REQUIRED
+                    false
+                >
+
+                : KeyValue<
+                    // KEY
+                    First<K> extends string ? PascalCase<First<K>> : First<K>,
+                    // VALUE
+                    T[First<K>] extends Dictionary
+                        ? Pascalize<T[First<K>]>
+                        : T[First<K>],
+                    true
+                >
+        ]
     >;
 
-type Process<T extends Dictionary,
-> = MakeKeysOptional<
-    Convert<T, As<Keys<T>, readonly (ObjectKey & keyof T)[]>>,
-    As<PascalCase<OptionalKeysTuple<T>>, readonly ObjectKey[]>
->;
-
 /**
+ * **PascalKeys**`<T>`
+ *
  * Converts an object's keys to the **PascalCase** equivalent
  * while keeping the values the same.
  */
 export type PascalKeys<
-    T extends Dictionary,
-> = Process<T>;
+    T extends Dictionary
+> = FromKv<
+    Pascalize<T>
+>;

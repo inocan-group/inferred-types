@@ -1,5 +1,6 @@
 export * from "./BooleanLike";
 export * from "./Box";
+export * from "./Brand";
 export * from "./Choices";
 export * from "./Color";
 export * from "./ContainerBlockKey";

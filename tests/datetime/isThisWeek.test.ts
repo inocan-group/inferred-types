@@ -3,9 +3,7 @@ import {
     getWeekNumber,
     isThisWeek
 } from "inferred-types/runtime";
-import {
-  LuxonJs
-} from "inferred-types/types";
+
 import { DateTime } from "luxon";
 import moment from "moment";
 
@@ -22,8 +20,6 @@ describe("isThisWeek()", () => {
     expect(isThisWeek(nextWeek, mockNow)).toBe(false);
   });
 
-
-
   it("should correctly validate Moment.js objects", () => {
     const sameWeek = moment("2024-01-12"); // Friday, same week as mockNow
     const previousWeek = moment("2024-01-03"); // Wednesday, week 1
@@ -35,7 +31,7 @@ describe("isThisWeek()", () => {
   });
 
   it("should correctly validate Luxon DateTime objects", () => {
-    const sameWeek = DateTime.fromISO("2024-01-12") as unknown as LuxonJs["DateTime"];
+    const sameWeek = DateTime.fromISO("2024-01-12");
     const previousWeek = DateTime.fromISO("2024-01-03");
     const nextWeek = DateTime.fromISO("2024-01-17");
 
@@ -70,10 +66,8 @@ describe("isThisWeek()", () => {
   });
 
   it("should handle invalid inputs", () => {
-    // @ts-expect-error
-    expect(() => isThisWeek(null, mockNow)).toThrow();
-    // @ts-expect-error
-    expect(() => isThisWeek(undefined, mockNow)).toThrow();
+    expect(() => isThisWeek(null as any, mockNow)).toThrow();
+    expect(() => isThisWeek(undefined as any, mockNow)).toThrow();
     expect(() => isThisWeek("not a date", mockNow)).toThrow();
     // "2024" is actually valid (year input) so it returns false instead of throwing
     expect(isThisWeek("2024", mockNow)).toBe(false);

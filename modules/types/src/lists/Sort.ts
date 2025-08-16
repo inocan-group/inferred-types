@@ -5,19 +5,47 @@ import type {
     Dictionary,
     ExtendsSome,
     IsDefined,
-    RemoveNever
+    RemoveNever,
+    SortOrder
 } from "inferred-types/types";
 
-export type SortOptions<
-    TFirst extends readonly unknown[] = readonly unknown[],
-    TLast extends readonly unknown[] = readonly unknown[],
-> = {
-    first?: TFirst;
-    last?: TLast;
-    offset?: undefined | string;
+/**
+ * **SortOptions**`<[TOrder],[TOffset],[TStart],[TEnd]>`
+ *
+ * Specifies how you'd like a list sorted.
+ */
+export type SortOptions = {
+    /**
+     * the sorting strategy for the list
+     *
+     * @default "natural"
+     */
+    order?: SortOrder;
+
+    /**
+     * by adding a `PropertyKey` to the offset you are expressing that
+     * the items in your list are some sort of a container and you'd
+     * like the sorting comparison to be done on the offset/index specified.
+     *
+     * @default undefined
+     */
+    offset?: PropertyKey | undefined;
+
+    /**
+     * allows pinning items to the _start_ of the list
+     *
+     * @default []
+     */
+    start?: readonly unknown[];
+    /**
+     * allows pinning items to the _end_ of the list
+     *
+     * @default []
+     */
+    end?: readonly unknown[];
 };
 
-type First<
+type Start<
     TList extends readonly unknown[],
     TOpt extends SortOptions,
 > = RemoveNever<{
@@ -26,17 +54,17 @@ type First<
         IsDefined<TOpt["offset"]>
     ]> extends true
         ? TOpt["offset"] extends keyof TList[K]
-            ? ExtendsSome<TList[K][TOpt["offset"]], As<TOpt["first"], readonly unknown[]>> extends true
+            ? ExtendsSome<TList[K][TOpt["offset"]], As<TOpt["start"], readonly unknown[]>> extends true
                 ? TList[K]
                 : never
             : never
     // test for non-offset comparison
-        : ExtendsSome<TList[K], As<TOpt["first"], readonly unknown[]>> extends true
+        : ExtendsSome<TList[K], As<TOpt["start"], readonly unknown[]>> extends true
             ? TList[K]
             : never;
 }>;
 
-type Last<
+type End<
     TList extends readonly unknown[],
     TOpt extends SortOptions,
 > = RemoveNever<{
@@ -45,12 +73,12 @@ type Last<
         IsDefined<TOpt["offset"]>
     ]> extends true
         ? TOpt["offset"] extends keyof TList[K]
-            ? ExtendsSome<TList[K][TOpt["offset"]], As<TOpt["last"], readonly unknown[]>> extends true
+            ? ExtendsSome<TList[K][TOpt["offset"]], As<TOpt["end"], readonly unknown[]>> extends true
                 ? TList[K]
                 : never
             : never
     // test for non-offset comparison
-        : ExtendsSome<TList[K], As<TOpt["last"], readonly unknown[]>> extends true
+        : ExtendsSome<TList[K], As<TOpt["end"], readonly unknown[]>> extends true
             ? TList[K]
             : never;
 }>;
@@ -72,50 +100,50 @@ type Remaining<
 export type Sort<
     TList extends readonly unknown[],
     TOpt extends SortOptions
-> = TOpt["first"] extends readonly unknown[]
-    ? TOpt["last"] extends readonly unknown[]
+> = TOpt["start"] extends readonly unknown[]
+    ? TOpt["end"] extends readonly unknown[]
         ? [
             ...(
-                First<TList, TOpt> extends readonly unknown[]
-                    ? First<TList, TOpt>
+                Start<TList, TOpt> extends readonly unknown[]
+                    ? Start<TList, TOpt>
                     : never
             ),
             ...As<
                 Remaining<
                     TList,
                     [
-                        ...As<First<TList, TOpt>, readonly unknown[]>,
-                        ...As<Last<TList, TOpt>, readonly unknown[]>
+                        ...As<Start<TList, TOpt>, readonly unknown[]>,
+                        ...As<End<TList, TOpt>, readonly unknown[]>
                     ]
                 >,
                 readonly unknown[]
             >,
             ...(
-                Last<TList, TOpt> extends readonly unknown[]
-                    ? Last<TList, TOpt>
+                End<TList, TOpt> extends readonly unknown[]
+                    ? End<TList, TOpt>
                     : never
             )
         ]
         : [
             ...(
-                First<TList, TOpt> extends readonly unknown[]
-                    ? First<TList, TOpt>
+                Start<TList, TOpt> extends readonly unknown[]
+                    ? Start<TList, TOpt>
                     : never
             ),
             ...As<
-                Remaining<TList, As<First<TList, TOpt>, readonly unknown[]>>,
+                Remaining<TList, As<Start<TList, TOpt>, readonly unknown[]>>,
                 readonly unknown[]
             >,
         ]
-    : TOpt["last"] extends readonly unknown[]
+    : TOpt["end"] extends readonly unknown[]
         ? [
             ...As<
-                Remaining<TList, As<Last<TList, TOpt>, readonly unknown[]>>,
+                Remaining<TList, As<End<TList, TOpt>, readonly unknown[]>>,
                 readonly unknown[]
             >,
             ...(
-                Last<TList, TOpt> extends readonly unknown[]
-                    ? Last<TList, TOpt>
+                End<TList, TOpt> extends readonly unknown[]
+                    ? End<TList, TOpt>
                     : never
             )
         ]

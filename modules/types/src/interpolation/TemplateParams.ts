@@ -1,19 +1,9 @@
-import type {
-    As,
-    Filter,
-    FromLiteralTemplate,
-    Split,
-    TemplateBlock
-} from "inferred-types/types";
+import type { TemplateBlock, TemplateBlocks } from "inferred-types/types";
 
-type TemplateTupleToTypeTuple<T extends readonly TemplateBlock[]> = {
-    [K in keyof T]: T[K] extends "{{string}}"
-        ? string
-        : T[K] extends "{{number}}"
-            ? number
-            : T[K] extends "{{boolean}}"
-                ? boolean
-                : never;
+type Map = {
+    "{{string}}": string;
+    "{{number}}": number;
+    "{{boolean}}": boolean;
 };
 
 /**
@@ -22,18 +12,10 @@ type TemplateTupleToTypeTuple<T extends readonly TemplateBlock[]> = {
  * Extracts a tuple of wide types which are needed to complete a given literal template.
  */
 export type TemplateParams<
-    T extends string
-> = TemplateTupleToTypeTuple<
-    As<
-        Filter<
-            Split<
-                FromLiteralTemplate<T>,
-                TemplateBlock,
-                "inline"
-            >,
-            "extends",
-            TemplateBlock
-        >,
-        readonly TemplateBlock[]
-    >
->;
+    T extends string,
+    B extends readonly TemplateBlock[] = TemplateBlocks<T>
+> = {
+    [K in keyof B]: B[K] extends keyof Map
+        ? Map[B[K]]
+        : never
+};

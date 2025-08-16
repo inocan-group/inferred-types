@@ -1,145 +1,207 @@
 import type {
-    ComparisonLookup,
+    Comparator,
+    Compare,
+    ComparisonAccept,
     ComparisonOperation,
+    Contains,
     DateLike,
-    Equals,
+    Err,
+    First,
+    GetComparisonParams,
+    IsAfter,
     IsEqual,
+    IsError,
+    IsWideObject,
     Narrowable,
+    ObjectKey,
+    SomeEqual,
     Unset
 } from "inferred-types/types";
-import type { ObjectKey } from "../../../inferred-types/dist";
+import { NUMERIC_CHAR } from "inferred-types/constants";
+
 import {
     asChars,
     asDate,
     asDateTime,
-    endsWith,
+    asNumber,
+    contains,
+    doesExtend,
+    equalsSome,
     err,
     firstChar,
+    indexOf,
+    isAfter,
+    isTemplateLiteral,
+    last,
+    parseDate,
+    unset
+} from "inferred-types/runtime";
+import { not } from "runtime/boolean-logic/not";
+
+import {
     hasIndexOf,
     isAlpha,
     isArray,
+    isBoolean,
+    isComparisonOperation,
     isDateLike,
-    isEqual,
+    isDictionary,
+    isError,
     isFalse,
     isFalsy,
     isFunction,
     isInputTokenLike,
+    isNarrowable,
     isNarrowableTuple,
     isNumber,
     isNumberLike,
-    isObject,
+    isObjectKey,
+    isParsedDate,
     isString,
     isStringOrNumericArray,
     isTrue,
-    isTruthy,
-    isUnset,
-    lastChar,
-    startsWith,
-    unset
-} from "inferred-types/runtime";
-import { NUMERIC_CHAR } from "../../../inferred-types/dist";
-import { contains } from "./contains";
+    isValidComparisonParams
+} from "runtime/type-guards";
 
-type Lookup = ComparisonLookup;
-
-type Accept<TOp extends ComparisonOperation> = "accept" extends keyof ComparisonLookup[TOp]
-    ? Equals<ComparisonLookup[TOp]["accept"], unknown> extends true
-        ? Narrowable
-        : ComparisonLookup[TOp]["accept"]
-    : Narrowable;
+import {
+    endsWith,
+    startsWith
+} from "runtime/type-guards/higher-order";
 
 function handle_string<
-    TOp extends ComparisonOperation,
-    TParams extends Lookup[TOp]["params"]
+    TVal extends Narrowable,
+    TOp extends string,
+    TParams extends readonly unknown[],
 >(
-    val: Accept<TOp>,
+    val: TVal,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
-        case "startsWith":
-            return (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
-                ? startsWith(...params as readonly (string | number)[])(val)
-                : false;
+        case "startsWith": {
+            return (
+                (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
+                    ? startsWith(...params as readonly (string | number)[])(val)
+                    : false
+            );
+        }
 
-        case "endsWith":
-            return (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
-                ? endsWith(...params as readonly (string | number)[])(val)
-                : false;
+        case "endsWith": {
+            return (
+                (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
+                    ? endsWith(...params as readonly (string | number)[])(val)
+                    : false
+            );
+        }
 
-        case "endsWithNumber":
-            return isString(val) || isNumber(val)
-                ? NUMERIC_CHAR.includes(lastChar(String(val)) as any)
-                : false;
+        case "endsWithNumber": {
+            return (
+                isString(val)
+                    ? val === ""
+                        ? false
+                        : asChars(val).length > 0
+                            ? NUMERIC_CHAR.includes(last(asChars(val)) as any)
+                            : false
+                    : false
+            );
+        }
 
-        case "startsWithNumber":
-            return isString(val) || isNumber(val)
-                ? NUMERIC_CHAR.includes(firstChar(String(val)) as any)
-                : false;
+        case "startsWithNumber": {
+            return (
+                isString(val)
+                    ? NUMERIC_CHAR.includes(firstChar(String(val)) as any)
+                    : false
+            );
+        }
 
-        case "onlyNumbers":
+        case "onlyNumbers": {
             return isString(val)
-                ? asChars(val).every(c => isNumberLike(c))
+                ? val === ""
+                    ? false
+                    : asChars(val).every(c => isNumberLike(c))
                 : false;
+        }
 
-        case "onlyLetters":
+        case "onlyLetters": {
             return isString(val)
                 ? isAlpha(val)
                 : false;
+        }
 
-        case "alphaNumeric":
+        case "alphaNumeric": {
             return isString(val)
                 ? asChars(val).every(c => isNumberLike(c) || isAlpha(c))
                 : false;
+        }
+
+        case "isTemplateLiteral": {
+            return isTemplateLiteral(val) === "maybe"
+                ? err(
+                    `unknown-at-runtime`,
+                    `isTemplateLiteral(val) can not know at runtime whether the passed in string value was a TemplateLiteral at design time!`,
+                    { value: val }
+                )
+                : false;
+        }
     }
 
     return unset;
 }
 
 function handle_general<
-    TOp extends ComparisonOperation,
-    TParams extends Lookup[TOp]["params"],
-    TVal extends Accept<TOp> & Narrowable = Accept<TOp> & Narrowable
+    const TVal extends Narrowable,
+    const TOp extends string,
+    const TParams extends readonly unknown[],
 >(
     val: TVal,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
-        case "extends":
+        case "extends": {
             if (!isInputTokenLike(params[0])) {
                 return err(
                     `compare/extends`,
                     `A filter operation based on the 'extends' operation passed in a parameter which was not an InputToken so we are not able to convert this into a type!`,
                 );
             }
-            return err(
-                `not-ready/doesExtend`,
-                `The "extends" comparison operation depends on doesExtend() and that is not completed yet!`,
-                { val, params }
-            );
+            return isNarrowable(val) && doesExtend(params[0])(val);
+        }
 
-        case "equals":
-            return isEqual(val)(params[0] as any) as IsEqual<TVal, TParams[0]>;
+        case "equals": {
+            return (val === params[0]) as IsEqual<TVal, TParams[0]>;
+        }
 
-        case "false":
+        case "false": {
             return isFalse(val);
+        }
 
-        case "true":
+        case "true": {
             return isTrue(val);
+        }
 
-        case "truthy":
-            return isTruthy(val);
+        case "truthy": {
+            return not(isFalsy(val));
+        }
 
-        case "falsy":
+        case "falsy": {
             return isFalsy(val);
+        }
 
         case "equalsSome":
-            return params.includes(val);
+            return (
+                isNarrowable(val)
+                && isArray(params)
+                && equalsSome(...(params as Narrowable[]))(val)
+            ) as SomeEqual<TParams, TVal>;
 
         case "contains":
-            return isString(val) || isNumber(val) || isNarrowableTuple(val)
-                ? contains(val, params)
+            return (
+                isString(val) || isNumber(val) || isStringOrNumericArray(val)
+                    ? contains(val, params)
+                    : false
+            ) as TVal extends string | number | readonly (string | number)[]
+                ? Contains<TVal, TParams>
                 : false;
 
         case "containsSome":
@@ -157,23 +219,20 @@ function handle_general<
                 : false;
     }
 
-    // If we get here, it's not a recognized operation
-    return err(
-        `invalid-comparison`,
-        `The operation '${op}' is not a supported operation!`,
-        { op, params }
-    );
+    return unset;
 }
 
-function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[TOp]["params"]>(
-    val: Accept<TOp>,
+function handle_numeric<
+    TVal extends Narrowable,
+    TOp extends ComparisonOperation,
+    TParams extends readonly unknown[],
+>(
+    val: TVal,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
-        case "greaterThan":
-            if (!isNumberLike(val))
-                return false;
+        case "greaterThan": {
             if (!isNumberLike(params[0])) {
                 return err(
                     `invalid-params/greaterThan`,
@@ -182,10 +241,9 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
                 );
             }
             return Number(val) > Number(params[0]);
+        }
 
-        case "greaterThanOrEqual":
-            if (!isNumberLike(val))
-                return false;
+        case "greaterThanOrEqual": {
             if (!isNumberLike(params[0])) {
                 return err(
                     `invalid-params/greaterThanOrEqual`,
@@ -194,10 +252,9 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
                 );
             }
             return Number(val) >= Number(params[0]);
+        }
 
-        case "lessThan":
-            if (!isNumberLike(val))
-                return false;
+        case "lessThan": {
             if (!isNumberLike(params[0])) {
                 return err(
                     `invalid-params/lessThan`,
@@ -206,10 +263,9 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
                 );
             }
             return Number(val) < Number(params[0]);
+        }
 
-        case "lessThanOrEqual":
-            if (!isNumberLike(val))
-                return false;
+        case "lessThanOrEqual": {
             if (!isNumberLike(params[0])) {
                 return err(
                     `invalid-params/lessThanOrEqual`,
@@ -218,23 +274,20 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
                 );
             }
             return Number(val) <= Number(params[0]);
+        }
 
-        case "betweenExclusively":
-            if (!isNumberLike(val))
-                return false;
-            if (!isNumberLike(params[0]) || !isNumberLike(params[1])) {
-                return err(
-                    `invalid-params/betweenExclusively`,
-                    `The 'betweenExclusively' operation requires two numeric parameters`,
-                    { params }
-                );
-            }
-            const valNumExcl = Number(val);
-            const minExcl = Number(params[0]);
-            const maxExcl = Number(params[1]);
-            return valNumExcl > minExcl && valNumExcl < maxExcl;
+        case "betweenExclusively": {
+            return (
+                isNumberLike(val)
+                && isNumberLike(params[0])
+                && isNumberLike(params[1])
+            )
+                ? asNumber(val) > asNumber(params[0])
+                && asNumber(val) < asNumber(params[1])
+                : false;
+        }
 
-        case "betweenInclusively":
+        case "betweenInclusively": {
             if (!isNumberLike(val))
                 return false;
             if (!isNumberLike(params[0]) || !isNumberLike(params[1])) {
@@ -248,37 +301,57 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
             const minIncl = Number(params[0]);
             const maxIncl = Number(params[1]);
             return valNumIncl >= minIncl && valNumIncl <= maxIncl;
+        }
     }
 
     return unset;
 }
 
 function handle_object<
-    TOp extends ComparisonOperation,
-    TParams extends Lookup[TOp]["params"]
+    const TVal extends Narrowable,
+    const TOp extends ComparisonOperation,
+    const TParams extends readonly unknown[],
 >(
-    val: Accept<TOp>,
+    val: TVal,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
-        case "objectKeyGreaterThan":
-            const [key, compare] = params as [ObjectKey, number];
-            return isObject(val)
-                ? hasIndexOf(val, key)
-                    ? isNumberLike(val[key])
-                        ? Number(val[key]) > compare
-                        : false
-                    : false
-                : err(
-                    `invalid-type/objectKeyGreaterThan`,
-                    `The comparison using the 'objectKeyGreaterThan' operation was unable to be performed because the value passed in was not an object!`,
-                    { op, params }
+        case "objectKeyGreaterThan": {
+            const [key, compare] = params;
+            if (!isObjectKey(key)) {
+                return err(
+                    "invalid-key/objectKeyGreaterThan",
+                    `The compare() function failed while processing the 'objectKeyGreaterThan' operation. The problem was that the 'key' parameter was not a valid Object key!`,
+                    { key, compare }
                 );
+            }
+
+            if (!isNumber(compare)) {
+                return err(
+                    "invalid-param/objectKeyGreaterThan",
+                    `The compare(${String(key)},PARAM) function expects a numeric value as the second parameter when using the objectKeyGreaterThan operation but got '${typeof compare}'`,
+                    { key, compare }
+                );
+            }
+            return (
+                isDictionary(val)
+                    ? hasIndexOf(val, key)
+                        ? isNumberLike(val[key])
+                            ? Number(val[key]) > compare
+                            : false
+                        : false
+                    : err(
+                        `invalid-type/objectKeyGreaterThan`,
+                        `The comparison using the 'objectKeyGreaterThan' operation was unable to be performed because the value passed in was not an object!`,
+                        { op, params }
+                    )
+            );
+        }
 
         case "objectKeyGreaterThanOrEqual": {
-            const [key, compare] = params as [ObjectKey, number];
-            return isObject(val)
+            const [key, compare] = params as unknown as [ObjectKey, number];
+            return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) >= compare
@@ -291,8 +364,8 @@ function handle_object<
                 );
         }
         case "objectKeyLessThan": {
-            const [key, compare] = params as [ObjectKey, number];
-            return isObject(val)
+            const [key, compare] = params as unknown as [ObjectKey, number];
+            return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) < compare
@@ -305,8 +378,8 @@ function handle_object<
                 );
         }
         case "objectKeyLessThanOrEqual": {
-            const [key, compare] = params as [ObjectKey, number];
-            return isObject(val)
+            const [key, compare] = params as unknown as [ObjectKey, number];
+            return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) <= compare
@@ -319,16 +392,26 @@ function handle_object<
                 );
         }
         case "objectKeyEquals": {
-            const [key, compare] = params as [ObjectKey, unknown];
-            return isObject(val)
-                ? hasIndexOf(val, key)
-                    ? val[key] === compare
-                    : false
-                : err(
-                    `invalid-type/objectKeyEquals`,
-                    `The comparison using the 'objectKeyEquals' operation was unable to be performed because the value passed in was not an object!`,
-                    { op, params }
-                );
+            const key = indexOf(params, 0) as ObjectKey & TParams[0];
+            const compare = indexOf(params, 1) as TParams[1];
+
+            return (
+                isDictionary(val)
+                    ? hasIndexOf(val, key)
+                        ? val[key] === compare
+                        : false
+                    : err(
+                        `invalid-type/objectKeyEquals`,
+                        `The comparison using the 'objectKeyEquals' operation was unable to be performed because the value passed in was not an object!`,
+                        { op, params }
+                    )
+            ) as IsWideObject<TVal> extends true
+                ? boolean
+                : First<TParams> extends ObjectKey
+                    ? First<TParams> extends keyof TVal
+                        ? IsEqual<TVal, Second<TParams>>
+                        : false
+                    : false;
         }
         case "objectKeyExtends": {
             return err(`not-done`, `the 'objectKeyExtends' operation is not yet implemented in the runtime`);
@@ -339,83 +422,108 @@ function handle_object<
 }
 
 function handle_datetime<
+    const TVal extends Narrowable,
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"],
-    const TAccept extends Accept<TOp>
+    const TParams extends readonly unknown[],
 >(
-    val: TAccept,
+    val: TVal,
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-    // Skip date validation for non-date operations
-    if (!["after", "before", "sameDay", "sameMonth", "sameMonthYear", "sameYear"].includes(op)) {
-        return unset;
+    let outcome = null;
+
+    if (["sameDay", "sameMonth", "sameMonthYear", "sameYear", "after", "before"].includes(op)) {
+        if (!isDateLike(params[0])) {
+            return err("invalid-params/not-date-like", `The '${op}' operation expects the first parameter to be a DateLike value but it was not!`);
+        }
+        if (!isDateLike(val)) {
+            return err("invalid-value/not-date-like", `The '${op}' operation expects the value to be a DateLike value but it was not!`);
+        }
+
+        switch (op) {
+            case "sameDay": {
+                const value = parseDate(val as DateLike);
+                const comparator = parseDate(params[0] as TParams[0] & DateLike);
+                if (isParsedDate(comparator) && isParsedDate(value)) {
+                    outcome = value.year === comparator.year
+                        && value.month === comparator.month
+                        && value.date === comparator.date;
+                    return outcome;
+                }
+                else if (isError(value)) {
+                    return err(
+                        "invalid-value/compare",
+                        `The sameDay operation got a value which was unable to be parsed into a date!`,
+                        { op, params, val }
+                    );
+                }
+                else if (isError(comparator)) {
+                    return err(
+                        "invalid-params/compare",
+                        `The sameDay operation was configured with a parameter which was unable to be parsed into a date!`,
+                        { op, params, val }
+                    );
+                }
+                break;
+            }
+
+            case "sameMonth": {
+                const value = asDate(val as DateLike);
+                const comparator = asDate(params[0] as TParams[0] & DateLike);
+                outcome = value.getMonth() === comparator.getMonth();
+                return outcome;
+            }
+
+            case "sameMonthYear": {
+                const value = asDate(val as DateLike);
+                const comparator = asDate(params[0] as TParams[0] & DateLike);
+                outcome = value.getMonth() === comparator.getMonth()
+                    && value.getFullYear() === comparator.getFullYear();
+                return outcome;
+            }
+            case "sameYear": {
+                const value = asDate(val as DateLike);
+                const comparator = asDate(params[0] as TParams[0] & DateLike);
+                outcome = value.getFullYear() === comparator.getFullYear();
+                return outcome;
+            }
+
+            case "after": {
+                return isDateLike(params[0])
+                    ? isAfter(params[0])(val) as IsAfter<TVal, First<TParams>>
+                    : err("invalid-params/not-date-like") as IsAfter<TVal, First<TParams>>;
+            }
+
+            case "before": {
+                const value = asDateTime(val as DateLike);
+                const comparator = asDateTime(params[0] as TParams[0] & DateLike);
+                outcome = value.getTime() < comparator.getTime();
+                return outcome;
+            }
+        }
     }
-
-    if (!isDateLike(val)) {
-        return err(
-            `invalid-input/date-like`,
-            `The '${op}' operation expects a DateLike value as an input but got something else!`,
-            { type: typeof val, params, op }
-        );
-    }
-    if (!params.every(i => isDateLike(i))) {
-        return err(
-            `invalid-params/date-like`,
-            `The '${op}' operation was configured with an invalid parameter; it expects the parameter(s) to be a DateLike value(s)`,
-            { type: typeof val, val, params, op }
-        );
-    }
-
-    const p = params as unknown as [DateLike, DateLike, ...DateLike[]];
-
-    // Use asDate for date-only comparisons (sameDay, sameMonth, etc.)
-    // Use asDateTime for time-sensitive comparisons (after, before)
-    const needsTime = ["after", "before"].includes(op);
-    const value = needsTime ? asDateTime(val) : asDate(val);
-    const comparator = needsTime ? asDateTime(p[0]) : asDate(p[0]);
-
-    switch (op) {
-        case "sameDay": {
-            return value.getFullYear() === comparator.getFullYear()
-                        && value.getMonth() === comparator.getMonth()
-                        && value.getDate() === comparator.getDate();
-        }
-
-        case "sameMonth": {
-            return value.getMonth() === comparator.getMonth();
-        }
-        case "sameMonthYear": {
-            return value.getMonth() === comparator.getMonth()
-                && value.getFullYear() === comparator.getFullYear();
-        }
-        case "sameYear": {
-            return value.getFullYear() === comparator.getFullYear();
-        }
-
-        case "after": {
-            return value.getTime() > comparator.getTime();
-        }
-
-        case "before": {
-            return value.getTime() < comparator.getTime();
-        }
-    }
-
     return unset;
 }
 
 function handle_other<
+    const TVal extends Narrowable,
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"]
+    const TParams extends readonly unknown[],
 >(
-    val: Accept<TOp>,
+    val: TVal,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
-        case "errors":
-            return val instanceof Error;
+        case "errors": {
+            return (
+                val === null
+                    ? false
+                    : val === undefined
+                        ? false
+                        : val instanceof Error
+            ) as IsError<TVal>;
+        }
 
         case "errorsOfType":
             if (!(val instanceof Error))
@@ -432,23 +540,19 @@ function handle_other<
         case "returnEquals":
             if (!isFunction(val))
                 return false;
-            // Note: We cannot check return type equality at runtime without executing the function
-            // This would require runtime type information that JavaScript doesn't provide
+
             return err(
-                `runtime-limitation/returnEquals`,
-                `The 'returnEquals' operation cannot be fully implemented at runtime as it requires static type information`,
-                { op, params }
+                `compare/runtime`,
+                `The comparison type "returnEquals" can not be evaluated in the runtime system!`
             );
 
         case "returnExtends":
             if (!isFunction(val))
                 return false;
-            // Note: We cannot check return type extension at runtime without executing the function
-            // This would require runtime type information that JavaScript doesn't provide
+
             return err(
-                `runtime-limitation/returnExtends`,
-                `The 'returnExtends' operation cannot be fully implemented at runtime as it requires static type information`,
-                { op, params }
+                `compare/runtime`,
+                `The comparison type "returnExtends" can not be evaluated in the runtime system!`
             );
     }
 
@@ -456,67 +560,119 @@ function handle_other<
 }
 
 function compareFn<
-    const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"]
+    const TOp extends string,
+    const TParams extends readonly unknown[]
 >(
     op: TOp,
     params: TParams
-) {
-    return <TVal extends Accept<TOp> & Narrowable>(val: TVal) => {
-        let result: Error | Unset | boolean = unset;
+): Comparator<TOp, TParams> {
+    const fn = <const TVal extends ComparisonAccept<TOp>>(
+        val: TVal
+    ): Compare<TVal, TOp, TParams> => {
+        if (isComparisonOperation(op)) {
+            let result: unknown = unset;
 
-        // Route to appropriate handler based on operation type
-
-        // DateTime operations
-        if (["after", "before", "sameDay", "sameMonth", "sameMonthYear", "sameYear"].includes(op)) {
-            result = handle_datetime(val, op, params);
-        }
-        // String operations
-        else if (["startsWith", "endsWith", "endsWithNumber", "startsWithNumber", "onlyNumbers", "onlyLetters", "alphaNumeric"].includes(op)) {
             result = handle_string(val, op, params);
-        }
-        // Numeric operations
-        else if (["greaterThan", "greaterThanOrEqual", "lessThan", "lessThanOrEqual", "betweenExclusively", "betweenInclusively"].includes(op)) {
-            result = handle_numeric(val, op, params);
-        }
-        // Object operations
-        else if (["objectKeyGreaterThan", "objectKeyGreaterThanOrEqual", "objectKeyLessThan", "objectKeyLessThanOrEqual", "objectKeyEquals", "objectKeyExtends"].includes(op)) {
+            if (isBoolean(result) || isError(result)) {
+                return result as Compare<TVal, TOp, TParams>;
+            }
+
+            // Object operations
             result = handle_object(val, op, params);
-        }
-        // Other operations
-        else if (["errors", "errorsOfType", "returnEquals", "returnExtends"].includes(op)) {
+            if (isBoolean(result) || isError(result)) {
+                return result as Compare<TVal, TOp, TParams>;
+            }
+
+            // Numeric operations
+            result = handle_numeric(val, op, params);
+            if (isBoolean(result) || isError(result)) {
+                return result as Compare<TVal, TOp, TParams>;
+            }
+
+            // DateTime operations
+            result = handle_datetime(val, op, params);
+            if (isBoolean(result) || isError(result)) {
+                return result as Compare<TVal, TOp, TParams>;
+            }
+
+            // Other operations (errors, errorsOfType, etc.)
             result = handle_other(val, op, params);
-        }
-        // General operations (default)
-        else {
+            if (isBoolean(result) || isError(result)) {
+                return result as Compare<TVal, TOp, TParams>;
+            }
+
             result = handle_general(val, op, params);
-        }
+            if (isBoolean(result) || isError(result)) {
+                return result as Compare<TVal, TOp, TParams>;
+            }
 
-        // If still unset, the operation is not supported
-        if (isUnset(result)) {
+            return false as Compare<TVal, TOp, TParams>;
+        }
+        else {
             return err(
-                `invalid-comparison`,
-                `The operation '${op}' is not a supported operation!`,
+                `invalid-operation`,
+                `The operation '${String(op)}' is not a valid operation for the compare utility!`,
                 { op, params }
-            );
+            ) as unknown as Compare<TVal, TOp, TParams>;
         }
-
-        return result;
     };
+
+    // Create callable wrapper to maintain compatibility while avoiding intersection complexity
+    const comparator = Object.assign(fn, {
+        kind: "comparator" as const,
+        op,
+        params,
+        fn
+    });
+
+    return comparator as unknown as Comparator<TOp, TParams>;
 }
 
+type Returns<TOp extends string, TParams> = TOp extends ComparisonOperation
+    ? TParams extends GetComparisonParams<TOp>
+        ? Comparator<TOp, TParams>
+        : Err<`invalid-params/${TOp}`>
+    : Err<
+        `invalid-operation/${TOp}`,
+        `The operation '${TOp}' is not a recognized or valid comparison operation!`,
+        { op: TOp; params: TParams }
+    >
+;
+
 /**
- * **compare**`(op, params) -> (val) -> boolean`
+ * **compare**`(op, ...params) -> (val) -> boolean`
  *
  * A higher order function which can perform type-strong comparison
  * operations.
  */
 export function compare<
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"]
+    const TParams extends GetComparisonParams<TOp>
 >(
     op: TOp,
-    params: TParams
-) {
-    return compareFn(op, params);
+    ...params: TParams
+): Returns<TOp, TParams> {
+    let response: any;
+
+    if (isComparisonOperation(op)) {
+        if (isValidComparisonParams(op, params)) {
+            response = compareFn(op, params);
+        }
+        else {
+            response = err(
+                "invalid-params",
+                `The parameters for the operation '${isString(op) ? op : "undefined"}' are invalid!`,
+                { op, params }
+            );
+        }
+    }
+    else {
+        response = err(
+            "invalid-operation",
+            `The operation is not a recognized or valid comparison operation!`,
+            { op, params }
+        );
+    }
+
+    return response as Returns<TOp, TParams>;
 }

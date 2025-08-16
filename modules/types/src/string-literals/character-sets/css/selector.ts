@@ -1,6 +1,4 @@
-import type { AlphaChar } from "../AlphaChar";
-import type { HtmlBodyElement } from "./html-element";
-import type { CssPseudoClass, CssPseudoClassDefn } from "./pseudo-classes";
+import type { AlphaChar, CssPseudoClass, CssPseudoClassDefn, HtmlBodyElement } from "types/string-literals";
 
 export type CssIdSelector = `#${AlphaChar}${string}`;
 export type CssClassSelector = `.${AlphaChar}${string}`;
@@ -43,8 +41,8 @@ export type CssSelector<
     TClass extends CssClassSelector = CssClassSelector,
     TTag extends CssTagSelector = CssTagSelector,
     TPseudo extends CssPseudoClass = CssPseudoClass,
-> =
-    | TId | TClass | TTag
+>
+    = | TId | TClass | TTag
     | `${TId}${CssPseudoClassDefn<TPseudo>}`
     | `${TClass}${CssPseudoClassDefn<TPseudo>}`
     | `${TTag}${CssPseudoClassDefn<TPseudo>}`;

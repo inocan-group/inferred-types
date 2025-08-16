@@ -1,15 +1,14 @@
+import { describe, expect, it } from "vitest";
 import { Expect, Find, Test } from "inferred-types/types";
-import { describe, it } from "vitest";
-
-
+import { find, narrow } from "inferred-types/runtime";
 
 describe("Find<TList, 'equals', TValue, TIndex>", () => {
 
-    it("happy path", () => {
+    it("objectKeyEquals operation", () => {
         type List = [{ id: 1; val: "hi" }, { id: 2; val: "bye" }];
-        type T1 = Find<List, "equals", 1, "id">;
-        type T2 = Find<List, "equals", 2, "id">;
-        type T3 = Find<List, "equals", 3, "id">;
+        type T1 = Find<List, "objectKeyEquals", ["id", 1]>;
+        type T2 = Find<List, "objectKeyEquals", ["id", 2]>;
+        type T3 = Find<List, "objectKeyEquals", ["id", 3]>;
 
         type cases = [
             Expect<Test<T1, "equals",  { id: 1; val: "hi" }>>,
@@ -18,19 +17,15 @@ describe("Find<TList, 'equals', TValue, TIndex>", () => {
         ];
     });
 
-});
-
-describe("Find<TList, 'extends', TValue, TIndex>", () => {
-
-
-    it("happy path  without indexing", () => {
+    it("extends operation", () => {
         type List = [number, 1, 2, string, "foo"];
-        type Num = Find<List, "extends", number>;
-        type Two = Find<List, "extends", 2>;
-        type Str = Find<List, "extends", string>;
-        type Foo = Find<List, "extends", "foo">;
-        type Missing = Find<List, "extends", "bar">;
-        type FooBar = Find<List, "extends", "foo" | "bar">;
+
+        type Num = Find<List, "extends", [number]>;
+        type Two = Find<List, "extends", [2]>;
+        type Str = Find<List, "extends", [string]>;
+        type Foo = Find<List, "extends", ["foo"]>;
+        type Missing = Find<List, "extends", ["bar"]>;
+        type FooBar = Find<List, "extends", ["foo" | "bar"]>;
 
         type cases = [
             Expect<Test<Num, "equals",  number>>,
@@ -44,18 +39,51 @@ describe("Find<TList, 'extends', TValue, TIndex>", () => {
         ];
     });
 
+    it("equals operation", () => {
+        type List = [1, 2, number, "foo", string];
 
-    it("happy path with indexing", () => {
-        type List = [{ id: 1; val: "hi" }, { id: 2; val: "bye" }];
-        type T1 = Find<List, "extends", 1, "id">;
-        type T2 = Find<List, "extends", 2, "id">;
-        type T3 = Find<List, "extends", 3, "id">;
+        type Two = Find<List, "equals", [2]>;
+        type Foo = Find<List, "equals", ["foo"]>;
+
+        type Missing = Find<List, "equals", ["bar"]>;
 
         type cases = [
-            Expect<Test<T1, "equals",  { id: 1; val: "hi" }>>,
-            Expect<Test<T2, "equals",  { id: 2; val: "bye" }>>,
-            Expect<Test<T3, "equals",  undefined>>,
+            Expect<Test<Two, "equals",  2>>,
+            Expect<Test<Foo, "equals",  "foo">>,
+
+            Expect<Test<Missing, "equals",  undefined>>,
+        ];
+    });
+});
+
+
+// RUNTIME TESTS
+
+describe("find(op, ...params) -> (list) -> result", () => {
+
+    const list = narrow(1,2, 0 as number, "foo", "str" as string);
+
+
+    it("equals op", () => {
+        const f2 = find("equals", 2);
+        const two = f2(list);
+
+        expect(two).toBe(2);
+
+
+        type cases = [
+            Expect<Test<typeof two, "equals", 2>>,
         ];
     });
 
-});
+
+    it("extends op", () => {
+        const findNumber = find("extends", 0 as number);
+        const num = findNumber(list);
+
+        type cases = [
+            Expect<Test<typeof num, "equals", 1>>,
+        ];
+    });
+
+})

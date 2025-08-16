@@ -1,12 +1,12 @@
 import type {
     DefineObject,
     GetUrlDynamics,
+    HttpHeaders,
+    RestMethod,
     TypeSubtype,
     Uri,
-    UrlPathChars,
+    UrlPathChars
 } from "inferred-types/types";
-import type { HttpHeaders } from "./http";
-import type { RestMethod } from "./Rest";
 
 /**
  * Represents an API endpoint in a convenient fashion.

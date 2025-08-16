@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { MaxLength, Test } from "inferred-types/types";
+import { Expect, MaxLength, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("MaxLength<T>", () => {

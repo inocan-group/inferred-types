@@ -4,8 +4,8 @@ import type {
     AlphaChar,
     And,
     As,
-    AsLiteralFn,
     AsNarrowingFn,
+    AsStaticFn,
     Asynchronous,
     CharCount,
     Contains,
@@ -242,9 +242,14 @@ type Info<T extends string> = As<
                 async: IsAsync<Trim<T>>;
                 name: "";
                 args: [...args: any[]];
-                return: NestedSplit<Rest, ")">[0];
+                return: NestedSplit<Rest, ")"> extends readonly string[]
+                    ? NestedSplit<Rest, ")">[0]
+                    : never;
                 narrowing: IsNarrowing<T>;
-                rest: Trim<Join<Pop<NestedSplit<Rest, ")">>>>;
+                rest: NestedSplit<Rest, ")"> extends readonly string[]
+                    ? Trim<Join<Pop<NestedSplit<Rest, ")">>>>
+                    : never;
+
                 props: EmptyObject;
                 onlyReturn: true;
             }
@@ -285,8 +290,7 @@ type BuildFunction<T extends InfoBlock> = T["narrowing"] extends true
             ? EmptyObject
             : If<IsDefined<T["props"]>, EmptyObject, { name: T["name"] }>
     >
-    : // normal fn (aka, not narrowing)
-    AsLiteralFn<
+    : AsStaticFn<
         GetEach<T["args"], "type"> extends readonly any[]
             ? GetEach<T["args"], "type">
             : never,
@@ -367,7 +371,7 @@ export type IT_TakeFunction<
         Trim<T> extends `AsyncGenerator<${string}` ? true : false,
         Trim<T> extends `${string}function *${string}` ? true : false
     ]> extends true
-        ? Unset // explict skip operation for generators
+        ? Unset // explicit skip operation for generators
         : FailFast<[
             Trim<T> extends `function${string}=>${infer Rest extends string}`
                 ? Parse<
@@ -382,21 +386,3 @@ export type IT_TakeFunction<
             >
         ]>
     : Unset;
-
-// DEBUGGING SUPPORT BELOW
-// type T = "function => string";
-// type TEnclosed = [IsEnclosed<T>, Enclosure<T>];
-// type TPreample = IsolatePreamble<T>;
-// type TReturnOnly = IsReturnOnly<T>;
-// type TArgsToken = IsolateArgs<T>;
-// type TReturnToken = IsolateReturn<T>;
-
-// type TName = ParseName<T>;
-// type TAsync = IsAsync<T>;
-// type TArgs = ParseArgs<T>;
-// type TReturn = ParseReturn<T>;
-// type TKeyValue = FunctionKeyValue<T>;
-
-// type TInfo = Info<T>;
-// type TRest = Rest<T>;
-// type TParse = Parse<T>;

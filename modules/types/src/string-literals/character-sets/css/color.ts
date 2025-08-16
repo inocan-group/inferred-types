@@ -1,19 +1,17 @@
 import type { CSS_NAMED_COLORS } from "inferred-types/constants";
-import type { HexadecimalChar } from "../Hexadecimal";
-import type { OptionalSpace } from "../OptionalSpace";
-import type { TwColorWithLuminosity } from "../tw";
+import type { HexadecimalChar, OptionalSpace, TwColorWithLuminosity } from "inferred-types/types";
 
 export type CssNamedColors = typeof CSS_NAMED_COLORS[number];
 
-export type CssColorModel =
-    | "rgb"
+export type CssColorModel
+    = | "rgb"
     | "hsl"
     | "hsb"
     | "lab"
     | "oklch";
 
-export type CssColorSpace =
-    | "srgb"
+export type CssColorSpace
+    = | "srgb"
     | "srgb-linear"
     | "display-p3"
     | "rec2020"
@@ -27,8 +25,8 @@ export type CssColorSpace =
     | "lch"
     | "oklch";
 
-export type CssColorSpacePrimary =
-    | "srgb"
+export type CssColorSpacePrimary
+    = | "srgb"
     | "display-p3"
     | "rec2020"
     | "hsl"
@@ -36,26 +34,26 @@ export type CssColorSpacePrimary =
     | "lch"
     | "oklch";
 
-export type CssRgb =
-    | `rgb(${number} ${number} ${number})`
+export type CssRgb
+    = | `rgb(${number} ${number} ${number})`
     | `rgb(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
-export type CssRgba =
-    | `rgba(${number} ${number} ${number} ${number})`
+export type CssRgba
+    = | `rgba(${number} ${number} ${number} ${number})`
     | `rgba(${number},${OptionalSpace}${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 /**
  * Hue, Saturation, and Lightness level (**HSL** color model)
  */
-export type CssHsl =
-    | `hsl(${number} ${number} ${number})`
+export type CssHsl
+    = | `hsl(${number} ${number} ${number})`
     | `hsl(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 /**
  * Hue, Saturation, and Brightness (**HSB** color model)
  */
-export type CssHsb =
-    | `hsb(${number} ${number} ${number})`
+export type CssHsb
+    = | `hsb(${number} ${number} ${number})`
     | `hsb(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 type OptionalPercent = "%" | "";
@@ -67,8 +65,8 @@ type OptionalPercent = "%" | "";
  * - Saturation levels are seen in _chroma_ values.
  * - Hue distinguishes the actual color you're viewing
  */
-export type CssOkLch =
-  | `oklch(${number}${OptionalPercent} ${number}${OptionalPercent} ${number})`;
+export type CssOkLch
+  = | `oklch(${number}${OptionalPercent} ${number}${OptionalPercent} ${number})`;
 
 /**
  * a hexadecimal color representation for CSS
@@ -83,8 +81,8 @@ export type ColorFnOptOpacity = "" | ` / ${number}`;
  *
  * Intended to represent _any_ CSS color value.
  */
-export type CssColor =
-    | CssNamedColors
+export type CssColor
+    = | CssNamedColors
     | CssHexColor
     | CssRgb
     | CssRgba
@@ -94,8 +92,8 @@ export type CssColor =
     | "currentcolor"
     | `color(${string})`;
 
-export type CssColorLight =
-    | CssNamedColors
+export type CssColorLight
+    = | CssNamedColors
     | `#${number}`
     | "currentcolor"
     | `${"rgb" | "rgba" | "hsb" | "hsl"}(${string})`
@@ -112,8 +110,8 @@ export type CssColorFn<
     TV2 extends ColorFnValue = ColorFnValue,
     TV3 extends ColorFnValue = ColorFnValue,
     TOp extends ColorFnOptOpacity = ColorFnOptOpacity,
-> =
-    | `color(${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}` // absolute color
+>
+    = | `color(${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}` // absolute color
     | `color(${CssColor} from ${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}`;
 
 export type CssColorMix = `color-mix(in ${CssColorSpace}, ${CssColor}${string})`;

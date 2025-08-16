@@ -16,9 +16,9 @@ describe("UnionToTuple<U>", () => {
         type Mixed = UnionToTuple<1 | 2 | "foo" | "bar">;
 
         type cases = [
-            Expect<Test<Foobar, "hasSameKeys", ["foo", "bar"]>>,
-            Expect<Test<OneTwoThree, "hasSameKeys", [1, 2, 3]>>,
-            Expect<Test<Mixed, "hasSameKeys", [1, 2, "foo", "bar"]>>,
+            Expect<Test<Foobar, "hasSameValues", ["foo", "bar"]>>,
+            Expect<Test<OneTwoThree, "hasSameValues", [1, 2, 3]>>,
+            Expect<Test<Mixed, "hasSameValues", [1, 2, "foo", "bar"]>>,
         ];
     });
 
@@ -28,8 +28,8 @@ describe("UnionToTuple<U>", () => {
         type Wide = UnionToTuple<string | boolean>;
 
         type cases = [
-            Expect<Test<StrBool, "equals", ["foo", "bar", boolean]>>,
-            Expect<Test<Wide, "equals", [string, boolean]>>
+            Expect<Test<StrBool, "hasSameValues", ["foo", "bar", true, false]>>,
+            Expect<Test<Wide, "hasSameValues", [string, true, false]>>
         ];
     });
 

@@ -1,4 +1,4 @@
-import type { Throw } from "inferred-types/types";
+import type { Err } from "inferred-types/types";
 
 /**
  * **createErrorConditionTemplate**`(kind,[msg],[utility]) => ErrorCondition`
@@ -12,16 +12,16 @@ export function createErrorCondition<
     TUtility extends string = never,
 >(kind: TKind, msg: TMsg = "" as never, utility: TUtility = "" as never) {
     return {
-        __kind: "ErrorCondition",
+        __kind: "Error",
         kind,
         msg,
         utility,
-    } as unknown as Throw<TKind, TMsg, TUtility>;
+    } as unknown as Err<TKind, TMsg>;
 }
 
 export function errCondition(kind: string, msg?: string) {
     return {
-        __kind: "ErrorCondition",
+        __kind: "Error",
         kind,
         msg,
     };

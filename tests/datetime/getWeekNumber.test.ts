@@ -4,6 +4,7 @@ import { getWeekNumber } from "inferred-types/runtime";
 import {
   Extends,
   IsLuxonDateTime,
+  Test,
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -87,9 +88,9 @@ describe("getWeekNumber()", () => {
 
     if (getWeekNumber(date)) {
       type ThisDate = typeof date;
-      // @ts-ignore
+
       type _cases = [
-        ExpectTrue<Luxon>,
+        Expect<Test<Luxon, "equals", boolean>>,
         Expect<Extends< DateTime<true>, ThisDate>>
       ];
     }
@@ -120,8 +121,7 @@ describe("getWeekNumber()", () => {
 
 
   it("should handle invalid inputs gracefully", () => {
-      // @ts-expect-error - Invalid input type
-      expect(() => getWeekNumber(null)).toThrow();
+      expect(() => getWeekNumber(null as any)).toThrow();
       expect(() => getWeekNumber("invalid date")).toThrow();
   });
 });

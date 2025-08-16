@@ -26,11 +26,7 @@ describe("EndsWith<TValue,TTest>", () => {
             ExpectTrue<Num>,
             ExpectFalse<NotNum>
         ];
-        const cases: cases = [
-            true, false,
-            true, false,
-            true, false
-        ];
+
     });
 
 });

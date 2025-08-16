@@ -9,6 +9,8 @@ export * from "./Comparisons";
 export * from "./Consonants";
 export * from "./Constant";
 export * from "./DateTime";
+export * from "./DoubleLeap_Exotic";
+export * from "./DoubleLeap_Typical";
 export * from "./Editor";
 export * from "./FalsyValues";
 export * from "./Functional";

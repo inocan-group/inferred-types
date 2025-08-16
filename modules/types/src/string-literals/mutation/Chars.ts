@@ -1,16 +1,12 @@
-import type { IsStringLiteral } from "inferred-types/types";
-
 type Process<
     TStr extends string,
     TResult extends readonly string[] = [],
-> = TStr["length"] extends 0
-    ? []
-    : TStr extends `${infer Char}${infer Rest}`
-        ? Process<
-            Rest,
-            [...TResult, Char]
-        >
-        : TResult;
+> = TStr extends `${infer Char}${infer Rest}`
+    ? Process<
+        Rest,
+        [...TResult, Char]
+    >
+    : TResult;
 
 /**
  * **Chars**`<TStr>`
@@ -19,8 +15,10 @@ type Process<
  */
 export type Chars<
     TStr extends string,
-> = IsStringLiteral<TStr> extends true
-    ? Process<TStr> extends string[]
-        ? Process<TStr>
-        : never
-    : string[];
+> = string extends TStr
+    ? string[]
+    : TStr extends ""
+        ? []
+        : Process<TStr> extends string[]
+            ? Process<TStr>
+            : never;

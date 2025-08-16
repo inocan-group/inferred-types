@@ -3,7 +3,6 @@ import {
     Expect,
     Extends,
     PhoneNumber,
-    IsErrorCondition,
     HasPhoneCountryCode,
     Test,
 } from "inferred-types/types";

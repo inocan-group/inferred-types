@@ -1,36 +1,40 @@
-import type { TypedFunction } from "inferred-types/types";
+import type {
+    IsAny,
+    IsDictionary,
+    IsNever,
+    IsUnion,
+    IsUnknown,
+    UnionMemberExtends
+} from "inferred-types/types";
+
+type Shape = {
+    isValid: boolean;
+    toISO: Function;
+    toFormat: Function;
+    year: number;
+    zoneName: string;
+};
 
 /**
  * **IsLuxonDateTime`<T>`
  *
  * A boolean operator which returns `true` when `T` appears to be a Luxon DateTime instance.
  */
-export type IsLuxonDateTime<T> = "isValid" extends keyof T
-    ? "toISODate" extends keyof T
-        ? "toFormat" extends keyof T
-            ? "toMillis" extends keyof T
-                ? "year" extends keyof T
-                    ? "month" extends keyof T
-                        ? "day" extends keyof T
-                            ? T["isValid"] extends boolean
-                                ? T["toISODate"] extends TypedFunction
-                                    ? T["toFormat"] extends TypedFunction
-                                        ? T["toMillis"] extends TypedFunction
-                                            ? T["year"] extends number
-                                                ? T["month"] extends number
-                                                    ? T["day"] extends number
-                                                        ? true
-                                                        : false
-                                                    : false
-                                                : false
-                                            : false
-                                        : false
-                                    : false
-                                : false
-                            : false
-                        : false
+export type IsLuxonDateTime<T>
+= [IsAny<T>] extends [true]
+    ? false
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : [IsUnion<T>] extends [true]
+                ? UnionMemberExtends<T, Shape> extends true
+                    ? T extends Shape
+                        ? true
+                        : boolean
                     : false
-                : false
-            : false
-        : false
-    : false;
+                : IsDictionary<T> extends true
+                    ? T extends Shape
+                        ? true
+                        : false
+                    : false;

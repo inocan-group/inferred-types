@@ -5,7 +5,7 @@ import type { Constant } from "inferred-types/constants";
  *
  * Creates a `Constant<TKind>` type.
  */
-export function createConstant<TKind extends string>(kind: TKind) {
+function createConstant<TKind extends string>(kind: TKind) {
     return {
         _type: "Constant",
         kind,

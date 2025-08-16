@@ -5,6 +5,7 @@ import type {
 import {
     isArray,
     isBoolean,
+    isDictionary,
     isFalse,
     isInputToken__Object,
     isInputToken__Tuple,
@@ -12,7 +13,6 @@ import {
     isNarrowable,
     isNull,
     isNumber,
-    isObject,
     isString,
     isTrue,
     isUndefined,
@@ -40,8 +40,18 @@ export function doesExtend<
                 if (type === "string") {
                     return isString(val);
                 }
+                else if (type.startsWith("string(") && type.endsWith(")")) {
+                    // Handle string(value1,value2,...) format
+                    const values = type.slice(7, -1).split(",").map(v => v.trim());
+                    return isString(val) && values.includes(val);
+                }
                 else if (type === "number") {
                     return isNumber(val);
+                }
+                else if (type.startsWith("number(") && type.endsWith(")")) {
+                    // Handle number(value1,value2,...) format
+                    const values = type.slice(7, -1).split(",").map(v => Number(v.trim()));
+                    return isNumber(val) && values.includes(val);
                 }
                 else if (type === "boolean") {
                     return isBoolean(val);
@@ -59,11 +69,11 @@ export function doesExtend<
                     return isUndefined(val);
                 }
                 else if (type === "object") {
-                    return isObject(val);
+                    return isDictionary(val);
                 }
             }
             else if (isInputToken__Object(type)) {
-                if (isObject(val)) {
+                if (isDictionary(val)) {
                     return Object.keys(type).every(
                         k => isInputTokenLike(type[k]) && isNarrowable(val[k]) && doesExtend(type[k])(val[k])
                     );

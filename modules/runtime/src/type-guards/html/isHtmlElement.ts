@@ -1,4 +1,4 @@
-import { isObject } from "../isObject";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * **isHtmlElement**`(val)`
@@ -6,5 +6,5 @@ import { isObject } from "../isObject";
  * Type guard which checks whether `val` is an `HtmlElement`.
  */
 export function isHtmlElement(val: unknown): val is HTMLElement {
-    return isObject(val) && "attributes" in val && "firstElementChild" in val && "innerHTML" in val;
+    return isDictionary(val) && "attributes" in val && "firstElementChild" in val && "innerHTML" in val;
 }

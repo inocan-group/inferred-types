@@ -1,7 +1,7 @@
-import type { OptSpace } from "../OptionalSpace";
+import type { OptSpace } from "inferred-types/types";
 
-type PropertyFormat =
-    | "*"
+type PropertyFormat
+    = | "*"
     | "color"
     | "image"
     | "length"

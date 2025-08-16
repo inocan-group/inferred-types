@@ -1,10 +1,8 @@
-import type { Opt } from "../Optional";
-import type { CssGlobal } from "./global";
-import type { CssRotation } from "./props";
-import type { CssSizing, CssSizingLight } from "./sizing";
+import type { Opt } from "inferred-types/types";
+import type { CssGlobal, CssRotation, CssSizing, CssSizingLight } from "types/string-literals/character-sets/css";
 
-export type CssFontFamily =
-    | `"${string}"`
+export type CssFontFamily
+    = | `"${string}"`
     | "serif"
     | "san-serif"
     | "monospace"
@@ -19,27 +17,27 @@ export type CssFontFamily =
     | "math"
     | "fansong";
 
-export type CssFontFeatureSetting =
-    | "normal"
+export type CssFontFeatureSetting
+    = | "normal"
     | "liga"
     | "tnum"
     | "smcp";
 
-export type CssFontKerning =
-    | "auto"
+export type CssFontKerning
+    = | "auto"
     | "normal"
     | "none"
     | CssGlobal;
 
-export type CssFontPalette =
-    | "normal"
+export type CssFontPalette
+    = | "normal"
     | "light"
     | "dark"
     | `--${string}`
     | `palette-mix(in ${ColorGamut},${string})`;
 
-export type CssFontWidth =
-    | "normal"
+export type CssFontWidth
+    = | "normal"
     | "ultra-condensed"
     | "extra-condensed"
     | "condensed"
@@ -50,22 +48,22 @@ export type CssFontWidth =
     | `${number}%`
     | CssGlobal;
 
-export type CssFontStyle =
-    | "normal"
+export type CssFontStyle
+    = | "normal"
     | "italic"
     | "oblique"
     | `oblique ${CssRotation}`
     | CssGlobal;
 
-export type CssFontSynthesis =
-    | "none"
+export type CssFontSynthesis
+    = | "none"
     | "weight"
     | "style"
     | "position"
     | "small-caps";
 
-export type CssFontWeight =
-    | "normal" | "bold"
+export type CssFontWeight
+    = | "normal" | "bold"
     | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900"
     | "lighter" | "bolder"
     | CssGlobal;

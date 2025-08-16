@@ -6,5 +6,4 @@ export * from "./ComparisonLookup";
 export * from "./ComparisonOpConfig";
 export * from "./GetComparator";
 export * from "./GetComparisonParams";
-export * from "./GetComparisonParams";
 export * from "./GetOpConfig";

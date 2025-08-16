@@ -32,8 +32,8 @@ export type TypeToken__StringSet = MakeDynamic<typeof TYPE_TOKEN_STRING_SET_VARI
  */
 export type TypeToken__Number = `::${number}`;
 
-export type TypeToken__NumberSet =
-    | "bigInt" | `bigInt::${bigint}`
+export type TypeToken__NumberSet
+    = | "bigInt" | `bigInt::${bigint}`
     | "digit" | `digit::${2 | 3 | 4}`
     | "integer";
 
@@ -45,8 +45,8 @@ type D = TypeTokenDelimiter;
 export type TypeToken__Fn = `[${params}]` | `[${params}]${D}${rtn}` | `any::${rtn}`;
 export type TypeToken__Gen = `[${params}]` | `[${params}]${D}${rtn}` | `gen${D}any${D}${rtn}`;
 
-export type TypeToken__FnSet =
-    | `withoutParams` | `withoutParams${D}${rtn}`
+export type TypeToken__FnSet
+    = | `withoutParams` | `withoutParams${D}${rtn}`
     | `booleanLogic` | `booleanLogic${D}[${params}]`;
 
 export type RecVariant = typeof TYPE_TOKEN_REC_VARIANTS[number];

@@ -1,32 +1,18 @@
-import type { AfterFirst, Chars, First, If } from "inferred-types/types";
-
-type Process<
-    TChars extends readonly string[],
-    TOp extends "is" | "not",
+/**
+ * Optimized string-based processing without array conversion
+ */
+type ProcessDirect<
+    TStr extends string,
     TComparator extends string,
     TInclude extends boolean = false,
     TResult extends string = "",
-> = [] extends TChars
-    ? TResult
-    : First<TChars> extends TComparator
-        ? TOp extends "is"
-            ? Process<
-                AfterFirst<TChars>,
-                TOp,
-                TComparator,
-                TInclude,
-        `${TResult}${First<TChars>}`
-            >
-            : If<TInclude, `${TResult}${First<TChars>}`, TResult>
-        : TOp extends "is"
-            ? If<TInclude, `${TResult}${First<TChars>}`, TResult>
-            : Process<
-                AfterFirst<TChars>,
-                TOp,
-                TComparator,
-                TInclude,
-        `${TResult}${First<TChars>}`
-            >;
+> = TStr extends `${infer First}${infer Rest}`
+    ? First extends TComparator
+        ? TInclude extends true
+            ? `${TResult}${First}`
+            : TResult
+        : ProcessDirect<Rest, TComparator, TInclude, `${TResult}${First}`>
+    : TResult;
 
 /**
  * **RetainUntil**`<TContent,TComparator>`
@@ -45,4 +31,4 @@ export type RetainUntil<
     TContent extends string,
     TComparator extends string,
     TInclude extends boolean = false,
-> = Process<Chars<TContent>, "not", TComparator, TInclude>;
+> = ProcessDirect<TContent, TComparator, TInclude>;

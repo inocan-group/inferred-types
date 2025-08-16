@@ -1,7 +1,4 @@
-import type { FromInputToken__String, Trim } from "inferred-types/types";
-import type {
-    IT_ContainerType
-} from "src/runtime-types/type-defn/input-tokens/_base";
+import type { FromInputToken__String, IT_ContainerType, Trim } from "inferred-types/types";
 
 export type IT_TakeUnionDelimiter<
     T extends string,

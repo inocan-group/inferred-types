@@ -1,5 +1,5 @@
 import type { FREQUENCY_METRICS_LOOKUP } from "inferred-types/constants";
-import type { OptSpace } from "../character-sets/OptionalSpace";
+import type { OptSpace } from "inferred-types/types";
 
 type FrequencyMetricsLookup = typeof FREQUENCY_METRICS_LOOKUP;
 

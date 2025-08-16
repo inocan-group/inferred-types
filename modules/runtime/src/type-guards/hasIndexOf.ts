@@ -1,5 +1,5 @@
 import type { Container, Dictionary, IsValidIndex, Tuple } from "inferred-types/types";
-import { isErrorCondition, isObject } from "inferred-types/runtime";
+import { isDictionary, isError } from "inferred-types/runtime";
 
 /**
  * **hasIndexOf**(value, idx) => boolean
@@ -10,20 +10,20 @@ import { isErrorCondition, isObject } from "inferred-types/runtime";
 export function hasIndexOf<
     TContainer extends Container,
     TIndex extends PropertyKey,
->(value: TContainer, idx: TIndex): value is TContainer &
-(TContainer extends Tuple
+>(value: TContainer, idx: TIndex): value is TContainer
+& (TContainer extends Tuple
     ? Tuple<TIndex>
     : TContainer extends Dictionary
         ? Record<TIndex, unknown>
         : never
 ) {
-    const result = isObject(value)
+    const result = isDictionary(value)
         ? String(idx) in value
         : Array.isArray(value)
             ? Number(idx) in value
             : false;
     return (
-        isErrorCondition(result, "invalid-index")
+        isError(result)
             ? false
             : result
     ) as IsValidIndex<TContainer, TIndex>;

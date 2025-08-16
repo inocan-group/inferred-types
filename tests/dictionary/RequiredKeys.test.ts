@@ -21,8 +21,6 @@ describe("RequiredKeys<T, V>", () => {
                 "title" | "value"
             >>
         ];
-
-
     });
 
     it("basic usage with a value filter", () => {
@@ -69,7 +67,7 @@ describe("RequiredKeysTuple<T, V>", () => {
         type T = RequiredKeysTuple<TestObj>;
 
         type cases = [ //
-            Expect<Test<T, "equals", ["title",  "value"]>>
+            Expect<Test<T, "hasSameValues", ["title",  "value"]>>
         ];
 
     });

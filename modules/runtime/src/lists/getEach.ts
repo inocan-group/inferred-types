@@ -1,7 +1,5 @@
 import type { GetEach, Narrowable } from "inferred-types/types";
-
-import { Never } from "inferred-types/constants";
-import { get, isErrorCondition } from "inferred-types/runtime";
+import { get, isError } from "inferred-types/runtime";
 
 export interface GetEachOptions<
     THandleErrors,
@@ -16,15 +14,13 @@ export interface GetEachOptions<
  * of items.
  *
  * - the options allow for a "default value" to be substituted for any _undefined_ or _never_ values
- * - errors in looking up dotpath's will -- by default -- be removed as this is typically the desired behavior but you can also choose from:
+ * - errors in looking up dot path's will -- by default -- be removed as this is typically the desired
+ * behavior but you can also choose from:
  *    - `to-never`: converts _type_ to `never` but runtime maintains error message
- *    - `report`: both _type_ and runtime are in the `ErrorCondition` format
- * - the dotpath is VueJS aware of possible `Ref<T>` objects and will gracefully navigate
- * over them without the need to offset by `.value`
  */
 export function getEach<
-    TList extends readonly unknown[],
-    TDotPath extends string | null,
+    const TList extends readonly unknown[],
+    const TDotPath extends string | null
 >(
     list: TList,
     dotPath: TDotPath,
@@ -36,9 +32,9 @@ export function getEach<
                 ? get(i as Narrowable, dotPath as string)
                 : Array.isArray(i)
                     ? get(i as readonly unknown[], dotPath as string)
-                    : Never,
+                    : null as never,
         )
-        .filter(i => !isErrorCondition(i));
+        .filter(i => !isError(i));
 
     return result as unknown as GetEach<
         [...TList],

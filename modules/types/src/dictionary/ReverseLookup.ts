@@ -1,34 +1,15 @@
-import type {
-    AfterFirst,
-    As,
-    EmptyObject,
-    ExpandDictionary,
-    First,
-    Reverse,
-    StringKeys,
-} from "inferred-types/types";
-
-type Process<
-    T extends Record<string, string>,
-    K extends readonly (keyof T)[],
-    O extends Record<string, string> = EmptyObject,
-> = [] extends K
-    ? ExpandDictionary<O>
-    : Process<
-        T,
-        AfterFirst<K>,
-    O & Record<T[First<K>], First<K>>
-
-    >;
-
 /**
  * **ReverseLookup**`<T>`
  *
  * Inverts a table of string to string lookups so that the values
  * can now lookup the keys.
+ *
+ * Uses mapped types for O(1) complexity instead of recursive processing,
+ * significantly improving performance for large mappings while preserving
+ * narrow literal types.
  */
 export type ReverseLookup<
     T extends Record<string, string>,
-> = Process<T, As<Reverse<StringKeys<T>>, readonly (keyof T)[]>> extends Record<string, string>
-    ? Process<T, As<Reverse<StringKeys<T>>, readonly (keyof T)[]>>
-    : never;
+> = {
+    [K in keyof T as T[K]]: K
+};

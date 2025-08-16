@@ -20,7 +20,7 @@ type InnerRest = { inner: string; rest: string };
 
 type Segment<
     T extends string,
-    U extends readonly string[] = NestedSplit<
+    U = NestedSplit<
         RetainAfter<T, "Map<">,
         ">"
     >
@@ -49,10 +49,12 @@ type Key<
     T extends string,
     S extends InnerRest | Error = Segment<T>
 > = IsWideString<T> extends true
-    ? string | ErrorIsString
+    ? string | Error
     : S extends InnerRest
-        ? NestedSplit<S["inner"], ",">[0] extends string
-            ? NestedSplit<S["inner"], ",">[0]
+        ? NestedSplit<S["inner"], ","> extends readonly string[]
+            ? NestedSplit<S["inner"], ",">[0] extends string
+                ? NestedSplit<S["inner"], ",">[0]
+                : never
             : never
         : S extends Error
             ? S
@@ -71,8 +73,8 @@ type KeyType<T extends string> = IsWideString<T> extends true
 type Value<T extends string, S extends InnerRest | Error = Segment<T>> = IsWideString<T> extends true
     ? string | Error
     : S extends InnerRest
-        ? NestedSplit<S["inner"], ",">[1] extends string
-            ? NestedSplit<S["inner"], ",">[1]
+        ? NestedSplit<S["inner"], ","> extends readonly [infer First extends string, ...unknown[]]
+            ? First
             : Err<
                 `invalid-token/map`,
                 `The Map token did not provide a ',' separator to delineate the key token from the value token!`,

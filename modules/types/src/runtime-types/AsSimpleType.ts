@@ -1,4 +1,4 @@
-import type { AfterFirst, First } from "../lists";
+import type { AfterFirst, First } from "inferred-types/types";
 import type {
     SimpleArrayToken,
     SimpleDictToken,

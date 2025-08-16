@@ -1,7 +1,14 @@
-import type { RemoveNever } from "../containers";
-import type { NumberLike } from "../numeric-literals";
-import type { AsNumber } from "../type-conversion";
+import type { AsNumber, NumberLike } from "inferred-types/types";
 
+/**
+ * Simple filter approach to avoid RemoveNever complexity
+ */
+type FilterNumeric<T extends readonly unknown[], Result extends readonly number[] = []>
+    = T extends readonly [infer Head, ...infer Tail]
+        ? Head extends NumberLike
+            ? FilterNumeric<Tail, [...Result, AsNumber<Head>]>
+            : FilterNumeric<Tail, Result>
+        : Result;
 /**
  * **AsNumericArray**`<T>`
  *
@@ -12,9 +19,5 @@ import type { AsNumber } from "../type-conversion";
  * - all other types are converted to `never` and removed
  */
 export type AsNumericArray<T> = T extends readonly unknown[]
-    ? RemoveNever<{
-        [K in keyof T]: T[K] extends NumberLike
-            ? AsNumber<T[K]>
-            : never
-    }>
+    ? FilterNumeric<T>
     : never;

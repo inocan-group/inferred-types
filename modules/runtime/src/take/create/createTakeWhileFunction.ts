@@ -1,4 +1,4 @@
-import type { Defined, IsFunction, Unset } from "inferred-types/types";
+import type { Defined, TypedFunction, Unset } from "inferred-types/types";
 import {
     asArray,
     asChars,
@@ -6,7 +6,6 @@ import {
     stripLeading,
     unset
 } from "inferred-types/runtime";
-import { TypedFunction } from "@inferred-types/types";
 
 type WhileOptions = {
     /**
@@ -45,7 +44,7 @@ type WhileOptions = {
 function takeWhile(
     chars: string[],
     match: string[],
-    opts: WhileOptions
+    _opts: WhileOptions
 ): [Unset, string] | [string, string] {
     let head = "";
 
@@ -84,13 +83,11 @@ export function createTakeWhileFunction<
             // did not find the pattern
             return unset as TOpt["callback"] extends TypedFunction
                 ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
-                : Error | Unset | [string, string]
+                : Error | Unset | [string, string];
         }
 
         return [head, rest] as TOpt["callback"] extends TypedFunction
             ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
-            : Error | Unset | [string, string]
-
-
+            : Error | Unset | [string, string];
     };
 }

@@ -1,4 +1,4 @@
-import type { DateLike, IsSameYear } from "inferred-types/types";
+import type { DateLike } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
 
 /**
@@ -17,10 +17,8 @@ export function isSameYear<
 
     return <TVal extends DateLike>(
         val: TVal
-    ) => {
+    ): boolean => {
         const v = asDate(val);
-        return (
-            v.getUTCFullYear() === comp.getUTCFullYear()
-        ) as IsSameYear<TVal, TComparator>;
+        return v.getUTCFullYear() === comp.getUTCFullYear();
     };
 }

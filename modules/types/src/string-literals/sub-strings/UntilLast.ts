@@ -50,7 +50,7 @@ type Handle<
  * character.
  *
  * - if the `TBreak` character is provided then all text in `TText`
- * after the _first_ occurance of the break character will be discarded
+ * after the _first_ occurrence of the break character will be discarded
  * before looking for the last `TFind` character.
  * - if no instances of `TFind` are found then `THandle` will be returned
  *      - by default `THandle` is just `TText` but you can set it
@@ -81,8 +81,7 @@ export type UntilLast<
             >,
         string
     >
-    : // TFind not found
-    Handle<TText, TOpt> extends string
+    : Handle<TText, TOpt> extends string
         ? Break<TOpt> extends string
             ? StripAfter<Handle<TText, TOpt>, Break<TOpt>>
             : Handle<TText, TOpt>

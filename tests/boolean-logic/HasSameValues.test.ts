@@ -29,7 +29,7 @@ describe("HasSameValues<TContainer,TComparator", () => {
     });
 
 
-    it("testing with objects", () => {
+    it("same values with different type structures", () => {
         type T1 = HasSameValues<{foo: 1; bar: 2}, [1,2]>;
         type T2 = HasSameValues<{foo: 1; bar: 2}, [2,1]>;
 
@@ -45,9 +45,9 @@ describe("HasSameValues<TContainer,TComparator", () => {
         type F3 = HasSameValues<never, never>;
 
         type cases = [
-            Expect<Test<F3, "equals",  false>>,
             Expect<Test<F1, "equals",  false>>,
             Expect<Test<F2, "equals",  false>>,
+            Expect<Test<F3, "equals",  false>>,
         ];
     });
 

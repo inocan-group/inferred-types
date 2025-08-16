@@ -43,7 +43,6 @@ function endingIn<
             return word.endsWith("y")
             // ? CONSONANTS.includes(word.slice(-2, 1) as any)
                 ? `${stripTrailing(word, "y")}ies`
-            // : undefined
                 : undefined;
         default:
             throw new Error(`endingIn received "${postfix}" as a postfix but this ending is not known!`);

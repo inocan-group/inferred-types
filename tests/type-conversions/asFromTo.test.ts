@@ -1,6 +1,29 @@
 import { asFromTo } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
+import { AsFromTo, Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
+
+
+describe("AsFromTo<T>", () => {
+
+    it("happy path", () => {
+        type Upper = AsFromTo<{
+            a: "A",
+            b: "B"
+        }>
+
+        type cases = [
+            Expect<Test<
+                Upper, "hasSameValues",
+                [
+                    { from: "a", to: "A"},
+                    { from: "b", to: "B"}
+                ]
+            >>
+        ];
+    });
+
+});
+
 
 describe("asFromTo", () => {
 

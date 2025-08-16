@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        // TypeScript import sorter and organizer
+        "mike-co.import-sorter",
+        // Better path intellisense that respects your settings
+        "christian-kohler.path-intellisense"
+    ],
+    "unwantedRecommendations": []
+}

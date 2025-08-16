@@ -80,8 +80,7 @@ type Process<
         DoesExtend<TOverride, Scalar | undefined>,
     ]> extends true
         ? MergeScalars<TDefault & Scalar, TOverride & Scalar>
-        :
-        And<[
+        : And<[
             DoesExtend<TDefault, readonly Narrowable[]>,
             DoesExtend<TOverride, readonly Narrowable[]>,
         ]> extends true

@@ -17,7 +17,6 @@ describe("omit()", () => {
         const justBar = omitKeys({ foo: 1, bar: 2, baz: 3 }, "foo", "baz");
         const none = omitKeys({ foo: 1, bar: 2, baz: 3 }, "foo", "bar", "baz");
 
-
         expect(all).toEqual({ foo: 1, bar: 2, baz: 3 });
         expect(noFoo).toEqual({ bar: 2, baz: 3 });
         expect(none).toEqual({});

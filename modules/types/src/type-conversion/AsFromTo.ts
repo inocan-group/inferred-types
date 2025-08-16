@@ -1,7 +1,7 @@
 import type {
     Dictionary,
     FromTo,
-    IsWideContainer,
+    IsLiteralLikeObject,
     Values,
 } from "inferred-types/types";
 
@@ -13,23 +13,13 @@ type ConvertFromTo<
         from: K;
         to: TObj[K];
     }
-}, true>;
-
-/** converts an object's key values into FromTo tuple (in reverse) */
-type ConvertToFrom<
-    TObj extends Dictionary,
-> = Values<{
-    [K in keyof TObj]: {
-        to: K;
-        from: TObj[K];
-    }
-}, true>;
+}>;
 
 /**
  * **AsFromTo**`<T>`
  *
  * Converts:
- * - an object-based lookup into a `FromTo[]` tuple
+ * - an object KV is converted into a `FromTo[]` tuple
  *
  * **Notes:**
  * - any value which is already a FromTo will be kept as is
@@ -38,26 +28,8 @@ type ConvertToFrom<
  */
 export type AsFromTo<
     T extends Dictionary<string, string>,
-> = IsWideContainer<T> extends true
-    ? FromTo[]
-    : ConvertFromTo<T> extends readonly FromTo[]
+> = IsLiteralLikeObject<T> extends true
+    ? ConvertFromTo<T> extends readonly FromTo[]
         ? ConvertFromTo<T>
-        : never;
-
-/**
- * **AsToFrom**`<T>`
- *
- * Converts:
- *
- *    - an object-based KV lookup into a `FromTo[]` tuple
- * _in reverse_.
- *
- * **Related:** `AsFromTo`
- */
-export type AsToFrom<
-    T extends Dictionary<string, string>,
-> = IsWideContainer<T> extends true
-    ? FromTo[]
-    : ConvertToFrom<T> extends readonly FromTo[]
-        ? ConvertToFrom<T>
-        : never;
+        : never
+    : FromTo[];

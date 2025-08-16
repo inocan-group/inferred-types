@@ -1,6 +1,11 @@
-import type { Err, Narrowable, TypedError } from "inferred-types/types";
-import type { EmptyObject, IsNever } from "../../../inferred-types/dist";
+import type {
+    EmptyObject,
+    Err,
+    IsNever,
+    TypedError
+} from "inferred-types/types";
 import { toKebabCase } from "inferred-types/runtime";
+import { dropFirstStackFrame } from "./dropFirstStackFrame";
 
 /**
  * **typedError**(type, message, [ctx])
@@ -17,6 +22,7 @@ export function typedError<
 ) {
     const err = new Error(message) as TypedError<string, string | undefined>;
     const [t, subType] = type.split("/");
+    err.__kind = "Error";
     err.type = toKebabCase(t);
     err.subType = toKebabCase(subType);
     if (message) {
@@ -27,14 +33,14 @@ export function typedError<
 }
 
 export function err<
-    T extends string,
-    M extends string = "",
-    C extends Record<string, N> = never,
-    N extends Narrowable = Narrowable
+    TType extends string,
+    TMsg extends string = "",
+    const TCtx extends Record<string, U> = never,
+    U = unknown
 >(
-    type: T,
-    message?: M,
-    ctx?: C
+    type: TType,
+    message?: TMsg,
+    ctx?: TCtx
 ) {
     const err = new Error(message) as TypedError<string, string | undefined>;
     const [t, subType] = type.split("/");
@@ -49,5 +55,5 @@ export function err<
         }
     }
 
-    return err as Err<T, M, IsNever<C> extends true ? EmptyObject : C>;
+    return dropFirstStackFrame(err) as Err<TType, TMsg, IsNever<TCtx> extends true ? EmptyObject : TCtx>;
 }

@@ -1,5 +1,5 @@
 import type { Narrowable } from "inferred-types/types";
-import { ifArray } from "./ifArray";
+import { ifArray } from "inferred-types/runtime";
 
 export function ifArrayPartial<T extends Narrowable>() {
     return <IF extends Narrowable, ELSE extends Narrowable>(

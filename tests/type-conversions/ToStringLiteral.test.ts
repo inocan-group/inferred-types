@@ -9,12 +9,13 @@ import { toStringLiteral, split, stripChars } from "inferred-types/runtime";
 
 describe("ToStringLiteral<T>", () => {
 
-
-    it("undefined value", () => {
+    it("undefined and null values", () => {
         type Undef = ToStringLiteral<undefined>;
+        type Null = ToStringLiteral<null>;
 
         type cases = [
-            Expect<Test<Undef, "equals", "undefined">>
+            Expect<Test<Undef, "equals", "undefined">>,
+            Expect<Test<Null, "equals", "null">>
         ];
     });
 
@@ -36,7 +37,7 @@ describe("ToStringLiteral<T>", () => {
             Expect<Test<Str, "equals", `"42"`>>,
             Expect<Test<True, "equals", "true">>,
             Expect<Test<False, "equals", "false">>,
-            Expect<Test<Bool, "equals", "boolean">>,
+            Expect<Test<Bool, "equals", "false | true">>,
 
             Expect<Test<WideStr, "equals", "string">>,
             Expect<Test<WideNum, "equals", "number">>,
@@ -69,7 +70,7 @@ describe("ToStringLiteral<T>", () => {
 
 
     it("tuple (literal types)", () => {
-        type Nums = ToStringLiteral<[1,2,3]>;
+        type Numeric = ToStringLiteral<[1,2,3]>;
         type Obj = ToStringLiteral<[
             { id: 1},
             { id: 2}
@@ -87,7 +88,7 @@ describe("ToStringLiteral<T>", () => {
 
 
         type cases = [
-            Expect<Test<Nums, "equals", `[ 1, 2, 3 ]`>>,
+            Expect<Test<Numeric, "equals", `[ 1, 2, 3 ]`>>,
             Expect<Test<Obj, "equals", `[ { id: 1 }, { id: 2 } ]`>>,
             Expect<Test<MultiDim, "equals", `[ [ 1, 2 ], [ 3, 4 ] ]`>>,
             Expect<Test<Mixed, "equals", `[ 1, "foo", 3 ]`>>,
@@ -108,7 +109,7 @@ describe("ToStringLiteral<T>", () => {
         type cases = [
             Expect<Test<StrArr, "equals", `string[]`>>,
             Expect<Test<NumArr, "equals", `number[]`>>,
-            Expect<Test<BoolArr, "equals", `boolean[]`>>,
+            Expect<Test<BoolArr, "equals", `(false | true)[]`>>,
 
             Expect<Test<
                 UnionArr, "extends",
@@ -130,7 +131,7 @@ describe("ToStringLiteral<T>", () => {
 
     it("Union type", () => {
         type StrNum = ToStringLiteral<string | number>;
-        type Nums = ToStringLiteral<1 | 2 | 3 | 4>;
+        type Numeric = ToStringLiteral<1 | 2 | 3 | 4>;
         type Obj = ToStringLiteral<
             { id: 1 } | { id: 2 }
         >;
@@ -138,12 +139,11 @@ describe("ToStringLiteral<T>", () => {
         type cases = [
             Expect<Test<
                 StrNum, "extends",
-                "string | number" |
-                "number | string"
+                "string | number" | "number | string"
             >>,
             /** the ordering of a union type can vary */
             Expect<Test<
-                Nums, "containsAll",
+                Numeric, "containsAll",
                 ["1","2","3","4","|"]
             >>,
             Expect<Test<
@@ -184,7 +184,7 @@ describe("toStringLiteral(val)", () => {
             Expect<Test<typeof str, "equals", `"42"`>>,
             Expect<Test<typeof yup, "equals", "true">>,
             Expect<Test<typeof nope, "equals", "false">>,
-            Expect<Test<typeof bool, "equals", "boolean">>,
+            Expect<Test<typeof bool, "equals", "false | true">>,
             Expect<Test<typeof missing, "equals", "null">>,
         ];
     });

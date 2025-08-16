@@ -1,7 +1,8 @@
 import type { Split } from "inferred-types/types";
-import { createFnWithProps, last } from "inferred-types/runtime";
+import { createFnWithProps } from "runtime/initializers";
+import { last } from "runtime/lists";
 
-type Policy = "omit" | "before" | "after" | "inline";
+type Policy = "omit" | "before" | "inline";
 
 const SEP = `sep:\u00A0` as const;
 
@@ -55,25 +56,7 @@ function splitUp<
         }
         inline = before;
     }
-    else if (policy === "after") {
-        const after: string[] = [];
-        let next: undefined | string;
-        for (const el of inline) {
-            if (el.startsWith(SEP)) {
-                next = el.replace(SEP, "");
-            }
-            else {
-                if (next) {
-                    after.push(`${next}${el}`);
-                    next = undefined;
-                }
-                else {
-                    after.push(el);
-                }
-            }
-        }
-        inline = after;
-    }
+
     else if (policy === "inline") {
         inline = inline.map(i => i.startsWith(SEP) ? i.replace(SEP, "") : i);
     }
@@ -101,20 +84,6 @@ function before<
     return splitUp([str], sep, "before") as unknown as Split<T, S, "before">;
 }
 
-/**
- * Splits the content using the separator(s) and includes the separator in
- * the element _after_ the
- */
-function after<
-    T extends string,
-    S extends readonly string[]
->(
-    str: T,
-    ...sep: S
-) {
-    return splitUp([str], sep, "after") as unknown as Split<T, S, "after">;
-}
-
 function inline<
     T extends string,
     S extends readonly string[]
@@ -138,11 +107,9 @@ function inline<
 export const split = createFnWithProps(omit, {
     omit,
     before,
-    after,
     inline
 }) as typeof omit & {
     omit: typeof omit;
     before: typeof before;
-    after: typeof after;
     inline: typeof inline;
 };

@@ -4,8 +4,8 @@ import type {
     First,
     Integer,
     Ip4Address,
-    IsoDateLike,
-    IsoDateTimeLike,
+    IsoDate,
+    IsoDateTime,
     IsoTimeLike,
     Keys,
     ReplaceAll,
@@ -16,10 +16,10 @@ interface DefaultLookup {
     "{{boolean}}": `${boolean}`;
     "{{number}}": `${number}`;
     "{{integer}}": `${Integer}`;
-    "{{date}}": `${IsoDateLike}`;
+    "{{date}}": `${IsoDate}`;
     "{{csv}}": `${Csv}`;
     "{{time}}": `${IsoTimeLike}`;
-    "{{datetime}}": `${IsoDateTimeLike}`;
+    "{{datetime}}": `${IsoDateTime}`;
     "{{ipv4}}": `${Ip4Address}`;
 }
 
@@ -53,8 +53,4 @@ type Interpolate<
  */
 export function asTemplate<T extends string>(template: T) {
     return template as Interpolate<T, Find>;
-}
-
-export function applyTemplate() {
-    // TODO
 }

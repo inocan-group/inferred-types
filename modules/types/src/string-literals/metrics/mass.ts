@@ -1,5 +1,5 @@
 import type { MASS_METRICS_LOOKUP } from "inferred-types/constants";
-import type { OptSpace } from "../character-sets/OptionalSpace";
+import type { OptSpace } from "inferred-types/types";
 
 type MassMetricsLookup = typeof MASS_METRICS_LOOKUP;
 

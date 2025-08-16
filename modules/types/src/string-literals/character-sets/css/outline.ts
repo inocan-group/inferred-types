@@ -1,4 +1,4 @@
-import type { Opt } from "../Optional";
+import type { Opt } from "inferred-types/types";
 import type { CssColorLight } from "./color";
 import type { CssSizingLight } from "./sizing";
 
@@ -6,8 +6,8 @@ export type CssOutlineColor = CssColorLight;
 
 export type CssOutlineOffset = CssSizingLight;
 
-export type CssOutlineStyle =
-    | "auto"
+export type CssOutlineStyle
+    = | "auto"
     | "none"
     | "dotted"
     | "dashed"
@@ -18,14 +18,14 @@ export type CssOutlineStyle =
     | "inset"
     | "outset";
 
-export type CssOutlineWidth =
-    | "thin"
+export type CssOutlineWidth
+    = | "thin"
     | "medium"
     | "thick"
     | CssSizingLight;
 
-export type CssOutline =
-    | `${CssOutlineStyle}${Opt<` ${CssColorLight}`>}`
+export type CssOutline
+    = | `${CssOutlineStyle}${Opt<` ${CssColorLight}`>}`
     | `${CssOutlineWidth}${Opt<` ${CssOutlineStyle}`>}${string}`;
 
 export interface CssOutlineProperties {

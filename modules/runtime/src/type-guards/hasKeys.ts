@@ -1,6 +1,6 @@
-import type { EmptyObject, EnsureKeys } from "inferred-types/types";
+import type { Dictionary } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
-import { isFunction, isObject } from "inferred-types/runtime";
+import { indexOf, isDictionary, isSameTypeOf, keysOf } from "inferred-types/runtime";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`
@@ -14,21 +14,34 @@ import { isFunction, isObject } from "inferred-types/runtime";
  * const hasFooBarToo = hasKeys({foo: 1, bar: 1});
  * ```
  */
-export function hasKeys<
-    P extends readonly N[],
-    N extends PropertyKey,
->(...keys: P) {
+export function hasKeys<D extends Dictionary>(dict: D): <V>(val: V) => val is D & V;
+export function hasKeys<K extends readonly string[]>(...keys: K): <V>(val: V) => val is V & Record<K[number], unknown>;
+export function hasKeys(...keys: any[]) {
     if (keys.length === 0) {
         return Never;
     }
 
-  type Props = P extends readonly string[]
-      ? P
-      : never;
+    return <V>(val: V): val is any => {
+        const iterable = isDictionary(keys[0]) && keys.length === 1 ? keysOf(keys[0]) : keys;
+        return !!(
+            (isDictionary(val)) && iterable.every((k) => {
+                if (!indexOf(val, k as PropertyKey)) {
+                    return false;
+                }
 
-  return (val: unknown): val is EnsureKeys<EmptyObject, Props> => {
-      return !!((
-          isFunction(val) || isObject(val)
-      ) && keys.every(k => k in (val as object)));
-  };
+                if (isDictionary(keys[0]) && keys.length === 1) {
+                    const v = val[k as any];
+                    const comparable = keys[0][k as any];
+
+                    if (isSameTypeOf(v)(comparable)) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                return true;
+            }));
+    };
 }

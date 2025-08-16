@@ -1,4 +1,4 @@
-import { isObject } from "runtime/type-guards/isObject";
+import { isDictionary } from "runtime/type-guards/isDictionary";
 
 /**
  * type-guard which validates that `val` is an object with **only** strings
@@ -7,5 +7,5 @@ import { isObject } from "runtime/type-guards/isObject";
  * **Related:** `hasOnlySymbolKeys()`
  */
 export function hasOnlyStringKeys(val: unknown): val is Record<string, unknown> {
-    return isObject(val) && Object.getOwnPropertySymbols(val).length === 0;
+    return isDictionary(val) && Object.getOwnPropertySymbols(val).length === 0;
 }

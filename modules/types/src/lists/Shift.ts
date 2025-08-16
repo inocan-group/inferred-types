@@ -9,13 +9,13 @@ import type {
     Tuple,
 } from "inferred-types/types";
 
-type _Shift<TList extends Tuple> = //
-TList extends [unknown, ...(infer Tail)]
+type _Shift<TList extends Tuple> //
+= TList extends [unknown, ...(infer Tail)]
     ? Tail
     : undefined;
 
-type _ShiftChar<TList extends Tuple> = //
-TList extends [unknown, ...(infer Tail)]
+type _ShiftChar<TList extends Tuple> //
+= TList extends [unknown, ...(infer Tail)]
     ? Tail
     : never;
 

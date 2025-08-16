@@ -2,6 +2,7 @@ import type { COMPARISON_OPERATIONS } from "inferred-types/constants";
 import type {
     DateLike,
     Dictionary,
+    Narrowable,
     NumberLike,
 } from "inferred-types/types";
 
@@ -23,21 +24,24 @@ export type ComparisonOperation = typeof COMPARISON_OPERATIONS[number];
  * A type which provides a lookup table for standard conversion types.
  */
 export type ComparisonLookup = {
-    extends: {
-        params: [types: unknown, ...unknown[]];
+    isTemplateLiteral: {
+        params: readonly[];
+        accept: unknown;
+        take: 1;
+    };
 
+    extends: {
+        params: readonly [types: unknown, ...unknown[]];
         accept: unknown;
     };
 
     startsWith: {
-        params: [string | number, ...readonly (string | number)[]];
-        convert: "stringUnion";
+        params: readonly [startsWith: string | number, ...variants: (string | number)[]];
         accept: string | number;
-        take: 1;
     };
 
     endsWith: {
-        params: [string | number, ...readonly (string | number)[]];
+        params: readonly (string | number)[];
         convert: "stringUnion";
         accept: string | number;
         take: 1;
@@ -72,224 +76,224 @@ export type ComparisonLookup = {
     };
 
     onlyLetters: {
-        params: [];
+        params: readonly [];
         desc: "tests whether a string literal contains only letter characters";
         accept: string;
         take: 0;
     };
 
     contains: {
-        params: [substring: string | number];
+        params: readonly [substring: string | number];
         convert: ["stringLiteral"];
-        accept: string | number | readonly unknown[];
+        accept: string | number | readonly (string | number)[];
         take: 1;
     };
 
     containsAll: {
-        params: [substrings: string | number, ...readonly (string | number)[]];
-        accept: string | number | readonly unknown[];
+        params: readonly [
+            substrings: string | number,
+            ...readonly (string | number)[]
+        ];
+        accept: string | number | readonly (string | number)[];
         convert: "stringArray";
         take: "*";
     };
 
     containsSome: {
-        params: [
+        params: readonly [
             val1: string | number,
             val2: string | number,
             ...(string | number)[]
         ];
-        accept: string | number | readonly unknown[];
+        accept: string | number | readonly (string | number)[];
         convert: "stringUnion";
         take: "1";
     };
 
     greaterThan: {
-        params: [value: NumberLike];
+        params: readonly [value: NumberLike];
         accept: NumberLike;
         take: 1;
     };
 
     greaterThanOrEqual: {
-        params: [value: NumberLike];
+        params: readonly [value: NumberLike];
         accept: NumberLike;
         take: 1;
     };
 
     lessThan: {
-        params: [value: NumberLike];
+        params: readonly [value: NumberLike];
         accept: NumberLike;
         take: 1;
     };
 
     lessThanOrEqual: {
-        params: [value: NumberLike];
+        params: readonly [value: NumberLike];
         accept: NumberLike;
         take: 1;
     };
 
     objectKeyGreaterThan: {
-        params: [
+        params: readonly [
             key: string,
             type: NumberLike
         ];
-        accept: Dictionary;
+        // accept: Dictionary<string|symbol, Narrowable>;
         take: 2;
     };
 
     objectKeyGreaterThanOrEqual: {
-        params: [
+        params: readonly [
             key: string,
             type: NumberLike
         ];
-        accept: Dictionary;
+        // accept: Record<string, Narrowable>;
         take: 2;
     };
 
     objectKeyLessThan: {
-        params: [
+        params: readonly [
             key: string,
             type: NumberLike
         ];
         take: 2;
-        accept: Dictionary;
+        // accept: Dictionary<string|symbol, Narrowable>;
     };
 
     objectKeyLessThanOrEqual: {
-        params: [
+        params: readonly [
             key: string,
             type: NumberLike
         ];
         take: 2;
-        accept: Dictionary;
+        // accept: Dictionary;
     };
 
     betweenInclusively: {
-        params: [greaterThan: NumberLike, lessThan: NumberLike];
+        params: readonly [greaterThan: NumberLike, lessThan: NumberLike];
         accept: NumberLike;
         take: 2;
     };
 
     betweenExclusively: {
-        params: [greaterThan: NumberLike, lessThan: NumberLike];
+        params: readonly [greaterThan: NumberLike, lessThan: NumberLike];
         accept: NumberLike;
         take: 2;
     };
 
     equals: {
-        params: [ value: unknown ];
-        accept: unknown;
+        params: readonly [ value: unknown ];
         take: 1;
+        accept: unknown;
     };
 
     equalsSome: {
-        params: [ potentialValues: unknown, unknown, ...unknown[] ];
+        params: readonly [ potentialValues: unknown, unknown, ...unknown[] ];
         take: "*";
     };
 
     errors: {
-        params: [];
-        accept: unknown;
+        params: readonly[];
         take: 0;
     };
 
     errorsOfType: {
-        params: [type: string | Error];
-        accept: unknown;
+        params: readonly [type: string | Error];
         take: 1;
     };
 
     before: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     after: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     sameDay: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     sameMonth: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     sameMonthYear: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     sameYear: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     truthy: {
-        params: [];
-        accept: unknown;
+        params: readonly[];
         take: 0;
+        accept: Narrowable;
     };
 
     falsy: {
-        params: [];
-        accept: unknown;
+        params: readonly[];
+        accept: Narrowable;
         take: 0;
     };
 
     true: {
-        params: [];
-        accept: unknown;
+        params: readonly[];
         take: 0;
     };
 
     false: {
-        params: [];
-        accept: unknown;
+        params: readonly[];
         take: 0;
     };
 
     objectKeyEquals: {
-        params: [
+        params: readonly [
             key: string,
             value: unknown
         ];
-        accept: Dictionary;
         take: 2;
     };
 
     objectKeyExtends: {
-        params: [
+        params: readonly [
             key: string,
             type: unknown
         ];
-        accept: Dictionary;
+        accept: Dictionary<string | symbol, Narrowable>;
         take: 2;
     };
 
     objectExtends: {
-        params: [type: unknown];
+        params: readonly [type: unknown];
         take: 1;
-        accept: Dictionary;
+        accept: Dictionary<string | symbol, Narrowable>;
     };
 
     returnEquals: {
-        params: [ validReturnTypes: unknown, ...unknown[] ];
+        params: readonly [ validReturnTypes: unknown, ...unknown[] ];
         take: "*";
+        accept: (...args: any[]) => any;
     };
 
     returnExtends: {
-        params: [ validReturnTypes: unknown, ...unknown[] ];
+        params: readonly [ validReturnTypes: unknown, ...unknown[] ];
         take: "1";
         convert: "union";
+        accept: (...args: any[]) => any;
     };
 };

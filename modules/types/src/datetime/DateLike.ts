@@ -1,4 +1,9 @@
-import type { DateFnsLike, DayJsLike, LuxonLike, MomentLike, TemporalLike } from "inferred-types/types";
+import type {
+    IsoDate,
+    IsoDateTime,
+    IsoYear,
+    IsoYearMonth,
+} from "inferred-types/types";
 
 /**
  * **DateLike**
@@ -15,16 +20,10 @@ import type { DateFnsLike, DayJsLike, LuxonLike, MomentLike, TemporalLike } from
  *    - **Luxon**'s DateTime object
  *    - **Javascript**'s Date object
  */
-export type DateLike =
-    | number
-    | Date
-    | `${number}`
-    | `${number}-${number}-${number}`
-    | `${number}-${number}-${number}T${number}:${number}:${number}`
-    | `${number}-${number}-${number}T${number}:${number}:${number}.${number}`
-    | `${number}-${number}-${number}T${number}:${number}:${number}${"Z" | `${"+" | "-"}${number}:${number}`}`
-    | LuxonLike
-    | DayJsLike
-    | MomentLike
-    | DateFnsLike
-    | TemporalLike;
+export type DateLike
+    = | number
+    | IsoYear<"weak">
+    | IsoYearMonth<"weak">
+    | IsoDate
+    | IsoDateTime
+    | object;

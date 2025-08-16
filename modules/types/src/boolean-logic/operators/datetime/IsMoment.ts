@@ -1,34 +1,40 @@
-import type { TypedFunction } from "inferred-types/types";
+import type {
+    IsAny,
+    IsNever,
+    IsUnion,
+    IsUnknown,
+    UnionMemberExtends
+} from "inferred-types/types";
+
+type Shape = {
+    isValid: Function;
+    toDate: Function;
+    format: Function;
+    isDST: Function;
+    add: Function;
+    subtract: Function;
+    calendar: Function;
+    fromNow: Function;
+    creationData: Function;
+    // _isAMomentObject: any;
+};
 
 /**
  * **IsMoment`<T>`
  *
  * a boolean operator which returns `true` when `T` appears to be a Moment.js instance.
  */
-export type IsMoment<T> = "format" extends keyof T
-    ? "year" extends keyof T
-        ? "month" extends keyof T
-            ? "date" extends keyof T
-                ? "hour" extends keyof T
-                    ? "minute" extends keyof T
-                        ? "second" extends keyof T
-                            ? "millisecond" extends keyof T
-                                ? T["millisecond"] extends TypedFunction
-                                    ? "add" extends keyof T
-                                        ? T["add"] extends TypedFunction
-                                            ? "toISOString" extends keyof T
-                                                ? T["toISOString"] extends TypedFunction
-                                                    ? true
-                                                    : false
-                                                : false
-                                            : false
-                                        : false
-                                    : false
-                                : false
-                            : false
-                        : false
+export type IsMoment<T>
+= [IsAny<T>] extends [true]
+    ? false
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : [IsUnion<T>] extends true
+                ? UnionMemberExtends<T, Shape> extends true
+                    ? boolean
                     : false
-                : false
-            : false
-        : false
-    : false;
+                : T extends Shape
+                    ? true
+                    : false;

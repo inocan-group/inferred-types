@@ -1,9 +1,10 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { IsEqual } from "inferred-types";
 import { Expect, Contains, NarrowlyContains, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Contains<T,A>", () => {
-    it("Content is a tuple", () => {
+    it("Content is a tuple (using auto op)", () => {
         type T1 = Contains<[number, 32, 64, "foo"], string>;
         type T2 = Contains<["foo", false, true], boolean>;
         type T3 = Contains<[42, 64, 128], number>;
@@ -29,6 +30,46 @@ describe("Contains<T,A>", () => {
         ];
 
     });
+
+    it("using equals operation", () => {
+        type T1 = Contains<[number, 32, 64, "foo"], "foo">;
+        type T2 = Contains<[number, 32, 64, "foo"], "foo", "equals">;
+        type T3 = Contains<[42, 64, 128], 42, "equals">
+
+        type F1 = Contains<[number, 32, 64, "foo"], string, "equals">;
+        type F2 = Contains<[42, 64, 128], 442, "equals">;
+        type F3 = Contains<[false, true], boolean, "equals">;
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
+            Expect<Test<F3, "equals",  false>>,
+        ];
+
+    });
+
+
+    it("undefined and null", () => {
+        type T1 = Contains<[null], null>;
+        type T2 = Contains<[undefined], undefined>;
+
+        type F1 = Contains<[undefined], null>; // =>
+        type F2 = Contains<[null], undefined>; // =>
+
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
+        ];
+    });
+
 
 
     it("Using numeric literals", () => {

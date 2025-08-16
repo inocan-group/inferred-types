@@ -3,7 +3,7 @@ import type {
     AsRecord,
     Concat,
     Contains,
-    ErrorCondition,
+    Err,
     If,
     Keys,
     Narrowable,
@@ -27,6 +27,9 @@ export type AddKeyValue<
     V extends Narrowable,
 > = If<
     Contains<Keys<AsRecord<TObj>>, K>,
-    ErrorCondition<"duplicate-key", Concat<["The object passed into AddKeyValue already has the key '", ToString<K>, "'. This is not allowed. If you intended this then consider using UpsertKeyValue instead."]>>,
+    Err<
+        "duplicate-key",
+        Concat<["The object passed into AddKeyValue already has the key '", ToString<K>, "'. This is not allowed. If you intended this then consider using UpsertKeyValue instead."]>
+    >,
     SimplifyObject<TObj & Record<K, V>>
 >;

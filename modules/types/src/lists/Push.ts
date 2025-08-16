@@ -1,4 +1,4 @@
-import type { As } from "../boolean-logic/narrowing/As";
+import type { As } from "inferred-types/types";
 
 type Process<
     TList extends readonly unknown[],

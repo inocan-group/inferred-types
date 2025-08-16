@@ -43,8 +43,8 @@ export type TypeTokenSets = typeof TT_SETS[number];
  * identifying part of the string token after the initial
  * token identifier)
  */
-export type TypeTokenKind =
-    | TypeTokenAtomics
+export type TypeTokenKind
+    = | TypeTokenAtomics
     | TypeTokenContainers
     | TypeTokenFunctions
     | TypeTokenSets

@@ -1,16 +1,12 @@
 import type {
     AnyQueryParams,
-    AsString,
     Contains,
     GetUrlPath,
     HasQueryParameter,
     IsEqual,
-    IsUnion,
     Last,
-    Optional,
+    Opt,
     Split,
-    TupleToUnion,
-    UnionToTuple,
     UrlsFrom,
 } from "inferred-types/types";
 
@@ -19,8 +15,8 @@ import type {
  *
  * A union type enumeration of the _types_ of pages on YouTube.
  */
-export type YouTubePageType =
-    | "home"
+export type YouTubePageType
+    = | "home"
     | "play::video::solo"
     | "play::video::solo::share-link"
     | "play::video::solo::share-link::with-timestamp"
@@ -73,8 +69,8 @@ export type YouTubeShareUrl = UrlsFrom<"youtu.be">;
  * may state that this is a video to watch in a list of videos. You can avoid
  * this ambiguity with the `IsYouTubeVideo` and `IsYouTubeList` operators.
  */
-export type YouTubeVideoUrl =
-    `https://www.youtube.com/watch?${string}v=${string}` | `https://youtube.com/watch?${string}v=${string}`
+export type YouTubeVideoUrl
+    = `https://www.youtube.com/watch?${string}v=${string}` | `https://youtube.com/watch?${string}v=${string}`
     | YouTubeShareUrl;
 
 /**
@@ -86,7 +82,7 @@ export type YouTubeVideoUrl =
 export type YouTubeCreatorUrl = UrlsFrom<[
   `www.youtube.com/channel/${string}`,
   `youtube.com/channel/${string}`,
-]> | `https://www.youtube.com/@${string}${Optional<"/featured" | "/videos" | "/playlists">}`;
+]> | `https://www.youtube.com/@${string}${Opt<"/featured" | "/videos" | "/playlists">}`;
 
 export type YouTubeEmbedUrl<TVideo extends string = string> = UrlsFrom<[
   `www.youtube.com/embed/${TVideo}`,
@@ -117,17 +113,6 @@ type _FeedMap<T extends YouTubeFeedType> = IsEqual<T, YouTubeFeedType> extends t
             : `feed/${string}`;
 
 /**
- * Maps the feed type to a URL path
- */
-type FeedMap<T extends YouTubeFeedType> = IsUnion<T> extends true
-    ? TupleToUnion<{
-        [K in keyof UnionToTuple<T>]: UnionToTuple<T>[K] extends YouTubeFeedType
-            ? _FeedMap<UnionToTuple<T>[K]>
-            : never
-    }>
-    : _FeedMap<T>;
-
-/**
  * **YouTubeFeedUrl**`<[T]>`
  *
  * A URL pattern which matches all "feeds" on YouTube where
@@ -140,9 +125,9 @@ type FeedMap<T extends YouTubeFeedType> = IsUnion<T> extends true
  */
 export type YouTubeFeedUrl<
     T extends YouTubeFeedType = YouTubeFeedType,
-> =
-    | `https://www.youtube.com/${AsString<FeedMap<T>>}${string}`
-    | `https://youtube.com/${AsString<FeedMap<T>>}${string}`;
+>
+    = | `https://www.youtube.com/feed/${T}${string}`
+    | `https://youtube.com/feed/${T}${string}`;
 
 /**
  * **YouTubeUsersPlaylistUrl**

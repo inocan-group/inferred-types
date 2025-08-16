@@ -2,8 +2,8 @@ import type { AsString } from "inferred-types/types";
 import {
     isArray,
     isBoolean,
+    isDictionary,
     isNumber,
-    isObject,
     isString,
     keysOf,
 } from "inferred-types/runtime";
@@ -33,7 +33,7 @@ export function asString<T>(value: T): AsString<T> {
                 ? `${value}`
                 : isBoolean(value)
                     ? `${value}`
-                    : isObject(value)
+                    : isDictionary(value)
                         ? `{ ... ${keysOf(value)} ... }`
                         : isArray(value)
                             ? `any[]`

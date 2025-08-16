@@ -1,5 +1,4 @@
-import type { If, IsEqual } from "../boolean-logic";
-import type { AsNumber } from "../type-conversion";
+import type { AsNumber, If, IsEqual } from "inferred-types/types";
 import type { NumberLike } from "./NumberLike";
 
 type Tighten<

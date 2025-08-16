@@ -8,7 +8,7 @@ import type {
 } from "inferred-types/types";
 
 import { Never } from "inferred-types/constants";
-import { isNothing, isObject } from "inferred-types/runtime";
+import { isDictionary, isNothing } from "inferred-types/runtime";
 
 type CallIfDefined<
     Handler,
@@ -71,7 +71,7 @@ export function createConverter<
                 : Never
             );
         }
-        else if (isObject(input)) {
+        else if (isDictionary(input)) {
             result = (mapper.object
                 ? mapper.object(input as TInput & AnyObject)
                 : Never

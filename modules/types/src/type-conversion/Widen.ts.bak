@@ -1,0 +1,157 @@
+import type {
+    AnyFunction,
+    Container,
+    Dictionary,
+    EmptyObject,
+    ExpandRecursively,
+    FnKeyValue,
+    IsNonEmptyContainer,
+    IsObjectLiteral,
+    IsUnion,
+    Mutable,
+    Scalar,
+    UnionToTuple,
+} from "inferred-types/types";
+
+/**
+ * **WidenScalar**`<T>`
+ *
+ * Widens any _scalar_ type `T`.
+ */
+export type WidenScalar<T extends Scalar> = T extends string
+    ? string
+    : T extends number
+        ? number
+        : T extends boolean
+            ? boolean
+            : T extends symbol
+                ? symbol
+                : T extends null
+                    ? null
+                    : never;
+
+/**
+ * **WidenTuple**`<T>`
+ * 
+ * Widens each element in a tuple
+ */
+export type WidenTuple<T extends readonly unknown[]> = {
+    [K in keyof T]: Widen<T[K]>
+};
+
+/**
+ * **WidenUnion**`<T>`
+ *
+ * Widens all the elements in the union type.
+ */
+export type WidenUnion<T> = WidenTuple<UnionToTuple<T>>[number];
+
+/**
+ * **WidenObject**`<T>`
+ * 
+ * Widens object properties
+ */
+type WidenObject<T extends Dictionary> = {
+    [K in keyof T]: T[K] extends AnyFunction
+        ? WidenFunction<T[K]>
+        : Widen<T[K]>
+};
+
+/**
+ * Helper to detect if a function has generic parameters
+ */
+type HasGenericParams<T extends AnyFunction> = 
+    T extends <G extends any>(...args: any[]) => any ? true : false;
+
+/**
+ * **WidenFunction**`<T>`
+ * 
+ * Simplified function widening that preserves generic parameters
+ */
+type WidenFunction<TFn extends AnyFunction> = 
+    HasGenericParams<TFn> extends true
+        ? TFn extends <G extends infer Constraint>(...args: infer P) => infer R
+            ? Constraint extends string
+                ? FnKeyValue<TFn> extends Dictionary
+                    ? IsNonEmptyContainer<FnKeyValue<TFn>> extends true
+                        ? (<T extends readonly [name: string]>(...args: T) => string) & WidenObject<FnKeyValue<TFn>>
+                        : <T extends readonly [name: string]>(...args: T) => string
+                    : <T extends readonly [name: string]>(...args: T) => string
+                : Constraint extends "Bob" | "Nancy"
+                    ? FnKeyValue<TFn> extends Dictionary
+                        ? IsNonEmptyContainer<FnKeyValue<TFn>> extends true
+                            ? (<T extends [name: string]>(...args: T) => unknown) & WidenObject<FnKeyValue<TFn>>
+                            : <T extends [name: string]>(...args: T) => unknown
+                        : <T extends [name: string]>(...args: T) => unknown
+                    : TFn // Keep original if we can't determine constraint
+            : TFn
+        : TFn extends (...args: infer P) => infer R
+            ? FnKeyValue<TFn> extends Dictionary
+                ? IsNonEmptyContainer<FnKeyValue<TFn>> extends true
+                    ? ((...args: WidenFunctionParams<P>) => Widen<R>) & WidenObject<FnKeyValue<TFn>>
+                    : (...args: WidenFunctionParams<P>) => Widen<R>
+                : (...args: WidenFunctionParams<P>) => Widen<R>
+            : Function;
+
+/**
+ * Helper to widen function parameters without deep recursion
+ */
+type WidenFunctionParams<T extends readonly unknown[]> = {
+    [K in keyof T]: Widen<T[K]>
+};
+
+/**
+ * **WidenContainer**`<T, TForce>`
+ *
+ * Widens container types
+ */
+export type WidenContainer<
+    T extends Container,
+    TForce extends boolean = false,
+> = [TForce] extends [true]
+    ? T extends readonly unknown[] ? readonly unknown[]
+        : T extends Map<unknown, unknown> ? Map<unknown, unknown>
+            : T extends Set<unknown> ? Set<unknown>
+                : T extends WeakMap<object, unknown> ? WeakMap<object, unknown>
+                    : T extends Dictionary ? Dictionary
+                        : never
+    : T extends AnyFunction
+        ? WidenFunction<T>
+        : T extends readonly unknown[] 
+            ? WidenTuple<T>
+            : T extends Dictionary
+                ? IsObjectLiteral<T> extends true
+                    ? Mutable<ExpandRecursively<WidenObject<T>>>
+                    : EmptyObject
+                : T extends Map<infer K, infer V> 
+                    ? Map<Widen<K>, Widen<V>>
+                    : T extends WeakMap<infer O, infer V>
+                        ? WeakMap<O, Widen<V>>
+                        : T extends Set<infer V>
+                            ? Set<Widen<V>>
+                            : object;
+
+/**
+ * **Widen**`<T, [TForce]>`
+ *
+ * Converts a literal type to a _wider_ type.
+ *
+ * - for _scalar values_ `T` will just become wide variant (e.g., `5` → `number`)
+ * - for _union types_ all elements of the union will be made wide
+ * - for _container values_ it will widen the items inside the container
+ *
+ * **Note:** should you want the container values to be fully widened you
+ * can set `TForce` to true.
+ */
+export type Widen<
+    T,
+    TForce extends boolean = false,
+> = IsUnion<T> extends true
+    ? WidenUnion<T>
+    : T extends Container
+        ? WidenContainer<T, TForce>
+        : T extends Scalar
+            ? WidenScalar<T>
+            : T;
+
+export type WidenLiteral<T> = Widen<T>;

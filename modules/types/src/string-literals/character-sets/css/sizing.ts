@@ -1,5 +1,5 @@
-export type SizingUnits =
-    | `px`
+export type SizingUnits
+    = | `px`
     | `em`
     | `rem`
     | `ch`
@@ -13,8 +13,8 @@ export type SizingUnits =
     | `dvw`
     | `fr`;
 
-export type CssSizingFunction =
-    | `var(${string})${SizingUnits}`
+export type CssSizingFunction
+    = | `var(${string})${SizingUnits}`
     | `var(${string})`
     | `calc(${string})${SizingUnits}`
     | `calc(${string})`
@@ -25,8 +25,8 @@ export type CssSizingFunction =
     | `minmax(${string})${SizingUnits}`
     | `minmax(${string})`;
 
-export type CssNamedSizes =
-    | "initial"
+export type CssNamedSizes
+    = | "initial"
     | "intrinsic"
     | "fit-content"
     | "auto"

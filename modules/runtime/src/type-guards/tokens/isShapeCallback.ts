@@ -1,5 +1,5 @@
 import type { ShapeCallback } from "inferred-types/types";
-import { isFunction } from "../isFunction";
+import { isFunction } from "runtime/type-guards";
 
 /**
  * type guard which validates that the `val` passed in is a `ShapeCallback`

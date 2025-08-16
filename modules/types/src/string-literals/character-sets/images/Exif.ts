@@ -573,11 +573,11 @@ export interface ExifGps {
  * [EXIF Tags](https://exiftool.org/TagNames/EXIF.html).
  */
 export type Exif<T extends object = EmptyObject> = Partial<
-    ExifAttributionInfo &
-    ExifCameraInfo &
-    ExifDateTimeInfo &
-    ExifGps &
-    ExifExtraneous &
-    ExifPhotoContext
-> &
-T;
+    ExifAttributionInfo
+    & ExifCameraInfo
+    & ExifDateTimeInfo
+    & ExifGps
+    & ExifExtraneous
+    & ExifPhotoContext
+>
+& T;

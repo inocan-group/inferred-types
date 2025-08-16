@@ -6,8 +6,7 @@ import type {
     SimpleToken,
     WithValue,
 } from "inferred-types/types";
-import { doesExtend } from "inferred-types/runtime";
-import { keysOf } from "./keysOf";
+import { doesExtend, keysOf } from "inferred-types/runtime";
 
 export type DictionaryWithValueFilter<Without extends Narrowable> = <
     T extends Record<ObjectKey, N>,
@@ -26,9 +25,9 @@ export type DictionaryWithValueFilter<Without extends Narrowable> = <
  * const withoutFooBar = WithValue("string(foo,bar)");
  * ```
  *
- * The returned utility will now receive dictonary objects and -- in a type strong
+ * The returned utility will now receive dictionary objects and -- in a type strong
  * manner -- removed the key/values where the value extends `string` or `"foo" | "bar"`
- * repectively.
+ * respectively.
  */
 export function withValue<TWithout extends SimpleToken>(
     wo: TWithout,

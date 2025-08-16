@@ -1,4 +1,4 @@
-import type { TupleToUnion } from "../type-conversion";
+import type { TupleToUnion } from "inferred-types/types";
 
 /**
  * **RuntimeUnion**`<T>`

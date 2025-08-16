@@ -18,7 +18,7 @@ describe("Not<T>", () => {
             Expect<Test<False, "equals",  false>>,
             Expect<Test<True, "equals",  true>>,
             Expect<Test<Bool, "equals",  boolean>>,
-            Expect<Test<Never, "equals",  never>>,
+            Expect<Test<Never, "equals",  false>>,
             Expect<Test<FnFalse, "equals",  false>>,
             Expect<Test<FnTrue, "equals",  true>>,
         ];

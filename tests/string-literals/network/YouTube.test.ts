@@ -44,13 +44,7 @@ describe("YouTube utilities", () => {
 
       Expect<Test<ShowVideosInPlaylist, "equals",  "playlist::show">>
     ];
-    const cases: cases = [
-      true, true,
-      true, true,
-      true, true, true, true,
-      true, true, true, true,
-      true
-    ];
+
   });
 
 
@@ -79,9 +73,7 @@ describe("YouTube utilities", () => {
       Expect<Test<typeof showVideosInPlaylist, "equals",  "playlist::show">>,
       Expect<Test<typeof featured, "equals",  "creator::featured">>,
     ];
-    const cases: cases = [
-      true, true, true,
-    ];
+
   });
 
 

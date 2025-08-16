@@ -1,4 +1,4 @@
-import type { LogicFunction } from "../functions";
+import type { LogicFunction } from "inferred-types/types";
 
 type Process<
     TValues extends readonly (boolean | LogicFunction)[],

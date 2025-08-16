@@ -1,6 +1,5 @@
 import type { AUSTRALIAN_NEWS } from "inferred-types/constants";
-import type { Mutable } from "inferred-types/types";
-import type { UrlsFrom } from "../Url";
+import type { Mutable, UrlsFrom } from "inferred-types/types";
 
 type Lookup = Mutable<typeof AUSTRALIAN_NEWS>;
 type Companies = {

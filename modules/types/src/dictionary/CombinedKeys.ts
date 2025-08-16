@@ -1,6 +1,6 @@
 import type {
     Dictionary,
-    IsObjectLiteral,
+    IsLiteralLike,
     Keys,
     Unique,
 } from "inferred-types/types";
@@ -20,6 +20,6 @@ export type CombinedKeys<
     A extends Dictionary,
     B extends Dictionary,
 > = Unique<[
-    ...(IsObjectLiteral<A> extends true ? Keys<A> : []),
-    ...(IsObjectLiteral<B> extends true ? Keys<B> : []),
+    ...(IsLiteralLike<A> extends true ? Keys<A> : []),
+    ...(IsLiteralLike<B> extends true ? Keys<B> : []),
 ]>;

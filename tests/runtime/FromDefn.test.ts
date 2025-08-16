@@ -24,7 +24,7 @@ describe("FromDefineObject<T>", () => {
 
     it("using SimpleTokens", () => {
         type Foo = FromDefineObject<{ foo: "number" }>;
-        type OptFoo = FromDefineObject<{ foo: "Opt<number>" }>;
+        type OptFoo = FromDefineObject<{ foo: "number | undefined" }>;
         type MaybeFoo = FromDefineObject<{ foo?: "number" }>;
 
         // @ts-ignore

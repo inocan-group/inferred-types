@@ -1,23 +1,19 @@
+import type { Marked } from "inferred-types/constants";
 import type {
     Compare,
     ComparisonAccept,
-    ComparisonInputDefault,
-    ComparisonInputToTuple,
-    ComparisonLookup,
     ComparisonOperation,
-    Err,
-    GetComparisonParamInput,
-    RemoveNever,
+    RemoveMarked,
 } from "inferred-types/types";
 
 type Process<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
-> = RemoveNever<{
+    TParams extends readonly unknown[]
+> = RemoveMarked<{
     [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
         ? TList[K]
-        : never
+        : Marked
 }>;
 
 /**
@@ -41,20 +37,9 @@ type Process<
 export type Filter<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp> | Error = ComparisonInputDefault<TOp>
-> = [TParams] extends [Error]
-    ? TParams
-    : [ComparisonInputToTuple<TOp, TParams>] extends [ComparisonLookup[TOp]["params"]]
-
-        ? Process<
-            TList,
-            TOp,
-            ComparisonInputToTuple<TOp, TParams>
-        >
-
-        : [ComparisonInputToTuple<TOp, TParams>] extends [Error]
-            ? ComparisonInputToTuple<TOp, TParams>
-            : Err<
-                `invalid-filter`,
-        `The filter operation '${TOp}' received invalid parameters!`
-            >;
+    TParams extends readonly unknown[]
+> = Process<
+    TList,
+    TOp,
+    TParams
+>;

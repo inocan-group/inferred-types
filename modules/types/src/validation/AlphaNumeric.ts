@@ -11,8 +11,7 @@ type AlphaNumericAcc<
     E
 > = T extends ""
     ? TResult
-    : // iterate through characters and look for exception
-    T extends `${AlphaNumericChar}${infer REST}`
+    : T extends `${AlphaNumericChar}${infer REST}`
         ? AlphaNumericAcc<REST, TResult, E>
         : E extends Error
             ? T extends `${infer Invalid}${string}`
@@ -50,8 +49,7 @@ type _AlphaNumericPlus<
     E
 > = T extends ""
     ? TResult
-    : // iterate through characters and look for exception
-    T extends `${AlphaNumericChar}${infer REST}`
+    : T extends `${AlphaNumericChar}${infer REST}`
         ? _AlphaNumericPlus<REST, P, TResult, E>
         : T extends `${P}${infer REST}`
             ? _AlphaNumericPlus<REST, P, TResult, E>

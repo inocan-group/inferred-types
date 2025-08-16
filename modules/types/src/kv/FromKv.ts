@@ -1,45 +1,44 @@
 import type {
-    AfterFirst,
     Dictionary,
     EmptyObject,
-    Expand,
-    First,
+    ExpandRecursively,
     IsWideContainer,
     KeyValue,
-    MakeKeysOptional,
-    ObjectKey,
+    OptRecord,
 } from "inferred-types/types";
 
-type AddRequiredKey<
-    TObj extends Dictionary,
-    TKey extends ObjectKey,
-    TVal
-> = TObj & Record<TKey, TVal>;
+type Intersect<
+    T extends readonly Dictionary[],
+    R extends Dictionary = EmptyObject
+> = T extends [infer Head extends Dictionary, ...infer Rest extends Dictionary[]]
+    ? Intersect<
+        Rest,
+    R & Head
+    >
+    : R;
 
-type AddOptionalKey<
-    TObj extends Dictionary,
-    TKey extends ObjectKey,
-    TVal,
-    TKeys extends readonly ObjectKey[] = readonly [TKey]
-> = MakeKeysOptional<
-    Expand<TObj & Record<TKey, TVal>> extends Dictionary
-        ? Expand<TObj & Record<TKey, TVal>>
-        : never,
-    TKeys
->;
+type Convert<
+    T extends readonly KeyValue[],
+    KV extends readonly Dictionary[] = []
+> = T extends [infer Head extends KeyValue, ...infer Rest extends KeyValue[]]
+    ? Head["required"] extends true
+        ? Convert<
+            Rest,
+            [
+                ...KV,
+                Record<Head["key"], Head["value"]>
+            ]
+        >
 
-type Process<
-    TIn extends readonly KeyValue[],
-    TOut extends Dictionary = EmptyObject
-> = [] extends TIn
-    ? Expand<TOut>
-    : Process<
-        AfterFirst<TIn>,
-        "required" extends keyof First<TIn>
-            ? First<TIn>["required"] extends false
-                ? AddOptionalKey<TOut, First<TIn>["key"], First<TIn>["value"]>
-                : AddRequiredKey<TOut, First<TIn>["key"], First<TIn>["value"]>
-            : AddRequiredKey<TOut, First<TIn>["key"], First<TIn>["value"]>
+        : Convert<
+            Rest,
+            [
+                ...KV,
+                OptRecord<Head["key"], Head["value"]>
+            ]
+        >
+    : ExpandRecursively<
+        Intersect<KV>
     >;
 
 /**
@@ -59,4 +58,4 @@ type Process<
  */
 export type FromKv<T extends readonly KeyValue[]> = IsWideContainer<T> extends true
     ? Dictionary
-    : Process<T>;
+    : Convert<T>;

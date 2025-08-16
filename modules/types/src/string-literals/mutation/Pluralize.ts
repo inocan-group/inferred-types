@@ -1,86 +1,53 @@
 import type { PLURAL_EXCEPTIONS } from "inferred-types/constants";
 import type {
-    Consonant,
-    EnsureTrailing,
     IsStringLiteral,
-    Join,
-    RightWhitespace,
-    StripTrailing,
-    TrimRight,
-    Whitespace,
 } from "inferred-types/types";
 
 type ExceptionLookup = typeof PLURAL_EXCEPTIONS;
 
-type SingularNoun = "s" | "sh" | "ch" | "x" | "z" | "o";
-type F = "f" | "fe";
-type Y = `${Consonant}y`;
-
-type IsException<T extends string> = T extends keyof ExceptionLookup ? true : false;
-
 /**
- * Looks up a singular word `T` as a possible singular exception and converts it
- * to the plural equivalent. Will return `never` if `T` is not an exception.
+ * Core pluralization logic with optimized direct pattern matching
  */
-type PluralException<
-    T extends string,
-> = T extends keyof ExceptionLookup
-    ? ExceptionLookup[T]
-    : never;
-
-/** validates that a string literal ends in "is" */
-type EndsIn_IS<T extends string> = T extends `${string}is` ? T : never;
-
-/** validates that a string literal is a singular noun */
-type EndsInSingularNoun<T extends string> = T extends `${string}${SingularNoun}` ? T : never;
-
-/** validates that a string literal ends in "f" or "fe" */
-type EndsIn_F<T extends string> = T extends `${string}${F}` ? T : never;
-
-/** validates that a string literal ends a consonant followed by "y" */
-type EndsIn_Y<T extends string> = T extends `${string}${Y}` ? T : never;
-
-/**
- * strings which end in the letters "is" should have an "es" added to the end
- */
-type PluralizeEndingIn_IS<
-    T extends string,
-> = T extends `${infer HEAD}is` ? `${HEAD}ises` : T;
-
-/**
- * singular nouns should have "es" added to the end
- */
-type PluralizeEndingSingularNoun<
-    T extends string,
-> = EnsureTrailing<T, "es">;
-
-/**
- * strings which end in the letters "f" or "fe" should have "ves" replace the ending
- */
-type PluralizeEnding_F<
-    T extends string,
-> = T extends `${infer HEAD}${F}` ? `${HEAD}ves` : T;
-
-/**
- * singular nouns should have "es" added to the end
- */
-type PluralizeEndingIn_Y<
-    T extends string,
-> = EnsureTrailing<StripTrailing<T, "y">, "ies">;
-
-type _Pluralize<
-    T extends string,
-> = IsException<T> extends true
-    ? PluralException<T>
-    : T extends EndsIn_IS<T>
-        ? PluralizeEndingIn_IS<T>
-        : T extends EndsInSingularNoun<T>
-            ? PluralizeEndingSingularNoun<T>
-            : T extends EndsIn_F<T>
-                ? PluralizeEnding_F<T>
-                : T extends EndsIn_Y<T>
-                    ? PluralizeEndingIn_Y<T>
-                    : `${T}s`;
+type _Pluralize<T extends string>
+    // Exception lookup - direct check and transform
+    = T extends keyof ExceptionLookup
+        ? ExceptionLookup[T]
+    // Pattern: ends with "is" → add "es"
+        : T extends `${infer Head}is`
+            ? `${Head}ises`
+        // Pattern: ends with "f" → replace with "ves"
+            : T extends `${infer Head}f`
+                ? `${Head}ves`
+            // Pattern: ends with "fe" → replace with "ves"
+                : T extends `${infer Head}fe`
+                    ? `${Head}ves`
+                // Pattern: ends with consonant + "y" → replace "y" with "ies"
+                    : T extends `${infer Head}by` ? `${Head}bies`
+                        : T extends `${infer Head}cy` ? `${Head}cies`
+                            : T extends `${infer Head}dy` ? `${Head}dies`
+                                : T extends `${infer Head}fy` ? `${Head}fies`
+                                    : T extends `${infer Head}gy` ? `${Head}gies`
+                                        : T extends `${infer Head}hy` ? `${Head}hies`
+                                            : T extends `${infer Head}jy` ? `${Head}jies`
+                                                : T extends `${infer Head}ky` ? `${Head}kies`
+                                                    : T extends `${infer Head}ly` ? `${Head}lies`
+                                                        : T extends `${infer Head}my` ? `${Head}mies`
+                                                            : T extends `${infer Head}ny` ? `${Head}nies`
+                                                                : T extends `${infer Head}py` ? `${Head}pies`
+                                                                    : T extends `${infer Head}qy` ? `${Head}qies`
+                                                                        : T extends `${infer Head}ry` ? `${Head}ries`
+                                                                            : T extends `${infer Head}sy` ? `${Head}sies`
+                                                                                : T extends `${infer Head}ty` ? `${Head}ties`
+                                                                                    : T extends `${infer Head}vy` ? `${Head}vies`
+                                                                                        : T extends `${infer Head}wy` ? `${Head}wies`
+                                                                                            : T extends `${infer Head}xy` ? `${Head}xies`
+                                                                                                : T extends `${infer Head}yy` ? `${Head}yies`
+                                                                                                    : T extends `${infer Head}zy` ? `${Head}zies`
+                                                                                                    // Pattern: ends with singular noun endings → add "es"
+                                                                                                        : T extends `${string}${"s" | "sh" | "ch" | "x" | "z" | "o"}`
+                                                                                                            ? `${T}es`
+                                                                                                        // Default: add "s"
+                                                                                                            : `${T}s`;
 
 /**
  * **Pluralize**`<T>`
@@ -88,13 +55,13 @@ type _Pluralize<
  * Pluralizes the word `T`, using _language rules_ on pluralization for English as well as
  * leveraging many known exceptions to the linguistic rules.
  */
-export type Pluralize<
-    T extends string,
-> = IsStringLiteral<T> extends true
-    ? T extends `${string}${Whitespace}`
-        ? Join<[
-            _Pluralize<TrimRight<T>>,
-            RightWhitespace<T>,
-        ]>
-        : _Pluralize<T>
-    : string;
+export type Pluralize<T extends string>
+    = IsStringLiteral<T> extends true
+        ? T extends `${infer Word} ${infer Rest}`
+            ? `${_Pluralize<Word>} ${Rest}`
+            : T extends `${infer Word}\t${infer Rest}`
+                ? `${_Pluralize<Word>}\t${Rest}`
+                : T extends `${infer Word}\n${infer Rest}`
+                    ? `${_Pluralize<Word>}\n${Rest}`
+                    : _Pluralize<T>
+        : string;

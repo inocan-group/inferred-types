@@ -55,8 +55,8 @@ export type AriaWindowRoles = "alertdialog"
  *
  * > [Role definitions](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles#roles_defined_on_mdn).
  */
-export type AriaRole =
-    | AriaDocStructureRoles
+export type AriaRole
+    = | AriaDocStructureRoles
     | AriaWidgetRoles
     | AriaLandmarkRoles
     | AriaLiveRegionRoles

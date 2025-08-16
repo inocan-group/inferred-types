@@ -1,7 +1,6 @@
-import type { EmptyObject } from "../base-types";
-import type { Dictionary } from "../base-types/Dictionary";
-import type { AfterFirst, First } from "../lists";
-import type { ExpandRecursively } from "../literals";
+import type { Dictionary, EmptyObject } from "types/base-types";
+import type { AfterFirst, First } from "types/lists";
+import type { ExpandRecursively } from "types/literals";
 
 type Process<
     TKeys extends readonly string[],

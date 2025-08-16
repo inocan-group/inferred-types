@@ -26,14 +26,14 @@ export function isAfter<
 >(comparator: TComparator) {
     return <TVal extends DateLike>(
         val: TVal
-    ) => {
+    ): IsAfter<TVal, TComparator> => {
         // Handle year-only number comparison
         if (isYearOnly(comparator) && isYearOnly(val)) {
-            return (val > comparator) as unknown as IsAfter<TVal, TComparator>;
+            return (val > comparator) as IsAfter<TVal, TComparator>;
         }
         // Fallback to date comparison
         const comp = asDate(comparator);
         const v = asDate(val);
-        return v.getTime() > comp.getTime() as unknown as IsAfter<TVal, TComparator>;
+        return (v.getTime() > comp.getTime()) as IsAfter<TVal, TComparator>;
     };
 }

@@ -1,25 +1,21 @@
-import type {
-    As,
-    Dictionary,
-    EmptyObject,
-    Expand,
-    KebabCase,
-    PascalCase,
-    RetainUntil
-} from "inferred-types/types";
+import type { Dictionary, EmptyObject } from "types/base-types";
+import type { As } from "types/boolean-logic";
+import type { Expand } from "types/literals";
+import type { KebabCase, PascalCase, RetainUntil } from "types/string-literals";
 
 /**
  * **TypedError**
  *
- * An `Error` which is guarenteed to have a `type` property
+ * An `Error` which is guaranteed to have a `type` property
  * and may optionally have a `subType` property.
  */
 export type TypedError<
     T extends string = string,
     S extends string | undefined = string | undefined
 > = Expand<
-    Error &
-    {
+    Error
+    & {
+        __kind: "Error";
         type: T;
         subType: S;
         [key: string]: any;
@@ -34,7 +30,14 @@ export type Err<
     ? As<
         Expand<
         {
-            name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
+            __kind: "Error";
+            name: PascalCase<
+                TCtx["name"] extends string
+                    ? TCtx["name"]
+                    : RetainUntil<TType, "/"> extends string
+                        ? RetainUntil<TType, "/">
+                        : never
+            >;
             type: KebabCase<Type>;
             subType: Subtype extends string ? KebabCase<Subtype> : undefined;
             message: TMsg;

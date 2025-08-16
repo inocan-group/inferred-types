@@ -11,7 +11,7 @@ type Result<T extends NodeCallback> = Parameters<T>["length"] extends 2
  *
  * - converts a `NodeCallback` into a promise based async function
  */
-export type Promisify<T extends AnyFunction> =
-  T extends (...args: [...infer Args, infer Cb extends NodeCallback]) => void
+export type Promisify<T extends AnyFunction>
+  = T extends (...args: [...infer Args, infer Cb extends NodeCallback]) => void
       ? (...args: Args) => Promise<Result<Cb>>
       : never;

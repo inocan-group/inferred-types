@@ -1,6 +1,6 @@
 import type { NoDefaultValue } from "inferred-types/constants";
 import type { Narrowable } from "inferred-types/types";
-import { isSpecificConstant } from "./isSpecificConstant";
+import { isSpecificConstant } from "inferred-types/runtime";
 /**
  * **hasDefaultValue**(value)
  *

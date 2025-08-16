@@ -25,10 +25,10 @@ function encode<
             text = text.replaceAll(find, replace);
         }
 
-    type FT = AsFromTo<TDefn>;
-    type Rtn = ReplaceAllFromTo<E, FT>;
+        type FT = AsFromTo<TDefn>;
+        type Rtn = ReplaceAllFromTo<E, FT>;
 
-    return text as unknown as Rtn;
+        return text as unknown as Rtn;
     };
 }
 
@@ -47,12 +47,12 @@ function decode<
             text = text.replaceAll(find, replace);
         }
 
-    type FT = AsFromTo<TDefn>;
-    type Rtn = IsGreaterThan<FT["length"], MAX> extends true
-        ? ReplaceAllFromTo<D, TakeFirst<FT, MAX>>
-        : ReplaceAllFromTo<D, FT>;
+        type FT = AsFromTo<TDefn>;
+        type Rtn = IsGreaterThan<FT["length"], MAX> extends true
+            ? ReplaceAllFromTo<D, TakeFirst<FT, MAX>>
+            : ReplaceAllFromTo<D, FT>;
 
-    return text as unknown as Rtn;
+        return text as unknown as Rtn;
     };
 };
 

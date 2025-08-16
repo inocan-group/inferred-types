@@ -62,3 +62,4 @@ trace/*
 .ts-*.json
 .ai
 .claude-trace
+.ts-*

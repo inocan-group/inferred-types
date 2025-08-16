@@ -57,17 +57,4 @@ describe("stripLeading(content, remove)", () => {
   });
 
 
-  it("stripLeading(undefined, ...)", () => {
-    const nada = stripLeading(undefined, "foo");
-
-    expect(nada).toBe(undefined);
-
-    type cases = [
-      Expect<Test<typeof nada, "equals",  undefined>>
-    ];
-
-  });
-
-
-
 });

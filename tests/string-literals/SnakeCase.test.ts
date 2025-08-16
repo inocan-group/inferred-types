@@ -50,8 +50,9 @@ describe("toSnakeCase() function", () => {
             Expect<Test<SnakeCase<typeof white>, "equals", "one_two_three">>,
             Expect<Test<SnakeCase<typeof whiteHybrid>, "equals", "one_two_three">>,
 
-            Expect<Test<SnakeCase<typeof white, true>, "equals", "  one_two_three  ">>,
-            Expect<Test<SnakeCase<typeof whiteHybrid, true>, "equals", "\n  one_two_three \t">>,
+            // Whitespace preservation removed - now trims whitespace
+            Expect<Test<SnakeCase<typeof white>, "equals", "one_two_three">>,
+            Expect<Test<SnakeCase<typeof whiteHybrid>, "equals", "one_two_three">>,
         ];
 
     });

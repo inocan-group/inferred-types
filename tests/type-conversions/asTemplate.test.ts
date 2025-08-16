@@ -4,7 +4,6 @@ import {
     Expect,
     Csv,
     Integer,
-    Iso8601DateRepresentation,
     Test
 } from "inferred-types/types";
 
@@ -31,7 +30,7 @@ describe("asTemplate()", () => {
         expect(t_date).toEqual(date);
 
         type cases = [
-            Expect<Test<D, "equals", `I'm a little ${Iso8601DateRepresentation}`>>
+            Expect<Test<D, "equals", `I'm a little ${IsoDateLike}`>>
         ];
     });
 

@@ -1,22 +1,40 @@
 import type { EndsWith } from "inferred-types/types";
-import { isNumber, isString } from "inferred-types/runtime";
+import { isString } from "runtime/type-guards";
+import { isNumber } from "runtime/type-guards/numeric";
 
 /**
- * **endsWith**(startingWith) => (val)
+ * **endsWith**(endingWith) => (val) -> true | false
  *
- * A higher-level builder pattern which is used to create a TypeGuard
- * which checks whether a string _ends with_ another substring.
+ * A higher-level builder pattern which is used to create a boolean
+ * operator which indicates whether the given function ends with any
+ * of the provided `endingWith` string literal values.
  */
-export function endsWith<
-    const TStartsWith extends readonly (string | number)[],
->(...startingWith: TStartsWith) {
+export function endsWithTypeguard<
+    const TEndsWith extends readonly (string | number)[],
+>(...endingWith: TEndsWith) {
     return <
         const TValue extends string | number,
-    >(val: TValue): val is TValue & `${TStartsWith[number]}${string}` => {
+    >(val: TValue): val is TValue extends string
+        ? TValue & `${TEndsWith[number]}${string}`
+        : TValue => {
         return (
             isString(val) || isNumber(val)
-                ? startingWith.some(i => String(val).endsWith(String(i)))
+                ? endingWith.some(i => String(i) !== "" && String(val).endsWith(String(i)))
                 : false
-        ) as EndsWith<TValue, TStartsWith[number]>;
+        );
+    };
+}
+
+export function endsWith<
+    const TEndsWith extends readonly (string | number)[],
+>(...endingWith: TEndsWith) {
+    return <
+        const TValue extends string | number,
+    >(val: TValue) => {
+        return (
+            isString(val) || isNumber(val)
+                ? endingWith.some(i => String(i) !== "" && String(val).endsWith(String(i)))
+                : false
+        ) as EndsWith<TValue, TEndsWith>;
     };
 }

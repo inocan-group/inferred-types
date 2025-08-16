@@ -1,5 +1,5 @@
 export * from "./asOutputToken";
-// export * from "./asToken";
+export * from "./asToken";
 export * from "./asType";
 export * from "./brands";
 export * from "./createGrammar";

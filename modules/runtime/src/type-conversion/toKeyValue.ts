@@ -19,7 +19,7 @@ import { keysOf, sortByKey } from "inferred-types/runtime";
  * - a Tuple representation benefits from two main things:
  *    - ensured **order**
  *    - it is an **iterable** structure
- * - narrow types are preserved whereever possible
+ * - narrow types are preserved wherever possible
  * - you may optionally position certain key's at the "top"
  * or "bottom" of the stack by using the sort callback.
  *
@@ -29,11 +29,11 @@ import { keysOf, sortByKey } from "inferred-types/runtime";
  * //   { key: "foo", value: 1 },
  * //   { key: "bar", value: 2 },
  * // ]
- * const rec = toKeyValue({foo: 1, bar: 2, id: 123 }, o => o.toTop("id"));
+ * const rec = toKeyValue({foo: 1, bar: 2, id: 123 }, { start: "id" });
  * ```
  */
 export function toKeyValue<
-    TObj extends NarrowObject<O>,
+    const TObj extends NarrowObject<O>,
     O extends Narrowable,
     S extends ObjectKey,
     TSort extends SortByKeyOptions<S> | undefined = undefined,
@@ -52,7 +52,7 @@ export function toKeyValue<
      * an unsorted tuple of `KeyValue`'s
      */
     const kv = keysOf(obj).map(
-        k => ({ key: k, value: obj[k] })
+        k => ({ key: k, value: obj[k], required: true })
     );
 
     return sortByKey(kv, "key", sort || {}) as unknown as TSorted;

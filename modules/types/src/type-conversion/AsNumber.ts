@@ -1,4 +1,5 @@
-import type { StripWhile } from "inferred-types/types";
+import type { As, Contains, IsBranded, RetainAfter, StartsWith, StripAfter, StripChars, StripLeading, StripWhile, Unbrand } from "inferred-types/types";
+import type { TrimCharEnd } from "types/string-literals/sub-strings/trim/TrimCharEnd";
 
 /**
  * **ParseInt**`<T>`
@@ -6,15 +7,48 @@ import type { StripWhile } from "inferred-types/types";
  * Converts a known string literal representation of a number
  * to an actual number.
  */
-export type ParseInt<T> = T extends `${infer N extends number}`
-    ? N
-    : never;
+export type ParseInt<T> = T extends `${infer Int}.${infer Dec}`
+    // T is a decimal number
+    ? StripChars<Dec, "0"> extends ""
+        ? Int extends `${infer N extends number}`
+            ? N
+            : never
+        : `${Int}.${TrimCharEnd<Dec, "0">}` extends `${infer N extends number}`
+            ? N
+            : never
+    // T is an integer
+    : T extends `${infer N extends number}`
+        ? N
+        : never;
+
+type JustZeros<T extends string> = T extends `${infer HEAD extends string}${infer REST extends string}`
+    ? HEAD extends "0"
+        ? JustZeros<REST>
+        : false
+    : true;
+
+/**
+ * Addresses the possibility of leading zeros for both integer values
+ * and decimal values, positive and negative values
+ */
+type Handler<T extends `${number}`> = StartsWith<T, "0"> extends true
+    ? Contains<T, "."> extends true
+        ? JustZeros<StripAfter<T, ".">> extends true
+            ? As<`0.${RetainAfter<T, ".">}`, `${number}`>
+            : As<StripWhile<T, "0">, `${number}`>
+        : JustZeros<T> extends true
+            ? "0"
+            : StripWhile<T, "0">
+    : StartsWith<T, "."> extends true
+        ? As<`0${T}`, `${number}`>
+        : T;
 
 /**
  * **AsNumber**`<T>`
  *
- * Returns a _number_ for `T` where `T` extends a _number_ or `${number}` type; otherwise
- * return _never_. Literal types are preserved.
+ * Returns a _number_ for `T` where `T` extends a _number_ or
+ * `${number}` type; otherwise return _never_. Literal types are
+ * preserved.
  *
  * ```ts
  * // 4
@@ -22,14 +56,16 @@ export type ParseInt<T> = T extends `${infer N extends number}`
  * ```
  * **Related:** `ToNumber`
  */
-export type AsNumber<T> = T extends number
-    ? T
-    : T extends `${number}`
-        ? T extends `-${infer Numeric}`
-            ? ParseInt<
-                `-${StripWhile<Numeric, "0">}`
-            >
-            : ParseInt<
-                StripWhile<T, "0">
-            >
-        : never;
+export type AsNumber<T> = IsBranded<T> extends true
+    ? AsNumber<Unbrand<T>>
+    : T extends number
+        ? T
+        : T extends `${number}`
+            ? StartsWith<T, "-"> extends true
+                ? ParseInt<
+                `-${Handler<StripLeading<T, "-">>}`
+                >
+                : ParseInt<
+                    Handler<T>
+                >
+            : never;

@@ -1,7 +1,7 @@
 import {
+    isDictionary,
     isDoneFn,
-    isFunction,
-    isObject
+    isFunction
 } from "inferred-types/runtime";
 
 /**
@@ -18,7 +18,7 @@ export function handleDoneFn<
     TVal,
     TBareFn extends boolean,
 >(val: TVal, call_bare_fn: TBareFn = false as TBareFn) {
-    return isObject(val) || isFunction(val)
+    return isDictionary(val) || isFunction(val)
         ? isDoneFn(val)
             ? val.done()
             : isFunction(val)

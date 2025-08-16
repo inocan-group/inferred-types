@@ -3,12 +3,28 @@ import {
     Expect,
     Test,
 } from "inferred-types/types";
-import { startsWith } from "inferred-types/runtime";
+import { startsWith, startsWithTypeguard } from "inferred-types/runtime";
 
-describe("startsWith(variants) -> (val) -> boolean", () => {
+
+describe("startsWithTypeguard(variants) -> (val) -> boolean", () => {
+
+    it("empty string behavior", () => {
+        const isEmpty = startsWith("");
+        const isFooOrEmpty = startsWith("foo", "");
+
+        // Empty string should not match anything
+        expect(isEmpty("hello")).toBe(false);
+        expect(isEmpty("")).toBe(false);
+        expect(isEmpty("any string")).toBe(false);
+
+        // When mixed with valid patterns, only valid patterns should match
+        expect(isFooOrEmpty("foobar")).toBe(true); // matches "foo"
+        expect(isFooOrEmpty("bar")).toBe(false); // doesn't match "foo" or ""
+        expect(isFooOrEmpty("")).toBe(false); // empty string doesn't match
+    });
 
     it("wide type", () => {
-        const isFooBar = startsWith("foo","bar");
+        const isFooBar = startsWithTypeguard("foo","bar");
 
         const fooBaz = "foobaz" as string;
         const t1 = isFooBar(fooBaz);

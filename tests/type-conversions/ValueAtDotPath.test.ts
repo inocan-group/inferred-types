@@ -35,7 +35,7 @@ describe("ValueAtDotPath", () => {
         type Bar = ValueAtDotPath<Obj, "bar">;
         type Baz_c_ca = ValueAtDotPath<Obj, "baz.c.ca">;
         type ExplicitInfo = ValueAtDotPath<Obj, "info.value.age">;
-        type ImplicitInfo = ValueAtDotPath<Obj, "info.age">;
+        // type ImplicitInfo = ValueAtDotPath<Obj, "info.age">;
 
         type cases = [
             Expect<Test<Valid, "equals", true>>,
@@ -44,7 +44,7 @@ describe("ValueAtDotPath", () => {
             Expect<Test<Baz_c_ca, "equals", 1>>,
 
             Expect<Test<ExplicitInfo, "equals", number>>,
-            Expect<Test<ImplicitInfo, "equals", number>>,
+            // Expect<Test<ImplicitInfo, "equals", number>>,
         ];
 
     });

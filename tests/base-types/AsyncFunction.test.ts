@@ -8,11 +8,9 @@ describe("AsyncFunction", () => {
     type AsIs = AsyncFunction<[], Promise<{ foo: number }>>;
     type Wrap = AsyncFunction<[], { foo: number }>;
 
-    // @ts-ignore
-    type _cases = [
+    type cases = [
       Expect<Test<
-        Default,
-        "equals",
+        Default, "equals",
         (...params: readonly unknown[]) => Promise<unknown>
       >>,
       Expect<Test<AsIs, "equals",  () => Promise<{ foo: number }>>>,

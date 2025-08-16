@@ -1,4 +1,5 @@
 export * from "./AlphaChar";
+export * from "./BCP";
 export * from "./brackets/index";
 export * from "./CarriageReturn";
 export * from "./CodePointOf";
@@ -20,7 +21,7 @@ export * from "./LowerAlphaChar";
 export * from "./NBSP";
 export * from "./NonAlpha";
 export * from "./NumericChar";
-export * from "./Optional";
+export * from "./Opt";
 export * from "./OptionalSpace";
 export * from "./phone/index";
 export * from "./PlusMinus";
@@ -32,6 +33,7 @@ export * from "./SingularNoun";
 export * from "./SpecialChar";
 export * from "./StringDelimiter";
 export * from "./tw/index";
+
 export * from "./UpperAlphaChar";
 export * from "./urls/index";
 export * from "./urls/Url";

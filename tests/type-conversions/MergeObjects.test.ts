@@ -12,7 +12,6 @@ describe("MergeObjects<A,B>", () => {
         type T1 = MergeObjects<{ foo: 1; bar: 2 }, { bar: 4; baz: "howdy" }>;
         type T2 = MergeObjects<{ bar: 4; baz: "howdy" }, { foo: 1; bar: 2 }>;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<T1, "equals",  { foo: 1; bar: 4; baz: "howdy" }>>,
             Expect<Test<T2, "equals",  { foo: 1; bar: 2; baz: "howdy" }>>,
@@ -32,21 +31,32 @@ describe("MergeObjects<A,B>", () => {
     it("can override base type", () => {
         type T1 = MergeObjects<{ foo: 1; bar: 2 }, { foo: "foo"; bar: "bar" }>;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<T1, "equals",  { foo: "foo"; bar: "bar" }>>,
         ];
     });
 
 
-    it.todo("merging with optional params overriding", () => {
+    it("merging with optional params overriding", () => {
         type T1 = MergeObjects<
             { foo: 1; bar: 2 },
-            { bar: 4; baz?: "howdy"
-        }>;
+            { bar: 4; baz: "howdy"}
+        >;
+
+        type T2 = MergeObjects<
+            { foo: 1; bar: 2 },
+            { bar: 4; baz?: "howdy"}
+        >;
 
         type cases = [
-            /** type tests */
+            Expect<Test<
+                T1, "equals",
+                { foo: 1; bar: 4; baz: "howdy" }
+            >>,
+            Expect<Test<
+                T2, "equals",
+                { foo: 1; bar: 4; baz?: "howdy" }
+            >>
         ];
     });
 
@@ -65,7 +75,6 @@ describe("mergeObjects(a,b)", () => {
         expect(t3).toEqual({ foo: 1 });
         expect(t4).toEqual({ foo: 1 });
 
-        // @ts-ignore
         type cases = [
             Expect<Test<typeof t1, "equals",  { foo: 1; bar: 4; baz: "howdy" }>>,
             Expect<Test<typeof t2, "equals",  { foo: 1; bar: 2; baz: "howdy" }>>,

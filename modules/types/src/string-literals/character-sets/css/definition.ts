@@ -1,27 +1,20 @@
-import type { CssFontProperties, Suggest } from "inferred-types/types";
-import type { CssAbsolutionPositioningProperties } from "./absolute";
-import type { CssAlignProperties } from "./align";
-import type { CssAnimationProperties } from "./animation";
-import type { CssBackgroundProperties } from "./background";
-import type { CssBorderProperties } from "./border";
-import type { CssBoxProperties } from "./box";
-import type { CssBreakProperties } from "./break";
-import type { CssColor, CssColorLight } from "./color";
-import type { CssAspectRatio, CssDisplay, CssPosition } from "./display-position";
-import type { CssGlobal } from "./global";
-import type { CssJustifyProperties } from "./justify";
-import type { CssMarginProperties } from "./margin";
-import type { CssObjectFit, CssObjectPosition } from "./object";
-import type { CssOffsetProperties } from "./offset";
-import type { CssOutlineProperties } from "./outline";
-import type { CssOverflowProperties } from "./overflow";
-import type { CssPaddingProperties } from "./padding";
-import type { CssPlaceProperties } from "./place";
+import type { Suggest } from "inferred-types/types";
 import type {
+    CssAbsolutionPositioningProperties,
+    CssAlignProperties,
+    CssAnimationProperties,
     CssAppearance,
+    CssAspectRatio,
     CssBackdropFilter,
+    CssBackgroundProperties,
+    CssBorderProperties,
+    CssBoxProperties,
+    CssBreakProperties,
+    CssColor,
+    CssColorLight,
     CssContent,
     CssCursor,
+    CssDisplay,
     CssFlex,
     CssFlexBasis,
     CssFlexDirection,
@@ -29,27 +22,40 @@ import type {
     CssFlexGrow,
     CssFlexShrink,
     CssFloat,
+    CssFontProperties,
     CssGap,
+    CssGlobal,
     CssHangingPunctuation,
     CssImageOrientation,
     CssImageRendering,
     CssImageResolution,
+    CssJustifyProperties,
     CssLetterSpacing,
     CssListStyle,
+    CssMarginProperties,
     CssMixBlendMode,
+    CssObjectFit,
+    CssObjectPosition,
+    CssOffsetProperties,
     CssOpacity,
+    CssOutlineProperties,
+    CssOverflowProperties,
+    CssPaddingProperties,
     CssPerspectiveOrigin,
+    CssPlaceProperties,
+    CssPosition,
     CssRotation,
+    CssSizing,
+    CssSizingLight,
+    CssStrokeProperties,
+    CssTextProperties,
+    CssTransformProperties,
     CssTranslate,
     CssWhiteSpace,
     CssWhiteSpaceCollapse,
     CssWordBreak,
-    CssWritingMode,
-} from "./props";
-import type { CssSizing, CssSizingLight } from "./sizing";
-import type { CssStrokeProperties } from "./stroke";
-import type { CssTextProperties } from "./text";
-import type { CssTransformProperties } from "./transform";
+    CssWritingMode
+} from "types/string-literals/character-sets/css";
 
 /**
  * **CssDefinition**

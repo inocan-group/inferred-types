@@ -1,5 +1,5 @@
 import { Expect, Err, FailFast, Test } from "inferred-types/types";
-import { Extends } from "transpiled/types";
+import { Extends } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("FailFast<[]>", () => {
@@ -7,6 +7,7 @@ describe("FailFast<[]>", () => {
   it("happy path", () => {
     type One = FailFast<[3,2,1]>;
     type Almost = FailFast<[3,2,false,1]>;
+    type Almost2 = FailFast<[3,2,Err<"nice try">,1]>;
     type Oops = FailFast<[3,2,Err<`oops`>, 1]>
     type Finally = FailFast<[undefined, undefined, 1]>;
     type Override = FailFast<
@@ -17,9 +18,10 @@ describe("FailFast<[]>", () => {
     type cases = [
       Expect<Test<One, "equals",  1>>,
       Expect<Test<Almost, "equals",  false>>,
-      Expect<Extends<Oops, Error>>,
+      Expect<Test<Almost2, "isError",  "nice try">>,
+      Expect<Test<Oops, "isError", "oops">>,
       Expect<Extends<Finally, 1>>,
-      Expect<Extends<Override, Err<"biscuit">>>,
+      Expect<Test<Override, "isError", "biscuit">>,
     ];
   });
 
@@ -28,12 +30,12 @@ describe("FailFast<[]>", () => {
 
     type Fail = FailFast<
         [never, false, Err<"oops">, 1],
-        { failureConditions: { error: true }}
+        { failureConditions: ["error"] }
     >;
     type Pass = FailFast<
-    [never, false,  1],
-    { failureConditions: { error: true }}
->;
+        [never, false,  1],
+        { failureConditions: ["error"]}
+    >;
 
     type cases = [
         Expect<Test<Fail, "equals",  Err<"oops">>>,

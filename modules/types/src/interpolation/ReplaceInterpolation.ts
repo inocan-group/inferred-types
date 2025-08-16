@@ -105,7 +105,7 @@ type ReplaceTrueFalse<
         ]
     >
 
-;
+    ;
 
 /**
  * **ReplaceBooleanInterpolation**`<TContent, TReplace>`

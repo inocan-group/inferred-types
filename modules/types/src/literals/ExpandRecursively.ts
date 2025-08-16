@@ -1,4 +1,19 @@
-import type { AfterFirst, AnyFunction, AsLiteralFn, AsNarrowingFn, Decrement, Dictionary, First, FnKeyValue, IsNarrowingFn, IsUnion, Tuple, TupleToUnion, TypedFunction, UnionToTuple } from "inferred-types/types";
+import type {
+    AfterFirst,
+    AnyFunction,
+    AsNarrowingFn,
+    AsStaticFn,
+    Decrement,
+    Dictionary,
+    First,
+    FnKeyValue,
+    IsNarrowingFn,
+    IsUnion,
+    Tuple,
+    TupleToUnion,
+    TypedFunction,
+    UnionToTuple
+} from "inferred-types/types";
 
 type _ExpandTuple<
     TLength extends number,
@@ -19,7 +34,7 @@ type ExpandParameters<
 > = [] extends TParams
     ? IsNarrowingFn<TFn> extends true
         ? AsNarrowingFn<TResults, ReturnType<TFn>, ExpandDictionary<FnKeyValue<TFn>>>
-        : AsLiteralFn<TResults, ReturnType<TFn>, ExpandDictionary<FnKeyValue<TFn>>>
+        : AsStaticFn<TResults, ReturnType<TFn>, ExpandDictionary<FnKeyValue<TFn>>>
     : ExpandParameters<
         TFn,
         AfterFirst<TParams>,
@@ -40,7 +55,7 @@ export type ExpandUnion<T> = IsUnion<T> extends true
         ExpandTuple<UnionToTuple<T>>
     >
     : T
-  ;
+    ;
 
 /**
  * Recursively goes over an object based structure and tries to reduce

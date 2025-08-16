@@ -5,19 +5,17 @@ import type {
     SimpleUnionToken,
 } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
+import { identity } from "runtime/functions";
+import { simpleScalarToken } from "runtime/runtime-types/tokens";
 import {
-    identity,
-    isBooleanLike,
-    isNumberLike,
-    isSimpleContainerToken,
-    isSimpleScalarToken,
-    simpleScalarToken,
     stripAfter,
     stripBefore,
     stripLeading,
     stripSurround,
-    stripTrailing,
-} from "inferred-types/runtime";
+    stripTrailing
+} from "runtime/string-literals/sub-string/strip";
+import { isBooleanLike, isNumberLike } from "runtime/type-guards";
+import { isSimpleContainerToken, isSimpleScalarToken } from "runtime/type-guards/tokens";
 
 const scalarToToken = identity({
     string: "<<string>>",
