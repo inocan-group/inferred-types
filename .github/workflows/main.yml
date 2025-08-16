@@ -15,7 +15,10 @@ jobs:
     needs: test  # This ensures tests pass before publishing
     uses: yankeeinlondon/gha/.github/workflows/publish.yml@main
     with:
-      jsr_scope: '@yankeeinlondon'              # Optional: scope for JSR if package.json has root-level name
-      github_packages_scope: '@yankeeinlondon'   # Optional: scope for GitHub Packages if package.json has root-level name
+      # Optional: scope for JSR if package.json has root-level name
+      jsr_scope: '@yankeeinlondon'
+      # Optional: scope for GitHub Packages if package.json has root-level name
+      github_packages_scope: '@yankeeinlondon'
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      JSR_TOKEN: ${{ secrets.JSR_TOKEN }}
