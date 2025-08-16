@@ -1,6 +1,5 @@
 import type {
     As,
-    DaysInMonth,
     FourDigitYear,
     IsAny,
     IsNever,
@@ -8,9 +7,37 @@ import type {
     ParseDate,
     TwoDigitDate,
     TwoDigitMonth,
-    IsGreaterThan,
-    AsNumber
+    AsNumber,
+    IsLeapYear,
+    IsDoubleLeap,
+    Unbrand,
+    IsoDate30
 } from "inferred-types/types";
+
+// Simplified validation that avoids complex default parameters
+type IsValidDate<
+    TYear extends FourDigitYear,
+    TMonth extends TwoDigitMonth,
+    TDate extends number
+> = Unbrand<TMonth> extends "02"
+    ? TDate extends 29
+        ? IsLeapYear<Unbrand<TYear>> extends true
+            ? true
+            : false
+        : TDate extends 30
+            ? IsDoubleLeap<Unbrand<TYear>> extends true
+                ? true
+                : false
+            : TDate extends 28 | 27 | 26 | 25 | 24 | 23 | 22 | 21 | 20 | 19 | 18 | 17 | 16 | 15 | 14 | 13 | 12 | 11 | 10 | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1
+                ? true
+                : false
+    : Unbrand<TMonth> extends IsoDate30
+        ? TDate extends 30 | 29 | 28 | 27 | 26 | 25 | 24 | 23 | 22 | 21 | 20 | 19 | 18 | 17 | 16 | 15 | 14 | 13 | 12 | 11 | 10 | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1
+            ? true
+            : false
+        : TDate extends 31 | 30 | 29 | 28 | 27 | 26 | 25 | 24 | 23 | 22 | 21 | 20 | 19 | 18 | 17 | 16 | 15 | 14 | 13 | 12 | 11 | 10 | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1
+            ? true
+            : false;
 
 /**
  * **IsIsoFullDate**`<T>`
@@ -34,7 +61,6 @@ export type IsIsoFullDate<T> = [IsAny<T>] extends [true]
     ? false
 : [IsUnknown<T>] extends [true]
     ? boolean
-
 : T extends string
     ? string extends T
         ? boolean
@@ -44,13 +70,8 @@ export type IsIsoFullDate<T> = [IsAny<T>] extends [true]
         infer Date extends TwoDigitDate,
         null
     ]
-        ? DaysInMonth<Month,Year> extends number
-            ? IsGreaterThan<
-                AsNumber<Date>,
-                DaysInMonth<Month,Year>
-            > extends true
-                ? false
-                : true
-            : false
+        ? IsValidDate<Year, Month, AsNumber<Unbrand<Date>>>
         : false
 : false;
+
+

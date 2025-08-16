@@ -63,8 +63,9 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
     }
         ? TakeDate<Rest, "-", Year, Month> extends {
             take: infer D extends TwoDigitDate<"branded">;
-            rest: infer _Rest extends string;
+            rest: infer Rest extends string;
         }
+            ? Rest extends ""
                 ? As<
                     [
                         Year,
@@ -74,6 +75,11 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
                     ],
                     ParsedDate
                 >
+            : Err<
+                `parse-date/leftover`,
+                `While parsing what appeared to be an ISO Date, we found extra content at the end which is invalid: ${Rest}`,
+                { year: Year; month: Month; date: Date; rest: Rest }
+            >
 
 
             : ErrContext<

@@ -1,4 +1,4 @@
-import { IsSameYear } from "inferred-types/types";
+import { AsDateMeta, IsSameYear } from "inferred-types/types";
 import { Expect, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
@@ -48,16 +48,40 @@ describe("IsSameYear<A, B>", () => {
     });
 
 
+    it("negative numbers -> error", () => {
+        type E1 = IsSameYear<-100,-100>;
+
+        type cases = [
+            Expect<Test<E1, "isError", "invalid-date/negative">>
+        ];
+    });
+
+
+    it("float -> error", () => {
+        type E1 = IsSameYear<"2012", 0.12>;
+
+        type cases = [
+            Expect<Test<E1, "isError", "invalid-date/float">>
+        ];
+    });
+
+
+
+
     it("Wide Types resolve to boolean", () => {
+        type W1 = IsSameYear<number, 2023>;
+        type W2 = IsSameYear<2023, number>;
+
         type cases = [
             // Wide types need runtime determination
-            Expect<Test<IsSameYear<number, 2023>, "equals", boolean>>,
-            Expect<Test<IsSameYear<2023, number>, "equals", boolean>>,
+            Expect<Test<W1, "equals", boolean>>,
+            Expect<Test<W2, "equals", boolean>>,
         ];
     });
 
     it("Mixed ISO string types", () => {
         type T1 = IsSameYear<"2023", "2023-01-01T00:00:00Z">;
+
         type T2 = IsSameYear<"2023-01-01T00:00:00Z", "2023">;
         type T3 = IsSameYear<"-2023-12", "2023">;
 

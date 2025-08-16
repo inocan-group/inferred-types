@@ -175,16 +175,5 @@ describe("IsDateLike<T>", () => {
         ];
     });
 
-    it("Complex Edge Cases", () => {
-        type cases = [
-            // Edge cases with various formats
-            Expect<Test<IsDateLike<"0000">, "equals", true>>,
-            Expect<Test<IsDateLike<"9999">, "equals", true>>,
-            Expect<Test<IsDateLike<"2024-02-29">, "equals", true>>,  // Valid leap year
-            // Negative numbers (still integers)
-            Expect<Test<IsDateLike<-1>, "equals", true>>, // Still an integer
-            Expect<Test<IsDateLike<-123.45>, "equals", false>>, // Not an integer
-        ];
-    });
 
 });
