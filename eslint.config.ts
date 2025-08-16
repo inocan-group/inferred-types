@@ -4,7 +4,7 @@ const config = antfu(
     {
         type: "lib",
         unocss: false,
-        formatters: true,
+        formatters: false,
         stylistic: {
             quotes: "double",
             semi: true,
