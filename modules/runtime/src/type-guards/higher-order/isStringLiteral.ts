@@ -1,4 +1,4 @@
-import { isString } from "runtime/type-guards/isString";
+import { isString } from "runtime/type-guards";
 
 /**
  * Higher order type guard which:

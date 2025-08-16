@@ -5,23 +5,21 @@ import type {
     ParseDate,
     ParsedDate,
 } from "inferred-types/types";
-import { twoDigitHour } from "runtime/branding";
-import { threeDigitMillisecond } from "runtime/branding/threeDigitMillisecond";
-import { twoDigitMinute } from "runtime/branding/twoDigitMinute";
-import { twoDigitSecond } from "runtime/branding/twoDigitSecond";
+import { threeDigitMillisecond, twoDigitHour, twoDigitMinute, twoDigitSecond } from "runtime/branding";
 import { err } from "runtime/errors";
-import { isEmpty, isString } from "runtime/type-guards";
 import {
+    isEmpty,
     isFourDigitYear,
+    isString,
     isThreeDigitMillisecond,
     isTimezoneOffset,
     isTwoDigitDate,
     isTwoDigitHour,
     isTwoDigitMinute,
     isTwoDigitMonth,
-    isTwoDigitSecond
-} from "runtime/type-guards/datetime";
-import { isTypedError } from "runtime/type-guards/isTypedError";
+    isTwoDigitSecond,
+    isTypedError
+} from "runtime/type-guards";
 
 /**
  * converts the parsed components of a `DateMeta` dictionary

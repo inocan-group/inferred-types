@@ -1,6 +1,6 @@
 import type { ComparisonOperation } from "inferred-types/types";
 import { COMPARISON_OPERATIONS } from "inferred-types/constants";
-import { isString } from "runtime/type-guards/isString";
+import { isString } from "runtime/type-guards";
 
 /**
  * Type guard which checks whether `op` is a `ComparisonOperation`.

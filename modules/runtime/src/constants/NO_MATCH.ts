@@ -1,4 +1,4 @@
-import type { NoMatch } from "types/constants";
+import type { NoMatch } from "inferred-types/types";
 
 /**
  * Used to indicate that a **take** function was not able to match

@@ -1,5 +1,4 @@
-import { isArray } from "runtime/type-guards/isArray";
-import { isString } from "runtime/type-guards/isString";
+import { isArray, isString } from "runtime/type-guards";
 
 /**
  * A Take function being used with a Lexer returns a `DeltaReturn` and this type

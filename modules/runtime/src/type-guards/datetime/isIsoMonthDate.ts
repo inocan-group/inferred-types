@@ -1,5 +1,5 @@
 import type { IsoMonthDate } from "inferred-types/types";
-import { ISO_DATE_30, ISO_DATE_31 } from "constants/DateTime";
+import { ISO_DATE_30, ISO_DATE_31 } from "inferred-types/constants";
 import { stripLeading } from "runtime/string-literals";
 import { isString } from "runtime/type-guards";
 

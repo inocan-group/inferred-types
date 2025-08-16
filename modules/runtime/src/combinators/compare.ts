@@ -14,6 +14,7 @@ import type {
     IsWideObject,
     Narrowable,
     ObjectKey,
+    Second,
     SomeEqual,
     Unset
 } from "inferred-types/types";
@@ -36,9 +37,11 @@ import {
     parseDate,
     unset
 } from "inferred-types/runtime";
-import { not } from "runtime/boolean-logic/not";
+
+import { not } from "runtime/boolean-logic";
 
 import {
+    endsWith,
     hasIndexOf,
     isAlpha,
     isArray,
@@ -60,13 +63,9 @@ import {
     isString,
     isStringOrNumericArray,
     isTrue,
-    isValidComparisonParams
-} from "runtime/type-guards";
-
-import {
-    endsWith,
+    isValidComparisonParams,
     startsWith
-} from "runtime/type-guards/higher-order";
+} from "runtime/type-guards";
 
 function handle_string<
     TVal extends Narrowable,

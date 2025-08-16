@@ -1,5 +1,5 @@
 import type { ComparisonOperation, GetComparisonParams } from "inferred-types/types";
-import { isComparisonOperation } from "runtime/type-guards/comparison/isComparisonOperation";
+import { isComparisonOperation } from "runtime/type-guards";
 
 /**
  * **isValidComparisonParams**`(op, params)`

@@ -1,6 +1,6 @@
 import type { IanaZone } from "inferred-types/types";
 import { IANA_TIMEZONES } from "inferred-types/constants";
-import { isString } from "runtime/type-guards/isString";
+import { isString } from "runtime/type-guards";
 
 /**
  * a type-guard which validates that `val` is of the type

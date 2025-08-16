@@ -1,6 +1,5 @@
 import type { StartsWith, ToStringArray } from "inferred-types/types";
-import { isString } from "runtime/type-guards/isString";
-import { isNumber } from "runtime/type-guards/numeric";
+import { isNumber, isString } from "runtime/type-guards";
 
 /**
  * **StartingWithTypeGuard**`<literal>`

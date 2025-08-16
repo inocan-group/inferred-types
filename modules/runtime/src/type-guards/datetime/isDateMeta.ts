@@ -1,5 +1,5 @@
 import type { DateMeta } from "inferred-types/types";
-import { DATE_TYPE } from "constants/DateTime";
+import { DATE_TYPE } from "inferred-types/constants";
 import { isDictionary } from "runtime/type-guards";
 
 /**

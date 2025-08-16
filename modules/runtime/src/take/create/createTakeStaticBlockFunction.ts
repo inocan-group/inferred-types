@@ -7,17 +7,17 @@ import type {
     StripLeading,
     TakeWrapper,
 } from "inferred-types/types";
-import { Never } from "constants/Never";
+import { Never } from "inferred-types/constants";
 
 import {
     find,
     isError
 } from "inferred-types/runtime";
 
+import { NO_MATCH } from "runtime/constants";
 import {
     isDeltaReturn
 } from "runtime/type-guards";
-import { NO_MATCH } from "../../constants/NO_MATCH";
 
 export type StaticTakeFunction__CallBack<
     TItems extends readonly string[],

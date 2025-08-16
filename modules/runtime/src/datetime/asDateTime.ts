@@ -14,23 +14,8 @@ import type {
     IsoYearMonth,
     TimezoneOffset
 } from "inferred-types/types";
-import { parseIsoDate } from "runtime/datetime/parseIsoDate";
-import { isNumber } from "runtime/type-guards";
-import {
-    isDate,
-    isDayJs,
-    isEpochInMilliseconds,
-    isEpochInSeconds,
-    isIanaTimezone,
-    isIsoDate,
-    isIsoDateTime,
-    isIsoYear,
-    isIsoYearMonth,
-    isLuxonDate,
-    isMoment,
-    isTemporalDate,
-    isTimezoneOffset
-} from "runtime/type-guards/datetime";
+import { parseIsoDate } from "runtime/datetime";
+import { isDate, isDayJs, isEpochInMilliseconds, isEpochInSeconds, isIanaTimezone, isIsoDate, isIsoDateTime, isIsoYear, isIsoYearMonth, isLuxonDate, isMoment, isNumber, isTemporalDate, isTimezoneOffset } from "runtime/type-guards";
 
 const getLocalIanaZone = (() => {
 // compute once, memoise

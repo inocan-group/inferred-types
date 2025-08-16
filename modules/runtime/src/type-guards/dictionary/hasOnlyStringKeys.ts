@@ -1,4 +1,4 @@
-import { isDictionary } from "runtime/type-guards/isDictionary";
+import { isDictionary } from "runtime/type-guards";
 
 /**
  * type-guard which validates that `val` is an object with **only** strings

@@ -4,15 +4,15 @@ import type {
     MonthAbbrev,
     MonthName
 } from "inferred-types/types";
-import { MONTH_ABBREV_LOOKUP, MONTH_NAME_LOOKUP } from "constants/DateTime";
-import { parseDate } from "runtime/datetime/parseDate";
-import { err } from "runtime/errors/err";
-import { asNumber } from "runtime/numeric/asNumber";
+import { MONTH_ABBREV_LOOKUP, MONTH_NAME_LOOKUP } from "inferred-types/constants";
+import { parseDate } from "runtime/datetime";
+import { err } from "runtime/errors";
+import { asNumber } from "runtime/numeric";
 import {
     isMonthAbbrev,
     isMonthName,
     isParsedDate
-} from "runtime/type-guards/datetime/index";
+} from "runtime/type-guards/datetime";
 
 /**
  * **getMonthNumber**`(date | MonthName | MonthAbbrev)`
