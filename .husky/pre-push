@@ -77,18 +77,26 @@ function setup_colors() {
 
 
 function validate_github_packages() {
+    log "- validating readiness for ${BOLD}Github Packages${RESET} publication"
 
     if file_exists "${GithubSkipFile}"; then
-        log "- found ${BLUE}${GithubSkipFile}${RESET} file in repo root; no attempts to publish to ${BOLD}Github Packages${RESET} will be made."
+        log "- found ${BLUE}${GithubSkipFile}${RESET} file in repo root"
+        log "  ⏭️ no attempts to publish will be made"
     else
-        log "- checking whether Github Packages is publishable"
-        log "${DIM}add a ${BLUE}${GithubSkipFile}${RESET}${DIM} to the root of your repo to ${BOLD}disable${RESET}${DIM} to disable${RESET}"
 
         if file_exists "${NPMRC}"; then
             log "- the NPMRC configuration file ${BLUE}${NPMRC}${RESET} was found."
-            log "✅ Github Packages is ready for publication"
+            log "  ✅ Github Packages is ready for publication"
         else
-            log "❌ no ${RED}${NPMRC}${RESET} file found! This is required for publication!"
+            log "  ❌ no ${RED}${NPMRC}${RESET} file found! This is required for publication!"
+            log ""
+            log "  ${BOLD}Note:${RESET}"
+            log "    - ${DIM}add a ${BLUE}${ITALIC}${GithubSkipFile}${RESET}${DIM} file to the root of your repo to ${BOLD}disable${RESET}${DIM} attempts"
+            log "    to publish to Github Packages${RESET}"
+            log "    - ${DIM}the contents of the ${BLUE}${NPMRC}${RESET}${DIM} will be something like:"
+            log ""
+            log "      ${DIM}@${GREEN}ORG${RESET}${DIM}/${GREEN}REPO${RESET}${DIM}:registry=https://npm.pkg.github.com/"
+            log ""
             exit 1;
         fi
 
@@ -99,21 +107,20 @@ function validate_github_packages() {
 function validate_jsr() {
 
     if file_exists "${JsrSkipFile}"; then
-        log "- found ${BLUE}${JsrSkipFile}${RESET} file in repo root; no attempts to publish to ${BOLD}JSR${RESET} will be made."
+        log "- found ${BLUE}${JsrSkipFile}${RESET} file in repo root"
+        log "  ⏭️ no attempts to publish to ${BOLD}JSR${RESET} will be made."
+
     else
         log "- checking whether JSR is publishable"
-        npx jsr publish --dry-run --allow-slow-types --allow-dirty > /dev/null || log "❌ JSR is not ready for publication" &&  exit 1
+        npx jsr publish --dry-run --allow-slow-types --allow-dirty > /dev/null 2> /dev/null|| log "❌ JSR is not ready for publication" &&  exit 1;
         log "✅ JSR is ready for publication"
-
     fi
 
 }
 
-
-
 setup_colors;
 
-echo "Validating before pushing to Origin"
+echo "Validating before pushing to Origin:"
 echo ""
 validate_github_packages
 validate_jsr
