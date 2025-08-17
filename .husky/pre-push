@@ -141,9 +141,9 @@ function validate_jsr() {
                 fi
             fi
         fi
-        log "- checking whether JSR is publishable"
-        npx jsr publish --dry-run --allow-slow-types --allow-dirty > /dev/null 2> /dev/null || ( log "❌ JSR is not ready for publication" && exit 1 );
-        log "✅ JSR is ready for publication"
+        log "- checking with JSR API using ${GREEN}--dry-run${RESET} flag"
+        npx jsr publish --dry-run --allow-slow-types --allow-dirty > /dev/null 2> /dev/null || ( log "  ❌ JSR is not ready for publication" && exit 1 );
+        log "  ✅ JSR is ready for publication"
     fi
 }
 
@@ -161,7 +161,8 @@ function validate_unit_tests() {
 
 function audit() {
     log "- auditing dependencies"
-    pnpm audit --ignore-unfixable  || (log "  ❌ there are npm packages which need fixing" && log "  - run ${GREEN}pnpm audit --fix${RESET} to have pnpm fix." && log "" && exit 1)
+    pnpm audit --ignore-unfixable > /dev/null 2> /dev/null || (log "  ❌ there are npm packages which need fixing" && log "  - run ${GREEN}pnpm audit --fix${RESET} to have pnpm fix." && log "" && exit 1)
+    log "  ✅ all ${ITALIC}fixable${RESET} vulnerabilities have been configured"
 }
 
 setup_colors;
