@@ -3,6 +3,10 @@
 NPMRC=".npmrc.github"
 GithubSkipFile=".github-packages-skip"
 JsrSkipFile=".jsr-skip"
+JsrFile="jsr.json"
+DenoFile="deno.json"
+JsrFileAlt="jsr.jsonc"
+DenoFileAlt="deno.jsonc"
 
 # log
 #
@@ -20,6 +24,19 @@ function file_exists() {
         return 0;
     else
         return 1;
+    fi
+}
+
+# file_missing <filepath>
+#
+# tests whether a given filepath in missing in the filesystem
+function file_missing() {
+    local filepath="${1:?filepath is missing in call to file_exists!}"
+
+    if [ -f "${filepath}" ]; then
+        return 1;
+    else
+        return 0;
     fi
 }
 
@@ -74,8 +91,6 @@ function setup_colors() {
     export RESET=$'\033[0m'
 }
 
-
-
 function validate_github_packages() {
     log "- validating readiness for ${BOLD}Github Packages${RESET} publication"
 
@@ -85,7 +100,7 @@ function validate_github_packages() {
     else
 
         if file_exists "${NPMRC}"; then
-            log "- the NPMRC configuration file ${BLUE}${NPMRC}${RESET} was found."
+            log "  ${DIM}${ITALIC}- the ${BLUE}${NPMRC}${RESET}${DIM}${ITALIC} configuration file was found.${RESET}"
             log "  ✅ Github Packages is ready for publication"
         else
             log "  ❌ no ${RED}${NPMRC}${RESET} file found! This is required for publication!"
@@ -105,17 +120,43 @@ function validate_github_packages() {
 }
 
 function validate_jsr() {
+    log "- validating readiness for ${BOLD}JSR${RESET} publication"
 
     if file_exists "${JsrSkipFile}"; then
         log "- found ${BLUE}${JsrSkipFile}${RESET} file in repo root"
         log "  ⏭️ no attempts to publish to ${BOLD}JSR${RESET} will be made."
 
     else
+        if file_missing "${JsrFile}"; then
+            if file_missing "${JsrFileAlt}"; then
+                log "- no JSR config file found; will look for deno file"
+                if file_missing "${DenoFile}"; then
+                    if file_missing "${DenoFileAlt}"; then
+                        log "  ❌ no configuration file for ${BOLD}JSR${RESET}!"
+                        log ""
+                        log "  ${BOLD}Note:${RESET}"
+                        log "    ${DIM}- you must have a ${BLUE}jsr.json${RESET}${DIM}, ${BLUE}jsr.jsonc${RESET}${DIM}, ${BLUE}deno.json${RESET}${DIM}, or ${BLUE}deno.jsonc${RESET}${DIM} file!"
+                        log "    ${DIM}- add a ${BLUE}${ITALIC}${JsrSkipFile}${RESET}${DIM} file to the root of your repo to ${BOLD}disable${RESET}${DIM} attempts"
+                    fi
+                fi
+            fi
+        fi
         log "- checking whether JSR is publishable"
-        npx jsr publish --dry-run --allow-slow-types --allow-dirty > /dev/null 2> /dev/null|| log "❌ JSR is not ready for publication" &&  exit 1;
+        npx jsr publish --dry-run --allow-slow-types --allow-dirty > /dev/null 2> /dev/null || ( log "❌ JSR is not ready for publication" && exit 1 );
         log "✅ JSR is ready for publication"
     fi
+}
 
+function validate_lint() {
+    log "- validating there are no ${BOLD}lint${RESET} errors"
+    pnpm lint > /dev/null 2> /dev/null || (log "  ❌ linting failed!" && log "" && exit 1)
+    log "  ✅ project has no lint errors"
+}
+
+function validate_unit_tests() {
+    log "- validating there are no failing ${BOLD}unit tests${RESET}"
+    pnpm test > /dev/null 2> /dev/null || (log "  ❌ unit testing failures!" && log "" && exit 1)
+    log "  ✅ project passes all unit tests"
 }
 
 setup_colors;
@@ -123,7 +164,13 @@ setup_colors;
 echo "Validating before pushing to Origin:"
 echo ""
 validate_github_packages
+echo ""
 validate_jsr
+echo ""
+validate_lint
+echo ""
+validate_unit_tests
 
-pnpm test
-pnpm lint
+log ""
+log "🚀 all validations passed; ready to push"
+log ""
