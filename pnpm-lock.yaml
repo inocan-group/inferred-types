@@ -9,6 +9,7 @@ overrides:
   braces@<3.0.3: '>=3.0.3'
   micromatch@<4.0.8: '>=4.0.8'
   vite@>=5.4.0 <=5.4.5: '>=5.4.6'
+  '@eslint/plugin-kit@<0.3.4': '>=0.3.4'
 
 importers:
 
@@ -660,10 +661,6 @@ packages:
     resolution: {integrity: sha512-RBMg5FRL0I0gs51M/guSAj5/e14VQ4tpZnQNWwuDT66P14I43ItmPfIZRhO9fUVIPOAQXU47atlywZ/czoqFPA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eslint/plugin-kit@0.3.1':
-    resolution: {integrity: sha512-0J+zgWxHN+xXONWIyPWKFMgVuJoZuGiIFu8yxk7RJjxkzpGmyja5wRFqZIVtjDVOQpV+Rw0iOAjYPE2eQyjr0w==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
   '@eslint/plugin-kit@0.3.5':
     resolution: {integrity: sha512-Z5kJ+wU3oA7MMIqVR9tyZRtjYPr4OC004Q4Rw7pgOKUOKkJfZ3O24nz3WYfGRpMDNmcOi3TwQOmgm7B7Tpii0w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -697,8 +694,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@inquirer/confirm@5.1.14':
-    resolution: {integrity: sha512-5yR4IBfe0kXe59r1YCTG8WXkUbl7Z35HK87Sw+WUyGD8wNUx7JvY7laahzeytyE1oLn74bQnL7hstctQxisQ8Q==}
+  '@inquirer/confirm@5.1.15':
+    resolution: {integrity: sha512-SwHMGa8Z47LawQN0rog0sT+6JpiL0B7eW9p1Bb7iCeKDGTI5Ez25TSc2l8kw52VV7hA4sX/C78CGkMrKXfuspA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/node': '>=18'
@@ -773,8 +770,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@inquirer/prompts@7.8.2':
-    resolution: {integrity: sha512-nqhDw2ZcAUrKNPwhjinJny903bRhI0rQhiDz1LksjeRxqa36i3l75+4iXbOy0rlDpLJGxqtgoPavQjmmyS5UJw==}
+  '@inquirer/prompts@7.8.3':
+    resolution: {integrity: sha512-iHYp+JCaCRktM/ESZdpHI51yqsDgXu+dMs4semzETftOaF8u5hwlqnbIsuIR/LrWZl8Pm1/gzteK9I7MAq5HTA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/node': '>=18'
@@ -2573,8 +2570,8 @@ packages:
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
-  inquirer@12.9.2:
-    resolution: {integrity: sha512-XPukbomHpZc3GAajQdAcuqa5NCIFhUcLMcXXSpJLM2RW/u/5JHLxjLF206GNTJARib8XBBRqyMbaNrDzXROdoA==}
+  inquirer@12.9.3:
+    resolution: {integrity: sha512-Hpw2JWdrYY8xJSmhU05Idd5FPshQ1CZErH00WO+FK6fKxkBeqj+E+yFXSlERZLKtzWeQYFCMfl8U2TK9SvVbtQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/node': '>=18'
@@ -4403,11 +4400,6 @@ snapshots:
 
   '@eslint/object-schema@2.1.6': {}
 
-  '@eslint/plugin-kit@0.3.1':
-    dependencies:
-      '@eslint/core': 0.14.0
-      levn: 0.4.1
-
   '@eslint/plugin-kit@0.3.5':
     dependencies:
       '@eslint/core': 0.15.2
@@ -4436,7 +4428,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.17.2
 
-  '@inquirer/confirm@5.1.14(@types/node@22.17.2)':
+  '@inquirer/confirm@5.1.15(@types/node@22.17.2)':
     dependencies:
       '@inquirer/core': 10.1.15(@types/node@22.17.2)
       '@inquirer/type': 3.0.8(@types/node@22.17.2)
@@ -4503,10 +4495,10 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.17.2
 
-  '@inquirer/prompts@7.8.2(@types/node@22.17.2)':
+  '@inquirer/prompts@7.8.3(@types/node@22.17.2)':
     dependencies:
       '@inquirer/checkbox': 4.2.1(@types/node@22.17.2)
-      '@inquirer/confirm': 5.1.14(@types/node@22.17.2)
+      '@inquirer/confirm': 5.1.15(@types/node@22.17.2)
       '@inquirer/editor': 4.2.17(@types/node@22.17.2)
       '@inquirer/expand': 4.0.17(@types/node@22.17.2)
       '@inquirer/input': 4.2.1(@types/node@22.17.2)
@@ -5318,9 +5310,9 @@ snapshots:
 
   '@yankeeinlondon/ask@0.4.0(@types/node@22.17.2)':
     dependencies:
-      '@inquirer/prompts': 7.8.2(@types/node@22.17.2)
+      '@inquirer/prompts': 7.8.3(@types/node@22.17.2)
       inferred-types: 0.54.9
-      inquirer: 12.9.2(@types/node@22.17.2)
+      inquirer: 12.9.3(@types/node@22.17.2)
     transitivePeerDependencies:
       - '@types/node'
 
@@ -6157,7 +6149,7 @@ snapshots:
       '@eslint/core': 0.14.0
       '@eslint/eslintrc': 3.3.1
       '@eslint/js': 9.28.0
-      '@eslint/plugin-kit': 0.3.1
+      '@eslint/plugin-kit': 0.3.5
       '@humanfs/node': 0.16.6
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.3
@@ -6509,10 +6501,10 @@ snapshots:
 
   inherits@2.0.4: {}
 
-  inquirer@12.9.2(@types/node@22.17.2):
+  inquirer@12.9.3(@types/node@22.17.2):
     dependencies:
       '@inquirer/core': 10.1.15(@types/node@22.17.2)
-      '@inquirer/prompts': 7.8.2(@types/node@22.17.2)
+      '@inquirer/prompts': 7.8.3(@types/node@22.17.2)
       '@inquirer/type': 3.0.8(@types/node@22.17.2)
       ansi-escapes: 4.3.2
       mute-stream: 2.0.0
