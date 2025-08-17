@@ -1,6 +1,122 @@
 #!/usr/bin/env bash
 
-echo "Validating HEAD before pushing to Origin"
+NPMRC=".npmrc.github"
+GithubSkipFile=".github-packages-skip"
+JsrSkipFile=".jsr-skip"
+
+# log
+#
+# Logs the parameters passed to STDERR
+function log() {
+    printf "%b\\n" "${*}" >&2
+}
+# file_exists <filepath>
+#
+# tests whether a given filepath exists in the filesystem
+function file_exists() {
+    local filepath="${1:?filepath is missing in call to file_exists!}"
+
+    if [ -f "${filepath}" ]; then
+        return 0;
+    else
+        return 1;
+    fi
+}
+
+function setup_colors() {
+    export BLACK=$'\033[30m'
+    export RED=$'\033[31m'
+    export GREEN=$'\033[32m'
+    export YELLOW=$'\033[33m'
+
+    export MAGENTA=$'\033[35m'
+    export CYAN=$'\033[36m'
+    export WHITE=$'\033[37m'
+
+    export BRIGHT_BLACK=$'\033[90m'
+    export BRIGHT_RED=$'\033[91m'
+    export BRIGHT_GREEN=$'\033[92m'
+    export BRIGHT_YELLOW=$'\033[93m'
+    export BRIGHT_BLUE=$'\033[94m'
+    export BRIGHT_MAGENTA=$'\033[95m'
+    export BRIGHT_CYAN=$'\033[96m'
+    export BRIGHT_WHITE=$'\033[97m'
+
+    export BOLD=$'\033[1m'
+    export NO_BOLD=$'\033[21m'
+    export DIM=$'\033[2m'
+    export NO_DIM=$'\033[22m'
+    export ITALIC=$'\033[3m'
+    export NO_ITALIC=$'\033[23m'
+    export STRIKE=$'\033[9m'
+    export NO_STRIKE=$'\033[29m'
+    export REVERSE=$'\033[7m'
+    export NO_REVERSE=$'\033[27m'
+
+    export BG_BLACK=$'\033[40m'
+    export BG_RED=$'\033[41m'
+    export BG_GREEN=$'\033[42m'
+    export BG_YELLOW=$'\033[43m'
+    export BG_BLUE=$'\033[44m'
+    export BG_MAGENTA=$'\033[45m'
+    export BG_CYAN=$'\033[46m'
+    export BG_WHITE=$'\033[47m'
+
+    export BG_BRIGHT_BLACK=$'\033[100m'
+    export BG_BRIGHT_RED=$'\033[101m'
+    export BG_BRIGHT_GREEN=$'\033[102m'
+    export BG_BRIGHT_YELLOW=$'\033[103m'
+    export BG_BRIGHT_BLUE=$'\033[104m'
+    export BG_BRIGHT_MAGENTA=$'\033[105m'
+    export BG_BRIGHT_CYAN=$'\033[106m'
+    export BG_BRIGHT_WHITE=$'\033[107m'
+
+    export RESET=$'\033[0m'
+}
+
+
+
+function validate_github_packages() {
+
+    if file_exists "${GithubSkipFile}"; then
+        log "- found ${BLUE}${GithubSkipFile}${RESET} file in repo root; no attempts to publish to ${BOLD}Github Packages${RESET} will be made."
+    else
+        log "- checking whether Github Packages is publishable"
+        log "${DIM}add a ${BLUE}${GithubSkipFile}${RESET}${DIM} to the root of your repo to ${BOLD}disable${RESET}${DIM} to disable${RESET}"
+
+        if file_exists "${NPMRC}"; then
+            log "- the NPMRC configuration file ${BLUE}${NPMRC}${RESET} was found."
+            log "✅ Github Packages is ready for publication"
+        else
+            log "❌ no ${RED}${NPMRC}${RESET} file found! This is required for publication!"
+            exit 1;
+        fi
+
+    fi
+
+}
+
+function validate_jsr() {
+
+    if file_exists "${JsrSkipFile}"; then
+        log "- found ${BLUE}${JsrSkipFile}${RESET} file in repo root; no attempts to publish to ${BOLD}JSR${RESET} will be made."
+    else
+        log "- checking whether JSR is publishable"
+        npx jsr publish --dry-run --allow-slow-types --allow-dirty > /dev/null || log "❌ JSR is not ready for publication" &&  exit 1
+        log "✅ JSR is ready for publication"
+
+    fi
+
+}
+
+
+
+setup_colors;
+
+echo "Validating before pushing to Origin"
 echo ""
+validate_github_packages
+validate_jsr
+
 pnpm test
 pnpm lint

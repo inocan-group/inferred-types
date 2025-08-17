@@ -47,6 +47,7 @@
         "nuke": "",
         "test": "vitest run",
         "typed": "npx typed test",
+        "deps": "pnpm -r deps",
         "test:watch": "vitest",
         "test:ui": "vitest --ui",
         "audit:fix": "pnpm audit --fix",
