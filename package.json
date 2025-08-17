@@ -51,7 +51,6 @@
         "test:ui": "vitest --ui",
         "typed": "npx typed test",
         "deps": "pnpm -r deps",
-        "audit:fix": "pnpm audit --fix",
         "source": "pnpm -r source",
         "audit:types": "typed source -c modules/types/tsconfig.json -w 6133 -w 6307",
         "audit:runtime": "typed source -c modules/runtime/tsconfig.json -w 2304 -w 6133 -w 6307",
@@ -119,6 +118,7 @@
             "esbuild",
             "synckit",
             "unrs-resolver"
-        ]
+        ],
+        "auditConfig": {}
     }
 }

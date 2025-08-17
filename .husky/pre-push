@@ -159,9 +159,16 @@ function validate_unit_tests() {
     log "  ✅ project passes all unit tests"
 }
 
+function audit() {
+    log "- auditing dependencies"
+    pnpm audit --ignore-unfixable  || (log "  ❌ there are npm packages which need fixing" && log "  - run ${GREEN}pnpm audit --fix${RESET} to have pnpm fix." && log "" && exit 1)
+}
+
 setup_colors;
 
 echo "Validating before pushing to Origin:"
+echo ""
+audit
 echo ""
 validate_github_packages
 echo ""
