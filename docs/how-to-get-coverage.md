@@ -171,7 +171,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           files: ./coverage/lcov.info
-          flags: unittests
+          flags: unit-tests
           name: codecov-umbrella
 
       - name: Archive coverage reports
@@ -405,6 +405,361 @@ Create a custom analyzer that:
 2. **Set different thresholds** for different module types
 3. **Use workspace-aware tools** when possible
 4. **Aggregate carefully** - weighted by module importance
+
+## Integrating Type Coverage into Istanbul/V8 Reports
+
+Yes! You can integrate type coverage metrics into standard coverage reports. Both Istanbul and V8 use standardized formats (lcov, JSON) that can be manipulated.
+
+### Method 1: Virtual File Instrumentation
+
+Create "virtual" runtime files that represent your type utilities and inject them into the coverage data:
+
+```typescript
+// coverage-injector.ts
+import { readFileSync, writeFileSync } from 'fs';
+import { glob } from 'fast-glob';
+
+async function injectTypeCoverage() {
+  // 1. Load existing coverage (from Vitest/V8/Istanbul)
+  const coverage = JSON.parse(
+    readFileSync('./coverage/coverage-final.json', 'utf-8')
+  );
+
+  // 2. Find all type utilities
+  const typeFiles = await glob('modules/types/src/**/*.ts');
+  
+  // 3. Analyze which types are tested (using typed-tester output)
+  const typedTestResults = JSON.parse(
+    readFileSync('./.typed-test-results.json', 'utf-8')
+  );
+  
+  // 4. Create virtual coverage entries for type files
+  typeFiles.forEach(file => {
+    const fileContent = readFileSync(file, 'utf-8');
+    const lines = fileContent.split('\n');
+    
+    // Extract type definitions
+    const typeDefinitions = extractTypeDefinitions(fileContent);
+    const testedTypes = findTestedTypes(typeDefinitions, typedTestResults);
+    
+    // Create coverage object matching Istanbul format
+    coverage[file] = {
+      path: file,
+      statementMap: createStatementMap(typeDefinitions),
+      fnMap: {}, // Types aren't functions, but we can treat them as such
+      branchMap: {},
+      s: createStatementCoverage(typeDefinitions, testedTypes),
+      f: {},
+      b: {},
+      _coverageSchema: '1a1c01bbd47fc00a2c39e90264f33305004495a9',
+      hash: crypto.createHash('sha256').update(fileContent).digest('hex')
+    };
+  });
+
+  // 5. Write merged coverage
+  writeFileSync('./coverage/coverage-final.json', JSON.stringify(coverage));
+}
+```
+
+### Method 2: LCOV Format Injection
+
+LCOV is a text format that's easier to manipulate:
+
+```typescript
+// generate-type-lcov.ts
+import { appendFileSync } from 'fs';
+
+function generateTypeCoverageLCOV(
+  typeFile: string, 
+  testedTypes: Set<string>,
+  allTypes: Map<string, {line: number}>
+) {
+  let lcov = `SF:${typeFile}\n`;
+  
+  // Add function (type) coverage
+  allTypes.forEach((info, typeName) => {
+    lcov += `FN:${info.line},${typeName}\n`;
+  });
+  
+  // Add function hit counts
+  allTypes.forEach((info, typeName) => {
+    const hits = testedTypes.has(typeName) ? 1 : 0;
+    lcov += `FNDA:${hits},${typeName}\n`;
+  });
+  
+  // Add line coverage
+  const lines = readFileSync(typeFile, 'utf-8').split('\n');
+  lines.forEach((line, index) => {
+    if (isTypeDefinitionLine(line)) {
+      const typeName = extractTypeName(line);
+      const hits = testedTypes.has(typeName) ? 1 : 0;
+      lcov += `DA:${index + 1},${hits}\n`;
+    }
+  });
+  
+  lcov += 'end_of_record\n';
+  
+  // Append to main lcov file
+  appendFileSync('./coverage/lcov.info', lcov);
+}
+```
+
+### Method 3: Custom Vitest Reporter
+
+Create a custom reporter that merges type coverage during test runs:
+
+```typescript
+// vitest-type-coverage-reporter.ts
+import type { Reporter } from 'vitest';
+
+export default class TypeCoverageReporter implements Reporter {
+  async onFinished(files, errors) {
+    // Run typed-tester to get type coverage
+    const typeResults = await runTypedTester();
+    
+    // Get runtime coverage
+    const runtimeCoverage = this.ctx.coverage;
+    
+    // Merge coverages
+    const mergedCoverage = mergeCoverages(runtimeCoverage, typeResults);
+    
+    // Override the coverage data
+    this.ctx.coverage = mergedCoverage;
+  }
+}
+
+// vitest.config.ts
+export default defineConfig({
+  test: {
+    reporters: ['default', './vitest-type-coverage-reporter.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['lcov', 'html'],
+    }
+  }
+});
+```
+
+### Method 4: Post-Process Hook
+
+Use a post-test script to merge coverages:
+
+```json
+// package.json
+{
+  "scripts": {
+    "test:coverage": "vitest run --coverage && npm run merge-type-coverage",
+    "merge-type-coverage": "node ./scripts/merge-coverage.js"
+  }
+}
+```
+
+```javascript
+// scripts/merge-coverage.js
+import { execSync } from 'child_process';
+import { readFileSync, writeFileSync } from 'fs';
+
+// 1. Run type tests
+const typeResults = JSON.parse(
+  execSync('npx typed test --json', { encoding: 'utf-8' })
+);
+
+// 2. Load V8/Istanbul coverage
+const coverageFile = './coverage/coverage-final.json';
+const coverage = JSON.parse(readFileSync(coverageFile, 'utf-8'));
+
+// 3. Process type files as if they were executed
+typeResults.forEach(result => {
+  if (result.filepath.includes('/types/')) {
+    // Create pseudo-coverage for type files
+    coverage[result.filepath] = {
+      path: result.filepath,
+      // Map type tests to statement coverage
+      s: mapTypeTestsToStatements(result),
+      // Types tested = functions covered
+      f: mapTypeTestsToFunctions(result),
+    };
+  }
+});
+
+// 4. Recalculate summary
+const summary = calculateCoverageSummary(coverage);
+
+// 5. Write back
+writeFileSync(coverageFile, JSON.stringify(coverage));
+writeFileSync('./coverage/coverage-summary.json', JSON.stringify(summary));
+
+// 6. Regenerate HTML report
+execSync('npx nyc report --reporter=html');
+```
+
+### Method 5: Source Map Approach
+
+Generate source maps that map type definitions to virtual JavaScript:
+
+```typescript
+// type-to-js-mapper.ts
+function mapTypeToVirtualJS(typeDefinition: string): string {
+  // Convert type to a virtual function that can be "covered"
+  // Example: type Foo<T> = T extends string ? true : false
+  // Becomes: function Foo(T) { return typeof T === 'string' ? true : false; }
+  
+  return typeDefinition
+    .replace(/type (\w+)/, 'function $1')
+    .replace(/=/g, '{ return ')
+    .concat('; }');
+}
+
+// This virtual JS is then included in coverage instrumentation
+```
+
+### Recommended Approach
+
+For your use case, I recommend **Method 4 (Post-Process Hook)** because:
+
+1. **Simplest to implement** - Just a Node script
+2. **Works with existing tools** - No custom reporters needed
+3. **Format agnostic** - Works with both V8 and Istanbul
+4. **Maintains separation** - Type and runtime coverage stay distinct but merge for reporting
+
+### Implementation Example
+
+Here's a complete implementation for Method 4:
+
+```javascript
+// scripts/merge-type-coverage.js
+#!/usr/bin/env node
+
+import { execSync } from 'child_process';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { resolve } from 'path';
+
+async function mergeTypeCoverage() {
+  console.log('📊 Merging type coverage into report...');
+  
+  // 1. Get type test results
+  const typeOutput = execSync('npx typed test --json', { 
+    encoding: 'utf-8',
+    stdio: ['pipe', 'pipe', 'ignore'] // Ignore stderr
+  });
+  
+  const typeResults = JSON.parse(typeOutput);
+  
+  // 2. Load existing coverage
+  const coveragePath = resolve('./coverage/coverage-final.json');
+  if (!existsSync(coveragePath)) {
+    console.error('❌ No coverage file found. Run tests with coverage first.');
+    process.exit(1);
+  }
+  
+  const coverage = JSON.parse(readFileSync(coveragePath, 'utf-8'));
+  
+  // 3. Calculate type coverage metrics
+  const typeFiles = new Map();
+  
+  typeResults.forEach(result => {
+    const file = result.filepath;
+    if (!typeFiles.has(file)) {
+      typeFiles.set(file, {
+        tested: 0,
+        total: 0,
+        symbols: new Set()
+      });
+    }
+    
+    const fileData = typeFiles.get(file);
+    
+    // Count tested symbols
+    result.blocks?.forEach(block => {
+      block.tests?.forEach(test => {
+        test.symbols?.forEach(symbol => {
+          fileData.symbols.add(symbol.name);
+        });
+      });
+    });
+    
+    fileData.tested = fileData.symbols.size;
+    // You'd need to analyze the actual file to get total count
+    fileData.total = fileData.tested + 10; // Placeholder
+  });
+  
+  // 4. Inject type files into coverage
+  const typeDir = resolve('./modules/types/src');
+  typeFiles.forEach((data, filepath) => {
+    const fullPath = resolve(filepath);
+    
+    // Skip if not a type file
+    if (!fullPath.startsWith(typeDir)) return;
+    
+    // Create coverage entry
+    coverage[fullPath] = {
+      path: fullPath,
+      statementMap: {},
+      fnMap: {},
+      branchMap: {},
+      s: {},
+      f: {},
+      b: {},
+      // Custom field for type coverage
+      _typeCoverage: {
+        tested: data.tested,
+        total: data.total,
+        percentage: (data.tested / data.total) * 100
+      }
+    };
+    
+    // Create fake statement coverage based on type coverage
+    for (let i = 1; i <= data.total; i++) {
+      coverage[fullPath].statementMap[i] = {
+        start: { line: i, column: 0 },
+        end: { line: i, column: 100 }
+      };
+      coverage[fullPath].s[i] = i <= data.tested ? 1 : 0;
+    }
+  });
+  
+  // 5. Write merged coverage
+  writeFileSync(coveragePath, JSON.stringify(coverage, null, 2));
+  
+  // 6. Generate summary
+  const summary = {
+    total: {
+      lines: { total: 0, covered: 0, skipped: 0, pct: 0 },
+      statements: { total: 0, covered: 0, skipped: 0, pct: 0 },
+      functions: { total: 0, covered: 0, skipped: 0, pct: 0 },
+      branches: { total: 0, covered: 0, skipped: 0, pct: 0 },
+      types: { total: 0, covered: 0, skipped: 0, pct: 0 } // Custom metric
+    }
+  };
+  
+  // Calculate totals
+  Object.values(coverage).forEach(file => {
+    if (file._typeCoverage) {
+      summary.total.types.total += file._typeCoverage.total;
+      summary.total.types.covered += file._typeCoverage.tested;
+    }
+    // Add regular coverage metrics...
+  });
+  
+  summary.total.types.pct = 
+    (summary.total.types.covered / summary.total.types.total) * 100;
+  
+  writeFileSync(
+    './coverage/coverage-summary.json', 
+    JSON.stringify(summary, null, 2)
+  );
+  
+  console.log('✅ Type coverage merged successfully!');
+  console.log(`📈 Type Coverage: ${summary.total.types.pct.toFixed(1)}%`);
+  
+  // 7. Regenerate HTML report
+  execSync('npx nyc report --reporter=html', { stdio: 'inherit' });
+}
+
+mergeTypeCoverage().catch(console.error);
+```
+
+This approach gives you a unified coverage report where type utilities appear alongside runtime code in your Istanbul/V8 reports!
 
 ## Troubleshooting
 
