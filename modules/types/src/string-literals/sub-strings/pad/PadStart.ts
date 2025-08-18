@@ -22,10 +22,16 @@ export type PadStart<
         TLen
     > extends true
         ? AsString<TContent>
-        : Concat<[
-            Repeat<TChar, Subtract<TLen, StringLength<AsString<TContent>>>>,
-            AsString<TContent>
-        ]>
+        : AsString<TContent> extends infer Content extends string
+            ? StringLength<Content> extends infer ContentLen extends number
+                ? Subtract<TLen, ContentLen> extends infer PadCount extends number
+                    ? Concat<[
+                        Repeat<TChar, PadCount>,
+                        Content
+                    ]>
+                    : AsString<TContent>  // Fallback if Subtract fails
+                : AsString<TContent>  // Fallback if StringLength fails
+            : AsString<TContent>  // Fallback if AsString fails
     : Err<
         `invalid-char/pad-start`,
         `The PadStart<TContent,TChar,TLen> utility expects TChar to have exactly 1 character that condition was not met!`,

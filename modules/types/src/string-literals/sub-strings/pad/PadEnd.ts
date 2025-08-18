@@ -31,17 +31,16 @@ export type PadEnd<
         TLen
     > extends true
         ? TContent
-        : Concat<[
-            AsString<TContent>,
-            FixedLengthArray<
-                TChar,
-                Subtract<
-                    TLen,
-                    StringLength<AsString<TContent>>
-                >
-            >
-
-        ]>
+        : AsString<TContent> extends infer Content extends string
+            ? StringLength<Content> extends infer ContentLen extends number
+                ? Subtract<TLen, ContentLen> extends infer PadCount extends number
+                    ? Concat<[
+                        Content,
+                        Repeat<TChar, PadCount>
+                    ]>
+                    : TContent  // Fallback if Subtract fails
+                : TContent  // Fallback if StringLength fails
+            : TContent  // Fallback if AsString fails
     : Err<
         `invalid-char/pad-end`,
         `The PadEnd<TContent,TChar,TLen> utility expects TChar to have exactly 1 character!`,
