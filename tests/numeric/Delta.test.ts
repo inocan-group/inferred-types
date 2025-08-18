@@ -16,7 +16,6 @@ describe("Delta<A,B>", () => {
             Expect<Test<T1b, "equals",  1>>,
             Expect<Test<T5a, "equals",  5>>,
             Expect<Test<T5b, "equals",  5>>,
-
         ];
 
     });
@@ -34,18 +33,31 @@ describe("Delta<A,B>", () => {
             Expect<Test<T5b, "equals",  "5">>,
 
         ];
-
     });
+
+
+    it("the first generic determines if result is numeric or string literal", () => {
+        type Num = Delta<10, "5">;
+        type Str = Delta<"10", 5>;
+
+        type cases = [
+            Expect<Test<Num, "equals", 5>>,
+            Expect<Test<Str, "equals", "5">>,
+        ];
+    });
+
+
 
 
     it("positive and negative", () => {
         type Six = Delta<1, -5>;
+        type SixStr = Delta<"1", -5>;
         type SixAlt = Delta<-5, 1>;
 
         type cases = [
             Expect<Test<Six, "equals",  6>>,
+            Expect<Test<SixStr, "equals", "6">>,
             Expect<Test<SixAlt, "equals",  6>>,
-
         ];
 
 

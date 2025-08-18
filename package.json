@@ -52,6 +52,7 @@
         "typed": "npx typed test",
         "deps": "pnpm -r deps",
         "source": "pnpm -r source",
+        "source:types": "pnpm --filter types source",
         "audit:types": "typed source -c modules/types/tsconfig.json -w 6133 -w 6307",
         "audit:runtime": "typed source -c modules/runtime/tsconfig.json -w 2304 -w 6133 -w 6307",
         "audit:constants": "typed source -c modules/constants/tsconfig.json --warn 6133",

@@ -1,8 +1,6 @@
 import type {
     Abs,
     Add,
-    AsNegativeNumber,
-    AsNumber,
     CompareNumbers,
     Err,
     HaveSameNumericSign,
@@ -17,15 +15,15 @@ import type {
     Subtract,
 } from "inferred-types/types";
 
-type Process<
-    A extends NumberLike,
-    B extends NumberLike,
+type Evaluate<
+    A extends `${number}`,
+    B extends `${number}`,
 > = If<
     HaveSameNumericSign<A, B>,
     If<
         IsGreaterThan<Abs<A>, Abs<B>>,
-        Add<Abs<A>, AsNegativeNumber<B>>,
-        Add<Abs<B>, AsNegativeNumber<A>>
+        Subtract<Abs<A>, Abs<B>>,
+        Subtract<Abs<B>, Abs<A>>
     >,
     // one of the params is negative, one positive
     Add<Abs<A>, Abs<B>>
@@ -40,9 +38,24 @@ type Process<
 export type Delta<
     A extends NumberLike,
     B extends NumberLike,
-> = A extends `${number}`
-    ? Process<A, B>
-    : AsNumber<Process<A, B>>;
+> =
+A extends number
+? B extends number
+    ? Evaluate<`${A}`, `${B}`> extends `${infer Num extends number}`
+        ? Num
+        : never
+    : B extends `${number}`
+        ? Evaluate<`${A}`, B> extends `${infer Num extends number}`
+            ? Num
+            : never
+        : never
+: A extends `${number}`
+    ? B extends `${number}`
+        ? Evaluate<A,B>
+        : B extends number
+            ? Evaluate<A, `${B}`>
+            : never
+    : never;
 
 type AsLit<T extends NumberLike> = T extends `${number}`
     ? T

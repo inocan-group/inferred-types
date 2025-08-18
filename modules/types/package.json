@@ -14,6 +14,7 @@
         "build": "tsdown",
         "test": "vitest run",
         "lint": "eslint src",
+        "deps": "npx typed deps",
         "watch": "run-p watch:*",
         "watch:build": "tsdown --watch",
         "watch:test": "vitest",
