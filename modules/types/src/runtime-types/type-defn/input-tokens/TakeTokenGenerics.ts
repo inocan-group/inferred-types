@@ -1,5 +1,4 @@
 import { Err, ErrContext, FromInputToken, NestedSplit, StripLeading, Trim, TrimEach } from "inferred-types/types"
-import { ExtendErr } from "types/errors/ExtendErr";
 
 /**
  * the successful results of evaluating a single generic parameter

@@ -163,27 +163,6 @@ describe("ShiftDecimalPlace<T,U>", () => {
         ];
     });
 
-    it("known limitations and bugs", () => {
-        // 1. ShiftLeft and ShiftRight have identical implementations
-        //    Both append zeros with Repeat<"0", U>
-        //    This causes negative shifts to multiply instead of divide
-
-        // 2. Decimal inputs lose precision
-        //    Any decimal input returns generic `number` type
-
-        // 3. String decimals have complex behavior
-        //    The implementation doesn't properly handle decimal points
-
-        // 4. The JSDoc example is misleading
-        //    It suggests decimal point shifting, but implementation multiplies
-
-        // 5. The name "ShiftDecimalPlace" is misleading
-        //    It actually multiplies by 10^n, doesn't shift decimal places
-
-        type cases = [
-            Expect<Test<true, "equals", true>>, // Documentation test
-        ];
-    });
 
     it("summary of behavior", () => {
         // Currently working:

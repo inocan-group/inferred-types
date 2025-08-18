@@ -47,6 +47,7 @@
         "editor.defaultFormatter": "vscode.typescript-language-features"
     },
     "cSpell.words": [
+        "andymckay",
         "asymp",
         "barbar",
         "barfoo",

@@ -98,7 +98,7 @@
         "pathe": "^2.0.3",
         "tsdown": "^0.14.1",
         "typecheck": "^0.1.2",
-        "typed-tester": "^0.10.10",
+        "typed-tester": "^0.11.5",
         "typescript": "5.9.2",
         "typescript-eslint": "^8.39.1",
         "vite": "^7.1.2",

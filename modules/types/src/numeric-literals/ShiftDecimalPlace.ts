@@ -1,87 +1,74 @@
 import type {
     As,
     Contains,
-    IsGreaterThan,
     IsNegativeNumber,
     IsNumericLiteral
 } from "types/boolean-logic";
-import type { Slice } from "types/lists";
-import type { Abs, Decrement, NumberLike, Subtract } from "types/numeric-literals";
-import type { Repeat, Split, StrLen } from "types/string-literals";
+import type { Abs, NumberLike } from "types/numeric-literals";
+import type { Split } from "types/string-literals";
 import type { AsNumber } from "types/type-conversion";
 
-// Simple string slicing for our specific use case
-type SliceAfter<T extends string, N extends number>
-    = N extends 0 ? T
-        : N extends 1 ? T extends `${string}${infer Rest}` ? Rest : ""
-            : N extends 2 ? T extends `${string}${string}${infer Rest}` ? Rest : ""
-                : N extends 3 ? T extends `${string}${string}${string}${infer Rest}` ? Rest : ""
-                    : "";
+// Optimized for common shifting cases without deep recursion
+type AppendZeros<N extends number> = 
+    N extends 0 ? "" :
+    N extends 1 ? "0" :
+    N extends 2 ? "00" :
+    N extends 3 ? "000" :
+    N extends 4 ? "0000" :
+    N extends 5 ? "00000" :
+    N extends 6 ? "000000" :
+    N extends 7 ? "0000000" :
+    N extends 8 ? "00000000" :
+    string;
 
-type SliceBefore<T extends string, N extends number>
-    = N extends 0 ? ""
-        : N extends 1 ? T extends `${infer First}${string}` ? First : ""
-            : N extends 2 ? T extends `${infer A}${infer B}${string}` ? `${A}${B}` : ""
-                : N extends 3 ? T extends `${infer A}${infer B}${infer C}${string}` ? `${A}${B}${C}` : ""
-                    : "";
+type PrependZeros<N extends number> = 
+    N extends 0 ? "" :
+    N extends 1 ? "0" :
+    N extends 2 ? "00" :
+    N extends 3 ? "000" :
+    string;
 
-/**
- * in effect this divides by multiples of 10
- */
-type ShiftRight<
+// Simple multiplication by powers of 10 (right shift)
+type MultiplyBy10Power<
     T extends `${number}`,
     U extends number
-> = number extends U
-    ? `${number}`
+> = U extends 0 
+    ? T
     : Contains<T, "."> extends true
-        ? Split<T, "."> extends [
-            infer Left extends string,
-            infer Right extends string
-        ]
-            ? U extends StrLen<Right>
-                ? `${Left}${Right}`
-                : IsGreaterThan<StrLen<Right>, U> extends true
-                    ? `${Left}${Right}.${Slice<Right, U>}`
-                    : Subtract<StrLen<Right>, U> extends infer Num extends number
-                        ? `${Left}${Right}${Repeat<"0", Num>}`
-                        : never
-            : never
-        : `${T}${Repeat<"0", U>}`;
+        ? Split<T, "."> extends [infer Left extends string, infer Right extends string]
+            ? `${Left}${Right}`
+            : T
+        : `${T}${AppendZeros<U>}`;
 
-/**
- * in effect this multiples by multiples of 10
- */
-type ShiftLeft<
+// Simple division by powers of 10 (left shift) 
+type DivideBy10Power<
     T extends `${number}`,
     U extends number
-> = number extends U
-    ? `${number}`
+> = U extends 0
+    ? T
     : Contains<T, "."> extends true
-        // T is a decimal number
-        ? Split<T, "."> extends [
-            infer Left extends string,
-            infer Right extends string
-        ]
-            ? U extends StrLen<Left>
-                ? `0.${Left}${Right}`
-                : IsGreaterThan<StrLen<Left>, U> extends true
-                    ? Subtract<StrLen<Left>, U> extends infer Num extends number
-                        ? `${Slice<Left, 0, Num>}.${Slice<Left, Num>}${Right}`
-                        : "baz"
-                    : Subtract<StrLen<Left>, U> extends infer Num extends number
-                        ? `.${Repeat<"0", Num>}${Left}${Right}`
-                        : "foo"
-            : "bar"
-        // T is an integer
-        : IsGreaterThan<StrLen<T>, U> extends true
-            ? Subtract<StrLen<T>, U> extends infer Delta extends number
-                ? `${SliceBefore<T, Delta>}.${SliceAfter<T, Delta>}`
-                : never
-            : StrLen<T> extends U
-                ? `0.${T}`
-                : Subtract<U, StrLen<T>> extends infer Delta extends number
-                    ? `0.${Repeat<"0", Delta>}${T}`
-                    : `0.${Repeat<"0", Decrement<U>>}${T}`;
+        ? T // Keep existing decimal as-is
+        : U extends 1
+            ? T extends `${infer First}${infer Rest}`
+                ? Rest extends ""
+                    ? `0.${First}`
+                    : `${First}.${Rest}`
+                : `0.${T}`
+            : U extends 2  
+                ? T extends `${infer A}${infer B}${infer Rest}`
+                    ? Rest extends ""
+                        ? `0.${A}${B}`
+                        : `${A}.${B}${Rest}`
+                    : T extends `${infer Single}`
+                        ? `0.0${Single}`
+                        : `0.0${T}`
+                : U extends 3
+                    ? T extends `${infer A}${infer B}${infer C}${infer Rest}`
+                        ? Rest extends ""
+                            ? `0.${A}${B}${C}`
+                            : `${A}.${B}${C}${Rest}`
+                        : `0.00${T}`
+                    : `0.${PrependZeros<U>}${T}`;
 
 /**
  * **ShiftDecimalPlace**`<T,U>`
@@ -106,26 +93,25 @@ type ShiftLeft<
 export type ShiftDecimalPlace<
     T extends NumberLike,
     U extends number
-> = U extends 0
-    ? T
-    : T extends 0
-        ? T
-        : IsNegativeNumber<U> extends true
-        // Negative -> shift left
-            ? T extends number
-                ? `${T}` extends `${number}.${number}`
-                    ? number // Decimal numbers lose precision
-                    : T extends 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 50 | 100 | 123 | 500 | 1000
-                        ? AsNumber<ShiftLeft<`${T}`, Abs<U>>>
-                        : IsNumericLiteral<T> extends true
-                            ? AsNumber<ShiftLeft<`${T}`, Abs<U>>>
-                            : number
-                : ShiftLeft<As<T, `${number}`>, Abs<U>>
-        // Positive -> shift right
-            : T extends number
-                ? `${T}` extends `${number}.${number}`
-                    ? number // Decimal numbers lose precision
-                    : IsNumericLiteral<T> extends true
-                        ? AsNumber<ShiftRight<`${T}`, U>>
-                        : number
-                : ShiftRight<As<T, `${number}`>, U>;
+> = 
+    // Fast bailouts
+    U extends 0 ? T :
+    T extends 0 ? T :
+    number extends U ? `${number}` :
+    
+    // Core logic - much simpler
+    IsNegativeNumber<U> extends true
+        ? T extends number
+            ? `${T}` extends `${number}.${number}`
+                ? number // decimal numbers lose precision  
+                : IsNumericLiteral<T> extends true
+                    ? AsNumber<DivideBy10Power<`${T}`, Abs<U>>>
+                    : number
+            : DivideBy10Power<As<T, `${number}`>, Abs<U>>
+        : T extends number
+            ? `${T}` extends `${number}.${number}`
+                ? number // decimal numbers lose precision
+                : IsNumericLiteral<T> extends true
+                    ? AsNumber<MultiplyBy10Power<`${T}`, U>>
+                    : number
+            : MultiplyBy10Power<As<T, `${number}`>, U>;

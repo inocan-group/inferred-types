@@ -1,3 +1,5 @@
 
 packages:
     - modules/*
+settings:
+    - autoInstallPeers: true
