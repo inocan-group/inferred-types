@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { UPPER_ALPHA_CHARS } from "inferred-types/constants";
-import { AlphaChar, NestedSplit, Test, UpperAlphaChar } from "inferred-types/types";
+import {  NestedSplit, Test } from "inferred-types/types";
 import { nestedSplit, nesting } from "inferred-types/runtime";
 import { describe, it, expect } from "vitest";
 

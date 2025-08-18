@@ -3,7 +3,6 @@ import type {
     Err,
     FailFast,
     FromInputToken__String,
-    IsWideString,
     Join,
     NestedSplit,
     ObjectKey,
@@ -16,12 +15,16 @@ import type {
 import type {
     IT_ContainerType
 } from "src/runtime-types/type-defn/input-tokens/_base";
+import { GetKeyType } from "types/runtime-types/type-defn/input-tokens/GetKeyType";
 
 type InnerRest = { inner: string; rest: string };
 
+
 type Segment<
     T extends string,
-    U extends readonly string[] = NestedSplit<RetainAfter<T, "Record<">, ">">
+    U extends readonly string[] = NestedSplit<RetainAfter<T, "Record<">, ">"> extends readonly string[]
+        ? NestedSplit<RetainAfter<T, "Record<">, ">">
+        : never
 > = U extends [infer I extends string, ...infer REST extends string[]]
     ? {
         inner: Trim<I>;
@@ -36,7 +39,7 @@ type Rest<T extends string> = Segment<T> extends InnerRest
 type Key<
     T extends string,
     S extends InnerRest | Error = Segment<T>
-> = IsWideString<T> extends true
+> = string extends T
     ? string | Error
     : S extends InnerRest
         ? NestedSplit<S["inner"], ",">[0] extends string
@@ -46,11 +49,14 @@ type Key<
             ? S
             : never;
 
+/**
+ * used to lookup the type of key where
+ */
 type KeyType<
     T extends string,
     K extends string = Success<Key<T>>,
     V extends string = As<Value<T>, string>
-> = IsWideString<T> extends true
+> = string extends T
     ? unknown | Error
     : WhenErr<
         FromInputToken__String<K>,
@@ -65,7 +71,7 @@ type ValidKey<
     KT = Success<KeyType<T>>,
     K extends string = Success<Key<T>>,
     V extends string = As<Value<T>, string>
-> = IsWideString<T> extends true
+> = string extends T
     ? ObjectKey | Error
     : KT extends ObjectKey
         ? KT
@@ -80,7 +86,7 @@ type ValidKey<
 type Value<
     T extends string,
     S extends InnerRest | Error = Segment<T>
-> = IsWideString<T> extends true
+> = string extends T
     ? string | Error
     : S extends InnerRest
         ? NestedSplit<S["inner"], ",">[1] extends string
@@ -96,7 +102,7 @@ type ValueType<
     T extends string,
     K extends string = Success<Key<T>>,
     V extends string = As<Value<T>, string>
-> = IsWideString<T> extends true
+> = string extends T
     ? unknown | Error
     : WhenErr<
         FromInputToken__String<V>,
@@ -110,12 +116,15 @@ type ValueType<
 type Parse<
     T extends string
 > = FailFast<[
-    KeyType<T>,
+    GetKeyType<T>,
     ValueType<T>,
     ValidKey<T>,
     Record<Success<ValidKey<T>>, Success<ValueType<T>>>
 ]>;
 
+/**
+ * used in parsing InputToken's into Record<X,Y> types.
+ */
 export type IT_TakeRecord<
     T extends string,
     TInner extends readonly any[] = [],

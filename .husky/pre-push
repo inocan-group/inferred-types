@@ -140,8 +140,8 @@ function validate_jsr() {
                 fi
             fi
         fi
-        log "- JSR config file found"
-        log "- checking with JSR API using ${GREEN}--dry-run${RESET} flag"
+        log "  - JSR config file found"
+        log "  - checking with JSR API using ${GREEN}--dry-run${RESET} flag"
         npx jsr publish --dry-run --allow-slow-types --allow-dirty > /dev/null 2> /dev/null || ( log "  ❌ JSR is not ready for publication" && exit 1 );
         log "  ✅ JSR is ready for publication"
     fi
