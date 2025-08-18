@@ -1,4 +1,4 @@
-import { Err, FromInputToken, NestedSplit, StripLeading, Trim, TrimEach } from "inferred-types/types"
+import { Err, ErrContext, FromInputToken, NestedSplit, StripLeading, Trim, TrimEach } from "inferred-types/types"
 import { ExtendErr } from "types/errors/ExtendErr";
 
 /**
@@ -27,7 +27,10 @@ T extends `${infer Name extends string} extends ${infer Type extends string}`
             token: Type;
             type: FromInputToken<Type>
         }
-    : Err<`invalid-generic`, `The string token -- ${T} -- passed to TakeTokenGeneric<T> is invalid as an InputToken!`>
+    : Err<
+        `invalid-generic/specific`,
+        `The string token -- ${T} -- passed to TakeTokenGeneric<T> is invalid as an InputToken!`
+    >
 ;
 
 
@@ -39,8 +42,7 @@ type ParseGenerics<
     ...infer Rest extends readonly string[]
 ]
     ? TakeTokenGeneric<Head> extends Error
-        ? ExtendErr<TakeTokenGeneric<Head>, {
-            message: `TakeTokenGenerics<T> failed parsing the token "${Head}"!`,
+        ? ErrContext<TakeTokenGeneric<Head>, {
             utility: "TakeTokenGeneric",
             token: Head,
             remaining: Rest
@@ -80,19 +82,32 @@ export type TakeTokenGenerics<
 ? GenericsParsed | Error // Wide type
 
 : NestedSplit<TClean, ","> extends Error
-    ? NestedSplit<TClean, ","> // Error
+    ? ErrContext<
+        NestedSplit<TClean, ",">,
+        { T:T; utility: "TakeTokenGenerics" }
+    > // Error
 : NestedSplit<TClean, ">"> extends [
     infer Block extends string,
     infer Rest extends string
 ]
     ? NestedSplit<Block, ","> extends Error
-        ? ExtendErr<NestedSplit<Block, ",">, { utility: "TakeTokenGenerics" }> // Error
+        ? ErrContext<
+            NestedSplit<Block, ",">,
+            { utility: "TakeTokenGeneric", T: T}
+        >  // Error
     : NestedSplit<Block, ","> extends readonly string[]
         ?  ParseGenerics<TrimEach<NestedSplit<Block, ",">>> extends Error
-            ? ParseGenerics<TrimEach<NestedSplit<Block, ",">>> // Error
+            ? ErrContext<
+                ParseGenerics<TrimEach<NestedSplit<Block, ",">>>,
+                { utility: "TakeTokenGeneric", T: T }
+            > // Error
             : {
                 generics: ParseGenerics<TrimEach<NestedSplit<Block, ",">>>;
                 rest: Trim<Rest>;
             } // Successful outcome
         : never
-: TClean;
+: Err<
+    `invalid-generic/block`,
+    `The string token passed in could not be parsed as a Generics block: ${T}`,
+    { T: T, utility: "TakeTokenGenerics" }
+>;

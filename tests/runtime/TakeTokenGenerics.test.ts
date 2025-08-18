@@ -28,10 +28,12 @@ describe("TakeTokenGenerics<T>", () => {
 
 
     it("invalid tokens", () => {
-
+        type E1 = TakeTokenGenerics<"foobar">;
+        type E2 = TakeTokenGenerics<"<T extends string, U hates number>">;
 
         type cases = [
-            /** type tests */
+            Expect<Test<E1, "isError", `invalid-generic/block`>>,
+            Expect<Test<E2, "isError", `invalid-generic/specific`>>,
         ];
     });
 
