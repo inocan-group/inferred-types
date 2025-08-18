@@ -50,7 +50,9 @@ type Process<
         }
 // Dictionary definition
     : TConfig extends Dictionary<string, string>
-        ? Process<TObj, AsFromTo<TConfig>, TOpt>
+        ? AsFromTo<TConfig> extends infer Config extends readonly FromTo[]
+            ? Process<TObj, Config, TOpt>
+            : never
         : TConfig extends EmptyObject
             ? TObj
             : never;
@@ -90,12 +92,17 @@ export type MapKeys<
     TConfig extends (readonly FromTo[]) | Dictionary<string, string>,
     TOpt extends Partial<MapKeysOptions> = DEFAULT,
 >
-  = TOpt["casing"] extends "CamelCase"
-      ? CamelKeys<Process<TObj, Go<TConfig>, TOpt>>
-      : TOpt["casing"] extends "PascalCase"
-          ? PascalKeys<Process<TObj, Go<TConfig>, TOpt>>
-          : TOpt["casing"] extends "KebabCase"
-              ? KebabKeys<Process<TObj, Go<TConfig>, TOpt>>
-              : TOpt["casing"] extends "SnakeCase"
-                  ? SnakeKeys<Process<TObj, Go<TConfig>, TOpt>>
-                  : Process<TObj, Go<TConfig>, TOpt>;
+  = Go<TConfig> extends infer Config extends readonly FromTo[]
+
+  ? TOpt["casing"] extends "CamelCase"
+        ? Process<TObj, Config, TOpt> extends infer Camel extends Dictionary
+            ? CamelKeys<Camel>
+            : never
+    : TOpt["casing"] extends "PascalCase"
+          ? PascalKeys<Process<TObj, Config, TOpt>>
+    : TOpt["casing"] extends "KebabCase"
+        ? KebabKeys<Process<TObj, Config, TOpt>>
+    : TOpt["casing"] extends "SnakeCase"
+        ? SnakeKeys<Process<TObj, Config, TOpt>>
+    : Process<TObj, Config, TOpt>
+: never;

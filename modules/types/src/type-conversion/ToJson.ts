@@ -91,11 +91,11 @@ type InnerArray<
  * **Related:** `ToJson`, `ToJsonObject`, `ToJsonScalar`
  */
 export type ToJsonArray<
-    T extends readonly any[],
+    T extends readonly unknown[],
     TOpt extends ToJsonOptions = { quote: "\""; encode: false }
 > = InnerArray<T, O<TOpt>> extends readonly string[]
-? Join<InnerArray<T, O<TOpt>>, ", "> extends string
-    ? `[ ${Join<InnerArray<T, O<TOpt>>, ", ">} ]`
+? Join<InnerArray<T, O<TOpt>>, ", "> extends infer Inner extends string
+    ? `[ ${Inner} ]`
     : never
 : never;
 

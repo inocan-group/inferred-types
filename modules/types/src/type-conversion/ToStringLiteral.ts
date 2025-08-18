@@ -75,7 +75,7 @@ type AsUnionArrayString<
     T extends readonly unknown[],
     O extends readonly string[] = []
 > = [] extends T
-    ? Wrap<Join<O, " | ">>
+    ? Wrap<As<Join<O, " | ">, string>>
     : AsUnionArrayString<
         AfterFirst<T>,
         ToStringLiteral<First<T>> extends infer Type extends string
@@ -108,7 +108,11 @@ export type ToStringLiteral__Tuple<
         : never
     : [T["length"]] extends [0]
         ? `[]`
-        : `[ ${Join<InnerArray<T, O>, ", ">} ]`;
+        : InnerArray<T, O> extends (infer Arr extends readonly string[])
+            ? Join<Arr, ", "> extends infer Inner extends string
+                ? `[ ${Inner} ]`
+                : never
+            : never;
 
 /**
  * Object keys typically do not need be surrounded by quotations

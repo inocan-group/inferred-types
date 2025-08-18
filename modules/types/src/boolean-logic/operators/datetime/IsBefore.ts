@@ -62,26 +62,26 @@ export type IsBefore<
                                 { a: A; b: B }
                             >
 
-                            : AsDateMeta<A> extends DateMeta
-                                ? AsDateMeta<B> extends DateMeta
+                            : AsDateMeta<A> extends infer AMeta extends DateMeta
+                                ? AsDateMeta<B> extends infer BMeta extends DateMeta
                                     ? Check<
                                         [
-                                            As<Unbrand<AsDateMeta<A>["year"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<A>["month"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<A>["date"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<A>["hour"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<A>["minute"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<A>["second"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<A>["ms"]>, `${number}` | null>
+                                            As<Unbrand<AMeta["year"]>, `${number}` | null>,
+                                            As<Unbrand<AMeta["month"]>, `${number}` | null>,
+                                            As<Unbrand<AMeta["date"]>, `${number}` | null>,
+                                            As<Unbrand<AMeta["hour"]>, `${number}` | null>,
+                                            As<Unbrand<AMeta["minute"]>, `${number}` | null>,
+                                            As<Unbrand<AMeta["second"]>, `${number}` | null>,
+                                            As<Unbrand<AMeta["ms"]>, `${number}` | null>
                                         ],
                                         [
-                                            As<Unbrand<AsDateMeta<B>["year"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<B>["month"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<B>["date"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<B>["hour"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<B>["minute"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<B>["second"]>, `${number}` | null>,
-                                            As<Unbrand<AsDateMeta<B>["ms"]>, `${number}` | null>
+                                            As<Unbrand<BMeta["year"]>, `${number}` | null>,
+                                            As<Unbrand<BMeta["month"]>, `${number}` | null>,
+                                            As<Unbrand<BMeta["date"]>, `${number}` | null>,
+                                            As<Unbrand<BMeta["hour"]>, `${number}` | null>,
+                                            As<Unbrand<BMeta["minute"]>, `${number}` | null>,
+                                            As<Unbrand<BMeta["second"]>, `${number}` | null>,
+                                            As<Unbrand<BMeta["ms"]>, `${number}` | null>
                                         ]
                                     >
                                     : Err<
