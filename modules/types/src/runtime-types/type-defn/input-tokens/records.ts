@@ -42,8 +42,10 @@ type Key<
 > = string extends T
     ? string | Error
     : S extends InnerRest
-        ? NestedSplit<S["inner"], ",">[0] extends string
-            ? NestedSplit<S["inner"], ",">[0]
+        ? S["inner"] extends infer Inner extends string
+            ? NestedSplit<Inner, ","> extends readonly [ infer Head extends string, ...unknown[]]
+                ? Head
+                : never
             : never
         : S extends Error
             ? S
@@ -89,8 +91,10 @@ type Value<
 > = string extends T
     ? string | Error
     : S extends InnerRest
-        ? NestedSplit<S["inner"], ",">[1] extends string
-            ? NestedSplit<S["inner"], ",">[1]
+        ? S["inner"] extends infer Inner extends string
+            ? NestedSplit<Inner, ","> extends readonly [ string , infer Val, ...unknown[]]
+                ? Val
+                : never
             : Err<
                 `invalid-token/map`,
                 `The Map token did not provide a ',' separator to delineate the key token from the value token!`,

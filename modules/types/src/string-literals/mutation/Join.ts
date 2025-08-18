@@ -53,11 +53,18 @@ export type Join<
     TEllipsis extends string | false = "...",
 > = IsWideArray<TTuple> extends true
 ? TTuple extends (infer Type)[]
-    ? Type[]
-    : unknown[]
+    ? Type extends number
+        ? `${number}`
+        : string
+    : string
 
 : TMax extends number
     ? IsGreaterThan<TTuple["length"], TMax> extends true
-        ? Process<Slicer<ToStringArray<TTuple>, TMax, TEllipsis>, TSeparator>
+        ? Slicer<ToStringArray<TTuple>, TMax, TEllipsis> extends infer StrTup extends readonly string[]
+            ? Process<
+                StrTup,
+                TSeparator
+            >
+            : never
         : Process<ToStringArray<TTuple>, TSeparator>
     : Process<ToStringArray<TTuple>, TSeparator>;

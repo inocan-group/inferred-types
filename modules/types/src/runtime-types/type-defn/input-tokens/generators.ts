@@ -51,7 +51,9 @@ type ParseGenerator<
     ? [
         FromInputToken__String<Trim<A>>,
         FromInputToken__String<Trim<B>>,
-        FromInputToken__String<StripTrailing<Trim<C>, ">">>
+        StripTrailing<Trim<C>, ">"> extends infer TrimC extends string
+            ? FromInputToken__String<TrimC>
+            : never
     ]
     : never;
 

@@ -5,7 +5,6 @@ import {
     Expect,
     FourDigitYear,
     IsBranded,
-    IsTwoDigitDate,
     IsTwoDigitMonth,
     TakeDate,
     TakeMonth,
@@ -14,8 +13,12 @@ import {
     TwoDigitDate,
     TwoDigitMonth,
     Unbrand,
-    GetBrand
+    GetBrand,
+    ParseDate,
+    AsDateMeta,
+    ParsedDate
 } from "inferred-types/types";
+import { UnbrandValues } from "types/literals/branding/UnbrandValues";
 
 
 describe("Brand & Unbrand", () => {
@@ -78,6 +81,31 @@ describe("Brand & Unbrand", () => {
         ];
     });
 
+
+    it("UnbrandValues<T>", () => {
+        type Iso = "2024-09-23";
+        type Parsed = ParseDate<Iso>;
+        type Parsed_Unbranded = UnbrandValues<Parsed>;
+        type Meta = AsDateMeta<Parsed>;
+        type Meta_Unbranded = UnbrandValues<Meta>;
+        type Wide = UnbrandValues<ParsedDate>;
+
+        type cases = [
+            Expect<Test<Parsed_Unbranded, "equals", [ "2024", "09", "23", null ]>>,
+            Expect<Test<Meta_Unbranded, "equals", {
+                date: "23";
+                year: "2024";
+                dateType: "date";
+                hasTime: false;
+                month: "09";
+                hour: null;
+                minute: null;
+                second: null;
+                ms: null;
+                timezone: null;
+            }>>,
+        ];
+    });
 
 
 });
