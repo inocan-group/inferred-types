@@ -1,4 +1,12 @@
-import { Err, ErrContext, FromInputToken, NestedSplit, StripLeading, Trim, TrimEach } from "inferred-types/types"
+import {
+    Err,
+    ErrContext,
+    FromInputToken,
+    NestedSplit,
+    StripLeading,
+    Trim,
+    TrimEach
+} from "inferred-types/types"
 
 /**
  * the successful results of evaluating a single generic parameter
@@ -94,14 +102,14 @@ export type TakeTokenGenerics<
             NestedSplit<Block, ",">,
             { utility: "TakeTokenGeneric", T: T}
         >  // Error
-    : NestedSplit<Block, ","> extends readonly string[]
-        ?  ParseGenerics<TrimEach<NestedSplit<Block, ",">>> extends Error
+    : NestedSplit<Block, ","> extends infer GenericPairs extends readonly string[]
+        ?  ParseGenerics<TrimEach<GenericPairs>> extends Error
             ? ErrContext<
-                ParseGenerics<TrimEach<NestedSplit<Block, ",">>>,
+                ParseGenerics<TrimEach<GenericPairs>>,
                 { utility: "TakeTokenGeneric", T: T }
             > // Error
             : {
-                generics: ParseGenerics<TrimEach<NestedSplit<Block, ",">>>;
+                generics: ParseGenerics<TrimEach<GenericPairs>>;
                 rest: Trim<Rest>;
             } // Successful outcome
         : never
