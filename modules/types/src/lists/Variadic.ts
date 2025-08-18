@@ -31,11 +31,14 @@ type HasFixedHead<T extends readonly unknown[]>
  */
 export type SplitAtVariadic<
     T extends readonly unknown[],
-    Acc extends readonly unknown[] = []
+    Acc extends readonly unknown[] = [],
+    Depth extends readonly unknown[] = []
 >
-  = T extends readonly [...infer P, infer L]
-      ? SplitAtVariadic<P, [L, ...Acc]>
-      : [T, Acc];
+  = Depth['length'] extends 30  // Add depth limit to prevent unbounded recursion
+      ? [T, Acc]  // Fallback when depth exceeded
+      : T extends readonly [...infer P, infer L]
+          ? SplitAtVariadic<P, [L, ...Acc], [...Depth, unknown]>
+          : [T, Acc];
 
 /**
  * **HasVariadicTail**`<T>`
@@ -154,27 +157,35 @@ export type AllOptionalElements<T extends readonly unknown[]> = IsEqual<Partial<
 export type GetNonVariadicLength<
     T extends readonly unknown[],
     F extends readonly unknown[] = [],
-> = [] extends Required<T>
-    ? F["length"]
-    : Required<Mutable<T>> extends [infer Explicit, ...infer REST]
-        ? GetNonVariadicLength<
-            REST,
-            [...F, Explicit]
-        >
-        : F["length"];
+    Depth extends readonly unknown[] = []
+> = Depth['length'] extends 25  // Add depth limit to prevent unbounded recursion
+    ? F["length"]  // Fallback when depth exceeded
+    : [] extends Required<T>
+        ? F["length"]
+        : Required<Mutable<T>> extends [infer Explicit, ...infer REST]
+            ? GetNonVariadicLength<
+                REST,
+                [...F, Explicit],
+                [...Depth, unknown]
+            >
+            : F["length"];
 
 // gets non-variadic length but ignores optional props
 type NonVariadicRequired<
     T extends readonly unknown[],
     F extends readonly unknown[] = [],
-> = [] extends T
-    ? F["length"]
-    : Mutable<T> extends [infer Explicit, ...infer REST]
-        ? NonVariadicRequired<
-            REST,
-            [...F, Explicit]
-        >
-        : F["length"];
+    Depth extends readonly unknown[] = []
+> = Depth['length'] extends 25  // Add depth limit to prevent unbounded recursion
+    ? F["length"]  // Fallback when depth exceeded
+    : [] extends T
+        ? F["length"]
+        : Mutable<T> extends [infer Explicit, ...infer REST]
+            ? NonVariadicRequired<
+                REST,
+                [...F, Explicit],
+                [...Depth, unknown]
+            >
+            : F["length"];
 
 /**
  * **GetRequiredElementCount**`<T>`
@@ -193,10 +204,17 @@ export type GetRequiredElementCount<T extends readonly unknown[]> = NonVariadicR
  * **Related:** `GetRequiredElementCount`, `TupleMeta`, `MakeOptional`
  */
 export type GetOptionalElementCount<T extends readonly unknown[]>
-  = Subtract<
-      GetNonVariadicLength<T>,
-      GetRequiredElementCount<T>
-  >;
+  = T extends readonly unknown[]
+    ? T["length"] extends number
+      ? T["length"] extends infer Len extends number
+        ? GetNonVariadicLength<T> extends infer NonVarLen extends number
+          ? GetRequiredElementCount<T> extends infer ReqLen extends number
+            ? Subtract<NonVarLen, ReqLen>
+            : 0  // fallback when required count computation fails
+          : 0  // fallback when non-variadic length computation fails
+        : 0  // fallback when length is not a number
+      : 0  // fallback for infinite length arrays
+    : never;
 
 /**
  * **ExtractOptionalElements**`<T>`
@@ -308,27 +326,21 @@ export type DropVariadicHead<T extends readonly unknown[]>
  * **Related:** `DropVariadicHead`, `DropVariadicTail`, `IsVariadicArray`
  */
 export type DropVariadic<T extends readonly unknown[]>
-= HasVariadicHead<T> extends true
-    ? DropVariadicHead<T>
-    : HasVariadicTail<T> extends true
-        ? DropVariadicTail<T>
-        : HasVariadicInterior<T> extends true
-            ? SplitAtVariadic<T> extends [ ...infer Head, ...infer Tail ]
-                ? IsVariadicArray<Head> extends true
-                    ? HasVariadicHead<Head> extends true
-                        ? [ ...DropVariadicHead<Head>, ...Tail ]
-                        : HasVariadicTail<Head> extends true
-                            ? [ ...DropVariadicTail<Head>, ...Tail ]
-                            : never
-                    : IsVariadicArray<Tail> extends true
-                        ? HasVariadicHead<Tail> extends true
-                            ? [ ...Head, ...DropVariadicHead<Tail> ]
-                            : HasVariadicTail<Tail> extends true
-                                ? [ ...Head, ...DropVariadicTail<Tail> ]
-                                : never
-                        : T
-                : T
-            : T;
+= IsVariadicArray<T> extends false
+    ? T  // Early return for non-variadic arrays
+    : HasVariadicHead<T> extends true
+        ? DropVariadicHead<T>
+        : HasVariadicTail<T> extends true
+            ? DropVariadicTail<T>
+            : HasVariadicInterior<T> extends true
+                ? SplitAtVariadic<T> extends [ ...infer Head, ...infer Tail ]
+                    ? IsVariadicArray<Head> extends true
+                        ? Tail extends readonly unknown[] ? Tail : never
+                        : IsVariadicArray<Tail> extends true
+                            ? Head extends readonly unknown[] ? Head : never
+                            : T
+                    : T
+                : T;
 
 /**
  * **VariadicType**`<T>`
@@ -348,12 +360,16 @@ export type VariadicType<
     R extends readonly unknown[] = [...T]
 > = IsVariadicArray<R> extends true
     ? HasVariadicHead<R> extends true
-        ? R extends [...infer Head, ...DropVariadicHead<R>]
-            ? Head
+        ? DropVariadicHead<R> extends infer DroppedHead extends readonly unknown[]
+            ? R extends [...infer Head, ...DroppedHead]
+                ? Head
+                : never
             : never
         : HasVariadicTail<R> extends true
-            ? R extends [...DropVariadicTail<R>, ...infer Tail]
-                ? Tail
+            ? DropVariadicTail<R> extends infer DroppedTail extends readonly unknown[]
+                ? R extends [...DroppedTail, ...infer Tail]
+                    ? Tail
+                    : never
                 : never
             : never
     : never;
