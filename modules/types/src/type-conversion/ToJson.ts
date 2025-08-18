@@ -62,8 +62,8 @@ export type ToJsonValue<
                         : never;
 
 type InnerArray<
-    T extends readonly any[],
-    O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
+    T extends readonly unknown[],
+    O extends Required<ToJsonOptions>
 > = As<{
     [K in keyof T]: T[K] extends string
         ? `${O["quote"]}${T[K]}${O["quote"]}`
@@ -81,6 +81,8 @@ type InnerArray<
                     : never
 }, readonly string[]>;
 
+
+
 /**
  * **ToJsonArray**`<T,[Q]>`
  *
@@ -90,8 +92,12 @@ type InnerArray<
  */
 export type ToJsonArray<
     T extends readonly any[],
-    O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
-> = `[ ${Join<InnerArray<T, O>, ", ">} ]`;
+    TOpt extends ToJsonOptions = { quote: "\""; encode: false }
+> = InnerArray<T, O<TOpt>> extends readonly string[]
+? Join<InnerArray<T, O<TOpt>>, ", "> extends string
+    ? `[ ${Join<InnerArray<T, O<TOpt>>, ", ">} ]`
+    : never
+: never;
 
 type InnerObject<
     T extends Dictionary,
@@ -157,12 +163,12 @@ export type ToJsonOptions = {
     encode?: boolean;
 };
 
+/**
+ * Merges user options with defaults to create `Required<ToJsonOptions>`
+ */
 type O<
     T extends ToJsonOptions
-> = MergeObjects<{ quote: "\""; encode: false }, T> extends Required<ToJsonOptions>
-    ? MergeObjects<{ quote: "\""; encode: false }, T>
-    : never;
-
+> = As<MergeObjects<{ quote: "\""; encode: false }, T>, Required<ToJsonOptions>>;
 /**
  * Converts an object, array or scalar value to a
  * strongly typed JSON string.

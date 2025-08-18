@@ -372,9 +372,6 @@ describe("Variadic Type Utilities", () => {
 
         });
 
-
-
-
     })
 
     describe("VariadicType<T>", () => {

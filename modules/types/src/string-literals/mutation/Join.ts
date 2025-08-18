@@ -2,6 +2,7 @@ import type {
     AfterFirst,
     First,
     IsGreaterThan,
+    IsWideArray,
     TakeFirst,
     ToStringArray,
 } from "inferred-types/types";
@@ -50,7 +51,12 @@ export type Join<
     TSeparator extends string = "",
     TMax extends number | null = null,
     TEllipsis extends string | false = "...",
-> = TMax extends number
+> = IsWideArray<TTuple> extends true
+? TTuple extends (infer Type)[]
+    ? Type[]
+    : unknown[]
+
+: TMax extends number
     ? IsGreaterThan<TTuple["length"], TMax> extends true
         ? Process<Slicer<ToStringArray<TTuple>, TMax, TEllipsis>, TSeparator>
         : Process<ToStringArray<TTuple>, TSeparator>

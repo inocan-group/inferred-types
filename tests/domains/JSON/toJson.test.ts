@@ -2,7 +2,7 @@ import { toJSON } from "inferred-types/runtime";
 import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
-describe("toJSON()", () => {
+describe("JSON Conversion", () => {
 
     it("scalar values", () => {
 

@@ -2,15 +2,15 @@ import type { Abs, AfterFirst, FixedLengthArray, IsNegativeNumber } from "inferr
 
 type Repeater<
     TStr extends string,
-    TTup extends readonly unknown[],
+    TTup extends readonly string[],
     TResult extends string = ""
-> = [] extends TTup
-    ? TResult
-    : Repeater<
-        TStr,
-        AfterFirst<TTup>,
-    `${TResult}${TStr}`
-    >;
+> = TTup extends [infer Head extends string, ...infer Rest extends readonly string[]]
+? Repeater<
+    TStr,
+    Rest,
+    `${TResult}${Head}`
+>
+: TResult;
 
 /**
  * **Repeat**`<TStr,TCount>`
@@ -22,15 +22,15 @@ export type Repeat<
     TCount extends number
 > = number extends TCount
     ? string
-    : TCount extends 0
-        ? ""
-        : IsNegativeNumber<TCount> extends true
-            ? Repeater<
-                TStr,
-                FixedLengthArray<".", Abs<TCount>>
-            >
+: TCount extends 0
+    ? ""
+    : IsNegativeNumber<TCount> extends true
+        ? Repeater<
+            TStr,
+            FixedLengthArray<TStr, Abs<TCount>>
+        >
 
-            : Repeater<
-                TStr,
-                FixedLengthArray<".", TCount>
-            >;
+        : Repeater<
+            TStr,
+            FixedLengthArray<TStr, TCount>
+        >;
