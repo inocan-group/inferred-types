@@ -52,19 +52,19 @@ export type Join<
     TMax extends number | null = null,
     TEllipsis extends string | false = "...",
 > = IsWideArray<TTuple> extends true
-? TTuple extends (infer Type)[]
-    ? Type extends number
-        ? `${number}`
+    ? TTuple extends (infer Type)[]
+        ? Type extends number
+            ? `${number}`
+            : string
         : string
-    : string
 
-: TMax extends number
-    ? IsGreaterThan<TTuple["length"], TMax> extends true
-        ? Slicer<ToStringArray<TTuple>, TMax, TEllipsis> extends infer StrTup extends readonly string[]
-            ? Process<
-                StrTup,
-                TSeparator
-            >
-            : never
-        : Process<ToStringArray<TTuple>, TSeparator>
-    : Process<ToStringArray<TTuple>, TSeparator>;
+    : TMax extends number
+        ? IsGreaterThan<TTuple["length"], TMax> extends true
+            ? Slicer<ToStringArray<TTuple>, TMax, TEllipsis> extends infer StrTup extends readonly string[]
+                ? Process<
+                    StrTup,
+                    TSeparator
+                >
+                : never
+            : Process<ToStringArray<TTuple>, TSeparator>
+        : Process<ToStringArray<TTuple>, TSeparator>;

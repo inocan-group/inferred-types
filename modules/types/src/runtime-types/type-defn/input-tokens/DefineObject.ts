@@ -1,14 +1,17 @@
 import type {
     FromDefn,
-    InputTokenLike,
+    InputToken
 } from "inferred-types/types";
 
 /**
  * **DefineObject**
  *
- * A dictionary which _defines_ the type of a dictionary.
+ * A dictionary which defines the _type_ of a dictionary.
  *
- * - values can be a `SimpleToken`, an `InputToken`, or a `ShapeApi` callback
+ * - values can be:
+ *     - a string based `InputToken`
+ *     - another `DefineObject` definition
+ *     - a tuple of
  *
  *   **Example:**
  *   ```ts
@@ -22,7 +25,7 @@ import type {
  * - typically used `FromDefn` or `FromDefineObject` utilities
  */
 export type DefineObject = {
-    [key: string]: InputTokenLike;
+    [key: string]: InputToken;
 };
 
 /**

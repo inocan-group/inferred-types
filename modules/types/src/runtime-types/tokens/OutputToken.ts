@@ -1,8 +1,6 @@
 import type {
     AfterFirst,
     First,
-    InputToken__Object,
-    InputTokenLike,
     InputTokenSuggestions,
     SafeEncode,
     Surround,

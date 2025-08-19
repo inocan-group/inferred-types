@@ -37,8 +37,8 @@ export type SerializedData<
         )
 
         : (string & {
-                kind: "SerializedData";
-                format: TAs;
-                data: TData;
-            }
+            kind: "SerializedData";
+            format: TAs;
+            data: TData;
+        }
         );

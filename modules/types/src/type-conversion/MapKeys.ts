@@ -94,15 +94,15 @@ export type MapKeys<
 >
   = Go<TConfig> extends infer Config extends readonly FromTo[]
 
-  ? TOpt["casing"] extends "CamelCase"
-        ? Process<TObj, Config, TOpt> extends infer Camel extends Dictionary
-            ? CamelKeys<Camel>
-            : never
-    : TOpt["casing"] extends "PascalCase"
-          ? PascalKeys<Process<TObj, Config, TOpt>>
-    : TOpt["casing"] extends "KebabCase"
-        ? KebabKeys<Process<TObj, Config, TOpt>>
-    : TOpt["casing"] extends "SnakeCase"
-        ? SnakeKeys<Process<TObj, Config, TOpt>>
-    : Process<TObj, Config, TOpt>
-: never;
+      ? TOpt["casing"] extends "CamelCase"
+          ? Process<TObj, Config, TOpt> extends infer Camel extends Dictionary
+              ? CamelKeys<Camel>
+              : never
+          : TOpt["casing"] extends "PascalCase"
+              ? PascalKeys<Process<TObj, Config, TOpt>>
+              : TOpt["casing"] extends "KebabCase"
+                  ? KebabKeys<Process<TObj, Config, TOpt>>
+                  : TOpt["casing"] extends "SnakeCase"
+                      ? SnakeKeys<Process<TObj, Config, TOpt>>
+                      : Process<TObj, Config, TOpt>
+      : never;

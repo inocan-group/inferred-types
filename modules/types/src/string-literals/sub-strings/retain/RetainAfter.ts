@@ -14,20 +14,21 @@ type _RetainAfter<
     TBreak extends string,
     TInclude extends boolean = false,
 > = As<
-IfAllLiteral<
-    [TStr, TBreak],
-    TBreak extends any
-        ? TStr extends `${string}${TBreak}${infer Rest}`
-            ? If<
-                IsTrue<TInclude>,
+    IfAllLiteral<
+        [TStr, TBreak],
+        TBreak extends any
+            ? TStr extends `${string}${TBreak}${infer Rest}`
+                ? If<
+                    IsTrue<TInclude>,
       `${TBreak}${Rest}`,
       Rest
-            >
-            : never
-        : never,
+                >
+                : never
+            : never,
+        string
+    >,
     string
->,
-string>
+>;
 
 /**
  * **RetainAfter**`<TStr, TBreak, [TInclude]>`
@@ -51,8 +52,8 @@ export type RetainAfter<
     TStr extends string,
     TBreak extends string,
     TInclude extends boolean = false,
-> =
-    IsNever<_RetainAfter<TStr, TBreak, TInclude>> extends true
+>
+    = IsNever<_RetainAfter<TStr, TBreak, TInclude>> extends true
         ? ""
         : IsUnion<_RetainAfter<TStr, TBreak, TInclude>> extends true
             ? FindMaxLength<UnionToTuple<_RetainAfter<TStr, TBreak, TInclude>>>

@@ -3,13 +3,16 @@ import {
     Expect,
     Test,
 } from "inferred-types/types";
-import { TakeTokenGenerics } from "inferred-types/types";
+import { IT_TakeTokenGenerics } from "inferred-types/types";
 
 describe("TakeTokenGenerics<T>", () => {
 
     it("happy path", () => {
-        type T1 = TakeTokenGenerics<"<T extends string, U extends Record<string,string>>">;
-        type T2 = TakeTokenGenerics<"T extends string, U extends Record<string,string>>">;
+        type Input1 = "<T extends string, U extends Record<string,string>>";
+        type Input2 = "T extends string, U extends Record<string,string>>";
+
+        type T1 = IT_TakeTokenGenerics<Input1>;
+        type T2 = IT_TakeTokenGenerics<Input2>;
 
         type Expected = {
             generics: [
@@ -28,8 +31,8 @@ describe("TakeTokenGenerics<T>", () => {
 
 
     it("invalid tokens", () => {
-        type E1 = TakeTokenGenerics<"foobar">;
-        type E2 = TakeTokenGenerics<"<T extends string, U hates number>">;
+        type E1 = IT_TakeTokenGenerics<"foobar">;
+        type E2 = IT_TakeTokenGenerics<"<T extends string, U hates number>">;
 
         type cases = [
             Expect<Test<E1, "isError", `invalid-generic/block`>>,

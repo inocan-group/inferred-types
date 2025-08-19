@@ -34,8 +34,8 @@ export type SplitAtVariadic<
     Acc extends readonly unknown[] = [],
     Depth extends readonly unknown[] = []
 >
-  = Depth['length'] extends 30  // Add depth limit to prevent unbounded recursion
-      ? [T, Acc]  // Fallback when depth exceeded
+  = Depth["length"] extends 30 // Add depth limit to prevent unbounded recursion
+      ? [T, Acc] // Fallback when depth exceeded
       : T extends readonly [...infer P, infer L]
           ? SplitAtVariadic<P, [L, ...Acc], [...Depth, unknown]>
           : [T, Acc];
@@ -158,8 +158,8 @@ export type GetNonVariadicLength<
     T extends readonly unknown[],
     F extends readonly unknown[] = [],
     Depth extends readonly unknown[] = []
-> = Depth['length'] extends 25  // Add depth limit to prevent unbounded recursion
-    ? F["length"]  // Fallback when depth exceeded
+> = Depth["length"] extends 25 // Add depth limit to prevent unbounded recursion
+    ? F["length"] // Fallback when depth exceeded
     : [] extends Required<T>
         ? F["length"]
         : Required<Mutable<T>> extends [infer Explicit, ...infer REST]
@@ -175,8 +175,8 @@ type NonVariadicRequired<
     T extends readonly unknown[],
     F extends readonly unknown[] = [],
     Depth extends readonly unknown[] = []
-> = Depth['length'] extends 25  // Add depth limit to prevent unbounded recursion
-    ? F["length"]  // Fallback when depth exceeded
+> = Depth["length"] extends 25 // Add depth limit to prevent unbounded recursion
+    ? F["length"] // Fallback when depth exceeded
     : [] extends T
         ? F["length"]
         : Mutable<T> extends [infer Explicit, ...infer REST]
@@ -205,16 +205,16 @@ export type GetRequiredElementCount<T extends readonly unknown[]> = NonVariadicR
  */
 export type GetOptionalElementCount<T extends readonly unknown[]>
   = T extends readonly unknown[]
-    ? T["length"] extends number
-      ? T["length"] extends infer Len extends number
-        ? GetNonVariadicLength<T> extends infer NonVarLen extends number
-          ? GetRequiredElementCount<T> extends infer ReqLen extends number
-            ? Subtract<NonVarLen, ReqLen>
-            : 0  // fallback when required count computation fails
-          : 0  // fallback when non-variadic length computation fails
-        : 0  // fallback when length is not a number
-      : 0  // fallback for infinite length arrays
-    : never;
+      ? T["length"] extends number
+          ? T["length"] extends infer Len extends number
+              ? GetNonVariadicLength<T> extends infer NonVarLen extends number
+                  ? GetRequiredElementCount<T> extends infer ReqLen extends number
+                      ? Subtract<NonVarLen, ReqLen>
+                      : 0 // fallback when required count computation fails
+                  : 0 // fallback when non-variadic length computation fails
+              : 0 // fallback when length is not a number
+          : 0 // fallback for infinite length arrays
+      : never;
 
 /**
  * **ExtractOptionalElements**`<T>`
@@ -327,7 +327,7 @@ export type DropVariadicHead<T extends readonly unknown[]>
  */
 export type DropVariadic<T extends readonly unknown[]>
 = IsVariadicArray<T> extends false
-    ? T  // Early return for non-variadic arrays
+    ? T // Early return for non-variadic arrays
     : HasVariadicHead<T> extends true
         ? DropVariadicHead<T>
         : HasVariadicTail<T> extends true

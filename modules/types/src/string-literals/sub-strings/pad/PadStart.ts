@@ -29,9 +29,9 @@ export type PadStart<
                         Repeat<TChar, PadCount>,
                         Content
                     ]>
-                    : AsString<TContent>  // Fallback if Subtract fails
-                : AsString<TContent>  // Fallback if StringLength fails
-            : AsString<TContent>  // Fallback if AsString fails
+                    : AsString<TContent> // Fallback if Subtract fails
+                : AsString<TContent> // Fallback if StringLength fails
+            : AsString<TContent> // Fallback if AsString fails
     : Err<
         `invalid-char/pad-start`,
         `The PadStart<TContent,TChar,TLen> utility expects TChar to have exactly 1 character that condition was not met!`,

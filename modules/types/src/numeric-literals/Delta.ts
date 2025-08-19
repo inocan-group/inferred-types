@@ -38,24 +38,24 @@ type Evaluate<
 export type Delta<
     A extends NumberLike,
     B extends NumberLike,
-> =
-A extends number
-? B extends number
-    ? Evaluate<`${A}`, `${B}`> extends `${infer Num extends number}`
-        ? Num
-        : never
-    : B extends `${number}`
-        ? Evaluate<`${A}`, B> extends `${infer Num extends number}`
+>
+= A extends number
+    ? B extends number
+        ? Evaluate<`${A}`, `${B}`> extends `${infer Num extends number}`
             ? Num
             : never
-        : never
-: A extends `${number}`
-    ? B extends `${number}`
-        ? Evaluate<A,B>
-        : B extends number
-            ? Evaluate<A, `${B}`>
+        : B extends `${number}`
+            ? Evaluate<`${A}`, B> extends `${infer Num extends number}`
+                ? Num
+                : never
             : never
-    : never;
+    : A extends `${number}`
+        ? B extends `${number}`
+            ? Evaluate<A, B>
+            : B extends number
+                ? Evaluate<A, `${B}`>
+                : never
+        : never;
 
 type AsLit<T extends NumberLike> = T extends `${number}`
     ? T

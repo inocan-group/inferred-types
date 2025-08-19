@@ -37,9 +37,9 @@ export type PadEnd<
                         Content,
                         Repeat<TChar, PadCount>
                     ]>
-                    : TContent  // Fallback if Subtract fails
-                : TContent  // Fallback if StringLength fails
-            : TContent  // Fallback if AsString fails
+                    : TContent // Fallback if Subtract fails
+                : TContent // Fallback if StringLength fails
+            : TContent // Fallback if AsString fails
     : Err<
         `invalid-char/pad-end`,
         `The PadEnd<TContent,TChar,TLen> utility expects TChar to have exactly 1 character!`,

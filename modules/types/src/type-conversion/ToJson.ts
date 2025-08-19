@@ -81,8 +81,6 @@ type InnerArray<
                     : never
 }, readonly string[]>;
 
-
-
 /**
  * **ToJsonArray**`<T,[Q]>`
  *
@@ -94,10 +92,10 @@ export type ToJsonArray<
     T extends readonly unknown[],
     TOpt extends ToJsonOptions = { quote: "\""; encode: false }
 > = InnerArray<T, O<TOpt>> extends readonly string[]
-? Join<InnerArray<T, O<TOpt>>, ", "> extends infer Inner extends string
-    ? `[ ${Inner} ]`
-    : never
-: never;
+    ? Join<InnerArray<T, O<TOpt>>, ", "> extends infer Inner extends string
+        ? `[ ${Inner} ]`
+        : never
+    : never;
 
 type InnerObject<
     T extends Dictionary,

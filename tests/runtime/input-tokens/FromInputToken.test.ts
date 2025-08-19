@@ -11,8 +11,8 @@ import {
 import { Extends, TypedFunction } from "inferred-types/types";
 import { fromInputToken } from "inferred-types/runtime";
 
-describe("FromInputToken<Token>", () => {
-    it("atomic tokens with FromStringInputToken<...>", () => {
+describe("FromInputToken__String<T>", () => {
+    it("atomic tokens", () => {
         type Str = FromInputToken__String<"string">;
         type Str2 = FromInputToken__String<"   string    ">;
         type Num = FromInputToken__String<"number">;
@@ -25,6 +25,64 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<Unknown, "equals",  unknown>>,
         ];
     });
+
+
+    it("string literals", () => {
+        type Foo = FromInputToken__String<`"foo"`>;
+        type Foo2 = FromInputToken__String<`String(foo) `>;
+
+        type FooBar = FromInputToken__String<`"foo" | "bar"`>;
+
+        type cases = [
+            Expect<Test<Foo, "equals", "foo">>,
+            Expect<Test<Foo2, "equals", "foo">>,
+
+            Expect<Test<FooBar, "equals", "foo" | "bar">>
+        ];
+    });
+
+    it("numeric literals", () => {
+        type Answer = FromInputToken__String<"42">;
+        type Answer2 = FromInputToken__String<`Number(42) `>;
+
+        type NumUnion = FromInputToken__String<`42 | 99`>;
+
+        type cases = [
+            Expect<Test<Answer, "equals", 42>>,
+            Expect<Test<Answer2, "equals", 42>>,
+
+            Expect<Test<NumUnion, "equals", 42 | 99>>
+        ];
+    });
+
+
+    it("arrays", () => {
+        type PostStr = FromInputToken__String<"string[]">;
+        type PostStr2 = FromInputToken__String<"string[][]">;
+        type PostNum = FromInputToken__String<"number[]">;
+
+        type PostGroup = FromInputToken__String<"(string)[]">;
+        type PostGroupUnion = FromInputToken__String<"(string | number)[]">;
+
+        type BracketStr = FromInputToken__String<"Array<string>">;
+
+        type cases = [
+            Expect<Test<PostStr, "equals", string[]>>,
+            Expect<Test<PostStr2, "equals", string[][]>>,
+            Expect<Test<PostNum, "equals", number[]>>,
+
+            Expect<Test<PostGroup, "equals", (string)[]>>,
+            Expect<Test<PostGroupUnion, "equals", (string | number)[]>>,
+
+            Expect<Test<BracketStr, "equals", string[]>>,
+        ];
+    });
+
+
+})
+
+
+describe("FromInputToken<Token>", () => {
 
     it("atomic tokens with FromInputToken<...>", () => {
         type Str = FromInputToken<"string">;
@@ -39,6 +97,8 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<Unknown, "equals",  unknown>>,
         ];
     });
+
+
 
     it("unions with FromStringInputToken", () => {
         type U = FromInputToken__String<"number | String(bar)">;

@@ -26,11 +26,11 @@ type SplitWithNoStack<
     TChar extends string,
     TSplit extends string,
     TStack extends readonly string[]
-    > = TChar extends TSplit
-? TStack["length"] extends 0
-    ? true
-    : false
-: false;
+> = TChar extends TSplit
+    ? TStack["length"] extends 0
+        ? true
+        : false
+    : false;
 
 type Convert<
     TChars extends readonly string[],
@@ -48,61 +48,61 @@ type Convert<
             `The nesting stack was unbalanced, so the nested split can not be completed!`,
             { stack: ToStringLiteral__Tuple<TStack> }
         >
-: SplitWithNoStack<First<TChars>, TSplit, TStack> extends true
-    ? Convert<
-        AfterFirst<TChars>,
-        TSplit,
-        TNesting,
-        TPolicy,
-        TStack,
-        TPolicy extends "before"
-            ? First<TChars>
-            : "",
-        TPolicy extends "omit"
-            ? [...TResult, TWaiting]
-            : TPolicy extends "inline"
-                ? [...TResult, TWaiting, First<TChars>]
-                : TPolicy extends "before"
-                    ? And<[
-                        TWaiting extends "" ? true : false,
-                        TResult["length"] extends 0 ? true : false
-                    ]> extends true
-                        ? []
-                        : [...TResult, TWaiting]
-                    : TPolicy extends "after"
-                        ? [...TResult, `${TWaiting}${First<TChars>}`]
-                        : never
-    >
-: IsNestingMatchEnd<First<TChars>, TStack, TNesting> extends true
-    ? Convert<
-        AfterFirst<TChars>,
-        TSplit,
-        TNesting,
-        TPolicy,
-        Pop<TStack>,
+    : SplitWithNoStack<First<TChars>, TSplit, TStack> extends true
+        ? Convert<
+            AfterFirst<TChars>,
+            TSplit,
+            TNesting,
+            TPolicy,
+            TStack,
+            TPolicy extends "before"
+                ? First<TChars>
+                : "",
+            TPolicy extends "omit"
+                ? [...TResult, TWaiting]
+                : TPolicy extends "inline"
+                    ? [...TResult, TWaiting, First<TChars>]
+                    : TPolicy extends "before"
+                        ? And<[
+                            TWaiting extends "" ? true : false,
+                            TResult["length"] extends 0 ? true : false
+                        ]> extends true
+                            ? []
+                            : [...TResult, TWaiting]
+                        : TPolicy extends "after"
+                            ? [...TResult, `${TWaiting}${First<TChars>}`]
+                            : never
+        >
+        : IsNestingMatchEnd<First<TChars>, TStack, TNesting> extends true
+            ? Convert<
+                AfterFirst<TChars>,
+                TSplit,
+                TNesting,
+                TPolicy,
+                Pop<TStack>,
         `${TWaiting}${First<TChars>}`,
         TResult
-    >
-: IsNestingStart<First<TChars>, TNesting> extends true
-    ? Convert<
-        AfterFirst<TChars>,
-        TSplit,
-        TNesting,
-        TPolicy,
-        [...TStack, First<TChars>],
+            >
+            : IsNestingStart<First<TChars>, TNesting> extends true
+                ? Convert<
+                    AfterFirst<TChars>,
+                    TSplit,
+                    TNesting,
+                    TPolicy,
+                    [...TStack, First<TChars>],
         `${TWaiting}${First<TChars>}`,
         TResult
-    >
+                >
 
-: Convert<
-    AfterFirst<TChars>,
-    TSplit,
-    TNesting,
-    TPolicy,
-    TStack,
+                : Convert<
+                    AfterFirst<TChars>,
+                    TSplit,
+                    TNesting,
+                    TPolicy,
+                    TStack,
     `${TWaiting}${First<TChars>}`,
     TResult
->;
+                >;
 
 /**
  * **NestedSplit**`<TContent,TSplit,TNesting,[TPolicy]>`

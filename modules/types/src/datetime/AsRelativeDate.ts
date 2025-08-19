@@ -1,5 +1,5 @@
 import type { IsLeapYear } from "types/boolean-logic/operators/datetime";
-import type { AsDateMeta, DateMeta, FourDigitYear, ParseDate, ParsedDate, TwoDigitMonth } from "types/datetime";
+import type { AsDateMeta, DateMeta, ParseDate, ParsedDate } from "types/datetime";
 import type { Err, TypedError } from "types/errors";
 import type {
     AddPositive,
@@ -96,9 +96,9 @@ export type AsRelativeDate<
         ? AsNumber<AsDateMeta<P>["year"]> extends infer Year extends number
             ? AsNumber<AsDateMeta<P>["month"]> extends infer Month extends number
                 ? AsNumber<AsDateMeta<P>["date"]> extends infer Date extends number
-                    ? Days<Year,Month,Date>
-                    : Days<Year,Month, 0>
-                : Days<Year,0,0>
+                    ? Days<Year, Month, Date>
+                    : Days<Year, Month, 0>
+                : Days<Year, 0, 0>
             : never
 
         : never

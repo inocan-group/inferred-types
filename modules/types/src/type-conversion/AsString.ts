@@ -38,22 +38,22 @@ export type AsString<
     S extends string = ", "
 > = [string] extends [T]
     ? string
-: [T] extends [string]
-    ? T
-: [IsUnion<T>] extends [true]
-    ? OnlyString<UnionToTuple<T>>[number]
-: [T] extends [number]
-    ? `${T}`
-: [T] extends [boolean]
-    ? `${T}`
-// : [T] extends [readonly (unknown)[]]
-//     ? IsWideArray<T> extends true
-//         ? T extends (infer Type extends string|number|boolean)[]
-//             ? `${Type}`
-//             : never
-//         : ToJsonArray<T, {quote: "'"}>
-// : [T] extends [object]
-//     ? [T] extends [Dictionary]
-//         ? ToJsonObject<T>
-//         : never
-: never;
+    : [T] extends [string]
+        ? T
+        : [IsUnion<T>] extends [true]
+            ? OnlyString<UnionToTuple<T>>[number]
+            : [T] extends [number]
+                ? `${T}`
+                : [T] extends [boolean]
+                    ? `${T}`
+                // : [T] extends [readonly (unknown)[]]
+                //     ? IsWideArray<T> extends true
+                //         ? T extends (infer Type extends string|number|boolean)[]
+                //             ? `${Type}`
+                //             : never
+                //         : ToJsonArray<T, {quote: "'"}>
+                // : [T] extends [object]
+                //     ? [T] extends [Dictionary]
+                //         ? ToJsonObject<T>
+                //         : never
+                    : never;

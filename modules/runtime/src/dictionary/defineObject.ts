@@ -61,7 +61,6 @@ type HandleError<T> = T extends Dictionary
  *
  * - but the runtime value will be a string literal token _representing_
  * that type.
- *
  */
 export function defineObject<
     const T extends DefineObject,

@@ -1,4 +1,4 @@
-import { BrandSymbol, Scalar } from "inferred-types/types"
+import type { BrandSymbol, Scalar } from "inferred-types/types";
 
 export type Brand<
     Base extends Scalar,

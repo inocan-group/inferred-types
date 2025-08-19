@@ -1,4 +1,4 @@
-import { Brand, IsBranded } from "inferred-types/types";
+import type { Brand, IsBranded } from "inferred-types/types";
 
 /**
  * **Unbrand**`<T>`
