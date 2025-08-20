@@ -10,9 +10,9 @@ import type {
  * **toJSON**`(val)`
  *
  * Converts the passed in value to a strongly typed string
- * literal representation.
+ * literal representation of the JSON type for `val`.
  *
- * **Related:** `jsonValues()`
+ * **Related:** `toStringLiteral()`
  */
 export function toJSON<
     T extends Exclude<Scalar, symbol> | NarrowObject<N> | readonly N[],

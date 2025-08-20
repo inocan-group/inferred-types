@@ -1,5 +1,7 @@
 export * from "./DefineObject";
+export * from "./DefineTuple";
 export * from "./FromDefineObject";
+export * from "./FromDefineTuple";
 export * from "./FromInputToken";
 export * from "./GetInputToken";
 export * from "./InputToken";
@@ -10,4 +12,4 @@ export * from "./IT_TakeAtomic";
 export * from "./IT_TakeKvObjects";
 export * from "./IT_TakeNumericLiteral";
 export * from "./IT_TakeStringLiteral";
-export * from "./TakeTokenGenerics";
+export * from "./IT_TakeTokenGenerics";

@@ -1,60 +1,17 @@
 import type {
-    Err,
+    DefineObject,
+    DefineTuple,
+    FromDefineObject,
+    FromDefineTuple,
     GetInputToken,
+    InputToken,
+    InputTokenSuggestions,
     IT_Token,
-    Join,
-    Last,
-    Length,
     MakeKeysOptional,
     ObjectKey,
     OptionalKeys,
-    ToStringArray,
     UnionToTuple,
 } from "inferred-types/types";
-
-type UnwrapContainers<
-    T extends readonly unknown[],
-    C extends readonly IT_ContainerType[]
-> = Last<C> extends "Union"
-    ? T[number]
-    : Last<C> extends "Tuple"
-        ? T
-        : Last<C> extends "Array"
-            ? T["length"] extends 1
-                ? Array<T[0]>
-                : T["length"] extends 0
-                    ? unknown[]
-                    : Err<`invalid-token/array`, `An array token expects only a singular value for the array type but multiple types were found`, { types: T }>
-            : never;
-
-/**
- * Finalizes the type for a given level and unwraps
- * all containers.
- */
-type FinalizeInputToken<
-    TTypes extends readonly unknown[],
-    TContainers extends readonly IT_ContainerType[]
-> = Length<TContainers> extends 0
-    ? Length<TTypes> extends 1
-        ? TTypes[0]
-        : Err<`invalid-token/unparsed-types`, `no container nesting found to combine types tuple [${TTypes["length"]}]!`, {
-            types: Join<ToStringArray<TTypes>, ", ">;
-            containers: TContainers;
-        }>
-    : UnwrapContainers<TTypes, TContainers>;
-
-type InvalidTokenSegment<
-    TToken extends string,
-    TTypes extends readonly unknown[],
-    TContainers extends readonly IT_ContainerType[]
-> = Err<
-    `invalid-token/unknown`,
-`The token "${TToken}" is not recognized!`,
-{
-    types: TTypes;
-    containers: TContainers;
-}
->;
 
 /**
  * **FromInputToken**`<TToken, [TInner], [TContainers]>`
@@ -76,12 +33,12 @@ type InvalidTokenSegment<
  * **Related:** `FromStringInputToken`
  */
 export type FromInputToken<
-    T extends InputTokenLike | readonly InputTokenLike[],
+    T extends InputToken,
 > = T extends string
     ? FromInputToken__String<T>
-    : T extends readonly InputTokenLike[]
+    : T extends readonly InputToken[]
         ? FromInputToken__Tuple<T>
-        : T extends Record<string, string>
+        : T extends DefineObject
             ? FromInputToken__Object<T>
             : never;
 
@@ -108,28 +65,34 @@ export type FromInputToken__String<
  * Takes a tuple of `InputTokens` to create a **Tuple** type.
  */
 export type FromInputToken__Tuple<
-    T extends readonly InputTokenLike[]
+    T extends readonly InputToken[]
 > = {
     [K in keyof T]: T[K] extends InputTokenSuggestions
         ? FromInputToken__String<T[K]>
-        : never
+        : T[K] extends DefineObject
+            ? FromDefineObject<T[K]>
+            : T[K] extends DefineTuple
+                ? FromDefineTuple<T[K]>
+                : never
 };
 
 type _FromInputToken__Object<
-    T extends Record<string, InputTokenLike>,
+    T extends DefineObject,
 > = {
     [K in keyof T]: T[K] extends string
         ? FromInputToken__String<T[K]>
-        : T[K] extends InputTokenLike
-            ? FromInputToken<T[K]>
-            : never
+        : T[K] extends DefineObject
+            ? FromDefineObject<T[K]>
+            : T[K] extends DefineTuple
+                ? FromDefineTuple<T[K]>
+                : never
 };
 
 /**
  * Takes a tuple of `InputTokens` to create a **Tuple** type.
  */
 export type FromInputToken__Object<
-    T extends Record<string, InputTokenLike>
+    T extends DefineObject
 > = MakeKeysOptional<
     _FromInputToken__Object<Required<T>>,
     UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]

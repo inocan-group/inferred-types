@@ -1,8 +1,8 @@
 import type { DefineObject, FromDefn, ShapeCallback } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
-import { asSimpleType, handleDoneFn, isDoneFn, isFunction, isSimpleToken } from "inferred-types/runtime";
+import { handleDoneFn, isDoneFn, isFunction, isSimpleToken } from "inferred-types/runtime";
 
-import { ShapeApiImplementation } from "./shape";
+import { ShapeApiImplementation } from "../../shape";
 
 export function asDefineObject<T extends DefineObject>(defn: T) {
     const result = Object.keys(defn).reduce(

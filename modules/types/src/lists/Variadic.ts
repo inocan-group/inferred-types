@@ -206,13 +206,11 @@ export type GetRequiredElementCount<T extends readonly unknown[]> = NonVariadicR
 export type GetOptionalElementCount<T extends readonly unknown[]>
   = T extends readonly unknown[]
       ? T["length"] extends number
-          ? T["length"] extends infer Len extends number
-              ? GetNonVariadicLength<T> extends infer NonVarLen extends number
-                  ? GetRequiredElementCount<T> extends infer ReqLen extends number
-                      ? Subtract<NonVarLen, ReqLen>
-                      : 0 // fallback when required count computation fails
-                  : 0 // fallback when non-variadic length computation fails
-              : 0 // fallback when length is not a number
+          ? GetNonVariadicLength<T> extends infer NonVarLen extends number
+              ? GetRequiredElementCount<T> extends infer ReqLen extends number
+                  ? Subtract<NonVarLen, ReqLen>
+                  : 0 // fallback when required count computation fails
+              : 0 // fallback when non-variadic length computation fails
           : 0 // fallback for infinite length arrays
       : never;
 

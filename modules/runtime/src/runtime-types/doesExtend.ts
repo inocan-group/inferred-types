@@ -1,15 +1,15 @@
 import type {
-    InputTokenLike,
+    InputToken,
     Narrowable,
 } from "inferred-types/types";
 import {
     isArray,
     isBoolean,
+    isDefineObject,
+    isDefineTuple,
     isDictionary,
     isFalse,
-    isInputToken__Object,
-    isInputToken__Tuple,
-    isInputTokenLike,
+    isInputToken,
     isNarrowable,
     isNull,
     isNumber,
@@ -30,12 +30,12 @@ export type DoesExtendTypeguard<
  * the type.
  */
 export function doesExtend<
-    TType extends InputTokenLike
+    TType extends InputToken
 >(
     type: TType,
 ) {
     return <T extends Narrowable>(val: T): boolean => {
-        if (isInputTokenLike(type)) {
+        if (isInputToken(type)) {
             if (isString(type)) {
                 if (type === "string") {
                     return isString(val);
@@ -72,10 +72,10 @@ export function doesExtend<
                     return isDictionary(val);
                 }
             }
-            else if (isInputToken__Object(type)) {
+            else if (isDefineObject(type)) {
                 if (isDictionary(val)) {
                     return Object.keys(type).every(
-                        k => isInputTokenLike(type[k]) && isNarrowable(val[k]) && doesExtend(type[k])(val[k])
+                        k => isInputToken(type[k]) && isNarrowable(val[k]) && doesExtend(type[k])(val[k])
                     );
                 }
                 else {
@@ -83,11 +83,11 @@ export function doesExtend<
                 }
             }
 
-            else if (isInputToken__Tuple(type)) {
+            else if (isDefineTuple(type)) {
                 if (isArray(val)) {
                     return val.length === type.length
                         ? type.every(
-                            (t, i) => isInputTokenLike(t) && isNarrowable(val[i]) && doesExtend(t)(val[i])
+                            (t, i) => isInputToken(t) && isNarrowable(val[i]) && doesExtend(t)(val[i])
                         )
                         : false;
                 }

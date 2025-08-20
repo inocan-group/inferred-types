@@ -69,7 +69,7 @@ type Finalize<
 type Process<
     T extends IT_TakeOutcome
 > = IsInputTokenSuccess<T> extends true
-    ? T extends infer Token extends IT_Token<infer Kind>
+    ? T extends infer Token extends IT_Token<infer _Kind>
         ? Token
         : IT_Token
     : T extends Error

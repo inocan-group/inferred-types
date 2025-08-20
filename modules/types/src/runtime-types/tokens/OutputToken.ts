@@ -1,6 +1,8 @@
 import type {
     AfterFirst,
+    DefineObject,
     First,
+    InputToken,
     InputTokenSuggestions,
     SafeEncode,
     Surround,
@@ -40,9 +42,9 @@ export type OutputToken = `<<${string}>>` & {
  *
  * **Related:** `isTypeToken()`, `asTypeToken()`, `ToTypeToken<T>`
  */
-export type AsOutputToken<T extends InputTokenLike> = T extends string
+export type AsOutputToken<T extends InputToken> = T extends string
     ? `<<"${SafeEncode<T>}">>`
-    : T extends InputToken__Object
+    : T extends DefineObject
         ? `<<${ToJson<T>}>>`
         : T extends readonly InputTokenSuggestions[]
             ? IT_TupleToOutputToken<T>

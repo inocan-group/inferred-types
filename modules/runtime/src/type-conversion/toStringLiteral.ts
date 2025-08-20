@@ -75,7 +75,10 @@ function mutateObjectKeys<T extends Record<ObjectKey, unknown>>(
 ) {
     const result: Record<ObjectKey, string> = {};
     for (const k of Object.keys(obj)) {
-        result[k] = toStringLiteral(indexOf(obj, k), opt) as unknown as string;
+        result[k] = toStringLiteral(
+            indexOf(obj, k) as any,
+            opt
+        ) as unknown as string;
     }
 
     return result;
@@ -121,12 +124,20 @@ export function toStringLiteral__Tuple<
 }
 
 /**
- * **toStringLiteral**`(value) -> string`
+ * **toStringLiteral**`(value, [options]) -> string literal representation`
  *
  * Converts any value into a string literal which _represents_ the
  * value.
  *
- * **Related:** `toJson()`
+ * ```ts
+ * // '{ foo: 1; bar: "bar" }'
+ * const fooBar = toStringLiteral({foo: 1, bar: "bar"});
+ * ```
+ *
+ * - you can adjust what type of quote marks to use by adjusting the _optional_
+ * **options** hash
+ *
+ * **Related:** `toJSON()`
  */
 export function toStringLiteral<
     T extends Scalar | Record<ObjectKey, V> | readonly (Scalar | Record<ObjectKey, V>)[],
@@ -134,12 +145,12 @@ export function toStringLiteral<
     O extends ToLiteralOptions
 >(
     val: T,
-    opt: O = {} as O
+    options: O = {} as O
 ): ToStringLiteral<T> {
     const o = {
         tokensAllowed: false,
         quote: "\"",
-        ...(opt || {})
+        ...(options || {})
     } as ToLiteralOptions;
 
     return (

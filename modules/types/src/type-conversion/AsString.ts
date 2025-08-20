@@ -1,7 +1,11 @@
 import type {
     As,
+    Dictionary,
     IsUnion,
+    IsWideArray,
     RemoveNever,
+    ToJsonArray,
+    ToJsonObject,
     UnionToTuple
 } from "inferred-types/types";
 
@@ -34,8 +38,7 @@ type OnlyString<T extends readonly unknown[]> = As<RemoveNever<{
  * **Related:** `ToString`
  */
 export type AsString<
-    T,
-    S extends string = ", "
+    T
 > = [string] extends [T]
     ? string
     : [T] extends [string]
@@ -46,14 +49,14 @@ export type AsString<
                 ? `${T}`
                 : [T] extends [boolean]
                     ? `${T}`
-                // : [T] extends [readonly (unknown)[]]
-                //     ? IsWideArray<T> extends true
-                //         ? T extends (infer Type extends string|number|boolean)[]
-                //             ? `${Type}`
-                //             : never
-                //         : ToJsonArray<T, {quote: "'"}>
-                // : [T] extends [object]
-                //     ? [T] extends [Dictionary]
-                //         ? ToJsonObject<T>
-                //         : never
-                    : never;
+                    : [T] extends [readonly (unknown)[]]
+                        ? IsWideArray<T> extends true
+                            ? T extends (infer Type extends string | number | boolean)[]
+                                ? `${Type}`
+                                : never
+                            : ToJsonArray<T, { quote: "'" }>
+                        : [T] extends [object]
+                            ? [T] extends [Dictionary]
+                                ? ToJsonObject<T>
+                                : never
+                            : never;

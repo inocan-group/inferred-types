@@ -1,9 +1,16 @@
-import type { DefineObject, Err, FromDefineObject, InputToken } from "inferred-types/types";
+import type {
+    DefineObject,
+    DefineTuple,
+    Err,
+    FromDefineObject,
+    FromDefineTuple,
+    InputToken
+} from "inferred-types/types";
 
 export type ToStringInputToken<T extends InputToken> = T extends string
     ? T
     : T extends DefineTuple
-        ? FromTupleDefn<T>
+        ? FromDefineTuple<T>
         : T extends DefineObject
             ? FromDefineObject<T>
             : Err<

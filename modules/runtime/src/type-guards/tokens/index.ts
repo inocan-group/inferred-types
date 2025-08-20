@@ -1,16 +1,7 @@
-// export * from "./general";
-
-// export * from "./isAtomicToken";
-// export * from "./isContainerToken";
 export * from "./isDefineObject";
+export * from "./isDefineTuple";
 export * from "./isDeltaReturn";
+export * from "./isInputToken";
 export * from "./isInputToken__String";
-export * from "./isInputToken__Tuple";
-// export * from "./isFunctionToken";
-export * from "./isInputTokenLike";
-export * from "./isInputTokenLike__Object";
-// export * from "./isOutputToken";
 export * from "./isShapeCallback";
 export * from "./isSimpleToken";
-// export * from "./set-tokens";
-// export * from "./singletons";

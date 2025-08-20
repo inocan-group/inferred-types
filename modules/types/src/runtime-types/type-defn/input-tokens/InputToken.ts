@@ -72,7 +72,7 @@ import type { GetInputToken, InputTokenSuggestions } from "inferred-types/types"
  *       meta information (aka, a derivative of `IT_Token`)
  *     - this utility, unlike most others, only takes _string-based_ input tokens
  *     - if you need to convert a dictionary or tuple based token to string you can do so
- *     with the `ToStringInputToken` utility
+ *     with the `AsStringInputToken` utility
  */
 export type InputToken
     = | InputTokenSuggestions

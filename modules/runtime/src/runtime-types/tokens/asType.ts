@@ -4,7 +4,7 @@ import type {
     Err,
     FromInputToken,
     FromInputToken__Object,
-    InputTokenLike,
+    InputToken,
     KeysWithError,
     ToStringLiteral,
 } from "inferred-types/types";
@@ -21,7 +21,7 @@ import {
     toStringLiteral__Tuple
 } from "inferred-types/runtime";
 
-type AsType<T extends readonly InputTokenLike[]> = T["length"] extends 0
+type AsType<T extends readonly InputToken[]> = T["length"] extends 0
     ? Err<
         `invalid-token/structure`,
         `you passed in zero parameters to asType()!`
@@ -42,10 +42,10 @@ type AsType<T extends readonly InputTokenLike[]> = T["length"] extends 0
                         keys: KeysWithError<As<FromInputToken__Object<Only>, Dictionary>>;
                         tokens: ToStringLiteral<T>;
                     }>
-                : Only extends InputTokenLike
+                : Only extends InputToken
                     ? FromInputToken<Only>
                     : never
-        : T extends readonly InputTokenLike[]
+        : T extends readonly InputToken[]
             ? {
                 [K in keyof T]: FromInputToken<T[K]>
             }
@@ -59,7 +59,7 @@ type AsType<T extends readonly InputTokenLike[]> = T["length"] extends 0
  * **Related:** `fromInputToken()`
  */
 export function asType<
-    T extends readonly InputTokenLike[]
+    T extends readonly InputToken[]
 >(...token: T) {
     if (token.length === 0) {
         return err(

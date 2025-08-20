@@ -1,6 +1,6 @@
-import type { InputTokenLike } from "inferred-types/types";
+import type { InputToken } from "inferred-types/types";
 import {
-    isInputToken__Object,
+    isDefineObject,
     toStringLiteral
 } from "inferred-types/runtime";
 
@@ -12,9 +12,9 @@ import {
  * to string representations.
  */
 export function toStringToken<
-    T extends InputTokenLike
+    T extends InputToken
 >(token: T) {
-    if (isInputToken__Object(token)) {
+    if (isDefineObject(token)) {
         return toStringLiteral(token, { tokensAllowed: true });
     }
 }

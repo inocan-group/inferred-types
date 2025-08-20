@@ -7,7 +7,7 @@ import type {
     Err,
     First,
     FromInputToken,
-    InputTokenLike,
+    InputToken,
     IsUnion,
     Length,
     Slice,
@@ -49,7 +49,7 @@ type ConvertUnit<
         { param: TParam }
         >
     : [TConvert] extends ["token"]
-        ? [TParam] extends [InputTokenLike]
+        ? [TParam] extends [InputToken]
             ? FromInputToken<TParam>
             : never
         : [TConvert] extends ["none"]
@@ -107,7 +107,7 @@ export type GetComparator<
                 : Take<[ToStringArray<TParams>[number]], TConfig>
             : [TConfig["convert"]] extends ["token"]
                 ? Take<{
-                    [K in keyof TParams]: [TParams[K]] extends [InputTokenLike]
+                    [K in keyof TParams]: [TParams[K]] extends [InputToken]
                         ? FromInputToken<TParams[K]>
                         : never
                 }, TConfig>

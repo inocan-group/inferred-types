@@ -37,6 +37,7 @@ type Quoted<T extends string> = T extends `${infer Quote extends QuoteCharacter}
 /**
  * matches on string literals defined like `String(foo)`
  */
+// eslint-disable-next-line unused-imports/no-unused-vars, ts/no-unused-vars
 type StringConstructor<T extends string> = T extends `String(${infer Rest}`
     ? [
         RetainUntil<Rest, ")">,

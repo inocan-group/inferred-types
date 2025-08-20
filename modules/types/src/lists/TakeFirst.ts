@@ -39,14 +39,14 @@ type CountOptionalInFirstN<
     N extends number
 >
     // Mixed case: [Required, Optional?, Optional?, Optional?]
-    = TContent extends readonly [any, (infer B | undefined)?, (infer C | undefined)?, (infer D | undefined)?, ...unknown[]]
+    = TContent extends readonly [any, (infer _B | undefined)?, (infer _C | undefined)?, (infer _D | undefined)?, ...unknown[]]
         ? N extends 1 ? 0 // First is required
             : N extends 2 ? 1 // Second is optional
                 : N extends 3 ? 2 // Third is optional
                     : N extends 4 ? 3 // Fourth is optional
                         : 3
     // All optional case: [Optional?, Optional?, Optional?, Optional?]
-        : TContent extends readonly [(infer A | undefined)?, (infer B | undefined)?, (infer C | undefined)?, (infer D | undefined)?, ...unknown[]]
+        : TContent extends readonly [(infer _A | undefined)?, (infer _B | undefined)?, (infer _C | undefined)?, (infer _D | undefined)?, ...unknown[]]
             ? N extends 1 ? 1 // All are optional
                 : N extends 2 ? 2
                     : N extends 3 ? 3
