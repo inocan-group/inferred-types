@@ -1,10 +1,16 @@
 import type {
     As,
+    Err,
+    IsAny,
+    IsFalse,
+    IsNever,
     IsNumericLiteral,
     IsUnion,
     IsWideType,
     Max,
     Min,
+    StringLength,
+    StripChars,
     StripLeading,
     UnionToTuple,
 } from "inferred-types/types";
@@ -22,23 +28,53 @@ type _Length<
  * - an _array_ (provides the number of elements)
  * - an _object_ (provides the number of keys)
  * - a _string_ (provides the number of chars)
- * - a _number_ (it will provide the number of digits, excluding `-` if present)
+ * - a _number_ (it will provide the number of digits, excluding `-` and/or `.` if present)
  *
  * ```ts
  * type Three = Length<[ "a", "b", "c" ]>;
+ * type AlsoThree = Length<"abc">;
  * ```
+ *
+ * #### Note:
+ *
+ * - any _wide type_ by default returns the wide `number` type
+ * - if you'd prefer to an error returned, set `U` to true and
+ * an error of the type/subtype `invalid-type/wide`
  */
 export type Length<
     T extends readonly unknown[] | string | number,
-> = T extends readonly unknown[]
-    ? T["length"]
-    : IsWideType<T> extends true
+    U extends boolean = false
+> = [IsAny<T>] extends [true]
+    ? IsFalse<U> extends true
         ? number
-        : T extends number
-            ? _Length<StripLeading<`${T}`, "-">>
-            : T extends string
-                ? _Length<T>
-                : never;
+        : Err<`invalid-type/wide`>
+: number extends T
+    ? IsFalse<U> extends true
+        ? number
+        : Err<`invalid-type/wide`>
+    : T extends number
+        ? StripChars<`${T}`, "." | "-"> extends infer Numeric extends string
+            ? Length<Numeric>
+            : never
+: T extends string
+    ? string extends T
+        ? IsFalse<U> extends true
+            ? number
+            : Err<`invalid-type/wide`>
+        : StringLength<T>
+
+: T extends readonly unknown[]
+    ? number extends T["length"]
+        ? IsFalse<U> extends true
+            ? number
+            : Err<`invalid-type/wide`>
+        : T["length"] extends number
+            ? T["length"]
+            : IsFalse<U> extends true
+            ? number
+            : Err<`invalid-type/wide`>
+
+: never;
 
 type RequiredPrefixLength<T extends readonly unknown[], Count extends unknown[] = []>
     = T extends readonly [infer _First, ...infer Rest]

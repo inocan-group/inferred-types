@@ -1,7 +1,4 @@
-import type { Dictionary, EmptyObject } from "types/base-types";
-import type { As } from "types/boolean-logic";
-import type { Expand } from "types/literals";
-import type { KebabCase, PascalCase, RetainUntil } from "types/string-literals";
+import type { Dictionary, EmptyObject, Expand,KebabCase, PascalCase, RetainUntil  } from "inferred-types/types";
 
 /**
  * **TypedError**
@@ -27,33 +24,32 @@ export type Err<
     TMsg extends string = string,
     TCtx extends Record<string, any> = EmptyObject
 > = TType extends `${infer Type}/${infer Subtype}`
-    ? As<
-        Expand<
+    ? Expand<
+            {
+                name: PascalCase<
+                    TCtx["name"] extends string
+                        ? TCtx["name"]
+                        : RetainUntil<TType, "/"> extends string
+                            ? RetainUntil<TType, "/">
+                            : never
+                >;
+                type: KebabCase<Type>;
+                subType: Subtype extends string ? KebabCase<Subtype> : undefined;
+                message: TMsg extends "" ? string : TMsg;
+                cause?: unknown;
+                stack?: string;
+            } & TCtx
+        > & Error
+    : Expand<
         {
-            __kind: "Error";
-            name: PascalCase<
-                TCtx["name"] extends string
-                    ? TCtx["name"]
-                    : RetainUntil<TType, "/"> extends string
-                        ? RetainUntil<TType, "/">
-                        : never
-            >;
-            type: KebabCase<Type>;
-            subType: Subtype extends string ? KebabCase<Subtype> : undefined;
-            message: TMsg;
+            name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
+            message: TMsg extends "" ? string : TMsg;
+            type: TType;
+            cause?: unknown;
+            stack?: string;
         } & TCtx
-        >,
-        Error
-    >
-    : As<Expand<
+    > & Error;
 
-    {
-        name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
-        type: TType;
-        subType: undefined;
-        message: TMsg;
-    } & TCtx
-    >, Error>;
 
 /**
  * Adds "context" to an existing `Error`.

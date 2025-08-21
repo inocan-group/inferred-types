@@ -1,6 +1,6 @@
 export * from "./AlphaChar";
+export * from "./AlphanumericChar";
 export * from "./BCP";
-export * from "./brackets/index";
 export * from "./CarriageReturn";
 export * from "./CodePointOf";
 export * from "./Consonants";
@@ -23,21 +23,22 @@ export * from "./NonAlpha";
 export * from "./NumericChar";
 export * from "./Opt";
 export * from "./OptionalSpace";
-export * from "./phone/index";
 export * from "./PlusMinus";
 export * from "./Punctuation";
-export * from "./quotation-marks/index";
 export * from "./QuoteCharacter";
 export * from "./Repos";
 export * from "./SingularNoun";
 export * from "./SpecialChar";
 export * from "./StringDelimiter";
-export * from "./tw/index";
-
 export * from "./UpperAlphaChar";
-export * from "./urls/index";
-export * from "./urls/Url";
 export * from "./ValueAtDotPath";
 export * from "./Variable";
 export * from "./Whitespace";
 export * from "./YouTube";
+
+export * from "./brackets/index";
+export * from "./phone/index";
+export * from "./quotation-marks/index";
+export * from "./tw/index";
+export * from "./urls/index";
+

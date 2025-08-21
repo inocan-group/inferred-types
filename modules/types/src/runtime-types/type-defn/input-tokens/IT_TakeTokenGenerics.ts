@@ -1,11 +1,14 @@
 import type {
+    AlphaNumericPlus,
     Err,
     ErrContext,
     FromInputToken,
     NestedSplit,
+    StripChars,
     StripLeading,
     Trim,
-    TrimEach
+    TrimEach,
+    Whitespace
 } from "inferred-types/types";
 
 /**
@@ -38,9 +41,11 @@ export type IT_TakeTokenGeneric<T extends string>
                 : never
             : never
         : never
-    : Err<
-        `invalid-generic/specific`,
-        `The string token -- ${T} -- passed to TakeTokenGeneric<T> is invalid as an InputToken!`
+: AlphaNumericPlus<T, "_">
+
+        Err<
+        `malformed-token/generic`,
+        `The string token -- '${T}' -- passed to TakeTokenGeneric<T> is invalid as an InputToken!`
     >
 ;
 
@@ -122,7 +127,7 @@ export type IT_TakeTokenGenerics<
                         : never
                     : never
             : Err<
-                `invalid-generic/block`,
-    `The string token passed in could not be parsed as a Generics block: ${T}`,
-    { T: T; utility: "TakeTokenGenerics" }
+                `wrong-handler/generic`,
+                `The string token passed in could not be parsed as a Generics block: ${T}`,
+                { T: T; utility: "TakeTokenGenerics" }
             >;

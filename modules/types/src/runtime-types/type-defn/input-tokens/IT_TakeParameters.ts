@@ -13,15 +13,25 @@ import type {
 } from "inferred-types/types";
 import { GenericParam } from "types/generics";
 
+/**
+ * extracts a generic name/value
+ */
 type Generic<T extends string> = SplitOnWhitespace<T> extends [
     infer Name extends string,
     "extends",
     infer Type extends string
 ]
     ? {
+        kind: "generic";
         name: Name;
         typeToken: Type;
-
+        type: FromInputToken__String<Trim<Type>>
+    }
+    : {
+        kind: "generic";
+        name: Trim<T>;
+        typeToken: "unknown";
+        type: unknown;
     }
 ;
 
@@ -34,15 +44,11 @@ type TakeGenerics<
     ]
         ? NestedSplit<Block, ","> extends infer Parts extends readonly string[]
             ? {
-                [K in keyof Parts]: {
-                    name: K;
-                    typeToken:
-                }
+                [K in keyof Parts]: Generic<Parts[K]>
             }
-
-
-
-    Err<"wrong-handler">;
+            : never
+    : Err<"malformed-token">
+: Err<"wrong-handler">;
 
 type DetermineType<
     /** the string token for the parameter type */

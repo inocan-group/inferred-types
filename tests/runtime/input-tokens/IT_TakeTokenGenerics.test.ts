@@ -22,7 +22,6 @@ describe("TakeTokenGenerics<T>", () => {
             rest: ""
         }
 
-
         type cases = [
             Expect<Test<T1, "equals", Expected>>,
             Expect<Test<T2, "equals", Expected>>,
@@ -30,13 +29,24 @@ describe("TakeTokenGenerics<T>", () => {
     });
 
 
+    it("Generic with no type", () => {
+        type Token = "<T>";
+        type T1 = IT_TakeTokenGenerics<Token>;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
+
+
     it("invalid tokens", () => {
         type E1 = IT_TakeTokenGenerics<"foobar">;
         type E2 = IT_TakeTokenGenerics<"<T extends string, U hates number>">;
 
         type cases = [
-            Expect<Test<E1, "isError", `invalid-generic/block`>>,
-            Expect<Test<E2, "isError", `invalid-generic/specific`>>,
+            Expect<Test<E1, "isError", `wrong-handler/generic`>>,
+            Expect<Test<E2, "isError", `malformed-token/generic`>>,
         ];
     });
 

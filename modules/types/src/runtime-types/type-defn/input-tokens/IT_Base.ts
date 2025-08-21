@@ -11,6 +11,7 @@ export type IT_TakeKind
 | "intersection"
 | "function"
 | "generator"
+| "generic"
 | "tuple";
 
 export type IT_Combinators
@@ -31,7 +32,6 @@ export type IT_Parameter = {
      * either:
      *   - an `InputToken`
      *   - a `GenericParam`
-     *   -
      */
     token: InputTokenSuggestions | GenericParam;
     /**
@@ -87,6 +87,8 @@ export interface IT_Token_Union extends IT_Token_Base<"union"> {
     /** all members of the union */
     members: readonly IT_Token[];
 };
+
+export interface IT_Token_Generic extends IT_Token_Base<"generic"> {}
 
 export interface IT_Token_Kv extends IT_Token_Base<"kv"> {
     /** the KV container type */
@@ -157,6 +159,8 @@ export type IT_Token<T extends IT_TakeKind = IT_TakeKind> = IsUnion<T> extends t
     ? IT_Token_Union
 : T extends "function"
     ? IT_Token_Function
+: T extends "generic"
+    ? IT_Token_Generic
 : never;
 
 /**
