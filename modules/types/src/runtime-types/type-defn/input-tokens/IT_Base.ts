@@ -1,4 +1,4 @@
-import type { IsDictionary, IsUnion } from "inferred-types/types";
+import type { GenericParam, InputTokenSuggestions, IsDictionary, IsUnion } from "inferred-types/types";
 
 export type IT_TakeKind
 = | "atomic"
@@ -22,6 +22,32 @@ export type IT_KvType
 = | "Record"
 | "Map"
 | "WeakMap";
+
+export type IT_Parameter = {
+    /** the _name_ of the parameter */
+    name: string;
+    /**
+     * a _string-based_ token for the parameter's **type** which is
+     * either:
+     *   - an `InputToken`
+     *   - a `GenericParam`
+     *   -
+     */
+    token: InputTokenSuggestions | GenericParam;
+    /**
+     * **fromGeneric**
+     *
+     * returns `false` if the _type_ of this variable is NOT derived from a generic,
+     * returns a string value mapping to the `name` of the generic involved.
+     */
+    fromGeneric: false | string;
+
+    /**
+     * the _type_ this parameter **extends** (if derived from a generic) or
+     * the _type_ it **is** otherwise.
+     */
+    type: unknown;
+}
 
 export interface IT_Token_Base<T extends IT_TakeKind> {
     __kind: "IT_Token";
@@ -71,6 +97,32 @@ export interface IT_Token_Kv extends IT_Token_Base<"kv"> {
     valueToken: unknown;
 }
 
+export interface IT_Token_Function extends IT_Token_Base<"kv"> {
+    /** the name of the function; `null` if anonymous */
+    name: string | null;
+
+    /** the generics used for the parameters of the function */
+    generics: readonly GenericParam[];
+
+    genericsToken: string;
+
+    /** a tuple representing the parameters in the function */
+    parameters: readonly unknown[];
+    /**
+     * whether the function is shaped as a _narrowing_ function
+     * with generics (`true`) or a _static_ function (`false`).
+     */
+    narrowing: boolean;
+
+    /** the tokenized representation of the return */
+    returnToken: string;
+
+    /**
+     * the _return type_ of the function
+     */
+    returnType: unknown;
+}
+
 /**
  * **IT_Token**`<T>`
  *
@@ -87,23 +139,25 @@ export interface IT_Token_Kv extends IT_Token_Base<"kv"> {
  */
 export type IT_Token<T extends IT_TakeKind = IT_TakeKind> = IsUnion<T> extends true
     ? IT_Token_Base<T>
-    : T extends "atomic"
-        ? IT_Token_Atomic
-        : T extends "literal"
-            ? IT_Token_Literal
-            : T extends "set"
-                ? IT_Token_Set
-                : T extends "kv"
-                    ? IT_Token_Kv
-                    : T extends "group"
-                        ? IT_Token_Group
-                        : T extends "tuple"
-                            ? IT_Token_Tuple
-                            : T extends "array"
-                                ? IT_Token_Array
-                                : T extends "union"
-                                    ? IT_Token_Union
-                                    : never;
+: T extends "atomic"
+    ? IT_Token_Atomic
+: T extends "literal"
+    ? IT_Token_Literal
+: T extends "set"
+    ? IT_Token_Set
+: T extends "kv"
+    ? IT_Token_Kv
+: T extends "group"
+    ? IT_Token_Group
+: T extends "tuple"
+    ? IT_Token_Tuple
+: T extends "array"
+    ? IT_Token_Array
+: T extends "union"
+    ? IT_Token_Union
+: T extends "function"
+    ? IT_Token_Function
+: never;
 
 /**
  * a validation utility to make sure `T` is of the type `IT_TakeSuccess`

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Expect, Find, Test } from "inferred-types/types";
 import { find, narrow } from "inferred-types/runtime";
+import { InputTokenSuggestions } from "../../modules/types/dist";
 
 describe("Find<TList, 'equals', TValue, TIndex>", () => {
 
@@ -16,6 +17,20 @@ describe("Find<TList, 'equals', TValue, TIndex>", () => {
             Expect<Test<T3, "equals",  undefined>>,
         ];
     });
+
+    it("objectKeyExtends operation", () => {
+        type Generics = [
+            {name: "T", typeToken: "string", type: string; desc: undefined },
+            {name: "U", typeToken: "number[]", type: number[]; desc: undefined },
+        ];
+        type T1 = Find<Generics, "objectKeyExtends", ["name", "T"]>;
+        type F1 = Find<Generics, "objectKeyExtends", ["name", "X"]>;
+
+        type cases = [
+            Expect<Test<T1, "equals", {name: "T", typeToken: "string", type: string; desc: undefined }>>,
+            Expect<Test<F1, "equals", undefined>>
+        ]
+    })
 
     it("extends operation", () => {
         type List = [number, 1, 2, string, "foo"];

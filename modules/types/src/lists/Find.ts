@@ -36,7 +36,10 @@ type FindAcc<
  * ```
  */
 export type Find<
-    TList extends readonly (ComparisonAccept<TOp>)[],
+    TList extends readonly unknown[],
     TOp extends ComparisonOperation,
     TParams extends GetComparisonParams<TOp>
-> = FindAcc<TList, TOp, TParams>;
+> = TList extends readonly ComparisonAccept<TOp>[]
+
+? FindAcc<TList, TOp, TParams>
+: undefined;

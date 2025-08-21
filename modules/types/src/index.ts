@@ -13,6 +13,7 @@ export * from "./each/index";
 export * from "./errors/index";
 export * from "./functional/index";
 export * from "./functions/index";
+export * from './generics/index';
 export * from "./interpolation/index";
 export * from "./kv/index";
 export * from "./lists/index";
@@ -27,3 +28,4 @@ export * from "./tuples/index";
 export * from "./type-conversion/index";
 export * from "./unions/index";
 export * from "./validation/index";
+

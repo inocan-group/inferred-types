@@ -11,6 +11,8 @@ export * from "./RemoveWhitespace";
 export * from "./Repeat";
 export * from "./Split";
 export * from "./Split2";
+export * from "./SplitOnWhitespace";
 export * from "./Surround";
 export * from "./Truncate";
 export * from "./UnderlyingType";
+
