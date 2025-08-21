@@ -1,54 +1,21 @@
 import type {
     As,
     Err,
+    ErrContext,
     ErrType,
     Find,
+    FirstChar,
     FromInputToken__String,
+    IT_Generics,
     IT_Parameter,
+    IT_TakeTokenGenerics,
     NestedSplit,
     RetainUntil,
-    SplitOnWhitespace,
     StripUntil,
     Trim
 } from "inferred-types/types";
 import { GenericParam } from "types/generics";
 
-/**
- * extracts a generic name/value
- */
-type Generic<T extends string> = SplitOnWhitespace<T> extends [
-    infer Name extends string,
-    "extends",
-    infer Type extends string
-]
-    ? {
-        kind: "generic";
-        name: Name;
-        typeToken: Type;
-        type: FromInputToken__String<Trim<Type>>
-    }
-    : {
-        kind: "generic";
-        name: Trim<T>;
-        typeToken: "unknown";
-        type: unknown;
-    };
-
-
-type TakeGenerics<
-    T extends string
-> = T extends `<${infer Rest extends string}`
-    ? NestedSplit<Rest, ">"> extends [
-        infer Block extends string,
-        infer Rest extends readonly string[]
-    ]
-        ? NestedSplit<Block, ","> extends infer Parts extends readonly string[]
-            ? {
-                [K in keyof Parts]: Generic<Parts[K]>
-            }
-            : never
-    : Err<"malformed-token">
-: Err<"wrong-handler">;
 
 type DetermineType<
     /** the string token for the parameter type */
@@ -59,13 +26,21 @@ type DetermineType<
         "objectKeyEquals",
         ["name", T]
     > extends infer Generic extends GenericParam
-        ? Generic["type"]
+        ? {
+            type: Generic["type"];
+            fromGeneric: Generic["name"]
+        }
+
     : FromInputToken__String<Trim<T>> extends Error
         ? Err<
             `malformed-token`,
             `The parameter token's boundaries were established but while iterating over the parameter definitions we found the parameter token: '${Trim<T>}'`,
             { parameter: Trim<T>, generics: U, }
         >
+    : {
+        type: FromInputToken__String<Trim<T>>;
+        fromGeneric: false;
+    }
 
 ;
 
@@ -76,26 +51,37 @@ type AsParameters<
     TResult extends readonly IT_Parameter[] = []
 > = TParams extends [infer Head extends string, ...infer Rest extends readonly string[]]
 
-    ? Rest extends `${infer Name extends string}:${infer Type extends string}`
-        ? AsParameters<
-            Rest,
-            TGenerics,
-            [
-                ...TResult,
-                As<{
-                    name: Trim<Name>;
-                    token: Type;
-                    type: DetermineType<Trim<Type>, TGenerics>;
-                    desc: undefined; // TODO: extract description if present
-                }, GenericParam>
-            ]
-        >
+    ? Head extends `${infer Name extends string}:${infer Type extends string}`
+        ? DetermineType<Trim<Type>, TGenerics> extends
+            infer Info extends { type: any; fromGeneric: false | string }
+
+            ? AsParameters<
+                Rest,
+                TGenerics,
+                [
+                    ...TResult,
+                    As<{
+                        name: Trim<Name>;
+                        token: Trim<Type>;
+                        fromGeneric: Info["fromGeneric"];
+                        type: Info["type"];
+                    }, GenericParam>
+                ]
+            >
+            : never
 
         : Err<
             `malformed-token`,
-            `The parameter token '' can not be parsed to find any type information!`
+            `The parameter token '' can not be parsed to find any type information!`,
+            { result: TResult }
         >
-    : Err<`wrong-handler`>;
+    : TResult extends readonly IT_Parameter[]
+        ? TResult
+        : Err<
+            `malformed-token`,
+            `Failed while trying to parse the parameters of a function`,
+            { results: TResult, params: TParams }
+        > ;
 
 type TakeParameters<
     /** the token string after generics have been taken */
@@ -112,9 +98,21 @@ type TakeParameters<
     ]
         ? NestedSplit<Block, ","> extends infer KV extends readonly string[]
             ? AsParameters<KV, P>
-            : unknown
-        : Err<`malformed-token`>
-: Err<`wrong-handler`>;
+        : Err<
+            "malformed-token",
+            `The function's parameter block -- ${Block} -- was not able to be parsed!`,
+            { token: T; block: Block; rest: Rest; generics: P }
+        >
+    : Err<
+        "malformed-token",
+        `The opening parenthesis indicated a parameter block should follow but was unable to find the closing parenthesis in: ${Rest}`,
+        { token: T; rest: Rest; generics: P }
+    >
+: Err<
+    `wrong-handler`,
+    `parameter blocks expect the leading character to be an open parenthesis`,
+    { token: T; generics: P }
+>;
 
 /**
  * **IT_TakeParameters**`<T>`
@@ -134,8 +132,8 @@ type TakeParameters<
  * which can be used to help complete the `IT_Token<"fn">` or `IT_Token<"generator">`
  * blocks required by the utilities `IT_TakeFunction` and `IT_TakeGenerator`.
  */
-export type IT_TakeParameters<T extends string> = TakeGenerics<T> extends readonly GenericParam[]
-    ? TakeParameters<T, TakeGenerics<T>>
-: TakeGenerics<T> extends ErrType<"malformed-handler">
-    ? TakeGenerics<T> // return Error
-: TakeParameters<T,[]>;
+export type IT_TakeParameters<T extends string> = IT_TakeTokenGenerics<T> extends Err<"invalid-token">
+    ? IT_TakeTokenGenerics<T>
+: IT_TakeTokenGenerics<T> extends IT_Generics
+    ? TakeParameters<IT_TakeTokenGenerics<T>["rest"],IT_TakeTokenGenerics<T>["generics"]>
+    : TakeParameters<T, []>

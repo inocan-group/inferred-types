@@ -11,7 +11,6 @@ export type IT_TakeKind
 | "intersection"
 | "function"
 | "generator"
-| "generic"
 | "tuple";
 
 export type IT_Combinators
@@ -23,6 +22,11 @@ export type IT_KvType
 = | "Record"
 | "Map"
 | "WeakMap";
+
+export type IT_Generics = {
+    generics: GenericParam[];
+    rest: string;
+}
 
 export type IT_Parameter = {
     /** the _name_ of the parameter */
@@ -99,7 +103,7 @@ export interface IT_Token_Kv extends IT_Token_Base<"kv"> {
     valueToken: unknown;
 }
 
-export interface IT_Token_Function extends IT_Token_Base<"kv"> {
+export interface IT_Token_Function extends IT_Token_Base<"function"> {
     /** the name of the function; `null` if anonymous */
     name: string | null;
 
@@ -109,7 +113,7 @@ export interface IT_Token_Function extends IT_Token_Base<"kv"> {
     genericsToken: string;
 
     /** a tuple representing the parameters in the function */
-    parameters: readonly unknown[];
+    parameters: readonly IT_Parameter[];
     /**
      * whether the function is shaped as a _narrowing_ function
      * with generics (`true`) or a _static_ function (`false`).
@@ -159,8 +163,6 @@ export type IT_Token<T extends IT_TakeKind = IT_TakeKind> = IsUnion<T> extends t
     ? IT_Token_Union
 : T extends "function"
     ? IT_Token_Function
-: T extends "generic"
-    ? IT_Token_Generic
 : never;
 
 /**

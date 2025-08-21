@@ -9,20 +9,16 @@ import { InputTokenSuggestions } from "types/runtime-types";
  * **Related:** `GenericParamToken`
  */
 export type GenericParam = {
+    /** the generic's name */
     name: string;
     /**
      * a _string based_ `InputToken` representing the generic's
      * type.
      */
-    typeToken: InputTokenSuggestions;
+    token: InputTokenSuggestions;
     /**
      * the **type** the given generic parameter  _extends_
      */
     type: unknown;
-
-    /**
-     * an optional description of the generic parameter
-     */
-    desc: string | undefined;
 }
 
