@@ -105,7 +105,7 @@ export type IT_TakeTokenGenerics<
     : NestedSplit<TClean, ","> extends Error
         ? ErrContext<
             NestedSplit<TClean, ",">,
-            { T: T; utility: "TakeTokenGenerics" }
+            { token: `<${TClean}`; utility: "TakeTokenGenerics" }
         > // Error
         : NestedSplit<TClean, ">"> extends [
             infer Block extends string,
@@ -114,7 +114,7 @@ export type IT_TakeTokenGenerics<
             ? NestedSplit<Block, ","> extends Error
                 ? ErrContext<
                     NestedSplit<Block, ",">,
-                    { utility: "TakeTokenGeneric"; T: T }
+                    { utility: "TakeTokenGeneric"; token: `<${TClean}`; }
                 > // Error
                 : NestedSplit<Block, ","> extends infer GenericPairs extends readonly string[]
                     ? TrimEach<GenericPairs> extends infer TrimmedPairs extends readonly string[]
@@ -122,7 +122,7 @@ export type IT_TakeTokenGenerics<
                             ? ParsedResult extends Error
                                 ? ErrContext<
                                     ParsedResult,
-                                    { utility: "TakeTokenGeneric"; T: T }
+                                    { utility: "TakeTokenGeneric"; token: `<${TClean}`; }
                                 > // Error
                                 : {
                                     generics: ParsedResult;
@@ -133,6 +133,6 @@ export type IT_TakeTokenGenerics<
                     : never
             : Err<
                 `wrong-handler/generic`,
-                `The string token passed in could not be parsed as a Generics block: ${T}`,
-                { T: T; utility: "TakeTokenGenerics" }
+                `The string token passed in could not be parsed as a Generics block`,
+                { token: `<${TClean}`; utility: "TakeTokenGenerics" }
             >;
