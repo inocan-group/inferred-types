@@ -32,8 +32,8 @@ type Generic<T extends string> = SplitOnWhitespace<T> extends [
         name: Trim<T>;
         typeToken: "unknown";
         type: unknown;
-    }
-;
+    };
+
 
 type TakeGenerics<
     T extends string
@@ -94,7 +94,8 @@ type AsParameters<
         : Err<
             `malformed-token`,
             `The parameter token '' can not be parsed to find any type information!`
-        >;
+        >
+    : Err<`wrong-handler`>;
 
 type TakeParameters<
     /** the token string after generics have been taken */

@@ -38,8 +38,6 @@ describe("TakeTokenGenerics<T>", () => {
         ];
     });
 
-
-
     it("invalid tokens", () => {
         type E1 = IT_TakeTokenGenerics<"foobar">;
         type E2 = IT_TakeTokenGenerics<"<T extends string, U hates number>">;

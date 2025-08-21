@@ -1,5 +1,5 @@
 import type {
-    AlphaNumericPlus,
+    ValidateCharacterSet,
     Err,
     ErrContext,
     FromInputToken,
@@ -8,7 +8,8 @@ import type {
     StripLeading,
     Trim,
     TrimEach,
-    Whitespace
+    Whitespace,
+    AlphanumericChar
 } from "inferred-types/types";
 
 /**
@@ -41,12 +42,16 @@ export type IT_TakeTokenGeneric<T extends string>
                 : never
             : never
         : never
-: AlphaNumericPlus<T, "_">
-
-        Err<
+: ValidateCharacterSet<
+    T,
+    AlphanumericChar | "_",
+    Err<
         `malformed-token/generic`,
-        `The string token -- '${T}' -- passed to TakeTokenGeneric<T> is invalid as an InputToken!`
+        `The string -- '${T}' -- passed to TakeTokenGeneric<T> is invalid as a generic name!`
     >
+>
+
+
 ;
 
 type ParseGenerics<

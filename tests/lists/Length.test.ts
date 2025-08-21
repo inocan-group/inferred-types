@@ -52,7 +52,7 @@ describe("Length<T>", () => {
             Expect<Test<Float, "equals", 4>>,
             Expect<Test<Wide, "equals", number>>,
             Expect<Test<WideErr, "extends", Error>>,
-            Expect<Test<WideErr, "extends", Err<"invalid-type/wide">>>
+            Expect<Test<WideErr, "extends", Err<"invalid-type">>>
         ];
     });
 
