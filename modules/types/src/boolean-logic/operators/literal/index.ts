@@ -1,5 +1,6 @@
 export * from "./HasIndexSignature";
 export * from "./HasWideValues";
+export * from "./IsAlphanumeric";
 export * from "./IsAny";
 export * from "./IsBooleanLiteral";
 export * from "./IsLiteral";
@@ -28,3 +29,4 @@ export * from "./IsWideObject";
 export * from "./IsWideScalar";
 export * from "./IsWideString";
 export * from "./IsWideType";
+
