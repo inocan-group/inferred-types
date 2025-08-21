@@ -14,7 +14,6 @@ type TestAlphanumeric<
     : false
 : true;
 
-;
 
 /**
  * **IsAlphanumeric**`<T,[U]>`
