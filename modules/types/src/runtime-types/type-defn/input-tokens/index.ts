@@ -12,5 +12,7 @@ export * from "./IT_TakeAtomic";
 export * from "./IT_TakeKvObjects";
 export * from "./IT_TakeNumericLiteral";
 export * from "./IT_TakeParameters";
+export * from "./IT_TakePromise";
 export * from "./IT_TakeStringLiteral";
 export * from "./IT_TakeTokenGenerics";
+

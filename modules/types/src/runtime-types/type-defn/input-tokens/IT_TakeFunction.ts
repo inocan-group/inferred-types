@@ -35,12 +35,12 @@ string>;
 
 type BuildFnString<
     TConfig extends Config
-> = Join<[
-    IsTrue<TConfig["isAsync"]> extends true ? "async" : "",
+> = [
+    [TConfig["isAsync"]] extends [true] ? "async" : "",
     BuildParams<TConfig>,
 
 
-]>
+];
 
 
 
@@ -81,22 +81,55 @@ type ArrowSyncFunction<T extends string> = IT_TakeParameters<T> extends infer P 
             }
         : Err<"malformed-token">
     : never
-: Err<"shit">;
+: Err<
+    "wrong-handler",
+    `The token passed in can not be parsed as a synchronous Arrow function: '${Trim<T>}'`
+>;
 
-type ArrowAsyncFunction<T extends string> = ;
-
-
-type ProcessVariants<T extends readonly (IT_Token<"function"> | Error)[]> = T extends [
-    infer Head extends (IT_Token<"function"> | Error),
-    ...infer Rest extends readonly (IT_Token<"function"> | Error)[]
-]
-    ? Head extends IT_Token<"function">
-        ? Head
-    : ErrType<Head> extends "malformed-token"
-        ? Head
-    : ProcessVariants<Rest>
-: Err<"wrong-handler">;
-
+type ArrowAsyncFunction<T extends string> = T extends `async ${infer Rest extends string}`
+    ? IT_TakeParameters<Trim<Rest>> extends infer P extends IT_ParameterResults
+        ? P extends {
+            parameters: infer Parameters extends readonly IT_Parameter[];
+            generics: infer Generics extends readonly GenericParam[] | [];
+            rest: infer Rest extends string
+        }
+            ? Rest extends `=>${infer Rest extends string}`
+                ? FromInputToken__String<Trim<Rest>> extends Error
+                    ? Err<
+                        "malformed-token",
+                        `The token '${T}' is being processed as a asynchronous arrow function but the return type -- '${Trim<Rest>}' -- was unable to be parsed.`
+                    >
+                : FromInputToken__String<Trim<Rest>> extends Promise<any>
+                    ? {
+                        __kind: "IT_Token";
+                        kind: "fn";
+                        name: null;
+                        generics: Generics;
+                        parameters: Parameters;
+                        returnToken: Trim<Rest>;
+                        returnType: FromInputToken__String<Trim<Rest>>;
+                        token: BuildFnString<{
+                            generics: Generics,
+                            parameters: Parameters,
+                            isAsync: true,
+                            returnToken: Trim<Rest>,
+                            isArrow: true
+                        }>
+                    }
+                    : Err<
+                        "malformed-token",
+                        `An asynchronous function -- '${T}' -- MUST have a promise-based return type!`
+                    >
+            : never
+        : Err<"wrong-handler">
+    : Err<
+    "wrong-handler",
+    `The token passed in can not be parsed as an asynchronous Arrow function: '${Trim<T>}'`
+>
+: Err<
+    "wrong-handler",
+    `The token passed in can not be parsed as an asynchronous Arrow function: '${Trim<T>}'`
+>;
 
 type OptGenerics = `<${string}>` | "";
 
@@ -107,9 +140,7 @@ type Select<T extends readonly unknown[]> = T extends [infer Head, ...infer Rest
     ? Select<Rest>
 : Head
 
-: Err<"shit">;
-
-;
+: Err<"wrong-handler">;
 
 /**
  * **IT_TakeFunction**`<T>`

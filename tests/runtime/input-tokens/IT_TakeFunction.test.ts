@@ -13,13 +13,19 @@ describe("IT_TakeFunction<T>", () => {
         describe("sync", () => {
 
             it("no generics", () => {
-                type F1 = `(name: string) => "hi"`
-                type T1 = IT_TakeFunction<F1>;
+                type Fn1 = `(name: string) => "hi"`
+                type T1 = IT_TakeFunction<Fn1>;
+
+                type Fn2 = `async (name: string) => Promise<"hi">`
+                type T2 = IT_TakeFunction<Fn2>;
 
                 type cases = [
                     /** type tests */
                 ];
             });
+
+
+
         })
 
 

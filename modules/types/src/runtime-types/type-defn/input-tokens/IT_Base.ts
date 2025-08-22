@@ -11,6 +11,7 @@ export type IT_TakeKind
 | "intersection"
 | "function"
 | "generator"
+| "promise"
 | "tuple";
 
 export type IT_Combinators
@@ -82,6 +83,7 @@ export interface IT_Token_Base<T extends IT_TakeKind> {
 }
 
 export interface IT_Token_Atomic extends IT_Token_Base<"atomic"> {};
+export interface IT_Token_Promise extends IT_Token_Base<"promise"> {};
 export interface IT_Token_Set extends IT_Token_Base<"set"> {};
 export interface IT_Token_Group extends IT_Token_Base<"group"> {
     combinator: IT_Combinators | "none";
@@ -148,25 +150,27 @@ export interface IT_Token_Function extends IT_Token_Base<"function"> {
  */
 export type IT_Token<T extends IT_TakeKind = IT_TakeKind> = IsUnion<T> extends true
     ? IT_Token_Base<T>
-    : T extends "atomic"
-        ? IT_Token_Atomic
-        : T extends "literal"
-            ? IT_Token_Literal
-            : T extends "set"
-                ? IT_Token_Set
-                : T extends "kv"
-                    ? IT_Token_Kv
-                    : T extends "group"
-                        ? IT_Token_Group
-                        : T extends "tuple"
-                            ? IT_Token_Tuple
-                            : T extends "array"
-                                ? IT_Token_Array
-                                : T extends "union"
-                                    ? IT_Token_Union
-                                    : T extends "function"
-                                        ? IT_Token_Function
-                                        : never;
+: T extends "atomic"
+    ? IT_Token_Atomic
+: T extends "literal"
+    ? IT_Token_Literal
+: T extends "set"
+    ? IT_Token_Set
+: T extends "kv"
+    ? IT_Token_Kv
+: T extends "group"
+    ? IT_Token_Group
+: T extends "tuple"
+    ? IT_Token_Tuple
+: T extends "array"
+    ? IT_Token_Array
+: T extends "union"
+    ? IT_Token_Union
+: T extends "function"
+    ? IT_Token_Function
+: T extends "promise"
+    ? IT_Token_Promise
+: never;
 
 /**
  * a validation utility to make sure `T` is of the type `IT_TakeSuccess`
