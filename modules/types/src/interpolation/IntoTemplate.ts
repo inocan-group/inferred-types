@@ -79,3 +79,4 @@ export type IntoTemplate<
 > = TArgs extends readonly unknown[]
     ? ProcessTemplate<TTpl, TArgs>
     : never;
+

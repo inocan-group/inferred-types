@@ -53,28 +53,47 @@ describe("IT_TakeFunction<T>", () => {
         });
 
         it("with generics", () => {
-            type Fn1 = `<T>(value: T) => T`
+            // no generic use in return type
+            type Fn1 = `<T>(value: T) => string`
             type T1 = IT_TakeFunction<Fn1>;
 
-            type Fn2 = `async <T, U>(value: T) => Promise<U>`
+            // generic using inside string literal of return type
+            type Fn2 = "<T extends string>(value: T) => `Hi ${T}`"
             type T2 = IT_TakeFunction<Fn2>;
 
+            // generic directly assigned to return type
+            type Fn3 = "<T,U>(value: T) => U"
+            type T3 = IT_TakeFunction<Fn3>;
+
+            // explicit async fn
+            type AsyncFn1 = `async <T, U>(value: T) => Promise<U>`
+            type A1 = IT_TakeFunction<AsyncFn1>;
+
+            // implicit async fn
+            type AsyncFn2 = `<T, U>(value: T) => Promise<U>`
+            type A2 = IT_TakeFunction<AsyncFn2>;
+
             type cases = [
-                // both functions should be IT_Token_Function
+                // sync functions
                 Expect<Test<T1, "extends", IT_Token_Function>>,
                 Expect<Test<T2, "extends", IT_Token_Function>>,
+                Expect<Test<T3, "extends", IT_Token_Function>>,
+                // async functions
+                Expect<Test<A1, "extends", IT_Token_Function>>,
+                Expect<Test<A2, "extends", IT_Token_Function>>,
 
                 // Fn1 is generic synchronous arrow function
                 Expect<Test<T1["kind"], "equals", "function">>,
                 Expect<Test<T1["name"], "equals", null>>,
-                Expect<Test<T1["narrowing"], "equals", true>>,
-                Expect<Test<T1["returnToken"], "equals", "T">>,
+                Expect<Test<T1["returnToken"], "equals", "string">>,
+                Expect<Test<T1["returnType"], "equals", string>>,
+                Expect<Test<T1["isAsync"], "equals", false>>,
 
                 // Fn2 is generic async arrow function
-                Expect<Test<T2["kind"], "equals", "function">>,
-                Expect<Test<T2["name"], "equals", null>>,
-                Expect<Test<T2["narrowing"], "equals", true>>,
-                Expect<Test<T2["returnToken"], "equals", "Promise<U>">>,
+                Expect<Test<A1["kind"], "equals", "function">>,
+                Expect<Test<A1["name"], "equals", null>>,
+                Expect<Test<A1["narrowing"], "equals", true>>,
+                Expect<Test<A1["returnToken"], "equals", "Promise<U>">>,
             ];
         });
 

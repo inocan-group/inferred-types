@@ -3,11 +3,12 @@ import type {
     AlphanumericChar,
     Err,
     Extends,
+    Find,
     FromInputToken,
     FromInputToken__String,
     GenericParam,
+    GetEach,
     IsAlphanumeric,
-    IsNarrowingFn,
     IsTrue,
     IT_Parameter,
     IT_ParameterResults,
@@ -15,17 +16,29 @@ import type {
     IT_Token,
     OptSpace,
     Trim,
-    ValidateCharacterSet
+    ValidateCharacterSet,
 } from "inferred-types/types";
 
-type Config = {
-    generics: readonly GenericParam[],
-    parameters: readonly IT_Parameter[],
-    isAsync: boolean,
-    returnToken: string,
-    name?: string,
-    isArrow: boolean
-};
+
+/**
+ * **GetReturnType**`<TToken,TGenerics>`
+ *
+ * Determines the return type for a given function by matching the `TToken` on (in order):
+ *
+ * 1. Generic Name
+ * 2. String Literal with reference to `TToken`
+ * 3. parse as a normal InputToken
+ */
+type GetReturnType<
+    TToken extends string,
+    TGenerics extends readonly GenericParam[],
+    TGenNames extends string = GetEach<TGenerics, "name"> extends readonly string[] ? GetEach<TGenerics, "name">[number] : never
+> = Find<TGenerics, "equals", [Trim<TToken>]> extends infer Generic extends GenericParam
+    ? Generic["type"]
+: TToken extends `${infer StrLit extends string}`
+    ?
+;
+
 
 type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Rest extends string}`
     ? Trim<Rest> extends `${infer Name extends string}(${infer Rest}`
@@ -55,7 +68,7 @@ type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Res
                             token: Trim<T>;
                             type: any; // TODO this is WRONG!
                             isAsync: Extends<FromInputToken<Trim<Rest>>, Promise<any>>;
-                            rest: ""; // TODO this is not static
+                            rest: "";
                         }
                     : Err<
                         "malformed-token",
@@ -95,7 +108,7 @@ type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Res
                                 token: Trim<T>;
                                 type: any; // TODO this is WRONG!
                                 isAsync: Extends<FromInputToken<Trim<Rest>>, Promise<any>>;
-                                rest: ""; // TODO this is not static
+                                rest: "";
                             }
                         : Err<
                             "malformed-token",
@@ -156,7 +169,7 @@ type AnonSyncFunction<T extends string> = Trim<T> extends `function ${infer Rest
                     returnToken: Trim<ReturnType>;
                     returnType: FromInputToken__String<Trim<ReturnType>>;
                     token: Trim<T>;
-                    type: any;
+                    type: any; // TODO
                     isAsync: Extends<FromInputToken__String<Trim<ReturnType>>, Promise<any>>;
                     rest: "";
                 }
@@ -185,80 +198,47 @@ type ArrowSyncFunction<T extends string> = IT_TakeParameters<T> extends infer P 
         generics: infer Generics extends readonly GenericParam[] | [];
         rest: infer Rest extends string
     }
-        ? Rest extends ` =>${infer ReturnType extends string}`
-            ? {
+        ? Trim<Rest> extends `=>${infer ReturnType extends string}`
+            ? FromInputToken__String<Trim<ReturnType>> extends Error
+                ? Err<
+                    `malformed-token`,
+                    `The arrow function -- '${Trim<T>}' -- has a return type '${Trim<ReturnType>}' which could not be parsed to a type!`
+                >
+            : {
                 __kind: "IT_Token";
                 kind: "function";
                 name: null;
                 generics: Generics;
                 parameters: Parameters;
-                narrowing: IsNarrowingFn<any>; // Will be calculated from function type
-                isAsync: Trim<ReturnType> extends `Promise<${string}>` ? true : false;
+                narrowing: false; // TODO (will use IsNarrowingFn<T>, where T is the type)
+                isAsync: FromInputToken__String<Trim<ReturnType>> extends Promise<any> ? true : false;
                 returnToken: Trim<ReturnType>;
-                returnType: any; // Simplified to handle both concrete types and generic parameters
+                returnType: FromInputToken__String<Trim<ReturnType>>;
                 token: T;
-                type: any; // Function type inference - simplified to avoid infinite recursion
+                type: any; // TODO
                 rest: "";
             }
-            : Rest extends `=>${infer ReturnType extends string}`
-                ? {
-                    __kind: "IT_Token";
-                    kind: "function";
-                    name: null;
-                    generics: Generics;
-                    parameters: Parameters;
-                    narrowing: Generics extends [] ? false : true;
-                    returnToken: Trim<ReturnType>;
-                    returnType: any; // Simplified to handle both concrete types and generic parameters
-                    token: T;
-                    type: any; // Function type inference - simplified to avoid infinite recursion
-                    rest: "";
-                }
-            : Err<"malformed-token", `Expected ' =>' or '=>' in arrow function, got: '${Rest}'`>
+            : Err<"malformed-token", `An arrow function requires the '=>' operator but it was not found, got: '${Rest}'`>
         : never
     : Err<"wrong-handler", `The token passed in can not be parsed as a synchronous Arrow function: '${Trim<T>}'`>;
 
 type ArrowAsyncFunction<T extends string> = T extends `async ${infer Rest extends string}`
-    ? IT_TakeParameters<Trim<Rest>> extends infer P extends IT_ParameterResults
-        ? P extends {
-            parameters: infer Parameters extends readonly IT_Parameter[];
-            generics: infer Generics extends readonly GenericParam[] | [];
-            rest: infer Rest extends string
-        }
-            ? Rest extends ` => ${infer ReturnType extends string}`
-                ? {
-                    __kind: "IT_Token";
-                    kind: "function";
-                    name: null;
-                    generics: Generics;
-                    parameters: Parameters;
-                    narrowing: Generics extends [] ? false : true;
-                    returnToken: Trim<ReturnType>;
-                    returnType: any; // Simplified to handle both concrete types and generic parameters
-                    token: T;
-                    type: any; // Function type inference - simplified to avoid infinite recursion
-                    rest: "";
-                }
-                : Rest extends `=>${infer ReturnType extends string}`
-                    ? {
-                        __kind: "IT_Token";
-                        kind: "function";
-                        name: null;
-                        generics: Generics;
-                        parameters: Parameters;
-                        narrowing: Generics extends [] ? false : true;
-                            returnToken: Trim<ReturnType>;
-                        returnType: any; // Simplified to handle both concrete types and generic parameters
-                        token: T;
-                        type: any; // Function type inference - simplified to avoid infinite recursion
-                        rest: "";
-                    }
-                    : Err<"malformed-token", `Expected ' =>' or '=>' in async arrow function, got: '${Rest}'`>
-            : never
-        : Err<"wrong-handler", `Unable to parse parameters for async arrow function: '${T}'`>
-    : Err<"wrong-handler", `The token passed in can not be parsed as an asynchronous Arrow function: '${Trim<T>}'`>;
+    ? ArrowSyncFunction<Trim<Rest>> extends Error
+        ? ArrowSyncFunction<Trim<Rest>>
+    : ArrowSyncFunction<Trim<Rest>> extends infer Token extends IT_Token<"function">
+        ? IsTrue<Token["isAsync"]> extends true
+            ? Omit<Token, "token"> & Record<"token", Trim<T>>
+                // Set<Token, "token", Trim<T>>
+        : Err<
+            `malformed-token`,
+            `An async function must always return a promise!`,
+            { token: T; }
+        >
+    : never
+: Err<"wrong-handler", `The token passed in can not be parsed as an asynchronous Arrow function: '${Trim<T>}'`>;
 
 type OptGenerics = `<${string}>` | "";
+
 /**
  * iterates over the various function signatures and returns when:
  *
