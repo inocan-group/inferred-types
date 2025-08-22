@@ -1,4 +1,20 @@
-import { As, Decrement, DefaultNesting, Err,  Get,  Increment,  IsNestingStart,  Last,  Length,  MergeObjects,  Nesting, NestingKeyValue, NestingTuple } from "inferred-types/types";
+import {
+    As,
+    Decrement,
+    DefaultNesting,
+    Err,
+    Get,
+    Set,
+    IsNestingStart,
+    Last,
+    Length,
+    MergeObjects,
+    Nesting,
+    NestingKeyValue,
+    NestingTuple,
+    StripLeading,
+    DotPathFor
+} from "inferred-types/types";
 
 export type NestedString = {
     content: string;
@@ -53,13 +69,19 @@ type X = As<{
     level: 0,
     children: [
         As<{ content: "bye", enterChar: null, exitChar: null, level: 1, children: [] }, NestedString>,
-        As<{ content: "bye", enterChar: null, exitChar: null, level: 1, children: [] }, NestedString>
+        As<{ content: "bye", enterChar: null, exitChar: null, level: 1, children: [
+            { content: "byebye", enterChar: null, exitChar: null, level: 2, children: []}
+        ] }, NestedString>
     ]
 }, NestedString>;
 
-type L = LatestDotPath<X>;
+type DP = DotPathFor<X>;
 
-type G = Get<X, "children.1">;
+type L = LatestDotPath<X>; // =>
+type C = LatestNode<X>; // =>
+
+
+type G = Get<X, "children.1.children.0">;
 
 /** get a DotPath to the latest NestedString */
 type LatestDotPath<
@@ -74,13 +96,31 @@ type LatestDotPath<
     >
 : never;
 
+type LatestNode<
+    TStack extends NestedString,
+    TDotpath extends string= ""
+> = CurrentLevel<TStack> extends infer Level extends number
+? TStack["level"] extends Level
+    ? `${TDotpath}`
+    : LatestNode<
+        Last<TStack["children"]>,
+        StripLeading<`${TDotpath}.children.${Decrement<Length<TStack["children"]>>}`, ".">
+    >
+: never;
+
 type PushChild<
     TStack extends NestedString,
     TChild extends Omit<NestedString, "level">
-> = AddChildAtLevel<
+> = CurrentLevel<TStack> extends infer Level extends number
+? Set<
     TStack,
-    CurrentLevel<TStack>,
-    MergeObjects<TChild,
+    LatestNode<TStack>,
+    As<MergeObjects<
+        TChild,
+        { level: Level }
+    >, NestedString>
+>
+: never;
 
 
 export type Nest<

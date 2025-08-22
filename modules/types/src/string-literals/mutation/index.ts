@@ -2,6 +2,7 @@ export * from "./Append";
 export * from "./Chars";
 export * from "./Concat";
 export * from "./Join";
+export * from "./Nest";
 export * from "./NestedSplit";
 export * from "./PathJoin";
 export * from "./Pluralize";
@@ -15,3 +16,4 @@ export * from "./SplitOnWhitespace";
 export * from "./Surround";
 export * from "./Truncate";
 export * from "./UnderlyingType";
+

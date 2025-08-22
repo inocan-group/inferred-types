@@ -6,7 +6,9 @@ import {
     DoesExtend,
     DotPathFor,
     Suggest,
-    Test
+    Test,
+    As,
+    NestedString
 } from "inferred-types/types";
 
 
@@ -65,6 +67,31 @@ describe("Name", () => {
         ];
         const cases: cases = [true, true];
     });
+
+
+    it("NestedString", () => {
+        type Nested = As<{
+            content: "hi",
+            enterChar: null,
+            exitChar: null,
+            level: 0,
+            children: [
+                As<{ content: "bye", enterChar: null, exitChar: null, level: 1, children: [] }, NestedString>,
+                As<{ content: "bye", enterChar: null, exitChar: null, level: 1, children: [
+                    { content: "byebye", enterChar: null, exitChar: null, level: 2, children: []}
+                ] }, NestedString>
+            ]
+        }, NestedString>;
+        type DP = DotPathFor<Nested>;
+
+        type cases = [
+            Expect<Test<
+                DP, "equals",
+                "" | "content" | "enterChar" | "exitChar" | "level" | "children" | "children.0" | "children.1" | "children.0.content" | "children.0.enterChar" | "children.0.exitChar" | "children.0.level" | "children.0.children" | "children.1.content" | "children.1.enterChar" | "children.1.exitChar" | "children.1.level" | "children.1.children" | "children.1.children.0" | "children.1.children.0.content" | "children.1.children.0.enterChar" | "children.1.children.0.exitChar" | "children.1.children.0.level" | "children.1.children.0.children"
+            >>
+        ];
+    });
+
 
     it("Container and Scalar values provide empty string offset", () => {
         type Obj = {
