@@ -84,12 +84,24 @@ describe("GetInputToken<T>", () => {
     it("Sets", () => {
         type Set1 = GetInputToken<"Set<string>">;
         type Set2 = GetInputToken<"Set<Record<string,string>>">;
+        type Invalid = GetInputToken<"Set<foobar>">;
 
         type cases = [
             Expect<Test<Set1, "extends", IT_Token<"set">>>,
             Expect<Test<Set2, "extends", IT_Token<"set">>>,
+            Expect<Test<Invalid, "extends", Err<"malformed-token">>>,
         ];
     });
+
+
+    it("Functions", () => {
+        type F1 = GetInputToken<"() => string">;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
 
 
     it("Incomplete Parse", () => {
@@ -101,6 +113,16 @@ describe("GetInputToken<T>", () => {
             Expect<Test<Inc["rest"], "equals", "&& trailing">>,
         ];
     });
+
+
+    it("Multiple Combinators", () => {
+        type Multi = GetInputToken<"string | number & boolean">;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
 
 
 

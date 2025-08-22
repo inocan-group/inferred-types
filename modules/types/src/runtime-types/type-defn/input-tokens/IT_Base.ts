@@ -131,6 +131,11 @@ export interface IT_Token_Function extends IT_Token_Base<"function"> {
      * the _return type_ of the function
      */
     returnType: unknown;
+
+    /**
+     * whether or not the function is asynchronous
+     */
+    isAsync: boolean;
 }
 
 /**

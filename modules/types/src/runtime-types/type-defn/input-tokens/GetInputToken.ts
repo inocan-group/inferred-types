@@ -8,6 +8,7 @@ import type {
     IT_Combinators as IT_Combinator,
     IT_TakeArray,
     IT_TakeAtomic,
+    IT_TakeFunction,
     IT_TakeKvObjects,
     IT_TakeNumericLiteral,
     IT_TakeOutcome,
@@ -56,8 +57,8 @@ type Finalize<
             >
             : Err<
                 "invalid-union",
-        `A 'union' combinator requires at least two types to be defined but we only got ${TTypes["length"]}`,
-        { tokens: TTypes }
+                `A 'union' combinator requires at least two types to be defined but we only got ${TTypes["length"]}`,
+                { tokens: TTypes }
             >
         : TCombinator extends "intersection"
             ? TTypes extends [IT_Token, IT_Token, ...IT_Token[]]
@@ -79,8 +80,7 @@ type Process<
         ? ErrType<T> extends "malformed-token"
             ? T
             : null
-        : null
-;
+        : null;
 
 /**
  * **Iterate**`<TToken>`
@@ -172,6 +172,15 @@ type Iterate<
                 [...TTypes, Success],
                 TCombinator
             >
+    // Functions
+    : Process<IT_TakeFunction<TTrim>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeFunction<TTrim>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success],
+                TCombinator
+            >
 
     : TTrim extends `|${infer Rest extends string}`
         ? Iterate<Rest, TTypes, "union">
@@ -182,14 +191,14 @@ type Iterate<
         `The token string was unable to be parsed! No parsing has taken place.`
     >
 
-    : Err<
+: Err<
     "incomplete-parse",
     `The token string was not fully parsed; the text '${TTrim}' remains unparsed`,
     {
         underlying: TTypes;
         parsedType: TCombinator extends "none"
-            ? TTypes extends [infer Only]
-                ? Only
+            ? TTypes extends [infer Only extends IT_Token]
+                ? Only["type"]
                 : never
             : TCombinator extends "union"
                 ? GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
@@ -214,5 +223,23 @@ type Iterate<
  *
  * If all you want back is the _type_ then you're better off using
  * the `FromInputToken<T>` or `FromInputToken__String<T>` utilities.
+ *
+ * Possible error variants from this utility include:
+ *
+ * 1. `unparsed` - unable to parse the token string at all!
+ * 2. `incomplete-parse` - part of the token _was_ parsed but there
+ * is remaining text which can not be parsed.
+ * 3. `invalid-union` - when the parser has detected the _combinator_
+ * to be a union type, then the number of underlying types must be at
+ * least two
+ * 4. `invalid-intersection` - when the parser has detected the _combinator_
+ * to be an intersection type, then the number of underlying types must
+ * be at least two
+ *
+ * However, the most common Error type is `malformed-token` which will
+ * be returned anytime the parsing process is mid-stream in parsing a
+ * known type and some portion of that token is invalid. These errors
+ * should have lots of contextual properties to help the caller understand
+ * where the error is occurring.
  */
 export type GetInputToken<T extends InputTokenSuggestions> = Iterate<T>;

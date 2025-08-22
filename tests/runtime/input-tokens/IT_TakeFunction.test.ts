@@ -147,11 +147,11 @@ describe("IT_TakeFunction<T>", () => {
     describe("anonymous functions", () => {
 
         it("synchronous anonymous functions", () => {
-            type Fn1 = `function(name: string): string`
+            type Fn1 = `function (name: string): string`
             type T1 = IT_TakeFunction<Fn1>;
 
             type cases = [
-                Expect<Test<T1, "extends", IT_Token_Function>>,
+                Expect<Test<T1, "extends", IT_Token<"function">>>,
 
                 // Fn1 is anonymous sync function
                 Expect<Test<T1["kind"], "equals", "function">>,
@@ -162,7 +162,7 @@ describe("IT_TakeFunction<T>", () => {
         });
 
         it("asynchronous anonymous functions", () => {
-            type Fn1 = `async function(url: string): Promise<string>`
+            type Fn1 = `async function (url: string): Promise<string>`
             type T1 = IT_TakeFunction<Fn1>;
 
             type cases = [

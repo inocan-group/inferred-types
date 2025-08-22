@@ -1,4 +1,22 @@
-import type { AlphaChar, AlphanumericChar, As, Err, ErrType, Extends, FromInputToken, FromInputToken__String, GenericParam, IsAlphanumeric, IsInputToken, IsNarrowingFn, IsTrue, IT_Parameter, IT_ParameterResults, IT_TakeParameters, IT_Token, Join, OptSpace, Replace, Trim, ValidateCharacterSet } from "inferred-types/types";
+import type {
+    AlphaChar,
+    AlphanumericChar,
+    Err,
+    Extends,
+    FromInputToken,
+    FromInputToken__String,
+    GenericParam,
+    IsAlphanumeric,
+    IsNarrowingFn,
+    IsTrue,
+    IT_Parameter,
+    IT_ParameterResults,
+    IT_TakeParameters,
+    IT_Token,
+    OptSpace,
+    Trim,
+    ValidateCharacterSet
+} from "inferred-types/types";
 
 type Config = {
     generics: readonly GenericParam[],
@@ -8,22 +26,6 @@ type Config = {
     name?: string,
     isArrow: boolean
 };
-
-type BuildParams<
-    TConfig extends Config,
-    TParams extends string = Join<As<{
-        [K in keyof TConfig["parameters"]]: TConfig["parameters"][K] extends infer Param extends IT_Parameter
-            ? `${Param["name"]}: ${Param["token"]}`
-            : never
-    }, readonly string[]>, ", ">
-> = TConfig["generics"] extends []
-    ? `(${TParams})`
-    : `<${Join<As<{
-        [K in keyof TConfig["generics"]]: TConfig["generics"][K] extends infer Generic extends GenericParam
-            ? Generic["name"]
-            : never
-    }, readonly string[]>, ", ">}>(${TParams})`;
-
 
 type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Rest extends string}`
     ? Trim<Rest> extends `${infer Name extends string}(${infer Rest}`
@@ -120,41 +122,31 @@ type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Res
 
 ;
 
-type NamedAsyncFunction<T extends string> = Trim<T> extends `async function ${infer Name extends string}${infer Rest}`
-    ? IT_TakeParameters<Rest> extends infer P extends IT_ParameterResults
-        ? P extends {
-            parameters: infer Parameters extends readonly IT_Parameter[];
-            generics: infer Generics extends readonly GenericParam[] | [];
-            rest: infer Rest extends string
-        }
-            ? Rest extends `: ${infer ReturnType extends string}`
-                ? {
-                    __kind: "IT_Token";
-                    kind: "function";
-                    name: Trim<Name>;
-                    generics: Generics;
-                    parameters: Parameters;
-                    narrowing: Generics extends [] ? false : true;
-                    returnToken: Trim<ReturnType>;
-                    returnType: any; // Simplified to handle both concrete types and generic parameters
-                    token: T;
-                    type: any; // Function type inference - simplified to avoid infinite recursion
-                    rest: "";
-                }
-                : Err<"malformed-token", `Expected return type after ':' in async named function`>
-            : never
-        : Err<"wrong-handler", `Unable to parse parameters for async named function: '${T}'`>
-    : Err<"wrong-handler", `Not a valid async named function: '${T}'`>;
+type NamedAsyncFunction<T extends string> = T extends `async ${infer Rest}`
+? NamedSyncFunction<Trim<Rest>> extends Err<"malformed-token">
+    ? NamedSyncFunction<Trim<Rest>> // Error exit
+    : NamedSyncFunction<Trim<Rest>> extends infer Token extends IT_Token<"function">
+        ? IsTrue<Token["isAsync"]> extends true
+            ? Token
+            : Err<"malformed-token">
+        : Err<"wrong-handler">
+: Err<`wrong-handler`, `The NamedAsyncFunction<T> can not parse the token '${T}'`>;
 
-type AnonSyncFunction<T extends string> = Trim<T> extends `function${infer Rest}`
-    ? IT_TakeParameters<Rest> extends infer P extends IT_ParameterResults
+type AnonSyncFunction<T extends string> = Trim<T> extends `function ${infer Rest}`
+    ? IT_TakeParameters<Trim<Rest>> extends infer P extends IT_ParameterResults
         ? P extends {
             parameters: infer Parameters extends readonly IT_Parameter[];
             generics: infer Generics extends readonly GenericParam[] | [];
             rest: infer Rest extends string
         }
-            ? Rest extends `: ${infer ReturnType extends string}`
-                ? {
+            ? Rest extends `:${infer ReturnType extends string}`
+                ? FromInputToken__String<Trim<ReturnType>> extends Error
+                    ? Err<
+                        "malformed-token",
+                        `The anonymous function '${Trim<T>}' has a return type '${Trim<ReturnType>}' which can not be parsed!`,
+                        { parameters: Parameters; generics: Generics; token: Trim<T>; returnToken: Trim<ReturnType>}
+                    >
+                : {
                     __kind: "IT_Token";
                     kind: "function";
                     name: null;
@@ -162,41 +154,30 @@ type AnonSyncFunction<T extends string> = Trim<T> extends `function${infer Rest}
                     parameters: Parameters;
                     narrowing: Generics extends [] ? false : true;
                     returnToken: Trim<ReturnType>;
-                    returnType: any; // Simplified to handle both concrete types and generic parameters
-                    token: T;
-                    type: any; // Function type inference - simplified to avoid infinite recursion
+                    returnType: FromInputToken__String<Trim<ReturnType>>;
+                    token: Trim<T>;
+                    type: any;
+                    isAsync: Extends<FromInputToken__String<Trim<ReturnType>>, Promise<any>>;
                     rest: "";
                 }
-                : Err<"malformed-token", `Expected return type after ':' in anonymous function`>
-            : never
-        : Err<"wrong-handler", `Unable to parse parameters for anonymous function: '${T}'`>
-    : Err<"wrong-handler", `Not a valid anonymous function: '${T}'`>;
-
-type AnonAsyncFunction<T extends string> = Trim<T> extends `async function${infer Rest}`
-    ? IT_TakeParameters<Rest> extends infer P extends IT_ParameterResults
-        ? P extends {
-            parameters: infer Parameters extends readonly IT_Parameter[];
-            generics: infer Generics extends readonly GenericParam[] | [];
-            rest: infer Rest extends string
-        }
-            ? Rest extends `: ${infer ReturnType extends string}`
-                ? {
-                    __kind: "IT_Token";
-                    kind: "function";
-                    name: null;
-                    generics: Generics;
-                    parameters: Parameters;
-                    narrowing: Generics extends [] ? false : true;
-                    returnToken: Trim<ReturnType>;
-                    returnType: any; // Simplified to handle both concrete types and generic parameters
-                    token: T;
-                    type: any; // Function type inference - simplified to avoid infinite recursion
-                    rest: "";
-                }
-                : Err<"malformed-token", `Expected return type after ':' in async anonymous function`>
+                : Err<"malformed-token", `Expected return type after ':' in an anonymous function`>
             : never
         : Err<"wrong-handler", `Unable to parse parameters for async anonymous function: '${T}'`>
     : Err<"wrong-handler", `Not a valid async anonymous function: '${T}'`>;
+
+type AnonAsyncFunction<T extends string> = T extends `async ${infer Rest extends string}`
+    ? AnonSyncFunction<Trim<Rest>> extends Error
+        ? AnonSyncFunction<Trim<Rest>> // Error exit
+    : AnonSyncFunction<Trim<Rest>> extends infer Token extends IT_Token<"function">
+        ? IsTrue<Token["isAsync"]> extends true
+            ? Token
+            : Err<
+                "malformed-token",
+                `An asynchronous function MUST return a Promise!`,
+                { token: Trim<T>, returnType: Token["returnType"] }
+            >
+    : never
+: Err<"wrong-handler">;
 
 type ArrowSyncFunction<T extends string> = IT_TakeParameters<T> extends infer P extends IT_ParameterResults
     ? P extends {
