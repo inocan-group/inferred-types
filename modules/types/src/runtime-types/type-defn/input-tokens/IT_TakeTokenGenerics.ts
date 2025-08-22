@@ -8,7 +8,8 @@ import type {
     Trim,
     TrimEach,
     AlphanumericChar,
-    IsAlphanumeric
+    IsAlphanumeric,
+    Join
 } from "inferred-types/types";
 
 /**
@@ -106,7 +107,7 @@ export type IT_TakeTokenGenerics<
 
     : NestedSplit<TClean, ">"> extends [
         infer Block extends string,
-        infer Rest extends string
+        ...infer Rest extends readonly string[]
     ]
         ? NestedSplit<Block, ","> extends Error
             ? ErrContext<
@@ -123,7 +124,7 @@ export type IT_TakeTokenGenerics<
                             > // Error
                             : {
                                 generics: ParsedResult;
-                                rest: Trim<Rest>;
+                                rest: Trim<Join<Rest, ">">>;
                             } // Successful outcome
                         : never
                     : never
