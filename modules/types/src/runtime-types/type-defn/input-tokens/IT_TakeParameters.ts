@@ -10,6 +10,7 @@ import type {
     IT_Parameter,
     IT_TakeTokenGenerics,
     NestedSplit,
+    RetainAfter,
     RetainUntil,
     StripUntil,
     Trim
@@ -27,6 +28,7 @@ type DetermineType<
         ["name", T]
     > extends infer Generic extends GenericParam
         ? {
+            token: Generic["token"];
             type: Generic["type"];
             fromGeneric: Generic["name"]
         }
@@ -38,6 +40,7 @@ type DetermineType<
             { parameter: Trim<T>, generics: U, }
         >
     : {
+        token: Trim<T>;
         type: FromInputToken__String<Trim<T>>;
         fromGeneric: false;
     }
@@ -53,7 +56,7 @@ type AsParameters<
 
     ? Head extends `${infer Name extends string}:${infer Type extends string}`
         ? DetermineType<Trim<Type>, TGenerics> extends
-            infer Info extends { type: any; fromGeneric: false | string }
+            infer Info extends { type: any; fromGeneric: false | string; token: string }
 
             ? AsParameters<
                 Rest,
@@ -62,7 +65,7 @@ type AsParameters<
                     ...TResult,
                     As<{
                         name: Trim<Name>;
-                        token: Trim<Type>;
+                        token: Info["token"];
                         fromGeneric: Info["fromGeneric"];
                         type: Info["type"];
                     }, GenericParam>
@@ -91,13 +94,17 @@ type TakeParameters<
 > = T extends `(${infer Rest extends string}`
     ? [
         RetainUntil<Rest, ")">,
-        StripUntil<Rest, ")">
+        Trim<RetainAfter<Rest, ")">>
     ] extends [
         infer Block extends string,
         infer Rest extends string
     ]
         ? NestedSplit<Block, ","> extends infer KV extends readonly string[]
-            ? AsParameters<KV, P>
+            ? {
+                parameters: AsParameters<KV, P>;
+                generics: P;
+                rest: Rest;
+            }
         : Err<
             "malformed-token",
             `The function's parameter block -- ${Block} -- was not able to be parsed!`,

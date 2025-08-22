@@ -1,7 +1,7 @@
 import type {
     AfterFirst,
     AlphaChar,
-    AlphaNumericChar,
+    AlphanumericChar,
     As,
     CsvToUnion,
     Dictionary,
@@ -37,7 +37,7 @@ type SegmentType = (
  * - at runtime you can use `isDynamicSegment()` or
  * `hasDynamicSegment()`
  *
- * **Related:** `NamedDyamicSegment`
+ * **Related:** `NamedDynamicSegment`
  */
 export type DynamicSegment = `<${SegmentType}>`;
 
@@ -74,7 +74,7 @@ export type FromNamedDynamicSegment<T extends string> = T extends `<string::${st
                         ? boolean | undefined
                         : T extends `<string(${infer Params})::${string}>`
                             ? CsvToUnion<Params>
-                            : T extends `<${AlphaChar}${string}${AlphaNumericChar}>`
+                            : T extends `<${AlphaChar}${string}${AlphanumericChar}>`
                                 ? string
                                 : never;
 

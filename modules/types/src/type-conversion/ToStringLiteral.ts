@@ -1,6 +1,6 @@
 import type {
     AfterFirst,
-    AlphaNumericChar,
+    AlphanumericChar,
     As,
     Chars,
     Dictionary,
@@ -125,7 +125,7 @@ export type IsObjectKeyRequiringQuotes<
     TChars extends readonly string[] = Chars<T>
 > = [] extends TChars
     ? false
-    : First<TChars> extends AlphaNumericChar
+    : First<TChars> extends AlphanumericChar
         ? IsObjectKeyRequiringQuotes<T, AfterFirst<TChars>>
         : true;
 

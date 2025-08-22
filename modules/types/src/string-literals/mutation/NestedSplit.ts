@@ -31,7 +31,19 @@ type SplitWithNoStack<
         ? true
         : false
     : false;
+/**
+ * convert when split characters are more than 1 character in length
+ */
+type MultiConvert<
+    TContent extends string,
+    TSplit extends string,
+    TNesting extends Nesting,
 
+> = ;
+
+/**
+ * convert when split characters are only 1 character in length
+ */
 type Convert<
     TChars extends readonly string[],
     TSplit extends string,
@@ -132,28 +144,23 @@ export type NestedSplit<
     TNesting extends Nesting | NestingConfig__Named = DefaultNesting,
     TPolicy extends NestedSplitPolicy = "omit"
 >
-= Or<[
-    IsWideString<TContent>,
-    IsWideString<TSplit>
-]> extends true
-    ? string[]
-    : TSplit extends readonly string[]
-        ? AllLengthOf<TSplit, 1> extends true
-            ? Convert<Chars<TContent>, TSplit[number], FromNamedNestingConfig<TNesting>, TPolicy>
-            : Err<
-                `invalid-nesting/nested-split`,
-                `A tuple of strings were passed into to form a union type of characters which would provide the 'split', however, at least one of these were longer than a single character!`,
-                { split: ToStringLiteral<TSplit>; content: TContent }
-            >
-        : TSplit extends string
-            ? StrLen<TSplit> extends 1
-                ? Convert<Chars<TContent>, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
-                : Err<
-                    `invalid-nesting/nested-split`,
-                    `A strings of more than one character was provided as the 'split' character; this is not allowed!`,
-                    { split: TSplit; content: TContent }
-                >
-            : never;
+= string extends TContent
+  ? string[]
+: string extends TSplit
+  ? string[]
+: TSplit extends readonly string[]
+    ? AllLengthOf<TSplit, 1> extends true
+        ? Convert<Chars<TContent>, TSplit[number], FromNamedNestingConfig<TNesting>, TPolicy>
+        : Err<
+            `invalid-nesting/nested-split`,
+            `A tuple of strings were passed into to form a union type of characters which would provide the 'split', however, at least one of these were longer than a single character!`,
+            { split: ToStringLiteral<TSplit>; content: TContent }
+        >
+    : TSplit extends string
+        ? StrLen<TSplit> extends 1
+            ? Convert<Chars<TContent>, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
+            : Err<"shit gone bad">
+        : never;
 
 // Process<TContent, TSplit, TNesting, TPolicy>;
 

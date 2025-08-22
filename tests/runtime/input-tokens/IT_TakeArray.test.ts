@@ -26,6 +26,7 @@ describe("IT_TakeArray<T>", () => {
     it("postfix group", () => {
         type StrTwo = IT_TakeArray<"(string)[][]">;
         type Str = IT_TakeArray<"(string)[]">;
+        type Union = IT_TakeArray<"(string | number)[]">;
 
         type cases = [
             Expect<Test<StrTwo, "extends", IT_Token<"array">>>,

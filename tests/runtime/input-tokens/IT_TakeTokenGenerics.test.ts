@@ -83,11 +83,11 @@ describe("TakeTokenGenerics<T>", () => {
 
 
     it("invalid tokens", () => {
-        type E1 = IT_TakeTokenGenerics<"foobar">;
+        type E1 = IT_TakeTokenGenerics<"foobar!">;
         type E2 = IT_TakeTokenGenerics<"<T extends string, U hates number>">;
 
         type cases = [
-            Expect<Test<E1, "isError", `wrong-handler/generic`>>,
+            Expect<Test<E1, "isError", `malformed-token/generic`>>,
             Expect<Test<E2, "isError", `malformed-token/generic`>>,
         ];
     });

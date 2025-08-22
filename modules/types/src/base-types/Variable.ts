@@ -1,7 +1,7 @@
 import type {
     AfterFirst,
     AlphaChar,
-    AlphaNumericChar,
+    AlphanumericChar,
     Chars,
     First,
     VariableChar,
@@ -17,7 +17,7 @@ import type {
  *
  * Further type safety would become too expensive.
  */
-export type Variable = `${AlphaChar}${string}${AlphaNumericChar}`;
+export type Variable = `${AlphaChar}${string}${AlphanumericChar}`;
 
 type ValidChars<T extends readonly string[]> = [] extends T
     ? true

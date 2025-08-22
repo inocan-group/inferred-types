@@ -1,4 +1,4 @@
-import type { As, Err, ErrType, GetInputToken, NestedSplit, Trim } from "inferred-types/types";
+import type { As, Err, ErrType, GetInputToken, Join, NestedSplit, Trim } from "inferred-types/types";
 import type { IT_Token } from "types/runtime-types/type-defn/input-tokens/IT_Base";
 import type { IT_TakeOutcome } from "./IT_Base";
 
@@ -45,11 +45,10 @@ type IT_TakeArray_Postfix<T extends string>
  * matches on tokens like `(string)[]`, `(string | number)[]`, etc.
  */
 type IT_TakeArray_Postfix_Grouped<T extends string>
-// eslint-disable-next-line unused-imports/no-unused-vars, ts/no-unused-vars
 = T extends `(${infer Rest}`
     ? NestedSplit<Rest, ")[][]"> extends [
         infer Block extends string,
-        infer Rest extends string
+        ...infer Rest extends string[]
     ]
         ? GetInputToken<Trim<Block>> extends infer Token extends IT_Token
             ? {
@@ -57,39 +56,47 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
                 kind: "array";
                 token: `(${Token["token"]})[][]`;
                 type: (Token["type"])[][];
-                rest: Trim<Rest>;
+                rest: Trim<Join<Rest, ")[][]">>;
             }
             : Err<
                 "malformed-token/array",
                 `The token '${T}' appeared to be a grouped two-dimensional array but the interior block '${Block}' could not be parsed as a valid type!`,
-                { T: T; block: Block; rest: Rest }
+                { token: T; block: Block; rest: Rest }
             >
 
-        : NestedSplit<Rest, ")[]"> extends [
-            infer Block extends string,
-            infer Rest extends string
-        ]
-            ? GetInputToken<Block> extends infer Token extends IT_Token
-                ? {
-                    __kind: "IT_Token";
-                    kind: "array";
-                    token: `(${Token["token"]})[]`;
-                    type: Array<Token["type"]>;
-                    rest: Trim<Rest>;
-                }
-                : Err<
-                    "malformed-token/array",
+    : NestedSplit<Rest, ")[]"> extends [
+        infer Block extends string,
+        ...infer Rest extends readonly string[]
+    ]
+        ? GetInputToken<Block> extends infer Token extends IT_Token
+            ? {
+                __kind: "IT_Token";
+                kind: "array";
+                token: `(${Token["token"]})[]`;
+                type: (Token["type"])[];
+                rest: Trim<Join<Rest, ")[]">>;
+            }
+            : Err<
+                "malformed-token/array",
                 `The token '${T}' appeared to be a grouped array but the interior block '${Block}' could not be parsed as a valid type!`,
                 { token: T; block: Block; rest: Rest }
-                >
-            : Err<
-                "wrong-handler/array",
-                `The grouped function matcher could not parse the string token.`
             >
-    : Err<"wrong-handler/array">;
+    : Err<
+        "wrong-handler/array",
+        `The grouped function matcher could not parse the string token.`,
+        { token: T, rest: Rest }
+    >
+: Err<"wrong-handler/array">;
 
 ;
 
+type X = IT_TakeArray_Postfix_Grouped<"(string)[]">
+type Y = NestedSplit<"string)[]", ")[]", {
+    '{': '}',
+    '"': '"',
+    '\'': "'",
+    '(': ')'
+}>;
 /**
  * matches on tokens like `Array<string|number>`, etc.
  */
@@ -134,11 +141,11 @@ type IT_TakeArray_Bracket<T extends string> = T extends `Array<${infer Rest exte
  */
 export type IT_TakeArray<T extends string> = As<
     ErrType<IT_TakeArray_Postfix<T>> extends "malformed-token"
-        ? IT_TakeArray_Postfix<T>
+        ? IT_TakeArray_Postfix<T> // Error exit
         : IT_TakeArray_Postfix<T> extends infer Success extends IT_Token<"array">
             ? Success
             : ErrType<IT_TakeArray_Postfix_Grouped<T>> extends "malformed-token"
-                ? IT_TakeArray_Postfix_Grouped<T>
+                ? IT_TakeArray_Postfix_Grouped<T> // Error exit
                 : IT_TakeArray_Postfix_Grouped<T> extends infer Success extends IT_Token<"array">
                     ? Success
                     : IT_TakeArray_Bracket<T>,

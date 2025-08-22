@@ -53,6 +53,11 @@ export type IT_Parameter = {
     type: unknown;
 }
 
+export type IT_ParameterResults = {
+    parameters: readonly IT_Parameter[];
+    generics: readonly GenericParam[];
+    rest: string;
+}
 export interface IT_Token_Base<T extends IT_TakeKind> {
     __kind: "IT_Token";
     /**
@@ -109,8 +114,6 @@ export interface IT_Token_Function extends IT_Token_Base<"function"> {
 
     /** the generics used for the parameters of the function */
     generics: readonly GenericParam[];
-
-    genericsToken: string;
 
     /** a tuple representing the parameters in the function */
     parameters: readonly IT_Parameter[];

@@ -1,7 +1,6 @@
 import type { NETWORK_PROTOCOL_LOOKUP, PROTOCOL_DEFAULT_PORTS } from "inferred-types/constants";
 import type {
-    AlphaNumericChar,
-    AlphaNumericPlus,
+    AlphanumericChar,
     AsNumber,
     AsString,
     Contains,
@@ -25,6 +24,7 @@ import type {
     StripTrailing,
     StripWhile,
     TupleToUnion,
+    ValidateCharacterSet,
     Values,
 } from "inferred-types/types";
 
@@ -217,7 +217,7 @@ export type RemoveNetworkProtocol<
     ? Rest
     : TContent;
 
-export type UrlPathChars = AlphaNumericChar | "_" | "@" | "." | "-" | "/";
+export type UrlPathChars = AlphanumericChar | "_" | "@" | "." | "-" | "/";
 
 /**
  * **UrlPath**`<T>`
@@ -237,10 +237,8 @@ export type UrlPath<T extends string | null = null> = T extends null
     : T extends string
         ? string extends T
             ? never
-            : T extends `/${AlphaNumericChar}${infer Rest}`
-                ? AlphaNumericPlus<Rest, "_" | "@" | "." | "-" | "/"> extends Error
-                    ? never
-                    : T
+            : T extends `/${AlphanumericChar}${infer Rest}`
+                ? ValidateCharacterSet<Rest, AlphanumericChar | "_" | "@" | "." | "-" | "/">
                 : never
         : never; // when not string or null
 

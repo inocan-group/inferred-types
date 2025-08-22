@@ -38,6 +38,7 @@ export * from "./RequiredProps";
 export * from "./RequireProps";
 export * from "./ReverseLookup";
 export * from "./SetKey";
+export * from "./Set";
 export * from "./SetKeysTo";
 export * from "./SharedKeys";
 export * from "./SimplifyObject";

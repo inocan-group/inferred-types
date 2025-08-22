@@ -52,9 +52,6 @@ export type IT_TakeTokenGeneric<T extends string>
         `malformed-token/generic`,
         `The string -- '${T}' -- passed to TakeTokenGeneric<T> is invalid as a generic name!`
     >
->
-
-
 ;
 
 type ParseGenerics<

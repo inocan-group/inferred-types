@@ -14,16 +14,22 @@ type Parser<
         ? GetInputToken<Key> extends infer KeyType extends IT_Token
             ? TContainer extends "Record"
                 ? KeyType["type"] extends ObjectKey
-                    ? {
-                        __kind: "IT_Token";
-                        kind: "kv";
-                        token: `${Block}`;
-                        type: Record<KeyType["type"], FromInputToken__String<Trim<Value>>>;
-                        container: TContainer;
-                        keyToken: Trim<Key>;
-                        valueToken: Trim<Value>;
-                        rest: Trim<Rest>;
-                    }
+                    ? FromInputToken__String<Trim<Value>> extends Error
+                        ? Err<
+                            `malformed-token/record`,
+                            `The value of the Record<K,V> -- '${Trim<Value>}' -- was unable to be parsed! ${FromInputToken__String<Trim<Value>>["message"]}`,
+                            { key: KeyType["type"]; valueToken: Trim<Value> }
+                        >
+                        : {
+                            __kind: "IT_Token";
+                            kind: "kv";
+                            token: `${Block}`;
+                            type: Record<KeyType["type"], FromInputToken__String<Trim<Value>>>;
+                            container: TContainer;
+                            keyToken: Trim<Key>;
+                            valueToken: Trim<Value>;
+                            rest: Trim<Rest>;
+                        }
                     : Err<
                         `malformed-token/record`,
                         `The key [${Key}] of Record must extends ObjectKey!`,
@@ -40,23 +46,23 @@ type Parser<
                         valueToken: Trim<Value>;
                         rest: Trim<Rest>;
                     }
-                    : TContainer extends "WeakMap"
-                        ? KeyType extends object
-                            ? {
-                                __kind: "IT_Token";
-                                kind: "kv";
-                                token: `${Block}`;
-                                type: WeakMap<KeyType["type"], FromInputToken__String<Value>>;
-                                container: TContainer;
-                                keyToken: Key;
-                                valueToken: Value;
-                                rest: Trim<Rest>;
-                            }
-                            : Err<
-                                `malformed-token/weak-map`,
-                        `The key [${Key}] for a WeakMap must be a container type!`
-                            >
-                        : never
+                : TContainer extends "WeakMap"
+                    ? KeyType["type"] extends object
+                        ? {
+                            __kind: "IT_Token";
+                            kind: "kv";
+                            token: `${Block}`;
+                            type: WeakMap<KeyType["type"], FromInputToken__String<Value>>;
+                            container: TContainer;
+                            keyToken: Key;
+                            valueToken: Value;
+                            rest: Trim<Rest>;
+                        }
+                        : Err<
+                            `malformed-token/weak-map`,
+                            `The key [${Key}] for a WeakMap must be a container type!`
+                        >
+                : never
             : never
         : Err<
             "wrong-handler/kv",
@@ -84,6 +90,6 @@ export type IT_TakeKvObjects<T extends string> = T extends `Record<${infer Rest 
             ? Parser<"WeakMap", Rest>
             : Err<
                 `wrong-handler/kv`,
-    `The IT_TakeKvObjects can parse Record, Map, and WeakMap symbols but the tokens matched none of these signatures: ${T}`,
-    { token: T }
+                `The IT_TakeKvObjects can parse Record, Map, and WeakMap symbols but the tokens matched none of these signatures: ${T}`,
+                { token: T }
             >;

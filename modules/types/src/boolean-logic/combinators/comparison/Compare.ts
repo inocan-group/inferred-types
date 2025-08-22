@@ -1,6 +1,6 @@
 import type {
     AlphaChar,
-    AlphaNumericChar,
+    AlphanumericChar,
     AnyFunction,
     AreIncompatible,
     As,
@@ -283,7 +283,7 @@ type Process__String<
                                 ? TVal extends ""
                                     ? false
                                     : IsEqual<
-                                        RetainChars<As<TVal, string>, AlphaNumericChar>,
+                                        RetainChars<As<TVal, string>, AlphanumericChar>,
                                         TVal
                                     >
                                 : IsString<TVal> extends true ? boolean : false

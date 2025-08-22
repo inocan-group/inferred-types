@@ -1,4 +1,4 @@
-import type { GetInputToken, InputTokenSuggestions } from "inferred-types/types";
+import type { Dictionary, Every, GetInputToken, InputTokenSuggestions, IsWideObject, Values } from "inferred-types/types";
 
 /**
  * **InputToken**
@@ -87,7 +87,29 @@ export type InputToken
     )[];
 
 export type IsInputToken<T> = T extends InputToken
-    ? GetInputToken<T> extends Error
-        ? false
-        : true
-    : false;
+    ? T extends string
+        ? GetInputToken<T> extends Error
+            ? false
+            : true
+    : T extends readonly string[]
+        ? Every<
+            {
+                [K in keyof T]: IsInputToken<T[K]>
+            },
+            "true",
+            []
+        >
+    : T extends Dictionary
+        ? IsWideObject<T> extends true
+            ? boolean
+        : Values<T> extends infer ObjValues extends readonly string[]
+            ? Every<
+                {
+                    [K in keyof ObjValues]: IsInputToken<ObjValues[K]>
+                },
+                "true",
+                []
+            >
+            : false
+        : false
+: false;

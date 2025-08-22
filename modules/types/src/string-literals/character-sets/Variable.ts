@@ -1,4 +1,4 @@
-import type { AlphaNumericChar } from "inferred-types/types";
+import type { AlphanumericChar } from "inferred-types/types";
 
 /**
  * **VariableChar**
@@ -7,7 +7,7 @@ import type { AlphaNumericChar } from "inferred-types/types";
  *
  * **Related:** `PropertyChar`
  */
-export type VariableChar = AlphaNumericChar | "_" | ".";
+export type VariableChar = AlphanumericChar | "_" | ".";
 
 /**
  * **VariableChar**
