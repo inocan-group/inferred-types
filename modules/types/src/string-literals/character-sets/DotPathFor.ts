@@ -10,21 +10,21 @@ type IncrementDepth<TDepth extends readonly unknown[]> = readonly [...TDepth, un
  * Check if the current depth has exceeded the maximum allowed depth
  */
 type IsDepthExceeded<
-  TDepth extends readonly unknown[],
-  TMaxDepth extends readonly unknown[]
+    TDepth extends readonly unknown[],
+    TMaxDepth extends readonly unknown[]
 > = TDepth["length"] extends TMaxDepth["length"]
-  ? true
-  : TMaxDepth["length"] extends TDepth["length"]
-    ? false
-    : TDepth["length"] extends number
-      ? TMaxDepth["length"] extends number
-        ? TDepth["length"] extends 0
-          ? false
-          : TMaxDepth extends readonly [...TDepth, ...infer _]
-            ? false
-            : true
-        : false
-      : false;
+    ? true
+    : TMaxDepth["length"] extends TDepth["length"]
+        ? false
+        : TDepth["length"] extends number
+            ? TMaxDepth["length"] extends number
+                ? TDepth["length"] extends 0
+                    ? false
+                    : TMaxDepth extends readonly [...TDepth, ...infer _]
+                        ? false
+                        : true
+                : false
+            : false;
 
 type GenNode<
     K extends string | number,
@@ -47,7 +47,7 @@ type GenList<
     TMaxDepth extends readonly unknown[] = readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     K extends keyof TContainer = keyof TContainer,
 > = IsDepthExceeded<TDepth, TMaxDepth> extends true
-    ? never  // Gracefully stop recursion when depth is exceeded
+    ? never // Gracefully stop recursion when depth is exceeded
     : K extends string | number
         ? GenNode<K, IsRoot, IsArray<TContainer>> | (
             TContainer[K] extends object
@@ -56,7 +56,7 @@ type GenList<
                     false,
                     IncrementDepth<TDepth>,
                     TMaxDepth
-                  >}`
+                >}`
                 : never
           )
         : never;

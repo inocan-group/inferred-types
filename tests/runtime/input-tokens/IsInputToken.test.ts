@@ -55,7 +55,6 @@ describe("IsInputToken<T>", () => {
         type Str = IsInputToken<"string[]">;
         type Num = IsInputToken<"number[]">;
         type GroupedUnion = IsInputToken<"(string | number)[]">;
-        type X = GetInputToken<"(string | number)[]">;
         type Bracket = IsInputToken<"Array<string>">;
         type BracketUnion = IsInputToken<"Array<string | number>">;
 

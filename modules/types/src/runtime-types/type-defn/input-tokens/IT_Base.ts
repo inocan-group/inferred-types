@@ -1,4 +1,4 @@
-import type { GenericParam, InputTokenSuggestions, IsDictionary, IsUnion } from "inferred-types/types";
+import type { GenericParam, IsDictionary, IsUnion } from "inferred-types/types";
 
 export type IT_TakeKind
 = | "atomic"
@@ -37,7 +37,7 @@ export type IT_Parameter = {
      *   - an `InputToken`
      *   - a `GenericParam`
      */
-    token: InputTokenSuggestions | GenericParam;
+    token: string;
     /**
      * **fromGeneric**
      *

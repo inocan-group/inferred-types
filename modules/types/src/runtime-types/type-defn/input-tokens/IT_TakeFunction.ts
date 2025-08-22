@@ -1,4 +1,50 @@
-import type { AlphaChar, Err, ErrType, FromInputToken, FromInputToken__String, GenericParam, IsInputToken, IT_Parameter, IT_ParameterResults, IT_TakeParameters, IT_Token, OptSpace, Replace, Trim } from "inferred-types/types";
+import type { AlphaChar, As, Err, ErrType, FromInputToken, FromInputToken__String, GenericParam, IsInputToken, IsTrue, IT_Parameter, IT_ParameterResults, IT_TakeParameters, IT_Token, Join, OptSpace, Replace, Trim } from "inferred-types/types";
+
+type Config = {
+    generics: readonly GenericParam[],
+    parameters: readonly IT_Parameter[],
+    isAsync: boolean,
+    returnToken: string,
+    name?: string,
+    isArrow: boolean
+};
+
+type BuildParams<
+    TConfig extends Config,
+    TParams extends string = Join<As<{
+        [K in keyof TConfig["parameters"]]: TConfig["parameters"][K] extends infer Param extends readonly IT_Parameter
+            ? `${Param["name"]}: ${Param["token"]}`
+            : never
+    }, readonly string[]>, ",">
+> = As<
+TConfig["generics"] extends []
+? Join<[
+    '( ',
+    TParams,
+    ' )'
+]>
+: Join<[
+    '<',
+    '',
+    '>',
+    '( ',
+    TParams,
+    ' )'
+]>,
+string>;
+
+type BuildFnString<
+    TConfig extends Config
+> = Join<[
+    IsTrue<TConfig["isAsync"]> extends true ? "async" : "",
+    BuildParams<TConfig>,
+
+
+]>
+
+
+
+;
 
 type NamedSyncFunction<T extends string> = ;
 
@@ -23,7 +69,15 @@ type ArrowSyncFunction<T extends string> = IT_TakeParameters<T> extends infer P 
                 name: null;
                 generics: Generics;
                 parameters: Parameters;
-                token: Trim<Replace<T,Rest,"">>;
+                returnToken: Trim<Rest>;
+                returnType: FromInputToken__String<Trim<Rest>>;
+                token: BuildFnString<{
+                    generics: Generics,
+                    parameters: Parameters,
+                    isAsync: false,
+                    returnToken: Trim<Rest>,
+                    isArrow: true
+                }>;
             }
         : Err<"malformed-token">
     : never

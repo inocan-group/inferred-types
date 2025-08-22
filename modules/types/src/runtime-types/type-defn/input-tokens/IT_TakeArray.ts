@@ -1,6 +1,5 @@
-import type { As, Err, ErrType, GetInputToken, Join, NestedSplit, Trim } from "inferred-types/types";
+import type { Err, ErrType, GetInputToken, Join, NestedSplit, Trim } from "inferred-types/types";
 import type { IT_Token } from "types/runtime-types/type-defn/input-tokens/IT_Base";
-import type { IT_TakeOutcome } from "./IT_Base";
 
 /**
  * matches on tokens like `string[]`, `number[]`, etc.
@@ -48,7 +47,7 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
 = T extends `(${infer Rest}`
     ? NestedSplit<Rest, ")[][]"> extends [
         infer Block extends string,
-        ...infer Rest extends string[]
+        ...infer Rest extends [string, ...string[]]
     ]
         ? GetInputToken<Trim<Block>> extends infer Token extends IT_Token
             ? {
@@ -66,7 +65,7 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
 
         : NestedSplit<Rest, ")[]"> extends [
             infer Block extends string,
-            ...infer Rest extends readonly string[]
+            ...infer Rest extends readonly [string, ...string[]]
         ]
             ? GetInputToken<Block> extends infer Token extends IT_Token
                 ? {
@@ -88,15 +87,6 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
             >
     : Err<"wrong-handler/array">;
 
-;
-
-type X = IT_TakeArray_Postfix_Grouped<"(string)[]">;
-type Y = NestedSplit<"string)[]", ")[]", {
-    "{": "}";
-    "\"": "\"";
-    "'": "'";
-    "(": ")";
-}>;
 /**
  * matches on tokens like `Array<string|number>`, etc.
  */
@@ -130,6 +120,21 @@ type IT_TakeArray_Bracket<T extends string> = T extends `Array<${infer Rest exte
         { token: T }
     >;
 
+type Select<
+    T extends readonly unknown[],
+    TToken extends string
+> = T extends [ infer Head, ...infer Rest extends readonly unknown[]]
+    ? Head extends infer Success extends IT_Token<"array">
+        ? Success
+        : Head extends infer Fail extends Err<"malformed-token">
+            ? Fail
+            : Select<Rest, TToken>
+    : Err<
+        "wrong-handler",
+    `The IT_TakeArray<T> handler is unable to parse the head of: '${TToken}'`,
+    { token: TToken }
+    >;
+
 /**
  * **IT_TakeArray**`<T>`
  *
@@ -139,16 +144,8 @@ type IT_TakeArray_Bracket<T extends string> = T extends `Array<${infer Rest exte
  * - **PostFix Grouped**: `(string | number)[]`, `(number | boolean)[][]`
  * - **Bracketed**: `Array<string>`, `Array<string | number>`
  */
-export type IT_TakeArray<T extends string> = As<
-    ErrType<IT_TakeArray_Postfix<T>> extends "malformed-token"
-        ? IT_TakeArray_Postfix<T> // Error exit
-        : IT_TakeArray_Postfix<T> extends infer Success extends IT_Token<"array">
-            ? Success
-            : ErrType<IT_TakeArray_Postfix_Grouped<T>> extends "malformed-token"
-                ? IT_TakeArray_Postfix_Grouped<T> // Error exit
-                : IT_TakeArray_Postfix_Grouped<T> extends infer Success extends IT_Token<"array">
-                    ? Success
-                    : IT_TakeArray_Bracket<T>,
-
-    IT_TakeOutcome<"array">
->;
+export type IT_TakeArray<T extends string> = Select<[
+    IT_TakeArray_Postfix_Grouped<T>,
+    IT_TakeArray_Postfix<T>,
+    IT_TakeArray_Bracket<T>
+], T>;

@@ -231,6 +231,103 @@ describe("nestedSplit()", () => {
         ];
     });
 
+    it("multi-character split: basic splitting", () => {
+        const r1 = nestedSplit("foo and bar and baz", "and");
+        const r2 = nestedSplit("hello => world => test", "=>");
+
+        expect(r1).toEqual(["foo ", " bar ", " baz"]);
+        expect(r2).toEqual(["hello ", " world ", " test"]);
+
+        type cases = [
+            Expect<Test<typeof r1, "equals", ["foo ", " bar ", " baz"]>>,
+            Expect<Test<typeof r2, "equals", ["hello ", " world ", " test"]>>
+        ];
+    });
+
+    it("multi-character split: with nesting", () => {
+        const r1 = nestedSplit("foo(bar and baz) and result", "and", { "(": ")" });
+        const r2 = nestedSplit("if {condition && other} then action", "&&", { "{": "}" });
+
+        expect(r1).toEqual(["foo(bar and baz) ", " result"]);
+        expect(r2).toEqual(["if {condition && other} then action"]);
+
+        type cases = [
+            Expect<Test<typeof r1, "equals", ["foo(bar and baz) ", " result"]>>,
+            Expect<Test<typeof r2, "equals", ["if {condition && other} then action"]>>
+        ];
+    });
+
+    it("multi-character split: different policies", () => {
+        const omitTest = nestedSplit("foo and bar and baz", "and", { "{": "}" }, "omit");
+        const inlineTest = nestedSplit("foo and bar and baz", "and", { "{": "}" }, "inline");
+        const beforeTest = nestedSplit("foo and bar and baz", "and", { "{": "}" }, "before");
+        const afterTest = nestedSplit("foo and bar and baz", "and", { "{": "}" }, "after");
+
+        expect(omitTest).toEqual(["foo ", " bar ", " baz"]);
+        expect(inlineTest).toEqual(["foo ", "and", " bar ", "and", " baz"]);
+        expect(beforeTest).toEqual(["foo ", "and bar ", "and baz"]);
+        expect(afterTest).toEqual(["foo and", " bar and", " baz"]);
+
+        type cases = [
+            Expect<Test<typeof omitTest, "equals", ["foo ", " bar ", " baz"]>>,
+            Expect<Test<typeof inlineTest, "equals", ["foo ", "and", " bar ", "and", " baz"]>>,
+            Expect<Test<typeof beforeTest, "equals", ["foo ", "and bar ", "and baz"]>>,
+            Expect<Test<typeof afterTest, "equals", ["foo and", " bar and", " baz"]>>
+        ];
+    });
+
+    it("multi-character split: complex nesting with multiple levels", () => {
+        const r1 = nestedSplit("func(param or default) or other(nested or not) or final", "or", { "(": ")" });
+        const r2 = nestedSplit("array[index || fallback] || other[key || default]", "||", { "[": "]" });
+
+        expect(r1).toEqual(["func(param or default) ", " other(nested or not) ", " final"]);
+        expect(r2).toEqual(["array[index || fallback] ", " other[key || default]"]);
+
+        type cases = [
+            Expect<Test<typeof r1, "equals", ["func(param or default) ", " other(nested or not) ", " final"]>>,
+            Expect<Test<typeof r2, "equals", ["array[index || fallback] ", " other[key || default]"]>>
+        ];
+    });
+
+    it("multi-character split: no split found", () => {
+        const r1 = nestedSplit("hello world test", "and");
+        const r2 = nestedSplit("function(param) { return value; }", "or", { "{": "}", "(": ")" });
+
+        expect(r1).toEqual(["hello world test"]);
+        expect(r2).toEqual(["function(param) { return value; }"]);
+
+        type cases = [
+            Expect<Test<typeof r1, "equals", ["hello world test"]>>,
+            Expect<Test<typeof r2, "equals", ["function(param) { return value; }"]>>
+        ];
+    });
+
+    it("multi-character split: mixed with bracket nesting", () => {
+        const r1 = nestedSplit("WeakMap<{id: number, data: Array<string>}> then string", "then", { "{": "}", "<": ">" });
+        const r2 = nestedSplit("Array<number> or Set<string> or Map<key, value>", "or", { "<": ">" });
+
+        expect(r1).toEqual(["WeakMap<{id: number, data: Array<string>}> ", " string"]);
+        expect(r2).toEqual(["Array<number> ", " Set<string> ", " Map<key, value>"]);
+
+        type cases = [
+            Expect<Test<typeof r1, "equals", ["WeakMap<{id: number, data: Array<string>}> ", " string"]>>,
+            Expect<Test<typeof r2, "equals", ["Array<number> ", " Set<string> ", " Map<key, value>"]>>
+        ];
+    });
+
+    it("multi-character split: empty segments", () => {
+        const r1 = nestedSplit("and bar and", "and");
+        const r2 = nestedSplit("startandendand", "and");
+
+        expect(r1).toEqual(["", " bar ", ""]);
+        expect(r2).toEqual(["start", "end", ""]);
+
+        type cases = [
+            Expect<Test<typeof r1, "equals", ["", " bar ", ""]>>,
+            Expect<Test<typeof r2, "equals", ["start", "end", ""]>>
+        ];
+    });
+
 });
 
 describe("via the nesting(config) HOF", () => {

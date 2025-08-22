@@ -6,16 +6,13 @@ import type {
     DefaultNesting,
     Err,
     First,
-    FromNesting,
     FromNamedNestingConfig,
+    FromNesting,
     IsNestingMatchEnd,
     IsNestingStart,
-    IsWideString,
-    Nest,
     NestedString,
     Nesting,
     NestingConfig__Named,
-    Or,
     Pop,
     Split,
     StrLen,
@@ -99,7 +96,7 @@ type AddSplitBefore<
     : TResult;
 
 /**
- * Adds split string after each part (except last) for "after" policy  
+ * Adds split string after each part (except last) for "after" policy
  */
 type AddSplitAfter<
     TParts extends readonly string[],
@@ -128,14 +125,14 @@ type ProcessAllSegments<
 /**
  * Checks if TContent starts with TSplit at the current position
  */
-type StartsWith<TContent extends string, TSplit extends string> = 
-    TContent extends `${TSplit}${infer _Rest}` ? true : false;
+type StartsWith<TContent extends string, TSplit extends string>
+    = TContent extends `${TSplit}${infer _Rest}` ? true : false;
 
 /**
  * Gets the rest of the string after removing TSplit from the beginning
  */
-type AfterSplit<TContent extends string, TSplit extends string> = 
-    TContent extends `${TSplit}${infer Rest}` ? Rest : never;
+type AfterSplit<TContent extends string, TSplit extends string>
+    = TContent extends `${TSplit}${infer Rest}` ? Rest : never;
 
 /**
  * Multi-character conversion using direct string processing
@@ -166,7 +163,7 @@ type MultiConvertDirect<
                     : TPolicy extends "inline"
                         ? [...TResult, TWaiting, TSplit]
                         : TPolicy extends "before"
-                            ? TWaiting extends "" 
+                            ? TWaiting extends ""
                                 ? TResult["length"] extends 0
                                     ? []
                                     : [...TResult, TWaiting]
@@ -175,7 +172,7 @@ type MultiConvertDirect<
                                 ? [...TResult, `${TWaiting}${TSplit}`]
                                 : never,
                 true
-              >
+            >
             : IsNestingStart<Head, TNesting> extends true
                 ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, [...TStack, Head], `${TWaiting}${Head}`, TResult, false>
                 : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false>
@@ -312,22 +309,22 @@ export type NestedSplit<
     TPolicy extends NestedSplitPolicy = "omit"
 >
 = string extends TContent
-  ? string[]
-: string extends TSplit
-  ? string[]
-: TSplit extends readonly string[]
-    ? AllLengthOf<TSplit, 1> extends true
-        ? Convert<Chars<TContent>, TSplit[number], FromNamedNestingConfig<TNesting>, TPolicy>
-        : Err<
-            `invalid-nesting/nested-split`,
-            `A tuple of strings were passed into to form a union type of characters which would provide the 'split', however, at least one of these were longer than a single character!`,
-            { split: ToStringLiteral<TSplit>; content: TContent }
-        >
-    : TSplit extends string
-        ? StrLen<TSplit> extends 1
-            ? Convert<Chars<TContent>, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
-            : MultiConvert<TContent, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
-        : never;
+    ? string[]
+    : string extends TSplit
+        ? string[]
+        : TSplit extends readonly string[]
+            ? AllLengthOf<TSplit, 1> extends true
+                ? Convert<Chars<TContent>, TSplit[number], FromNamedNestingConfig<TNesting>, TPolicy>
+                : Err<
+                    `invalid-nesting/nested-split`,
+                    `A tuple of strings were passed into to form a union type of characters which would provide the 'split', however, at least one of these were longer than a single character!`,
+                    { split: ToStringLiteral<TSplit>; content: TContent }
+                >
+            : TSplit extends string
+                ? StrLen<TSplit> extends 1
+                    ? Convert<Chars<TContent>, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
+                    : MultiConvert<TContent, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
+                : never;
 
 // Process<TContent, TSplit, TNesting, TPolicy>;
 

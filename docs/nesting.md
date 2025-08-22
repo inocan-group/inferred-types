@@ -1,91 +1,289 @@
-# Nesting
+# Nesting Functionality
 
-We have a number of runtime and design-time utilities which help you deal with implicitly _nested_ structures which are "typed" as string literals.
+The **inferred-types** library provides comprehensive support for parsing and working with nested string structures through a collection of type utilities and runtime functions. This functionality is essential for handling strings that contain hierarchical structures like code, markup, or any text with paired delimiters.
 
-## Nesting Configuration
+## Overview
 
-The runtime function `createNestingConfig()` and the types `Nesting`, `NestingKeyValue`, and `NestingTuple` are all about making sure you can configure you're nesting rules to what you need.
+Nesting functionality allows you to:
 
-### Types
+- Parse strings into structured representations that understand nested relationships
+- Split strings while respecting nesting boundaries
+- Extract substrings up to specific delimiters while maintaining nesting context
+- Convert between flat strings and nested data structures
 
-> source: `/modules/types/src/domains/nesting.ts`
+## Core Types and Configuration
 
-The `Nesting` type is just a union of the two variants of configuration you can choose from:
+### Nesting Configuration Types
 
-- `NestingKeyValue<T>`
+The library supports two primary nesting configuration approaches:
 
-    This type of configuration sets you up with a symmetric group of _opening_ and _closing_ tags by allowing you pass in a dictionary object where:
+#### 1. NestingKeyValue
 
-    - the **keys** represent the _opening_ characters
-    - the **values** are the _closing_ characters
+A key-value mapping where keys are opening characters and values are closing characters:
 
-- `NestingTuple<T>`
+```typescript
+type ExampleNesting = {
+  "{": "}",
+  "(": ")",
+  "[": "]",
+  "<": ">"
+}
+```
 
-    This variant of configuration is a tuple of the structure:
+#### 2. NestingTuple
 
-    ```ts
-    [ open: string, close: string | undefined ]
-    ```
+A two-element tuple `[start, end]` for more complex scenarios:
 
-    - The **first element** references the _opening_ characters and typically is a union of string characters.
-    - The **second element** can be:
-      - a union of _closing_ characters
-        - this creates both _opening_ and _closing_ characters like the `NestingKeyValue<T>` variant
-        - but instead of having a `1:1` relationship of opening/closing pairs, this configuration is a `M:M` mapping where _any_ of the closing characters can close any of the starting characters.
-      - an `undefined` value
-        - when the second parameter is left _undefined_ the behavior shifts
-        - all opening characters are used to start the matching process
-        - and the matches _end_ comes when the first character is _not_ an opening character.
-        - one use case for this could be matching on numeric characters (as a "for instance")
+```typescript
+type ExampleTuple = [
+  readonly string[], // start characters
+  readonly string[] | undefined // end characters (undefined means same as start)
+]
+```
 
-Of these two available configuration variants, the `NestingKeyValue<T>` is the more common and is used to form the `DefaultNesting` type which other utilities can use as a sensible default setting.
+### Named Configurations
 
-### Runtime Configuration
+Three built-in configurations are available:
 
-The runtime provides the `createNestingConfig()` which makes creating a configuration quite simple and type safe.
+- **`"default"` / `"brackets"`**: Includes `{}`, `[]`, `()`, `<>`
+- **`"quotes"`**: Includes `"`, `'`, `` ` ``
 
-Ultimately, this function allows you to choose your configuration one of three ways:
+### Core Data Structure
 
-1. KeyValue Definition
+The `NestedString` type represents parsed nested content:
 
-    If you start by creating an object with the `{` character you'll move into KeyValue definition. This just sets up a `NestingKeyValue` configuration.
+```typescript
+type NestedString = {
+  content: string;        // Text content at this level
+  enterChar: string | null; // Opening character (null for root level)
+  exitChar: string | null;  // Closing character (null for root level)
+  children: NestedString[]; // Nested structures within this level
+  level: number;           // Nesting depth (0 = root)
+}
+```
 
-2. Tuple Definition
+## Type System Utilities
 
-    If you start by creating a tuple with the `[` character you'll move into configuring a `NestingTuple<T>` type.
+### Nest<TContent, TNesting>
 
-3. Named Defaults
+Parses a string into a nested structure based on nesting configuration.
 
-    There are a number of sensible defaults which are provided with string names:
+```typescript
+type Example = Nest<"function(param) { body }">;
+// Result: Array of NestedString objects representing the parsed structure
 
-    - `default` / `brackets`
-      - this will give you the aforementioned `DefaultNesting` type which bring all bracket characters into scope as opening and closing characters (e.g., `{ → }`, `[ → ]`, `( → )`, `< → >`)
-      - there is no difference between using `default` or `brackets`
-    - `quotes`
-      - this will give you quote characters as matched pairs
-      - `" → "`, `' → '`, '` → `'
-      - so in essence whatever you quote character you _start_ with you will _end_ with.
+type CustomExample = Nest<"array[index]", { "[": "]" }>;
+// Only recognizes square brackets as nesting
+```
 
-## Utilities using Nesting
+### FromNesting<TNest>
 
-The following utilities use nesting to provide more contextual parsing;
+Reconstructs the original string from a nested structure (inverse of `Nest`).
 
-- [`retainUntil__Nested()`](./sub-strings.md)
-- [`nestedSplit()`](./splits-and-joins.md)
+```typescript
+type Original = "function(param) { body }";
+type Nested = Nest<Original>;
+type Reconstructed = FromNesting<Nested>;
+// Reconstructed === Original (roundtrip compatibility)
+```
 
+### NestedSplit<TContent, TSplit, TNesting, TPolicy>
 
----
+Splits a string by delimiters while respecting nesting boundaries. Only splits at nesting level 0.
 
-## Other Docs
+```typescript
+// Basic usage
+type Result1 = NestedSplit<"foo,bar,baz", ",">;
+// Result: ["foo", "bar", "baz"]
 
-- [README](../README.md)
-- [Filter and Compare](./filter-and-compare.md)
-- [Input Tokens](./input-and-output-tokens.md)
-- [Networking](./networking.md)
-- **String Literals**
-  - [Split and Join](./splits-and-joins.md)
-  - [String Casing](./string-casing.md)
-  - [sub-strings](./sub-strings.md)
-- [Type Guards](./type-guards.md)
-- [Metrics](./metrics.md)
-- **Nesting** _(you are here)_
+// With nesting protection
+type Result2 = NestedSplit<"func(a,b), other", ",", { "(": ")" }>;
+// Result: ["func(a,b)", " other"] - comma inside parentheses ignored
+
+// Multi-character splits (enhanced feature)
+type Result3 = NestedSplit<"foo and bar and baz", "and">;
+// Result: ["foo ", " bar ", " baz"]
+```
+
+#### Split Policies
+
+The `TPolicy` parameter controls how split characters are handled:
+
+- **`"omit"`** (default): Removes split characters entirely
+- **`"inline"`**: Includes split characters as separate array elements
+- **`"before"`**: Prepends split character to following segment
+- **`"after"`**: Appends split character to preceding segment
+
+```typescript
+type Omit = NestedSplit<"a,b,c", ",", DefaultNesting, "omit">;
+// Result: ["a", "b", "c"]
+
+type Inline = NestedSplit<"a,b,c", ",", DefaultNesting, "inline">;
+// Result: ["a", ",", "b", ",", "c"]
+
+type Before = NestedSplit<"a,b,c", ",", DefaultNesting, "before">;
+// Result: ["a", ",b", ",c"]
+
+type After = NestedSplit<"a,b,c", ",", DefaultNesting, "after">;
+// Result: ["a,", "b,", "c"]
+```
+
+## Runtime Functions
+
+### nestedSplit(content, split, nesting?, policy?)
+
+Runtime implementation of `NestedSplit` with full type inference.
+
+```typescript
+import { nestedSplit } from "inferred-types/runtime";
+
+// Basic splitting
+const result1 = nestedSplit("foo,bar,baz", ",");
+// Runtime: ["foo", "bar", "baz"]
+// Type: ["foo", "bar", "baz"]
+
+// With nesting protection
+const result2 = nestedSplit("func(a,b), other", ",", { "(": ")" });
+// Runtime: ["func(a,b)", " other"]
+// Type: ["func(a,b)", " other"]
+
+// Using named configurations
+const result3 = nestedSplit("text 'with, comma' and more", ",", "quotes");
+// Protects content within quotes
+```
+
+### retainUntil__Nested(str, find, include?, nesting?)
+
+Extracts substring up to a specified character, but only when that character appears at nesting level 0.
+
+```typescript
+import { retainUntil__Nested } from "inferred-types/runtime";
+
+const result = retainUntil__Nested(
+  "function(param, other) { body }",
+  "{",
+  false, // exclude the found character
+  { "(": ")", "{": "}" }
+);
+// Result: "function(param, other) "
+// The comma inside parentheses is ignored
+```
+
+### retainUntil(content, ...find)
+
+Simple substring extraction without nesting awareness (for comparison).
+
+```typescript
+import { retainUntil } from "inferred-types/runtime";
+
+const simple = retainUntil("hello world", " ");
+// Result: "hello"
+```
+
+### createNestingConfig(config)
+
+Higher-order function for creating nesting configurations.
+
+```typescript
+import { createNestingConfig } from "inferred-types/runtime";
+
+// Using named configurations
+const brackets = createNestingConfig("brackets");
+// Returns: { "{": "}", "[": "]", "(": ")", "<": ">" }
+
+const quotes = createNestingConfig("quotes");
+// Returns: { "\"": "\"", "'": "'", "`": "`" }
+
+// Pass-through for custom configurations
+const custom = createNestingConfig({ "[": "]", "<": ">" });
+// Returns: { "[": "]", "<": ">" }
+```
+
+## Practical Examples
+
+### Parsing Code-like Structures
+
+```typescript
+// TypeScript function signature
+type FuncSig = "function doSomething(name: string, options: {debug: boolean}) { ... }";
+type Parsed = Nest<FuncSig>;
+// Creates structured representation understanding parameter lists and body blocks
+
+// Splitting method calls
+type MethodChain = "obj.method(a, b).other(c).final()";
+type Methods = NestedSplit<MethodChain, ".", { "(": ")" }>;
+// Result: ["obj", "method(a, b)", "other(c)", "final()"]
+```
+
+### Template Processing
+
+```typescript
+// HTML-like content
+type Template = "<div class='container'>Hello <span>world</span></div>";
+type Segments = NestedSplit<Template, " ", { "<": ">", "'": "'" }>;
+// Splits on spaces but protects content within tags and quotes
+```
+
+### Configuration Parsing
+
+```typescript
+// CSS-like syntax
+type Styles = "color: red; background: rgba(255, 0, 0, 0.5); margin: 10px;";
+type Properties = NestedSplit<Styles, ";", { "(": ")" }>;
+// Splits on semicolons but protects function calls like rgba()
+```
+
+## Error Handling
+
+The nesting system includes comprehensive error handling:
+
+### Unbalanced Nesting
+
+```typescript
+type Error1 = NestedSplit<"unbalanced(content", ",", { "(": ")" }>;
+// Returns: Error<"unbalanced/nested-split", ...>
+```
+
+### Invalid Configurations
+
+```typescript
+type Error2 = NestedSplit<"content", ",", { "invalid": "too-long" }>;
+// Returns: Error<"invalid-nesting/key-value", ...>
+```
+
+## Performance Considerations
+
+- **Single vs Multi-character splits**: Single-character splits use optimized character-by-character processing
+- **Multi-character splits**: Use pattern matching for splits longer than 1 character
+- **Nesting depth**: Performance scales linearly with content length and nesting depth
+- **Type complexity**: Deep nesting may approach TypeScript's recursion limits
+
+## Integration with Other Utilities
+
+Nesting functionality integrates seamlessly with other inferred-types utilities:
+
+```typescript
+// Combine with string manipulation
+type ProcessedContent = EnsureLeading<
+  NestedSplit<"path/to/file", "/", DefaultNesting>[0],
+  "/"
+>;
+
+// Use with conditional types
+type HasNesting<T extends string> = Nest<T> extends [NestedString]
+  ? Nest<T>[0]["children"] extends []
+    ? false
+    : true
+  : true;
+```
+
+## Testing and Validation
+
+The nesting system includes comprehensive test coverage:
+
+- **Roundtrip tests**: Ensure `FromNesting<Nest<T>>` equals `T`
+- **Edge cases**: Empty strings, unbalanced input, complex nesting
+- **Policy validation**: All split policies work correctly
+- **Multi-character support**: Full compatibility with complex split patterns
+
+This nesting functionality provides a robust foundation for parsing and manipulating structured text content while maintaining strong TypeScript typing throughout the process.

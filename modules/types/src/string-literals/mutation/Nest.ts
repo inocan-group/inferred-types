@@ -1,4 +1,4 @@
-import {
+import type {
     As,
     DefaultNesting,
     IsNestingStart,
@@ -11,8 +11,7 @@ export type NestedString = {
     exitChar: string | null;
     children: NestedString[];
     level: number;
-}
-
+};
 
 // Simplified recursive parsing
 type ParseSegment<
@@ -21,22 +20,22 @@ type ParseSegment<
     TAccumulated extends string = ""
 > = TContent extends `${infer Head}${infer Rest}`
     ? IsNestingStart<Head, TNesting> extends true
-        ? ParseNested<Rest, TNesting, Head> extends { content: infer NestedContent extends string, rest: infer Remaining extends string }
+        ? ParseNested<Rest, TNesting, Head> extends { content: infer NestedContent extends string; rest: infer Remaining extends string }
             ? [
                 As<{
-                    content: TAccumulated,
-                    enterChar: null,
-                    exitChar: null,
-                    level: 0,
+                    content: TAccumulated;
+                    enterChar: null;
+                    exitChar: null;
+                    level: 0;
                     children: [
                         As<{
-                            content: NestedContent,
-                            enterChar: Head,
-                            exitChar: GetEndChar<Head, TNesting>,
-                            level: 1,
-                            children: []
+                            content: NestedContent;
+                            enterChar: Head;
+                            exitChar: GetEndChar<Head, TNesting>;
+                            level: 1;
+                            children: [];
                         }, NestedString>
-                    ]
+                    ];
                 }, NestedString>,
                 ...ParseSegment<Remaining, TNesting>
             ]
@@ -46,11 +45,11 @@ type ParseSegment<
         ? []
         : [
             As<{
-                content: TAccumulated,
-                enterChar: null,
-                exitChar: null,
-                level: 0,
-                children: []
+                content: TAccumulated;
+                enterChar: null;
+                exitChar: null;
+                level: 0;
+                children: [];
             }, NestedString>
         ];
 
@@ -62,13 +61,13 @@ type ParseNested<
     TAccumulated extends string = ""
 > = TContent extends `${infer Head}${infer Rest}`
     ? Head extends GetEndChar<TStartChar, TNesting>
-        ? { content: TAccumulated, rest: Rest }
+        ? { content: TAccumulated; rest: Rest }
         : ParseNested<Rest, TNesting, TStartChar, `${TAccumulated}${Head}`>
     : never;
 
 // Get the ending character for a start character
-type GetEndChar<TStart extends string, TNesting extends Nesting> =
-    TNesting extends Record<string, string>
+type GetEndChar<TStart extends string, TNesting extends Nesting>
+    = TNesting extends Record<string, string>
         ? TStart extends keyof TNesting
             ? TNesting[TStart]
             : never

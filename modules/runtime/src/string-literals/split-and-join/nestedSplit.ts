@@ -22,6 +22,151 @@ import {
     toStringLiteral
 } from "inferred-types/runtime";
 
+function splitProcessorMultiChar<
+    TContent extends string,
+    TSplit extends string,
+    TNesting extends Nesting,
+    TPolicy extends NestedSplitPolicy
+>(
+    content: TContent,
+    split: TSplit,
+    nesting: TNesting,
+    policy: TPolicy,
+    stack: readonly string[] = [],
+    waiting: string = "",
+    result: string[] = [],
+    lastWasSplit: boolean = false
+): string[] | Error {
+    // Base case: no more characters
+    if (content === "") {
+        if (stack.length > 0) {
+            return err(
+                `unbalanced/nested-split`,
+                `The nesting stack was unbalanced, so the nested split can not be completed!`,
+                { stack: toStringLiteral(stack) }
+            );
+        }
+        
+        if (lastWasSplit) {
+            return waiting === "" ? [...result, ""] : [...result, waiting, ""];
+        }
+        
+        return waiting === "" ? result : [...result, waiting];
+    }
+
+    const currentChar = content[0];
+    const remainingContent = content.slice(1);
+
+    // Check if we're at base level (no nesting)
+    if (stack.length === 0) {
+        // Check if content starts with split pattern
+        if (content.startsWith(split)) {
+            const afterSplit = content.slice(split.length);
+            let newWaiting = "";
+            let newResult = [...result];
+
+            switch (policy) {
+                case "omit":
+                    newResult.push(waiting);
+                    break;
+                case "inline":
+                    newResult.push(waiting, split);
+                    break;
+                case "before":
+                    newWaiting = split;
+                    if (waiting === "" && result.length === 0) {
+                        newResult = [];
+                    } else {
+                        newResult.push(waiting);
+                    }
+                    break;
+                case "after":
+                    newResult.push(`${waiting}${split}`);
+                    break;
+            }
+
+            return splitProcessorMultiChar(
+                afterSplit,
+                split,
+                nesting,
+                policy,
+                stack,
+                newWaiting,
+                newResult,
+                true
+            );
+        }
+
+        // Check if current character starts nesting
+        if (isNestingStart(currentChar, nesting)) {
+            return splitProcessorMultiChar(
+                remainingContent,
+                split,
+                nesting,
+                policy,
+                [...stack, currentChar],
+                `${waiting}${currentChar}`,
+                result,
+                false
+            );
+        }
+
+        // Regular character at base level
+        return splitProcessorMultiChar(
+            remainingContent,
+            split,
+            nesting,
+            policy,
+            stack,
+            `${waiting}${currentChar}`,
+            result,
+            false
+        );
+    }
+
+    // We're inside nesting
+    // Check if current character ends nesting
+    if (isNestingEndMatch(currentChar, stack, nesting)) {
+        const newStack = [...stack].slice(0, -1);
+        return splitProcessorMultiChar(
+            remainingContent,
+            split,
+            nesting,
+            policy,
+            newStack,
+            `${waiting}${currentChar}`,
+            result,
+            false
+        );
+    }
+
+    // Check if current character starts new nesting
+    if (isNestingStart(currentChar, nesting)) {
+        return splitProcessorMultiChar(
+            remainingContent,
+            split,
+            nesting,
+            policy,
+            [...stack, currentChar],
+            `${waiting}${currentChar}`,
+            result,
+            false
+        );
+    }
+
+    // Regular character inside nesting
+    return splitProcessorMultiChar(
+        remainingContent,
+        split,
+        nesting,
+        policy,
+        stack,
+        `${waiting}${currentChar}`,
+        result,
+        false
+    );
+}
+
 function splitProcessorMultiple<
     TChars extends readonly string[],
     TSplit extends readonly string[],
@@ -297,10 +442,10 @@ export function nestedSplit<
     }
 
     // Handle single string split
-    if (typeof split !== "string" || split.length !== 1) {
+    if (typeof split !== "string") {
         return err(
             `invalid-nesting/nested-split`,
-            `A string of more than one character was provided as the 'split' character; this is not allowed!`,
+            `The split parameter must be a string when not provided as an array!`,
             { split, content }
         ) as NestedSplit<
             TContent,
@@ -310,12 +455,10 @@ export function nestedSplit<
         >;
     }
 
-    const result = splitProcessor(
-        asChars(content),
-        split,
-        config,
-        policy
-    );
+    // Use appropriate processor based on split length
+    const result = split.length === 1 
+        ? splitProcessor(asChars(content), split, config, policy)
+        : splitProcessorMultiChar(content, split, config, policy);
 
     return result as NestedSplit<
         TContent,
