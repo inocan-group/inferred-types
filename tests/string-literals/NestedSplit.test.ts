@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { UPPER_ALPHA_CHARS } from "inferred-types/constants";
-import {  NestedSplit, Test } from "inferred-types/types";
+import {  NestedSplit, Test, DefaultNesting } from "inferred-types/types";
 import { nestedSplit, nesting } from "inferred-types/runtime";
 import { describe, it, expect } from "vitest";
 
@@ -72,6 +72,80 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
                 T2, "equals",
                 ["'Foo'", "Bar", "Baz"]
             >>
+        ];
+    });
+
+    it("multi-character split: basic splitting", () => {
+        type T1 = NestedSplit<"foo and bar and baz", "and">;
+        type T2 = NestedSplit<"hello => world => test", "=>">;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["foo ", " bar ", " baz"]>>,
+            Expect<Test<T2, "equals", ["hello ", " world ", " test"]>>
+        ];
+    });
+
+    it("multi-character split: with nesting", () => {
+        type T1 = NestedSplit<"foo(bar and baz) and result", "and", { "(": ")" }>;
+        type T2 = NestedSplit<"if {condition && other} then action", "&&", { "{": "}" }>;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["foo(bar and baz) ", " result"]>>,
+            Expect<Test<T2, "equals", ["if {condition && other} then action"]>>
+        ];
+    });
+
+    it("multi-character split: different policies", () => {
+        type OmitTest = NestedSplit<"foo and bar and baz", "and", DefaultNesting, "omit">;
+        type InlineTest = NestedSplit<"foo and bar and baz", "and", DefaultNesting, "inline">;
+        type BeforeTest = NestedSplit<"foo and bar and baz", "and", DefaultNesting, "before">;
+        type AfterTest = NestedSplit<"foo and bar and baz", "and", DefaultNesting, "after">;
+
+        type cases = [
+            Expect<Test<OmitTest, "equals", ["foo ", " bar ", " baz"]>>,
+            Expect<Test<InlineTest, "equals", ["foo ", "and", " bar ", "and", " baz"]>>,
+            Expect<Test<BeforeTest, "equals", ["foo ", "and bar ", "and baz"]>>,
+            Expect<Test<AfterTest, "equals", ["foo and", " bar and", " baz"]>>
+        ];
+    });
+
+    it("multi-character split: complex nesting with multiple levels", () => {
+        type T1 = NestedSplit<"func(param or default) or other(nested or not) or final", "or", { "(": ")" }>;
+        type T2 = NestedSplit<"array[index || fallback] || other[key || default]", "||", { "[": "]" }>;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["func(param or default) ", " other(nested or not) ", " final"]>>,
+            Expect<Test<T2, "equals", ["array[index || fallback] ", " other[key || default]"]>>
+        ];
+    });
+
+    it("multi-character split: no split found", () => {
+        type T1 = NestedSplit<"hello world test", "and">;
+        type T2 = NestedSplit<"function(param) { return value; }", "or", { "{": "}", "(": ")" }>;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["hello world test"]>>,
+            Expect<Test<T2, "equals", ["function(param) { return value; }"]>>
+        ];
+    });
+
+    it("multi-character split: mixed with bracket nesting", () => {
+        type T1 = NestedSplit<"WeakMap<{id: number, data: Array<string>}> then string", "then", { "{": "}", "<": ">" }>;
+        type T2 = NestedSplit<"Array<number> or Set<string> or Map<key, value>", "or", { "<": ">" }>;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["WeakMap<{id: number, data: Array<string>}> ", " string"]>>,
+            Expect<Test<T2, "equals", ["Array<number> ", " Set<string> ", " Map<key, value>"]>>
+        ];
+    });
+
+    it("multi-character split: empty segments", () => {
+        type T1 = NestedSplit<"and bar and", "and">;
+        type T2 = NestedSplit<"startandendand", "and">;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["", " bar ", ""]>>,
+            Expect<Test<T2, "equals", ["start", "end", ""]>>
         ];
     });
 
