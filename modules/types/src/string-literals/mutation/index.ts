@@ -1,6 +1,7 @@
 export * from "./Append";
 export * from "./Chars";
 export * from "./Concat";
+export * from "./FromNesting";
 export * from "./Join";
 export * from "./Nest";
 export * from "./NestedSplit";

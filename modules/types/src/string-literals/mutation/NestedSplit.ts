@@ -159,7 +159,7 @@ export type NestedSplit<
     : TSplit extends string
         ? StrLen<TSplit> extends 1
             ? Convert<Chars<TContent>, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
-            : Err<"shit gone bad">
+            : Err<"invalid-split-char", `The NestedSplit<TContent,TSplit> utility requires that the TSplit generic is a single character. It can be a union of single characters but it should never be more than one character.`>
         : never;
 
 // Process<TContent, TSplit, TNesting, TPolicy>;
