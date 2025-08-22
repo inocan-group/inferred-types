@@ -1,5 +1,7 @@
 import type {
     As,
+    AsLiteralTemplate,
+    AsStaticTemplate,
     Err,
     ErrType,
     IsInputTokenSuccess,
@@ -22,8 +24,10 @@ type Quoted<T extends string> = T extends `${infer Quote extends QuoteCharacter}
         ? {
             __kind: "IT_Token";
             kind: "literal";
-            token: Literal;
-            type: Literal;
+            token: AsStaticTemplate<Literal> extends string
+                ? `"${AsStaticTemplate<Literal>}"`
+                : never;
+            type: AsLiteralTemplate<Literal>;
             rest: Trim<Rest>;
         }
         : Err<
@@ -31,8 +35,10 @@ type Quoted<T extends string> = T extends `${infer Quote extends QuoteCharacter}
         `Found a quote character [${Quote}] at the head of the token '${Trim<T>}' indicating that this would be a string literal but no terminating quote character.`,
         { token: T; quote: Quote; rest: Rest }
         >
-    : Err<"wrong-handler/string-literal", `The quoted variant of a string literal was not found at the head of the token string`>
-;
+: Err<
+    "wrong-handler/string-literal",
+    `The quoted variant of a string literal was not found at the head of the token string`
+>;
 
 /**
  * matches on string literals defined like `String(foo)`
@@ -50,8 +56,10 @@ type StringConstructor<T extends string> = T extends `String(${infer Rest}`
         ? {
             __kind: "IT_Token";
             kind: "literal";
-            token: `${Literal}`;
-            type: Literal;
+            token: AsStaticTemplate<Literal> extends string
+                ? `"${AsStaticTemplate<Literal>}"`
+                : never;
+            type: AsLiteralTemplate<Literal>;
             rest: Trim<Rest>;
         }
         : Err<
