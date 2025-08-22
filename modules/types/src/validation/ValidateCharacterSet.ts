@@ -1,5 +1,5 @@
-import { Chars, Err, Length, StripChars, Unique } from "inferred-types/types";
-import { IsEqual } from "types/boolean-logic";
+import type { Chars, Err, Length, StripChars, Unique } from "inferred-types/types";
+import type { IsEqual } from "types/boolean-logic";
 
 type Test<
     T extends string,
@@ -7,9 +7,8 @@ type Test<
 > = T extends `${infer Head extends string}${infer Rest}`
     ? Head extends U
         ? Test<Rest, U>
-    : false
-: true;
-
+        : false
+    : true;
 
 /**
  * **ValidateCharacterSet**`<TContent, TCharset, [E]>`
@@ -25,26 +24,26 @@ export type ValidateCharacterSet<
     TCharset extends string | readonly string[],
     E = Err<"invalid-character">
 > = string extends TContent
-? TContent | E
-: string extends TCharset
-? boolean
-: IsEqual<TCharset, string[]> extends true
-? boolean
-: Test<
-    TContent,
-    TCharset extends readonly string[]
-        ? TCharset[number]
-    : TCharset extends string
-        ? TCharset
-        : never
-> extends true
-    ? TContent
-    : E extends Err<"invalid-character">
-        ? StripChars<TContent,TCharset extends readonly string[] ? TCharset[number] : TCharset> extends  infer InvalidChars extends string
-            ? Err<
-            "invalid-character",
+    ? TContent | E
+    : string extends TCharset
+        ? boolean
+        : IsEqual<TCharset, string[]> extends true
+            ? boolean
+            : Test<
+                TContent,
+                TCharset extends readonly string[]
+                    ? TCharset[number]
+                    : TCharset extends string
+                        ? TCharset
+                        : never
+            > extends true
+                ? TContent
+                : E extends Err<"invalid-character">
+                    ? StripChars<TContent, TCharset extends readonly string[] ? TCharset[number] : TCharset> extends infer InvalidChars extends string
+                        ? Err<
+                            "invalid-character",
             `The content passed into ValidateCharacterSet<TContent,TCharset,E> had ${Length<InvalidChars>} character(s) which did not fit into the target character set!`,
-            { invalid: Unique<Chars<InvalidChars>>, content: TContent }
-        >
-        : never
-        : E;
+            { invalid: Unique<Chars<InvalidChars>>; content: TContent }
+                        >
+                        : never
+                    : E;

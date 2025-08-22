@@ -1,4 +1,4 @@
-import type { Dictionary, EmptyObject, Expand,KebabCase, PascalCase, RetainUntil  } from "inferred-types/types";
+import type { Dictionary, EmptyObject, Expand, KebabCase, PascalCase, RetainUntil } from "inferred-types/types";
 
 /**
  * **TypedError**
@@ -39,7 +39,7 @@ export type Err<
                 cause?: unknown;
                 stack?: string;
             } & TCtx
-        > & Error
+    > & Error
     : Expand<
         {
             name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
@@ -49,7 +49,6 @@ export type Err<
             stack?: string;
         } & TCtx
     > & Error;
-
 
 /**
  * Adds "context" to an existing `Error`.

@@ -46,23 +46,23 @@ type Parser<
                         valueToken: Trim<Value>;
                         rest: Trim<Rest>;
                     }
-                : TContainer extends "WeakMap"
-                    ? KeyType["type"] extends object
-                        ? {
-                            __kind: "IT_Token";
-                            kind: "kv";
-                            token: `${Block}`;
-                            type: WeakMap<KeyType["type"], FromInputToken__String<Value>>;
-                            container: TContainer;
-                            keyToken: Key;
-                            valueToken: Value;
-                            rest: Trim<Rest>;
-                        }
-                        : Err<
-                            `malformed-token/weak-map`,
+                    : TContainer extends "WeakMap"
+                        ? KeyType["type"] extends object
+                            ? {
+                                __kind: "IT_Token";
+                                kind: "kv";
+                                token: `${Block}`;
+                                type: WeakMap<KeyType["type"], FromInputToken__String<Value>>;
+                                container: TContainer;
+                                keyToken: Key;
+                                valueToken: Value;
+                                rest: Trim<Rest>;
+                            }
+                            : Err<
+                                `malformed-token/weak-map`,
                             `The key [${Key}] for a WeakMap must be a container type!`
-                        >
-                : never
+                            >
+                        : never
             : never
         : Err<
             "wrong-handler/kv",

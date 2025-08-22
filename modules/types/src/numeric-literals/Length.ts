@@ -3,15 +3,12 @@ import type {
     Err,
     IsAny,
     IsFalse,
-    IsNever,
     IsNumericLiteral,
     IsUnion,
-    IsWideType,
     Max,
     Min,
     StringLength,
     StripChars,
-    StripLeading,
     UnionToTuple,
 } from "inferred-types/types";
 
@@ -48,33 +45,33 @@ export type Length<
     ? IsFalse<U> extends true
         ? number
         : Err<`invalid-type/wide`>
-: number extends T
-    ? IsFalse<U> extends true
-        ? number
-        : Err<`invalid-type/wide`>
-    : T extends number
-        ? StripChars<`${T}`, "." | "-"> extends infer Numeric extends string
-            ? Length<Numeric>
-            : never
-: T extends string
-    ? string extends T
+    : number extends T
         ? IsFalse<U> extends true
             ? number
             : Err<`invalid-type/wide`>
-        : StringLength<T>
+        : T extends number
+            ? StripChars<`${T}`, "." | "-"> extends infer Numeric extends string
+                ? Length<Numeric>
+                : never
+            : T extends string
+                ? string extends T
+                    ? IsFalse<U> extends true
+                        ? number
+                        : Err<`invalid-type/wide`>
+                    : StringLength<T>
 
-: T extends readonly unknown[]
-    ? number extends T["length"]
-        ? IsFalse<U> extends true
-            ? number
-            : Err<`invalid-type/wide`>
-        : T["length"] extends number
-            ? T["length"]
-            : IsFalse<U> extends true
-            ? number
-            : Err<`invalid-type/wide`>
+                : T extends readonly unknown[]
+                    ? number extends T["length"]
+                        ? IsFalse<U> extends true
+                            ? number
+                            : Err<`invalid-type/wide`>
+                        : T["length"] extends number
+                            ? T["length"]
+                            : IsFalse<U> extends true
+                                ? number
+                                : Err<`invalid-type/wide`>
 
-: never;
+                    : never;
 
 type RequiredPrefixLength<T extends readonly unknown[], Count extends unknown[] = []>
     = T extends readonly [infer _First, ...infer Rest]

@@ -1,9 +1,8 @@
-import { AlphanumericChar, IsNull } from "inferred-types/types";
-
+import type { AlphanumericChar, IsNull } from "inferred-types/types";
 
 type Combine<T extends string, U extends string | null> = IsNull<U> extends true
-? T
-: T | U;
+    ? T
+    : T | U;
 
 type TestAlphanumeric<
     T extends string,
@@ -11,9 +10,8 @@ type TestAlphanumeric<
 > = T extends `${infer Head extends string}${infer Rest}`
     ? Head extends Combine<AlphanumericChar, U>
         ? TestAlphanumeric<Rest, U>
-    : false
-: true;
-
+        : false
+    : true;
 
 /**
  * **IsAlphanumeric**`<T,[U]>`
@@ -31,9 +29,9 @@ export type IsAlphanumeric<
     T extends string,
     U extends string | null = null
 > = string extends T
-? boolean
-: string extends U
-? IsAlphanumeric<T> extends true
-    ? true
-    : boolean
-: TestAlphanumeric<T,U>;
+    ? boolean
+    : string extends U
+        ? IsAlphanumeric<T> extends true
+            ? true
+            : boolean
+        : TestAlphanumeric<T, U>;

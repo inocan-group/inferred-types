@@ -89,59 +89,58 @@ type Iterate<
 
     // Atomic
     : Process<IT_TakeAtomic<T>> extends infer E extends Error
-    ? E // fast fail
-    : Process<IT_TakeAtomic<T>> extends (infer Success extends IT_Token)
-        ? Iterate<
-            Success["rest"],
-            [...TTypes, Success],
-            TCombinator
-        >
-    // String Literal
-    : Process<IT_TakeStringLiteral<T>> extends infer E extends Error
         ? E // fast fail
-        : Process<IT_TakeStringLiteral<T>> extends (infer Success extends IT_Token)
+        : Process<IT_TakeAtomic<T>> extends (infer Success extends IT_Token)
             ? Iterate<
                 Success["rest"],
                 [...TTypes, Success],
                 TCombinator
             >
-    // Numeric Literal
-    : Process<IT_TakeNumericLiteral<T>> extends infer E extends Error
-        ? E // fast fail
-        : Process<IT_TakeNumericLiteral<T>> extends (infer Success extends IT_Token)
-            ? Iterate<
-                Success["rest"],
-                [...TTypes, Success],
-                TCombinator
-            >
-    // KV Objects
-    : Process<IT_TakeKvObjects<T>> extends infer E extends Error
-        ? E // fast fail
-        : Process<IT_TakeKvObjects<T>> extends (infer Success extends IT_Token)
-            ? Iterate<
-                Success["rest"],
-                [...TTypes, Success],
-                TCombinator
-            >
-    // Arrays
-    : Process<IT_TakeArray<T>> extends infer E extends Error
-        ? E // fast fail
-        : Process<IT_TakeArray<T>> extends (infer Success extends IT_Token)
-            ? Iterate<
-                Success["rest"],
-                [...TTypes, Success],
-                TCombinator
-            >
+        // String Literal
+            : Process<IT_TakeStringLiteral<T>> extends infer E extends Error
+                ? E // fast fail
+                : Process<IT_TakeStringLiteral<T>> extends (infer Success extends IT_Token)
+                    ? Iterate<
+                        Success["rest"],
+                        [...TTypes, Success],
+                        TCombinator
+                    >
+                // Numeric Literal
+                    : Process<IT_TakeNumericLiteral<T>> extends infer E extends Error
+                        ? E // fast fail
+                        : Process<IT_TakeNumericLiteral<T>> extends (infer Success extends IT_Token)
+                            ? Iterate<
+                                Success["rest"],
+                                [...TTypes, Success],
+                                TCombinator
+                            >
+                        // KV Objects
+                            : Process<IT_TakeKvObjects<T>> extends infer E extends Error
+                                ? E // fast fail
+                                : Process<IT_TakeKvObjects<T>> extends (infer Success extends IT_Token)
+                                    ? Iterate<
+                                        Success["rest"],
+                                        [...TTypes, Success],
+                                        TCombinator
+                                    >
+                                // Arrays
+                                    : Process<IT_TakeArray<T>> extends infer E extends Error
+                                        ? E // fast fail
+                                        : Process<IT_TakeArray<T>> extends (infer Success extends IT_Token)
+                                            ? Iterate<
+                                                Success["rest"],
+                                                [...TTypes, Success],
+                                                TCombinator
+                                            >
 
+                                            : T extends `|${infer Rest extends string}`
+                                                ? Iterate<Rest, TTypes, "union">
 
-    : T extends `|${infer Rest extends string}`
-                ? Iterate<Rest, TTypes, "union">
-
-                : Err<
-                    "incomplete-parse",
-                    `The token string was not fully parsed`,
-                    { underlying: TTypes; token: T }
-                >;
+                                                : Err<
+                                                    "incomplete-parse",
+                                                    `The token string was not fully parsed`,
+                                                    { underlying: TTypes; token: T }
+                                                >;
 
 /**
  * **GetInputToken**`<T>`

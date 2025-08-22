@@ -64,38 +64,38 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
                 { token: T; block: Block; rest: Rest }
             >
 
-    : NestedSplit<Rest, ")[]"> extends [
-        infer Block extends string,
-        ...infer Rest extends readonly string[]
-    ]
-        ? GetInputToken<Block> extends infer Token extends IT_Token
-            ? {
-                __kind: "IT_Token";
-                kind: "array";
-                token: `(${Token["token"]})[]`;
-                type: (Token["type"])[];
-                rest: Trim<Join<Rest, ")[]">>;
-            }
-            : Err<
-                "malformed-token/array",
+        : NestedSplit<Rest, ")[]"> extends [
+            infer Block extends string,
+            ...infer Rest extends readonly string[]
+        ]
+            ? GetInputToken<Block> extends infer Token extends IT_Token
+                ? {
+                    __kind: "IT_Token";
+                    kind: "array";
+                    token: `(${Token["token"]})[]`;
+                    type: (Token["type"])[];
+                    rest: Trim<Join<Rest, ")[]">>;
+                }
+                : Err<
+                    "malformed-token/array",
                 `The token '${T}' appeared to be a grouped array but the interior block '${Block}' could not be parsed as a valid type!`,
                 { token: T; block: Block; rest: Rest }
+                >
+            : Err<
+                "wrong-handler/array",
+                `The grouped function matcher could not parse the string token.`,
+                { token: T; rest: Rest }
             >
-    : Err<
-        "wrong-handler/array",
-        `The grouped function matcher could not parse the string token.`,
-        { token: T, rest: Rest }
-    >
-: Err<"wrong-handler/array">;
+    : Err<"wrong-handler/array">;
 
 ;
 
-type X = IT_TakeArray_Postfix_Grouped<"(string)[]">
+type X = IT_TakeArray_Postfix_Grouped<"(string)[]">;
 type Y = NestedSplit<"string)[]", ")[]", {
-    '{': '}',
-    '"': '"',
-    '\'': "'",
-    '(': ')'
+    "{": "}";
+    "\"": "\"";
+    "'": "'";
+    "(": ")";
 }>;
 /**
  * matches on tokens like `Array<string|number>`, etc.

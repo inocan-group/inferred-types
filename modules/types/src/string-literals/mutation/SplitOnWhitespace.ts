@@ -1,4 +1,4 @@
-import { As, IsWhitespace } from "inferred-types/types";
+import type { As, IsWhitespace } from "inferred-types/types";
 
 type Splitter<
     TContent extends string,
@@ -17,15 +17,14 @@ type Splitter<
                 ``,
                 [...TResult, TAcc]
             >
-    : Splitter<
-        Rest,
+        : Splitter<
+            Rest,
         `${TAcc}${Head}`,
         TResult
-    >
-: TAcc extends ""
-    ? TResult
-    : [...TResult, TAcc];
-
+        >
+    : TAcc extends ""
+        ? TResult
+        : [...TResult, TAcc];
 
 /**
  * **SplitOnWhitespace**`<T>`
@@ -44,5 +43,5 @@ type Splitter<
 export type SplitOnWhitespace<
     TContent extends string
 > = string extends TContent
-? string[]
-: As<Splitter<TContent>, readonly string[]>;
+    ? string[]
+    : As<Splitter<TContent>, readonly string[]>;

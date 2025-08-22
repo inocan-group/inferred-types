@@ -1,10 +1,7 @@
 import type {
     As,
     Err,
-    ErrContext,
-    ErrType,
     Find,
-    FirstChar,
     FromInputToken__String,
     IT_Generics,
     IT_Parameter,
@@ -12,41 +9,38 @@ import type {
     NestedSplit,
     RetainAfter,
     RetainUntil,
-    StripUntil,
     Trim
 } from "inferred-types/types";
-import { GenericParam } from "types/generics";
-
+import type { GenericParam } from "types/generics";
 
 type DetermineType<
     /** the string token for the parameter type */
     T extends string,
     U extends readonly GenericParam[]
 > = Find<
-        U,
-        "objectKeyEquals",
-        ["name", T]
-    > extends infer Generic extends GenericParam
-        ? {
-            token: Generic["token"];
-            type: Generic["type"];
-            fromGeneric: Generic["name"]
-        }
+    U,
+    "objectKeyEquals",
+    ["name", T]
+> extends infer Generic extends GenericParam
+    ? {
+        token: Generic["token"];
+        type: Generic["type"];
+        fromGeneric: Generic["name"];
+    }
 
     : FromInputToken__String<Trim<T>> extends Error
         ? Err<
             `malformed-token`,
             `The parameter token's boundaries were established but while iterating over the parameter definitions we found the parameter token: '${Trim<T>}'`,
-            { parameter: Trim<T>, generics: U, }
+            { parameter: Trim<T>; generics: U }
         >
-    : {
-        token: Trim<T>;
-        type: FromInputToken__String<Trim<T>>;
-        fromGeneric: false;
-    }
+        : {
+            token: Trim<T>;
+            type: FromInputToken__String<Trim<T>>;
+            fromGeneric: false;
+        }
 
 ;
-
 
 type AsParameters<
     TParams extends readonly string[],
@@ -56,7 +50,7 @@ type AsParameters<
 
     ? Head extends `${infer Name extends string}:${infer Type extends string}`
         ? DetermineType<Trim<Type>, TGenerics> extends
-            infer Info extends { type: any; fromGeneric: false | string; token: string }
+        infer Info extends { type: any; fromGeneric: false | string; token: string }
 
             ? AsParameters<
                 Rest,
@@ -83,8 +77,8 @@ type AsParameters<
         : Err<
             `malformed-token`,
             `Failed while trying to parse the parameters of a function`,
-            { results: TResult, params: TParams }
-        > ;
+            { results: TResult; params: TParams }
+        >;
 
 type TakeParameters<
     /** the token string after generics have been taken */
@@ -105,21 +99,21 @@ type TakeParameters<
                 generics: P;
                 rest: Rest;
             }
-        : Err<
-            "malformed-token",
+            : Err<
+                "malformed-token",
             `The function's parameter block -- ${Block} -- was not able to be parsed!`,
             { token: T; block: Block; rest: Rest; generics: P }
-        >
-    : Err<
-        "malformed-token",
+            >
+        : Err<
+            "malformed-token",
         `The opening parenthesis indicated a parameter block should follow but was unable to find the closing parenthesis in: ${Rest}`,
         { token: T; rest: Rest; generics: P }
-    >
-: Err<
-    `wrong-handler`,
-    `parameter blocks expect the leading character to be an open parenthesis`,
-    { token: T; generics: P }
->;
+        >
+    : Err<
+        `wrong-handler`,
+        `parameter blocks expect the leading character to be an open parenthesis`,
+        { token: T; generics: P }
+    >;
 
 /**
  * **IT_TakeParameters**`<T>`
@@ -141,6 +135,6 @@ type TakeParameters<
  */
 export type IT_TakeParameters<T extends string> = IT_TakeTokenGenerics<T> extends Err<"invalid-token">
     ? IT_TakeTokenGenerics<T>
-: IT_TakeTokenGenerics<T> extends IT_Generics
-    ? TakeParameters<IT_TakeTokenGenerics<T>["rest"],IT_TakeTokenGenerics<T>["generics"]>
-    : TakeParameters<T, []>
+    : IT_TakeTokenGenerics<T> extends IT_Generics
+        ? TakeParameters<IT_TakeTokenGenerics<T>["rest"], IT_TakeTokenGenerics<T>["generics"]>
+        : TakeParameters<T, []>;

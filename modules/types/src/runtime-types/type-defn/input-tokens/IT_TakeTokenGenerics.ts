@@ -1,15 +1,13 @@
 import type {
-    ValidateCharacterSet,
     Err,
     ErrContext,
     FromInputToken,
+    IsAlphanumeric,
+    Join,
     NestedSplit,
     StripLeading,
     Trim,
-    TrimEach,
-    AlphanumericChar,
-    IsAlphanumeric,
-    Join
+    TrimEach
 } from "inferred-types/types";
 
 /**
@@ -42,16 +40,16 @@ export type IT_TakeTokenGeneric<T extends string>
                 : never
             : never
         : never
-: IsAlphanumeric<Trim<T>> extends true
-    ? {
-        name: Trim<T>;
-        token: "unknown";
-        type: unknown
-    }
-    : Err<
-        `malformed-token/generic`,
+    : IsAlphanumeric<Trim<T>> extends true
+        ? {
+            name: Trim<T>;
+            token: "unknown";
+            type: unknown;
+        }
+        : Err<
+            `malformed-token/generic`,
         `The string -- '${T}' -- passed to TakeTokenGeneric<T> is invalid as a generic name!`
-    >
+        >
 ;
 
 type ParseGenerics<
@@ -109,7 +107,7 @@ export type IT_TakeTokenGenerics<
         ? NestedSplit<Block, ","> extends Error
             ? ErrContext<
                 NestedSplit<Block, ",">,
-                { utility: "TakeTokenGeneric"; token: `<${TClean}`; block: Block; }
+                { utility: "TakeTokenGeneric"; token: `<${TClean}`; block: Block }
             > // Error
             : NestedSplit<Block, ","> extends infer GenericPairs extends readonly string[]
                 ? TrimEach<GenericPairs> extends infer TrimmedPairs extends readonly string[]
@@ -117,7 +115,7 @@ export type IT_TakeTokenGenerics<
                         ? ParsedResult extends Error
                             ? ErrContext<
                                 ParsedResult,
-                                { utility: "TakeTokenGeneric"; token: `<${TClean}`; }
+                                { utility: "TakeTokenGeneric"; token: `<${TClean}` }
                             > // Error
                             : {
                                 generics: ParsedResult;
@@ -126,8 +124,8 @@ export type IT_TakeTokenGenerics<
                         : never
                     : never
                 : never
-: Err<
-    `wrong-handler/generic`,
-    `The string token passed in could not be parsed as a Generics block`,
-    { token: `<${TClean}`; utility: "TakeTokenGenerics" }
->;
+        : Err<
+            `wrong-handler/generic`,
+            `The string token passed in could not be parsed as a Generics block`,
+            { token: `<${TClean}`; utility: "TakeTokenGenerics" }
+        >;

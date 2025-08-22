@@ -15,4 +15,3 @@ export * from "./SplitOnWhitespace";
 export * from "./Surround";
 export * from "./Truncate";
 export * from "./UnderlyingType";
-

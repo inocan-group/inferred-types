@@ -1,11 +1,11 @@
-import {
-    Suggest,
+import type {
+    Container,
     DotPathFor,
-    Container
-} from 'inferred-types/types';
+    Suggest
+} from "inferred-types/types";
 
-type SetAtIndex<T extends readonly unknown[], K extends string, V> = 
-    K extends keyof T
+type SetAtIndex<T extends readonly unknown[], K extends string, V>
+    = K extends keyof T
         ? { [P in keyof T]: P extends K ? V : T[P] }
         : T;
 
@@ -38,5 +38,3 @@ export type Set<
     TDotPath extends Suggest<DotPathFor<TContainer>>,
     TValue
 > = _Set<TContainer, TDotPath, TValue>;
-
-

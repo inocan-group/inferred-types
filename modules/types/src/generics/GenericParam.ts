@@ -1,4 +1,4 @@
-import { InputTokenSuggestions } from "types/runtime-types";
+import type { InputTokenSuggestions } from "types/runtime-types";
 
 /**
  * **GenericParam**
@@ -20,5 +20,4 @@ export type GenericParam = {
      * the **type** the given generic parameter  _extends_
      */
     type: unknown;
-}
-
+};

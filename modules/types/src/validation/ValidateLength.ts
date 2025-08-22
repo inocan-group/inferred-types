@@ -1,4 +1,4 @@
-import { As, AsNumber, Err, IndexOf, IsGreaterThanOrEqual, IsLessThanOrEqual, IsWideArray, Length, ToStringLiteral__Tuple } from "inferred-types/types";
+import type { AsNumber, Err, IndexOf, IsGreaterThanOrEqual, IsLessThanOrEqual, IsWideArray, Length, ToStringLiteral__Tuple } from "inferred-types/types";
 
 export type ValidateLengthOptions = {
     min: number;
@@ -7,7 +7,7 @@ export type ValidateLengthOptions = {
 } | {
     min: number;
     max: number;
-}
+};
 
 export type ValidateMin<
     T extends number,
@@ -30,46 +30,45 @@ export type ValidateMax<
 type NotMatched<
     T extends string | number | readonly unknown[],
     O extends ValidateLengthOptions,
-    Opt extends {min: number | undefined; max: number | undefined} = {
+    Opt extends { min: number | undefined; max: number | undefined } = {
         min: IndexOf<O, "min", undefined>;
         max: IndexOf<O, "max", undefined>;
     }
-> = ValidateMin<Length<T>,O> extends false
-? Err<
-    `invalid-length/min`,
-    T extends string
-        ? `The string '${T}' is required to have a minimum of ${Opt["min"]} characters but had a length of ${Length<T>}!`
-    : T extends number
-        ? `The number '${T}' is required to have a minimum of ${Opt["min"]} numeric digits (negative sign and decimal place marker are not counted) but had a length of ${Length<T>}!`
-    : T extends readonly unknown[]
-        ? `The array '${ToStringLiteral__Tuple<T>}' is required to have a minimum of ${Opt["min"]} elements but had a length of ${Length<T>}!`
-    : never,
-    { content: T; options: Opt; length: Length<T>; min: Opt["min"] }
->
-: ValidateMax<Length<T>,O> extends false
+> = ValidateMin<Length<T>, O> extends false
     ? Err<
-        `invalid-length/max`,
+        `invalid-length/min`,
         T extends string
-            ? `The string '${T}' is required to have a maximum of ${Opt["max"]} characters but had a length of ${Length<T>}!`
-        : T extends number
-            ? `The number '${T}' is required to have a maximum of ${Opt["max"]} numeric digits (negative sign and decimal place marker are not counted) but had a length of ${Length<T>}!`
-        : T extends readonly unknown[]
-            ? `The array '${ToStringLiteral__Tuple<T>}' is required to have a maximum of ${Opt["max"]} elements but had a length of ${Length<T>}!`
-        : never,
-        { content: T; options: Opt; length: Length<T>; max: Opt["max"] }
+            ? `The string '${T}' is required to have a minimum of ${Opt["min"]} characters but had a length of ${Length<T>}!`
+            : T extends number
+                ? `The number '${T}' is required to have a minimum of ${Opt["min"]} numeric digits (negative sign and decimal place marker are not counted) but had a length of ${Length<T>}!`
+                : T extends readonly unknown[]
+                    ? `The array '${ToStringLiteral__Tuple<T>}' is required to have a minimum of ${Opt["min"]} elements but had a length of ${Length<T>}!`
+                    : never,
+        { content: T; options: Opt; length: Length<T>; min: Opt["min"] }
     >
-: never;
+    : ValidateMax<Length<T>, O> extends false
+        ? Err<
+            `invalid-length/max`,
+            T extends string
+                ? `The string '${T}' is required to have a maximum of ${Opt["max"]} characters but had a length of ${Length<T>}!`
+                : T extends number
+                    ? `The number '${T}' is required to have a maximum of ${Opt["max"]} numeric digits (negative sign and decimal place marker are not counted) but had a length of ${Length<T>}!`
+                    : T extends readonly unknown[]
+                        ? `The array '${ToStringLiteral__Tuple<T>}' is required to have a maximum of ${Opt["max"]} elements but had a length of ${Length<T>}!`
+                        : never,
+            { content: T; options: Opt; length: Length<T>; max: Opt["max"] }
+        >
+        : never;
 
-
-type Test <
+type Test<
     T extends string | number | readonly unknown[],
     N extends number,
     O extends ValidateLengthOptions
-> = [ValidateMin<N,O>] extends [true]
-    ? [ValidateMax<N,O>] extends [true]
+> = [ValidateMin<N, O>] extends [true]
+    ? [ValidateMax<N, O>] extends [true]
         ? T
-        : NotMatched<T,O>
-: NotMatched<T,O>
+        : NotMatched<T, O>
+    : NotMatched<T, O>;
 
 /**
  * **ValidateLength**`<T, O>`
@@ -99,17 +98,15 @@ export type ValidateLength<
     O extends ValidateLengthOptions
 > = T extends readonly unknown[]
     ? [IsWideArray<T>] extends [true]
-        ? T | Err<`invalid-length/${"min"|"max"}`>
+        ? T | Err<`invalid-length/${"min" | "max"}`>
         : Test<T, T["length"], O>
 
-: T extends string
-    ? string extends T
-        ? T | Err<`invalid-length/${"min"|"max"}`>
-        : Test<T, Length<T>,O>
-: T extends number
-    ? ValidateLength<`${T}`, O> extends `${number}`
-        ? AsNumber<ValidateLength<`${T}`, O>>
-        : ValidateLength<`${T}`, O>
-: never;
-
-
+    : T extends string
+        ? string extends T
+            ? T | Err<`invalid-length/${"min" | "max"}`>
+            : Test<T, Length<T>, O>
+        : T extends number
+            ? ValidateLength<`${T}`, O> extends `${number}`
+                ? AsNumber<ValidateLength<`${T}`, O>>
+                : ValidateLength<`${T}`, O>
+            : never;

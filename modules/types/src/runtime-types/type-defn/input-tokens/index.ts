@@ -11,6 +11,6 @@ export * from "./IT_TakeArray";
 export * from "./IT_TakeAtomic";
 export * from "./IT_TakeKvObjects";
 export * from "./IT_TakeNumericLiteral";
+export * from "./IT_TakeParameters";
 export * from "./IT_TakeStringLiteral";
 export * from "./IT_TakeTokenGenerics";
-export * from "./IT_TakeParameters";

@@ -41,5 +41,5 @@ export type Find<
     TParams extends GetComparisonParams<TOp>
 > = TList extends readonly ComparisonAccept<TOp>[]
 
-? FindAcc<TList, TOp, TParams>
-: undefined;
+    ? FindAcc<TList, TOp, TParams>
+    : undefined;
