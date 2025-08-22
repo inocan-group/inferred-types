@@ -2,7 +2,9 @@ import { describe, it } from "vitest";
 import {
     Expect,
     GetInputToken,
+    IT_Token,
     Test,
+    Err
 } from "inferred-types/types";
 
 describe("GetInputToken<T>", () => {
@@ -75,6 +77,28 @@ describe("GetInputToken<T>", () => {
             Expect<Test<Rec2["type"], "equals", Record<string, number | boolean>>>,
 
             Expect<Test<Map1["type"], "equals", Map<string, number>>>,
+        ];
+    });
+
+
+    it("Sets", () => {
+        type Set1 = GetInputToken<"Set<string>">;
+        type Set2 = GetInputToken<"Set<Record<string,string>>">;
+
+        type cases = [
+            Expect<Test<Set1, "extends", IT_Token<"set">>>,
+            Expect<Test<Set2, "extends", IT_Token<"set">>>,
+        ];
+    });
+
+
+    it("Incomplete Parse", () => {
+        type Inc = GetInputToken<"Array<string | boolean> && trailing ">;
+
+        type cases = [
+            Expect<Test<Inc, "extends", Err<"incomplete-parse">>>,
+            Expect<Test<Inc["parsedType"], "equals", Array<string | boolean>>>,
+            Expect<Test<Inc["rest"], "equals", "&& trailing">>,
         ];
     });
 

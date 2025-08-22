@@ -28,19 +28,17 @@ type DetermineType<
         fromGeneric: Generic["name"];
     }
 
-    : FromInputToken__String<Trim<T>> extends Error
-        ? Err<
-            `malformed-token`,
-            `The parameter token's boundaries were established but while iterating over the parameter definitions we found the parameter token: '${Trim<T>}'`,
-            { parameter: Trim<T>; generics: U }
-        >
-        : {
-            token: Trim<T>;
-            type: FromInputToken__String<Trim<T>>;
-            fromGeneric: false;
-        }
-
-;
+: FromInputToken__String<Trim<T>> extends Error
+    ? Err<
+        `malformed-token`,
+        `The parameter token's boundaries were established but while iterating over the parameter definitions we found the parameter token: '${Trim<T>}'`,
+        { parameter: Trim<T>; generics: U }
+    >
+: {
+    token: Trim<T>;
+    type: FromInputToken__String<Trim<T>>;
+    fromGeneric: false;
+};
 
 type AsParameters<
     TParams extends readonly string[],
@@ -50,7 +48,7 @@ type AsParameters<
 
     ? Head extends `${infer Name extends string}:${infer Type extends string}`
         ? DetermineType<Trim<Type>, TGenerics> extends
-        infer Info extends { type: any; fromGeneric: false | string; token: string }
+            infer Info extends { type: any; fromGeneric: false | string; token: string }
 
             ? AsParameters<
                 Rest,
@@ -65,7 +63,11 @@ type AsParameters<
                     }, GenericParam>
                 ]
             >
-            : never
+            : Err<
+                `malformed-token`,
+                `function parsing failed in call to DetermineType<...>`,
+                { parameters: TParams, generics: TGenerics, result: TResult, determineType: DetermineType<Trim<Type>, TGenerics> }
+            >
 
         : Err<
             `malformed-token`,

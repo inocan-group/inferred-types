@@ -99,7 +99,6 @@ export interface IT_Token_Union extends IT_Token_Base<"union"> {
     members: readonly IT_Token[];
 };
 
-export interface IT_Token_Generic extends IT_Token_Base<"generic"> {}
 
 export interface IT_Token_Kv extends IT_Token_Base<"kv"> {
     /** the KV container type */

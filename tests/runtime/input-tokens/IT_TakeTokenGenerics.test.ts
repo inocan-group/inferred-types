@@ -16,6 +16,7 @@ describe("TakeTokenGenerics<T>", () => {
         type T2 = IT_TakeTokenGenerics<Input2>;
         type T3 = IT_TakeTokenGenerics<Input3>;
         type T4 = IT_TakeTokenGenerics<"<T extends string>(name: T) => string">;
+        type T5 = IT_TakeTokenGenerics<"<A extends number, B extends number>(a: A, b: B): number">;
 
 
         type Expected = {
@@ -39,6 +40,22 @@ describe("TakeTokenGenerics<T>", () => {
                         { name: "T"; token: "string"; type: string }
                     ];
                     rest: "(name: T) => string"
+                }
+            >>,
+
+            Expect<Test<
+                T5, "equals",
+                {
+                    generics: [{
+                        name: "A";
+                        token: "number";
+                        type: number;
+                    }, {
+                        name: "B";
+                        token: "number";
+                        type: number;
+                    }];
+                    rest: "(a: A, b: B): number"
                 }
             >>
         ];

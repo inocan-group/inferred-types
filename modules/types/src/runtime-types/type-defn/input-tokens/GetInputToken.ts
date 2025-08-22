@@ -12,9 +12,11 @@ import type {
     IT_TakeNumericLiteral,
     IT_TakeOutcome,
     IT_TakePromise,
+    IT_TakeSet,
     IT_TakeStringLiteral,
     IT_Token,
     Join,
+    Length,
     Trim,
     TupleToIntersection
 } from "inferred-types/types";
@@ -80,77 +82,128 @@ type Process<
         : null
 ;
 
+/**
+ * **Iterate**`<TToken>`
+ *
+ * Iterates over all of the known _take_ functions for InputToken's
+ * and parses to as much as possible.
+ *
+ * - if `TToken` is able to be reduced to "" then the job is considered
+ * to be complete and the results will be passed to `Finalize`
+ * - if `TToken` still has content in it after all take functions have
+ * had a chance to reduce it, then one of two errors will result:
+ *
+ *     - `incomplete-parse` is returned when at least _some_ of the original
+ *     token string has been parsed
+ *       - the `parsedType` property will provide the _type_ up to the point
+ *       of reaching this incomplete state
+ *       - the `rest` property exposes what is left _unparsed_
+ *
+ *     - `unparsed` is returned when no parsing was possible
+ */
 type Iterate<
     TToken extends string,
     TTypes extends readonly IT_Token[] = [],
     TCombinator extends IT_Combinator = "none",
-    T extends string = Trim<TToken>
-> = T extends ""
+    TTrim extends string = Trim<TToken>
+> = TTrim extends ""
     ? Finalize<TTypes, TCombinator>
 
     // Atomic
-    : Process<IT_TakeAtomic<T>> extends infer E extends Error
+    : Process<IT_TakeAtomic<TTrim>> extends infer E extends Error
         ? E // fast fail
-        : Process<IT_TakeAtomic<T>> extends (infer Success extends IT_Token)
+        : Process<IT_TakeAtomic<TTrim>> extends (infer Success extends IT_Token)
             ? Iterate<
                 Success["rest"],
                 [...TTypes, Success],
                 TCombinator
             >
     // String Literal
-    : Process<IT_TakeStringLiteral<T>> extends infer E extends Error
+    : Process<IT_TakeStringLiteral<TTrim>> extends infer E extends Error
         ? E // fast fail
-        : Process<IT_TakeStringLiteral<T>> extends (infer Success extends IT_Token)
+        : Process<IT_TakeStringLiteral<TTrim>> extends (infer Success extends IT_Token)
             ? Iterate<
                 Success["rest"],
                 [...TTypes, Success],
                 TCombinator
             >
     // Numeric Literal
-    : Process<IT_TakeNumericLiteral<T>> extends infer E extends Error
+    : Process<IT_TakeNumericLiteral<TTrim>> extends infer E extends Error
         ? E // fast fail
-        : Process<IT_TakeNumericLiteral<T>> extends (infer Success extends IT_Token)
+        : Process<IT_TakeNumericLiteral<TTrim>> extends (infer Success extends IT_Token)
             ? Iterate<
                 Success["rest"],
                 [...TTypes, Success],
                 TCombinator
             >
     // KV Objects
-    : Process<IT_TakeKvObjects<T>> extends infer E extends Error
+    : Process<IT_TakeKvObjects<TTrim>> extends infer E extends Error
         ? E // fast fail
-        : Process<IT_TakeKvObjects<T>> extends (infer Success extends IT_Token)
+        : Process<IT_TakeKvObjects<TTrim>> extends (infer Success extends IT_Token)
             ? Iterate<
                 Success["rest"],
                 [...TTypes, Success],
                 TCombinator
             >
     // Arrays
-    : Process<IT_TakeArray<T>> extends infer E extends Error
+    : Process<IT_TakeArray<TTrim>> extends infer E extends Error
         ? E // fast fail
-        : Process<IT_TakeArray<T>> extends (infer Success extends IT_Token)
+        : Process<IT_TakeArray<TTrim>> extends (infer Success extends IT_Token)
             ? Iterate<
                 Success["rest"],
                 [...TTypes, Success],
                 TCombinator
             >
     // Promises
-    : Process<IT_TakePromise<T>> extends infer E extends Error
+    : Process<IT_TakePromise<TTrim>> extends infer E extends Error
         ? E // fast fail
-        : Process<IT_TakePromise<T>> extends (infer Success extends IT_Token)
+        : Process<IT_TakePromise<TTrim>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success],
+                TCombinator
+            >
+    // Sets
+    : Process<IT_TakeSet<TTrim>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeSet<TTrim>> extends (infer Success extends IT_Token)
             ? Iterate<
                 Success["rest"],
                 [...TTypes, Success],
                 TCombinator
             >
 
-            : T extends `|${infer Rest extends string}`
-                ? Iterate<Rest, TTypes, "union">
+    : TTrim extends `|${infer Rest extends string}`
+        ? Iterate<Rest, TTypes, "union">
 
-                : Err<
-                    "incomplete-parse",
-                    `The token string was not fully parsed`,
-                    { underlying: TTypes; token: T }
-                >;
+: Length<TTypes> extends 0
+    ? Err<
+        "unparsed",
+        `The token string was unable to be parsed! No parsing has taken place.`
+    >
+
+    : Err<
+    "incomplete-parse",
+    `The token string was not fully parsed; the text '${TTrim}' remains unparsed`,
+    {
+        underlying: TTypes;
+        parsedType: TCombinator extends "none"
+            ? TTypes extends [infer Only]
+                ? Only
+                : never
+            : TCombinator extends "union"
+                ? GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
+                    ? Types[number]
+                    : never
+            : TCombinator extends "intersection"
+                ? GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
+                    ? TupleToIntersection<Types>
+                    : never
+            : never;
+        rest: TTrim;
+        combinator: TCombinator
+    }
+>;
 
 /**
  * **GetInputToken**`<T>`
