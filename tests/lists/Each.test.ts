@@ -65,4 +65,34 @@ describe("Each<T,Op,Param>", () => {
     });
 
 
+    it("append operation", () => {
+        type FooBar = Each<["foo","bar"], "append", "!">;
+        type Float = Each<[1,2,3], "append", ".5">;
+        type ExcitingNumbers = Each<[1,2,3], "append", "!">;
+        type SkipSome = Each<["foo", { foo: 1 }, "bar"], "append", "?">
+
+        type cases = [
+            Expect<Test<FooBar, "equals", ["foo!", "bar!"]>>,
+            Expect<Test<Float, "equals", [1.5, 2.5, 3.5]>>,
+            Expect<Test<ExcitingNumbers, "equals", ["1!","2!","3!"]>>,
+            Expect<Test<SkipSome, "equals", ["foo?", { foo: 1 }, "bar?"]>>,
+        ];
+    });
+
+    it("prepend operation", () => {
+        type FooBar = Each<["foo","bar"], "prepend", "!">;
+        type Float = Each<[1,2,3], "prepend", "0.">;
+        type ExcitingNumbers = Each<[1,2,3], "prepend", "!">;
+        type SkipSome = Each<["foo", { foo: 1 }, "bar"], "prepend", "?">
+
+        type cases = [
+            Expect<Test<FooBar, "equals", ["!foo", "!bar"]>>,
+            Expect<Test<Float, "equals", [0.1, 0.2, 0.3]>>,
+            Expect<Test<ExcitingNumbers, "equals", ["!1","!2","!3"]>>,
+            Expect<Test<SkipSome, "equals", ["?foo", { foo: 1 }, "?bar"]>>,
+        ];
+    });
+
+
+
 });
