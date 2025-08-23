@@ -1,8 +1,13 @@
 import type {
+    As,
     Err,
     IsUnion,
+    ReplaceAll,
     ReplaceNumericInterpolation,
     ReplaceStringInterpolation,
+    StringKeys,
+    TemplateMap__Basic,
+    Values,
 } from "inferred-types/types";
 
 type NoBooleanConversion<T> = Err<
@@ -33,8 +38,20 @@ export type FromLiteralTemplate<T extends string> = string extends T
             "{{string}}"
         >;
 
+type Convert<
+    TContent extends string,
+    TSegments extends Record<string, unknown>,
+    TKeys extends readonly string[] = StringKeys<TSegments>
+> = TKeys extends [infer Head extends string, ...infer Rest extends readonly string[]]
+    ? Convert<
+        ReplaceAll<TContent, `\$\{${Head}\}`, `{{${Head}}}`>,
+        TSegments,
+        Rest
+    >
+: TContent;
+
 /**
- * **AsStaticTemplate**`<T>`
+ * **AsStaticTemplate**`<T, [M]>`
  *
  * Converts a string literal type into a Static Template where:
  *
@@ -42,5 +59,19 @@ export type FromLiteralTemplate<T extends string> = string extends T
  * - `${number}` is `{{number}}`
  * - the `${boolean}` literal will produce a union and is too expensive to try and
  * capture so instead we'll throw an error.
+ *
+ * In addition you can optionally add a **template map** which will allow for additional
+ * vocabulary to be used. There are a few pre-configured maps:
+ *
+ * - `TemplateMap__Basics` - this is the default of strings, numbers, and booleans
+ * - `TemplateMap__Generics<T>` - an easy way to allow for generic params to included
  */
-export type AsStaticTemplate<T extends string> = FromLiteralTemplate<T>;
+export type AsStaticTemplate<
+    TContent extends string,
+    TSegments extends Record<string, unknown> = TemplateMap__Basic
+> = string extends TContent
+? string
+: Convert<
+    As<FromLiteralTemplate<TContent>, string>,
+    TSegments
+>;

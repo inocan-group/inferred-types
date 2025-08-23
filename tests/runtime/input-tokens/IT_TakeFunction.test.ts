@@ -58,7 +58,7 @@ describe("IT_TakeFunction<T>", () => {
             type T1 = IT_TakeFunction<Fn1>;
 
             // generic using inside string literal of return type
-            type Fn2 = "<T extends string>(value: T) => `Hi ${T}`"
+            type Fn2 = "<T extends string>(value: T) => 'Hi ${T}'"
             type T2 = IT_TakeFunction<Fn2>;
 
             // generic directly assigned to return type
@@ -89,6 +89,8 @@ describe("IT_TakeFunction<T>", () => {
                 Expect<Test<T1["returnType"], "equals", string>>,
                 Expect<Test<T1["isAsync"], "equals", false>>,
 
+
+
                 // Fn2 is generic async arrow function
                 Expect<Test<A1["kind"], "equals", "function">>,
                 Expect<Test<A1["name"], "equals", null>>,
@@ -107,6 +109,9 @@ describe("IT_TakeFunction<T>", () => {
 
             type Fn2 = `function add<A extends number, B extends number>(a: A, b: B): number`
             type T2 = IT_TakeFunction<Fn2>;
+
+            type Fn3 = `function greet<T extends string>(name: T): T`;
+            type T3 = IT_TakeFunction<Fn3>;
 
             type cases = [
                 Expect<Test<T1, "extends", IT_Token<"function">>>,

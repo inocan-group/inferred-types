@@ -1,20 +1,23 @@
 import type {
     AlphaChar,
     AlphanumericChar,
+    AsLiteralTemplate,
+    AsStaticTemplate,
     Err,
     Extends,
     Find,
     FromInputToken,
     FromInputToken__String,
     GenericParam,
-    GetEach,
     IsAlphanumeric,
+    IsStaticTemplate,
     IsTrue,
     IT_Parameter,
     IT_ParameterResults,
     IT_TakeParameters,
     IT_Token,
     OptSpace,
+    TemplateMap__Generics,
     Trim,
     ValidateCharacterSet,
 } from "inferred-types/types";
@@ -31,13 +34,17 @@ import type {
  */
 type GetReturnType<
     TToken extends string,
-    TGenerics extends readonly GenericParam[],
-    TGenNames extends string = GetEach<TGenerics, "name"> extends readonly string[] ? GetEach<TGenerics, "name">[number] : never
-> = Find<TGenerics, "equals", [Trim<TToken>]> extends infer Generic extends GenericParam
+    TGenerics extends readonly GenericParam[]
+> = Find<TGenerics, "objectKeyEquals", ["name", Trim<TToken>]> extends infer Generic extends GenericParam
     ? Generic["type"]
-: TToken extends `${infer StrLit extends string}`
-    ?
-;
+: IsStaticTemplate<TToken, TemplateMap__Generics<TGenerics>> extends true
+    ? AsLiteralTemplate<
+        AsStaticTemplate<TToken, TemplateMap__Generics<TGenerics>>,
+        TemplateMap__Generics<TGenerics>
+    >
+    : FromInputToken__String<TToken>;
+
+
 
 
 type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Rest extends string}`
@@ -62,8 +69,8 @@ type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Res
                             name: Trim<Name>;
                             generics: Generics;
                             parameters: Parameters;
-                            returnToken: Trim<Rest>;
-                            returnType: FromInputToken<Trim<Rest>>;
+                            returnToken: AsStaticTemplate<Trim<Rest>, TemplateMap__Generics<Generics>>;
+                            returnType: GetReturnType<Trim<Rest>, Generics>;
                             narrowing: false;
                             token: Trim<T>;
                             type: any; // TODO this is WRONG!
@@ -103,11 +110,11 @@ type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Res
                                 generics: Generics;
                                 parameters: Parameters;
                                 narrowing: false;
-                                returnToken: Trim<Rest>;
-                                returnType: FromInputToken<Trim<Rest>>;
+                                returnToken: AsStaticTemplate<Trim<Rest>, TemplateMap__Generics<Generics>>;
+                                returnType: GetReturnType<Trim<Rest>, Generics>;
                                 token: Trim<T>;
                                 type: any; // TODO this is WRONG!
-                                isAsync: Extends<FromInputToken<Trim<Rest>>, Promise<any>>;
+                                isAsync: Extends<GetReturnType<Trim<Rest>, Generics>, Promise<any>>;
                                 rest: "";
                             }
                         : Err<
@@ -166,11 +173,14 @@ type AnonSyncFunction<T extends string> = Trim<T> extends `function ${infer Rest
                     generics: Generics;
                     parameters: Parameters;
                     narrowing: Generics extends [] ? false : true;
-                    returnToken: Trim<ReturnType>;
-                    returnType: FromInputToken__String<Trim<ReturnType>>;
+                    returnToken: AsStaticTemplate<Trim<ReturnType>, TemplateMap__Generics<Generics>>;
+                    returnType: GetReturnType<Trim<ReturnType>, Generics>;
                     token: Trim<T>;
                     type: any; // TODO
-                    isAsync: Extends<FromInputToken__String<Trim<ReturnType>>, Promise<any>>;
+                    isAsync: Extends<
+                        GetReturnType<Trim<ReturnType>, Generics>,
+                        Promise<any>
+                    >;
                     rest: "";
                 }
                 : Err<"malformed-token", `Expected return type after ':' in an anonymous function`>
@@ -198,11 +208,12 @@ type ArrowSyncFunction<T extends string> = IT_TakeParameters<T> extends infer P 
         generics: infer Generics extends readonly GenericParam[] | [];
         rest: infer Rest extends string
     }
-        ? Trim<Rest> extends `=>${infer ReturnType extends string}`
-            ? FromInputToken__String<Trim<ReturnType>> extends Error
+        ? Trim<Rest> extends `=>${infer ReturnToken extends string}`
+            ? GetReturnType<Trim<ReturnToken>, Generics> extends Error
                 ? Err<
                     `malformed-token`,
-                    `The arrow function -- '${Trim<T>}' -- has a return type '${Trim<ReturnType>}' which could not be parsed to a type!`
+                    `The arrow function -- '${Trim<T>}' -- has a return type '${Trim<ReturnToken>}' which could not be parsed to a type!`,
+                    { generics: Generics; parameters: Parameters, returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>   }
                 >
             : {
                 __kind: "IT_Token";
@@ -211,9 +222,9 @@ type ArrowSyncFunction<T extends string> = IT_TakeParameters<T> extends infer P 
                 generics: Generics;
                 parameters: Parameters;
                 narrowing: false; // TODO (will use IsNarrowingFn<T>, where T is the type)
-                isAsync: FromInputToken__String<Trim<ReturnType>> extends Promise<any> ? true : false;
-                returnToken: Trim<ReturnType>;
-                returnType: FromInputToken__String<Trim<ReturnType>>;
+                isAsync: GetReturnType<Trim<ReturnToken>, Generics> extends Promise<any> ? true : false;
+                returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                returnType: GetReturnType<Trim<ReturnToken>, Generics>;
                 token: T;
                 type: any; // TODO
                 rest: "";
