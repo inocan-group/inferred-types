@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
     Expect,
     Test,
-    ToStringLiteral
+    ToStringLiteral,
+    TupleMeta
 } from "inferred-types/types";
 import { toStringLiteral, split, stripChars } from "inferred-types/runtime";
 
@@ -69,7 +70,7 @@ describe("ToStringLiteral<T>", () => {
     });
 
 
-    it("tuple (literal types)", () => {
+    it("literal array", () => {
         type Numeric = ToStringLiteral<[1,2,3]>;
         type Obj = ToStringLiteral<[
             { id: 1},
@@ -98,6 +99,19 @@ describe("ToStringLiteral<T>", () => {
             >>,
         ];
     });
+
+
+    it("literal array (with optionals)", () => {
+        type M = TupleMeta<[1,2,3?]>;
+
+        type Opt1 = ToStringLiteral<[1,2,3?]>;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
+
 
     it("tuple (wide types)", () => {
         type StrArr = ToStringLiteral<string[]>;

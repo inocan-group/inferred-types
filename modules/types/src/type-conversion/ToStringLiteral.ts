@@ -38,18 +38,27 @@ export type ToLiteralOptions = {
      * be evaluated as being an `InputToken`.
      */
     tokensAllowed?: boolean;
+
+    /**
+     * for containers which support the concept of "optional" keys
+     */
+    isOptional?: boolean;
 };
 
 type Enc<
     T extends string,
-    TOpt extends { quote: QuoteCharacter; encode: boolean }
+    TOpt extends ToLiteralOptions
 > = TOpt["encode"] extends true
     ? SafeEncode<T>
     : T;
 
+
+/**
+ * Converts the elements in an array to tokens.
+ */
 type InnerArray<
     T extends readonly any[],
-    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false }
+    O extends ToLiteralOptions = { quote: "\""; encode: false; isOptional: false }
 > = As<{
     [K in keyof T]: T[K] extends string
         ? `${O["quote"]}${T[K]}${O["quote"]}`
@@ -63,7 +72,9 @@ type InnerArray<
             : T[K] extends readonly any[]
                 ? ToStringLiteral__Tuple<T[K], O>
                 : T[K] extends Dictionary
-                    ? `{ ${InnerObject<T[K], StringKeys<T[K]>, O>} }`
+                    ? InnerObject<T[K], StringKeys<T[K]>, O> extends infer Obj extends string
+                        ? `{ ${Obj} }`
+                        : never
                     : never
 }, readonly string[]>;
 
@@ -92,9 +103,8 @@ type AsUnionArrayString<
  */
 export type ToStringLiteral__Tuple<
     T extends readonly unknown[],
-    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false }
->
-= [TupleMeta<T>["isWide"]] extends [true]
+    O extends ToLiteralOptions = { quote: "\""; encode: false }
+> = [TupleMeta<T>["isWide"]] extends [true]
     ? [T] extends [readonly (infer Type)[]]
         ? [IsUnion<Type>] extends [true]
             ? [UnionToTuple<Type>] extends [readonly unknown[]]
@@ -103,7 +113,9 @@ export type ToStringLiteral__Tuple<
             : [Type] extends [Scalar]
                 ? `${ToStringLiteral__Scalar<Type>}[]`
                 : [Type] extends [Dictionary]
-                    ? `${ToStringLiteral__Object<Type>}[]`
+                    ? ToStringLiteral__Object<Type> extends infer Obj extends string
+                        ? `${Obj}[]`
+                        : never
                     : never
         : never
     : [T["length"]] extends [0]
@@ -134,7 +146,7 @@ export type IsObjectKeyRequiringQuotes<
  */
 type Prop<
     TProp extends string,
-    TOpt extends { quote: QuoteCharacter; encode: boolean }
+    TOpt extends ToLiteralOptions
 > = [IsObjectKeyRequiringQuotes<TProp>] extends [true]
     ? `${TOpt["quote"]}${TProp}${TOpt["quote"]}`
     : TProp;
@@ -146,7 +158,7 @@ type Prop<
 type InnerObject<
     T extends Dictionary,
     K extends readonly (keyof T & string)[],
-    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false },
+    O extends ToLiteralOptions = { quote: "\""; encode: false },
     R extends readonly string[] = [],
 > = [] extends K
     ? Join<R, ", ">
@@ -175,7 +187,9 @@ type InnerObject<
                         : T[First<K>] extends readonly unknown[]
                             ? `${Prop<First<K>, O>}: ${ToStringLiteral__Tuple<T[First<K>]>}`
                             : T[First<K>] extends Dictionary
-                                ? `${Prop<First<K>, O>}: ${ToStringLiteral__Object<T[First<K>]>}`
+                                ? ToStringLiteral__Object<T[First<K>]> extends infer Dict extends string
+                                    ? `${Prop<First<K>, O>}: ${Dict}`
+                                    : never
                                 : never,
         ]
     >;
@@ -189,8 +203,10 @@ type InnerObject<
  */
 export type ToStringLiteral__Object<
     T extends Dictionary,
-    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false }
-> = `{ ${InnerObject<T, StringKeys<T>, O>} }`;
+    O extends ToLiteralOptions = { quote: "\""; encode: false }
+> = InnerObject<T, StringKeys<T>, O> extends infer Inner extends string
+? `{ ${Inner} }`
+: never;
 
 /**
  * **ToJsonScalar**`<T>`
@@ -201,7 +217,7 @@ export type ToStringLiteral__Object<
  */
 export type ToStringLiteral__Scalar<
     T extends Scalar,
-    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false }
+    O extends ToLiteralOptions = { quote: "\""; encode: false }
 > = [T] extends [string]
     ? [string] extends [T]
         ? "string"
@@ -244,13 +260,9 @@ export type ToStringLiteral__Array<
     ? `${ToStringLiteral__Scalar<TypeOfArray<TArr>>}[]`
     : "nope";
 
-export type ToJsValueOptions = {
-    quote?: QuoteCharacter;
-    encode?: boolean;
-};
 
 type O<
-    T extends ToJsValueOptions
+    T extends ToLiteralOptions
 > = {
     quote: T["quote"] extends QuoteCharacter ? T["quote"] : "\"";
     encode: T["encode"] extends boolean ? T["encode"] : false;
@@ -258,7 +270,7 @@ type O<
 
 type _ToStringLiteral<
     T,
-    Opt extends ToJsValueOptions = { quote: "\""; encode: false },
+    Opt extends ToLiteralOptions = { quote: "\""; encode: false },
 > = [IsUndefined<T>] extends [true]
     ? "undefined"
     : [IsNull<T>] extends [true]
@@ -294,5 +306,5 @@ type _ToStringLiteral<
  */
 export type ToStringLiteral<
     T,
-    Opt extends ToJsValueOptions = { quote: "\""; encode: false },
+    Opt extends ToLiteralOptions = { quote: "\""; encode: false },
 > = _ToStringLiteral<T, Opt>;
