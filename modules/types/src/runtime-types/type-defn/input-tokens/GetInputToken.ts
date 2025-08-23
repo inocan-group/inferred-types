@@ -221,7 +221,7 @@ type Iterate<
  * you back an `IT_Token` which provides meta data about the token
  * including the _type_ which this token represents.
  *
- * If all you want back is the _type_ then you're better off using
+ * - if all you want back is the _type_ then you're better off using
  * the `FromInputToken<T>` or `FromInputToken__String<T>` utilities.
  *
  * Possible error variants from this utility include:

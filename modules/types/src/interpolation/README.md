@@ -44,7 +44,7 @@ To start understanding what is being unlocked, let move onto the next section wh
 
 ### Type Utilities
 
-1. `AsStaticTemplate<T>` / `FromLiteralTemplate<T>`
+1. `AsStaticTemplate<T>`
 
     Converts a _literal templated type_ to a _static template_. For instance:
 
@@ -53,7 +53,7 @@ To start understanding what is being unlocked, let move onto the next section wh
     type Template = AsStaticTemplate<`Hi ${string}`>;
     ```
 
-2. `AsLiteralTemplate<T>` / `FromStaticTemplate<T>`
+2. `AsLiteralTemplate<T>`
 
     Converts a _static template_ to a _literal template_. For instance:
 
@@ -97,6 +97,30 @@ To start understanding what is being unlocked, let move onto the next section wh
         ["Bob", 45]
     >;
     ```
+
+Before we move onto _runtime utilities_ let's address two additional capabilities that we have so far not mentioned:
+
+1. **Custom** Segments - we can create our own token set rather than using only `{{string}}`,`{{number}}`, and `{{boolean}}`
+2. **Named** Segments - with the use of `IntoTemplate<...>` we saw how we could populate a template using a variadic approach of supplying values in _order_ but often it is nice to be able to interpolate into the template using _names_ rather than _order_
+
+Let's discuss both in further detail.
+
+#### Custom Segments
+
+
+While the _types_ we can incorporate into a string literal are indeed only _strings_, _numbers_, and _booleans_ there
+are useful variants beyond this when we consider union types, string literals, and numeric literals. Imagine you wanted to define a dynamic segment which would be identified as `{{email}}` and it's type was `${string}@${string}.${string}`. Here's how the `TemplateParams` could meet your new flexibility requirements:
+
+```ts
+// [ string, `${string}@${string}.${string}` ]
+type Params = TemplateParams<"{{string}}'s email is {{email}}", { string: "string", email: `"{{string}}@{{string}}.{{string}}"`}>
+```
+
+All of the type utilities previously discussed _can_ take an additional parameter which defines the _dynamic segments_ in our templates. This is what we see in the example above where we've provided a dictionary which _extends_ the type: `Record<string, InputTokenSuggestions>`.
+
+- you can specify any string based _dynamic segment_ as a **key** to to the dictionary and any _string-based_ `InputToken` as the value
+- in this example it's important to recognize that the `InputToken` parser will always convert the default
+
 
 ### Runtime Utilities
 

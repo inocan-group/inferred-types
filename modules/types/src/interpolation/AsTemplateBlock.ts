@@ -1,4 +1,4 @@
-import type { TemplateBlock } from "inferred-types/types";
+import type { DefaultTemplateBlocks } from "inferred-types/types";
 
 /**
  * **AsTemplateType**
@@ -8,7 +8,7 @@ import type { TemplateBlock } from "inferred-types/types";
  *
  * **Related:** `AsTemplateTypes`
  */
-export type AsTemplateType<T extends TemplateBlock>
+export type AsTemplateType<T extends DefaultTemplateBlocks>
 = [T] extends [`{{string}}`]
     ? string
     : [T] extends [`{{number}}`]
@@ -25,8 +25,8 @@ export type AsTemplateType<T extends TemplateBlock>
  *
  * **Related:** `AsTemplateType`
  */
-export type AsTemplateTypes<T extends readonly TemplateBlock[]> = {
-    [K in keyof T]: T[K] extends TemplateBlock
+export type AsTemplateTypes<T extends readonly DefaultTemplateBlocks[]> = {
+    [K in keyof T]: T[K] extends DefaultTemplateBlocks
         ? AsTemplateType<T[K]>
         : never
 };

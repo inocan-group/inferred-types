@@ -3,7 +3,7 @@ import type {
     FromLiteralTemplate,
     Split,
     StringLiteralTemplate,
-    TemplateBlock
+    DefaultTemplateBlocks
 } from "inferred-types/types";
 
 type Finalize<
@@ -31,7 +31,7 @@ export type StaticTemplateSections<
 > = Finalize<
     As<Split<
         FromLiteralTemplate<TTemplate>,
-        TemplateBlock,
+        DefaultTemplateBlocks,
         TWithType extends null
             ? "omit"
             : "before"

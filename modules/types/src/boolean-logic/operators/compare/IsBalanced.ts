@@ -14,7 +14,7 @@ import type {
     NestingConfig__Named,
     Pop,
     ToStringLiteral,
-    ToStringLiteral__Tuple,
+    ToStringLiteral__Array,
 } from "inferred-types/types";
 
 type Check<
@@ -54,7 +54,7 @@ type Check<
                     ? Err<
                         "unbalanced/is-balanced",
                         `The stack moved into negative territory when the character '${First<TInput>}' -- an END character -- while the stack was already empty!`,
-                        { char: First<TInput>; stack: ToStringLiteral__Tuple<TStack> }
+                        { char: First<TInput>; stack: ToStringLiteral__Array<TStack> }
                     >
                     : false
                 : [IsNestingEnd<First<TInput>, TNesting>] extends [true]
@@ -62,7 +62,7 @@ type Check<
                         ? Err<
                             "unbalanced/is-balanced",
                             `Found an end character '${First<TInput>}' that doesn't match the expected end character for the top of the stack`,
-                            { char: First<TInput>; stack: ToStringLiteral__Tuple<TStack> }
+                            { char: First<TInput>; stack: ToStringLiteral__Array<TStack> }
                         >
                         : false
                     : Check<

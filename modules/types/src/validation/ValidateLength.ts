@@ -1,4 +1,4 @@
-import type { AsNumber, Err, IndexOf, IsGreaterThanOrEqual, IsLessThanOrEqual, IsWideArray, Length, ToStringLiteral__Tuple } from "inferred-types/types";
+import type { AsNumber, Err, IndexOf, IsGreaterThanOrEqual, IsLessThanOrEqual, IsWideArray, Length, ToStringLiteral__Array } from "inferred-types/types";
 
 export type ValidateLengthOptions = {
     min: number;
@@ -42,7 +42,7 @@ type NotMatched<
             : T extends number
                 ? `The number '${T}' is required to have a minimum of ${Opt["min"]} numeric digits (negative sign and decimal place marker are not counted) but had a length of ${Length<T>}!`
                 : T extends readonly unknown[]
-                    ? `The array '${ToStringLiteral__Tuple<T>}' is required to have a minimum of ${Opt["min"]} elements but had a length of ${Length<T>}!`
+                    ? `The array '${ToStringLiteral__Array<T>}' is required to have a minimum of ${Opt["min"]} elements but had a length of ${Length<T>}!`
                     : never,
         { content: T; options: Opt; length: Length<T>; min: Opt["min"] }
     >
@@ -54,7 +54,7 @@ type NotMatched<
                 : T extends number
                     ? `The number '${T}' is required to have a maximum of ${Opt["max"]} numeric digits (negative sign and decimal place marker are not counted) but had a length of ${Length<T>}!`
                     : T extends readonly unknown[]
-                        ? `The array '${ToStringLiteral__Tuple<T>}' is required to have a maximum of ${Opt["max"]} elements but had a length of ${Length<T>}!`
+                        ? `The array '${ToStringLiteral__Array<T>}' is required to have a maximum of ${Opt["max"]} elements but had a length of ${Length<T>}!`
                         : never,
             { content: T; options: Opt; length: Length<T>; max: Opt["max"] }
         >

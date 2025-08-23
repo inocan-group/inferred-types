@@ -6,12 +6,12 @@ import type { Mutable } from "inferred-types/types";
 type Blocks = Mutable<typeof INTERPOLATION_BLOCKS>;
 
 /**
- * **TemplateBlock**
+ * **DefaultTemplateBlocks**
  *
  * A static string which represents a _future_ dynamic segment
  * (of the specified type).
  */
-export type TemplateBlock = Blocks[number];
+export type DefaultTemplateBlocks = Blocks[number];
 
 /**
  * A `TemplateBlock` with the curly braces surrounding it stripped off.

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
     Expect,
+    ObjectKeys,
     Test,
     ToStringLiteral,
     TupleMeta
@@ -70,6 +71,16 @@ describe("ToStringLiteral<T>", () => {
     });
 
 
+    it("dictionary with optional keys", () => {
+        type FooBar = ToStringLiteral<{foo: 1; bar?: 2}>
+
+        type cases = [
+            Expect<Test<FooBar, "equals", "{ foo: 1, bar?: 2 }">>
+        ];
+    });
+
+
+
     it("literal array", () => {
         type Numeric = ToStringLiteral<[1,2,3]>;
         type Obj = ToStringLiteral<[
@@ -105,9 +116,15 @@ describe("ToStringLiteral<T>", () => {
         type M = TupleMeta<[1,2,3?]>;
 
         type Opt1 = ToStringLiteral<[1,2,3?]>;
+        type Opt2 = ToStringLiteral<[1,2,{foo:1}?]>;
+        type MultiOpt = ToStringLiteral<[1,2?,3?]>;
+        type AllOpt = ToStringLiteral<[1?,2?,3?]>;
 
         type cases = [
-            /** type tests */
+            Expect<Test<Opt1, "equals", `[ 1, 2, 3? ]`>>,
+            Expect<Test<Opt2, "equals", `[ 1, 2, { foo: 1 }? ]`>>,
+            Expect<Test<MultiOpt, "equals", `[ 1, 2?, 3? ]`>>,
+            Expect<Test<AllOpt, "equals", `[ 1?, 2?, 3? ]`>>,
         ];
     });
 

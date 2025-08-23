@@ -69,9 +69,12 @@ type Convert<
 export type AsStaticTemplate<
     TContent extends string,
     TSegments extends Record<string, unknown> = TemplateMap__Basic
-> = string extends TContent
-? string
-: Convert<
-    As<FromLiteralTemplate<TContent>, string>,
-    TSegments
+> = As<
+    string extends TContent
+    ? string
+    : Convert<
+        As<FromLiteralTemplate<TContent>, string>,
+        TSegments
+    >,
+    string
 >;

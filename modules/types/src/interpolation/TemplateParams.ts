@@ -1,4 +1,4 @@
-import type { As, DefineObject, EmptyObject, ExpandRecursively, FromDefineObject, FromInputToken__String, GetTemplateBlocks, InputToken, IsUnion, StringKeys, TemplateBlock, TemplateBlocks, UnionToTuple } from "inferred-types/types";
+import type { As, DefineObject, EmptyObject, ExpandRecursively, FromDefineObject, FromInputToken__String, GetTemplateBlocks, InputToken, IsUnion, StringKeys, DefaultTemplateBlocks, TemplateBlocks, UnionToTuple } from "inferred-types/types";
 
 type Map = {
     "{{string}}": string;
@@ -15,7 +15,7 @@ type Map = {
  */
 export type TemplateParams<
     T extends string,
-    B extends readonly TemplateBlock[] = TemplateBlocks<T>
+    B extends readonly DefaultTemplateBlocks[] = TemplateBlocks<T>
 > = {
     [K in keyof B]: B[K] extends keyof Map
         ? Map[B[K]]
@@ -78,30 +78,36 @@ type Lookup<
 /**
  * **GetTemplateParams**`<T,[O]>`
  *
- * A more flexible variant of `TemplateParams<T>` which allows for providing your own
- * _dynamic segments_ as well as a type mapping layer so that your segments can be
- * mapped to a type.
- *
- * By default the usage is exactly the same as `TemplateParams<T>`:
+ * Extracts the _types_ of the dynamic segments from left to right found in the template.
  *
  * ```ts
  * // [string, number]
  * type T = GetTemplateParams<"Hi {{string}}, you're age is {{number}}">;
  * ```
  *
- * However, you can also do things like:
+ * However, you can also add your own dynamic segments by providing a dictionary who's _keys_
+ * represent the segment name (you don't need to surround with curly braces) and the _values_
+ * are the **type** you would like to map to (in the form of a string `InputToken`).
  *
  * ```ts
  * // [ string, `${string}@`${string}.${string}` ]
  * type T = GetTemplateParams<
  *     "Hi {{string}}, you're email is {{email}}",
- *     TemplateBlock | { email: `${string}@`${string}.${string}` }
+ *     { string: "string", email: `${string}@`${string}.${string}` }
  * >;
  * ```
+ *
+ * **Note:**
+ * - when creating your own segments, consider using one of the helper utils:
+ *     - `TemplateMap<T>` - adds your definition from `T` to the standard set of segments
+ *     - `TemplateMap__Generics<T>` - provided a tuple of `GenericParam`'s, this will use the generic's types
+ *     as part of the template.
+ *
+ * **Related:** `TemplateBlocks`, `IntoTemplate`, `Interpolate`
  */
 export type GetTemplateParams<
     TContent extends string,
-    TDynSegments extends string | DefineObject = TemplateBlock,
+    TDynSegments extends string | DefineObject = DefaultTemplateBlocks,
     TMap extends Record<string, unknown> = SegmentMap<TDynSegments>,
     TFoundSegments extends readonly string[] = GetTemplateBlocks<TContent, AsDynamicSegment<TMap>>
 > = {

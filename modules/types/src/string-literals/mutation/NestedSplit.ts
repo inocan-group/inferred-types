@@ -17,7 +17,7 @@ import type {
     Split,
     StrLen,
     ToStringLiteral,
-    ToStringLiteral__Tuple
+    ToStringLiteral__Array
 } from "inferred-types/types";
 
 export type NestedSplitPolicy = "omit" | "before" | "inline" | "after";
@@ -192,7 +192,7 @@ type MultiConvertDirect<
         : Err<
             `unbalanced/nested-split`,
             `The nesting stack was unbalanced, so the nested split can not be completed!`,
-            { stack: ToStringLiteral__Tuple<TStack> }
+            { stack: ToStringLiteral__Array<TStack> }
         >;
 
 /**
@@ -222,7 +222,7 @@ type Convert<
         : Err<
             `unbalanced/nested-split`,
             `The nesting stack was unbalanced, so the nested split can not be completed!`,
-            { stack: ToStringLiteral__Tuple<TStack> }
+            { stack: ToStringLiteral__Array<TStack> }
         >
     : SplitWithNoStack<First<TChars>, TSplit, TStack> extends true
         ? Convert<

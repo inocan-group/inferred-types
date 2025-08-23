@@ -17,7 +17,7 @@ import type {
     MonthNumber,
     ParseDate,
     ParsedDate,
-    ToStringLiteral__Tuple
+    ToStringLiteral__Array
 } from "inferred-types/types";
 
 /**
@@ -110,7 +110,7 @@ export type GetMonthNumber<
                                 ? Err<
                                     `month-number/missing`,
                                     `The type passed into GetMonthNumber<T> was successfully parsed but there is no month information. This typically means that an IsoYear was passed in.`,
-                                    { parse: ToStringLiteral__Tuple<ParseDate<T>> }
+                                    { parse: ToStringLiteral__Array<ParseDate<T>> }
                                 >
                                 : ParseDate<T>[1] extends `${infer N extends number}`
                                     ? N

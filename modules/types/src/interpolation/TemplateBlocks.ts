@@ -3,7 +3,7 @@ import type {
     Filter,
     FromLiteralTemplate,
     Split,
-    TemplateBlock,
+    DefaultTemplateBlocks,
     UnionToTuple
 } from "inferred-types/types";
 
@@ -18,18 +18,18 @@ import type {
 export type TemplateBlocks<
     T extends string
 > = string extends T
-    ? TemplateBlock[]
+    ? DefaultTemplateBlocks[]
     : As<
         Filter<
             Split<
                 As<FromLiteralTemplate<T>, string>,
-                TemplateBlock,
+                DefaultTemplateBlocks,
                 "inline"
             >,
             "extends",
-            [TemplateBlock]
+            [DefaultTemplateBlocks]
         >,
-        readonly TemplateBlock[]
+        readonly DefaultTemplateBlocks[]
     >;
 
 /**
@@ -43,7 +43,7 @@ export type TemplateBlocks<
  */
 export type GetTemplateBlocks<
     T extends string,
-    B extends string = TemplateBlock
+    B extends string = DefaultTemplateBlocks
 > = As<
 string extends T
 ? B[]

@@ -1,4 +1,4 @@
-import { DefineObject, EmptyObject, ExpandRecursively, GenericParam, MergeObjects } from "inferred-types/types";
+import {  EmptyObject, ExpandRecursively, GenericParam, InputTokenSuggestions, MergeObjects } from "inferred-types/types";
 
 
 export type TemplateMap__Basic = {
@@ -15,7 +15,7 @@ export type TemplateMap__Basic = {
  */
 export type TemplateMap__Generics<
     T extends readonly GenericParam[],
-    G extends DefineObject = TemplateMap__Basic
+    G extends Record<string,InputTokenSuggestions> = TemplateMap__Basic
 > = T extends [ infer Head extends GenericParam, ...infer Rest extends readonly GenericParam[]]
     ? TemplateMap__Generics<Rest, G & Record<Head["name"], Head["token"]>>
 : ExpandRecursively<G>;
@@ -28,4 +28,4 @@ export type TemplateMap__Generics<
  * you set the generic `T` using a `DefineObject` this map will be combined with the
  * basics.
  */
-export type TemplateMap<T extends DefineObject = EmptyObject> = MergeObjects<TemplateMap__Basic, T>;
+export type TemplateMap<T extends Record<string,InputTokenSuggestions> = EmptyObject> = MergeObjects<TemplateMap__Basic, T>;
