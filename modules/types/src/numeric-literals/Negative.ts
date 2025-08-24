@@ -6,7 +6,13 @@ import type { AsNumber, AsString, IsNegativeNumber } from "inferred-types/types"
  * Ensures that the number represented by `T` is a _negative_ number.
  */
 export type Negative<T extends number | `${number}`> = T extends `${number}`
-    ? AsString<Negative<AsNumber<T>>>
-    : IsNegativeNumber<T> extends true
+    ? T extends `-${string}`
         ? T
-        : AsNumber<AsString<`-${T}`>>;
+        : `-${T}`
+: T extends number
+    ? `${T}` extends `-${string}`
+        ? T
+        : `-${T}` extends `${infer Neg extends number}`
+            ? Neg
+            : never
+: never;
