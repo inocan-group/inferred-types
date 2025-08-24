@@ -1,8 +1,13 @@
 import type {
+    As,
     Dictionary,
     ExpandRecursively,
+    FixedLengthArray,
+    IsGreaterThanOrEqual,
+    Negative,
     ObjectKey,
-    OptionalKeysTuple,
+    Slice,
+    Subtract,
     WithKeys,
     WithoutKeys,
 } from "inferred-types/types";
@@ -18,18 +23,48 @@ type Iterate<
     }
 >;
 
+type ConvertArray<
+    TArr extends readonly unknown[],
+    TOptional extends number
+> = IsGreaterThanOrEqual<TOptional, TArr["length"]> extends true
+? Partial<TArr>
+: Subtract<TArr["length"], TOptional> extends infer ReqNum extends number
+    ? Negative<TOptional> extends infer OptNum extends number
+        ? [
+            Slice<TArr, 0, ReqNum>,
+            Slice<TArr, OptNum>
+        ] extends [
+            infer ReqElements extends readonly unknown[],
+            infer OptElements extends readonly unknown[]
+        ]
+            ? [...ReqElements, ...Partial<OptElements>]
+            : never
+        : never
+: never;
+
 /**
- * **MakeKeysOptional**`<TObj, TKeys>`
+ * **MakeKeysOptional**`<T, U>`
  *
- * Makes a set of keys on a known object `TObj` become
- * _optional_ parameters while leaving the other properties
- * "as is".
+ * Makes a set of keys on a known container `T`:
+ *
+ * - if `T` is a **dictionary** object then `U` should:
+ *     - be a tuple of keys which you want to force
+ *     to _optional_.
+ *     - all other keys will be kept "as is"
+ * - if `T` is an **array** then `U` should be:
+ *     - in a tuple, only the _last_ items are allowed to be optional
+ *     - therefore `U` is a number indicating _how many_ values should be optional
  *
  * **Related:** `MakeKeysRequired`
  */
 export type MakeKeysOptional<
-    TObj extends Dictionary,
-    TKeys extends readonly ObjectKey[]
-> = OptionalKeysTuple<TObj> extends readonly ObjectKey[]
-    ? Iterate<TObj, TKeys>
-    : never;
+    T extends Dictionary | readonly unknown[],
+    U extends T extends Dictionary ? readonly ObjectKey[] : number
+> = T extends Dictionary
+    ? Iterate<T, As<U, readonly ObjectKey[]>>
+: T extends readonly unknown[]
+    ? ConvertArray<Required<T>, As<U, number>>
+: never;
+
+
+

@@ -10,6 +10,7 @@ import type {
     IT_TakeAtomic,
     IT_TakeFunction,
     IT_TakeKvObjects,
+    IT_TakeLiteralArray,
     IT_TakeNumericLiteral,
     IT_TakeOutcome,
     IT_TakePromise,
@@ -176,6 +177,14 @@ type Iterate<
                                                             : Process<IT_TakeFunction<TTrim>> extends infer E extends Error
                                                                 ? E // fast fail
                                                                 : Process<IT_TakeFunction<TTrim>> extends (infer Success extends IT_Token)
+                                                                    ? Iterate<
+                                                                        Success["rest"],
+                                                                        [...TTypes, Success],
+                                                                        TCombinator
+                                                                    >
+                                                            : Process<IT_TakeLiteralArray<TTrim>> extends infer E extends Error
+                                                                ? E // fast fail
+                                                                : Process<IT_TakeLiteralArray<TTrim>> extends (infer Success extends IT_Token)
                                                                     ? Iterate<
                                                                         Success["rest"],
                                                                         [...TTypes, Success],

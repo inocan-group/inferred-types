@@ -12,7 +12,7 @@ export type IT_TakeKind
 | "function"
 | "generator"
 | "promise"
-| "tuple";
+| "literal-array";
 
 export type IT_Combinators
 = | "union"
@@ -90,9 +90,7 @@ export interface IT_Token_Group extends IT_Token_Base<"group"> {
 };
 export interface IT_Token_Literal extends IT_Token_Base<"literal"> {};
 export interface IT_Token_Array extends IT_Token_Base<"array"> {};
-export interface IT_Token_Tuple extends IT_Token_Base<"tuple"> {
-    elements: readonly IT_Token[];
-};
+export interface IT_Token_Literal_Array extends IT_Token_Base<"literal-array"> {};
 
 export interface IT_Token_Union extends IT_Token_Base<"union"> {
     /** all members of the union */
@@ -163,8 +161,8 @@ export type IT_Token<T extends IT_TakeKind = IT_TakeKind> = IsUnion<T> extends t
                     ? IT_Token_Kv
                     : T extends "group"
                         ? IT_Token_Group
-                        : T extends "tuple"
-                            ? IT_Token_Tuple
+                        : T extends "literal-array"
+                            ? IT_Token_Literal_Array
                             : T extends "array"
                                 ? IT_Token_Array
                                 : T extends "union"

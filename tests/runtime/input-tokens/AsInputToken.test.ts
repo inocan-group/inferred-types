@@ -82,17 +82,19 @@ describe("AsInputToken<T>", () => {
 
     it("literal arrays", () => {
         type Tup1 = AsInputToken<[1,2,3]>;
+        type InvTup1 = FromInputToken<Tup1>;
         type Tup2 = AsInputToken<["foo","bar", true]>;
+        type InvTup2 = FromInputToken<Tup2>;
 
-        type X = ToStringLiteral<[1,2,3?]>;
         type Opt1 = AsInputToken<[1,2,3?]>;
+        type InvOpt1 = FromInputToken<Opt1>;
 
         type cases = [
             Expect<Test<Tup1, "equals", '[ 1, 2, 3 ]'>>,
-            Expect<Test<FromInputToken<Tup1>, "equals", [1,2,3]>>,
+            Expect<Test<InvTup1, "equals", [1,2,3]>>,
 
             Expect<Test<Tup2, "equals", '[ "foo", "bar", true ]'>>,
-            Expect<Test<FromInputToken<Tup2>, "equals", ["foo","bar",true]>>,
+            Expect<Test<InvTup2, "equals", ["foo","bar",true]>>,
 
 
         ];
