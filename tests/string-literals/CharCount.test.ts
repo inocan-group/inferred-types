@@ -1,4 +1,4 @@
-import { Expect, CharCount, Test } from "inferred-types/types";
+import { Expect, CharCount, Test, Nest } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("CharCount<T,C>", () => {
@@ -31,4 +31,14 @@ describe("CharCount<T,C>", () => {
             Expect<Test<T2, "equals", number>>,
         ];
     });
+
+
+    it("nesting turned on", () => {
+        type N1 = Nest<"[ 'foo', 'bar?', 'baz'? ]", { "'": "'" }>;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
 });

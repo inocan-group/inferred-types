@@ -1,9 +1,8 @@
-import { As, Err, FromInputToken__String, GetEach, GetInputToken, IT_TakeKind, IT_Token, Join, NestedSplit, Trim, TrimEach } from "inferred-types/types";
+import { As, Err, FromInputToken__String, Join, NestedSplit, Trim, TrimEach } from "inferred-types/types";
 
 
 type GetElementTypes<
     T extends readonly string[],
-    R extends (readonly IT_Token[]) = []
 > = {
     [K in keyof T]: T[K] extends `${infer ReqToken}?`
         ? FromInputToken__String<ReqToken>
@@ -40,5 +39,4 @@ export type IT_TakeLiteralArray<T extends string> = T extends `[${infer Rest ext
                 : never
         : Err<`malformed-token`>
     : Err<"wrong-handler/array-literal">
-: Err<"wrong-handler/array-literal">
-;
+: Err<"wrong-handler/array-literal">;

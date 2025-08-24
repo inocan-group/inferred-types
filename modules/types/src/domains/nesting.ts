@@ -1,5 +1,15 @@
-import type { DEFAULT_NESTING, QUOTE_NESTING } from "inferred-types/constants";
-import type { AllLengthOf, AllStringLiterals, Err, Keys, Last, StringKeys, ToStringLiteral, Values } from "inferred-types/types";
+import type { BRACKET_NESTING, QUOTE_NESTING, BRACKET_AND_QUOTE_NESTING } from "inferred-types/constants";
+import type {
+    AllLengthOf,
+    AllStringLiterals,
+    As,
+    Err,
+    Keys,
+    Last,
+    StringKeys,
+    ToStringLiteral,
+    Values
+} from "inferred-types/types";
 
 /**
  * **NestingKeyValue**
@@ -24,9 +34,10 @@ export type NestingKeyValue = Record<string, string>;
  */
 export type NestingTuple = [ start: readonly string[], end: readonly string[] | undefined ];
 
-export type NestingConfig__Named = "default" | "brackets" | "quotes";
+export type NestingConfig__Named = "default" | "brackets" | "quotes" | "brackets-and-quotes";
 
-export type FromNamedNestingConfig<T extends Nesting | NestingConfig__Named> = T extends Nesting
+export type FromNamedNestingConfig<T extends Nesting | NestingConfig__Named> = As<
+T extends Nesting
     ? T
     : T extends "default"
         ? DefaultNesting
@@ -34,7 +45,11 @@ export type FromNamedNestingConfig<T extends Nesting | NestingConfig__Named> = T
             ? BracketNesting
             : T extends "quotes"
                 ? QuoteNesting
-                : never;
+                : T extends "brackets-and-quotes"
+                    ? BracketAndQuoteNesting
+                    : never,
+    Nesting
+>;
 
 /**
  * A means of defining the scope nesting by:
@@ -52,13 +67,13 @@ export type Nesting = NestingKeyValue | NestingTuple;
  * for brackets as a key-value pairing to be used
  * with utilities that deal with `Nesting`.
  */
-export type DefaultNesting = typeof DEFAULT_NESTING;
+export type DefaultNesting = typeof BRACKET_NESTING;
 
 /**
  * nesting configuration which has matching opening and closing
  * brackets based on bracketing characters.
  */
-export type BracketNesting = typeof DEFAULT_NESTING;
+export type BracketNesting = typeof BRACKET_NESTING;
 
 /**
  * nesting configuration which treats all quote characters as
@@ -69,6 +84,15 @@ export type BracketNesting = typeof DEFAULT_NESTING;
  * - if you start with \`, you end with \`.
  */
 export type QuoteNesting = typeof QUOTE_NESTING;
+
+/**
+ * **BracketAndQuoteNesting**
+ *
+ * Mixes the `QuoteNesting` and `BracketNesting` strategies together to
+ * form a paired nesting strategy which includes all bracket characters
+ * and quotation characters.
+ */
+export type BracketAndQuoteNesting = typeof BRACKET_AND_QUOTE_NESTING;
 
 /**
  * IsNestingTuple<T>
@@ -122,7 +146,7 @@ export type IsNestingTuple<T> = T extends [
  */
 export type IsNestingKeyValue<T> = T extends Record<string, string>
     ? AllLengthOf<StringKeys<T>, 1> extends true
-        ? AllLengthOf<Values<T>, 1> extends true
+        ? AllLengthOf<As<Values<T>, readonly string[]>, 1> extends true
             ? true
             : Err<
                 `invalid-nesting/key-value`,

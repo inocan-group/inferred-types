@@ -1,5 +1,5 @@
 import type { DefaultNesting, FromNamedNestingConfig, Nesting, NestingConfig__Named, RetainUntil__Nested } from "inferred-types/types";
-import { DEFAULT_NESTING, Never, QUOTE_NESTING } from "inferred-types/constants";
+import { BRACKET_NESTING, Never, QUOTE_NESTING } from "inferred-types/constants";
 import {
     afterFirst,
     asArray,
@@ -111,11 +111,11 @@ export function retainUntil__Nested<
     str: TStr,
     find: TFind,
     incl: TInclude = true as TInclude,
-    nesting: TNesting = mutable(DEFAULT_NESTING) as TNesting
+    nesting: TNesting = mutable(BRACKET_NESTING) as TNesting
 ) {
     const config = isString(nesting)
         ? nesting === "default" || nesting === "brackets"
-            ? DEFAULT_NESTING
+            ? BRACKET_NESTING
             : nesting === "quotes"
                 ? QUOTE_NESTING
                 : Never

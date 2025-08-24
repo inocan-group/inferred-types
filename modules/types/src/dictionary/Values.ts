@@ -1,4 +1,5 @@
 import type {
+    As,
     Container,
     Err,
     IsAny,
@@ -65,7 +66,8 @@ type GetValues<
  */
 export type Values<
     T extends Container,
-> = Validate<T> extends Error
+> = As<
+Validate<T> extends Error
     ? Validate<T>
     : Keys<T> extends readonly unknown[]
         ? number extends Keys<T>["length"]
@@ -75,4 +77,6 @@ export type Values<
                     ? V[]
                     : unknown[]
             : GetValues<T, Keys<T>>
-        : never;
+        : never,
+    readonly unknown[]
+>;

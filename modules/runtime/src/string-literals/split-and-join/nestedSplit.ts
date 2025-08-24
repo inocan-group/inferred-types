@@ -6,7 +6,7 @@ import type {
     Nesting,
     NestingConfig__Named
 } from "inferred-types/types";
-import { DEFAULT_NESTING, Never, QUOTE_NESTING } from "inferred-types/constants";
+import { BRACKET_NESTING, Never, QUOTE_NESTING } from "inferred-types/constants";
 import {
     afterFirst,
     asArray,
@@ -46,11 +46,11 @@ function splitProcessorMultiChar<
                 { stack: toStringLiteral(stack) }
             );
         }
-        
+
         if (lastWasSplit) {
             return waiting === "" ? [...result, ""] : [...result, waiting, ""];
         }
-        
+
         return waiting === "" ? result : [...result, waiting];
     }
 
@@ -394,12 +394,12 @@ export function nestedSplit<
 >(
     content: TContent,
     split: TSplit,
-    nesting: TNesting = mutable(DEFAULT_NESTING) as TNesting,
+    nesting: TNesting = mutable(BRACKET_NESTING) as TNesting,
     policy: TPolicy = "omit" as TPolicy
 ) {
     const config: Nesting = isString(nesting)
         ? nesting === "default" || nesting === "brackets"
-            ? DEFAULT_NESTING
+            ? BRACKET_NESTING
             : nesting === "quotes"
                 ? QUOTE_NESTING
                 : Never
@@ -456,7 +456,7 @@ export function nestedSplit<
     }
 
     // Use appropriate processor based on split length
-    const result = split.length === 1 
+    const result = split.length === 1
         ? splitProcessor(asChars(content), split, config, policy)
         : splitProcessorMultiChar(content, split, config, policy);
 
