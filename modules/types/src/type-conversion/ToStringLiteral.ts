@@ -85,9 +85,7 @@ type InnerArray<
             : T[K] extends readonly any[]
                 ? ToStringLiteral__Array<T[K], O>
                 : T[K] extends Dictionary
-                    ? InnerObject<T[K], O> extends infer Obj extends string
-                        ? `{ ${Obj} }`
-                        : never
+                    ? ToStringLiteral__Object<T[K], O>
                     : never
 }, readonly string[]>;
 
