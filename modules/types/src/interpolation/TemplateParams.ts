@@ -1,4 +1,4 @@
-import type { As, DefineObject, EmptyObject, ExpandRecursively, FromDefineObject, FromInputToken__String, GetTemplateBlocks, InputToken, IsUnion, StringKeys, DefaultTemplateBlocks, TemplateBlocks, UnionToTuple } from "inferred-types/types";
+import type { As, DefaultTemplateBlocks, DefineObject, EmptyObject, ExpandRecursively, FromDefineObject, FromInputToken__String, GetTemplateBlocks, IsUnion, StringKeys, TemplateBlocks, UnionToTuple } from "inferred-types/types";
 
 type Map = {
     "{{string}}": string;
@@ -22,10 +22,9 @@ export type TemplateParams<
         : never
 };
 
-
 type StripCurly<T extends string> = T extends `{{${infer Inner}}}`
-? Inner
-: T;
+    ? Inner
+    : T;
 
 type AsMap<
     T extends readonly (string | DefineObject)[],
@@ -33,10 +32,10 @@ type AsMap<
 > = T extends [ infer Head extends string | DefineObject, ...infer Rest extends readonly (string | DefineObject)[] ]
     ? Head extends string
         ? AsMap<Rest, M & Record<StripCurly<Head>, FromInputToken__String<StripCurly<Head>>>>
-    : Head extends DefineObject
-        ? AsMap<Rest, M & FromDefineObject<Head>>
-    : never
-: ExpandRecursively<M>
+        : Head extends DefineObject
+            ? AsMap<Rest, M & FromDefineObject<Head>>
+            : never
+    : ExpandRecursively<M>
 
 ;
 
@@ -51,29 +50,29 @@ type SegmentMap<
     ? UnionToTuple<T> extends infer Config extends readonly (string | DefineObject)[]
         ? AsMap<Config>
         : never
-: T extends string
-    ? string extends T
-        ? { string: string, number: number, boolean: boolean } // Wide strings converted to basic map
-        : Record<T, `${T}`>
-: T extends DefineObject
-    ? FromDefineObject<T>
-: never;
+    : T extends string
+        ? string extends T
+            ? { string: string; number: number; boolean: boolean } // Wide strings converted to basic map
+            : Record<T, `${T}`>
+        : T extends DefineObject
+            ? FromDefineObject<T>
+            : never;
 
 type AsDynamicSegment<T extends Record<string, unknown>> = As<
     StringKeys<T> extends infer Keys extends readonly string[]
-    ? {
-        [K in keyof Keys]: `{{${Keys[K]}}}`
-    }[number]
-    : never,
+        ? {
+            [K in keyof Keys]: `{{${Keys[K]}}}`
+        }[number]
+        : never,
     string
 >;
 
 type Lookup<
     T extends string,
-    M extends Record<string,unknown>
+    M extends Record<string, unknown>
 > = T extends keyof M
-? M[T]
-: unknown;
+    ? M[T]
+    : unknown;
 
 /**
  * **GetTemplateParams**`<T,[O]>`
@@ -111,6 +110,5 @@ export type GetTemplateParams<
     TMap extends Record<string, unknown> = SegmentMap<TDynSegments>,
     TFoundSegments extends readonly string[] = GetTemplateBlocks<TContent, AsDynamicSegment<TMap>>
 > = {
-    [K in keyof TFoundSegments]: Lookup< StripCurly<TFoundSegments[K]>, TMap>
-}
-
+    [K in keyof TFoundSegments]: Lookup<StripCurly<TFoundSegments[K]>, TMap>
+};

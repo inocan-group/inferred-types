@@ -1,4 +1,4 @@
-import { Dictionary, Every, GetInputToken, InputToken, IsWideObject, Values } from "inferred-types/types";
+import type { Dictionary, Every, GetInputToken, InputToken, IsWideObject, Values } from "inferred-types/types";
 
 /**
  * **IsInputToken**`<T>`

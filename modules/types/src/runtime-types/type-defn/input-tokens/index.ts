@@ -1,3 +1,4 @@
+export * from "./AsInputToken";
 export * from "./DefineObject";
 export * from "./DefineTuple";
 export * from "./FromDefineObject";
@@ -18,4 +19,3 @@ export * from "./IT_TakePromise";
 export * from "./IT_TakeSet";
 export * from "./IT_TakeStringLiteral";
 export * from "./IT_TakeTokenGenerics";
-export * from "./AsInputToken"

@@ -1,10 +1,9 @@
 import type {
     As,
+    DefaultTemplateBlocks,
     Filter,
     FromLiteralTemplate,
-    Split,
-    DefaultTemplateBlocks,
-    UnionToTuple
+    Split
 } from "inferred-types/types";
 
 /**
@@ -45,9 +44,10 @@ export type GetTemplateBlocks<
     T extends string,
     B extends string = DefaultTemplateBlocks
 > = As<
-string extends T
-? B[]
-: Split<T, B, "inline"> extends infer Elements extends readonly string[]
-    ? Filter<Elements, "extends", [B]>
-    : never,
-readonly string[]>;
+    string extends T
+        ? B[]
+        : Split<T, B, "inline"> extends infer Elements extends readonly string[]
+            ? Filter<Elements, "extends", [B]>
+            : never,
+    readonly string[]
+>;

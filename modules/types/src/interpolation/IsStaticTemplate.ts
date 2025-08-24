@@ -1,17 +1,15 @@
-import { Contains } from "inferred-types/types";
-import { StringKeys } from "types/dictionary";
-import { TemplateMap__Basic } from "types/interpolation/template-maps";
-import { DefineObject } from "types/runtime-types";
-
+import type { Contains } from "inferred-types/types";
+import type { StringKeys } from "types/dictionary";
+import type { TemplateMap__Basic } from "types/interpolation/template-maps";
+import type { DefineObject } from "types/runtime-types";
 
 type Curly<
     T extends DefineObject,
     K extends readonly string[] = StringKeys<T>,
     O extends string = never
 > = K extends [ infer Head extends string, ...infer Rest extends readonly string[]]
-    ? Curly<T,Rest,O | `{{${Head}}}`>
-: O;
-
+    ? Curly<T, Rest, O | `{{${Head}}}`>
+    : O;
 
 /**
  * **IsStaticTemplate**`<TContent,[TSegments]>`
@@ -23,5 +21,3 @@ export type IsStaticTemplate<
     TContent extends string,
     TSegments extends DefineObject = TemplateMap__Basic
 > = Contains<TContent, Curly<TSegments>>;
-
-

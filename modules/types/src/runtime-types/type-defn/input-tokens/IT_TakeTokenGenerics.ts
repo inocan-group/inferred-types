@@ -68,19 +68,19 @@ type ParseGenerics<
                 token: Head;
                 rest: Rest;
             }>
-        : Result extends TokenParsed
-            ? ParseGenerics<Rest, [...P, Result]>
-            : Err<
-                `malformed-token/generic`,
-                `The ParseGenerics<..> utility ran into a string pair which it could not parse into a generic parameter!`,
-                { result: Result }
-            >
-    : Err<
-        "malformed-token/generic",
-        `This shouldn't really happen but is the outcome of not being able to infer a type for 'IT_TakeTokenGeneric<Head>'`,
-        { head: Head }
-    >
-: P;
+            : Result extends TokenParsed
+                ? ParseGenerics<Rest, [...P, Result]>
+                : Err<
+                    `malformed-token/generic`,
+                    `The ParseGenerics<..> utility ran into a string pair which it could not parse into a generic parameter!`,
+                    { result: Result }
+                >
+        : Err<
+            "malformed-token/generic",
+            `This shouldn't really happen but is the outcome of not being able to infer a type for 'IT_TakeTokenGeneric<Head>'`,
+            { head: Head }
+        >
+    : P;
 
 /**
  * **TakeTokenGenerics**`<T>`
@@ -112,38 +112,38 @@ export type IT_TakeTokenGenerics<
 > = string extends T
     ? GenericsParsed | Error // Wide type
 
-: NestedSplit<TClean, ">"> extends [
-    infer Block extends string,
-    ...infer Rest extends readonly string[]
-]
-    ? NestedSplit<Block, ","> extends Error
-        ? ErrContext<
-            NestedSplit<Block, ",">,
-            { utility: "TakeTokenGeneric"; token: `<${TClean}`; block: Block }
-        > // Error
-        : NestedSplit<Block, ","> extends infer GenericPairs extends readonly string[]
-            ? TrimEach<GenericPairs> extends infer TrimmedPairs extends readonly string[]
-                ? ParseGenerics<TrimmedPairs> extends infer ParsedResult
-                    ? ParsedResult extends Error
-                        ? ErrContext<
-                            ParsedResult,
-                            { utility: "TakeTokenGeneric"; token: `<${TClean}` }
-                        > // Error
-                        : ParsedResult extends readonly TokenParsed[]
-                            ? {
-                                generics: ParsedResult;
-                                rest: Trim<Join<Rest, ">">>;
-                            } // Successful outcome
-                            : Err<
-                                "malformed-token",
-                                `The parsed generics appear to be of an invalid type!`,
-                                { generics: ParsedResult; rest: Trim<Join<Rest, ">">>}
-                            >
+    : NestedSplit<TClean, ">"> extends [
+        infer Block extends string,
+        ...infer Rest extends readonly string[]
+    ]
+        ? NestedSplit<Block, ","> extends Error
+            ? ErrContext<
+                NestedSplit<Block, ",">,
+                { utility: "TakeTokenGeneric"; token: `<${TClean}`; block: Block }
+            > // Error
+            : NestedSplit<Block, ","> extends infer GenericPairs extends readonly string[]
+                ? TrimEach<GenericPairs> extends infer TrimmedPairs extends readonly string[]
+                    ? ParseGenerics<TrimmedPairs> extends infer ParsedResult
+                        ? ParsedResult extends Error
+                            ? ErrContext<
+                                ParsedResult,
+                                { utility: "TakeTokenGeneric"; token: `<${TClean}` }
+                            > // Error
+                            : ParsedResult extends readonly TokenParsed[]
+                                ? {
+                                    generics: ParsedResult;
+                                    rest: Trim<Join<Rest, ">">>;
+                                } // Successful outcome
+                                : Err<
+                                    "malformed-token",
+                                    `The parsed generics appear to be of an invalid type!`,
+                                    { generics: ParsedResult; rest: Trim<Join<Rest, ">">> }
+                                >
+                        : never
                     : never
                 : never
-            : never
-: Err<
-    `wrong-handler/generic`,
-    `The string token passed in could not be parsed as a Generics block`,
-    { token: `<${TClean}`; utility: "TakeTokenGenerics" }
->;
+        : Err<
+            `wrong-handler/generic`,
+            `The string token passed in could not be parsed as a Generics block`,
+            { token: `<${TClean}`; utility: "TakeTokenGenerics" }
+        >;

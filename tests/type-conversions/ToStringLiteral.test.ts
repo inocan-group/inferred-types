@@ -113,8 +113,6 @@ describe("ToStringLiteral<T>", () => {
 
 
     it("literal array (with optionals)", () => {
-        type M = TupleMeta<[1,2,3?]>;
-
         type Opt1 = ToStringLiteral<[1,2,3?]>;
         type Opt2 = ToStringLiteral<[1,2,{foo:1}?]>;
         type MultiOpt = ToStringLiteral<[1,2?,3?]>;

@@ -107,20 +107,18 @@ Let's discuss both in further detail.
 
 #### Custom Segments
 
-
 While the _types_ we can incorporate into a string literal are indeed only _strings_, _numbers_, and _booleans_ there
 are useful variants beyond this when we consider union types, string literals, and numeric literals. Imagine you wanted to define a dynamic segment which would be identified as `{{email}}` and it's type was `${string}@${string}.${string}`. Here's how the `TemplateParams` could meet your new flexibility requirements:
 
 ```ts
 // [ string, `${string}@${string}.${string}` ]
-type Params = TemplateParams<"{{string}}'s email is {{email}}", { string: "string", email: `"{{string}}@{{string}}.{{string}}"`}>
+type Params = TemplateParams<"{{string}}'s email is {{email}}", { string: "string"; email: `"{{string}}@{{string}}.{{string}}"` }>;
 ```
 
 All of the type utilities previously discussed _can_ take an additional parameter which defines the _dynamic segments_ in our templates. This is what we see in the example above where we've provided a dictionary which _extends_ the type: `Record<string, InputTokenSuggestions>`.
 
 - you can specify any string based _dynamic segment_ as a **key** to to the dictionary and any _string-based_ `InputToken` as the value
 - in this example it's important to recognize that the `InputToken` parser will always convert the default
-
 
 ### Runtime Utilities
 

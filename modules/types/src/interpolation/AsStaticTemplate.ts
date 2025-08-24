@@ -7,7 +7,6 @@ import type {
     ReplaceStringInterpolation,
     StringKeys,
     TemplateMap__Basic,
-    Values,
 } from "inferred-types/types";
 
 type NoBooleanConversion<T> = Err<
@@ -48,7 +47,7 @@ type Convert<
         TSegments,
         Rest
     >
-: TContent;
+    : TContent;
 
 /**
  * **AsStaticTemplate**`<T, [M]>`
@@ -71,10 +70,10 @@ export type AsStaticTemplate<
     TSegments extends Record<string, unknown> = TemplateMap__Basic
 > = As<
     string extends TContent
-    ? string
-    : Convert<
-        As<FromLiteralTemplate<TContent>, string>,
-        TSegments
-    >,
+        ? string
+        : Convert<
+            As<FromLiteralTemplate<TContent>, string>,
+            TSegments
+        >,
     string
 >;

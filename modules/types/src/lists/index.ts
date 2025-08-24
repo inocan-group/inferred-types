@@ -35,6 +35,7 @@ export * from "./Shift";
 export * from "./Shortest";
 export * from "./Slice";
 export * from "./Sort";
+export * from "./sort/index";
 export * from "./SortByKey";
 export * from "./TakeFirst";
 export * from "./TakeLast";
@@ -42,6 +43,5 @@ export * from "./ToCSV";
 export * from "./TruthyReturns";
 export * from "./TypeOfArray";
 export * from "./UnionFromProp";
-export * from "./Variadic";
 
-export * from "./sort/index";
+export * from "./Variadic";

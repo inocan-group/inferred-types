@@ -1,9 +1,9 @@
 import type {
     As,
+    DefaultTemplateBlocks,
     FromLiteralTemplate,
     Split,
-    StringLiteralTemplate,
-    DefaultTemplateBlocks
+    StringLiteralTemplate
 } from "inferred-types/types";
 
 type Finalize<

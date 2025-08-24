@@ -1,4 +1,4 @@
-import { As, Find, FirstOfEach, GetEach } from "inferred-types/types";
+import type { Find, FirstOfEach } from "inferred-types/types";
 
 type ElseOps = "never" | "proxy" | "false" | "true" | "boolean" | "unknown";
 
@@ -15,16 +15,16 @@ type Convert<
         : TElse extends "proxy"
             ? TList[K]
             : TElse extends "false"
-            ? false
-            : TElse extends "true"
-            ? true
-            : TElse extends "boolean"
-            ? boolean
-            : TElse extends "unknown"
-            ? unknown
-            : TElse extends "never"
-            ? never
-            : never;
+                ? false
+                : TElse extends "true"
+                    ? true
+                    : TElse extends "boolean"
+                        ? boolean
+                        : TElse extends "unknown"
+                            ? unknown
+                            : TElse extends "never"
+                                ? never
+                                : never;
 };
 
 /**
@@ -41,5 +41,3 @@ export type MapTo<
     TMap extends readonly [from: unknown, to: unknown][],
     TElse extends ElseOps = "proxy"
 > = Convert<TList, TMap, TElse>;
-
-
