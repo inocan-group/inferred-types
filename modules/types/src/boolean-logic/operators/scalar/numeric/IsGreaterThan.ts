@@ -18,7 +18,11 @@ import type {
 export type IsGreaterThan<
     A extends NumberLike,
     B extends NumberLike,
-> = IsBranded<A> extends true
+> = number extends A
+? boolean
+: number extends B
+? boolean
+: IsBranded<A> extends true
     ? IsGreaterThan<Unbrand<A>, B>
     : IsBranded<B> extends true
         ? IsGreaterThan<A, Unbrand<B>>
@@ -38,7 +42,11 @@ export type IsGreaterThan<
 export type IsGreaterThanOrEqual<
     A extends NumberLike,
     B extends NumberLike,
-> = IsBranded<A> extends true
+> = number extends A
+? boolean
+: number extends B
+? boolean
+: IsBranded<A> extends true
     ? IsGreaterThan<Unbrand<A>, B>
     : IsBranded<B> extends true
         ? IsGreaterThan<A, Unbrand<B>>

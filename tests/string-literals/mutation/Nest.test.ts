@@ -5,59 +5,77 @@ import {
     Test,
     BracketNesting,
     QuoteNesting,
+    IsBalanced,
+    NestedString,
+    Err,
 } from "inferred-types/types";
 
 describe("Nest<T>", () => {
 
     it("basics using default nesting config", () => {
         type Str = `function doIt(name: string) { ... }; something else`
-        type N1 = Nest<Str>
+        type T1 = Nest<Str>;
+
+        type Expected = [
+            {
+                content: "function doIt",
+                enterChar: null,
+                exitChar: null,
+                level: 0,
+                children: [
+                    {
+                        content: "name: string",
+                        enterChar: "(",
+                        exitChar: ")",
+                        children: [],
+                        level: 1
+                    }
+                ]
+            },
+            {
+                content: " ",
+                enterChar: null,
+                exitChar: null,
+                level: 0,
+                children: [
+                    {
+                        content: " ... ",
+                        enterChar: "{",
+                        exitChar: "}",
+                        children: [],
+                        level: 1
+                    }
+                ]
+            },
+            {
+                content: "; something else",
+                enterChar: null,
+                exitChar: null,
+                level: 0,
+                children: []
+            }
+        ];
+
+        type SideBySide = Nest<`intro()()`>;
 
         type cases = [
             Expect<Test<
-                N1, "equals",
-                [
-                    {
-                        content: "function doIt",
-                        enterChar: null,
-                        exitChar: null,
-                        level: 0,
-                        children: [
-                            {
-                                content: "name: string",
-                                enterChar: "(",
-                                exitChar: ")",
-                                children: [],
-                                level: 1
-                            }
-                        ]
-                    },
-                    {
-                        content: " ",
-                        enterChar: null,
-                        exitChar: null,
-                        level: 0,
-                        children: [
-                            {
-                                content: " ... ",
-                                enterChar: "{",
-                                exitChar: "}",
-                                children: [],
-                                level: 1
-                            }
-                        ]
-                    },
-                    {
-                        content: "; something else",
-                        enterChar: null,
-                        exitChar: null,
-                        level: 0,
-                        children: []
-                    }
-                ]
+                T1, "equals",
+
             >>
         ];
     });
+
+
+    it("unbalanced brackets", () => {
+        type Str = `function add() {`;
+        type T1 = Nest<Str>;
+
+        type cases = [
+            Expect<Test<T1, "extends", Err<"unbalanced">>>,
+        ];
+    });
+
 
     it("custom nesting with only parentheses", () => {
         type CustomNesting = { "(": ")" };

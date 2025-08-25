@@ -1,4 +1,4 @@
-import { Expect, Extends, IsBalanced, Test, TypedError } from "inferred-types/types";
+import { Err, Expect, Extends, IsBalanced, Test, TypedError } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsBalanced<T,U>", () => {
@@ -23,7 +23,7 @@ describe("IsBalanced<T,U>", () => {
     type E = IsBalanced<"adfasdf", {"foo": "bar"}, true>;
 
     type cases = [
-      Expect<Extends<E, TypedError<"invalid-key-value">>>
+      Expect<Extends<E, Err<"invalid-key-value">>>
     ];
   });
 

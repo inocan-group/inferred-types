@@ -4,12 +4,38 @@ import type {
     AllStringLiterals,
     As,
     Err,
+    IndexOf,
     Keys,
     Last,
     StringKeys,
     ToStringLiteral,
     Values
 } from "inferred-types/types";
+
+
+/**
+ * **NestedString**
+ *
+ * A hierarchical representation of a string which uses
+ * a `Nesting` configuration to determine when to move up
+ * and down the hierarchy.
+ *
+ * - a root node will be level 0
+ * - root nodes will always have `null` for both _enter_ and _exit_
+ * characters
+ * - only the origin node in a `NestedString` will be at level 0
+ * - child nodes which have an `enter` character but no `exit`
+ * character are considered "unbalanced"
+ * - you can test if a node or any of their children are _unbalanced_
+ * with the `IsBalanced<T>` utility.
+ */
+export type NestedString = {
+    content: string;
+    enterChar: string | null;
+    exitChar: string | null;
+    children: NestedString[];
+    level: number;
+};
 
 /**
  * **NestingKeyValue**
@@ -166,7 +192,7 @@ export type IsNestingKeyValue<T> = T extends Record<string, string>
 
 /**
  * Tests the character `T` to see if it is a
- * terminal character in the Nesting configuration.
+ * starting character in the Nesting configuration.
  */
 export type IsNestingStart<
     TChar extends string,
@@ -177,13 +203,55 @@ export type IsNestingStart<
         ? [TChar] extends [Keys<TNesting>[number]]
             ? true
             : false
-        : [TNesting] extends [NestingTuple]
-            ? TNesting[0] extends readonly string[]
-                ? TChar extends TNesting[0][number]
-                    ? true
-                    : false
-                : never
-            : never;
+    : [TNesting] extends [NestingTuple]
+        ? TNesting[0] extends readonly string[]
+            ? TChar extends TNesting[0][number]
+                ? true
+                : false
+            : never
+        : never;
+
+
+type _GetNestingEnd<
+    TStartChar extends string,
+    TNesting extends Nesting
+> = [TNesting] extends [NestingKeyValue]
+    ? TStartChar extends keyof NestingKeyValue
+        ? IndexOf<TNesting, TStartChar> extends infer ExitChar extends string
+            ? ExitChar
+            : never
+        : Err<
+            `invalid-lookup`,
+            `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TStartChar}' which is NOT defined in the configuration (a NestingKeyValue config)!`,
+            { config: TNesting }
+        >
+: [TNesting] extends [[infer StartingChars extends readonly string[], infer EndingChars extends readonly string[]]]
+    ? TStartChar extends StartingChars
+        ? EndingChars[number]
+        : Err<
+            "invalid-lookup",
+            `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TStartChar}' which is NOT defined in the configuration (a NestingTuple config)!`,
+            { config: TNesting }
+        >
+: never;
+
+/**
+ * **GetNestingEnd**`<TStartChar, TNesting>`
+ *
+ * Provides the END/EXIT character(s) which the passed in `TStartChar` character
+ * along with the configuration of `TNesting` match up to.
+ *
+ * - if no match is found a `Err<'invalid-lookup'>` will be returned.
+ * - when using a `NestingTuple` config, the return value will typically be a _union_ of exit characters
+ * - in contrast, a `NestingKeyValue` config will typically just return a single character variant to
+ * match with.
+ */
+export type GetNestingEnd<
+    TStartChar extends string,
+    TNesting extends Nesting
+> = [string] extends [TStartChar]
+? string | Err<`invalid-lookup`>
+: _GetNestingEnd<TStartChar,TNesting>;
 
 /**
  * Tests the character `T` to see if it is a

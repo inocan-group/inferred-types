@@ -9,7 +9,9 @@ import type {
     IsNestingEnd,
     IsNestingMatchEnd,
     IsNestingStart,
+    IsNull,
     Join,
+    NestedString,
     Nesting,
     NestingConfig__Named,
     Pop,
@@ -72,11 +74,58 @@ type Check<
                         TStack
                     >;
 
+type EvalString<
+    T extends string,
+    U extends Nesting,
+    TErr extends boolean
+> = Check<Chars<T>, U, TErr>;
+
+type Balanced<T extends NestedString> =
+IsNull<T["enterChar"]> extends true
+    ? IsNull<T["exitChar"]> extends true
+        ? true
+        : false
+: IsNull<T["enterChar"]> extends false
+    ? IsNull<T["exitChar"]> extends false
+        ? true
+        : false
+: false;
+
+type Children<T extends readonly NestedString[]> = T extends [ infer Head extends NestedString, ...infer Rest extends readonly NestedString[]]
+    ? Balanced<Head> extends true
+        ? Children<Rest>
+        : false
+: true;
+
+type EvalNestedString<
+    T extends NestedString,
+    U extends Nesting,
+    TErr extends boolean
+> = Balanced<T> extends true
+    ? Children<T["children"]> extends true
+        ? true
+        : false
+    : false;
+
+
+type EvalTuple<
+    T extends readonly NestedString[],
+    U extends Nesting,
+    TErr extends boolean
+> =
+T extends [ infer Head extends NestedString, ...infer Rest extends readonly NestedString[]]
+    ? EvalNestedString<Head,U,TErr> extends true
+        ? EvalTuple<Rest, U, TErr>
+        : false
+: true;
+
 /**
  * **IsBalanced**`<T,U>`
  *
  * Boolean operator which tests whether the string literal `T` has an equal
  * number of "start" and "end" characters in it.
+ *
+ * - you may also pass in a `NestedString` or a _tuple_ of `NestedString`'s for `T`
  *
  * **Note:**
  * - if a start token is found _before_ the first start token (or the
@@ -85,19 +134,18 @@ type Check<
  * character and the values are the ending character.
  * - if you prefer to get Error messages instead of `false` values you can set `TErr`
  * to true
- */
+ **/
 export type IsBalanced<
-    T extends string,
-    U extends Nesting | NestingConfig__Named = "default",
+    T extends string | NestedString | readonly NestedString[],
+    U extends Nesting | NestingConfig__Named = "brackets",
     TErr extends boolean = false
-> = IsNestingConfig<FromNamedNestingConfig<U>> extends true
-    ? Check<Chars<T>, FromNamedNestingConfig<U>, TErr>
-    : IsNestingConfig<FromNamedNestingConfig<U>> extends Error
-        ? IsNestingConfig<FromNamedNestingConfig<U>>
-        : TErr extends true
-            ? Err<
-                "invalid-key-value/is-balanced",
-                `The IsBalanced<T,U> utility expects U to be a key/value dictionary where both keys and values are one character strings.`,
-                { kv: ToStringLiteral<U> }
-            >
-            : false;
+> = T extends string
+? string extends T
+    ? boolean
+    : EvalString<T,FromNamedNestingConfig<U>,TErr>
+: T extends NestedString
+    ? EvalNestedString<T,FromNamedNestingConfig<U>,TErr>
+: T extends readonly NestedString[]
+    ? EvalTuple<T,FromNamedNestingConfig<U>,TErr>
+: never;
+

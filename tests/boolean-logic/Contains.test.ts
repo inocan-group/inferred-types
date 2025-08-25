@@ -1,5 +1,4 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsEqual } from "inferred-types";
 import { Expect, Contains, NarrowlyContains, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 

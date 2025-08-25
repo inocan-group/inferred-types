@@ -32,8 +32,10 @@ export type IsMixedUnion<
         ? false
         : [IsUnknown<T>] extends [true]
             ? boolean
-            : And<[
-                IsUnion<T>,
-                Not<IsLiteralUnion<T>>,
-                Not<IsWideUnion<T>>,
-            ]>;
+            : IsUnion<T> extends true
+                ? IsLiteralUnion<T> extends false
+                    ? IsWideUnion<T> extends false
+                        ? true
+                        : false
+                    : false
+                : false;

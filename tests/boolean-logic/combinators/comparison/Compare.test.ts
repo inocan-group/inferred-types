@@ -11,7 +11,8 @@ import {
     EmptyObject,
     UpperAlphaChar,
     IsAfter,
-    IsSameDay
+    IsSameDay,
+    IsGreaterThan
 } from "inferred-types/types";
 import { StartsWith } from "inferred-types";
 
@@ -207,6 +208,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             type T1 = Compare<42, "greaterThan", [30]>;
             type T2 = Compare<"42", "greaterThan", [30]>;
             type F1 = Compare<"42", "greaterThan", [42]>;
+            type A1 = IsGreaterThan<number, 42>;
             type B1 = Compare<number, "greaterThan", [42]>;
 
 
