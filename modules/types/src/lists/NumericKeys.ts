@@ -1,4 +1,4 @@
-import type { HasVariadicTail } from "types/lists/Variadic";
+import type { HasVariadicTail, VariadicType } from "types/lists/Variadic";
 import type { DropVariadicTail } from "./Variadic";
 
 type IndicesTuple<
@@ -27,5 +27,9 @@ type IndicesTuple<
 export type NumericKeys<
     TList extends readonly unknown[],
 > = HasVariadicTail<TList> extends true
-    ? IndicesTuple<DropVariadicTail<TList>>
+    ? DropVariadicTail<TList> extends infer NonVariadic extends readonly unknown[]
+        ? IndicesTuple<NonVariadic> extends infer NonVariadic extends readonly unknown[]
+            ? [...NonVariadic, ...number[]]
+            : never
+        : never
     : IndicesTuple<TList>;
