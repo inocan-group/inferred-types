@@ -33,6 +33,32 @@ type Shaped<
             ? Shaped<AfterFirst<TKeys>, TOpt, L, [...O, First<TKeys>], V>
             : Shaped<AfterFirst<TKeys>, TOpt, [...L, First<TKeys>], O, V>;
 
+type HandleDict<
+    TObj extends Dictionary
+> =
+Required<TObj> extends Record<infer K, any>
+    ? IsNever<K> extends true
+        ? TObj extends Dictionary
+            ? []
+            : PropertyKey[]
+        : IsEqual<K, string | symbol> extends true
+            ? ObjectKey[]
+            : IsNever<K> extends true
+                ? PropertyKey[]
+                : IsLiteralString<K> extends true
+                    ? Shaped<
+                        As<UnionToTuple<K>, readonly PropertyKey[]>,
+                        OptionalKeysTuple<TObj>
+                    >
+                    : IsUnion<K> extends true
+                        ? Shaped<
+                            As<UnionToTuple<K>, readonly PropertyKey[]>,
+                            OptionalKeysTuple<TObj>
+                        >
+                    // wide type
+                        : K[]
+: never;
+
 /**
  * **ObjectKeys**`<TObj>`
  *
@@ -89,16 +115,8 @@ export type ObjectKeys<
                                     ? ObjectKey[]
                                     : IsNever<K> extends true
                                         ? PropertyKey[]
-                                        : IsLiteralString<K> extends true
-                                            ? Shaped<
-                                                As<UnionToTuple<K>, readonly PropertyKey[]>,
-                                                OptionalKeysTuple<TObj>
-                                            >
-                                            : IsUnion<K> extends true
-                                                ? Shaped<
-                                                    As<UnionToTuple<K>, readonly PropertyKey[]>,
-                                                    OptionalKeysTuple<TObj>
-                                                >
+                                        : TObj extends Dictionary
+                                            ? HandleDict<TObj>
                                             // wide type
                                                 : K[]
                         // object options exhausted

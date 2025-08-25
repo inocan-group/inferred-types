@@ -10,7 +10,7 @@ import type {
     PascalCase,
 } from "inferred-types/types";
 
-export type Convert<
+type Convert<
     T extends Dictionary,
     K extends readonly (ObjectKey & keyof T)[] = As<ObjectKeys<T>, readonly (ObjectKey & keyof T)[]>,
     O extends Dictionary = EmptyObject
@@ -20,8 +20,8 @@ export type Convert<
             Rest,
             O & (
                 Head extends string
-                    ? Record<As<PascalCase<Head>, string>, T[Head]>
-                    : Record<Head, T[Head]>
+                    ? Record<As<PascalCase<Head>, string>, T[Head] extends Dictionary ? PascalKeys<T[Head]> : T[Head]>
+                    : Record<Head, T[Head] extends Dictionary ? PascalKeys<T[Head]> : T[Head]>
             )
         >
     : ExpandRecursively<O>;
