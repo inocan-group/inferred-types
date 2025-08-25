@@ -9,6 +9,8 @@ export * from "./DictChangeValue";
 export * from "./EnsureKeys";
 export * from "./FromMaybeRef";
 export * from "./Get";
+export * from "./GetFixedKeys";
+export * from "./GetIndexKeys";
 export * from "./KebabKeys";
 export * from "./KeysEqualValue";
 export * from "./KeysNotEqualValue";
@@ -54,3 +56,4 @@ export * from "./WithoutKeys";
 export * from "./WithoutValue";
 export * from "./WithStringKeys";
 export * from "./WithValue";
+

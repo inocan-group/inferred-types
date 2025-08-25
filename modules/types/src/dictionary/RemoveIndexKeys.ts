@@ -40,7 +40,7 @@ type Arr<T> = {
  * ```
  */
 export type RemoveIndexKeys<T> = T extends Dictionary
-    ? DictionaryWithFixedKeys<Obj<T>>
+    ? DictionaryWithFixedKeys<T>
     : T extends readonly any[]
         ? Arr<T>
         : never;

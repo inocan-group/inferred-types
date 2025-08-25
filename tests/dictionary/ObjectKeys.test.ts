@@ -60,11 +60,33 @@ describe("ObjectKeys<T>", () => {
 
 
     it("variadic key shape", () => {
-        type Shape = ObjectKeys<Record<"foo" | `_${string}` | "bar", string>>
+        // must have foo and bar, optionally can have keys leading with `_`
+        type Optional = ObjectKeys<Record<"foo" | "bar" | `_${string}`, number>>;
+        //    ^?
+
+        // this is a different nomenclature for the same type as above
+        type FooBarIndex = ObjectKeys<{ foo: 1; bar: 2; [x: `_${string}`]: unknown }>;
         //   ^?
 
+        // here we discretely define `foo` and `bar` but then provide an index
+        // which overlaps with them
+        type FooBarOverlap = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
+        //   ^?
+
+
         type cases = [
-            Expect<Test<Shape, "equals", ["foo", "bar", (`_${string}` | undefined)?]>>
+            Expect<Test<
+                Optional, "equals",
+                ["foo", "bar", (`_${string}` | undefined)?]
+            >>,
+            Expect<Test<
+                FooBarIndex, "equals",
+                ["foo", "bar", (`_${string}` | undefined)?]
+            >>,
+            Expect<Test<
+                FooBarOverlap, "equals",
+                (string|number)[]
+            >>
         ];
     });
 

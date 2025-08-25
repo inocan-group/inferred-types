@@ -9,6 +9,7 @@ import type {
     HasSameValues,
     Test,
     ObjectKeys,
+    RemoveIndexKeys,
 } from "inferred-types/types";
 import { keysOf } from "inferred-types/runtime";
 
@@ -31,6 +32,7 @@ describe("NumericKeys<T>", () => {
             Expect<Test<Empty, "equals", []>>,
             Expect<Test<Empty_RO, "equals", []>>,
             Expect<Test<Wide, "equals", number[]>>,
+            Expect<Test<Variadic, "equals", [0,1, ...number[]]>>
         ];
 
     });
@@ -92,7 +94,7 @@ describe("Keys<T>", () => {
 
         it("variadic", () => {
             // must have foo and bar, optionally can have keys leading with `_`
-            type Expandable = Keys<Record<"foo" | "bar" | `_${string}`, number>>;
+            type Optional = Keys<Record<"foo" | "bar" | `_${string}`, number>>;
             //    ^?
 
             // this is a different nomenclature for the same type as above
@@ -103,11 +105,12 @@ describe("Keys<T>", () => {
             // which overlaps with them
             type FooBarOverlap = Keys<{ foo: 1; bar: 2; [x: string]: unknown }>;
             //   ^?
+            type X = RemoveIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
 
 
             type cases = [
                 Expect<Test<
-                    Expandable, "equals",
+                    Optional, "equals",
                     ["foo", "bar", (`_${string}` | undefined)?]
                 >>,
                 Expect<Test<

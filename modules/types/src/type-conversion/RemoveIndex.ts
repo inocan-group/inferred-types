@@ -10,6 +10,9 @@
  * // { foo: string }
  * type T = RemoveIndex<Foo>;
  * ```
+ *
+ * @deprecated use `RemoveIndexKeys` instead
+ *
  */
 export type RemoveIndex<T extends Record<any, any>> = {
     [
