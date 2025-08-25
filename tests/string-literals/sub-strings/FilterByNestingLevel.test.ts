@@ -19,9 +19,9 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
 
             type cases = [
                 Expect<Test<T1, "equals", "Bob was angry at Mary.">>,
-                Expect<Test<T1b, "equals", ["Bob"," was angry at ", "."]>>,
+                Expect<Test<T1b, "equals", ["Bob"," was angry at Mary", "."]>>,
                 Expect<Test<T1c, "equals", `Bob${string} was angry at Mary${string}.`>>,
-                
+
                 Expect<Test<T2, "equals", "(the father)(the daughter)">>
             ];
         });
@@ -107,6 +107,7 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
         it("nested brackets", () => {
             type T1 = FilterByNestingLevel<"Map<Key[1]>", { level: 0 }>;
             type T2 = FilterByNestingLevel<"Map<Key[1]>", { level: 1 }>;
+            type T3 = FilterByNestingLevel<"Map<Key[1]>", { level: 2 }>;
 
             type cases = [
                 Expect<Test<T1, "equals", "Map">>,
@@ -144,6 +145,7 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
         it("nested brackets", () => {
             type T1 = FilterByNestingLevel<"Map<Key[1]>", { level: 0, output: "string[]" }>;
             type T2 = FilterByNestingLevel<"Map<Key[1]>", { level: 1, output: "string[]" }>;
+            type T3 = FilterByNestingLevel<"Map<Key[1]>", { level: 2, output: "string[]" }>;
 
             type cases = [
                 Expect<Test<T1, "equals", ["Map"]>>,
@@ -221,31 +223,57 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
 
 
         it("nested content at different levels with mixed strategies", () => {
-            type T1 = FilterByNestingLevel<"Root[Level1{Level2('deep')} content] end.", { strategy: "brackets-and-quotes", level: 0 }>;
-            type T2 = FilterByNestingLevel<"Root[Level1{Level2('deep')} content] end.", { strategy: "brackets-and-quotes", level: 1 }>;
-            type T3 = FilterByNestingLevel<"Root[Level1{Level2('deep')} content] end.", { strategy: "brackets-and-quotes", level: 2 }>;
-            type T4 = FilterByNestingLevel<"Root[Level1{Level2('deep')} content] end.", { strategy: "brackets-and-quotes", level: 3 }>;
+            type T1 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes", level: 0 }
+            >;
+            type T2 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes", level: 1 }
+            >;
+            type T3 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes", level: 2 }
+            >;
+            type T4 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes", level: 3 }
+            >;
+            type T5 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes", level: 4 }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", "Root end.">>,
-                Expect<Test<T2, "equals", "[Level1 end]">>,
-                Expect<Test<T3, "equals", "{Level2 content}">>,
-                Expect<Test<T4, "equals", "('deep')">>
+                Expect<Test<T2, "equals", "[Level1 content]">>,
+                Expect<Test<T3, "equals", "{Level2}">>,
+                Expect<Test<T4, "equals", "()">>,
+                Expect<Test<T5, "equals", "'deep'">>,
             ];
         });
 
 
         it("complex template literal with multiple nesting types", () => {
-            type T1 = FilterByNestingLevel<`Function call(param1, param2) with array[index] and object{key: "value"}.`, { strategy: "brackets-and-quotes", level: 0 }>;
-            type T2 = FilterByNestingLevel<`Function call(param1, param2) with array[index] and object{key: "value"}.`, { strategy: "brackets-and-quotes", level: 1 }>;
+            type T1 = FilterByNestingLevel<
+                `Function call(param1, param2) with array[index] and object{key: "value"}.`,
+                { strategy: "brackets-and-quotes", level: 0 }
+            >;
+            type T2 = FilterByNestingLevel<
+                `Function call(param1, param2) with array[index] and object{key: "value"}.`,
+                { strategy: "brackets-and-quotes", level: 1 }
+            >;
+            type T3 = FilterByNestingLevel<
+                `Function call(param1, param2) with array[index] and object{key: "value"}.`,
+                { strategy: "brackets-and-quotes", level: 2 }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", "Function call with array and object.">>,
-                Expect<Test<T2, "equals", "(param1, param2)[index]{key: \"value\"}">>
+                Expect<Test<T2, "equals", "(param1, param2)[index]{key: }">>,
+                Expect<Test<T3, "equals", `"value"`>>
             ];
         });
-
-
 
     })
 
@@ -275,6 +303,7 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
         it("nested brackets", () => {
             type T1 = FilterByNestingLevel<"Map<Key[1]>", { level: 0, output: "string[]" }>;
             type T2 = FilterByNestingLevel<"Map<Key[1]>", { level: 1, output: "string[]" }>;
+            type T3 = FilterByNestingLevel<"Map<Key[1]>", { level: 2, output: "string[]" }>;
 
             type cases = [
                 Expect<Test<T1, "equals", ["Map"]>>,
@@ -293,19 +322,13 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
         });
 
 
-        it("mixed bracket types at level 0", () => {
+        it("mixed bracket types", () => {
             type T1 = FilterByNestingLevel<"Map<Key, Value> with Set{Item}.", { level: 0; output: "string[]" }>;
+            type T2 = FilterByNestingLevel<"Map<Key, Value> with Set{Item}.", { level: 1; output: "string[]" }>;
 
             type cases = [
-                Expect<Test<T1, "equals", ["Map", " with Set", "."]>>
-            ];
-        });
-
-        it("mixed bracket types at level 1", () => {
-            type T1 = FilterByNestingLevel<"Map<Key, Value> with Set{Item}.", { level: 1; output: "string[]" }>;
-
-            type cases = [
-                Expect<Test<T1, "equals", ["<Key, Value>", "{Item}"]>>
+                Expect<Test<T1, "equals", ["Map", " with Set", "."]>>,
+                Expect<Test<T2, "equals", ["<Key, Value>", "{Item}"]>>,
             ];
         });
 
@@ -417,14 +440,23 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
 
 
         it("brackets-and-quotes strategy", () => {
-            type T1 = FilterByNestingLevel<"Array['item'] and Object{'key': 'value'}.", { strategy: "brackets-and-quotes"; level: 0; output: "template" }>;
-            type T2 = FilterByNestingLevel<"Array['item'] and Object{'key': 'value'}.", { strategy: "brackets-and-quotes"; level: 1; output: "template" }>;
-            type T3 = FilterByNestingLevel<"Array['item'] and Object{'key': 'value'}.", { strategy: "brackets-and-quotes"; level: 2; output: "template" }>;
+            type T1 = FilterByNestingLevel<
+                "Array['item'] and Object{'key': 'value'}.",
+                { strategy: "brackets-and-quotes"; level: 0; output: "template" }
+            >;
+            type T2 = FilterByNestingLevel<
+                "Array['item'] and Object{'key': 'value'}.",
+                { strategy: "brackets-and-quotes"; level: 1; output: "template" }
+            >;
+            type T3 = FilterByNestingLevel<
+                "Array['item'] and Object{'key': 'value'}.",
+                { strategy: "brackets-and-quotes"; level: 2; output: "template" }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", `Array${string} and Object${string}.`>>,
-                Expect<Test<T2, "equals", "['item']{'key': 'value'}">>,
-                Expect<Test<T3, "equals", "">>
+                Expect<Test<T2, "equals", "[]{: }">>,
+                Expect<Test<T3, "equals", "'item''key''value'">>
             ];
         });
 
@@ -443,10 +475,22 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
 
 
         it("deep nesting - mixed brackets", () => {
-            type T1 = FilterByNestingLevel<"Config[database{host: 'localhost'}] settings.", { strategy: "brackets-and-quotes"; level: 0; output: "template" }>;
-            type T2 = FilterByNestingLevel<"Config[database{host: 'localhost'}] settings.", { strategy: "brackets-and-quotes"; level: 1; output: "template" }>;
-            type T3 = FilterByNestingLevel<"Config[database{host: 'localhost'}] settings.", { strategy: "brackets-and-quotes"; level: 2; output: "template" }>;
-            type T4 = FilterByNestingLevel<"Config[database{host: 'localhost'}] settings.", { strategy: "brackets-and-quotes"; level: 3; output: "template" }>;
+            type T1 = FilterByNestingLevel<
+                "Config[database{host: 'localhost'}] settings.",
+                { strategy: "brackets-and-quotes"; level: 0; output: "template" }
+            >;
+            type T2 = FilterByNestingLevel<
+                "Config[database{host: 'localhost'}] settings.",
+                { strategy: "brackets-and-quotes"; level: 1; output: "template" }
+            >;
+            type T3 = FilterByNestingLevel<
+                "Config[database{host: 'localhost'}] settings.",
+                { strategy: "brackets-and-quotes"; level: 2; output: "template" }
+            >;
+            type T4 = FilterByNestingLevel<
+                "Config[database{host: 'localhost'}] settings.",
+                { strategy: "brackets-and-quotes"; level: 3; output: "template" }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", `Config${string} settings.`>>,
@@ -458,12 +502,18 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
 
 
         it("multiple nested elements at same level", () => {
-            type T1 = FilterByNestingLevel<"List(item1, item2, item3) and Map[key1: value1, key2: value2].", { level: 0; output: "template" }>;
-            type T2 = FilterByNestingLevel<"List(item1, item2, item3) and Map[key1: value1, key2: value2].", { level: 1; output: "template" }>;
+            type T1 = FilterByNestingLevel<
+                "List(item1, item2, item3) and Map[key1: value1, key2: value2].",
+                { level: 0; output: "template" }
+            >;
+            type T2 = FilterByNestingLevel<
+                "List(item1, item2, item3) and Map[key1: value1, key2: value2].",
+                { level: 1; output: "template" }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", `List${string} and Map${string}.`>>,
-                Expect<Test<T2, "equals", `(${string})[key1: value1, key2: value2]`>>,
+                Expect<Test<T2, "equals", `(item1, item2, item3)${string}[key1: value1, key2: value2]`>>,
                 Expect<Test<T3, "equals", `${string}item1,${string}item2,${string}item3`>>
             ];
         });
@@ -498,7 +548,7 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
         });
 
 
-        it("only nested content, no root content", () => {
+        it("only nested content, no root content (single nest)", () => {
             type T1 = FilterByNestingLevel<"(only nested content)", { level: 0; output: "template" }>;
             type T2 = FilterByNestingLevel<"(only nested content)", { level: 1; output: "template" }>;
 
@@ -508,24 +558,54 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
             ];
         });
 
+        it("only nested content, no root content (multi nest)", () => {
+            type T1 = FilterByNestingLevel<"(only nested content)(part 2)", { level: 0; output: "template" }>;
+            type T2 = FilterByNestingLevel<`(only nested content)${string}(part 2)`, { level: 1; output: "template" }>;
 
-        it("nested content at different levels with mixed strategies", () => {
-            type T1 = FilterByNestingLevel<"Root[Level1{Level2('deep')} content] end.", { strategy: "brackets-and-quotes"; level: 0; output: "template" }>;
-            type T2 = FilterByNestingLevel<"Root[Level1{Level2('deep')} content] end.", { strategy: "brackets-and-quotes"; level: 1; output: "template" }>;
-            type T3 = FilterByNestingLevel<"Root[Level1{Level2('deep')} content] end.", { strategy: "brackets-and-quotes"; level: 2; output: "template" }>;
-            type T4 = FilterByNestingLevel<"Root[Level1{Level2('deep')} content] end.", { strategy: "brackets-and-quotes"; level: 3; output: "template" }>;
+            type cases = [
+                Expect<Test<T1, "equals", `${string}`>>,
+                Expect<Test<T2, "equals", `(only nested content)${string}(part 2)`>>
+            ];
+        });
+
+
+        it("nested content at different levels", () => {
+            type T1 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes"; level: 0; output: "template" }
+            >;
+            type T2 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes"; level: 1; output: "template" }
+            >;
+            type T3 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes"; level: 2; output: "template" }
+            >;
+            type T4 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes"; level: 3; output: "template" }
+            >;
+            type T5 = FilterByNestingLevel<
+                "Root[Level1{Level2('deep')} content] end.",
+                { strategy: "brackets-and-quotes"; level: 4; output: "template" }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", `Root${string} end.`>>,
-                Expect<Test<T2, "equals", "[Level1{Level2('deep')} content]">>,
-                Expect<Test<T3, "equals", "">>,
-                Expect<Test<T4, "equals", "">>
+                Expect<Test<T2, "equals", `[Level1${string} content]`>>,
+                Expect<Test<T3, "equals", `{Level2(${string})}`>>,
+                Expect<Test<T4, "equals", `(${string})`>>,
+                Expect<Test<T5, "equals", `'deep'`>>
             ];
         });
 
 
         it("complex template literal with multiple nesting types", () => {
-            type T1 = FilterByNestingLevel<`Function call(param1, param2) with array[index] and object{key: "value"}.`, { strategy: "brackets-and-quotes"; level: 0; output: "template" }>;
+            type T1 = FilterByNestingLevel<
+                `Function call(param1, param2) with array[index] and object{key: "value"}.`,
+                { strategy: "brackets-and-quotes"; level: 0; output: "template" }
+            >;
             type T2 = FilterByNestingLevel<`Function call(param1, param2) with array[index] and object{key: "value"}.`, { strategy: "brackets-and-quotes"; level: 1; output: "template" }>;
             type T3 = FilterByNestingLevel<`Function call(param1, param2) with array[index] and object{key: "value"}.`, { strategy: "brackets-and-quotes"; level: 2; output: "template" }>;
 
