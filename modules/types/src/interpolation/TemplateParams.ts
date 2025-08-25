@@ -1,4 +1,17 @@
-import type { As, DefaultTemplateBlocks, DefineObject, EmptyObject, ExpandRecursively, FromDefineObject, FromInputToken__String, GetTemplateBlocks, IsUnion, StringKeys, TemplateBlocks, UnionToTuple } from "inferred-types/types";
+import type {
+    As,
+    DefaultTemplateBlocks,
+    DefineObject,
+    EmptyObject,
+    ExpandRecursively,
+    FromDefineObject,
+    FromInputToken__String,
+    GetTemplateBlocks,
+    IsUnion,
+    StringKeys,
+    TemplateBlocks,
+    UnionToTuple
+} from "inferred-types/types";
 
 type Map = {
     "{{string}}": string;
@@ -35,9 +48,7 @@ type AsMap<
         : Head extends DefineObject
             ? AsMap<Rest, M & FromDefineObject<Head>>
             : never
-    : ExpandRecursively<M>
-
-;
+    : ExpandRecursively<M>;
 
 /**
  * converts all union members into a DefineObject where the _keys_

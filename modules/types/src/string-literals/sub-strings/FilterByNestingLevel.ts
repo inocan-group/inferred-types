@@ -23,7 +23,7 @@ type FilterByNestingLevel__Options = {
      *
      * - `string` (default) - _produces a single string with all text at the given
      * level concatenated together._
-     * - `string[]` - _each string segment at the given level is returned as a tuple of strings_
+     * - `string[]` - _each string _segment_ at the given level is returned as a tuple of strings_
      * - `template` - _returns a single string representing the text at the specified level
      * but where the text has content a level higher being removed, instead of just removing it
      * we will instead add in the `${string}` to indicate a "hole"._
