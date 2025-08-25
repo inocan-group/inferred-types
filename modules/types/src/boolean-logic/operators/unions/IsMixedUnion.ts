@@ -1,12 +1,10 @@
 import type {
-    And,
     IsAny,
     IsLiteralUnion,
     IsNever,
     IsUnion,
     IsUnknown,
-    IsWideUnion,
-    Not
+    IsWideUnion
 } from "inferred-types/types";
 
 /**

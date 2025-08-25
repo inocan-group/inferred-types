@@ -19,7 +19,9 @@ type CompareTuple<
     TOp extends "auto" | "extends" | "equals"
 > = Or<{
     [K in keyof TContent]: TOp extends "equals"
-        ? Some<AsArray<TComparator>, "equals", TContent[K]>
+        ? [TComparator] extends [boolean | string | number]
+            ? IsEqual<TContent[K], TComparator>
+            : Some<AsArray<TComparator>, "equals", TContent[K]>
         : TOp extends "extends"
             ? [TContent[K]] extends [TComparator]
                 ? true

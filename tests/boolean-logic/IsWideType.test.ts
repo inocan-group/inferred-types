@@ -6,7 +6,8 @@ import {
     Dictionary,
     Test,
     Expect,
-    Keys
+    Keys,
+    IsWideUnion
 } from "inferred-types/types";
 import { describe, it } from "vitest";
 
@@ -87,8 +88,9 @@ describe("IsWideType<T>", () => {
         type T7 = IsWideType<string | number>;
 
         type F1 = IsWideType<"foo">;
-        // union with literal values
+        // mixed union (some elements wide, other literal)
         type F2 = IsWideType<string | 42>;
+        type X = IsWideUnion<string | 42>
         type F3 = IsWideType<{ foo: 1; bar: 2 }>;
 
         // never with and without modification of TNever

@@ -5,17 +5,13 @@ import type {
     Err,
     First,
     FromNamedNestingConfig,
-    IsNestingConfig,
     IsNestingEnd,
     IsNestingMatchEnd,
     IsNestingStart,
-    IsNull,
     Join,
-    NestedString,
     Nesting,
     NestingConfig__Named,
     Pop,
-    ToStringLiteral,
     ToStringLiteral__Array,
 } from "inferred-types/types";
 
@@ -80,45 +76,6 @@ type EvalString<
     TErr extends boolean
 > = Check<Chars<T>, U, TErr>;
 
-type Balanced<T extends NestedString> =
-IsNull<T["enterChar"]> extends true
-    ? IsNull<T["exitChar"]> extends true
-        ? true
-        : false
-: IsNull<T["enterChar"]> extends false
-    ? IsNull<T["exitChar"]> extends false
-        ? true
-        : false
-: false;
-
-type Children<T extends readonly NestedString[]> = T extends [ infer Head extends NestedString, ...infer Rest extends readonly NestedString[]]
-    ? Balanced<Head> extends true
-        ? Children<Rest>
-        : false
-: true;
-
-type EvalNestedString<
-    T extends NestedString,
-    U extends Nesting,
-    TErr extends boolean
-> = Balanced<T> extends true
-    ? Children<T["children"]> extends true
-        ? true
-        : false
-    : false;
-
-
-type EvalTuple<
-    T extends readonly NestedString[],
-    U extends Nesting,
-    TErr extends boolean
-> =
-T extends [ infer Head extends NestedString, ...infer Rest extends readonly NestedString[]]
-    ? EvalNestedString<Head,U,TErr> extends true
-        ? EvalTuple<Rest, U, TErr>
-        : false
-: true;
-
 /**
  * **IsBalanced**`<T,U>`
  *
@@ -134,18 +91,13 @@ T extends [ infer Head extends NestedString, ...infer Rest extends readonly Nest
  * character and the values are the ending character.
  * - if you prefer to get Error messages instead of `false` values you can set `TErr`
  * to true
- **/
+ */
 export type IsBalanced<
-    T extends string | NestedString | readonly NestedString[],
+    T extends string,
     U extends Nesting | NestingConfig__Named = "brackets",
     TErr extends boolean = false
 > = T extends string
-? string extends T
-    ? boolean
-    : EvalString<T,FromNamedNestingConfig<U>,TErr>
-: T extends NestedString
-    ? EvalNestedString<T,FromNamedNestingConfig<U>,TErr>
-: T extends readonly NestedString[]
-    ? EvalTuple<T,FromNamedNestingConfig<U>,TErr>
-: never;
-
+    ? string extends T
+        ? boolean
+        : EvalString<T, FromNamedNestingConfig<U>, TErr>
+    : never;

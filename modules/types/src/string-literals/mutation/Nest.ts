@@ -6,11 +6,11 @@ import type {
     GetNestingEnd,
     Increment,
     IsNestingStart,
-    Nesting,
-    NestedString
+    NestedString,
+    Nesting
 } from "inferred-types/types";
 
-type CHILD_MARKER = `{{child}}`
+type CHILD_MARKER = `{{child}}`;
 
 /**
  * **TakeNestedString**`<TParse, TNesting, TEnter, TLevel>`
@@ -25,81 +25,66 @@ export type TakeNestedString<
     TContent extends string = "",
     TChildren extends readonly NestedString[] = []
 > = GetNestingEnd<TEnter, TNesting> extends infer ExitChar extends string | null
-? TParse extends `${infer Head extends string}${infer Rest extends string}`
+    ? TParse extends `${infer Head extends string}${infer Rest extends string}`
     // #region Exiting
-    ? Head extends ExitChar
-        ? {
-            node: As<{
+        ? Head extends ExitChar
+            ? {
+                node: As<{
+                    content: TContent;
+                    level: TLevel;
+                    enterChar: TEnter;
+                    exitChar: ExitChar;
+                    children: TChildren;
+                }, NestedString>;
+                rest: Rest;
+            }
+        // #endregion
+        // #region Entering
+            : IsNestingStart<Head, TNesting> extends true // Recurse to get new level
+                ? TakeNestedString<Rest, TNesting, Head, Increment<TLevel>> extends infer Child extends {
+                    node: NestedString;
+                    rest: string;
+                }
+                    ? TakeNestedString<Child["rest"], TNesting, TEnter, TLevel, `${TContent}${CHILD_MARKER}`, // child marker added to content
+                        [
+                            ...TChildren,
+                            Child["node"]
+                        ]>
+                // Failure on child node
+                    : TakeNestedString<Rest, TNesting, Head, Increment<TLevel>> extends infer E extends Error
+                        ? E extends Err<"unbalanced/throw"> & { level: number; enterChar: string }
+                            ? ErrContext<
+                                E,
+                                { subType: "caught"; message: `the content -- '${TParse}' -- passed into level ${E["level"]} was unbalanced because the exit character(s) associated with the enter character '${E["enterChar"]}' was not found!` }
+                            >
+                            : ErrContext<
+                                E,
+                                { parentContext: TContent; parentParse: TParse }
+                            >
+                        : Err<
+                            `invalid-node`,
+                            `Call to TakeNestedString<..> did not produce a recognized type; should have been an Error or a { node, rest } object.`,
+                            { node: TakeNestedString<Rest, TNesting, Head, Increment<TLevel>> }
+                        >
+            // #endregion Entering
+            // #region ConcatToContent
+                : TakeNestedString<Rest, TNesting, TEnter, TLevel, `${TContent}${Head}`, TChildren>
+        // #endregion
+        : TLevel extends 0
+            ? {
                 content: TContent;
                 level: TLevel;
                 enterChar: TEnter;
                 exitChar: ExitChar;
                 children: TChildren;
-            }, NestedString>;
-            rest: Rest
-        }
-    // #endregion
-    // #region Entering
-    : IsNestingStart<Head, TNesting> extends true // Recurse to get new level
-        ? TakeNestedString<Rest,TNesting,Head,Increment<TLevel>> extends infer Child extends {
-            node: NestedString
-            rest: string
-        }
-            ? TakeNestedString< // Success: iterate at same level but with new child
-                Child["rest"],
-                TNesting,
-                TEnter,
-                TLevel,
-                `${TContent}${CHILD_MARKER}`, // child marker added to content
-                [
-                    ...TChildren,
-                    Child["node"]
-                ]
-            >
-            // Failure on child node
-            : TakeNestedString<Rest,TNesting,Head,Increment<TLevel>> extends infer E extends Error
-                ? E extends Err<"unbalanced/throw"> & { level: number; enterChar: string; }
-                    ? ErrContext<
-                        E,
-                        { subType: "caught"; message: `the content -- '${TParse}' -- passed into level ${E["level"]} was unbalanced because the exit character(s) associated with the enter character '${E["enterChar"]}' was not found!`}
-                    >
-                    : ErrContext<
-                        E,
-                        { parentContext: TContent, parentParse: TParse }
-                    >
+            }
             : Err<
-                `invalid-node`,
-                `Call to TakeNestedString<..> did not produce a recognized type; should have been an Error or a { node, rest } object.`,
-                { node: TakeNestedString<Rest,TNesting,Head,Increment<TLevel>>}
+                "unbalanced/throw", // caught by parent
+                ``,
+                { level: TLevel; enterChar: TEnter; exitChar: ExitChar }
             >
-        // #endregion Entering
-        // #region ConcatToContent
-        : TakeNestedString< // add Head to content
-            Rest,
-            TNesting,
-            TEnter,
-            TLevel,
-            `${TContent}${Head}`,
-            TChildren
-        >
-        // #endregion
-    : TLevel extends 0
-        ? {
-            content: TContent,
-            level: TLevel,
-            enterChar: TEnter;
-            exitChar: ExitChar;
-            children: TChildren;
-        }
-        : Err<
-            "unbalanced/throw", // caught by parent
-            ``,
-            { level: TLevel, enterChar: TEnter, exitChar: ExitChar }
-        >
 
-: never;
-
-
+    : never;
 
 /**
  * **Nest**`<TContent, [TNesting]> -> NestedString`
@@ -133,15 +118,14 @@ export type Nest<
     TContent extends string,
     TNesting extends Nesting = BracketNesting
 > = string extends TContent
-? NestedString[] | Err<"unbalanced">
-: TakeNestedString<
-    TContent,
-    TNesting,
-    null,
-    0
->
+    ? NestedString[] | Err<"unbalanced">
+    : TakeNestedString<
+        TContent,
+        TNesting,
+        null,
+        0
+    >;
 
 // Parse<TContent, TNesting>;
 type X = Nest<"hi(there), who are you?">;
 //   ^?
-

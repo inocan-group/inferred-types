@@ -1,4 +1,4 @@
-import type { BRACKET_NESTING, QUOTE_NESTING, BRACKET_AND_QUOTE_NESTING } from "inferred-types/constants";
+import type { BRACKET_AND_QUOTE_NESTING, BRACKET_NESTING, QUOTE_NESTING } from "inferred-types/constants";
 import type {
     AllLengthOf,
     AllStringLiterals,
@@ -12,7 +12,6 @@ import type {
     ToStringLiteral,
     Values
 } from "inferred-types/types";
-
 
 /**
  * **NestedString**
@@ -64,17 +63,17 @@ export type NestingTuple = [ start: readonly string[], end: readonly string[] | 
 export type NestingConfig__Named = "default" | "brackets" | "quotes" | "brackets-and-quotes";
 
 export type FromNamedNestingConfig<T extends Nesting | NestingConfig__Named> = As<
-T extends Nesting
-    ? T
-    : T extends "default"
-        ? DefaultNesting
-        : T extends "brackets"
-            ? BracketNesting
-            : T extends "quotes"
-                ? QuoteNesting
-                : T extends "brackets-and-quotes"
-                    ? BracketAndQuoteNesting
-                    : never,
+    T extends Nesting
+        ? T
+        : T extends "default"
+            ? DefaultNesting
+            : T extends "brackets"
+                ? BracketNesting
+                : T extends "quotes"
+                    ? QuoteNesting
+                    : T extends "brackets-and-quotes"
+                        ? BracketAndQuoteNesting
+                        : never,
     Nesting
 >;
 
@@ -204,14 +203,13 @@ export type IsNestingStart<
         ? [TChar] extends [Keys<TNesting>[number]]
             ? true
             : false
-    : [TNesting] extends [NestingTuple]
-        ? TNesting[0] extends readonly string[]
-            ? TChar extends TNesting[0][number]
-                ? true
-                : false
-            : never
-        : never;
-
+        : [TNesting] extends [NestingTuple]
+            ? TNesting[0] extends readonly string[]
+                ? TChar extends TNesting[0][number]
+                    ? true
+                    : false
+                : never
+            : never;
 
 type _GetNestingEnd<
     TStartChar extends string,
@@ -226,15 +224,15 @@ type _GetNestingEnd<
             `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TStartChar}' which is NOT defined in the configuration (a NestingKeyValue config)!`,
             { config: TNesting }
         >
-: [TNesting] extends [[infer StartingChars extends readonly string[], infer EndingChars extends readonly string[]]]
-    ? TStartChar extends StartingChars
-        ? EndingChars[number]
-        : Err<
-            "invalid-lookup",
+    : [TNesting] extends [[infer StartingChars extends readonly string[], infer EndingChars extends readonly string[]]]
+        ? TStartChar extends StartingChars
+            ? EndingChars[number]
+            : Err<
+                "invalid-lookup",
             `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TStartChar}' which is NOT defined in the configuration (a NestingTuple config)!`,
             { config: TNesting }
-        >
-: never;
+            >
+        : never;
 
 /**
  * **GetNestingEnd**`<TStartChar, TNesting>`
@@ -251,10 +249,10 @@ export type GetNestingEnd<
     TStartChar extends string | null,
     TNesting extends Nesting
 > = [IsNull<TStartChar>] extends [true]
-? null
-: [string] extends [TStartChar]
-? string | Err<`invalid-lookup`>
-: _GetNestingEnd<As<TStartChar, string>,TNesting>;
+    ? null
+    : [string] extends [TStartChar]
+        ? string | Err<`invalid-lookup`>
+        : _GetNestingEnd<As<TStartChar, string>, TNesting>;
 
 /**
  * Tests the character `T` to see if it is a

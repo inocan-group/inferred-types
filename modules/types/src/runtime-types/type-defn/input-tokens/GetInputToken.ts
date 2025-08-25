@@ -182,26 +182,26 @@ type Iterate<
                                                                         [...TTypes, Success],
                                                                         TCombinator
                                                                     >
-                                                            : Process<IT_TakeLiteralArray<TTrim>> extends infer E extends Error
-                                                                ? E // fast fail
-                                                                : Process<IT_TakeLiteralArray<TTrim>> extends (infer Success extends IT_Token)
-                                                                    ? Iterate<
-                                                                        Success["rest"],
-                                                                        [...TTypes, Success],
-                                                                        TCombinator
-                                                                    >
-
-                                                                    : TTrim extends `|${infer Rest extends string}`
-                                                                        ? Iterate<Rest, TTypes, "union">
-
-                                                                        : Length<TTypes> extends 0
-                                                                            ? Err<
-                                                                                "unparsed",
-                                                                                `The token string was unable to be parsed! No parsing has taken place.`
+                                                                    : Process<IT_TakeLiteralArray<TTrim>> extends infer E extends Error
+                                                                        ? E // fast fail
+                                                                        : Process<IT_TakeLiteralArray<TTrim>> extends (infer Success extends IT_Token)
+                                                                            ? Iterate<
+                                                                                Success["rest"],
+                                                                                [...TTypes, Success],
+                                                                                TCombinator
                                                                             >
 
-                                                                            : Err<
-                                                                                "incomplete-parse",
+                                                                            : TTrim extends `|${infer Rest extends string}`
+                                                                                ? Iterate<Rest, TTypes, "union">
+
+                                                                                : Length<TTypes> extends 0
+                                                                                    ? Err<
+                                                                                        "unparsed",
+                                                                                        `The token string was unable to be parsed! No parsing has taken place.`
+                                                                                    >
+
+                                                                                    : Err<
+                                                                                        "incomplete-parse",
     `The token string was not fully parsed; the text '${TTrim}' remains unparsed`,
     {
         underlying: TTypes;
@@ -221,7 +221,7 @@ type Iterate<
         rest: TTrim;
         combinator: TCombinator;
     }
-                                                                            >;
+                                                                                    >;
 
 /**
  * **GetInputToken**`<T>`

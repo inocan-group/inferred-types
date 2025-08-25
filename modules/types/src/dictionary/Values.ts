@@ -67,16 +67,16 @@ type GetValues<
 export type Values<
     T extends Container,
 > = As<
-Validate<T> extends Error
-    ? Validate<T>
-    : Keys<T> extends readonly unknown[]
-        ? number extends Keys<T>["length"]
-            ? T extends Record<any, infer V>
-                ? V[]
-                : T extends readonly (infer V)[]
+    Validate<T> extends Error
+        ? Validate<T>
+        : Keys<T> extends readonly unknown[]
+            ? number extends Keys<T>["length"]
+                ? T extends Record<any, infer V>
                     ? V[]
-                    : unknown[]
-            : GetValues<T, Keys<T>>
-        : never,
+                    : T extends readonly (infer V)[]
+                        ? V[]
+                        : unknown[]
+                : GetValues<T, Keys<T>>
+            : never,
     readonly unknown[]
 >;

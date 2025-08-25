@@ -510,6 +510,10 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
                 "List(item1, item2, item3) and Map[key1: value1, key2: value2].",
                 { level: 1; output: "template" }
             >;
+            type T3 = FilterByNestingLevel<
+                "List(item1, item2, item3) and Map[key1: value1, key2: value2].",
+                { level: 1; output: "string[]" }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", `List${string} and Map${string}.`>>,
@@ -606,13 +610,19 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
                 `Function call(param1, param2) with array[index] and object{key: "value"}.`,
                 { strategy: "brackets-and-quotes"; level: 0; output: "template" }
             >;
-            type T2 = FilterByNestingLevel<`Function call(param1, param2) with array[index] and object{key: "value"}.`, { strategy: "brackets-and-quotes"; level: 1; output: "template" }>;
-            type T3 = FilterByNestingLevel<`Function call(param1, param2) with array[index] and object{key: "value"}.`, { strategy: "brackets-and-quotes"; level: 2; output: "template" }>;
+            type T2 = FilterByNestingLevel<
+                `Function call(param1, param2) with array[index] and object{key: "value"}.`,
+                { strategy: "brackets-and-quotes"; level: 1; output: "template" }
+            >;
+            type T3 = FilterByNestingLevel<
+                `Function call(param1, param2) with array[index] and object{key: "value"}.`,
+                { strategy: "brackets-and-quotes"; level: 2; output: "template" }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", `Function call${string} with array${string} and object${string}.`>>,
-                Expect<Test<T2, "equals", `(param1, param2)[index]{key: "value"}`>>,
-                Expect<Test<T3, "equals", "">>
+                Expect<Test<T2, "equals", `(param1, param2)${string}[index]{key: ${string}}`>>,
+                Expect<Test<T3, "equals", `"value"`>>
             ];
         });
 
@@ -629,27 +639,45 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
 
 
         it("complex quotes nesting with escapes", () => {
-            type T1 = FilterByNestingLevel<`JSON: {"key": "value with 'quotes'"}`, { strategy: "brackets-and-quotes"; level: 0; output: "template" }>;
-            type T2 = FilterByNestingLevel<`JSON: {"key": "value with 'quotes'"}`, { strategy: "brackets-and-quotes"; level: 1; output: "template" }>;
-            type T3 = FilterByNestingLevel<`JSON: {"key": "value with 'quotes'"}`, { strategy: "brackets-and-quotes"; level: 2; output: "template" }>;
-            type T4 = FilterByNestingLevel<`JSON: {"key": "value with 'quotes'"}`, { strategy: "brackets-and-quotes"; level: 3; output: "template" }>;
+            type T1 = FilterByNestingLevel<
+                `JSON: {"key": "value with 'quotes'"}`,
+                { strategy: "brackets-and-quotes"; level: 0; output: "template" }
+            >;
+            type T2 = FilterByNestingLevel<
+                `JSON: {"key": "value with 'quotes'"}`,
+                { strategy: "brackets-and-quotes"; level: 1; output: "template" }
+            >;
+            type T3 = FilterByNestingLevel<
+                `JSON: {"key": "value with 'quotes'"}`,
+                { strategy: "brackets-and-quotes"; level: 2; output: "template" }
+            >;
+            type T4 = FilterByNestingLevel<
+                `JSON: {"key": "value with 'quotes'"}`,
+                { strategy: "brackets-and-quotes"; level: 3; output: "template" }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", `JSON: ${string}`>>,
-                Expect<Test<T2, "equals", `{"key": "value with 'quotes'"}`>>,
-                Expect<Test<T3, "equals", "">>,
-                Expect<Test<T4, "equals", "">>
+                Expect<Test<T2, "equals", `{${string}: ${string}}`>>,
+                Expect<Test<T3, "equals", `"key"${string}"value with ${string}"`>>,
+                Expect<Test<T4, "equals", "'quotes'">>
             ];
         });
 
 
         it("template with all bracket types", () => {
-            type T1 = FilterByNestingLevel<"Test(paren)[square]{curly}<angle> combination.", { level: 0; output: "template" }>;
-            type T2 = FilterByNestingLevel<"Test(paren)[square]{curly}<angle> combination.", { level: 1; output: "template" }>;
+            type T1 = FilterByNestingLevel<
+                "Test(paren)[square]{curly}<angle> combination.",
+                { level: 0; output: "template" }
+            >;
+            type T2 = FilterByNestingLevel<
+                "Test(paren)[square]{curly}<angle> combination.",
+                { level: 1; output: "template" }
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", `Test${string}${string}${string}${string} combination.`>>,
-                Expect<Test<T2, "equals", "(paren)[square]{curly}<angle>">>
+                Expect<Test<T2, "equals", `(paren)${string}[square]${string}{curly}${string}<angle>`>>
             ];
         });
 
@@ -662,9 +690,9 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
 
             type cases = [
                 Expect<Test<T1, "equals", `A${string} and E${string} mixed.`>>,
-                Expect<Test<T2, "equals", `(B${string})[F]`>>,
-                Expect<Test<T3, "equals", "">>,
-                Expect<Test<T4, "equals", "">>
+                Expect<Test<T2, "equals", `(B${string})${string}[F]`>>,
+                Expect<Test<T3, "equals", `(C${string})`>>,
+                Expect<Test<T4, "equals", `(D)`>>
             ];
         });
 
@@ -677,9 +705,9 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
 
             type cases = [
                 Expect<Test<T1, "equals", `X${string}`>>,
-                Expect<Test<T2, "equals", "(Y[Z{W}])">>,
-                Expect<Test<T3, "equals", "">>,
-                Expect<Test<T4, "equals", "">>
+                Expect<Test<T2, "equals", `(Y${string})`>>,
+                Expect<Test<T3, "equals", `[Z${string}]`>>,
+                Expect<Test<T4, "equals", `{W}`>>
             ];
         });
 

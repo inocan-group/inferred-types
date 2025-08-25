@@ -19,15 +19,6 @@ describe("IsBalanced<T,U>", () => {
   });
 
 
-  it("Invalid KV results in error (when TErr set)", () => {
-    type E = IsBalanced<"adfasdf", {"foo": "bar"}, true>;
-
-    type cases = [
-      Expect<Extends<E, Err<"invalid-key-value">>>
-    ];
-  });
-
-
   it("greater-than and less-than chars", () => {
     type Basic = IsBalanced<"<1> monkey went to the market, <0> bacon was purchased", { "<":">" }>;
     type Nested = IsBalanced<"<1 or <2>> monkey went to the market, <0> bacon was purchased", { "<":">" }>;

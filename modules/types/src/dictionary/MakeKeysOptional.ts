@@ -2,7 +2,6 @@ import type {
     As,
     Dictionary,
     ExpandRecursively,
-    FixedLengthArray,
     IsGreaterThanOrEqual,
     Negative,
     ObjectKey,
@@ -27,20 +26,20 @@ type ConvertArray<
     TArr extends readonly unknown[],
     TOptional extends number
 > = IsGreaterThanOrEqual<TOptional, TArr["length"]> extends true
-? Partial<TArr>
-: Subtract<TArr["length"], TOptional> extends infer ReqNum extends number
-    ? Negative<TOptional> extends infer OptNum extends number
-        ? [
-            Slice<TArr, 0, ReqNum>,
-            Slice<TArr, OptNum>
-        ] extends [
-            infer ReqElements extends readonly unknown[],
-            infer OptElements extends readonly unknown[]
-        ]
-            ? [...ReqElements, ...Partial<OptElements>]
+    ? Partial<TArr>
+    : Subtract<TArr["length"], TOptional> extends infer ReqNum extends number
+        ? Negative<TOptional> extends infer OptNum extends number
+            ? [
+                Slice<TArr, 0, ReqNum>,
+                Slice<TArr, OptNum>
+            ] extends [
+                infer ReqElements extends readonly unknown[],
+                infer OptElements extends readonly unknown[]
+            ]
+                ? [...ReqElements, ...Partial<OptElements>]
+                : never
             : never
-        : never
-: never;
+        : never;
 
 /**
  * **MakeKeysOptional**`<T, U>`
@@ -62,9 +61,6 @@ export type MakeKeysOptional<
     U extends T extends Dictionary ? readonly ObjectKey[] : number
 > = T extends Dictionary
     ? Iterate<T, As<U, readonly ObjectKey[]>>
-: T extends readonly unknown[]
-    ? ConvertArray<Required<T>, As<U, number>>
-: never;
-
-
-
+    : T extends readonly unknown[]
+        ? ConvertArray<Required<T>, As<U, number>>
+        : never;

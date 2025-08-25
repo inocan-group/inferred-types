@@ -1,4 +1,3 @@
-
 /**
  * A paired bracketing strategy which matches on
  * bracket characters:
@@ -28,7 +27,6 @@ export const QUOTE_NESTING = {
     "'": "'",
     "`": "`"
 } as const;
-
 
 /**
  * A paired bracketing strategy which includes:

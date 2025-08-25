@@ -1,5 +1,3 @@
-import type { AsNumber, AsString, IsNegativeNumber } from "inferred-types/types";
-
 /**
  * **Negative**`<T>`
  *
@@ -9,10 +7,10 @@ export type Negative<T extends number | `${number}`> = T extends `${number}`
     ? T extends `-${string}`
         ? T
         : `-${T}`
-: T extends number
-    ? `${T}` extends `-${string}`
-        ? T
-        : `-${T}` extends `${infer Neg extends number}`
-            ? Neg
-            : never
-: never;
+    : T extends number
+        ? `${T}` extends `-${string}`
+            ? T
+            : `-${T}` extends `${infer Neg extends number}`
+                ? Neg
+                : never
+        : never;

@@ -59,7 +59,6 @@ describe("Contains<T,A>", () => {
         type F1 = Contains<[undefined], null>; // =>
         type F2 = Contains<[null], undefined>; // =>
 
-
         type cases = [
             Expect<Test<T1, "equals",  true>>,
             Expect<Test<T2, "equals",  true>>,

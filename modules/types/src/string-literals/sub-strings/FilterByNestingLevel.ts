@@ -1,4 +1,4 @@
-import { AsLiteralTemplate, BracketNesting, FromNamedNestingConfig, Nest, NestedString, Nesting, NestingConfig__Named, ReplaceAll } from "inferred-types/types";
+import type { AsLiteralTemplate, BracketNesting, Err, FromNamedNestingConfig, Nest, NestedString, Nesting, NestingConfig__Named, ReplaceAll } from "inferred-types/types";
 
 type NestingFormat = "string" | "string[]" | "template";
 
@@ -29,7 +29,7 @@ type FilterByNestingLevel__Options = {
      * we will instead add in the `${string}` to indicate a "hole"._
      */
     output?: NestingFormat;
-}
+};
 
 // Helper to format content of the current node of a NestedString
 // For level > 0 nodes, we need to remove {{child}} placeholders
@@ -40,11 +40,8 @@ type FormatWithBrackets<
         ? `${T["enterChar"]}${ReplaceAll<T["content"], "{{child}}", "">}${T["exitChar"]}`
         : `${T["enterChar"]}${ReplaceAll<T["content"], "{{child}}", "">}`
     : T["level"] extends 0
-        ? T["content"]  // Keep {{child}} for level 0 nodes
-        : ReplaceAll<T["content"], "{{child}}", "">;  // Remove {{child}} for level > 0
-
-
-
+        ? T["content"] // Keep {{child}} for level 0 nodes
+        : ReplaceAll<T["content"], "{{child}}", "">; // Remove {{child}} for level > 0
 
 // Recursive helper to collect nodes at a specific level
 type FilterByLevelRecursive<
@@ -64,7 +61,7 @@ type FilterByLevelRecursive<
 type FilterByLevel<
     T extends NestedString,
     L extends number
-> = FilterByLevelRecursive<[T], L>
+> = FilterByLevelRecursive<[T], L>;
 
 // Helper to extract segments from content that contains {{child}} placeholders
 // Splits "Bob{{child}} was angry at Mary{{child}}." into ["Bob", " was angry at ", "."]
@@ -78,10 +75,9 @@ type ExtractSegments<
         ? TAcc
         : [...TAcc, TContent];
 
-
 // Helper to convert to template literal format using AsLiteralTemplate
-type ToTemplate<TContent extends string> =
-    AsLiteralTemplate<TContent, { child: "string" }>;
+type ToTemplate<TContent extends string>
+    = AsLiteralTemplate<TContent, { child: "string" }>;
 
 type FormatOutput<
     T extends readonly NestedString[],
@@ -102,9 +98,27 @@ type FormatOutput<
                 : F extends "string[]"
                     ? [FormatWithBrackets<Single>]
                     : F extends "template"
-                        ? FormatWithBrackets<Single>
+                        ? FormatNodeForTemplate<Single>
                         : never
         : CombineMultiple<T, F>;
+
+// Helper to format a single node for template output
+type FormatNodeForTemplate<T extends NestedString>
+    = T["content"] extends `${string}{{child}}${string}`
+        ? T["enterChar"] extends string
+            ? T["exitChar"] extends string
+                ? `${T["enterChar"]}${ToTemplate<T["content"]>}${T["exitChar"]}`
+                : `${T["enterChar"]}${ToTemplate<T["content"]>}`
+            : ToTemplate<T["content"]>
+        : FormatWithBrackets<T>;
+
+// Helper to format level 1+ nodes for template output (converts {{child}} to ${string})
+type FormatLevel1PlusForTemplate<T extends NestedString>
+    = T["enterChar"] extends string
+        ? T["exitChar"] extends string
+            ? `${T["enterChar"]}${ToTemplate<T["content"]>}${T["exitChar"]}`
+            : `${T["enterChar"]}${ToTemplate<T["content"]>}`
+        : ToTemplate<T["content"]>;
 
 // Helper to combine multiple nested strings
 type CombineMultiple<
@@ -119,11 +133,13 @@ type CombineMultiple<
             : F extends "string[]"
                 ? CombineMultiple<Rest, F, TAcc extends readonly string[] ? [...TAcc, FormatWithBrackets<First>] : []>
                 : F extends "template"
-                    ? CombineMultiple<Rest, F, TAcc extends string ? `${TAcc}${FormatWithBrackets<First>}` : "">
+                    ? First["level"] extends 0
+                        ? CombineMultiple<Rest, F, TAcc extends string ? `${TAcc}${FormatNodeForTemplate<First>}` : "">
+                        : Rest extends readonly []
+                            ? CombineMultiple<Rest, F, TAcc extends string ? `${TAcc}${FormatLevel1PlusForTemplate<First>}` : "">
+                            : CombineMultiple<Rest, F, TAcc extends string ? `${TAcc}${FormatLevel1PlusForTemplate<First>}${string}` : "">
                     : never
         : TAcc;
-
-
 
 /**
  * **FilterByNestingLevel**`<TContent, [TOpt]> -> string | string[] | template`
@@ -148,11 +164,17 @@ export type FilterByNestingLevel<
     TOpt["strategy"] extends infer Strategy extends NestingConfig__Named | Nesting
         ? FromNamedNestingConfig<Strategy>
         : BracketNesting
-> extends infer Structured extends NestedString
-    ? FilterByLevel<Structured, TLevel> extends infer Filtered extends readonly NestedString[]
-        ? FormatOutput<
-            Filtered,
-            TOpt["output"] extends NestingFormat ? TOpt["output"] : "string"
-        >
-        : never
-    : never
+> extends infer Structured
+    ? Structured extends NestedString
+        ? FilterByLevel<Structured, TLevel> extends infer Filtered extends readonly NestedString[]
+            ? FormatOutput<
+                Filtered,
+                TOpt["output"] extends NestingFormat ? TOpt["output"] : "string"
+            >
+            : never
+        : Structured extends { name: string; message: string }
+            ? Structured // Return error-like objects (has name and message properties)
+            : Structured extends Err<any, any, any>
+                ? Structured // Return Err types
+                : Err<"unknown", "An unknown error occurred during nesting", { structured: Structured }> // Wrap other errors
+    : never;
