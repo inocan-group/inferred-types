@@ -4,40 +4,31 @@ import type {
     Dictionary,
     EmptyObject,
     ExpandDictionary,
+    ExpandRecursively,
     First,
     Keys,
     MakeKeysOptional,
     ObjectKey,
+    ObjectKeys,
     OptionalKeysTuple,
     SnakeCase,
 } from "inferred-types/types";
 
-type Convert<
-    TObj extends Dictionary,
-    TKeys extends readonly (ObjectKey & keyof TObj)[],
-    TResult extends Dictionary = EmptyObject,
-> = [] extends TKeys
-    ? ExpandDictionary<TResult>
-    : Convert<
-        TObj,
-        AfterFirst<TKeys>,
-        First<TKeys> extends string
-            ? (
-      Record<
-          SnakeCase<First<TKeys>>,
-          TObj[First<TKeys>] extends Dictionary
-              ? SnakeKeys<TObj[First<TKeys>]>
-              : TObj[First<TKeys>]
-      > & TResult
+export type Convert<
+    T extends Dictionary,
+    K extends readonly (ObjectKey & keyof T)[] = As<ObjectKeys<T>, readonly (ObjectKey & keyof T)[]>,
+    O extends Dictionary = EmptyObject
+> = K extends [infer Head extends ObjectKey & keyof T, ...infer Rest extends readonly (ObjectKey & keyof T)[]]
+        ? Convert<
+            T,
+            Rest,
+            O & (
+                Head extends string
+                    ? Record<As<SnakeCase<Head>, string>, T[Head]>
+                    : Record<Head, T[Head]>
             )
-            : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
-    >;
-
-type Process<T extends Dictionary,
-> = MakeKeysOptional<
-    Convert<T, As<Keys<T>, readonly (ObjectKey & keyof T)[]>>,
-    As<SnakeCase<OptionalKeysTuple<T>>, readonly ObjectKey[]>
->;
+        >
+    : ExpandRecursively<O>;
 
 /**
  * Converts an object's keys to the **kebab-case** equivalent
@@ -45,4 +36,16 @@ type Process<T extends Dictionary,
  */
 export type SnakeKeys<
     T extends Dictionary,
-> = Process<T>;
+> = Required<T> extends infer ReqDict extends Dictionary
+? Convert<ReqDict> extends infer ReqDict extends Dictionary
+    ? OptionalKeysTuple<T> extends infer OptKeys extends readonly ObjectKey[]
+        ? {
+            [K in keyof OptKeys]: OptKeys[K] extends string
+                ? SnakeCase<OptKeys[K]>
+                : OptKeys[K]
+        } extends infer OptKeys extends readonly ObjectKey[]
+            ? MakeKeysOptional<ReqDict, OptKeys>
+        : never
+    : never
+: never
+: never;

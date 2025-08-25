@@ -35,10 +35,9 @@ type Convert<
     >;
 
 type Process<T extends Dictionary,
-> = MakeKeysOptional<
-    Convert<T, As<Keys<T>, readonly (ObjectKey & keyof T)[]>>,
-    As<CamelCase<OptionalKeysTuple<T>>, readonly ObjectKey[]>
->;
+> = CamelCase<OptionalKeysTuple<T>> extends infer CC extends readonly ObjectKey[]
+? Convert<T, As<Keys<T>, readonly (ObjectKey & keyof T)[]>>
+: never;
 
 /**
  * Converts an object's keys to the **camelCase** equivalent
@@ -46,4 +45,17 @@ type Process<T extends Dictionary,
  */
 export type CamelKeys<
     T extends Dictionary,
-> = Process<T>;
+> = Process<Required<T>> extends infer CamelDict extends Dictionary
+? OptionalKeysTuple<T> extends infer OptKeys extends readonly ObjectKey[]
+    ? {
+        [K in keyof OptKeys]: OptKeys[K] extends string
+            ? CamelCase<OptKeys[K]>
+            : OptKeys[K]
+    } extends infer OptKeys extends readonly ObjectKey[]
+        ? MakeKeysOptional<
+            CamelDict,
+            OptKeys
+        >
+        : never
+    : never
+: never;

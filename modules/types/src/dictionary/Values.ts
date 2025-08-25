@@ -58,6 +58,7 @@ type GetValues<
             : never
         : TAcc;
 
+
 /**
  * **Values**`<T>`
  *
@@ -85,10 +86,7 @@ export type Values<
                         ? OptionalKeysTuple<T>["length"] extends infer OptNum extends number
                             ? OptNum extends 0
                                 ? GetValues<T,Keys<T>>
-                                : MakeKeysOptional<
-                                    V,
-                                    OptNum
-                                >
+                                : MakeKeysOptional<V, OptNum>
                             : GetValues<T, Keys<T>>
                         : never
             : never,

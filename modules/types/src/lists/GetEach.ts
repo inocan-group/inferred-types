@@ -26,7 +26,7 @@ type Process<
 > = RemoveNever<{
     [K in keyof TList]: [TKey] extends [keyof F<TList[K]>]
         ? [IndexOf<F<TList[K]>, TKey>] extends [undefined]
-            ? never
+            ? undefined
             : IndexOf<F<TList[K]>, TKey>
         : [IsValidDotPath<F<TList[K]>, TKey>] extends [true]
             ? Mutable<Get<F<TList[K]>, TKey, never>> // valid

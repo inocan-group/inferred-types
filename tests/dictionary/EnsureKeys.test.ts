@@ -1,7 +1,6 @@
 import { Expect } from "@type-challenges/utils";
 import { describe,  it } from "vitest";
-import { EnsureKeys,  Test, EmptyObject, Dictionary } from "inferred-types/types";
-import { IsWideObject } from "../../modules/types/dist";
+import { EnsureKeys,  Test, EmptyObject, Dictionary,  } from "inferred-types/types";
 
 
 describe("EnsureKeys<TContainer,TKeys,TType>", () => {
@@ -15,7 +14,7 @@ describe("EnsureKeys<TContainer,TKeys,TType>", () => {
         type A_FooBar2 = EnsureKeys<{}, ["foo", "bar"]>;
 
         type Obj = EnsureKeys<EmptyObject, ["foo"]>;
-        type Obj2 = EnsureKeys<object, ["foo"]>;
+        type Obj2 = EnsureKeys<Dictionary, ["foo"]>;
 
         type cases = [
             Expect<Test<Add, "equals", { foo: 1; bar: 3 }>>,

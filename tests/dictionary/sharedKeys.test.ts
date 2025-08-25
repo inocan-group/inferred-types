@@ -2,7 +2,7 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import type { Contains, HasSameValues, SharedKeys, Test } from "inferred-types/types";
+import type { Contains, Dictionary, HasSameValues, SharedKeys, Test } from "inferred-types/types";
 import { sharedKeys } from "inferred-types/runtime";
 
 
@@ -15,7 +15,7 @@ describe("SharedKeys", () => {
     type Shared = SharedKeys<A, B>;
     type Identity = SharedKeys<A, A>;
     type None = SharedKeys<A, {}>;
-    type None2 = SharedKeys<A, object>;
+    type None2 = SharedKeys<A, Dictionary>;
 
     type cases = [
       Expect<HasSameValues<Shared, ["bar", "color"]>>,

@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { defineObject } from "inferred-types/runtime"
-import { Expect, Test } from "inferred-types/types";
-
+import { Expect,  Test } from "inferred-types/types";
 
 
 describe("defineObject()", () => {

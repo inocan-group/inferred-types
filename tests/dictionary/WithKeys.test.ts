@@ -4,8 +4,8 @@ import {
     Expect,
     Test,
     DoesExtend,
-    ErrorCondition,
-    WithKeys
+    WithKeys,
+    Err
 } from "inferred-types/types";
 // NOTE: "withKeys" and "retainKeys" are aliases of one another
 // so these tests really pertain to both
@@ -92,7 +92,7 @@ describe("withKeys() runtime with objects", () => {
     expect(obj).toEqual({ bar: 2 });
     // since design time type can not legitimately determined
     type cases = [
-      DoesExtend<typeof obj, ErrorCondition<"invalid-union">>,
+      DoesExtend<typeof obj, Err<"invalid-union">>,
     ];
   });
 
