@@ -1,5 +1,7 @@
 import type { Err, FromInputToken__String, Join, NestedSplit, Trim } from "inferred-types/types";
 
+/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
+
 export type IT_TakePromise<T extends string> = T extends `Promise<${infer Rest extends string}`
     ? NestedSplit<Rest, ">"> extends [
         infer Block extends string,

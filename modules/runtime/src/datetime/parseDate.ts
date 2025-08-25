@@ -11,39 +11,39 @@ import {
 } from "runtime/type-guards";
 
 type Returns<T extends DateLike> = [IsAny<T>] extends [true]
-? Date | Error
-: T extends string
-    ? ParseDate<T> extends Error
-        ? ParseDate<T>
-        : ParseDate<T> extends ParsedDate
-            ? AsDateMeta<ParseDate<T>>
-            : Err<`parse-date/string`, `unable to parse the string '${T}' as a a date!`>
-    : T extends object
-        ? Or<[
-            IsMoment<T>,
-            IsLuxonDateTime<T>,
-            IsDayJs<T>,
-            IsJsDate<T>,
-        ]> extends true
-            ? DateMeta
-            : Err<
-                "parse-date/object",
-                `An object was passed into parseDate() but it was not recognized as a known Date type!`,
-                { date: T }
-            >
-        : T extends number
-            ? IsInteger<T> extends true
+    ? Date | Error
+    : T extends string
+        ? ParseDate<T> extends Error
+            ? ParseDate<T>
+            : ParseDate<T> extends ParsedDate
+                ? AsDateMeta<ParseDate<T>>
+                : Err<`parse-date/string`, `unable to parse the string '${T}' as a a date!`>
+        : T extends object
+            ? Or<[
+                IsMoment<T>,
+                IsLuxonDateTime<T>,
+                IsDayJs<T>,
+                IsJsDate<T>,
+            ]> extends true
                 ? DateMeta
                 : Err<
-                    `parse-date/number`,
-                    `When a number is passed into parseDate() it is assumed to be an epoch timestamp but the number passed in was a floating point number which indicates it is NOT an epoch timestamp!`,
+                    "parse-date/object",
+                    `An object was passed into parseDate() but it was not recognized as a known Date type!`,
                     { date: T }
                 >
-            : Err<
-                `parse-date/invalid-type`,
-                `The type passed into parseDate() can not be parsed into a date!`,
-                { parse: T }
-            >;
+            : T extends number
+                ? IsInteger<T> extends true
+                    ? DateMeta
+                    : Err<
+                        `parse-date/number`,
+                        `When a number is passed into parseDate() it is assumed to be an epoch timestamp but the number passed in was a floating point number which indicates it is NOT an epoch timestamp!`,
+                        { date: T }
+                    >
+                : Err<
+                    `parse-date/invalid-type`,
+                    `The type passed into parseDate() can not be parsed into a date!`,
+                    { parse: T }
+                >;
 
 export function parseDate<
     T extends DateLike

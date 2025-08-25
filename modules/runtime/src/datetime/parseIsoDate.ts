@@ -117,15 +117,15 @@ import {
 // }
 
 type Returns<T extends string> = [IsAny<T>] extends [true]
-? Date | Error
+    ? Date | Error
 
-: [IsUnion<T>] extends [true]
-    ? DateMeta | Error
-    : ParseDate<T> extends Error
-        ? ParseDate<T> & Error
-        : ParseDate<T> extends ParsedDate
-            ? AsDateMeta<ParseDate<T>>
-            : Error;
+    : [IsUnion<T>] extends [true]
+        ? DateMeta | Error
+        : ParseDate<T> extends Error
+            ? ParseDate<T> & Error
+            : ParseDate<T> extends ParsedDate
+                ? AsDateMeta<ParseDate<T>>
+                : Error;
 
 /**
  * Parses an ISO date or datetime string into its components.

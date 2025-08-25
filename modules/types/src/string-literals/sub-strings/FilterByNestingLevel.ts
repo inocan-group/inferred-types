@@ -1,4 +1,4 @@
-import type { AsLiteralTemplate, BracketNesting, Err, FromNamedNestingConfig, Nest, NestedString, Nesting, NestingConfig__Named, ReplaceAll } from "inferred-types/types";
+import type { AsLiteralTemplate, BracketNesting, EmptyObject, Err, FromNamedNestingConfig, Nest, NestedString, Nesting, NestingConfig__Named, ReplaceAll } from "inferred-types/types";
 
 type NestingFormat = "string" | "string[]" | "template";
 
@@ -157,7 +157,7 @@ type CombineMultiple<
  */
 export type FilterByNestingLevel<
     TContent extends string,
-    TOpt extends FilterByNestingLevel__Options = {},
+    TOpt extends FilterByNestingLevel__Options = EmptyObject,
     TLevel extends number = TOpt["level"] extends number ? TOpt["level"] : 0
 > = Nest<
     TContent,

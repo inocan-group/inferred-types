@@ -31,6 +31,8 @@ import type {
     UnionToTuple
 } from "inferred-types/types";
 
+/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
+
 export type ToLiteralOptions = {
     quote?: QuoteCharacter;
     encode?: boolean;

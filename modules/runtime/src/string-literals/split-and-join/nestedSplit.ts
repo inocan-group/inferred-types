@@ -76,7 +76,8 @@ function splitProcessorMultiChar<
                     newWaiting = split;
                     if (waiting === "" && result.length === 0) {
                         newResult = [];
-                    } else {
+                    }
+                    else {
                         newResult.push(waiting);
                     }
                     break;

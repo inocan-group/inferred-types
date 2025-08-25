@@ -1,17 +1,4 @@
-import type { Dictionary, DictionaryWithFixedKeys, GetIndexKeys } from "inferred-types/types";
-import { ExpandRecursively } from '../literals/ExpandRecursively';
-
-// For objects, only keep keys that are not index signatures
-// Index signatures are detected when the wide type extends the key
-type Obj<T> = {
-    [K in keyof T as string extends K
-        ? never
-        : number extends K
-            ? never
-            : symbol extends K
-                ? never
-                : K]: T[K]
-} & {};
+import type { Dictionary, DictionaryWithFixedKeys } from "inferred-types/types";
 
 // For arrays, preserve the structure but remove index signatures
 type Arr<T> = {

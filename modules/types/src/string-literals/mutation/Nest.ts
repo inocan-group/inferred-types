@@ -125,7 +125,3 @@ export type Nest<
         null,
         0
     >;
-
-// Parse<TContent, TNesting>;
-type X = Nest<"hi(there), who are you?">;
-//   ^?

@@ -35,8 +35,8 @@ type Shaped<
 
 type HandleDict<
     TObj extends Dictionary
-> =
-Required<TObj> extends Record<infer K, any>
+>
+= Required<TObj> extends Record<infer K, any>
     ? IsNever<K> extends true
         ? TObj extends Dictionary
             ? []
@@ -57,7 +57,7 @@ Required<TObj> extends Record<infer K, any>
                         >
                     // wide type
                         : K[]
-: never;
+    : never;
 
 /**
  * **ObjectKeys**`<TObj>`
@@ -118,7 +118,7 @@ export type ObjectKeys<
                                         : TObj extends Dictionary
                                             ? HandleDict<TObj>
                                             // wide type
-                                                : K[]
+                                            : K[]
                         // object options exhausted
                             : never
             : Err<`invalid-type/object-keys`, `The type passed into ObjectKeys<T> was not an object!`, { value: TObj }>;

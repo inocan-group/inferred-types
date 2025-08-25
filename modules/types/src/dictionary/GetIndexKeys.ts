@@ -1,5 +1,4 @@
-import { Dictionary, EmptyObject, ExpandDictionary, IsNever, IsTemplateLiteral, IsUnion,  ObjectKey,  RemoveNever, UnionToTuple } from "inferred-types/types";
-
+import type { Dictionary, EmptyObject, ExpandDictionary, IsNever, IsTemplateLiteral, IsUnion, ObjectKey, UnionToTuple } from "inferred-types/types";
 
 /**
  * **GetIndexKeys**`<T>`
@@ -28,13 +27,9 @@ type GetTemplateLiteralIndexes<
     TResult extends Dictionary = EmptyObject
 > = TKeys extends [infer Head extends ObjectKey, ...infer Rest extends readonly ObjectKey[]]
     ? IsTemplateLiteral<Head> extends true
-        ? GetTemplateLiteralIndexes<TObj,Rest, TResult & Record<Head, TObj[Head]>>
-        : GetTemplateLiteralIndexes<TObj,Rest,TResult>
-: ExpandDictionary<TResult>;
-
-
-
-
+        ? GetTemplateLiteralIndexes<TObj, Rest, TResult & Record<Head, TObj[Head]>>
+        : GetTemplateLiteralIndexes<TObj, Rest, TResult>
+    : ExpandDictionary<TResult>;
 
 /**
  * **DictionaryWithIndexKeys**<`T`>
@@ -47,15 +42,14 @@ type GetTemplateLiteralIndexes<
  *
  * **Related: `GetIndexKeys`
  */
-export type DictionaryWithIndexKeys<T extends Dictionary> =
-ExtractIndexKeysFromObj<T> extends infer Extraction
+export type DictionaryWithIndexKeys<T extends Dictionary>
+= ExtractIndexKeysFromObj<T> extends infer Extraction
     ? IsNever<keyof Extraction> extends true
         ? IsUnion<keyof T> extends true
             ? GetTemplateLiteralIndexes<T, UnionToTuple<keyof T>>
             : never
         : Extraction
-: never;
-
+    : never;
 
 /**
  * **GetIndexKeys`<T>`
@@ -68,4 +62,3 @@ ExtractIndexKeysFromObj<T> extends infer Extraction
  * **Related: `DictionaryWithIndexKeys`
  */
 export type GetIndexKeys<T extends Dictionary> = keyof DictionaryWithIndexKeys<T> & string;
-

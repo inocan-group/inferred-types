@@ -7,7 +7,6 @@ import type {
     IsTuple,
     Keys,
     MakeKeysOptional,
-    ObjectKeys,
     OptionalKeysTuple,
     UnionMemberEquals,
 } from "inferred-types/types";
@@ -58,7 +57,6 @@ type GetValues<
             : never
         : TAcc;
 
-
 /**
  * **Values**`<T>`
  *
@@ -82,13 +80,13 @@ export type Values<
                         : T extends readonly (infer V)[]
                             ? V[]
                             : unknown[]
-                    : GetValues<T,Keys<T>> extends infer V extends readonly unknown[]
+                    : GetValues<T, Keys<T>> extends infer V extends readonly unknown[]
                         ? OptionalKeysTuple<T>["length"] extends infer OptNum extends number
                             ? OptNum extends 0
-                                ? GetValues<T,Keys<T>>
+                                ? GetValues<T, Keys<T>>
                                 : MakeKeysOptional<V, OptNum>
                             : GetValues<T, Keys<T>>
                         : never
-            : never,
+                : never,
     readonly unknown[]
 >;

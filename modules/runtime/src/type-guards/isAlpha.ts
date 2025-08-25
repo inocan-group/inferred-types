@@ -1,4 +1,4 @@
-import type {  AlphaChar, Narrowable } from "inferred-types/types";
+import type { AlphaChar, Narrowable } from "inferred-types/types";
 import { ALPHA_CHARS } from "inferred-types/constants";
 import { asChars, isString } from "inferred-types/runtime";
 

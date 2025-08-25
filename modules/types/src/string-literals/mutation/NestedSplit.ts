@@ -7,14 +7,11 @@ import type {
     Err,
     First,
     FromNamedNestingConfig,
-    FromNesting,
     IsNestingMatchEnd,
     IsNestingStart,
-    NestedString,
     Nesting,
     NestingConfig__Named,
     Pop,
-    Split,
     StrLen,
     ToStringLiteral,
     ToStringLiteral__Array
@@ -32,95 +29,6 @@ type SplitWithNoStack<
         ? true
         : false
     : false;
-/**
- * Processes a single NestedString segment for multi-character splitting
- * Only splits segments at level 0 that have no nested children
- */
-type ProcessSegment<
-    TSegment extends NestedString,
-    TSplit extends string,
-    TPolicy extends NestedSplitPolicy
-> = TSegment["level"] extends 0
-    ? TSegment["children"] extends readonly []
-        ? ProcessTopLevelContent<TSegment["content"], TSplit, TPolicy>
-        : [FromNesting<TSegment>] // Has nested children, preserve as-is
-    : [FromNesting<TSegment>]; // Not level 0, preserve as-is
-
-/**
- * Splits top-level content (level 0) by the multi-character split string
- */
-type ProcessTopLevelContent<
-    TContent extends string,
-    TSplit extends string,
-    TPolicy extends NestedSplitPolicy
-> = Split<TContent, TSplit> extends infer Parts extends readonly string[]
-    ? Parts["length"] extends 1
-        ? [TContent] // No split occurred
-        : TPolicy extends "omit"
-            ? Parts
-            : TPolicy extends "inline"
-                ? InsertSplitInline<Parts, TSplit>
-                : TPolicy extends "before"
-                    ? AddSplitBefore<Parts, TSplit>
-                    : TPolicy extends "after"
-                        ? AddSplitAfter<Parts, TSplit>
-                        : never
-    : never;
-
-/**
- * Inserts split string between parts for "inline" policy
- */
-type InsertSplitInline<
-    TParts extends readonly string[],
-    TSplit extends string,
-    TResult extends readonly string[] = []
-> = TParts extends readonly [infer Head extends string, ...infer Rest extends readonly string[]]
-    ? Rest extends readonly []
-        ? [...TResult, Head]
-        : InsertSplitInline<Rest, TSplit, [...TResult, Head, TSplit]>
-    : TResult;
-
-/**
- * Adds split string before each part (except first) for "before" policy
- */
-type AddSplitBefore<
-    TParts extends readonly string[],
-    TSplit extends string,
-    TResult extends readonly string[] = []
-> = TParts extends readonly [infer Head extends string, ...infer Rest extends readonly string[]]
-    ? Rest extends readonly []
-        ? [...TResult, Head]
-        : Rest extends readonly [infer Next extends string, ...infer RestRest extends readonly string[]]
-            ? AddSplitBefore<[`${TSplit}${Next}`, ...RestRest], TSplit, [...TResult, Head]>
-            : [...TResult, Head]
-    : TResult;
-
-/**
- * Adds split string after each part (except last) for "after" policy
- */
-type AddSplitAfter<
-    TParts extends readonly string[],
-    TSplit extends string,
-    TResult extends readonly string[] = []
-> = TParts extends readonly [infer Head extends string, ...infer Rest extends readonly string[]]
-    ? Rest extends readonly []
-        ? [...TResult, Head]
-        : AddSplitAfter<Rest, TSplit, [...TResult, `${Head}${TSplit}`]>
-    : TResult;
-
-/**
- * Processes all segments and flattens results
- */
-type ProcessAllSegments<
-    TSegments extends readonly NestedString[],
-    TSplit extends string,
-    TPolicy extends NestedSplitPolicy,
-    TResult extends readonly string[] = []
-> = TSegments extends readonly [infer Head extends NestedString, ...infer Rest extends readonly NestedString[]]
-    ? ProcessSegment<Head, TSplit, TPolicy> extends infer HeadResult extends readonly string[]
-        ? ProcessAllSegments<Rest, TSplit, TPolicy, [...TResult, ...HeadResult]>
-        : never
-    : TResult;
 
 /**
  * Checks if TContent starts with TSplit at the current position
@@ -325,8 +233,6 @@ export type NestedSplit<
                     ? Convert<Chars<TContent>, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
                     : MultiConvert<TContent, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
                 : never;
-
-// Process<TContent, TSplit, TNesting, TPolicy>;
 
 // DEBUGGING
 // type T = "WeakMap<{id: number, data: Array<string>}, string>"

@@ -1,5 +1,7 @@
-import type { HasVariadicTail, VariadicType } from "types/lists/Variadic";
+import type { HasVariadicTail } from "types/lists/Variadic";
 import type { DropVariadicTail } from "./Variadic";
+
+/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
 
 type IndicesTuple<
     T extends readonly unknown[],

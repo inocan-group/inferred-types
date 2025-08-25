@@ -120,9 +120,7 @@ type InnerObject<
                 : T[First<K>] extends string
                     ? `${O["quote"]}${First<K>}${O["quote"]}: ${O["quote"]}${T[First<K>]}${O["quote"]}`
                     : T[First<K>] extends readonly unknown[]
-                        ? ""
-                    // TODO: this type became too complex!
-                    // `${O["quote"]}${First<K>}${O["quote"]}: ${ToJsonArray<T[First<K>], O>}`
+                        ? `${O["quote"]}${First<K>}${O["quote"]}: ${ToJsonArray<T[First<K>], O>}`
                         : T[First<K>] extends Dictionary
                             ? `${O["quote"]}${First<K>}${O["quote"]}: ${ToJsonObject<T[First<K>]>}`
                             : never,

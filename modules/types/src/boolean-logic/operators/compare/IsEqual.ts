@@ -15,7 +15,7 @@ export type IsEqual<
     Y,
     TTrue = true,
     TFalse = false
-> = Equals<X,Y,TTrue,TFalse>;
+> = Equals<X, Y, TTrue, TFalse>;
 
 /**
  * **Equals**`<X,Y>`
