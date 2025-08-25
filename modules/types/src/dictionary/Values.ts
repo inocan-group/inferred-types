@@ -6,6 +6,9 @@ import type {
     IsNever,
     IsTuple,
     Keys,
+    MakeKeysOptional,
+    ObjectKeys,
+    OptionalKeysTuple,
     UnionMemberEquals,
 } from "inferred-types/types";
 
@@ -69,14 +72,25 @@ export type Values<
 > = As<
     Validate<T> extends Error
         ? Validate<T>
-        : Keys<T> extends readonly unknown[]
-            ? number extends Keys<T>["length"]
-                ? T extends Record<any, infer V>
-                    ? V[]
-                    : T extends readonly (infer V)[]
+        : T extends readonly unknown[]
+            ? T
+            : Keys<T> extends readonly unknown[]
+                ? number extends Keys<T>["length"]
+                    ? T extends Record<any, infer V>
                         ? V[]
-                        : unknown[]
-                : GetValues<T, Keys<T>>
+                        : T extends readonly (infer V)[]
+                            ? V[]
+                            : unknown[]
+                    : GetValues<T,Keys<T>> extends infer V extends readonly unknown[]
+                        ? OptionalKeysTuple<T>["length"] extends infer OptNum extends number
+                            ? OptNum extends 0
+                                ? GetValues<T,Keys<T>>
+                                : MakeKeysOptional<
+                                    V,
+                                    OptNum
+                                >
+                            : GetValues<T, Keys<T>>
+                        : never
             : never,
     readonly unknown[]
 >;

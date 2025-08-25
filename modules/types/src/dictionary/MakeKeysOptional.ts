@@ -58,7 +58,7 @@ type ConvertArray<
  */
 export type MakeKeysOptional<
     T extends Dictionary | readonly unknown[],
-    U extends T extends Dictionary ? readonly ObjectKey[] : number
+    U extends T extends readonly unknown[] ? number : T extends  Dictionary ? readonly ObjectKey[] : never
 > = T extends Dictionary
     ? Iterate<T, As<U, readonly ObjectKey[]>>
     : T extends readonly unknown[]

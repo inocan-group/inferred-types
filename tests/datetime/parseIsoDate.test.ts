@@ -305,7 +305,7 @@ describe("parseIsoDate()", () => {
                 typeof notADate, "isError", "parse-date/year"
             >>,
             Expect<Test<
-                typeof num, "isError", Error
+                typeof num, "extends", Date | Error
             >>,
             Expect<Test<
                 typeof notADate, "isError", "parse-date/year"

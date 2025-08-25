@@ -68,6 +68,7 @@ describe("isThisWeek()", () => {
   it("should handle invalid inputs", () => {
     expect(() => isThisWeek(null as any, mockNow)).toThrow();
     expect(() => isThisWeek(undefined as any, mockNow)).toThrow();
+    // @ts-expect-error
     expect(() => isThisWeek("not a date", mockNow)).toThrow();
     // "2024" is actually valid (year input) so it returns false instead of throwing
     expect(isThisWeek("2024", mockNow)).toBe(false);
@@ -91,6 +92,7 @@ describe("isThisWeek()", () => {
 
     // Malformed ISO strings
     expect(() => isThisWeek("2024-01", mockNow)).toThrow();
+    // @ts-expect-error
     expect(() => isThisWeek("2024-01-", mockNow)).toThrow();
     expect(() => isThisWeek("2024-01-32", mockNow)).toThrow();
     expect(() => isThisWeek("2024-13-15", mockNow)).toThrow();

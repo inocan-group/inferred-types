@@ -1,5 +1,5 @@
 import type { IsJsDate, IsLuxonDateTime, IsMoment } from "@inferred-types/types";
-import type { AsDateMeta, DateLike, DateMeta, Err, IsDayJs, IsInteger, Or, ParseDate, ParsedDate } from "inferred-types/types";
+import type { AsDateMeta, DateLike, DateMeta, Err, IsAny, IsDayJs, IsInteger, Or, ParseDate, ParsedDate } from "inferred-types/types";
 import {
     asDateTime,
     parseIsoDate
@@ -10,7 +10,9 @@ import {
     isString
 } from "runtime/type-guards";
 
-type Returns<T extends DateLike> = T extends string
+type Returns<T extends DateLike> = [IsAny<T>] extends [true]
+? Date | Error
+: T extends string
     ? ParseDate<T> extends Error
         ? ParseDate<T>
         : ParseDate<T> extends ParsedDate

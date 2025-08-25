@@ -35,9 +35,11 @@ describe("Values<T>", () => {
 
     it("Values<T> where T is a LiteralLike object with optional props", () => {
         type FooBar = Values<{ foo: 1; bar?: 2}>;
+        type FooBar2 = Values<{ foo?: 1; bar: 2}>;
 
         type cases = [
             Expect<Test<FooBar, "equals", [1,2?]>>,
+            Expect<Test<FooBar2, "equals", [2,1?]>>,
         ];
     });
 

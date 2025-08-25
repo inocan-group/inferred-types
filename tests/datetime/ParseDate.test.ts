@@ -4,7 +4,6 @@ import {
     ParseDate,
     ParseTime,
     Test,
-    IsLeapYear,
     FourDigitYear,
     TwoDigitHour,
     TwoDigitMinute,
@@ -15,7 +14,6 @@ import {
     TimezoneOffset,
     ParsedDate,
     DateMeta,
-    IsTwoDigitDate
 } from "inferred-types/types";
 import { parseDate } from "inferred-types/runtime";
 import moment from "moment";
@@ -200,7 +198,7 @@ describe("ParseDate<T>", () => {
         // Note: Complex date validation causes TypeScript complexity issues
         // Testing basic edge cases that still validate the parsing logic
         type ValidEndOfMonth = ParseDate<"2020-01-31">;
-        type ValidMonth = ParseDate<"2020-12-01">; 
+        type ValidMonth = ParseDate<"2020-12-01">;
         type ThirtyOneDayMonth = ParseDate<"2020-05-31">;
 
         type cases = [

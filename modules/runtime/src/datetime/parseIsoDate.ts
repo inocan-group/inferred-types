@@ -1,6 +1,7 @@
 import type {
     AsDateMeta,
     DateMeta,
+    IsAny,
     IsUnion,
     ParseDate,
     ParsedDate,
@@ -115,7 +116,10 @@ import {
 //     return convert({ format: "datetime", ...meta });
 // }
 
-type Returns<T extends string> = [IsUnion<T>] extends [true]
+type Returns<T extends string> = [IsAny<T>] extends [true]
+? Date | Error
+
+: [IsUnion<T>] extends [true]
     ? DateMeta | Error
     : ParseDate<T> extends Error
         ? ParseDate<T> & Error

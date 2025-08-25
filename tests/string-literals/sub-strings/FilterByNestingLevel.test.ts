@@ -632,7 +632,6 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
             ];
         });
 
-
         it("complex quotes nesting with escapes", () => {
             type T1 = FilterByNestingLevel<
                 `JSON: {"key": "value with 'quotes'"}`,
