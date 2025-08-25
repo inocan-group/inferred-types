@@ -2,12 +2,10 @@ import type {
     DefineObject
 } from "inferred-types/types";
 import {
+    isDefineTuple,
     isDictionary,
-    isInputToken,
-
+    isInputToken
 } from "inferred-types/runtime";
-
-import { isDefineTuple } from "runtime/type-guards/tokens/isDefineTuple";
 
 /**
  * **isDefineObject**`(val)`
