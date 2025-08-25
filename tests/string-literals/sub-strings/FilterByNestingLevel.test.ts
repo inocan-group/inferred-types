@@ -3,17 +3,25 @@ import {
     Err,
     Expect,
     FilterByNestingLevel,
+    Nest,
     Test,
 } from "inferred-types/types";
 
 describe("FilterByNestingLevel<TContent,TOpt>", () => {
     describe("string output", () => {
         it("happy path", () => {
-            type T1 = FilterByNestingLevel<"Bob(the father) was angry at Mary(the daughter).">;
-            type T2 = FilterByNestingLevel<"Bob(the father) was angry at Mary(the daughter).", { level: 1 }>;
+            type Str = "Bob(the father) was angry at Mary(the daughter).";
+            type V1 = Nest<Str>;
+            type T1 = FilterByNestingLevel<Str, {output: "string"}>;
+            type T1b = FilterByNestingLevel<Str, {output: "string[]"}>;
+            type T1c = FilterByNestingLevel<Str, {output: "template"}>;
+            type T2 = FilterByNestingLevel<Str, { level: 1 }>;
 
             type cases = [
                 Expect<Test<T1, "equals", "Bob was angry at Mary.">>,
+                Expect<Test<T1b, "equals", ["Bob"," was angry at ", "."]>>,
+                Expect<Test<T1c, "equals", `Bob${string} was angry at Mary${string}.`>>,
+                
                 Expect<Test<T2, "equals", "(the father)(the daughter)">>
             ];
         });
@@ -26,6 +34,19 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
                 Expect<Test<T1, "equals", "[ , , ? ]">>
             ];
         });
+
+
+        it("deep nesting", () => {
+            type T1 = FilterByNestingLevel<"add(a: Map<string[str], string[str]>)">;
+            type T2 = FilterByNestingLevel<"add(a: Map<string[str], string[str]>)", {level: 1}>;
+            type T3 = FilterByNestingLevel<"add(a: Map<string[str], string[str]>)", {level: 2}>;
+            type T4 = FilterByNestingLevel<"add(a: Map<string[str], string[str]>)", {level: 3}>;
+
+            type cases = [
+                /** type tests */
+            ];
+        });
+
 
 
         it("using different nesting levels", () => {
@@ -93,8 +114,6 @@ describe("FilterByNestingLevel<TContent,TOpt>", () => {
                 Expect<Test<T3, "equals", "[1]">>,
             ];
         });
-
-
 
         it("brackets-and-quotes strategy", () => {
             type T1 = FilterByNestingLevel<"Array['item'] and Object{'key': 'value'}.", { strategy: "brackets-and-quotes", level: 0 }>;

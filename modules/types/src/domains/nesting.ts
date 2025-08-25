@@ -5,6 +5,7 @@ import type {
     As,
     Err,
     IndexOf,
+    IsNull,
     Keys,
     Last,
     StringKeys,
@@ -247,11 +248,13 @@ type _GetNestingEnd<
  * match with.
  */
 export type GetNestingEnd<
-    TStartChar extends string,
+    TStartChar extends string | null,
     TNesting extends Nesting
-> = [string] extends [TStartChar]
+> = [IsNull<TStartChar>] extends [true]
+? null
+: [string] extends [TStartChar]
 ? string | Err<`invalid-lookup`>
-: _GetNestingEnd<TStartChar,TNesting>;
+: _GetNestingEnd<As<TStartChar, string>,TNesting>;
 
 /**
  * Tests the character `T` to see if it is a
