@@ -1,4 +1,4 @@
-import { fromKeyValue } from "inferred-types/runtime";
+import { fromKeyValue, tuple } from "inferred-types/runtime";
 import { Expect, Test, KeyValue } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
@@ -8,12 +8,23 @@ describe("fromKeyValue()", () => {
             { key: "foo", value: "hi", required: true },
             { key: "bar", value: 42, required: true },
         ] as const;
+        /**
+         * a narrowly defined tuple but not with readonly
+         * modifiers which `as const` imposes.
+         */
+        const kv2 = tuple(
+            { key: "foo", value: "hi", required: true },
+            { key: "bar", value: 42, required: true }
+        )
+
         const obj = fromKeyValue(kv);
+        const obj2 = fromKeyValue(kv2);
 
         expect(obj).toEqual({ foo: "hi", bar: 42 });
 
         type cases = [
             Expect<Test<typeof obj, "equals", { foo: "hi"; bar: 42 }>>,
+            Expect<Test<typeof obj2, "equals", { foo: "hi"; bar: 42 }>>,
         ];
     });
 

@@ -9,6 +9,8 @@ import type {
  * **fromKeyValue**`(keyValueTuple)`
  *
  * Converts a `KeyValue` tuple into an object.
+ *
+ * - **Related:** `toKeyValue()`
  */
 export function fromKeyValue<
     T extends readonly KeyValue<K, N>[],
@@ -21,5 +23,5 @@ export function fromKeyValue<
         obj[kv.key] = kv.value;
     }
 
-    return obj as unknown as FromKv<T>;
+    return obj  as FromKv<[...T]>;
 }
