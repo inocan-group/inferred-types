@@ -23,7 +23,6 @@ import type {
     IsBetweenExclusively,
     IsBetweenInclusively,
     IsDictionary,
-    IsEqual,
     IsError,
     IsFalse,
     IsFalsy,
@@ -52,7 +51,6 @@ import type {
     TupleToUnion,
     TypedFunction,
     Unset,
-    ToStringArray,
     IsEqual
 } from "inferred-types/types";
 

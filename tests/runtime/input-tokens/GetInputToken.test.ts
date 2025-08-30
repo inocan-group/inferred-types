@@ -95,10 +95,12 @@ describe("GetInputToken<T>", () => {
 
 
     it("Functions", () => {
-        type F1 = GetInputToken<"() => string">;
+        type ArrowFn = GetInputToken<"() => string">;
+        type NamedFn = GetInputToken<"function greet(hi: string) => string">;
 
         type cases = [
-            /** type tests */
+            Expect<Test<ArrowFn, "equals", () => string>>,
+            Expect<Test<NamedFn, "equals",  ((hi: string) => string) & {name: "greet"}>>,
         ];
     });
 

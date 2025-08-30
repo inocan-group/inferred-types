@@ -1,5 +1,11 @@
 import type { Contains, Narrowable } from "inferred-types/types";
 
+type Stringify<T> = T extends string
+    ? T
+    : T extends number
+        ? `${T}`
+        : never;
+
 /**
  * **contains**`(content, comparator)`
  *
@@ -11,13 +17,57 @@ import type { Contains, Narrowable } from "inferred-types/types";
  * - When `comparator` is an array (union), it checks if any comparator element matches
  */
 export function contains<
-    const TContent extends (string | number) | readonly N[],
-    const TComparator extends N | readonly N[],
-    N extends Narrowable
+    const TContent extends string | number,
+    const TComparator extends string | number,
 >(
     content: TContent,
     comparator: TComparator
-): Contains<TContent, TComparator> {
+): `${TContent}` extends `${string}${Stringify<TComparator>}${string}` ? true : false;
+
+export function contains<
+    const TContent extends readonly (string | number)[],
+    const TComparator extends string | number,
+>(
+    content: TContent,
+    comparator: TComparator
+): Extract<TContent[number], TComparator> extends never ? false : true;
+
+export function contains<
+    const TContent extends string | number,
+    const TComparator extends Narrowable,
+>(
+    content: TContent,
+    comparator: TComparator
+): Contains<TContent, TComparator>;
+
+export function contains<
+    const TContent extends string | number,
+    const TComparator extends readonly Narrowable[],
+>(
+    content: TContent,
+    comparator: TComparator
+): Contains<TContent, TComparator>;
+
+export function contains<
+    const TContent extends readonly Narrowable[],
+    const TComparator extends Narrowable,
+>(
+    content: TContent,
+    comparator: TComparator
+): Contains<TContent, TComparator>;
+
+export function contains<
+    const TContent extends readonly Narrowable[],
+    const TComparator extends readonly Narrowable[],
+>(
+    content: TContent,
+    comparator: TComparator
+): Contains<TContent, TComparator>;
+
+export function contains(
+    content: string | number | readonly Narrowable[],
+    comparator: Narrowable | readonly Narrowable[]
+): boolean {
     // Helper to check if a value matches a comparator
     const valueMatches = (value: unknown, comp: unknown): boolean => {
     // Direct equality check
@@ -47,11 +97,11 @@ export function contains<
 
         // If comparator is array (union), check if any element is substring
         if (Array.isArray(comparator)) {
-            return comparator.some((comp: unknown) => contentStr.includes(String(comp))) as Contains<TContent, TComparator>;
+            return comparator.some((comp: unknown) => contentStr.includes(String(comp)));
         }
 
         // Otherwise check if comparator is substring
-        return contentStr.includes(String(comparator)) as Contains<TContent, TComparator>;
+        return contentStr.includes(String(comparator));
     }
 
     // If content is array
@@ -60,15 +110,15 @@ export function contains<
         if (Array.isArray(comparator)) {
             return content.some((item: unknown) =>
                 comparator.some((comp: unknown) => valueMatches(item, comp))
-            ) as Contains<TContent, TComparator>;
+            );
         }
 
         // Otherwise check if any element matches comparator
-        return content.some((item: unknown) => valueMatches(item, comparator)) as Contains<TContent, TComparator>;
+        return content.some((item: unknown) => valueMatches(item, comparator));
     }
 
     // This should never be reached given the type constraints, but TypeScript needs it
     else {
-        return false as Contains<TContent, TComparator>;
+        return false;
     }
 }
