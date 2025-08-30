@@ -134,7 +134,12 @@ export type HasVariadicInterior<
  *
  * **Related:** `AllOptionalElements`
  */
-export type HasOptionalElements<T extends readonly unknown[]> = IsNotEqual<Required<T>, T>;
+export type HasOptionalElements<T extends readonly unknown[]> = GetOptionalElementCount<T> extends 0
+? false
+: number extends GetOptionalElementCount<T>
+    ? boolean
+    : true;
+// IsNotEqual<Required<T>, T>;
 
 /**
  * **AllOptionalElements**

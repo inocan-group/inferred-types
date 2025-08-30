@@ -67,8 +67,10 @@ describe("IsBefore<A, B>", () => {
 
     describe("ISO Date Comparisons", () => {
         it("returns true when first date is before second date", () => {
+            type T1 = IsBefore<"2023-01-01", "2023-12-31">;
+
             type cases = [
-                Expect<Test<IsBefore<"2023-01-01", "2023-12-31">, "equals", true>>,
+                Expect<Test<T1, "equals", true>>,
                 Expect<Test<IsBefore<"2023-01-01", "2023-01-02">, "equals", true>>,
                 Expect<Test<IsBefore<"2022-12-31", "2023-01-01">, "equals", true>>,
                 Expect<Test<IsBefore<"2023-05-15", "2023-05-16">, "equals", true>>,

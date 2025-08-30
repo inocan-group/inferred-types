@@ -1,27 +1,21 @@
 import type {
-    AfterFirst,
     As,
     AsDateMeta,
-    Contains,
     DateLike,
     DateMeta,
     Err,
-    Extends,
     Fallback,
-    First,
+    IsAny,
     IsEqual,
-    IsGreaterThan,
     IsLessThan,
     IsNull,
-    Not,
-    Or,
     ThreeDigitMillisecond,
     TwoDigitHour,
     TwoDigitMinute,
     TwoDigitSecond,
     Xor
 } from "inferred-types/types";
-import { UnbrandValues } from "types/literals/branding/UnbrandValues";
+import type { IsTemplateLiteral } from "types/interpolation";
 
 type DateProps = ["year","month","date"];
 type Lookup = {
@@ -39,53 +33,44 @@ type Check<
     A extends DateMeta,
     B extends DateMeta,
     O extends readonly (keyof A & keyof B & string & keyof Lookup)[] = ["year","month","date","hour","minute","second","ms"]
-> =
-O extends [infer Head extends string & keyof A & keyof B & keyof Lookup & keyof DateMeta, ...infer Rest extends readonly (keyof A & keyof B & string& keyof Lookup & keyof DateMeta )[] ]
-? Fallback<A[Head], Lookup[Head]> extends infer APlus extends DateMeta
-    ? Fallback<B[Head], Lookup[Head]> extends infer BPlus extends DateMeta
-        ? Xor<
-            IsNull<APlus[Head]>,
-            IsNull<BPlus[Head]>
-        > extends true
-            ? boolean // can not compare dates where one has a value and other does not
-            : APlus[Head] extends null
-                ? Check<A,B,Rest> // iterate as we have equality at head
-            : IsLessThan<
-                As<Fallback<A[Head], Lookup[Head]>, `${number}`>,
-                As<Fallback<B[Head], Lookup[Head]>, `${number}`>
-            > extends true
-                ? true
-            : IsEqual<
-                As<Fallback<A[Head], Lookup[Head]>, `${number}`>,
-                As<Fallback<B[Head], Lookup[Head]>, `${number}`>
-            > extends true
-                ? Check<A,B,Rest> // iterate further based on equality
+> = O extends [
+    infer Head extends string & keyof A & keyof B & keyof Lookup & keyof DateMeta,
+    ...infer Rest extends readonly (keyof A & keyof B & string & keyof Lookup & keyof DateMeta)[]
+]
+    ? // normalize values for this component
+      Fallback<A[Head], Lookup[Head]> extends infer AV
+        ? Fallback<B[Head], Lookup[Head]> extends infer BV
+            ? // if exactly one side is null, comparison is indeterminate
+              Xor<IsNull<AV>, IsNull<BV>> extends true
+                ? boolean
+                : // if both null, move to next component
+                [AV] extends [null]
+                    ? Check<A, B, Rest>
+                    : // both sides have comparable numeric-like strings
+                    IsLessThan<As<AV, `${number}`>, As<BV, `${number}`>> extends true
+                        ? true
+                        : IsEqual<As<AV, `${number}`>, As<BV, `${number}`>> extends true
+                            ? Check<A, B, Rest>
+                            : false
             : false
         : false
-    : IsLessThan<
-        As<Fallback<A[Head], Lookup[Head]>, `${number}`>,
-        As<Fallback<B[Head], Lookup[Head]>, `${number}`>
-    > extends true
-        ? true
-        : IsEqual<
-            As<Fallback<A[Head], Lookup[Head]>, `${number}`>,
-            As<Fallback<B[Head], Lookup[Head]>, `${number}`>
-        > extends true
-            ? false
-    : false
-
-: true;
+    : // ran out of components with all equal -> not before
+      false;
 
 
 /**
- * **IsAfter**`<A,B>`
+ * **IsBefore**`<A,B>`
  *
- * Tests whether `A` is _after_ (in time) `B`.
+ * Tests whether `A` is _before_ (in time) `B`.
  */
 export type IsBefore<
     A extends DateLike,
     B extends DateLike,
-> = A extends object
+> = [IsAny<A>] extends [true]
+    ? boolean
+: [IsAny<B>] extends [true]
+    ? boolean
+: A extends object
     ? boolean
 : B extends object
     ? boolean
@@ -95,13 +80,41 @@ export type IsBefore<
             ? false // A === B
         : IsLessThan<A,B>
     : boolean
-: string extends A
-    ? boolean
-    : AsDateMeta<A> extends infer AMeta extends DateMeta
-        ? AsDateMeta<B> extends infer BMeta extends DateMeta
-            ? Check<AMeta,BMeta> extends Error
-                ? boolean
-                : Check<AMeta,BMeta>
+: A extends string
+    ? IsTemplateLiteral<A> extends true
+        ? boolean
+        : string extends A
+            ? boolean
+            : B extends string
+                ? IsTemplateLiteral<B> extends true
+                    ? boolean
+                    : string extends B
+                        ? boolean
+                        : AsDateMeta<A> extends infer AParsed
+                            ? AsDateMeta<B> extends infer BParsed
+                                ? [Extract<AParsed, Error>] extends [never]
+                                    ? [Extract<BParsed, Error>] extends [never]
+                                        ? Check<As<AParsed, DateMeta>, As<BParsed, DateMeta>>
+                                        : boolean
+                                    : boolean
+                                : Err<
+                                    `invalid-date/B`,
+                                    `The second parameter 'B' was not a valid date!`,
+                                    { a: A; b: B }
+                                >
+                            : Err<
+                                `invalid-date/A`,
+                                `The first parameter 'A' was not a valid date!`,
+                                { a: A; b: B }
+                            >
+    : AsDateMeta<A> extends infer AParsed
+        ? AsDateMeta<B> extends infer BParsed
+            ? // if either parse is potentially an Error (wide/ambiguous), return boolean
+              [Extract<AParsed, Error>] extends [never]
+                ? [Extract<BParsed, Error>] extends [never]
+                    ? Check<As<AParsed, DateMeta>, As<BParsed, DateMeta>>
+                    : boolean
+                : boolean
             : Err<
                 `invalid-date/B`,
                 `The second parameter 'B' was not a valid date!`,
@@ -111,4 +124,5 @@ export type IsBefore<
             `invalid-date/A`,
             `The first parameter 'A' was not a valid date!`,
             { a: A; b: B }
-        >;
+        >
+    : boolean;
