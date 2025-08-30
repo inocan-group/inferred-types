@@ -1,10 +1,15 @@
-import type { ToStringArray } from "inferred-types/types";
+import type { As, ToStringArray } from "inferred-types/types";
 
 type Process<
     TContent extends string,
     TPrefix extends string,
     TPostfix extends string,
-> = `${TPrefix}${TContent}${TPostfix}`;
+> = As<
+`${TPrefix}${TContent}${TPostfix}` extends infer Surrounded extends string
+    ? Surrounded
+    : never,
+string
+>;
 
 type ProcessEach<
     TContent extends readonly string[],

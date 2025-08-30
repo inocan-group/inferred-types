@@ -28,7 +28,7 @@ type Convert<
 };
 
 /**
- * **MapTo**`<TList, TMap, [TElse]>`
+ * **ArrayTo**`<TList, TMap, [TElse]>`
  *
  * Converts elements of TList which match the _first element_ of `TMap` to the type in the _second element_
  * of `TMap`.
@@ -36,7 +36,7 @@ type Convert<
  * - by default items not expressly remapped in `TMap` will by proxied through "as is"
  * - you can optionally, set `TElse` to: `never`, `false`, `true`, `boolean`, or `unknown`
  */
-export type MapTo<
+export type ArrayTo<
     TList extends readonly unknown[],
     TMap extends readonly [from: unknown, to: unknown][],
     TElse extends ElseOps = "proxy"

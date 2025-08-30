@@ -1,4 +1,4 @@
-import type { NUMERIC_CHAR } from "constants/NumericChar";
+import type { NUMERIC_CHAR } from "inferred-types/constants";
 
 /**
  * **MONTH_NAME**

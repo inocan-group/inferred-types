@@ -9,6 +9,7 @@ import type {
     TwoDigitMonth,
     TwoDigitSecond,
 } from "types/datetime/general";
+import { UnbrandValues } from "types/literals/branding/UnbrandValues";
 
 /**
  * a property of `DateMeta`
@@ -34,6 +35,8 @@ export type DateMeta = {
     ms: ThreeDigitMillisecond<"branded"> | null;
     timezone: TimezoneOffset<"branded"> | null;
 };
+
+type X = UnbrandValues<DateMeta>;
 
 // & {
 //     toString(): ToIsoString<

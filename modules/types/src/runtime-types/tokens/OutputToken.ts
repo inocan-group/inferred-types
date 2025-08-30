@@ -6,7 +6,8 @@ import type {
     InputTokenSuggestions,
     SafeEncode,
     Surround,
-    ToJson
+    ToJson,
+    ToJsonObject
 } from "inferred-types/types";
 
 export type IT_TupleToOutputToken<
@@ -45,11 +46,10 @@ export type OutputToken = `<<${string}>>` & {
 export type AsOutputToken<T extends InputToken> = T extends string
     ? `<<"${SafeEncode<T>}">>`
     : T extends DefineObject
-        ? `<<${ToJson<T>}>>`
+        ? ToJsonObject<T> extends infer J extends string
+            ? `<<${J}>>`
+            : never
         : T extends readonly InputTokenSuggestions[]
             ? IT_TupleToOutputToken<T>
             : never;
 
-// type X = AsOutputToken<{ foo: "Number(1)"; bar: "Number(2)"}>;
-// type Y = AsOutputToken<[ "number", `String(I'm a lumberjack and I'm "ok")`, "string | undefined"]>;
-// type Y2 = AsOutputToken<"string">;

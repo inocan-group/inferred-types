@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
     Expect,
+    FourDigitYear,
     IsGreaterThan,
     IsGreaterThanOrEqual,
     Test
@@ -84,6 +85,21 @@ describe("IsGreaterThan<A,B> Type Utility", () => {
             Expect<Test<Eq2, "equals", false>>,
         ];
     });
+
+
+    it("using branded values", () => {
+        type Y1 = FourDigitYear<"2012">;
+        type Y2 = FourDigitYear<"2020">;
+
+        type T1 = IsGreaterThan<Y2,Y1>;
+        type F1 = IsGreaterThan<Y1,Y2>;
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<F1, "equals", false>>,
+        ];
+    });
+
 
     it("mixed integer and decimal comparisons", () => {
         type T1 = IsGreaterThan<2, 1.5>;
