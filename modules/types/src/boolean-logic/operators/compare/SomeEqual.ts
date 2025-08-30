@@ -15,3 +15,4 @@ export type SomeEqual<
 > = Or<{
     [K in keyof TList]: IsEqual<TList[K], TVal>
 }>;
+
