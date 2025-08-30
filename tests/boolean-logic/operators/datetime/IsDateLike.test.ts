@@ -1,7 +1,5 @@
-import { IsIsoDate } from "inferred-types";
 import { Expect, Test, IsDateLike, EmptyObject, IsIsoYear } from "inferred-types/types";
 import { describe, it } from "vitest";
-import { IsIsoFullDate } from "../../../../modules/types/dist";
 
 describe("IsDateLike<T>", () => {
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { compare, isTemplateLiteral } from "inferred-types/runtime";
+import { compare, isTemplateLiteral, startsWith } from "inferred-types/runtime";
 import {
     Compare,
     Expect,
@@ -62,8 +62,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
         it("equalsSome", () => {
             type T1 = Compare<42, "equalsSome", [42, 99]>;
             type T2 = Compare<99, "equalsSome", [42, 99]>;
-
-            // @ts-ignore
             type E1 = Compare<42, "equalsSome", [42]>; // Error
 
             type cases = [
@@ -459,6 +457,10 @@ describe("compare() runtime function", () => {
         it("startsWith", () => {
 
             const startsWithHello = compare("startsWith", "Hello");
+
+            type X = StartsWith<"Hello world", "Hello">;
+
+            const x = startsWith("Hello")("Hello World");
             const t1 = startsWithHello("Hello World");
             const f1 = startsWithHello("Hi World");
             const f2 = startsWithHello(123);

@@ -41,7 +41,7 @@ describe("IsNarrowingFn<T>", () => {
     type T3 = IsNarrowingFn<number>;
 
     type cases = [
-      Expect<Test<T1, "equals", false>>,
+      Expect<Test<T1, "equals", boolean>>,
       Expect<Test<T2, "equals", false>>,
       Expect<Test<T3, "equals", false>>,
     ];

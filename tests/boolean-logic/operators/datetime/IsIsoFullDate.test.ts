@@ -4,7 +4,6 @@ import {
     IsIsoFullDate,
     Test,
 } from "inferred-types/types";
-import { ParseDate } from "../../../../modules/types/dist";
 
 describe("IsIsoFullDate<T>", () => {
 

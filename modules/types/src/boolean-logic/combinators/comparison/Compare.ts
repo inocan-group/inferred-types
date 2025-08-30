@@ -51,7 +51,9 @@ import type {
     Suggest,
     TupleToUnion,
     TypedFunction,
-    Unset
+    Unset,
+    ToStringArray,
+    IsEqual
 } from "inferred-types/types";
 
 /**
@@ -191,11 +193,15 @@ type Process__General<
                         ? false // If TVal is incompatible with true, it definitely isn't true
                         : IsTrue<TVal>
 
-                    : TOp extends "truthy"
+                : TOp extends "truthy"
                         ? IsTruthy<TVal>
 
                         : TOp extends "equalsSome"
-                            ? SomeEqual<TParams, TVal>
+                            ? TParams extends readonly [...infer L]
+                                ? number extends As<L, readonly unknown[]>["length"]
+                                    ? boolean
+                                    : SomeEqual<As<L, readonly unknown[]>, TVal>
+                                : boolean
 
                             : TOp extends "contains"
                                 ? TVal extends string | number | readonly unknown[]
@@ -229,7 +235,9 @@ type Process__String<
 > = TOp extends "startsWith"
     ? TVal extends ComparisonAccept<"startsWith">
         ? TParams extends readonly (string | number)[]
-            ? StartsWith<TVal, TParams>
+            ? number extends TParams["length"]
+                ? boolean
+                : StartsWith<As<TVal, string | number>, TParams[number]>
             : Err<`invalid-type/parameters`>
         : Err<
             `invalid-value/wrong-type`,
@@ -240,7 +248,9 @@ type Process__String<
     : TOp extends "endsWith"
         ? TVal extends ComparisonAccept<"endsWith">
             ? TParams extends readonly (string | number)[]
-                ? EndsWith<TVal, TParams>
+                ? number extends TParams["length"]
+                    ? boolean
+                    : EndsWith<As<TVal, string | number>, TParams[number]>
                 : Err<`invalid-type/parameters`>
             : Err<
                 `invalid-value/wrong-type`,

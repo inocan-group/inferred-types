@@ -20,8 +20,6 @@ import {
 } from "./shape-helpers/atomics";
 import { fn } from "./shape-helpers/functions";
 import { dictionary, tuple } from "./shape-helpers/literal-containers";
-import { number, string } from "./shape-helpers/singletons";
-import { union } from "./shape-helpers/union";
 import { array, map, record, set, weakMap } from "./shape-helpers/wide-containers";
 
 function isAddOrDone<T>(val: T): val is ShapeTupleOrUnion & T {
@@ -46,13 +44,10 @@ function isAddOrDone<T>(val: T): val is ShapeTupleOrUnion & T {
  * ```
  */
 export const ShapeApiImplementation = {
-    string,
-    number,
     boolean,
     unknown,
     undefined: undefinedType,
     null: nullType,
-    union,
     fn,
     record,
     array,

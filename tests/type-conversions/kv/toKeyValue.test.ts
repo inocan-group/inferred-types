@@ -110,9 +110,6 @@ describe("toKeyValue(obj)", () => {
             end: "desc"
         });
 
-        const tt = toKeyValue(obj, {
-
-        })
 
         const kv = tuple(
             { key: "type", value: "[[kind/types/AI.md|AI]]", required: true },
