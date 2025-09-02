@@ -8,7 +8,11 @@ import {
     Last,
     Test
 } from "inferred-types/types";
-import { toKeyValue, tuple, defineObj } from "inferred-types/runtime";
+import {
+    toKeyValue,
+    tuple,
+    defineObj
+} from "inferred-types/runtime";
 
 
 describe("toKeyValue(obj)", () => {
@@ -131,6 +135,38 @@ describe("toKeyValue(obj)", () => {
 
     });
 
+    it("preserves order in start array", () => {
+        const obj = { a: 1, b: 2, c: 3 } as const;
+        const result = toKeyValue(obj, { start: ["c", "a"] });
+
+        const expected = tuple(
+            { key: "c", value: 3, required: true },
+            { key: "a", value: 1, required: true },
+            { key: "b", value: 2, required: true },
+        );
+
+        expect(result).toEqual(expected);
+
+        type cases = [
+            Expect<Test<typeof result, "equals", typeof expected>>,
+        ];
+    });
+
+    it("single start key and array end", () => {
+        const obj = { a: 1, b: 2, c: 3 } as const;
+        const result = toKeyValue(obj, { start: "b", end: ["c"] });
+
+        const expected = tuple(
+            { key: "b", value: 2, required: true },
+            { key: "a", value: 1, required: true },
+            { key: "c", value: 3, required: true },
+        );
+
+        expect(result).toEqual(expected);
+
+        type cases = [
+            Expect<Test<typeof result, "equals", typeof expected>>,
+        ];
+    });
+
 });
-
-

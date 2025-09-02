@@ -2,8 +2,6 @@ import type {
     As,
     Dictionary,
     MergeObjects,
-    Narrowable,
-    NarrowObject,
     ObjectKey,
     SortByKey,
     SortByKeyOptions,
@@ -33,10 +31,9 @@ import { keysOf, sortByKey } from "inferred-types/runtime";
  * ```
  */
 export function toKeyValue<
-    const TObj extends NarrowObject<O>,
-    O extends Narrowable,
-    S extends ObjectKey,
-    TSort extends SortByKeyOptions<S> | undefined = undefined,
+    const TObj extends Dictionary,
+    K extends ObjectKey = ToKv<TObj>[number] extends { key: infer KK extends ObjectKey } ? KK : never,
+    const TSort extends SortByKeyOptions<K> | undefined = undefined,
     TSorted = SortByKey<
         ToKv<TObj>,
         "key",

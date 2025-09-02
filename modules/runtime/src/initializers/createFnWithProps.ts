@@ -1,5 +1,6 @@
 import type {
     FnWithProps,
+    Narrowable,
     ObjectKey,
     TypedFunction,
 } from "inferred-types/types";
@@ -11,8 +12,9 @@ import { fnProps } from "runtime/functions";
  * Creates a strongly typed function along with properties.
  */
 export function createFnWithProps<
-    const TFn extends TypedFunction,
+    const TFn extends TypedFunction<P>,
     const TProps extends Record<ObjectKey, unknown>,
+    const P extends readonly Narrowable[],
     TNarrowing extends boolean = false,
 >(
     fn: TFn,
