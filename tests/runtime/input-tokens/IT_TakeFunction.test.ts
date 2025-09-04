@@ -139,7 +139,8 @@ describe("IT_TakeFunction<T>", () => {
                 Expect<Test<T2["kind"], "equals", "function">>,
                 Expect<Test<T2["name"], "equals", "add">>,
                 Expect<Test<T2["narrowing"], "equals", true>>,
-                Expect<Test<T2["returnToken"], "equals", "T">>,
+                // ensure generic return token captured correctly (using T3)
+                Expect<Test<T3["returnToken"], "equals", "T">>,
             ];
         });
 
@@ -252,5 +253,4 @@ describe("IT_TakeFunction<T>", () => {
     });
 
 });
-
 

@@ -37,113 +37,96 @@ import type {
 type GetReturnType<
     TToken extends string,
     TGenerics extends readonly GenericParam[]
-> = Find<TGenerics, "objectKeyEquals", ["name", Trim<TToken>]> extends infer Generic extends GenericParam
-    ? Generic["type"]
-    : IsStaticTemplate<TToken, TemplateMap__Generics<TGenerics>> extends true
-        ? AsLiteralTemplate<
-            AsStaticTemplate<TToken, TemplateMap__Generics<TGenerics>>,
-            TemplateMap__Generics<TGenerics>
-        >
-        : FromInputToken__String<TToken>;
-
-type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Rest extends string}`
-    ? Trim<Rest> extends `${infer Name extends string}(${infer Rest}`
-        // no generics
-        ? IsAlphanumeric<Trim<Name>> extends true
-            ? IT_TakeParameters<`(${Rest}`> extends {
-                parameters: infer Parameters extends readonly IT_Parameter[];
-                generics: infer Generics extends readonly GenericParam[] | [];
-                rest: infer Rest extends string;
-            }
-                ? Trim<Rest> extends `:${infer Rest}`
-                    ? FromInputToken<Trim<Rest>> extends Error
-                        ? Err<
-                            "malformed-token",
-                            `After successfully parsing the parameters of a named function, the return type -- '${Trim<Rest>}' -- can not be parsed into a valid type!`,
-                            { token: Trim<T>; name: Trim<Name>; rest: Trim<Rest> }
-                        >
-                        : AsStaticTemplate<Trim<Rest>, TemplateMap__Generics<Generics>> extends infer ReturnToken extends string
-                            ? FnFrom<CalcParams<Parameters>, GetReturnType<Trim<ReturnToken>, Generics>, EmptyObject> extends infer FnType extends TypedFunction
-
-                                ? {
-                                    __kind: "IT_Token";
-                                    kind: "function";
-                                    name: Trim<Name>;
-                                    generics: Generics;
-                                    parameters: Parameters;
-                                    returnToken: ReturnToken;
-                                    returnType: GetReturnType<Trim<Rest>, Generics>;
-                                    narrowing: false;
-                                    token: Trim<T>;
-                                    type: FnType & { name: Trim<Name> };
-                                    isAsync: Extends<FromInputToken<Trim<Rest>>, Promise<any>>;
-                                    rest: "";
-                                }
-                                : never
-                            : never
-                    : Err<
-                        "malformed-token",
-                        `After successfully parsing the parameters of a named function, the return type was unable to be parsed because we couldn't find the expected ':' character used to separate the parameters from the return type`,
-                        { token: T; rest: Trim<Rest>; parameter: Parameters; generics: Generics }
-                    >
-                : Err<
-                    "malformed-token",
-                    `Failed to parse the parameters of what appeared to be a named function!`,
-                    { token: T; rest: `(${Rest}`; attempt: IT_TakeParameters<`(${Rest}`> }
-                >
-            : Err<
-                "malformed-token",
-                `While attempting to parse what appeared to be a named function -- '${Trim<T>}' -- the name of the function ['${Trim<Name>}'] did NOT meet the requirement of being alphanumeric!`,
-                { token: T; name: Trim<Name>; rest: Trim<Rest> }
+> = Trim<TToken> extends `Promise<${infer Inner extends string}>`
+    ? Promise<GetReturnType<Trim<Inner>, TGenerics>>
+    : Find<TGenerics, "objectKeyEquals", ["name", Trim<TToken>]> extends infer Generic extends GenericParam
+        ? Generic["type"]
+        : IsStaticTemplate<TToken, TemplateMap__Generics<TGenerics>> extends true
+            ? AsLiteralTemplate<
+                AsStaticTemplate<TToken, TemplateMap__Generics<TGenerics>>,
+                TemplateMap__Generics<TGenerics>
             >
-        // with generics
-        : Trim<Rest> extends `${infer Name extends string}<${infer Rest extends string}`
-            ? ValidateCharacterSet<Trim<Name>, AlphanumericChar | "_"> extends infer Name extends string
-                ? IT_TakeParameters<`<${Rest}`> extends {
+            : FromInputToken__String<TToken>;
+
+type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer AfterFunction extends string}`
+    ? Trim<AfterFunction> extends `${infer Leading extends string}(${infer AfterParen extends string}`
+        ? Leading extends `${infer Name extends string}<${infer GenericsBlock extends string}`
+            // with generics
+            ? Trim<Name> extends ""
+                ? Err<"wrong-handler", `The function did not appear to have a name and therefore is not a named function.`, { token: T }>
+                : IT_TakeParameters<`<${GenericsBlock}(${AfterParen}`> extends {
                     parameters: infer Parameters extends readonly IT_Parameter[];
                     generics: infer Generics extends readonly GenericParam[] | [];
-                    rest: infer Rest extends string;
+                    rest: infer AfterParams extends string;
                 }
-                    ? Trim<Rest> extends `:${infer ReturnToken extends string}`
+                    ? Trim<AfterParams> extends `:${infer ReturnToken extends string}`
                         ? FnFrom<CalcParams<Parameters>, GetReturnType<Trim<ReturnToken>, Generics>, { name: Trim<Name> }> extends infer FnType extends TypedFunction
-
                             ? {
                                 __kind: "IT_Token";
                                 kind: "function";
                                 name: Trim<Name>;
                                 generics: Generics;
                                 parameters: Parameters;
-                                narrowing: false;
-                                returnToken: AsStaticTemplate<Trim<Rest>, TemplateMap__Generics<Generics>>;
-                                returnType: GetReturnType<Trim<Rest>, Generics>;
+                                narrowing: true;
+                                returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                                returnType: GetReturnType<Trim<ReturnToken>, Generics>;
                                 token: Trim<T>;
                                 type: FnType;
-                                isAsync: Extends<GetReturnType<Trim<Rest>, Generics>, Promise<any>>;
+                                isAsync: Extends<GetReturnType<Trim<ReturnToken>, Generics>, Promise<any>>;
                                 rest: "";
                             }
                             : never
                         : Err<
                             "malformed-token",
                             `After successfully parsing the parameters of a named function, the return type was unable to be parsed because we couldn't find the expected ':' character used to separate the parameters from the return type`,
-                            { token: T; rest: Trim<Rest>; parameter: Parameters; generics: Generics }
+                            { token: T; rest: Trim<AfterParams>; parameter: Parameters; generics: Generics }
                         >
                     : Err<
                         "malformed-token",
                         `Failed to parse the parameters of what appeared to be a named function!`,
-                        { token: T; rest: `<${Rest}`; attempt: IT_TakeParameters<`<${Rest}`> }
+                        { token: T; rest: `<${GenericsBlock}(${AfterParen}`; attempt: IT_TakeParameters<`<${GenericsBlock}(${AfterParen}`> }
                     >
-                : Err<
-                    "malformed-token",
-                `While attempting to parse what appeared to be a named function -- '${Trim<T>}' -- the name of the function ['${Trim<Name>}'] did NOT meet the requirement of being alphanumeric!`,
-                { token: T; name: Trim<Name>; rest: Trim<Rest> }
-                >
-
-            : Err<
-                "malformed-token",
-            `While attempting to parse what appeared to be a named function -- '${Trim<T>}' -- the name couldn't be identified`,
-            { token: T; rest: Trim<Rest> }
-            >
-    : Err<"wrong-handler">
+            // without generics
+            : Trim<Leading> extends infer Name extends string
+                ? Trim<Name> extends ""
+                    ? Err<"wrong-handler", `The function did not appear to have a name and therefore is not a named function.`, { token: T }>
+                    : IT_TakeParameters<`(${AfterParen}`> extends {
+                        parameters: infer Parameters extends readonly IT_Parameter[];
+                        generics: infer Generics extends readonly GenericParam[] | [];
+                        rest: infer AfterParams extends string;
+                    }
+                        ? Trim<AfterParams> extends `:${infer ReturnTok}`
+                            ? AsStaticTemplate<Trim<ReturnTok>, TemplateMap__Generics<Generics>> extends infer ReturnToken extends string
+                                ? FnFrom<CalcParams<Parameters>, GetReturnType<Trim<ReturnToken>, Generics>, EmptyObject> extends infer FnType extends TypedFunction
+                                    ? {
+                                        __kind: "IT_Token";
+                                        kind: "function";
+                                        name: Trim<Name>;
+                                        generics: Generics;
+                                        parameters: Parameters;
+                                        returnToken: ReturnToken;
+                                        returnType: GetReturnType<Trim<ReturnTok>, Generics>;
+                                        narrowing: false;
+                                        token: Trim<T>;
+                                        type: FnType & { name: Trim<Name> };
+                                        isAsync: Extends<FromInputToken<Trim<ReturnTok>>, Promise<any>>;
+                                        rest: "";
+                                    }
+                                    : never
+                                : never
+                            : Err<
+                                "malformed-token",
+                                `After successfully parsing the parameters of a named function, the return type was unable to be parsed because we couldn't find the expected ':' character used to separate the parameters from the return type`,
+                                { token: T; rest: Trim<AfterParams>; parameter: Parameters; generics: Generics }
+                            >
+                        : Err<
+                            "malformed-token",
+                            `Failed to parse the parameters of what appeared to be a named function!`,
+                            { token: T; rest: `(${AfterParen}`; attempt: IT_TakeParameters<`(${AfterParen}`> }
+                        >
+                : never
+        : Err<"wrong-handler">
+    : Err<"wrong-handler">;
 
 ;
 
@@ -237,7 +220,7 @@ type ArrowSyncFunction<T extends string> = IT_TakeParameters<T> extends infer P 
                         name: null;
                         generics: Generics;
                         parameters: Parameters;
-                        narrowing: false; // TODO (will use IsNarrowingFn<T>, where T is the type)
+                        narrowing: Generics extends [] ? false : true; // generics imply narrowing
                         isAsync: GetReturnType<Trim<ReturnToken>, Generics> extends Promise<any> ? true : false;
                         returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
                         returnType: GetReturnType<Trim<ReturnToken>, Generics>;
@@ -304,8 +287,8 @@ type Select<
  * For **Generator** functions use `IT_TakeGeneratorFunction`.
  */
 export type IT_TakeFunction<T extends string> = Select<[
-    T extends `function ${OptSpace}${AlphaChar}${string}${OptGenerics}(${string}):${string}` ? NamedSyncFunction<T> : Error,
-    T extends `async function ${OptSpace}${AlphaChar}${string}${OptGenerics}(${string}):${string}` ? NamedAsyncFunction<T> : Error,
+    T extends `function ${string}(${string}):${string}` ? NamedSyncFunction<T> : Error,
+    T extends `async function ${string}(${string}):${string}` ? NamedAsyncFunction<T> : Error,
     T extends `function ${OptGenerics}(${string}):${string}` ? AnonSyncFunction<T> : Error,
     T extends `async function ${OptGenerics}(${string}):${string}` ? AnonAsyncFunction<T> : Error,
     T extends `${OptGenerics}(${string}) => ${string}` ? ArrowSyncFunction<T> : Error,
