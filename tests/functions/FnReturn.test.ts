@@ -4,7 +4,7 @@ import {
     Test,
     FnReturn
 } from "inferred-types/types";
-import { FnReturns } from "types/runtime-types/type-defn/input-tokens";
+
 
 
 describe("FnReturn<TFn>", () => {

@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 import {
+    AlphanumericChar,
     Expect,
-    AlphaNumericChar,
     NumericChar,
     StripChars,
     Test
@@ -13,7 +13,7 @@ describe("StripChars<TContent,TStrip>", () => {
     it("Happy Path", () => {
         type NoChange = StripChars<"Hello World", NumericChar>;
         type StripNum = StripChars<"Hello6 World123", NumericChar>;
-        type NothingLeft = StripChars<"Hello World5", AlphaNumericChar | " ">;
+        type NothingLeft = StripChars<"Hello World5", AlphanumericChar | " ">;
 
         type cases = [
             Expect<Test<NoChange, "equals",  "Hello World">>,

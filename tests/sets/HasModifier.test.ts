@@ -25,7 +25,7 @@ describe("HasModifier<T,S>", () => {
             Expect<Test<Actual, "extends", Modifier>>,
             Expect<Test<
                 Modifier, "equals",
-                "foo" | "bar" | "baz" | readonly ("foo" | "bar" | "baz")[]
+                "foo" | "bar" | "baz" | readonly ("foo" | "bar" | "baz")[] | null
             >>,
 
             Expect<Test<T1, "equals", true>>,

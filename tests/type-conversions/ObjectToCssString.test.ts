@@ -21,7 +21,7 @@ describe("ObjectToCssString<T>", () => {
         type cases = [
             Expect<Test<Empty, "equals", "{}">>,
             Expect<Test<ExplicitlyEmpty, "equals", "{}">>,
-            Expect<Test<Obj, "equals", "{  }">>,
+            Expect<Test<Obj, "equals", string>>,
 
             Expect<Test<FooBar, "containsAll", [ "foo: 1", "bar: 2"]>>,
             Expect<Test<FooBar, "extends", `{${string}}`>>,

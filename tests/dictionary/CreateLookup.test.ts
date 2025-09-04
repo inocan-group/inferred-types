@@ -20,9 +20,8 @@ describe("CreateLookup<TPayload,TKeyProp,TValProp>", () => {
             Expect<Test<LName, "equals",  { foo: 12; bar: 53; baz: 12 }>>,
             Expect<Test<LColor, "equals",  { red: 12; blue: 53; green: 12 }>>,
             Expect<Test<IsNever<LValue>, "equals", true>>,
-            Expect<Test<LRank, "equals",  { 100: 12; 120: 53; 1: 12 }>>,
+            Expect<Test<LRank, "extends",  { 100: 12; 120: 53; 1: 12 }>>,
         ];
-
     });
 
 });

@@ -9,7 +9,7 @@ import {
 
 
 type FooBar = { foo: 42; bar: number };
-type FooBarExt = { foo: 42; bar: number;[key: string]: unknown };
+type FooBarExt = { foo: 42; bar: number; [key: string]: unknown };
 
 describe("IndexableObject and IndexedObject", () => {
     type Generic = { [key: string]: unknown };

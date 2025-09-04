@@ -3,6 +3,7 @@ import type {
     AsString,
     Dictionary,
     ExplicitlyEmptyObject,
+    IsWideObject,
     Join,
     Keys,
     KeyValue,
@@ -34,12 +35,13 @@ type Process<
 export type ObjectToCssString<
     TObj extends object,
     TExpand extends boolean = false,
-> = Or<[
-    TObj extends ExplicitlyEmptyObject ? true : false,
-    Keys<TObj>["length"] extends 0 ? true : false
-]> extends true
+> = Keys<TObj>["length"] extends 0
+? "{}"
+: IsWideObject<TObj> extends true
+    ? string
+: TObj extends ExplicitlyEmptyObject
     ? "{}"
-    : Process<ToKv<As<TObj, Dictionary>>, false> extends infer P extends string
+: Process<ToKv<As<TObj, Dictionary>>, false> extends infer P extends string
         ? Surround<
             P,
             TExpand extends false ? "{ " : "{",

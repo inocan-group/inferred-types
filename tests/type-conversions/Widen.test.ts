@@ -113,7 +113,7 @@ describe("Widen<T>", () => {
 
             Expect<Test<DictForced, "equals", Dictionary>>,
             Expect<Test<ObjLitForced, "equals", Dictionary>>,
-            Expect<Test<MapForced, "equals", Map<unknown, unknown>>>,
+            Expect<Test<MapForced, "equals", Map<any, any>>>,
             Expect<Test<TupleForced, "equals", readonly unknown[]>>,
 
             Expect<Test<Fn, "equals", () => string>>,

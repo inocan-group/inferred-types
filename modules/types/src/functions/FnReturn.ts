@@ -87,7 +87,9 @@ export type FnReturn<
     ? Similar<TFn, Parameters<TFn>>
     : IsTemplateLiteral<ReturnType<TFn>> extends true
         ? Parameters<TFn>["length"] extends 1
-            ? FillStringHole<ReturnType<TFn>, ArgUnion<TFn>[0]>
+            ? ReturnType<TFn> extends string
+                ? FillStringHole<ReturnType<TFn>, ArgUnion<TFn>[0]>
+                : ReturnType<TFn>
             : ReturnType<TFn>
         : ReturnType<TFn>;
 

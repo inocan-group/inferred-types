@@ -2,17 +2,17 @@ import { describe, it } from "vitest";
 import {
     Expect,
     AlphaChar,
-    AlphaNumericChar,
     NumericChar,
     RetainChars,
-    Test
+    Test,
+    AlphanumericChar
 } from "inferred-types/types";
 
 describe("RetainChars<TContent,TStrip>", () => {
 
     it("Happy Path", () => {
         type Nada = RetainChars<"Hello World", NumericChar>;
-        type NoChange = RetainChars<"Hello World", AlphaNumericChar | " ">;
+        type NoChange = RetainChars<"Hello World", AlphanumericChar | " ">;
         type RemoveNum = RetainChars<"Hello World5", AlphaChar | " ">;
 
         type cases = [

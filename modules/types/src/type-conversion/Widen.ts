@@ -31,7 +31,7 @@ import type {
     TypedFunction,
     UnionToTuple,
 } from "inferred-types/types";
-import type { } from "types/functions/OnlyFnProps";
+
 
 /**
  * **WidenScalar**`<T>`
