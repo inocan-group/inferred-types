@@ -30,7 +30,7 @@ type ReplaceChildMarkers<
         : // no placeholder found; append remaining reconstructed children (fallback)
           `${TContent}${JoinChildren<TChildren>}`
     : // no more children; strip any remaining placeholders
-      ReplaceAll<TContent, "{{child}}", "">;
+    ReplaceAll<TContent, "{{child}}", "">;
 
 /**
  * Joins multiple children by reconstructing each with enter/exit chars

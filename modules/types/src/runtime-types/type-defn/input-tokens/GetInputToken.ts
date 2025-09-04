@@ -14,6 +14,7 @@ import type {
     IT_TakeKvObjects,
     IT_TakeLiteralArray,
     IT_TakeNumericLiteral,
+    IT_TakeObjectLiteral,
     IT_TakeOutcome,
     IT_TakePromise,
     IT_TakeSet,
@@ -195,6 +196,15 @@ type Iterate<
                                                                                 [...TTypes, Success],
                                                                                 TCombinator
                                                                             >
+                                                                    // object literals
+                                                                    : Process<IT_TakeObjectLiteral<TTrim>> extends infer E extends Error
+                                                                        ? E // fast fail
+                                                                        : Process<IT_TakeObjectLiteral<TTrim>> extends (infer Success extends IT_Token)
+                                                                            ? Iterate<
+                                                                                Success["rest"],
+                                                                                [...TTypes, Success],
+                                                                                TCombinator
+                                                                            >
                                                                             // take grouped expression
                                                                             : Process<IT_TakeGroup<TTrim>> extends infer E extends Error
                                                                                 ? E // fast fail
@@ -205,31 +215,30 @@ type Iterate<
                                                                                         TCombinator
                                                                                     >
 
-                                                                            // take intersection
-                                                                            : Process<IT_TakeIntersection<Last<TTypes, undefined>, TTrim>> extends infer E extends Error
-                                                                                ? E // fast fail
-                                                                                : Process<IT_TakeIntersection<Last<TTypes, undefined>, TTrim>> extends (infer Success extends IT_Token)
-                                                                                    ? Iterate<
-                                                                                        Success["rest"],
-                                                                                        [
-                                                                                            ...Pop<TTypes>,
-                                                                                            Success
-                                                                                        ],
-                                                                                        TCombinator
-                                                                                    >
+                                                                                // take intersection
+                                                                                    : Process<IT_TakeIntersection<Last<TTypes, undefined>, TTrim>> extends infer E extends Error
+                                                                                        ? E // fast fail
+                                                                                        : Process<IT_TakeIntersection<Last<TTypes, undefined>, TTrim>> extends (infer Success extends IT_Token)
+                                                                                            ? Iterate<
+                                                                                                Success["rest"],
+                                                                                                [
+                                                                                                    ...Pop<TTypes>,
+                                                                                                    Success
+                                                                                                ],
+                                                                                                TCombinator
+                                                                                            >
 
+                                                                                            : TTrim extends `|${infer Rest extends string}`
+                                                                                                ? Iterate<Rest, TTypes, "union">
 
-                                                                            : TTrim extends `|${infer Rest extends string}`
-                                                                                ? Iterate<Rest, TTypes, "union">
+                                                                                                : Length<TTypes> extends 0
+                                                                                                    ? Err<
+                                                                                                        "unparsed",
+                                                                                                        `The token string was unable to be parsed! No parsing has taken place.`
+                                                                                                    >
 
-                                                                                : Length<TTypes> extends 0
-                                                                                    ? Err<
-                                                                                        "unparsed",
-                                                                                        `The token string was unable to be parsed! No parsing has taken place.`
-                                                                                    >
-
-                                                                                    : Err<
-                                                                                        "incomplete-parse",
+                                                                                                    : Err<
+                                                                                                        "incomplete-parse",
     `The token string was not fully parsed; the text '${TTrim}' remains unparsed`,
     {
         underlying: TTypes;
@@ -249,7 +258,7 @@ type Iterate<
         rest: TTrim;
         combinator: TCombinator;
     }
-                                                                                    >;
+                                                                                                    >;
 
 /**
  * **GetInputToken**`<T>`

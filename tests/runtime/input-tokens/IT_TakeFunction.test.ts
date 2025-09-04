@@ -209,6 +209,7 @@ describe("IT_TakeFunction<T>", () => {
             // first parses group (which includes function), then intersects
             // with key value object.
             type T3 = GetInputToken<Fn1>;
+            type T3Type = T3["type"];
 
             type cases = [
                 // because our function is wrapped in parenthesis we must
@@ -224,6 +225,7 @@ describe("IT_TakeFunction<T>", () => {
                 Expect<Test<T2["type"], "equals", <T extends readonly [string]>(...args: T) => string>>,
                 Expect<Test<T2["rest"], "equals", "& { foo: 1; bar: 2 }">>,
 
+                Expect<Test<T3, "extends", IT_Token<"intersection">>>,
                 Expect<Test<T3["type"], "equals", (
                     <T extends readonly [string]>(...args: T) => string
                 ) & { foo: 1; bar: 2}>>

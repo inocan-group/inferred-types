@@ -6,7 +6,6 @@ import type {
     InputTokenSuggestions,
     SafeEncode,
     Surround,
-    ToJson,
     ToJsonObject
 } from "inferred-types/types";
 
@@ -52,4 +51,3 @@ export type AsOutputToken<T extends InputToken> = T extends string
         : T extends readonly InputTokenSuggestions[]
             ? IT_TupleToOutputToken<T>
             : never;
-

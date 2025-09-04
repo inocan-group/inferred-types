@@ -129,10 +129,10 @@ describe("FromInputToken<Token>", () => {
 
     it("named function", () => {
         type F = FromInputToken<
-            "foo(name: string, age: number, color: String(red) | String(blue)) => string"
+            "function foo(name: string, age: number, color: 'red' | 'blue'): string"
         >;
         type FN = FromInputToken<
-            "foo(name: string, age: number, color: String(red) | String(blue)) -> string"
+            "function foo(name: string, age: number, color: 'red' | 'blue'): string"
         >;
 
         type cases = [
@@ -154,7 +154,7 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<
                 F,
                 "equals",
-                ((args_0: string, args_1: number, args_2: "red" | "blue") => string) & {
+                (<T extends readonly [string, number, "red" | "blue"]>(...args: T) => string) & {
                     name: "foo";
                 }
             >>,
@@ -170,10 +170,10 @@ describe("FromInputToken<Token>", () => {
 
     it("named async function", () => {
         type F = FromInputToken<
-            "async foo(name: string, age: number, color: String(red) | String(blue)) => string"
+            "async function foo(name: string, age: number, color: 'red' | 'blue'): string"
         >;
         type FN = FromInputToken<
-            "async foo(name: string, age: number, color: String(red) | String(blue)) -> string"
+            "async function foo(name: string, age: number, color: 'red' | 'blue'): string"
         >;
 
         type cases = [

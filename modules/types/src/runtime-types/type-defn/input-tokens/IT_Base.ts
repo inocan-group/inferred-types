@@ -1,4 +1,4 @@
-import type { GenericParam, IsDictionary, IsUnion } from "inferred-types/types";
+import type { GenericParam, IsDictionary, IsUnion, KeyValue } from "inferred-types/types";
 
 export type IT_TakeKind
 = | "atomic"
@@ -12,7 +12,8 @@ export type IT_TakeKind
 | "function"
 | "generator"
 | "promise"
-| "literal-array";
+| "literal-array"
+| "object-literal";
 
 export type IT_Combinators
 = | "union"
@@ -86,11 +87,17 @@ export interface IT_Token_Atomic extends IT_Token_Base<"atomic"> {};
 export interface IT_Token_Promise extends IT_Token_Base<"promise"> {};
 export interface IT_Token_Set extends IT_Token_Base<"set"> {};
 export interface IT_Token_Group extends IT_Token_Base<"group"> {
-    underlying: IT_Token
+    underlying: IT_Token;
 };
 export interface IT_Token_Literal extends IT_Token_Base<"literal"> {};
 export interface IT_Token_Array extends IT_Token_Base<"array"> {};
 export interface IT_Token_Literal_Array extends IT_Token_Base<"literal-array"> {};
+export interface IT_Token_Object_Literal extends IT_Token_Base<"object-literal"> {
+    /**
+     * A tuple of `KeyValue` elements which define the object literal.
+     */
+    keyValues: readonly KeyValue[];
+};
 
 export interface IT_Token_Union extends IT_Token_Base<"union"> {
     /** all members of the union */
@@ -98,7 +105,7 @@ export interface IT_Token_Union extends IT_Token_Base<"union"> {
 };
 export interface IT_Token_Intersection extends IT_Token_Base<"intersection"> {
     /** all members of the intersection type */
-    members: readonly IT_Token[];
+    members: readonly unknown[];
 };
 
 export interface IT_Token_Kv extends IT_Token_Base<"kv"> {
@@ -167,17 +174,19 @@ export type IT_Token<T extends IT_TakeKind = IT_TakeKind> = IsUnion<T> extends t
                         ? IT_Token_Group
                         : T extends "literal-array"
                             ? IT_Token_Literal_Array
-                            : T extends "array"
-                                ? IT_Token_Array
-                                : T extends "union"
-                                    ? IT_Token_Union
-                                    : T extends "function"
-                                        ? IT_Token_Function
-                                        : T extends "promise"
-                                            ? IT_Token_Promise
-                                            : T extends "intersection"
-                                                ? IT_Token_Intersection
-                                                : never;
+                            : T extends "object-literal"
+                                ? IT_Token_Object_Literal
+                                : T extends "array"
+                                    ? IT_Token_Array
+                                    : T extends "union"
+                                        ? IT_Token_Union
+                                        : T extends "function"
+                                            ? IT_Token_Function
+                                            : T extends "promise"
+                                                ? IT_Token_Promise
+                                                : T extends "intersection"
+                                                    ? IT_Token_Intersection
+                                                    : never;
 
 /**
  * a validation utility to make sure `T` is of the type `IT_TakeSuccess`

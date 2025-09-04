@@ -1,4 +1,4 @@
-import { As, Err, GetInputToken, InputToken, IT_TakeOutcome, IT_Token, Join, NestedSplit, Trim } from "inferred-types/types";
+import type { As, Err, GetInputToken, IT_TakeOutcome, IT_Token, Join, NestedSplit, Trim } from "inferred-types/types";
 
 /**
  * **IT_TakeGroup**`<T>`
@@ -25,24 +25,22 @@ export type IT_TakeGroup<T extends string> = As<
                 >
                 : GetInputToken<Trim<Block>> extends infer IToken extends IT_Token
 
-                ? As<{
+                    ? As<{
                         __kind: "IT_Token";
                         kind: "group";
-                        token: Trim<Block>;
+                        token: `(${Trim<Block>})`;
                         underlying: IToken;
-                        type: IToken["type"];
+                        type: ( IToken["type"] );
                         rest: Trim<Join<Rest, ")">>;
-                    },
-                    IT_Token<"group">
-                >
-                : never
-        : Err<
+                    }, IT_Token<"group">>
+                    : never
+            : Err<
                 `malformed-handler/group`,
                 `The IT_TakeGroup failed to find the terminating ')' character in: '${Trim<Rest>}'`,
                 {
                     group: Trim<Rest>;
                 }
-        >
-    : Err<`wrong-handler`>,
+            >
+        : Err<`wrong-handler`>,
     IT_TakeOutcome<"group">
 >;

@@ -17,6 +17,7 @@ export * from "./IT_TakeGroup";
 export * from "./IT_TakeIntersection";
 export * from "./IT_TakeKvObjects";
 export * from "./IT_TakeNumericLiteral";
+export * from "./IT_TakeObjectLiteral";
 export * from "./IT_TakeParameters";
 export * from "./IT_TakePromise";
 export * from "./IT_TakeSet";

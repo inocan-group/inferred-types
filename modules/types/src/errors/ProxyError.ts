@@ -19,4 +19,3 @@ export type ProxyErr<
         MergeObjects<TElse, TError & Error & Dictionary>
     >, TypedError>
     : TElse;
-

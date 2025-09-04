@@ -9,7 +9,7 @@ import type {
     TwoDigitMonth,
     TwoDigitSecond,
 } from "types/datetime/general";
-import { UnbrandValues } from "types/literals/branding/UnbrandValues";
+import type { UnbrandValues } from "types/literals/branding/UnbrandValues";
 
 /**
  * a property of `DateMeta`

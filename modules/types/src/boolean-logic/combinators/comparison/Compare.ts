@@ -23,6 +23,7 @@ import type {
     IsBetweenExclusively,
     IsBetweenInclusively,
     IsDictionary,
+    IsEqual,
     IsError,
     IsFalse,
     IsFalsy,
@@ -50,8 +51,7 @@ import type {
     Suggest,
     TupleToUnion,
     TypedFunction,
-    Unset,
-    IsEqual
+    Unset
 } from "inferred-types/types";
 
 /**
@@ -191,7 +191,7 @@ type Process__General<
                         ? false // If TVal is incompatible with true, it definitely isn't true
                         : IsTrue<TVal>
 
-                : TOp extends "truthy"
+                    : TOp extends "truthy"
                         ? IsTruthy<TVal>
 
                         : TOp extends "equalsSome"

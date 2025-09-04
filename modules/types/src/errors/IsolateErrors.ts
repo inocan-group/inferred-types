@@ -1,4 +1,4 @@
-import { As, Container, Dictionary, Err, Values } from "inferred-types/types";
+import type { As, Container, Dictionary, Err, Values } from "inferred-types/types";
 
 /**
  * The results produced by the `IsolateErrors<T,U>` utility
@@ -7,8 +7,7 @@ export type IsolatedResults = {
     successes: readonly unknown[];
     errors: readonly Error[];
     otherErrors: readonly Error[];
-}
-
+};
 
 type CheckArray<
     T extends readonly unknown[],
@@ -66,7 +65,6 @@ type CheckDictionary<T extends Dictionary, U extends string | undefined> = Check
     U
 >;
 
-
 /**
  * **IsolateErrors**`<T>`
  *
@@ -81,7 +79,7 @@ export type IsolateErrors<
     T extends Container,
     U extends string | undefined = undefined
 > = T extends readonly unknown[]
-? CheckArray<T,U>
-: T extends Dictionary
-? CheckDictionary<T,U>
-: never ;
+    ? CheckArray<T, U>
+    : T extends Dictionary
+        ? CheckDictionary<T, U>
+        : never;

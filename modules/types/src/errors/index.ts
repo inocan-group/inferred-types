@@ -5,4 +5,3 @@ export * from "./HasErrors";
 export * from "./IsolateErrors";
 export * from "./ProxyError";
 export * from "./StackTrace";
-

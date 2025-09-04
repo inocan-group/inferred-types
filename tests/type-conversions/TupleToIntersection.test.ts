@@ -67,6 +67,4 @@ describe("TupleToIntersection<T,[E]>", () => {
     });
 
 
-
-
 });

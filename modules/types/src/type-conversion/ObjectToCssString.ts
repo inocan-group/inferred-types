@@ -13,9 +13,7 @@ import type {
 
 type Prefix<T extends boolean> = As<T extends true
     ? "\n  "
-    : "",
-    string
->;
+    : "", string>;
 
 type Process<
     T extends readonly KeyValue[],
@@ -43,7 +41,7 @@ export type ObjectToCssString<
     ? "{}"
     : Process<ToKv<As<TObj, Dictionary>>, false> extends infer P extends string
         ? Surround<
-            P ,
+            P,
             TExpand extends false ? "{ " : "{",
             TExpand extends false ? " }" : "\n}"
         >
