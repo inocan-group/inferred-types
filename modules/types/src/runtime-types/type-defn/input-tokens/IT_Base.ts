@@ -86,7 +86,7 @@ export interface IT_Token_Atomic extends IT_Token_Base<"atomic"> {};
 export interface IT_Token_Promise extends IT_Token_Base<"promise"> {};
 export interface IT_Token_Set extends IT_Token_Base<"set"> {};
 export interface IT_Token_Group extends IT_Token_Base<"group"> {
-    combinator: IT_Combinators | "none";
+    underlying: IT_Token
 };
 export interface IT_Token_Literal extends IT_Token_Base<"literal"> {};
 export interface IT_Token_Array extends IT_Token_Base<"array"> {};
@@ -94,6 +94,10 @@ export interface IT_Token_Literal_Array extends IT_Token_Base<"literal-array"> {
 
 export interface IT_Token_Union extends IT_Token_Base<"union"> {
     /** all members of the union */
+    members: readonly IT_Token[];
+};
+export interface IT_Token_Intersection extends IT_Token_Base<"intersection"> {
+    /** all members of the intersection type */
     members: readonly IT_Token[];
 };
 
@@ -171,7 +175,9 @@ export type IT_Token<T extends IT_TakeKind = IT_TakeKind> = IsUnion<T> extends t
                                         ? IT_Token_Function
                                         : T extends "promise"
                                             ? IT_Token_Promise
-                                            : never;
+                                            : T extends "intersection"
+                                                ? IT_Token_Intersection
+                                                : never;
 
 /**
  * a validation utility to make sure `T` is of the type `IT_TakeSuccess`

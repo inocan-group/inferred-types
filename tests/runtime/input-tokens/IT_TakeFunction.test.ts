@@ -4,6 +4,8 @@ import {
     Test,
     IT_Token_Function,
     IT_Token,
+    GetInputToken,
+    IT_TakeGroup,
 } from "inferred-types/types";
 import { IT_TakeFunction } from "types/runtime-types/type-defn/input-tokens/IT_TakeFunction";
 
@@ -34,14 +36,18 @@ describe("IT_TakeFunction<T>", () => {
                 Expect<Test<T1["name"], "equals", null>>,
                 Expect<Test<T1["token"], "equals", `(name: string) => "hi"`>>,
                 Expect<Test<T1["returnToken"], "equals", `"hi"`>>,
+                Expect<Test<T1["returnType"], "equals", "hi">>,
                 Expect<Test<T1["rest"], "equals", "">>,
+                Expect<Test<T1["type"], "equals", <T extends readonly [string]>(...args: T) => "hi" >>,
 
                 // Fn2 is an explicit asynchronous function (using "async" keyword)
                 Expect<Test<T2["kind"], "equals", "function">>,
                 Expect<Test<T2["name"], "equals", null>>,
                 Expect<Test<T2["token"], "equals", `async (name: string) => Promise<"hi">`>>,
                 Expect<Test<T2["returnToken"], "equals", `Promise<"hi">`>>,
+                Expect<Test<T2["returnType"], "equals", Promise<"hi">>>,
                 Expect<Test<T2["rest"], "equals", "">>,
+                Expect<Test<T2["type"], "equals", <T extends readonly [string]>(...args: T) => Promise<"hi"> >>,
 
                 // Fn3 is a sync arrow function that returns Promise
                 Expect<Test<T3["kind"], "equals", "function">>,
@@ -49,6 +55,7 @@ describe("IT_TakeFunction<T>", () => {
                 Expect<Test<T3["token"], "equals", `(name: string) => Promise<"hi">`>>,
                 Expect<Test<T3["returnToken"], "equals", `Promise<"hi">`>>,
                 Expect<Test<T3["rest"], "equals", "">>,
+                Expect<Test<T3["type"], "equals", <T extends readonly [string]>(...args: T) => Promise<"hi"> >>
             ];
         });
 
@@ -88,8 +95,8 @@ describe("IT_TakeFunction<T>", () => {
                 Expect<Test<T1["returnToken"], "equals", "string">>,
                 Expect<Test<T1["returnType"], "equals", string>>,
                 Expect<Test<T1["isAsync"], "equals", false>>,
-
-
+                Expect<Test<T1["type"], "equals", <T extends readonly [unknown]>(...args: T) => string>>,
+                Expect<Test<T1["type"], "extends", <T>(value: T) => string>>,
 
                 // Fn2 is generic async arrow function
                 Expect<Test<A1["kind"], "equals", "function">>,
@@ -124,6 +131,9 @@ describe("IT_TakeFunction<T>", () => {
                 Expect<Test<T1["returnToken"], "equals", "string">>,
                 Expect<Test<T1["returnType"], "equals", string>>,
                 Expect<Test<T1["isAsync"], "equals", false>>,
+                Expect<Test<T1["type"], "equals", (<T extends readonly [string]>(...args: T) => string) & {
+                    name: "greet";
+                }>>,
 
                 // Fn2 is generic named sync function
                 Expect<Test<T2["kind"], "equals", "function">>,
@@ -170,7 +180,7 @@ describe("IT_TakeFunction<T>", () => {
 
     describe("anonymous functions", () => {
 
-        it("synchronous anonymous functions", () => {
+        it("synchronous functions", () => {
             type Fn1 = `function (name: string): string`
             type T1 = IT_TakeFunction<Fn1>;
 
@@ -182,21 +192,58 @@ describe("IT_TakeFunction<T>", () => {
                 Expect<Test<T1["name"], "equals", null>>,
                 Expect<Test<T1["narrowing"], "equals", false>>,
                 Expect<Test<T1["returnToken"], "equals", "string">>,
+                Expect<Test<T1["returnType"], "equals", string>>,
+                Expect<Test<T1["type"], "equals", <T extends readonly [string]>(...args: T) => string>>,
             ];
         });
 
-        it("asynchronous anonymous functions", () => {
+        // The IT_TakeFunction is the wrong handler when a function is
+        // surrounded by parenthesis so we need to parse with
+        // IT_TakeGroup<T> to work inside the parenthesis on the function
+        // and then at a more macro level `GetInputToken<T>` will call both
+        // IT_TakeGroup<T>, IT_TakeObject<T>, and then IT_Intersect<T>
+        it("synchronous function with key value pairs", () => {
+            type Fn1 = `(function (name: string): string) & { foo: 1; bar: 2 }`;
+            type T1 = IT_TakeFunction<Fn1>;
+            type T2 = IT_TakeGroup<Fn1>;
+            // first parses group (which includes function), then intersects
+            // with key value object.
+            type T3 = GetInputToken<Fn1>;
+
+            type cases = [
+                // because our function is wrapped in parenthesis we must
+                // call `IT_TakeGroup<T>` to work inside the parenthesis
+                // so a direct call to `IT_TakeFunction<T>` results in an
+                // error
+                Expect<Test<T1, "isError", "wrong-handler">>,
+
+                // By using IT_TakeGroup<T> we parse the function definition
+                // which resides inside the parenthesis and retain the
+                // intersection with the key/value object as remaining text
+                // to be parsed
+                Expect<Test<T2["type"], "equals", <T extends readonly [string]>(...args: T) => string>>,
+                Expect<Test<T2["rest"], "equals", "& { foo: 1; bar: 2 }">>,
+
+                Expect<Test<T3["type"], "equals", (
+                    <T extends readonly [string]>(...args: T) => string
+                ) & { foo: 1; bar: 2}>>
+
+            ];
+        });
+
+
+        it("asynchronous functions", () => {
             type Fn1 = `async function (url: string): Promise<string>`
             type T1 = IT_TakeFunction<Fn1>;
 
             type cases = [
                 Expect<Test<T1, "extends", IT_Token_Function>>,
-
-                // Fn1 is async anonymous function
                 Expect<Test<T1["kind"], "equals", "function">>,
                 Expect<Test<T1["name"], "equals", null>>,
                 Expect<Test<T1["narrowing"], "equals", false>>,
                 Expect<Test<T1["returnToken"], "equals", "Promise<string>">>,
+                Expect<Test<T1["returnType"], "equals", Promise<string>>>,
+                Expect<Test<T1["type"], "equals", <T extends readonly [string]>(...args: T) => Promise<string>>>,
             ];
         });
 

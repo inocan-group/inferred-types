@@ -9,7 +9,7 @@ import type {
 
 type Test<
     T extends readonly unknown[]
-> = T extends [infer Head, ...infer Rest]
+> = T extends readonly [infer Head, ...infer Rest]
     ? IsFalse<Head> extends true
         ? true
         : Test<Rest>

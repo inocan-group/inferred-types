@@ -9,6 +9,8 @@ import type {
     IT_TakeArray,
     IT_TakeAtomic,
     IT_TakeFunction,
+    IT_TakeGroup,
+    IT_TakeIntersection,
     IT_TakeKvObjects,
     IT_TakeLiteralArray,
     IT_TakeNumericLiteral,
@@ -18,7 +20,9 @@ import type {
     IT_TakeStringLiteral,
     IT_Token,
     Join,
+    Last,
     Length,
+    Pop,
     Trim,
     TupleToIntersection
 } from "inferred-types/types";
@@ -182,6 +186,7 @@ type Iterate<
                                                                         [...TTypes, Success],
                                                                         TCombinator
                                                                     >
+                                                                    // literal arrays
                                                                     : Process<IT_TakeLiteralArray<TTrim>> extends infer E extends Error
                                                                         ? E // fast fail
                                                                         : Process<IT_TakeLiteralArray<TTrim>> extends (infer Success extends IT_Token)
@@ -190,6 +195,29 @@ type Iterate<
                                                                                 [...TTypes, Success],
                                                                                 TCombinator
                                                                             >
+                                                                            // take grouped expression
+                                                                            : Process<IT_TakeGroup<TTrim>> extends infer E extends Error
+                                                                                ? E // fast fail
+                                                                                : Process<IT_TakeGroup<TTrim>> extends (infer Success extends IT_Token)
+                                                                                    ? Iterate<
+                                                                                        Success["rest"],
+                                                                                        [...TTypes, Success],
+                                                                                        TCombinator
+                                                                                    >
+
+                                                                            // take intersection
+                                                                            : Process<IT_TakeIntersection<Last<TTypes, undefined>, TTrim>> extends infer E extends Error
+                                                                                ? E // fast fail
+                                                                                : Process<IT_TakeIntersection<Last<TTypes, undefined>, TTrim>> extends (infer Success extends IT_Token)
+                                                                                    ? Iterate<
+                                                                                        Success["rest"],
+                                                                                        [
+                                                                                            ...Pop<TTypes>,
+                                                                                            Success
+                                                                                        ],
+                                                                                        TCombinator
+                                                                                    >
+
 
                                                                             : TTrim extends `|${infer Rest extends string}`
                                                                                 ? Iterate<Rest, TTypes, "union">

@@ -37,10 +37,12 @@ describe("And<T>", () => {
     it("boolean outcome", () => {
         type B1 = And<[boolean]>;
         type B2 = And<[true, true, boolean]>;
+        type B3 = And<readonly [true, boolean]>;
 
         type cases = [
             Expect<Test<B1, "equals", boolean>>,
             Expect<Test<B2, "equals", boolean>>,
+            Expect<Test<B3, "equals", boolean>>,
         ];
     });
 
@@ -50,6 +52,7 @@ describe("And<T>", () => {
         type T3 = And<[() => true]>; // true
         type T4 = And<[() => true, true, () => true]>; // true
         type T5 = And<[() => true, () => boolean, () => true]>; // boolean
+        type T6 = And<readonly [() => true, () => false]>; // false
 
         type cases = [
             Expect<Test<T1, "equals",  false>>, //
@@ -57,6 +60,7 @@ describe("And<T>", () => {
             Expect<Test<T3, "equals",  true>>,
             Expect<Test<T4, "equals",  true>>,
             Expect<Test<T5, "equals",  boolean>>,
+            Expect<Test<T6, "equals",  false>>,
         ];
     });
 

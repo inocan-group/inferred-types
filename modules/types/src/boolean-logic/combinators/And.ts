@@ -49,34 +49,34 @@ export type And<
                 ? Err<"invalid/and", "The And<T> logical combinator has a 'never' type! And is expecting a tuple of boolean values (or functions which return boolean).", { library: "inferred-types" }>
                 : false
         // Handle invalid array element types
-            : HasAny<T> extends true
+            : HasAny<[...T]> extends true
                 ? TOpt extends { err: "error" }
                     ? Err<"invalid/and", "The And<T> found elements in T which were the 'any' type! And<T> expects all elements to be a boolean value or a function which returns a boolean value.", { value: T; library: "inferred-types" }>
                     : false
-                : HasNever<T> extends true
+                : HasNever<[...T]> extends true
                     ? TOpt extends { err: "error" }
                         ? Err<"invalid/and", "The And<T> found elements in T which were the 'never' type! And<T> expects all elements to be a boolean value or a function which returns a boolean value.", { value: T; library: "inferred-types" }>
                         : false
                 // Handle valid boolean/function arrays
-                    : T extends readonly (boolean | TypedFunction)[]
+                    : [[...T]] extends [readonly (boolean | TypedFunction)[]]
                     // Handle wide arrays (unknown length at compile time)
                         ? number extends T["length"]
                             ? boolean
                         // Handle empty arrays
-                            : [] extends T
+                            : [[]] extends [[...T]]
                                 ? TOpt extends { empty: infer E } ? E : false
                             // Process the array (reduce functions to booleans if needed)
-                                : T extends readonly boolean[]
+                                : [[...T]] extends [readonly boolean[]]
                                     ? HasFalse<T> extends true
                                         ? false
                                         : HasWideBoolean<T> extends true
                                             ? boolean
                                             : true
                                 // Handle arrays with functions
-                                    : Reduce<T> extends readonly boolean[]
-                                        ? HasFalse<Reduce<T>> extends true
+                                    : Reduce<[...T]> extends readonly boolean[]
+                                        ? HasFalse<Reduce<[...T]>> extends true
                                             ? false
-                                            : HasWideBoolean<Reduce<T>> extends true
+                                            : HasWideBoolean<Reduce<[...T]>> extends true
                                                 ? boolean
                                                 : true
                                         : TOpt extends { err: "error" }
