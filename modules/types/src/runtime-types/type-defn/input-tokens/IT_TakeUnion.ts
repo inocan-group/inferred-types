@@ -30,6 +30,12 @@ T extends [ infer Head extends string, ...infer Rest extends readonly string[] ]
 readonly IT_Token[] | Error
 >;
 
+type ParsePartTypes<
+    T extends readonly string[]
+> = As<{
+    [K in keyof T]: FromInputToken__String<Trim<T[K]>>
+}, readonly unknown[]>;
+
 
 type Parse<
     TToken extends IT_Token,
@@ -62,7 +68,7 @@ TParts extends Error
                         ], " | ">;
                         type: TupleToUnion<[
                                 TToken["type"],
-                                ...As<GetEach<ParseParts<TParts>, "type">, readonly unknown[]>
+                                ...ParsePartTypes<TParts>
                             ]>
                         rest: "";
                         members: [
@@ -121,4 +127,3 @@ TParse extends `|${infer Rest extends string}`
 : Err<"wrong-handler/union", `The union handler only takes parse strings which start with '|'`>,
 IT_TakeOutcome<"union">
 >
-

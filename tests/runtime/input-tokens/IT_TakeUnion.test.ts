@@ -33,6 +33,16 @@ describe("IT_TakeUnion", () => {
         ];
     });
 
+    it("union member can be an intersection", () => {
+        type Token = GetInputToken<"string">;
+        type Union = IT_TakeUnion<Token, "| number & boolean">;
+
+        type cases = [
+            Expect<Test<Union, "extends", IT_Token<"union">>>,
+            Expect<Test<Union["type"], "equals", string>>,
+        ];
+    });
+
 
     it("leading | character", () => {
         type Union = IT_TakeUnion<undefined, "| number">;

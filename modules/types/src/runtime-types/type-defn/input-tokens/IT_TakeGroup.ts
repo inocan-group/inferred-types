@@ -46,16 +46,9 @@ export type IT_TakeGroup<T extends string> = As<
                                 rest: Trim<Join<Rest, ")">>;
                             }, IT_Token<"group">>
                 : never // Block/Rest will always resolve
-        : Err<
-            `malformed-token/group`,
-            `The IT_TakeGroup failed to find the terminating ')' character in: '${Trim<T>}'`,
-            {
-                token: T;
-            }
-        >
+        : Err<`wrong-handler/group`>
     : Err<`wrong-handler/group`>
     : never,
     IT_TakeOutcome<"group">
 >;
-
 
