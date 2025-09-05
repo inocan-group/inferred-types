@@ -95,17 +95,23 @@ type TakeParameters<
         infer Block extends string,
         infer Rest extends string
     ]
-        ? NestedSplit<Block, ","> extends infer KV extends readonly string[]
+        ? Trim<Block> extends ""
             ? {
-                parameters: AsParameters<KV, P>;
+                parameters: [];
                 generics: P;
                 rest: Rest;
             }
-            : Err<
-                "malformed-token",
-            `The function's parameter block -- ${Block} -- was not able to be parsed!`,
-            { token: T; block: Block; rest: Rest; generics: P }
-            >
+            : NestedSplit<Block, ","> extends infer KV extends readonly string[]
+                ? {
+                    parameters: AsParameters<KV, P>;
+                    generics: P;
+                    rest: Rest;
+                }
+                : Err<
+                    "malformed-token",
+                `The function's parameter block -- ${Block} -- was not able to be parsed!`,
+                { token: T; block: Block; rest: Rest; generics: P }
+                >
         : Err<
             "malformed-token",
         `The opening parenthesis indicated a parameter block should follow but was unable to find the closing parenthesis in: ${Rest}`,

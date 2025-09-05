@@ -52,8 +52,16 @@ type Finalize<
                     token: GetEach<TTypes, "token"> extends infer Tokens extends readonly string[]
                         ? Join<Tokens, " | ">
                         : never;
-                    type: GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
-                        ? Types[number]
+                    type: GetEach<TTypes, "token"> extends infer Tokens extends readonly string[]
+                        ? (
+                            "undefined" extends Tokens[number]
+                                ? (GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
+                                    ? Types[number]
+                                    : never)
+                                : (GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
+                                    ? Exclude<Types[number], undefined>
+                                    : never)
+                          )
                         : never;
                     members: TTypes;
                     rest: "";

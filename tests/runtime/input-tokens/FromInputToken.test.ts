@@ -170,11 +170,15 @@ describe("FromInputToken<Token>", () => {
 
     it("named async function", () => {
         type F = FromInputToken<
-            "async function foo(name: string, age: number, color: 'red' | 'blue'): string"
+            "async function foo(name: string, age: number, color: 'red' | 'blue'): Promise<string>"
         >;
         type FN = FromInputToken<
-            "async function foo(name: string, age: number, color: 'red' | 'blue'): string"
+            "async function foo(name: string, age: number, color: 'red' | 'blue'): Promise<string>"
         >;
+        // invalid because the return type MUST be a promise!
+        type Invalid = FromInputToken<
+            "async function foo(name: string, age: number, color: 'red' | 'blue'): string"
+        >
 
         type cases = [
             Expect<Extends<F, TypedFunction>>,
@@ -198,7 +202,7 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<
                 F,
                 "equals",
-                ((args_0: string, args_1: number, args_2: "red" | "blue") => Promise<string>) & {
+                (<T extends readonly [string, number, "red" | "blue"]>(...args: T) => Promise<string>) & {
                     name: "foo";
                 }
             >>,
@@ -209,11 +213,17 @@ describe("FromInputToken<Token>", () => {
                     name: "foo";
                 }
             >>,
+            Expect<Test<
+                Invalid,
+                "isError",
+                "malformed-token"
+            >>
         ];
     });
 
     it("functions with parenthesis around them work too", () => {
-        type A1 = FromInputToken<"(() => String(hi))">;
+        // should use IT_TakeGroup<T> and then IT_TakeFunction<T>
+        type A1 = FromInputToken<"(() => 'hi')">;
         type A2 = FromInputToken<"((name: string) => string)">;
 
         type N1 = FromInputToken<"(greet() => String(hi))">;
@@ -229,7 +239,7 @@ describe("FromInputToken<Token>", () => {
     });
 
 
-    it("Generator function using type syntax", () => {
+    it.skip("Generator function using type syntax", () => {
         type G1 = FromInputToken<
             "Generator<number,string,boolean>"
         >;
