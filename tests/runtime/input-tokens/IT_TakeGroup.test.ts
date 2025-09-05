@@ -1,5 +1,6 @@
 import { describe, it } from "vitest";
 import {
+    Contains,
     Expect,
     IT_TakeGroup,
     Test,
@@ -19,6 +20,18 @@ describe("IT_TakeGroup<T>", () => {
             Expect<Test<Num["type"], "equals", 123>>,
         ];
     });
+
+
+    it("incomplete group results in error", () => {
+        type E = IT_TakeGroup<`(123`>;
+
+        type cases = [
+            Expect<Test<E, "isError", "malformed-token/group">>,
+
+            Expect<Contains<E["message"], `terminating ')' character`>>
+        ];
+    });
+
 
 
     it("fn in group with leftover content to parse", () => {

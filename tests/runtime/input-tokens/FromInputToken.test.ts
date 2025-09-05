@@ -311,6 +311,7 @@ describe("FromInputToken<Token>", () => {
     it("a '{' character -- indicate an object -- but with no terminal '}' character produces an error", () => {
         // the object literal definition is missing the terminating `}`
         type E = FromInputToken<"{ foo: 1">;
+        type E2 = GetInputToken<"{ foo: 1">;
 
         type cases = [
             Expect<Test<E, "isError", "malformed-token/object-literal">>,

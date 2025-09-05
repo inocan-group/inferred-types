@@ -100,8 +100,8 @@ export interface IT_Token_Object_Literal extends IT_Token_Base<"object-literal">
 };
 
 export interface IT_Token_Union extends IT_Token_Base<"union"> {
-    /** all members of the union */
-    members: readonly IT_Token[];
+    /** all members of the union type */
+    members: readonly unknown[];
 };
 export interface IT_Token_Intersection extends IT_Token_Base<"intersection"> {
     /** all members of the intersection type */

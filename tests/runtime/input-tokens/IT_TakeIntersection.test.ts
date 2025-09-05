@@ -3,6 +3,7 @@ import {
     Expect,
     IT_TakeFunction,
     IT_TakeIntersection,
+    IT_TakeOutcome,
     IT_Token,
     Test,
 } from "inferred-types/types";
@@ -15,6 +16,7 @@ describe("IT_TakeIntersection<T,P>", () => {
 
         type cases = [
             Expect<Test<T1, "extends", IT_Token<"intersection">>>,
+            Expect<Test<T1, "extends", IT_TakeOutcome<"intersection">>>,
 
             Expect<Test<
                 T1["type"], "equals",

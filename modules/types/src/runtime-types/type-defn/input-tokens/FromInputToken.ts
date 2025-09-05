@@ -55,8 +55,8 @@ export type FromInputToken<
  */
 export type FromInputToken__String<
     TToken extends string
-> = GetInputToken<TToken> extends infer E extends Error
-    ? E
+> = GetInputToken<TToken> extends Error
+    ? GetInputToken<TToken>
     : GetInputToken<TToken> extends infer Success extends IT_Token
         ? Success["type"]
         : never;

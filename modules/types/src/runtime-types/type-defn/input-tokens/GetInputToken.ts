@@ -19,6 +19,7 @@ import type {
     IT_TakePromise,
     IT_TakeSet,
     IT_TakeStringLiteral,
+    IT_TakeUnion,
     IT_Token,
     Join,
     Last,
@@ -27,62 +28,16 @@ import type {
     Trim,
     TupleToIntersection
 } from "inferred-types/types";
-import { } from "./IT_TakeArray";
 
 type Finalize<
-    TTypes extends readonly IT_Token[],
-    TCombinator extends IT_Combinator
+    TTypes extends readonly IT_Token[]
 >
-= TCombinator extends "none"
-    ? TTypes extends [infer Token extends IT_Token]
-        ? Token
-        : TTypes extends []
-            ? undefined
-            : Err<
-                `no-combinator`,
-            `Parsing the string input token resulted in ${TTypes["length"]} types but no combinator (e.g., 'union', 'intersection') so there is no way to combine these types!`,
-            { tokens: TTypes; types: GetEach<TTypes, "type"> }
-            >
-    : TCombinator extends "union"
-        ? TTypes extends [IT_Token, IT_Token, ...IT_Token[]]
-            ? As<
-                {
-                    __kind: "IT_Token";
-                    kind: "union";
-                    token: GetEach<TTypes, "token"> extends infer Tokens extends readonly string[]
-                        ? Join<Tokens, " | ">
-                        : never;
-                    type: GetEach<TTypes, "token"> extends infer Tokens extends readonly string[]
-                        ? (
-                            "undefined" extends Tokens[number]
-                                ? (GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
-                                    ? Types[number]
-                                    : never)
-                                : (GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
-                                    ? Exclude<Types[number], undefined>
-                                    : never)
-                          )
-                        : never;
-                    members: TTypes;
-                    rest: "";
-                },
-
-                IT_Token<"union">
-            >
-            : Err<
-                "invalid-union",
-                `A 'union' combinator requires at least two types to be defined but we only got ${TTypes["length"]}`,
-                { tokens: TTypes }
-            >
-        : TCombinator extends "intersection"
-            ? TTypes extends [IT_Token, IT_Token, ...IT_Token[]]
-                ? TupleToIntersection<TTypes>
-                : Err<
-                    "invalid-union",
-        `An 'intersection' combinator requires at least two types to be defined but we only got ${TTypes["length"]}`,
-        { tokens: TTypes }
-                >
-            : never;
+= TTypes extends [infer Token extends IT_Token]
+    ? Token
+: Err<
+    `malformed-token/global`,
+    "On completion of the parsing (e.g., the string is fully parsed into IT_Token) there are MORE than one types captured. This should never be the case!"
+>;
 
 type Process<
     T extends IT_TakeOutcome
@@ -118,155 +73,145 @@ type Process<
 type Iterate<
     TToken extends string,
     TTypes extends readonly IT_Token[] = [],
-    TCombinator extends IT_Combinator = "none",
-    TTrim extends string = Trim<TToken>
-> = TTrim extends ""
-    ? Finalize<TTypes, TCombinator>
+    TRemaining extends string = Trim<TToken>
+> = TRemaining extends ""
+    ? Finalize<TTypes>
 
     // Atomic
-    : Process<IT_TakeAtomic<TTrim>> extends infer E extends Error
+    : Process<IT_TakeAtomic<TRemaining>> extends infer E extends Error
         ? E // fast fail
-        : Process<IT_TakeAtomic<TTrim>> extends (infer Success extends IT_Token)
+        : Process<IT_TakeAtomic<TRemaining>> extends (infer Success extends IT_Token)
             ? Iterate<
                 Success["rest"],
-                [...TTypes, Success],
-                TCombinator
+                [...TTypes, Success]
             >
         // String Literal
-            : Process<IT_TakeStringLiteral<TTrim>> extends infer E extends Error
-                ? E // fast fail
-                : Process<IT_TakeStringLiteral<TTrim>> extends (infer Success extends IT_Token)
-                    ? Iterate<
-                        Success["rest"],
-                        [...TTypes, Success],
-                        TCombinator
-                    >
-                // Numeric Literal
-                    : Process<IT_TakeNumericLiteral<TTrim>> extends infer E extends Error
-                        ? E // fast fail
-                        : Process<IT_TakeNumericLiteral<TTrim>> extends (infer Success extends IT_Token)
-                            ? Iterate<
-                                Success["rest"],
-                                [...TTypes, Success],
-                                TCombinator
-                            >
-                        // KV Objects
-                            : Process<IT_TakeKvObjects<TTrim>> extends infer E extends Error
-                                ? E // fast fail
-                                : Process<IT_TakeKvObjects<TTrim>> extends (infer Success extends IT_Token)
-                                    ? Iterate<
-                                        Success["rest"],
-                                        [...TTypes, Success],
-                                        TCombinator
-                                    >
-                                // Arrays
-                                    : Process<IT_TakeArray<TTrim>> extends infer E extends Error
-                                        ? E // fast fail
-                                        : Process<IT_TakeArray<TTrim>> extends (infer Success extends IT_Token)
-                                            ? Iterate<
-                                                Success["rest"],
-                                                [...TTypes, Success],
-                                                TCombinator
-                                            >
-                                        // Promises
-                                            : Process<IT_TakePromise<TTrim>> extends infer E extends Error
-                                                ? E // fast fail
-                                                : Process<IT_TakePromise<TTrim>> extends (infer Success extends IT_Token)
-                                                    ? Iterate<
-                                                        Success["rest"],
-                                                        [...TTypes, Success],
-                                                        TCombinator
-                                                    >
-                                                // Sets
-                                                    : Process<IT_TakeSet<TTrim>> extends infer E extends Error
-                                                        ? E // fast fail
-                                                        : Process<IT_TakeSet<TTrim>> extends (infer Success extends IT_Token)
-                                                            ? Iterate<
-                                                                Success["rest"],
-                                                                [...TTypes, Success],
-                                                                TCombinator
-                                                            >
-                                                        // Functions
-                                                            : Process<IT_TakeFunction<TTrim>> extends infer E extends Error
-                                                                ? E // fast fail
-                                                                : Process<IT_TakeFunction<TTrim>> extends (infer Success extends IT_Token)
-                                                                    ? Iterate<
-                                                                        Success["rest"],
-                                                                        [...TTypes, Success],
-                                                                        TCombinator
-                                                                    >
-                                                                    // literal arrays
-                                                                    : Process<IT_TakeLiteralArray<TTrim>> extends infer E extends Error
-                                                                        ? E // fast fail
-                                                                        : Process<IT_TakeLiteralArray<TTrim>> extends (infer Success extends IT_Token)
-                                                                            ? Iterate<
-                                                                                Success["rest"],
-                                                                                [...TTypes, Success],
-                                                                                TCombinator
-                                                                            >
-                                                                    // object literals
-                                                                    : Process<IT_TakeObjectLiteral<TTrim>> extends infer E extends Error
-                                                                        ? E // fast fail
-                                                                        : Process<IT_TakeObjectLiteral<TTrim>> extends (infer Success extends IT_Token)
-                                                                            ? Iterate<
-                                                                                Success["rest"],
-                                                                                [...TTypes, Success],
-                                                                                TCombinator
-                                                                            >
-                                                                            // take grouped expression
-                                                                            : Process<IT_TakeGroup<TTrim>> extends infer E extends Error
-                                                                                ? E // fast fail
-                                                                                : Process<IT_TakeGroup<TTrim>> extends (infer Success extends IT_Token)
-                                                                                    ? Iterate<
-                                                                                        Success["rest"],
-                                                                                        [...TTypes, Success],
-                                                                                        TCombinator
-                                                                                    >
+    : Process<IT_TakeStringLiteral<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeStringLiteral<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
+    // Numeric Literal
+    : Process<IT_TakeNumericLiteral<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeNumericLiteral<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
+    // KV Objects
+    : Process<IT_TakeKvObjects<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeKvObjects<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
+    // Arrays
+    : Process<IT_TakeArray<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeArray<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
+    // Promises
+    : Process<IT_TakePromise<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakePromise<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
+    // Sets
+    : Process<IT_TakeSet<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeSet<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
+    // Functions
+    : Process<IT_TakeFunction<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeFunction<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
+    // literal arrays
+    : Process<IT_TakeLiteralArray<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeLiteralArray<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
+    // object literals
+    : Process<IT_TakeObjectLiteral<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeObjectLiteral<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
+    // take grouped expression
+    : Process<IT_TakeGroup<TRemaining>> extends infer E extends Error
+        ? E // fast fail
+        : Process<IT_TakeGroup<TRemaining>> extends (infer Success extends IT_Token)
+            ? Iterate<
+                Success["rest"],
+                [...TTypes, Success]
+            >
 
-                                                                                // take intersection
-                                                                                    : Process<IT_TakeIntersection<Last<TTypes, undefined>, TTrim>> extends infer E extends Error
-                                                                                        ? E // fast fail
-                                                                                        : Process<IT_TakeIntersection<Last<TTypes, undefined>, TTrim>> extends (infer Success extends IT_Token)
-                                                                                            ? Iterate<
-                                                                                                Success["rest"],
-                                                                                                [
-                                                                                                    ...Pop<TTypes>,
-                                                                                                    Success
-                                                                                                ],
-                                                                                                TCombinator
-                                                                                            >
+    // take intersection
+    : Process<IT_TakeIntersection<Last<TTypes, undefined>, TRemaining>> extends infer E extends Error
+            ? E // fast fail
+            : Process<
+                IT_TakeIntersection<
+                    Last<TTypes, undefined>, TRemaining>
+                > extends (infer Success extends IT_Token<"intersection">)
+                ? Iterate<
+                    Success["rest"],
+                    [...Pop<TTypes>,Success]
+                >
+    // take union
+    : IT_TakeUnion<Last<TTypes, undefined>, TRemaining> extends infer E extends Err<"malformed-token">
+            ? E // fast fail
+            : IT_TakeUnion<Last<TTypes, undefined>, TRemaining> extends (infer Success extends IT_Token<"union">)
+                ? Success
 
-                                                                                            : TTrim extends `|${infer Rest extends string}`
-                                                                                                ? Iterate<Rest, TTypes, "union">
 
-                                                                                                : Length<TTypes> extends 0
-                                                                                                    ? Err<
-                                                                                                        "unparsed",
-                                                                                                        `The token string was unable to be parsed! No parsing has taken place.`
-                                                                                                    >
+    : Length<TTypes> extends 0
+        ? Err<
+            "unparsed",
+            `The token string was unable to be parsed! No parsing has taken place.`
+        >
 
-                                                                                                    : Err<
-                                                                                                        "incomplete-parse",
-    `The token string was not fully parsed; the text '${TTrim}' remains unparsed`,
-    {
-        underlying: TTypes;
-        parsedType: TCombinator extends "none"
-            ? TTypes extends [infer Only extends IT_Token]
-                ? Only["type"]
-                : never
-            : TCombinator extends "union"
-                ? GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
-                    ? Types[number]
+    : Err<
+        "incomplete-parse",
+        `The token string was not fully parsed; the text '${TRemaining}' remains unparsed`,
+        {
+            underlying: TTypes;
+            parsedType: TCombinator extends "none"
+                ? TTypes extends [infer Only extends IT_Token]
+                    ? Only["type"]
                     : never
-                : TCombinator extends "intersection"
+                : TCombinator extends "union"
                     ? GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
-                        ? TupleToIntersection<Types>
+                        ? Types[number]
                         : never
-                    : never;
-        rest: TTrim;
-        combinator: TCombinator;
-    }
-                                                                                                    >;
+                    : TCombinator extends "intersection"
+                        ? GetEach<TTypes, "type"> extends infer Types extends readonly unknown[]
+                            ? TupleToIntersection<Types>
+                            : never
+                        : never;
+            rest: TRemaining;
+            combinator: TCombinator;
+        }
+    >;
 
 /**
  * **GetInputToken**`<T>`

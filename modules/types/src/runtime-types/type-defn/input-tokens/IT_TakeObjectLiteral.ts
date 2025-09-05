@@ -1,4 +1,4 @@
-import { As, EndsWith, Err, FromKv, GetInputToken, HasErrors, IsolateErrors, IT_TakeOutcome, IT_Token, Join, KeyValue, Length, NestedSplit, Not, StripTrailing, ToKv, Trim, TrimEach } from "inferred-types/types";
+import { As, EndsWith, Err, FromKv, GetInputToken, HasErrors, IsolateErrors, IT_TakeOutcome, IT_Token, Join, KeyValue, Length, NestedSplit, Not, StripSurrounding, StripTrailing, ToKv, Trim, TrimEach } from "inferred-types/types";
 import { StripLeading } from '../../../string-literals/sub-strings/strip/StripLeading';
 
 type KeyValueErrors<T extends readonly (KeyValue | Error)[]> = IsolateErrors<T>["errors"] extends infer E extends readonly (Error & { key: string; value: string })[]
@@ -54,8 +54,13 @@ type ParseKv<
                 error: ""
             }
         >
-    : Err<`malformed-`>
+    : Err<`malformed-token`>
 };
+
+type T1 = "foo: 1}";
+type T2 = "foo: 1";
+type N = NestedSplit<T1, "}">;
+type N2 = NestedSplit<T2, "}">["length"];
 
 
 /**
@@ -65,14 +70,19 @@ type ParseKv<
  *
  * - any parse string which _starts with_ `{${string}` will be assumed to be an attempt
  * to define an object literal
- * - this utility is called once the leading `{` has been established so this utility will
- * either return successfully or return a `malformed-token` error.
  */
-type ParseObjectLiteral<T extends string> = NestedSplit<T, "}"> extends [
+type ParseObjectLiteral<T extends string> = NestedSplit<T, "}"> extends infer Parts extends readonly string[]
+? Parts["length"] extends 1
+    ? Err<
+    "malformed-token/object-literal",
+    `The terminating '}' character was not found in the token's object literal definition!`,
+    { token: `{ ${T}` }
+>
+: Parts extends [
     infer Block extends string,
     ...infer Rest extends readonly string[]
 ]
-? NestedSplit<StripLeading<Block, "{">, [",", ";"]> extends infer KVs extends readonly string[]
+? NestedSplit<Block, [",", ";"]> extends infer KVs extends readonly string[]
     ? TrimEach<KVs> extends infer KVs extends readonly string[]
         ? ParseKv<KVs> extends infer KeyValues extends readonly KeyValue[]
             ? {
@@ -100,10 +110,8 @@ type ParseObjectLiteral<T extends string> = NestedSplit<T, "}"> extends [
     "malformed-token/object-literal",
     `The terminating '}' character was not found in the token's object literal definition!`,
     { token: T }
->;
-
-type X = "{ foo?: Number(1); bar: number }";
-
+>
+: never;
 
 /**
  * **IT_TakeObjectLiteral**`<T>`
@@ -113,8 +121,8 @@ type X = "{ foo?: Number(1); bar: number }";
  * - Strings starting with `{` indicate the beginning of an object literal definition
  */
 export type IT_TakeObjectLiteral<T extends string> = As<
-    T extends `{${string}`
-    ? ParseObjectLiteral<T>
+    T extends `{${infer Rest extends string}`
+    ? ParseObjectLiteral<Trim<Rest>>
     : Err<
         `wrong-handler/object-literal"`,
         `The token ${T} did not start with '{' so this is not an object literal`

@@ -150,6 +150,20 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
     });
 
 
+    it("a nested split with NO matches and one with matches but no trailing whitespace should be distinguishable", () => {
+        type T1 = "foo: 1}";
+        type T2 = "foo: 1";
+        type N = NestedSplit<T1, "}">;
+        type N2 = NestedSplit<T2, "}">;
+
+        type cases = [
+            Expect<Test<N, "equals", ["foo: 1", ""]>>,
+            Expect<Test<N2, "equals", ["foo: 1"]>>,
+        ];
+    });
+
+
+
 });
 
 describe("nestedSplit()", () => {

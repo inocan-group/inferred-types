@@ -23,4 +23,5 @@ export * from "./IT_TakePromise";
 export * from "./IT_TakeSet";
 export * from "./IT_TakeStringLiteral";
 export * from "./IT_TakeTokenGenerics";
+export * from "./IT_TakeUnion";
 

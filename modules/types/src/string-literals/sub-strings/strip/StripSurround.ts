@@ -56,20 +56,24 @@ export type StripSurround<
 export type StripSurrounding<
     TContent extends string | number,
     TSurround extends string | number | [ string|number, string|number ]
-> = [string] extends [TContent]
-? string
-: [number] extends [TContent]
-? number | string
-: [TSurround] extends [[ infer Leading extends string|number, infer Trailing extends string|number ]]
-    ? [TContent] extends [number]
-        ? AsNumber<Process<`${TContent}`, Leading, Trailing>>
+> = As<
+    [string] extends [TContent]
+    ? string
+    : [number] extends [TContent]
+    ? number | string
+    : [TSurround] extends [[ infer Leading extends string|number, infer Trailing extends string|number ]]
+        ? [TContent] extends [number]
+            ? AsNumber<Process<`${TContent}`, Leading, Trailing>>
+        : [TContent] extends [string]
+            ? Process<TContent, Leading, Trailing>
+        : never
+    : [TContent] extends [number]
+        ? AsNumber<
+            Process<`${TContent}`, As<TSurround, string | number>, As<TSurround, string | number>>
+        >
     : [TContent] extends [string]
-        ? Process<TContent, Leading, Trailing>
-    : never
-: [TContent] extends [number]
-    ? AsNumber<
-        Process<`${TContent}`, As<TSurround, string | number>, As<TSurround, string | number>>
-    >
-: [TContent] extends [string]
-    ? Process<TContent, As<TSurround, string | number>, As<TSurround, string | number>>
-: never;
+        ? Process<TContent, As<TSurround, string | number>, As<TSurround, string | number>>
+    : never,
+
+    TContent extends string ? string : number
+>;

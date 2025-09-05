@@ -5,7 +5,6 @@ import {
     IT_Token,
     Test,
     Err,
-    IT_TakeTokenGeneric,
     IT_TakeTokenGenerics
 } from "inferred-types/types";
 
@@ -80,6 +79,17 @@ describe("GetInputToken<T>", () => {
             Expect<Test<StrArr["type"], "equals", string[]>>,
             Expect<Test<StrArr2["type"], "equals", string[][]>>,
             Expect<Test<ObjArray["type"], "equals", object[]>>,
+        ];
+    });
+
+
+    it("unions", () => {
+        type U1 = GetInputToken<"string | number">;
+
+        type cases = [
+            Expect<Test<U1, "extends", IT_Token<"union">>>,
+
+            Expect<Test<U1["type"], "equals", string | number>>
         ];
     });
 
