@@ -207,9 +207,12 @@ export type IsInputTokenSuccess<T> = IsDictionary<T> extends true
  * the error _types_ associated with trying to parse input tokens
  */
 export type IT_Failure
-    = | "invalid-token" // no handler exists for the head of the token string
+    =
+    | "invalid-token" // no handler exists for the head of the token string
     | "malformed-token" // correct handler but token is malformed
-    | "wrong-handler"; // the handler recognizes that it is not meant for parsing Head
+    | "wrong-handler"
+    | "unparsed"
+    ; // the handler recognizes that it is not meant for parsing Head
 
 /**
  * a string literal (aka, `foo`, `bar`, etc.)
@@ -225,5 +228,6 @@ export type IT_NumericLiteralToken = `Number(${number})` | `${number}`;
 export type IT_BooleanLiteralToken = `Boolean(${"true" | "false"})` | "true" | "false";
 
 export type IT_TakeOutcome<T extends IT_TakeKind = IT_TakeKind>
-= | IT_Token<T>
+=
+| IT_Token<T>
 | (Error & { type: IT_Failure });

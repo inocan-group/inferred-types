@@ -11,6 +11,7 @@ import type {
     FromInputToken,
     FromInputToken__String,
     GenericParam,
+    Contains,
     IsAlphanumeric,
     IsStaticTemplate,
     IsTrue,
@@ -34,6 +35,15 @@ import type {
  * 2. String Literal with reference to `TToken`
  * 3. parse as a normal InputToken
  */
+// Strips surrounding quote characters from a string literal token
+type StripSurroundingQuotes<T extends string> = T extends `"${infer R}"`
+    ? R
+    : T extends `'${infer R}'`
+        ? R
+        : T extends `\`${infer R}\``
+            ? R
+            : T;
+
 type GetReturnType<
     TToken extends string,
     TGenerics extends readonly GenericParam[]
@@ -41,11 +51,16 @@ type GetReturnType<
     ? Promise<GetReturnType<Trim<Inner>, TGenerics>>
     : Find<TGenerics, "objectKeyEquals", ["name", Trim<TToken>]> extends infer Generic extends GenericParam
         ? Generic["type"]
-        : IsStaticTemplate<TToken, TemplateMap__Generics<TGenerics>> extends true
+        : IsStaticTemplate<StripSurroundingQuotes<TToken>, TemplateMap__Generics<TGenerics>> extends true
             ? AsLiteralTemplate<
-                AsStaticTemplate<TToken, TemplateMap__Generics<TGenerics>>,
+                AsStaticTemplate<StripSurroundingQuotes<TToken>, TemplateMap__Generics<TGenerics>>,
                 TemplateMap__Generics<TGenerics>
             >
+            : Contains<StripSurroundingQuotes<TToken>, "\${"> extends true
+                ? AsLiteralTemplate<
+                    AsStaticTemplate<StripSurroundingQuotes<TToken>, TemplateMap__Generics<TGenerics>>,
+                    TemplateMap__Generics<TGenerics>
+                >
             : FromInputToken__String<TToken>;
 
 type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer AfterFunction extends string}`
@@ -272,6 +287,12 @@ type Select<
         { token: TToken; utility: "IT_TakeFunction"; variants: TVariants }
     >;
 
+type InvalidNamedFunction<T extends string, A extends string = ""> = Err<
+    `malformed-token/named-function`,
+    `The token started with the text '${A}function' and thereby clearly indicated a function definition but the remaining text -- ${T} -- was not parsable! Remember that when using the 'function' keyword the return type is delimited by a ':' character and NOT an arrow. You CAN use an arrow function but that should NOT include the 'function' keyword.`,
+    { token: `${A}function ${T}` }
+>;
+
 /**
  * **IT_TakeFunction**`<T>`
  *
@@ -293,4 +314,6 @@ export type IT_TakeFunction<T extends string> = Select<[
     T extends `async function ${OptGenerics}(${string}):${string}` ? AnonAsyncFunction<T> : Error,
     T extends `${OptGenerics}(${string}) => ${string}` ? ArrowSyncFunction<T> : Error,
     T extends `async ${OptGenerics}(${string}) => ${string}` ? ArrowAsyncFunction<T> : Error,
+    T extends `function ${infer Rest extends string}` ? InvalidNamedFunction<Rest> : Error,
+    T extends `async function ${infer Rest extends string}` ? InvalidNamedFunction<Rest, "async "> : Error
 ], T>;

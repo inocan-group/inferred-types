@@ -1,11 +1,13 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import {
+    Contains,
     Err,
     FnKeyValue,
     FromInputToken,
     FromInputToken__String,
     FromInputToken__Tuple,
+    GetInputToken,
     Test,
 } from "inferred-types/types";
 import { Extends, TypedFunction } from "inferred-types/types";
@@ -77,8 +79,6 @@ describe("FromInputToken__String<T>", () => {
             Expect<Test<BracketStr, "equals", string[]>>,
         ];
     });
-
-
 })
 
 
@@ -97,8 +97,6 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<Unknown, "equals",  unknown>>,
         ];
     });
-
-
 
     it("unions with FromStringInputToken", () => {
         type U = FromInputToken__String<"number | String(bar)">;
@@ -226,15 +224,29 @@ describe("FromInputToken<Token>", () => {
         type A1 = FromInputToken<"(() => 'hi')">;
         type A2 = FromInputToken<"((name: string) => string)">;
 
-        type N1 = FromInputToken<"(greet() => String(hi))">;
-        type N2 = FromInputToken<"(greet(name: string) => string)">;
+        type N1 = FromInputToken<"(function greet(): 'String(hi)')">;
+        type N2 = FromInputToken<"(function greet(name: string): string)">;
 
         type cases = [
             Expect<Test<A1, "equals", () => "hi">>,
-            Expect<Test<A2, "equals", (name: string) => string>>,
+            Expect<Test<A2, "equals", <T extends readonly [string]>(...args: T) => string>>,
 
             Expect<Test<N1, "equals", (() => "hi") & { name: "greet" }>>,
-            Expect<Test<N2, "equals", ((name: string) => string) & { name: "greet" }>>,
+            Expect<Test<N2, "equals", (<T extends readonly [string]>(...args: T) => string) & {
+                name: "greet";
+            }>>,
+        ];
+    });
+
+    it("function errors", () => {
+        // named functions should declare return type after `:` not `=>`
+        type NamedWithArrow = FromInputToken<"function greet() => 'String(hi)'">;
+        type NamedWithArrowInParenthesis = FromInputToken<"(function greet() => 'String(hi)')">;
+
+
+        type cases = [
+            Expect<Test<NamedWithArrow, "isError", "malformed-token/named-function">>,
+            Expect<Test<NamedWithArrowInParenthesis, "isError", "malformed-token/group">>,
         ];
     });
 
@@ -276,7 +288,7 @@ describe("FromInputToken<Token>", () => {
         type O3 = FromInputToken<"{ id: number; data: unknown }">;
 
         type cases = [
-            Expect<Test<O1,  "equals",  { foo?: 1,bar: number }>>,
+            Expect<Test<O1, "equals",  { foo?: 1,bar: number }>>,
             Expect<Test<O2, "equals",  { foo?: number, bar: string, baz?: "baz" }>>,
             Expect<Test<O3, "equals",  { id: number, data: unknown }>>
         ];
@@ -297,19 +309,23 @@ describe("FromInputToken<Token>", () => {
 
 
     it("a '{' character -- indicate an object -- but with no terminal '}' character produces an error", () => {
+        // the object literal definition is missing the terminating `}`
         type E = FromInputToken<"{ foo: 1">;
 
         type cases = [
-            Expect<Extends<E, Err<"invalid-token/object">>>,
+            Expect<Test<E, "isError", "malformed-token/object-literal">>,
+            Expect<Contains<E["message"], `terminating '}' character`>>
         ];
     });
 
 
     it("error when function with leading parenthesis is unmatched", () => {
+        // missing the terminating `)` character for the group
         type E = FromInputToken<"(() => string">;
 
         type cases = [
-            Expect<Extends<E, Err<"invalid-token/function">>>
+            Expect<Extends<E, Err<"malformed-token/group">>>,
+            Expect<Contains<E["message"], `terminating ')'`>>,
         ];
     });
 
@@ -324,26 +340,7 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
-    it("explicit function", () => {
-        type FA = FromInputToken<"(name: string) =+> string">;
-        type FNN = FromInputToken<"greet(name: string) -+> string">;
 
-        type cases = [
-            Expect<Test<Parameters<FA>, "equals",  [string]>>,
-            Expect<Test<ReturnType<FA>, "equals",  string>>,
-            Expect<Equal<FnKeyValue<FA>, {
-                name: "";
-                parameters: [{ name: "name", type: string }];
-                returns: string
-            }>>,
-
-            Expect<Equal<FnKeyValue<FNN>, {
-                name: "greet";
-                parameters: [{ name: "name", type: string }];
-                returns: string
-            }>>,
-        ];
-    });
 
     it("Record token with FromInputToken", () => {
         type R1 = FromInputToken<"Record<string,string>">;

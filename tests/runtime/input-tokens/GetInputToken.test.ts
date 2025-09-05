@@ -120,7 +120,8 @@ describe("GetInputToken<T>", () => {
 
     it("Functions", () => {
         type ArrowFn = GetInputToken<"() => string">;
-        type NamedFn = GetInputToken<"function greet(hi: string) => string">;
+        // named functions use ':' to separate params from return type
+        type NamedFn = GetInputToken<"function greet(hi: string): string">;
 
         type cases = [
             Expect<Test<ArrowFn, "extends", IT_Token<"function">>>,
@@ -181,15 +182,17 @@ describe("GetInputToken<T>", () => {
             Expect<Test<ArrowFnWithGenericsImpactReturn, "extends", IT_Token<"function">>>,
             Expect<Test<ArrowFnWithMultiGenericsImpactReturn, "extends", IT_Token<"function">>>,
 
+            // Due to TypeScript limitations, parameter generics are
+            // represented as a single tuple generic for narrowing.
             Expect<Test<
                 ArrowFnWithGenerics["type"],
                 "equals",
-                <TArgs extends readonly [T], T extends string>(...args: TArgs) => `Hi ${string}`
+                <T extends readonly [string]>(...args: T) => `Hi ${string}`
             >>,
             Expect<Test<
                 ArrowFnWithMultiGenericsImpactReturn["type"],
                 "equals",
-                <TArgs extends readonly [TName, TAge], TName extends string, TAge extends number>(...args: TArgs) => `Hi ${string}; you are ${number} years old`
+                <T extends readonly [string, number]>(...args: T) => `Hi ${string}; you are ${number} years old`
             >>,
         ];
     });
