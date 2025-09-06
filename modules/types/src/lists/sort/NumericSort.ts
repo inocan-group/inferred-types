@@ -271,17 +271,31 @@ export interface NumericSortOptions<
      * (or its offset if the offset is set) which **equals** this value
      * will be pinned to the beginning.
      *
-     * If the value of `first` is a tuple/array then we should pin _all/any_
-     * of the values in `first` to the top (in the order they are specified
-     * in the `first` tuple).
+     * If the value of `start` is a tuple/array then we should pin _all/any_
+     * of the values in `start` to the top (in the order they are specified
+     * in the `start` tuple).
      *
      * @default undefined
      */
-    first?: unknown;
+    start?: unknown;
+
+    /**
+     * When left as _undefined_ the sorting is a pure ASC/DESC sort. However,
+     * if a value is added here it indicates that any element in the array
+     * (or its offset if the offset is set) which **equals** this value
+     * will be pinned to the end.
+     *
+     * If the value of `end` is a tuple/array then we should pin _all/any_
+     * of the values in `end` to the bottom (in the order they are specified
+     * in the `end` tuple).
+     *
+     * @default undefined
+     */
+    end?: unknown;
 }
 
 /**
- * Main sorting logic without first elements
+ * Main sorting logic without start/end elements
  */
 type _NumericSortMain<
     TValues extends readonly unknown[],
@@ -294,24 +308,76 @@ type _NumericSortMain<
 > = TSorted;
 
 /**
- * Sorting logic with first elements
+ * Sorting logic with start elements
  */
-type _NumericSortWithFirst<
+type _NumericSortWithStart<
     TValues extends readonly unknown[],
     TOpt extends NumericSortOptions,
     TNumericArray extends readonly number[] = AsNumericArray<TValues>,
-    TNumericFirst = TOpt["first"] extends readonly any[]
-        ? AsNumericArray<TOpt["first"]>
-        : AsNumericArray<[TOpt["first"]]> extends readonly [infer N]
+    TNumericStart = TOpt["start"] extends readonly any[]
+        ? AsNumericArray<TOpt["start"]>
+        : AsNumericArray<[TOpt["start"]]> extends readonly [infer N]
             ? N
-            : TOpt["first"],
-    TFirstElements extends readonly number[] = ExtractFirstNumeric<TNumericArray, TNumericFirst>,
-    TRemainingElements extends readonly number[] = RemoveFirstNumeric<TNumericArray, TNumericFirst>,
+            : TOpt["start"],
+    TStartElements extends readonly number[] = ExtractFirstNumeric<TNumericArray, TNumericStart>,
+    TRemainingElements extends readonly number[] = RemoveFirstNumeric<TNumericArray, TNumericStart>,
     TSorted extends readonly number[] = _Sort<
         TRemainingElements,
         [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
     >
-> = [...TFirstElements, ...TSorted];
+> = [...TStartElements, ...TSorted];
+
+/**
+ * Sorting logic with end elements
+ */
+type _NumericSortWithEnd<
+    TValues extends readonly unknown[],
+    TOpt extends NumericSortOptions,
+    TNumericArray extends readonly number[] = AsNumericArray<TValues>,
+    TNumericEnd = TOpt["end"] extends readonly any[]
+        ? AsNumericArray<TOpt["end"]>
+        : AsNumericArray<[TOpt["end"]]> extends readonly [infer N]
+            ? N
+            : TOpt["end"],
+    TEndElements extends readonly number[] = ExtractFirstNumeric<TNumericArray, TNumericEnd>,
+    TRemainingElements extends readonly number[] = RemoveFirstNumeric<TNumericArray, TNumericEnd>,
+    TSorted extends readonly number[] = _Sort<
+        TRemainingElements,
+        [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
+    >
+> = [...TSorted, ...TEndElements];
+
+/**
+ * Sorting logic with both start and end elements
+ */
+type _NumericSortWithStartAndEnd<
+    TValues extends readonly unknown[],
+    TOpt extends NumericSortOptions,
+    TNumericArray extends readonly number[] = AsNumericArray<TValues>,
+    TNumericStart = TOpt["start"] extends readonly any[]
+        ? AsNumericArray<TOpt["start"]>
+        : AsNumericArray<[TOpt["start"]]> extends readonly [infer N]
+            ? N
+            : TOpt["start"],
+    TNumericEnd = TOpt["end"] extends readonly any[]
+        ? AsNumericArray<TOpt["end"]>
+        : AsNumericArray<[TOpt["end"]]> extends readonly [infer N]
+            ? N
+            : TOpt["end"],
+    TStartElements extends readonly number[] = ExtractFirstNumeric<TNumericArray, TNumericStart>,
+    TEndElements extends readonly number[] = ExtractFirstNumeric<
+        RemoveFirstNumeric<TNumericArray, TNumericStart>,
+        TNumericEnd
+    >,
+    TRemainingElements extends readonly number[] = RemoveFirstNumeric<
+        RemoveFirstNumeric<TNumericArray, TNumericStart>,
+        TNumericEnd
+    >,
+    TSorted extends readonly number[] = _Sort<
+        TRemainingElements,
+        [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
+    >
+> = [...TStartElements, ...TSorted, ...TEndElements];
 
 /**
  * **NumericSort**`<TValues, [TOpt]>`
@@ -323,24 +389,31 @@ type _NumericSortWithFirst<
  * Options:
  * - `order`: defaults to `ASC` but can be set to `DESC`
  * - `offset`:  if you have _containers_ as values, you can specify an offset to use to look for the numeric value
- * - `first`: pin specific numeric values to the beginning of the sorted array
+ * - `start`: pin specific numeric values to the beginning of the sorted array
+ * - `end`: pin specific numeric values to the end of the sorted array
  */
 export type NumericSort<
     TValues extends readonly unknown[],
     TOpt extends NumericSortOptions = NumericSortOptions,
 > = IsStringLiteral<TOpt["offset"]> extends true
-    ? [IsEqual<TOpt["order"], "DESC">] extends [true]
-        ? Reverse<
-            _SortOffset<
+    ? TValues extends readonly Container[]
+        ? [IsEqual<TOpt["order"], "DESC">] extends [true]
+            ? Reverse<
+                _SortOffset<
+                    TValues,
+                    As<TOpt["offset"], string>
+                >
+            >
+            : _SortOffset<
                 TValues,
                 As<TOpt["offset"], string>
             >
-        >
-        : _SortOffset<
-            TValues,
-            As<TOpt["offset"], string>
-        >
+        : never // Cannot sort by offset on non-Container values
 
-    : TOpt extends { first: any }
-        ? _NumericSortWithFirst<TValues, TOpt>
-        : _NumericSortMain<TValues, TOpt>;
+    : TOpt extends { start: any }
+        ? TOpt extends { end: any }
+            ? _NumericSortWithStartAndEnd<TValues, TOpt>
+            : _NumericSortWithStart<TValues, TOpt>
+        : TOpt extends { end: any }
+            ? _NumericSortWithEnd<TValues, TOpt>
+            : _NumericSortMain<TValues, TOpt>;
