@@ -200,15 +200,19 @@ type SeparateWideBooleans<T extends readonly boolean[]> = {
     wide: FilterWideBooleans<T>;
 };
 
-export interface BooleanSortOptions {
+export interface BooleanSortOptions<
+    TOrder extends "ASC" | "DESC" | "Natural" | undefined = "ASC" | "DESC" | "Natural" | undefined,
+    TOffset extends string | undefined = string | undefined,
+> {
     /**
      * by default this is set to sort by _ascending_ order but this can be
      * reversed by changing order to `DESC`.
+     * reversed by changing order to `DESC` or kept in original order with `Natural`.
      *
      * ASC: true, false, boolean
      * DESC: false, true, boolean
      */
-    order?: "ASC" | "DESC";
+    order?: TOrder;
 
     /**
      * by default, the sorting will expect the boolean value to exist
@@ -217,7 +221,19 @@ export interface BooleanSortOptions {
      * useful to have the comparison be made to a property/offset of
      * these containers.
      */
-    offset?: string;
+    offset?: TOffset;
+
+    /**
+     * Pin specific boolean values to the beginning of the sorted array.
+     * If an array is provided, values are pinned in order.
+     */
+    start?: unknown;
+
+    /**
+     * Pin specific boolean values to the end of the sorted array.
+     * If an array is provided, values are pinned in order.
+     */
+    end?: unknown;
 }
 
 /**
@@ -229,11 +245,113 @@ type _BooleanSortMain<
     TSeparated = SeparateWideBooleans<T>,
     TNarrow extends readonly boolean[] = TSeparated extends { narrow: infer N } ? N extends readonly boolean[] ? N : [] : [],
     TWide extends readonly boolean[] = TSeparated extends { wide: infer W } ? W extends readonly boolean[] ? W : [] : [],
-    TSorted extends readonly boolean[] = _SortBooleans<
-        TNarrow,
-        [IsEqual<O["order"], "DESC">] extends [true] ? true : false
-    >
+    TSorted extends readonly boolean[] = [IsEqual<O["order"], "Natural">] extends [true]
+        ? TNarrow
+        : _SortBooleans<
+            TNarrow,
+            [IsEqual<O["order"], "DESC">] extends [true] ? true : false
+        >
 > = [...TSorted, ...TWide];
+
+/**
+ * Extract first elements from boolean array
+ */
+type ExtractFirstBool<
+    T extends readonly boolean[],
+    TFirst,
+    TOut extends readonly boolean[] = []
+> = TFirst extends readonly unknown[]
+    ? T extends readonly [infer Head extends boolean, ...infer Tail extends readonly boolean[]]
+        ? Head extends TFirst[number]
+            ? ExtractFirstBool<Tail, TFirst, [...TOut, Head]>
+            : ExtractFirstBool<Tail, TFirst, TOut>
+        : TOut
+    : T extends readonly [infer Head extends boolean, ...infer Tail extends readonly boolean[]]
+        ? Head extends TFirst
+            ? ExtractFirstBool<Tail, TFirst, [...TOut, Head]>
+            : ExtractFirstBool<Tail, TFirst, TOut>
+        : TOut;
+
+/**
+ * Remove first elements from boolean array
+ */
+type RemoveFirstBool<
+    T extends readonly boolean[],
+    TFirst,
+    TOut extends readonly boolean[] = []
+> = TFirst extends readonly unknown[]
+    ? T extends readonly [infer Head extends boolean, ...infer Tail extends readonly boolean[]]
+        ? Head extends TFirst[number]
+            ? RemoveFirstBool<Tail, TFirst, TOut>
+            : RemoveFirstBool<Tail, TFirst, [...TOut, Head]>
+        : TOut
+    : T extends readonly [infer Head extends boolean, ...infer Tail extends readonly boolean[]]
+        ? Head extends TFirst
+            ? RemoveFirstBool<Tail, TFirst, TOut>
+            : RemoveFirstBool<Tail, TFirst, [...TOut, Head]>
+        : TOut;
+
+/**
+ * Sorting logic with start elements
+ */
+type _BooleanSortWithStart<
+    T extends readonly boolean[],
+    O extends BooleanSortOptions,
+    TSeparated = SeparateWideBooleans<T>,
+    TNarrow extends readonly boolean[] = TSeparated extends { narrow: infer N } ? N extends readonly boolean[] ? N : [] : [],
+    TWide extends readonly boolean[] = TSeparated extends { wide: infer W } ? W extends readonly boolean[] ? W : [] : [],
+    TStart = O["start"] extends readonly any[] ? O["start"] : [O["start"]] extends readonly [infer S] ? S : O["start"],
+    TStartElements extends readonly boolean[] = ExtractFirstBool<TNarrow, TStart>,
+    TRemainingElements extends readonly boolean[] = RemoveFirstBool<TNarrow, TStart>,
+    TSorted extends readonly boolean[] = [IsEqual<O["order"], "Natural">] extends [true]
+        ? TRemainingElements
+        : _SortBooleans<
+            TRemainingElements,
+            [IsEqual<O["order"], "DESC">] extends [true] ? true : false
+        >
+> = [...TStartElements, ...TSorted, ...TWide];
+
+/**
+ * Sorting logic with end elements
+ */
+type _BooleanSortWithEnd<
+    T extends readonly boolean[],
+    O extends BooleanSortOptions,
+    TSeparated = SeparateWideBooleans<T>,
+    TNarrow extends readonly boolean[] = TSeparated extends { narrow: infer N } ? N extends readonly boolean[] ? N : [] : [],
+    TWide extends readonly boolean[] = TSeparated extends { wide: infer W } ? W extends readonly boolean[] ? W : [] : [],
+    TEnd = O["end"] extends readonly any[] ? O["end"] : [O["end"]] extends readonly [infer E] ? E : O["end"],
+    TEndElements extends readonly boolean[] = ExtractFirstBool<TNarrow, TEnd>,
+    TRemainingElements extends readonly boolean[] = RemoveFirstBool<TNarrow, TEnd>,
+    TSorted extends readonly boolean[] = [IsEqual<O["order"], "Natural">] extends [true]
+        ? TRemainingElements
+        : _SortBooleans<
+            TRemainingElements,
+            [IsEqual<O["order"], "DESC">] extends [true] ? true : false
+        >
+> = [...TSorted, ...TEndElements, ...TWide];
+
+/**
+ * Sorting logic with both start and end elements
+ */
+type _BooleanSortWithStartAndEnd<
+    T extends readonly boolean[],
+    O extends BooleanSortOptions,
+    TSeparated = SeparateWideBooleans<T>,
+    TNarrow extends readonly boolean[] = TSeparated extends { narrow: infer N } ? N extends readonly boolean[] ? N : [] : [],
+    TWide extends readonly boolean[] = TSeparated extends { wide: infer W } ? W extends readonly boolean[] ? W : [] : [],
+    TStart = O["start"] extends readonly any[] ? O["start"] : [O["start"]] extends readonly [infer S] ? S : O["start"],
+    TEnd = O["end"] extends readonly any[] ? O["end"] : [O["end"]] extends readonly [infer E] ? E : O["end"],
+    TStartElements extends readonly boolean[] = ExtractFirstBool<TNarrow, TStart>,
+    TEndElements extends readonly boolean[] = ExtractFirstBool<RemoveFirstBool<TNarrow, TStart>, TEnd>,
+    TRemainingElements extends readonly boolean[] = RemoveFirstBool<RemoveFirstBool<TNarrow, TStart>, TEnd>,
+    TSorted extends readonly boolean[] = [IsEqual<O["order"], "Natural">] extends [true]
+        ? TRemainingElements
+        : _SortBooleans<
+            TRemainingElements,
+            [IsEqual<O["order"], "DESC">] extends [true] ? true : false
+        >
+> = [...TStartElements, ...TSorted, ...TEndElements, ...TWide];
 
 /**
  * **BooleanSort**`<T, [O]>`
@@ -252,16 +370,24 @@ export type BooleanSort<
     O extends BooleanSortOptions = EmptyObject,
 > = IsStringLiteral<O["offset"]> extends true
     ? T extends readonly Container[]
-        ? [IsEqual<O["order"], "DESC">] extends [true]
-            ? Reverse<
-                _SortBooleanOffset<T, As<O["offset"], string>, false>
-            >
-            : _SortBooleanOffset<T, As<O["offset"], string>, false>
+        ? [IsEqual<O["order"], "Natural">] extends [true]
+            ? T // Keep original order for Natural
+            : [IsEqual<O["order"], "DESC">] extends [true]
+                ? Reverse<
+                    _SortBooleanOffset<T, As<O["offset"], string>, false>
+                >
+                : _SortBooleanOffset<T, As<O["offset"], string>, false>
         : never // Cannot use offset with non-container types
     : T extends readonly boolean[]
         ? Length<T> extends 0
             ? T
             : Length<T> extends 1
                 ? T
-                : _BooleanSortMain<T, O>
+                : O extends { start: any }
+                    ? O extends { end: any }
+                        ? _BooleanSortWithStartAndEnd<T, O>
+                        : _BooleanSortWithStart<T, O>
+                    : O extends { end: any }
+                        ? _BooleanSortWithEnd<T, O>
+                        : _BooleanSortMain<T, O>
         : never; // Type must be boolean array when no offset is specified

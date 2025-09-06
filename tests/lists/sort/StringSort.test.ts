@@ -6,10 +6,10 @@ describe("StringSort<T, O>", () => {
 
 
     it("handles ascending order sort", () => {
-        type Sorted = StringSort<["Orange", "Apple", "Peach", "Banana"], { order: "ASC"}>;
+        type Sorted = StringSort<["Orange", "Apple", "Peach", "Banana"], { order: "ASC" }>;
 
         type cases = [
-            Expect<Test<Sorted, "equals", ["Apple","Banana","Orange","Peach"]>>
+            Expect<Test<Sorted, "equals", ["Apple", "Banana", "Orange", "Peach"]>>
         ]
     });
 
@@ -38,32 +38,33 @@ describe("StringSort<T, O>", () => {
     });
 
     it("handles wide strings", () => {
-        type Natural = StringSort<["Banana", string, "Apple"]>;
+        type Natural = StringSort<["Banana", string, "Apple"], { order: "Natural" }>;
         type Asc = StringSort<["Banana", string, "Apple"], { order: "ASC" }>;
 
         type cases = [
             Expect<Test<Natural, "equals", ["Banana", "Apple", string]>>,
-            Expect<Test<Asc, "equals", [ "Apple", "Banana", string]>>,
+            Expect<Test<Asc, "equals", ["Apple", "Banana", string]>>,
         ]
     });
 
-    it("supports first property", () => {
-        type Sorted1 = StringSort<["d", "c", "a", "b"], { first: "c" }>;
-        type Sorted2 = StringSort<["d", "c", "a", "b"], { first: ["c", "a"] }>;
+    it("supports start property", () => {
+        type Sorted1 = StringSort<["d", "c", "a", "b"], { start: "c" }>;
+        type Sorted2 = StringSort<["d", "c", "a", "b"], { start: ["c", "a"] }>;
 
         type cases = [
-            Expect<Test<Sorted1, "equals", ["c","d","a","b"]>>,
-            Expect<Test<Sorted2, "equals", ["c","a","d","b"]>>,
+            Expect<Test<Sorted1, "equals", ["c", "a", "b", "d"]>>,
+            Expect<Test<Sorted2, "equals", ["c", "a", "b", "d"]>>,
         ]
     });
 
 
-    it("supports last property", () => {
-        type Sorted1 = StringSort<["d", "c", "a", "b"], { last: "c" }>;
-        type Sorted2 = StringSort<["d", "c", "a", "b"], { last: ["c", "a"] }>;
+    it("supports end property", () => {
+        type Sorted1 = StringSort<["d", "c", "a", "b"], { end: "c" }>;
+        type Sorted2 = StringSort<["d", "c", "a", "b"], { end: ["c", "a"] }>;
 
         type cases = [
-            /** type tests */
+            Expect<Test<Sorted1, "equals", ["a", "b", "d", "c"]>>,
+            Expect<Test<Sorted2, "equals", ["b", "d", "c", "a"]>>,
         ];
     });
 

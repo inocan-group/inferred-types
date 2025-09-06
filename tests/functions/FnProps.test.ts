@@ -1,4 +1,4 @@
-import { Expect, EmptyObject, FnKeyValue, Test } from "inferred-types/types";
+import { Expect, EmptyObject, FnKeyValue, Test, TypedFunction } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -12,7 +12,7 @@ describe("FnProps", () => {
 
         type Props = FnKeyValue<Hybrid>;
         type Empty = FnKeyValue<Fn>;
-        type Func = FnKeyValue<Function>;
+        type Func = FnKeyValue<TypedFunction>;
 
         type cases = [
             Expect<Test<Props, "equals",  { foo: 1; bar: 2 }>>,
