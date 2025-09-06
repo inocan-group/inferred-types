@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { getEach, tuple } from "inferred-types/runtime";
-import type { Expect, GetEach, Test } from "inferred-types/types";
+import type { Err, Expect, GetEach, Test } from "inferred-types/types";
 
 describe("GetEach<T,P>", () => {
 
-    it("happy path", () => {
+    it("prop from dictionary in readonly tuple", () => {
         type List = readonly [
             { id: 1; value: "foo" },
             { id: 2; value: "bar"; cost: 5 },
@@ -16,11 +16,46 @@ describe("GetEach<T,P>", () => {
         type Cost = GetEach<List, "cost">;
 
         type cases = [
-            Expect<Test<ID, "equals", readonly [1, 2, 3]>>,
-            Expect<Test<Value, "equals", readonly ["foo", "bar", "baz"]>>,
-            Expect<Test<Cost, "equals", readonly [5, 15]>>
+            Expect<Test<ID, "equals",  [1, 2, 3]>>,
+            Expect<Test<Value, "equals",  ["foo", "bar", "baz"]>>,
+            Expect<Test<Cost, "equals", [undefined, 5, 15]>>
         ];
     });
+
+    it("prop from dictionary in array", () => {
+        type List =  [
+            { id: 1; value: "foo" },
+            { id: 2; value: "bar"; cost: 5 },
+            { id: 3; value: "baz"; cost: 15 }
+        ];
+
+        type ID = GetEach<List, "id">;
+        type Value = GetEach<List, "value">;
+        type Cost = GetEach<List, "cost">;
+        type Cost2 = GetEach<List, "cost", never>;
+
+        type cases = [
+            Expect<Test<ID, "equals",  [1, 2, 3]>>,
+            Expect<Test<Value, "equals",  ["foo", "bar", "baz"]>>,
+            Expect<Test<Cost, "equals",  [undefined, 5, 15]>>,
+            Expect<Test<Cost2, "equals",  [5, 15]>>
+        ];
+    });
+
+
+    it("array of errors", () => {
+        type E1 = Err<"context","There I was, there I was">;
+        type E2 = Err<"location", "In the Jungle">;
+        type T1 = GetEach<[E1,E2], "message">;
+
+        type cases = [
+            Expect<Test<T1, "equals", [
+                "There I was, there I was",
+                "In the Jungle"
+            ]>>
+        ];
+    });
+
 
 
     it("deep path", () => {
@@ -40,9 +75,9 @@ describe("GetEach<T,P>", () => {
         type Owns = GetEach<List, "color.owns">;
 
         type cases = [
-            Expect<Test<Fav, "equals",  readonly ["blue", "green"]>>,
-            Expect<Test<FavNotRO, "equals",  ["blue", "green"]>>,
-            Expect<Test<Owns, "equals",  readonly ["grey"]>>,
+            Expect<Test<Fav, "equals",   ["blue", "green", undefined]>>,
+            Expect<Test<FavNotRO, "equals",  ["blue", "green", undefined]>>,
+            Expect<Test<Owns, "equals",   [undefined, undefined, "grey"]>>,
         ];
     });
 
@@ -59,10 +94,9 @@ describe("GetEach<T,P>", () => {
 
         type cases = [
             Expect<Test<First,"equals", ["blue", "purple"]>>,
-            Expect<Test<Incomplete, "equals",  ["fuchsia"]>>,
-            Expect<Test<Empty, "equals",  []>>,
+            Expect<Test<Incomplete, "equals",  [undefined, "fuchsia"]>>,
+            Expect<Test<Empty, "equals",  [undefined,undefined]>>,
         ];
-        const cases: cases = [true, true, true];
     });
 
     it("into a readonly array structure", () => {
@@ -72,15 +106,14 @@ describe("GetEach<T,P>", () => {
         ];
 
         type First = GetEach<List, "colors.0">;
-        type Incomplete = GetEach<List, "colors.3">;
-        type Empty = GetEach<List, "colors.5">;
+        type Incomplete = GetEach<List, "colors.3", never>;
+        type Empty = GetEach<List, "colors.5", never>;
 
         type cases = [
-            Expect<Test<First,  "equals", readonly ["blue", "purple"]>>,
-            Expect<Test<Incomplete, "equals",  readonly ["fuchsia"]>>,
-            Expect<Test<Empty, "equals",  readonly []>>,
+            Expect<Test<First,  "equals",  ["blue", "purple"]>>,
+            Expect<Test<Incomplete, "equals",   ["fuchsia"]>>,
+            Expect<Test<Empty, "equals",  []>>,
         ];
-        const cases: cases = [true, true, true];
     });
 
 
@@ -99,8 +132,8 @@ describe("GetEach<T,P>", () => {
             (() => `hi`) & { id: 3; color: { favorite: undefined; owns: "grey" } },
         ];
 
-        type Fav = GetEach<List, "color.favorite">;
-        type Owns = GetEach<List, "color.owns">;
+        type Fav = GetEach<List, "color.favorite", never>;
+        type Owns = GetEach<List, "color.owns", never>;
 
         // @ts-ignore
         type cases = [
@@ -135,7 +168,7 @@ describe("getEach(list, prop)", () => {
         expect(each).toEqual(["foo","baz"]);
 
         type cases = [
-            Expect<Test<typeof each, "equals", ["foo", "baz"]>>
+            Expect<Test<typeof each, "equals", ["foo", undefined, "baz", undefined]>>
         ];
     });
 

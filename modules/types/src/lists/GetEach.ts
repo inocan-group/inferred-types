@@ -1,12 +1,10 @@
 import type {
     As,
+    Container,
+    Contains,
     Dictionary,
     FnKeyValue,
     Get,
-    IndexOf,
-    IsReadonlyArray,
-    IsValidDotPath,
-    Mutable,
     RemoveNever,
     TypedFunction,
 } from "inferred-types/types";
@@ -23,18 +21,19 @@ type F<T> = As<
 type Process<
     TList extends readonly unknown[],
     TKey extends string,
+    TDefault = undefined
 > = RemoveNever<{
-    [K in keyof TList]: [TKey] extends [keyof F<TList[K]>]
-        ? [IndexOf<F<TList[K]>, TKey>] extends [undefined]
-            ? undefined
-            : IndexOf<F<TList[K]>, TKey>
-        : [IsValidDotPath<F<TList[K]>, TKey>] extends [true]
-            ? Mutable<Get<F<TList[K]>, TKey, never>> // valid
-            : never // TKey does not extends TList[K]
+    [K in keyof TList]: TList[K] extends Container
+        ? Get<TList[K], TKey, TDefault>
+        : TList[K] extends TypedFunction
+            ? Get<FnKeyValue<TList[K]>, TKey, TDefault>
+            : TKey extends "."
+            ? TList[K]
+            : never
 }>;
 
 /**
- * **GetEach**`<TList, TKey, [THandleErrors]>`
+ * **GetEach**`<TList, TKey, [TDefault]>`
  *
  * Type utility which receives a list of types -- `TList` -- and then _gets_ a
  * key `TKey` (using dot syntax) from each element in the array.
@@ -55,10 +54,11 @@ type Process<
 export type GetEach<
     TList extends readonly unknown[],
     TKey extends string | null,
+    TDefault = undefined
 > = TKey extends null
     ? TList
     : TKey extends ""
         ? TList
-        : IsReadonlyArray<TList> extends true
-            ? Readonly<Process<[...TList], Exclude<TKey, null>>>
-            : Process<TList, Exclude<TKey, null>>;
+        : Process<[...TList], Exclude<TKey, null>, TDefault> extends readonly unknown[]
+            ? Process<[...TList], Exclude<TKey, null>, TDefault>
+            : never;

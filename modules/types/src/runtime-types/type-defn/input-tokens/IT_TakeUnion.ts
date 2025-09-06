@@ -68,7 +68,7 @@ TParts extends Error
                         ], " | ">;
                         type: TupleToUnion<[
                                 TToken["type"],
-                                ...ParsePartTypes<TParts>
+                                ...(ParsePartTypes<TParts> & readonly unknown[])
                             ]>
                         rest: "";
                         members: [

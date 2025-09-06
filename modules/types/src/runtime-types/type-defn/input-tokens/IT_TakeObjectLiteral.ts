@@ -1,66 +1,73 @@
-import { As, EndsWith, Err, FromKv, GetInputToken, HasErrors, IsolateErrors, IT_TakeOutcome, IT_Token, Join, KeyValue, Length, NestedSplit, Not, StripSurrounding, StripTrailing, ToKv, Trim, TrimEach } from "inferred-types/types";
-import { StripLeading } from '../../../string-literals/sub-strings/strip/StripLeading';
+import {
+    As,
+    EndsWith,
+    Err,
+    FromKv,
+    GetInputToken,
+    IsolatedResults,
+    IsolateErrors,
+    IT_TakeOutcome,
+    IT_Token,
+    Join,
+    KeyValue,
+    Length,
+    NestedSplit,
+    Not,
+    StripTrailing,
+    Trim,
+    TrimEach,
+    GetEach
+} from "inferred-types/types";
 
-type KeyValueErrors<T extends readonly (KeyValue | Error)[]> = IsolateErrors<T>["errors"] extends infer E extends readonly (Error & { key: string; value: string })[]
-    ? Join<{
-        [K in keyof E]: `${E[K]["message"]}`
-    }, "\n\t">
-    : never;
-
-type AsKeyValues<T extends readonly { key: IT_Token; value: IT_Token }[]> =  As<{
-    [K in keyof T]: {
-        key: T[K]["key"]["type"];
-        value: T[K]["value"]["type"];
-        required: true; // TODO need to adjust this to what was expressed
-    }
-}, readonly KeyValue[]>;
 
 type DetermineKeyType<
-    T extends string,
-    U extends boolean = As<Not<EndsWith<T, "?">>, boolean>
+    T extends string
 > = T extends "string"
-? { key: string; required: U }
+? string
 : StripTrailing<T, "?"> extends "symbol"
-? { key: symbol; required: U }
+? symbol
 : T extends string
-? { key: StripTrailing<T, "?">; required: U }
-: Err<"invalid-type", `A key of an object literal provided the token '${T}' which can not be converted to a type!`>;
+? StripTrailing<T, "?">
+: Err<"malformed-token/object-literal", `A key '${T}' can not be converted to a type!`>;
+
+type GetKv<
+    TKey extends string,
+    TValue extends string,
+    TOptional extends boolean = EndsWith<TKey, "?">
+> =  [
+    StripTrailing<TKey, "?">,
+    Trim<TValue>
+] extends [
+    infer KeyToken extends string,
+    infer ValueToken extends string
+]
+    ? DetermineKeyType<KeyToken> extends Error
+        ? DetermineKeyType<KeyToken>
+        : GetInputToken<ValueToken> extends Error
+            ? Err<
+                `malformed-token/object-literal`,
+                `The value '${ValueToken}' in the key value pair '${TKey}: ${ValueToken}' could not be parsed into a type!`,
+                { keyToken: KeyToken; valueToken: ValueToken, underlying: GetInputToken<ValueToken> }
+            >
+        : GetInputToken<ValueToken> extends IT_Token
+            ? {
+                key: DetermineKeyType<KeyToken>;
+                value: GetInputToken<ValueToken>["type"];
+                required: Not<TOptional>;
+            }
+        : Err<`malformed-token/object-literal`>
+    : never;
 
 type ParseKv<
     T extends readonly string[]
-> = {
+> = IsolateErrors<{
     [K in keyof T]: NestedSplit<T[K], ":"> extends [
-        infer Key extends string,
-        infer Value extends string
+        infer KeyToken extends string,
+        infer ValueToken extends string
     ]
-        ? [
-            DetermineKeyType<Trim<Key>>,
-            GetInputToken<Trim<Value>>,
-        ] extends [
-            infer Key extends { key: string | symbol; required: boolean },
-            infer Value extends IT_Token
-        ]
-            ? {
-                key: Key["key"];
-                value: Value["type"];
-                required: Key["required"]
-            }
-        : Err<
-            "invalid-kv-pair",
-            `The KV pair '${Key}: ${Value}' was not parsable`,
-            {
-                key: Key;
-                value: Value;
-                error: ""
-            }
-        >
-    : Err<`malformed-token`>
-};
-
-type T1 = "foo: 1}";
-type T2 = "foo: 1";
-type N = NestedSplit<T1, "}">;
-type N2 = NestedSplit<T2, "}">["length"];
+        ? GetKv<Trim<KeyToken>, Trim<ValueToken>>
+        : never
+}>;
 
 
 /**
@@ -82,35 +89,44 @@ type ParseObjectLiteral<T extends string> = NestedSplit<T, "}"> extends infer Pa
     infer Block extends string,
     ...infer Rest extends readonly string[]
 ]
-? NestedSplit<Block, [",", ";"]> extends infer KVs extends readonly string[]
-    ? TrimEach<KVs> extends infer KVs extends readonly string[]
-        ? ParseKv<KVs> extends infer KeyValues extends readonly KeyValue[]
-            ? {
-                __kind: "IT_Token";
-                kind: "object-literal";
-                token: `{ ${Trim<Block>} }`;
-                type: FromKv<KeyValues>;
-                rest: Trim<Join<Rest, "}">>;
-                keyValues: KeyValues;
-            }
-            : Err<
-                "malformed-token/object-literal",
-                `The object literal could not be parsed:\n\t${KeyValueErrors<ParseKv<KVs>>}`,
-                { kvs: KVs; underlying: ParseKv<KVs> }
-            >
+    ? NestedSplit<Trim<Block>, [",", ";"]> extends infer KVs extends readonly string[]
+        ? TrimEach<KVs> extends infer KVs extends readonly string[]
+            ? ParseKv<KVs> extends infer Outcome extends IsolatedResults
+                ? Length<Outcome["errors"]> extends 0
+                    ? Outcome["successes"] extends infer Success extends readonly KeyValue[]
+                        ? {
+                            __kind: "IT_Token";
+                            kind: "object-literal";
+                            token: `{ ${Trim<Block>} }`;
+                            type: FromKv<Success>;
+                            rest: Trim<Join<Rest, "}">>;
+                            keyValues: Success;
+                        }
+                    : Err<
+                        "malformed-token/object-literal",
+                        `There were no errors detected in the key/value pairs but result type did not extends IT_Token: ${Block}`,
+                        { block: Block; split: NestedSplit<Trim<Block>, [",",";"]>}
+                    >
+                : Err<
+                    "malformed-token/object-literal",
+                    `Error(s) occurred in parsing the key/value pairs of an object literal. The following errors were found: ${Join<GetEach<Outcome["errors"],"message">, "\n\t">}`,
+                    { token: `{ ${Trim<Block>} }`; block: Trim<Block>; split: NestedSplit<Trim<Block>, [",", ";"]>; errors: GetEach<Outcome["errors"], "message"> }
+                >
         : Err<
             `malformed-token/object-literal`,
-            `The token '{${T}' was unable to be parsed as an object literal [ '${Block}', '${Join<Rest,", ">}' ]`
+            `Failed to parse the key values found in the object literal: '${T}'`,
+            { token: T; block: Block }
+        >
+        : Err<
+            "malformed-token/object-literal",
+            `The parsing of an object literal was started due to the presence of the '{' character but no matching '}' was detected: ${Block}`
         >
     : Err<
         "malformed-token/object-literal",
-        `The parsing of an object literal was started due to the presence of the '{' character but no matching '}' was detected: ${Block}`
+        `The terminating '}' character was not found in the token's object literal definition!`,
+        { token: T }
     >
-: Err<
-    "malformed-token/object-literal",
-    `The terminating '}' character was not found in the token's object literal definition!`,
-    { token: T }
->
+    : Err<"oops">
 : never;
 
 /**

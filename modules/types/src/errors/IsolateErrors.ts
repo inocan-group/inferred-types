@@ -83,3 +83,6 @@ export type IsolateErrors<
     : T extends Dictionary
         ? CheckDictionary<T, U>
         : never;
+
+
+
