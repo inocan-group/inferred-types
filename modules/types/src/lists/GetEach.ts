@@ -11,7 +11,7 @@ type Process<
     TKey extends string,
     TDefault = undefined
 > = RemoveNever<{
-    [K in keyof TList]: TList[K] extends Container
+    [K in keyof TList]: TList[K] extends Container | TypedFunction | Error
         ? Get<TList[K], TKey, TDefault>
         : TList[K] extends TypedFunction
             ? Get<FnKeyValue<TList[K]>, TKey, TDefault>

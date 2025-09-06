@@ -62,6 +62,8 @@ describe("joinWith()() runtime utility", () => {
     expect(list).toBe("foo, bar, baz");
 
     const partial = joinWith(" | ");
+    const complete = partial("foo","bar");
+    expect(complete).toBe("foo | bar");
 
     type cases = [
       Expect<Test<typeof helloWorld, "equals",  "hello world">>,

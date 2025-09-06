@@ -284,7 +284,7 @@ export interface NumericSortOptions<
  * Main sorting logic without first elements
  */
 type _NumericSortMain<
-    TValues extends any[],
+    TValues extends readonly unknown[],
     TOpt extends NumericSortOptions,
     TNumericArray extends readonly number[] = AsNumericArray<TValues>,
     TSorted extends readonly number[] = _Sort<
@@ -297,7 +297,7 @@ type _NumericSortMain<
  * Sorting logic with first elements
  */
 type _NumericSortWithFirst<
-    TValues extends any[],
+    TValues extends readonly unknown[],
     TOpt extends NumericSortOptions,
     TNumericArray extends readonly number[] = AsNumericArray<TValues>,
     TNumericFirst = TOpt["first"] extends readonly any[]
@@ -326,7 +326,7 @@ type _NumericSortWithFirst<
  * - `first`: pin specific numeric values to the beginning of the sorted array
  */
 export type NumericSort<
-    TValues extends any[],
+    TValues extends readonly unknown[],
     TOpt extends NumericSortOptions = NumericSortOptions,
 > = IsStringLiteral<TOpt["offset"]> extends true
     ? [IsEqual<TOpt["order"], "DESC">] extends [true]

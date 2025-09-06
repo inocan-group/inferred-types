@@ -14,7 +14,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type SR2 = NumericSort<[22, 33, 44, 11, 11], { order: "DESC" }>;
         type SR3 = NumericSort<[1, 2, 3, 4], { order: "DESC" }>;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<S1, "equals", [1, 2, 3,  4]>>,
             Expect<Test<S2, "equals", [11, 11, 22, 33,  44]>>,
@@ -35,7 +34,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type SR2 = NumericSort<[22, 33, 44, `11`, 11], { order: "DESC" }>;
         type SR3 = NumericSort<[1, `2`, `3`, 4], { order: "DESC" }>;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<S1, "equals", [1, 2, 3, 4]>>,
             Expect<Test<S2, "equals", [11, 11, 22, 33, 44]>>,
@@ -58,7 +56,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type Asc = NumericSort<DATA, { offset: "value", order: "ASC" }>;
         type Desc = NumericSort<DATA, { offset: "value", order: "DESC" }>;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<
                 Asc,
@@ -91,7 +88,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type SR2 = NumericSort<[22, 33, 44, 11], { order: "DESC", first: 33 }>;
         type SR3 = NumericSort<[7, 1, 4, 9], { order: "DESC", first: 1 }>;
 
-        // @ts-ignore
         type cases = [
             // Ascending with first
             Expect<Test<S1, "equals", [8, 1, 2, 3, 5]>>, // 8 first, then [1,2,3,5]
@@ -113,7 +109,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type SR1 = NumericSort<[5, 2, 8, 1, 3], { order: "DESC", first: [8, 2] }>;
         type SR2 = NumericSort<[22, 33, 44, 11, 33], { order: "DESC", first: [33, 11] }>;
 
-        // @ts-ignore
         type cases = [
             // Ascending with multiple first elements
             Expect<Test<S1, "equals", [8, 2, 1, 3, 5]>>, // [8,2] first, then [1,3,5]
@@ -130,7 +125,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type S1 = NumericSort<[5, 2, 8, 1, 3], { first: 99 }>;
         type S2 = NumericSort<[22, 33, 44, 11], { first: [99, 88] }>;
 
-        // @ts-ignore
         type cases = [
             // First element not in array - should behave like normal sort
             Expect<Test<S1, "equals", [1, 2, 3, 5, 8]>>, // Normal sort since 99 not present
@@ -142,7 +136,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type S1 = NumericSort<[5, 2, 8, 2, 3], { first: 2 }>;
         type S2 = NumericSort<[5, 2, 8, 2, 3, 5], { first: [2, 5] }>;
 
-        // @ts-ignore
         type cases = [
             // Handle duplicates correctly
             Expect<Test<S1, "equals", [2, 2, 3, 5, 8]>>, // Both 2s first, then [3,5,8]
@@ -154,7 +147,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type S1 = NumericSort<[`5`, 2, `8`, 1, 3], { first: `8` }>;
         type S2 = NumericSort<[22, `33`, 44, 11], { first: [`33`, 22] }>;
 
-        // @ts-ignore
         type cases = [
             // Handle numeric literals with first
             Expect<Test<S1, "equals", [8, 1, 2, 3, 5]>>, // 8 first, then [1,2,3,5]
@@ -167,7 +159,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type S2 = NumericSort<[], { first: 42 }>;
         type S3 = NumericSort<[1, 2, 3], { first: [] }>;
 
-        // @ts-ignore
         type cases = [
             // Edge cases
             Expect<Test<S1, "equals", [42]>>, // Single element array

@@ -1,8 +1,14 @@
-import type { Join, Tuple } from "inferred-types/types";
+import type { Join } from "inferred-types/types";
 
+/**
+ * **Joiner**`<TJoin>`
+ *
+ * Represents a partial application of the runtime `joinWith()` utility.
+ */
 export type Joiner<
     TJoin extends string,
-> = <TContent extends Tuple<string>,
+> = <
+    const TContent extends readonly string[]
 >(...tuple: TContent
 ) => Join<TContent, TJoin>;
 
@@ -19,16 +25,16 @@ export type Joiner<
  * const list = join(", ")("foo", "bar", "baz");
  * ```
  */
-export function joinWith<TJoin extends string>(
+export function joinWith<const TJoin extends string>(
     joinWith: TJoin,
 ) {
     /**
      * add elements of the tuple you want to join
      */
-    return <TContent extends readonly string[]>(
-        ...tuple: TContent
-    ): Join<TContent, TJoin> => {
+    const fn = ((...tuple: readonly string[]) => {
         const tup: readonly string[] = tuple;
-        return tup.join(joinWith) as unknown as Join<TContent, TJoin>;
-    };
+        return tup.join(joinWith);
+    }) as unknown as Joiner<TJoin>;
+
+    return fn;
 }

@@ -93,9 +93,14 @@ type Remaining<
 }>;
 
 /**
- * **SortApi**`<TList, [TOffset]>`
+ * **Sort**`<TList, TOptions>`
  *
- * Sorts a tuple value `T` by allowing items to be placed `toTop` or `toBottom`
+ * Sorts a tuple value `TList` by allowing items be:
+ *
+ * - pinned to the "start"
+ * - pinned to the "end"
+ * - sorted using an ascending or descending order
+ *   - this will leverage the `NumericSort` and `StringSort`
  */
 export type Sort<
     TList extends readonly unknown[],

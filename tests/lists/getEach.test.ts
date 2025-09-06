@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getEach, tuple } from "inferred-types/runtime";
-import type { Err, Expect, GetEach, Test } from "inferred-types/types";
+import type { Err, Expect, Get, GetEach, Test } from "inferred-types/types";
 
 describe("GetEach<T,P>", () => {
 
@@ -47,6 +47,7 @@ describe("GetEach<T,P>", () => {
         type E1 = Err<"context","There I was, there I was">;
         type E2 = Err<"location", "In the Jungle">;
         type T1 = GetEach<[E1,E2], "message">;
+        type G1 = Get<E1, "message">; // this works!
 
         type cases = [
             Expect<Test<T1, "equals", [

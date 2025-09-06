@@ -3,15 +3,21 @@ import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
 /**
  * **Container**
  *
- * A type which represents any container type including:
+ * A type which represents common container types including:
  *
- *  - any object based type defined with Record<K,V>
+ *  - any object-based dictionary type (Record<K,V>)
  *  - any array or tuple
  *  - any `Map<K,V>`, `WeakMap<K,V>`, or `Set<T>`
+ *
+ * Note: functions are intentionally excluded to avoid excessive type
+ * comparisons when treating functions as containers.
  */
 export type Container
-    = | object
-    | readonly unknown[];
+    = | readonly unknown[]
+    | Dictionary
+    | Map<any, any>
+    | WeakMap<any, any>
+    | Set<any>;
 
 /**
  * **NarrowContainer**`<N>`
