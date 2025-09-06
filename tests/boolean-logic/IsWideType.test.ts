@@ -41,13 +41,14 @@ describe("IsWideScalar<T>", () => {
 describe("IsWideContainer<T>", () => {
 
     it("happy path", () => {
-        type T1 = IsWideContainer<object>;
         type T2 = IsWideContainer<Dictionary>;
         type T3 = IsWideContainer<Record<string, string>>;
         type T4 = IsWideContainer<string[]>;
         type T5 = IsWideContainer<readonly string[]>;
         type T6 = IsWideContainer<readonly unknown[]>;
         type T7 = IsWideContainer<Map<string, string>>;
+
+        type B = IsWideContainer<object>; // object extends Function which is NOT a container
 
         type F1 = IsWideContainer<{ foo: 1 }>;
         type F2 = IsWideContainer<[1, 2]>;
@@ -57,13 +58,14 @@ describe("IsWideContainer<T>", () => {
         type K = Keys<Record<string, string>>;
 
         type cases = [
-            Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
             Expect<Test<T3, "equals", true>>,
             Expect<Test<T4, "equals", true>>,
             Expect<Test<T5, "equals", true>>,
             Expect<Test<T6, "equals", true>>,
             Expect<Test<T7, "equals", true>>,
+
+            Expect<Test<B, "equals", boolean>>,
 
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,

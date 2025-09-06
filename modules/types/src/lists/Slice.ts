@@ -46,7 +46,11 @@ type ProcessList<
 > = TList extends readonly unknown[]
     ? IsNegativeNumber<TStart> extends true
         ? TakeLast<TList, Abs<TStart>>
-        : TruncateAtLen<DropLeading<TList, TStart>, TLen>
+        : IsGreaterThan<TStart, TList["length"]> extends true
+            ? TLen extends number
+                ? []
+                : never
+            : TruncateAtLen<DropLeading<TList, TStart>, TLen>
     : never;
 
 type ProcessChars<

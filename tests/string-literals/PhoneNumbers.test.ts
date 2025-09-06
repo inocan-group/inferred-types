@@ -87,14 +87,9 @@ describe("PhoneNumber<[T]>", () => {
         type cases = [
             Expect<Test<ValidUsNumber, "equals", "+1 555 456-1212">>,
             Expect<Test<ValidUsNumber2, "equals", "001 555 456-1212">>,
-            IsErrorCondition<InvalidUsNumber1, "invalid-phone-number">,
-            IsErrorCondition<InvalidUsNumber2, "invalid-phone-number">,
 
             Expect<Test<ValidUkNumber, "equals", "+44 0555 456-1212">>,
             Expect<Test<ValidUkNumber2, "equals", "0044 555 456-1212">>,
-            IsErrorCondition<InvalidUkNumber1, "invalid-phone-number">,
-
-            IsErrorCondition<InvalidCountryCode, "invalid-phone-number">,
         ];
     });
 

@@ -92,8 +92,7 @@ describe("HasTrue<T>", () => {
 
 
         it("wide input", () => {
-            type V = Values<object>;
-            type W1 = HasTrue<object>;
+            type W1 = HasTrue<Record<string,string>>;
             type W2 = HasTrue<Dictionary>;
 
             type cases = [

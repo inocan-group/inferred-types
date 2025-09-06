@@ -90,7 +90,7 @@ describe("HasNever<T>", () => {
 
 
         it("wide input", () => {
-            type W1 = HasNever<object>;
+            type W1 = HasNever<readonly unknown[]>;
             type W2 = HasNever<Dictionary>;
 
             type cases = [

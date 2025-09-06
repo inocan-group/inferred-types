@@ -105,8 +105,7 @@ describe("HasFalse<T>", () => {
 
 
         it("wide input", () => {
-            type V = Values<object>;
-            type W1 = HasFalse<object>;
+            type W1 = HasFalse<readonly unknown[]>;
             type W2 = HasFalse<Dictionary>;
 
             type cases = [

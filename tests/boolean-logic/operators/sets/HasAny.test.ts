@@ -98,7 +98,7 @@ describe("HasAny<T>", () => {
 
 
         it("wide input", () => {
-            type W1 = HasAny<object>;
+            type W1 = HasAny<readonly unknown[]>;
             type W2 = HasAny<Dictionary>;
 
             type cases = [

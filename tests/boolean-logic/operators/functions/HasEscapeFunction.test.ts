@@ -47,7 +47,7 @@ describe("hasEscapeFunction", () => {
     });
 
     it("should handle edge cases correctly", () => {
-    // any type
+        // any type
         type T1 = HasEscapeFunction<any>;
 
         // never type

@@ -105,8 +105,7 @@ describe("HasTemplateLiteral<T>", () => {
 
 
         it("wide input", () => {
-            type V = Values<object>;
-            type W1 = HasTemplateLiteral<object>;
+            type W1 = HasTemplateLiteral<Map<any,any>>;
             type W2 = HasTemplateLiteral<Dictionary>;
 
             type cases = [

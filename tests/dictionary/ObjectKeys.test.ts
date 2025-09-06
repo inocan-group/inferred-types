@@ -5,8 +5,11 @@ import {
     Expect,
     ObjectKeys,
     Test,
-    ObjectKey
+    ObjectKey,
+    DropVariadic,
+    GetIndexKeys
 } from "inferred-types/types";
+import { RemoveIndexKeys } from "inferred-types";
 
 
 describe("ObjectKeys<T>", () => {
@@ -73,6 +76,8 @@ describe("ObjectKeys<T>", () => {
         type FooBarOverlap = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
         //   ^?
 
+        type X = RemoveIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
+        type Y = GetIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
 
         type cases = [
             Expect<Test<
@@ -85,7 +90,7 @@ describe("ObjectKeys<T>", () => {
             >>,
             Expect<Test<
                 FooBarOverlap, "equals",
-                (string|number)[]
+                ["foo", "bar", ...string[]]
             >>
         ];
     });

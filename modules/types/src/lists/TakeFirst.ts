@@ -1,22 +1,16 @@
 import type {
     AllOptionalElements,
+    GetOptionalElementCount,
+    GetRequiredElementCount,
     HasOptionalElements,
+    IsLessThan,
     MakeOptional,
+    Min,
+    Subtract,
 } from "inferred-types/types";
 
-// Simple decrement lookup to avoid complex Decrement utility
-type SimpleDecrement<N extends number>
-    = N extends 0 ? 0
-        : N extends 1 ? 0
-            : N extends 2 ? 1
-                : N extends 3 ? 2
-                    : N extends 4 ? 3
-                        : N extends 5 ? 4
-                            : N extends 6 ? 5
-                                : N extends 7 ? 6
-                                    : N extends 8 ? 7
-                                        : N extends 9 ? 8
-                                            : number;
+// Generic decrement using numeric Subtract utility
+type Dec<N extends number> = Subtract<N, 1>;
 
 // Simplified Take implementation
 type Take<
@@ -25,35 +19,24 @@ type Take<
     TResult extends readonly unknown[] = [],
 > = TLen extends 0
     ? TResult
-    : TResult["length"] extends 20 // Higher limit to see if this fixes the issue
+    : [] extends TContent
         ? TResult
-        : [] extends TContent
-            ? TResult
-            : TContent extends readonly [infer Head, ...infer Tail]
-                ? Take<Tail, SimpleDecrement<TLen>, [...TResult, Head]>
-                : TResult;
+        : TContent extends readonly [infer Head, ...infer Tail]
+            ? Take<Tail, Dec<TLen>, [...TResult, Head]>
+            : TResult;
 
-// Count how many of the first N elements are optional - supporting common test patterns
+// Count how many of the first N elements are optional.
+// Optional elements in tuples are trailing; therefore among the first N elements,
+// the count is clamp(0, min(OptionalCount, N - RequiredCount)).
 type CountOptionalInFirstN<
     TContent extends readonly unknown[],
-    N extends number
->
-    // Mixed case: [Required, Optional?, Optional?, Optional?]
-    = TContent extends readonly [any, (infer _B | undefined)?, (infer _C | undefined)?, (infer _D | undefined)?, ...unknown[]]
-        ? N extends 1 ? 0 // First is required
-            : N extends 2 ? 1 // Second is optional
-                : N extends 3 ? 2 // Third is optional
-                    : N extends 4 ? 3 // Fourth is optional
-                        : 3
-    // All optional case: [Optional?, Optional?, Optional?, Optional?]
-        : TContent extends readonly [(infer _A | undefined)?, (infer _B | undefined)?, (infer _C | undefined)?, (infer _D | undefined)?, ...unknown[]]
-            ? N extends 1 ? 1 // All are optional
-                : N extends 2 ? 2
-                    : N extends 3 ? 3
-                        : N extends 4 ? 4
-                            : 4
-        // Fallback for other patterns
-            : 0;
+    N extends number,
+    Req extends number = GetRequiredElementCount<TContent>,
+    Opt extends number = GetOptionalElementCount<TContent>,
+    Delta extends number = Subtract<N, Req>
+> = IsLessThan<N, Req> extends true
+    ? 0
+    : Min<[Opt, Delta]>;
 
 /**
  * **TakeFirst**`<TContent,TLen,[THandle]>`

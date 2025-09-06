@@ -43,4 +43,4 @@ type Process<
 export type MakeOptional<
     T extends readonly unknown[],
     U extends number
-> = Process<Required<T>, U>;
+> = Process<T, U>;
