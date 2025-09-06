@@ -1,8 +1,4 @@
-import type { Brand, IsBranded, IsUnion, UnionToTuple } from "inferred-types/types";
-
-type UnbrandUnion<T extends readonly unknown[]> = {
-    [K in keyof T]: Unbrand<T>
-}[number]
+import type { Brand } from "inferred-types/types";
 
 /**
  * **Unbrand**`<T>`
@@ -22,8 +18,6 @@ type UnbrandUnion<T extends readonly unknown[]> = {
  * type Unbranded = Unbrand<Branded>; // string
  * ```
  */
-export type Unbrand<T> = [IsUnion<T>] extends [true]
-    ? UnbrandUnion<UnionToTuple<T>>
-    : T extends Brand<infer B, any>
-    ? IsBranded<B> extends true ? Unbrand<B> : B
+export type Unbrand<T> = T extends Brand<infer B, any>
+    ? Unbrand<B>
     : T;
