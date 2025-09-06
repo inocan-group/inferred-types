@@ -2,10 +2,6 @@ import type {
     Container,
     Dictionary,
     IsWideObject,
-    MakeKeysOptional,
-    ObjectKey,
-    OptionalKeys,
-    OptionalKeysTuple,
 } from "inferred-types/types";
 
 /**
@@ -25,18 +21,17 @@ type FilterTuple<
  * Efficiently filters objects by removing never values using mapped types
  */
 type FilterObject<T> = {
-    [K in keyof T as [T[K]] extends [never] ? never : K]: T[K]
+    [K in keyof T as [Required<T>[K]] extends [never] ? never : K]:
+        T[K] extends Dictionary
+            ? ProcessObject<T[K]>
+            : T[K]
 };
 
 type ProcessObject<
     T extends Dictionary,
-    O extends readonly ObjectKey[] = OptionalKeysTuple<T>
 > = IsWideObject<T> extends true
     ? Dictionary
-    : MakeKeysOptional<
-        FilterObject<Required<T>>,
-        O
-    >;
+    : FilterObject<T>;
 
 /**
  * **RemoveNever**`<T>`

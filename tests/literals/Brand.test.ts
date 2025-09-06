@@ -82,6 +82,20 @@ describe("Brand & Unbrand", () => {
     });
 
 
+    it("Unbrand<T>", () => {
+        type Nada = Unbrand<"nada">;
+        type Year = Unbrand<FourDigitYear<"1999">>;
+        type YearUnion = Unbrand<FourDigitYear<"1999"> | null>
+
+        type cases = [
+            Expect<Test<Nada, "equals", "nada">>,
+            Expect<Test<Year, "equals", "1999">>,
+            Expect<Test<YearUnion, "equals", "1999" | null>>,
+        ];
+    });
+
+
+
     it("UnbrandValues<T>", () => {
         type Iso = "2024-09-23";
         type Parsed = ParseDate<Iso>;
@@ -89,6 +103,7 @@ describe("Brand & Unbrand", () => {
         type Meta = AsDateMeta<Parsed>;
         type Meta_Unbranded = UnbrandValues<Meta>;
         type Wide = UnbrandValues<ParsedDate>;
+        type WYear = Wide[0];
 
         type cases = [
             Expect<Test<Parsed_Unbranded, "equals", [ "2024", "09", "23", null ]>>,

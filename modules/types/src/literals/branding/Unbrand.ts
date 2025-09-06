@@ -1,4 +1,8 @@
-import type { Brand, IsBranded } from "inferred-types/types";
+import type { Brand, IsBranded, IsUnion, UnionToTuple } from "inferred-types/types";
+
+type UnbrandUnion<T extends readonly unknown[]> = {
+    [K in keyof T]: Unbrand<T>
+}[number]
 
 /**
  * **Unbrand**`<T>`
@@ -11,12 +15,15 @@ import type { Brand, IsBranded } from "inferred-types/types";
  * This is a fundamental TypeScript limitation.
  *
  * @example
+ *
  * ```ts
  * // string & { [Brand Symbol]: "UserId" }
  * type Branded = Brand<string, "UserId">;
  * type Unbranded = Unbrand<Branded>; // string
  * ```
  */
-export type Unbrand<T> = T extends Brand<infer B, any>
+export type Unbrand<T> = [IsUnion<T>] extends [true]
+    ? UnbrandUnion<UnionToTuple<T>>
+    : T extends Brand<infer B, any>
     ? IsBranded<B> extends true ? Unbrand<B> : B
     : T;
