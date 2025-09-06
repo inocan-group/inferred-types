@@ -249,12 +249,12 @@ type RemoveFirstNumeric<
         : TOut;
 
 export interface NumericSortOptions<
-    TOrder extends "ASC" | "DESC" | undefined = "ASC" | "DESC" | undefined,
+    TOrder extends "ASC" | "DESC" | "Natural" | undefined = "ASC" | "DESC" | "Natural" | undefined,
     TOffset extends string | undefined = string | undefined,
 > {
     /**
      * by default this is set to sort by _ascending_ order but this can be
-     * reversed by changing order to `DESC`.
+     * reversed by changing order to `DESC` or kept in original order with `Natural`.
      */
     order?: TOrder;
 
@@ -301,10 +301,12 @@ type _NumericSortMain<
     TValues extends readonly unknown[],
     TOpt extends NumericSortOptions,
     TNumericArray extends readonly number[] = AsNumericArray<TValues>,
-    TSorted extends readonly number[] = _Sort<
-        TNumericArray,
-        [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
-    >
+    TSorted extends readonly number[] = [IsEqual<TOpt["order"], "Natural">] extends [true]
+        ? TNumericArray
+        : _Sort<
+            TNumericArray,
+            [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
+        >
 > = TSorted;
 
 /**
@@ -321,10 +323,12 @@ type _NumericSortWithStart<
             : TOpt["start"],
     TStartElements extends readonly number[] = ExtractFirstNumeric<TNumericArray, TNumericStart>,
     TRemainingElements extends readonly number[] = RemoveFirstNumeric<TNumericArray, TNumericStart>,
-    TSorted extends readonly number[] = _Sort<
-        TRemainingElements,
-        [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
-    >
+    TSorted extends readonly number[] = [IsEqual<TOpt["order"], "Natural">] extends [true]
+        ? TRemainingElements
+        : _Sort<
+            TRemainingElements,
+            [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
+        >
 > = [...TStartElements, ...TSorted];
 
 /**
@@ -341,10 +345,12 @@ type _NumericSortWithEnd<
             : TOpt["end"],
     TEndElements extends readonly number[] = ExtractFirstNumeric<TNumericArray, TNumericEnd>,
     TRemainingElements extends readonly number[] = RemoveFirstNumeric<TNumericArray, TNumericEnd>,
-    TSorted extends readonly number[] = _Sort<
-        TRemainingElements,
-        [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
-    >
+    TSorted extends readonly number[] = [IsEqual<TOpt["order"], "Natural">] extends [true]
+        ? TRemainingElements
+        : _Sort<
+            TRemainingElements,
+            [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
+        >
 > = [...TSorted, ...TEndElements];
 
 /**
@@ -373,10 +379,12 @@ type _NumericSortWithStartAndEnd<
         RemoveFirstNumeric<TNumericArray, TNumericStart>,
         TNumericEnd
     >,
-    TSorted extends readonly number[] = _Sort<
-        TRemainingElements,
-        [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
-    >
+    TSorted extends readonly number[] = [IsEqual<TOpt["order"], "Natural">] extends [true]
+        ? TRemainingElements
+        : _Sort<
+            TRemainingElements,
+            [IsEqual<TOpt["order"], "DESC">] extends [true] ? true : false
+        >
 > = [...TStartElements, ...TSorted, ...TEndElements];
 
 /**
@@ -387,7 +395,7 @@ type _NumericSortWithStartAndEnd<
  * - _values_ can be a `number` or `${number}`
  *
  * Options:
- * - `order`: defaults to `ASC` but can be set to `DESC`
+ * - `order`: defaults to `ASC` but can be set to `DESC` or `Natural` (preserves original order)
  * - `offset`:  if you have _containers_ as values, you can specify an offset to use to look for the numeric value
  * - `start`: pin specific numeric values to the beginning of the sorted array
  * - `end`: pin specific numeric values to the end of the sorted array
@@ -397,17 +405,19 @@ export type NumericSort<
     TOpt extends NumericSortOptions = NumericSortOptions,
 > = IsStringLiteral<TOpt["offset"]> extends true
     ? TValues extends readonly Container[]
-        ? [IsEqual<TOpt["order"], "DESC">] extends [true]
-            ? Reverse<
-                _SortOffset<
+        ? [IsEqual<TOpt["order"], "Natural">] extends [true]
+            ? TValues // Keep original order for Natural
+            : [IsEqual<TOpt["order"], "DESC">] extends [true]
+                ? Reverse<
+                    _SortOffset<
+                        TValues,
+                        As<TOpt["offset"], string>
+                    >
+                >
+                : _SortOffset<
                     TValues,
                     As<TOpt["offset"], string>
                 >
-            >
-            : _SortOffset<
-                TValues,
-                As<TOpt["offset"], string>
-            >
         : never // Cannot sort by offset on non-Container values
 
     : TOpt extends { start: any }

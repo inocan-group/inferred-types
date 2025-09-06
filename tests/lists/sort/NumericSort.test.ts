@@ -256,4 +256,78 @@ describe("Sort<TValues,[TReverse]>", () => {
             Expect<Test<S3, "equals", [1, 1, 3, 2, 2]>>, // Both 1s at start, 3 middle, both 2s at end
         ];
     });
+
+    it("numeric sort with Natural order", () => {
+        type S1 = NumericSort<[5, 2, 8, 1, 3], { order: "Natural" }>;
+        type S2 = NumericSort<[22, 33, 44, 11], { order: "Natural" }>;
+        type S3 = NumericSort<[9, 7, 1, 4], { order: "Natural" }>;
+
+        type cases = [
+            // Natural order preserves original order
+            Expect<Test<S1, "equals", [5, 2, 8, 1, 3]>>, // Original order preserved
+            Expect<Test<S2, "equals", [22, 33, 44, 11]>>, // Original order preserved
+            Expect<Test<S3, "equals", [9, 7, 1, 4]>>, // Original order preserved
+        ];
+    });
+
+    it("numeric sort with Natural order and start", () => {
+        type S1 = NumericSort<[5, 2, 8, 1, 3], { order: "Natural", start: 8 }>;
+        type S2 = NumericSort<[22, 33, 44, 11], { order: "Natural", start: [11, 33] }>;
+        type S3 = NumericSort<[9, 7, 1, 4, 7], { order: "Natural", start: 7 }>;
+
+        type cases = [
+            // Natural order with start pinning
+            Expect<Test<S1, "equals", [8, 5, 2, 1, 3]>>, // 8 moved to start, rest in original order
+            Expect<Test<S2, "equals", [11, 33, 22, 44]>>, // [11,33] moved to start, rest in original order
+            Expect<Test<S3, "equals", [7, 7, 9, 1, 4]>>, // Both 7s moved to start, rest in original order
+        ];
+    });
+
+    it("numeric sort with Natural order and end", () => {
+        type S1 = NumericSort<[5, 2, 8, 1, 3], { order: "Natural", end: 2 }>;
+        type S2 = NumericSort<[22, 33, 44, 11], { order: "Natural", end: [44, 22] }>;
+        type S3 = NumericSort<[9, 7, 1, 4, 7], { order: "Natural", end: 7 }>;
+
+        type cases = [
+            // Natural order with end pinning
+            Expect<Test<S1, "equals", [5, 8, 1, 3, 2]>>, // 2 moved to end, rest in original order
+            Expect<Test<S2, "equals", [33, 11, 44, 22]>>, // [44,22] moved to end, rest in original order
+            Expect<Test<S3, "equals", [9, 1, 4, 7, 7]>>, // Both 7s moved to end, rest in original order
+        ];
+    });
+
+    it("numeric sort with Natural order and both start and end", () => {
+        type S1 = NumericSort<[5, 2, 8, 1, 3], { order: "Natural", start: 8, end: 3 }>;
+        type S2 = NumericSort<[22, 33, 44, 11], { order: "Natural", start: 11, end: 44 }>;
+        type S3 = NumericSort<[9, 7, 1, 4, 2], { order: "Natural", start: [1, 7], end: 9 }>;
+
+        type cases = [
+            // Natural order with both start and end pinning
+            Expect<Test<S1, "equals", [8, 5, 2, 1, 3]>>, // 8 at start, 3 at end, rest in original order
+            Expect<Test<S2, "equals", [11, 22, 33, 44]>>, // 11 at start, 44 at end, rest in original order
+            Expect<Test<S3, "equals", [1, 7, 4, 2, 9]>>, // [1,7] at start, 9 at end, rest in original order
+        ];
+    });
+
+    it("numeric sort with Natural order on offset", () => {
+        type DATA = [
+            { id: "foo", value: 14 },
+            { id: "baz", value: 0 },
+            { id: "bar", value: 2 },
+        ]
+
+        type Natural = NumericSort<DATA, { offset: "value", order: "Natural" }>;
+
+        type cases = [
+            Expect<Test<
+                Natural,
+                "equals",
+                [
+                    { id: "foo", value: 14 },
+                    { id: "baz", value: 0 },
+                    { id: "bar", value: 2 },
+                ]
+            >>, // Original order preserved with offset
+        ];
+    });
 });
