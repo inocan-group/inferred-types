@@ -1,14 +1,13 @@
-import { IsGreaterThan } from '../boolean-logic/operators/scalar/numeric/IsGreaterThan';
 import type {
     Abs,
     Chars,
     Concat,
     FixedLengthArray,
-    IsLessThan,
     IsNegativeNumber,
     TakeFirst,
     TakeLast,
 } from "inferred-types/types";
+import type { IsGreaterThan } from "../boolean-logic/operators/scalar/numeric/IsGreaterThan";
 
 export type DropLeading<
     TList extends readonly unknown[],

@@ -31,7 +31,7 @@ import type {
 type ProtocolPortLookup = typeof PROTOCOL_DEFAULT_PORTS;
 
 type Proto = typeof NETWORK_PROTOCOL_LOOKUP;
-export type NetworkProtocol = Mutable<Values<Proto>> extends infer P extends readonly (string )[]
+export type NetworkProtocol = Mutable<Values<Proto>> extends infer P extends readonly (string)[]
     ? RemoveEmpty<Flatten<P>>[number]
     : never;
 

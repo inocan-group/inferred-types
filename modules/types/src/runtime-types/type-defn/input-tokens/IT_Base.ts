@@ -212,10 +212,10 @@ export type IT_Token<T extends IT_TakeKind = IT_TakeKind> = IsUnion<T> extends t
                                             : T extends "generator"
                                                 ? IT_Token_Generator
                                                 : T extends "promise"
-                                                ? IT_Token_Promise
-                                                : T extends "intersection"
-                                                    ? IT_Token_Intersection
-                                                    : never;
+                                                    ? IT_Token_Promise
+                                                    : T extends "intersection"
+                                                        ? IT_Token_Intersection
+                                                        : never;
 
 /**
  * a validation utility to make sure `T` is of the type `IT_TakeSuccess`

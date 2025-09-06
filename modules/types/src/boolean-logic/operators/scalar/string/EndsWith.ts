@@ -1,4 +1,4 @@
-import type { IsAny, IsEqual, IsNever, IsUnion, IsUnknown, LastChar, Or, ToStringArray } from "inferred-types/types";
+import type { IsAny, IsEqual, IsNever, IsUnion, IsUnknown, Or, ToStringArray } from "inferred-types/types";
 
 type Check<
     TValue extends string,
@@ -26,7 +26,7 @@ export type EndsWith<
     TValue extends string | number,
     TComparator extends string | number | readonly (string | number)[],
 > = [IsUnion<TComparator>] extends [true]
-    ? LastChar<`${TValue}`> extends TComparator
+    ? `${TValue}` extends `${string}${TComparator}`
         ? true
         : false
     : [IsAny<TValue>] extends [true]

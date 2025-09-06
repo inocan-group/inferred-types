@@ -26,8 +26,8 @@ export type RepoSource = TupleToUnion<Mutable<typeof REPO_SOURCES>>;
 export type RepoPageType = TupleToUnion<Mutable<typeof REPO_PAGE_TYPES>>;
 
 export type RepoUrls = Flatten<Values<typeof REPO_SOURCE_LOOKUP>> extends infer U extends readonly string[]
-? UrlsFrom<U>
-: never;
+    ? UrlsFrom<U>
+    : never;
 
 /**
  * **SemanticVersion**`<[TPrefix]>`

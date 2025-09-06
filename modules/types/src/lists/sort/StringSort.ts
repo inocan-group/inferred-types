@@ -1,5 +1,6 @@
 import type {
     As,
+    CodePointOf,
     Container,
     EmptyObject,
     Get,
@@ -7,10 +8,8 @@ import type {
     IsStringLiteral,
     IsWideString,
     Length,
-    Reverse,
-    CodePointOf,
     LessThan,
-    IsDefined
+    Reverse
 } from "inferred-types/types";
 
 export interface StringSortOptions<
@@ -239,10 +238,10 @@ export type StringSort<
     ? T extends readonly Container[]
         ? (O extends { order: infer Ord } ? Ord : undefined) extends infer OOrder
             ? [IsEqual<OOrder, "Natural">] extends [true]
-            ? T // Keep original order for Natural
-            : [IsEqual<OOrder, "DESC">] extends [true]
-                ? Reverse<_SortStringOffset<T, As<O["offset"], string>>>
-                : _SortStringOffset<T, As<O["offset"], string>>
+                ? T // Keep original order for Natural
+                : [IsEqual<OOrder, "DESC">] extends [true]
+                    ? Reverse<_SortStringOffset<T, As<O["offset"], string>>>
+                    : _SortStringOffset<T, As<O["offset"], string>>
             : never
         : never // Cannot use offset with non-container types
     : T extends readonly string[]
