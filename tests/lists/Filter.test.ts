@@ -11,7 +11,6 @@ import {
     Compare,
     Narrowable
 } from "inferred-types/types";
-import { Marked } from "inferred-types/constants";
 import { filter } from "inferred-types/runtime";
 
 
