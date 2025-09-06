@@ -1,8 +1,10 @@
+import { IsGreaterThan } from '../boolean-logic/operators/scalar/numeric/IsGreaterThan';
 import type {
     Abs,
     Chars,
     Concat,
     FixedLengthArray,
+    IsLessThan,
     IsNegativeNumber,
     TakeFirst,
     TakeLast,
@@ -72,7 +74,9 @@ export type Slice<
     TLen extends number | undefined = undefined,
 > = TList extends string
     ? Chars<TList> extends readonly string[]
-        ? ProcessChars<Chars<TList>, TStart, TLen>
+        ? IsGreaterThan<TStart, Chars<TList>["length"]> extends true
+            ? ""
+            : ProcessChars<Chars<TList>, TStart, TLen>
         : never
     : TList extends readonly unknown[]
         ? ProcessList<TList, TStart, TLen>

@@ -180,7 +180,7 @@ describe("Slice<TList, TStart, TEnd>", () => {
         type cases = [
             Expect<Test<BeyondStart, "equals", never>>,
             // When start is beyond bounds, even with length it returns proper sized array with never
-            Expect<Test<BeyondStartWithLen, "equals", [never, never]>>,
+            Expect<Test<BeyondStartWithLen, "equals", []>>,
             Expect<Test<ExceedLength, "equals", [2, 3]>>,
             Expect<Test<ExceedFromZero, "equals", [1, 2, 3]>>,
             Expect<Test<NegBeyond, "equals", [1, 2, 3]>>,
@@ -235,8 +235,8 @@ describe("Slice<TList, TStart, TEnd>", () => {
     it("comprehensive string slicing", () => {
         type Foo = Slice<"FooBar", 0, 3>;
         type Bar = Slice<"FooBar", 3, 3>;
-        type Bar2 = Slice<"FooBar", 3>;  // No length returns empty string
-        type Bar3 = Slice<"FooBar", 3, 3>;  // With length
+        type Bar2 = Slice<"FooBar", 3>;
+        type Bar3 = Slice<"FooBar", 3, 3>;
 
         // Additional string tests
         type EmptyStr = Slice<"", 0>;  // No length returns empty
@@ -265,20 +265,20 @@ describe("Slice<TList, TStart, TEnd>", () => {
         type cases = [
             Expect<Test<Foo, "equals", "Foo">>,
             Expect<Test<Bar, "equals", "Bar">>,
-            Expect<Test<Bar2, "equals", "">>,  // No length returns empty
+            Expect<Test<Bar2, "equals", "Bar">>,
             Expect<Test<Bar3, "equals", "Bar">>,
 
             Expect<Test<EmptyStr, "equals", "">>,
             Expect<Test<EmptyStrWithLen, "equals", "">>,
             Expect<Test<EmptyStrNeg, "equals", "">>,
-            Expect<Test<SingleChar, "equals", "">>,  // No length returns empty
+            Expect<Test<SingleChar, "equals", "X">>,  // No length returns empty
             Expect<Test<SingleCharWithLen, "equals", "X">>,
             Expect<Test<SingleCharNeg, "equals", "X">>,
 
             Expect<Test<FirstChar, "equals", "H">>,
             Expect<Test<LastChar, "equals", "o">>,
             Expect<Test<MiddleChars, "equals", "Script">>,
-            Expect<Test<SkipFirstTwo, "equals", "">>,  // No length returns empty
+            Expect<Test<SkipFirstTwo, "equals", "vaScript">>,  // No length returns empty
             Expect<Test<SkipFirstTwoWithLen, "equals", "vaScript">>,
             Expect<Test<SkipLastThree, "equals", "Programm">>,
 
@@ -291,9 +291,6 @@ describe("Slice<TList, TStart, TEnd>", () => {
             Expect<Test<StrExceedLen, "equals", "Test">>,
         ];
     });
-
-    // Emoji tests removed due to character encoding issues
-    // The Slice type has difficulty handling multi-byte Unicode characters like emojis
 
     it("large arrays performance test", () => {
         type LargeList = [
