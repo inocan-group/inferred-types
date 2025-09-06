@@ -26,18 +26,17 @@ describe("IT_TakeArray<T>", () => {
 
     it("postfix group", () => {
         type StrTwo = IT_TakeArray<"(string)[][]">;
-        type X = NestedSplit<"string)[]", ")[][]">;
         type Str = IT_TakeArray<"(string)[]">;
         type Union = IT_TakeArray<"(string | number)[]">;
 
         type cases = [
             Expect<Test<StrTwo, "extends", IT_Token<"array">>>,
-            Expect<Test<StrTwo["token"], "equals", `(string)[][]`>>,
-            Expect<Test<StrTwo["type"], "equals", string[][]>>,
-
             Expect<Test<Str, "extends", IT_Token<"array">>>,
+
+            Expect<Test<StrTwo["token"], "equals", `(string)[][]`>>,
             Expect<Test<Str["token"], "equals", `(string)[]`>>,
             Expect<Test<Str["type"], "equals", string[]>>,
+            Expect<Test<Union["type"], "equals", Array<string|number>>>
         ];
     });
 

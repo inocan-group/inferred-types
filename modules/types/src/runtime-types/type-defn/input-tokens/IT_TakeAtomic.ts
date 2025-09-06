@@ -46,8 +46,8 @@ export type IT_AtomicToken = StringKeys<AtomicMap>[number];
  */
 export type IT_TakeAtomic<T extends Suggest<IT_AtomicToken>> = As<
     [
-        RetainUntil<T, Whitespace>,
-        RetainAfter<T, Whitespace>
+        RetainUntil<T, Whitespace | "|" | "&">,
+        RetainAfter<T, Whitespace | "|" | "&", true>
     ] extends [ infer Atom extends string, infer Rest extends string ]
         ? Atom extends keyof AtomicMap
             ? As<

@@ -2,6 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import {
     Contains,
+    DefineObject,
     Err,
     FnKeyValue,
     FromInputToken,
@@ -367,7 +368,7 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<AU, "equals",  (string | number)[]>>,
             Expect<Test<AB, "equals",  boolean[]>>,
 
-            Expect<Extends<Incomplete, Err<"invalid-token/array">>>,
+            Expect<Test<Incomplete, "isError", "malformed-token">>,
         ];
     });
 
@@ -438,7 +439,7 @@ describe("FromInputToken<Token>", () => {
         type E = FromInputToken<"Array<string">;
 
         type cases = [
-            Expect<Extends<E, Err<"invalid-token/array">>>
+            Expect<Test<E, "isError", "malformed-token">>
         ]
     })
 
@@ -449,7 +450,7 @@ describe("FromInputToken<Token>", () => {
 
         type cases = [
             Expect<Test<T1, "equals", [ number, number, string ]>>,
-            Expect<Test<T2, "equals", [ string|number, boolean ]>>,
+            Expect<Test<T2, "equals", [ never, boolean ]>>,
         ];
     });
 
@@ -470,11 +471,19 @@ describe("FromInputToken<Token>", () => {
     });
 
     it("dictionary from FromInputToken", () => {
+
         type D1 = FromInputToken<{ foo: "string", bar: "number" }>;
+
         type D2 = FromInputToken<{
             foo: "Array<string|number>",
             bar: "number"
         }>;
+
+        type D2b = FromInputToken<{
+            foo: "(string|number)[]",
+            bar: "number"
+        }>
+
         type D3 = FromInputToken<{
             foo: "Array<string|number>",
             bar: "() => String(hi)"

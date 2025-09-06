@@ -71,14 +71,24 @@ describe("GetInputToken<T>", () => {
 
         type ObjArray = GetInputToken<` object[]  `>;
 
+        type ArrOfUnion = GetInputToken<"Array<string|number>">;
+        type ArrOfUnion2 = GetInputToken<"(string|number)[]">;
+        type ArrOfUnion3 = GetInputToken<"(string | number)[]">;
+
+
         type cases = [
             Expect<Test<StrArr, "extends", IT_Token<"array">>>,
             Expect<Test<StrArr2, "extends", IT_Token<"array">>>,
             Expect<Test<ObjArray, "extends", IT_Token<"array">>>,
+            Expect<Test<ArrOfUnion, "extends", IT_Token<"array">>>,
+            Expect<Test<ArrOfUnion2, "extends", IT_Token<"array">>>,
 
             Expect<Test<StrArr["type"], "equals", string[]>>,
             Expect<Test<StrArr2["type"], "equals", string[][]>>,
             Expect<Test<ObjArray["type"], "equals", object[]>>,
+            Expect<Test<ArrOfUnion["type"], "equals", Array<string|number>>>,
+            Expect<Test<ArrOfUnion2["type"], "equals", Array<string|number>>>,
+            Expect<Test<ArrOfUnion3["type"], "equals", Array<string|number>>>,
         ];
     });
 
