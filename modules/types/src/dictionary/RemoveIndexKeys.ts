@@ -1,6 +1,7 @@
 import type { Dictionary, HasIndexKeys, IsTemplateLiteral, ObjectKeys, WithKeys } from "inferred-types/types";
 
 // For arrays, preserve the structure but remove index signatures
+// Note: Array handling is complex due to TypeScript's array type structure
 type Arr<T> = {
     [K in keyof T as number extends K
         ? never
@@ -49,7 +50,7 @@ export type RemoveIndexKeys<T> = T extends Dictionary
         ? Required<ObjectKeys<FilterDictKeys<T>>> extends infer Keys extends readonly PropertyKey[]
             ? WithKeys<T,Keys>
             : never
-
-
-    : T
-: never;
+        : T
+    : T extends readonly any[]
+        ? Arr<T>
+        : never;

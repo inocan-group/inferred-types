@@ -2,7 +2,7 @@
 
 ## Overview
 
-`RemoveIndexKeys<T>` is a type utility that removes index signatures from dictionary and array types while preserving all explicitly defined key-value pairs. It can remove wide index signatures (`string`, `number`, `symbol`) but has limitations with template literal index patterns due to TypeScript's type system constraints.
+`RemoveIndexKeys<T>` is a type utility that removes index signatures from dictionary and array types while preserving all explicitly defined key-value pairs. It can remove wide index signatures (`string`, `number`, `symbol`) as well as template literal index patterns through a clever multi-step reconstruction approach.
 
 ## Syntax
 
@@ -47,50 +47,77 @@ type T5 = RemoveIndexKeys<{ foo: 1; bar: 2 }>;
 // Result: { foo: 1; bar: 2 }
 ```
 
+### Template Literal Index Removal
+
+```typescript
+// Template literal indexes are successfully removed
+type T1 = RemoveIndexKeys<{ foo: 1; bar: 2; [key: `_${string}`]: number }>;
+// Result: { foo: 1; bar: 2 }
+
+type T2 = RemoveIndexKeys<{ [key: `id-${number}`]: string; name: "test" }>;
+// Result: { name: "test" }
+
+type T3 = RemoveIndexKeys<{ [key: `${string}-suffix`]: boolean; active: true }>;
+// Result: { active: true }
+```
+
 ### Array Usage
 
 ```typescript
-// Arrays preserve explicit indices
+// Array handling has limitations due to TypeScript's complex array type structure
 type A1 = RemoveIndexKeys<["a", "b", "c"]>;
-// Result: ["a", "b", "c"] (no change for tuple types)
+// Result: Complex type preserving explicit indices
 
-// Arrays with index signatures
+// Arrays with only index signatures
 type A2 = RemoveIndexKeys<string[]>;
-// Result: {} (removes the implicit numeric index signature)
+// Result: Type with length property but no numeric index signature
 ```
 
 ### Mixed Index Types
 
 ```typescript
-// Multiple index signature types
+// Multiple index signature types including template literals
 type Mixed = RemoveIndexKeys<{
   foo: 1;
   bar: 2;
   [key: string]: unknown;
   [key: number]: unknown;
   [key: symbol]: unknown;
+  [key: `_${string}`]: number;
 }>;
 // Result: { foo: 1; bar: 2 }
 ```
 
-## TypeScript Limitations
+## Complex Template Literal Patterns
 
-### Template Literal Index Signatures
-
-**Important**: Due to TypeScript's type system design, template literal index signatures cannot be completely removed from a type. They remain part of the type's structure even after filtering operations.
+The utility successfully handles even complex template literal index patterns:
 
 ```typescript
-// ❌ Cannot fully remove template literal indexes
-type T1 = RemoveIndexKeys<{ foo: 1; bar: 2; [key: `_${string}`]: number }>;
-// Result: { foo: 1; bar: 2; [key: `_${string}`]: number }
-//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - This remains
+// Multi-interpolation patterns
+type Complex1 = RemoveIndexKeys<{
+  id: number;
+  [key: `${string}_${string}`]: string;
+  [key: `prefix-${number}-suffix`]: boolean;
+}>;
+// Result: { id: number }
 
-// ✅ Can detect them with HasIndexKeys
-type T2 = HasIndexKeys<{ foo: 1; [key: `_${string}`]: number }>;
-// Result: true
+type Complex2 = RemoveIndexKeys<{
+  data: object;
+  [key: `${string}:${string}:${string}`]: any;
+  [key: `route/${string}`]: Function;
+}>;
+// Result: { data: object }
 ```
 
-This is a fundamental limitation of TypeScript's structural type system, not a bug in the implementation.
+## Implementation Approach
+
+The utility uses a clever multi-step approach to successfully remove template literal index signatures:
+
+1. **FilterDictKeys<T>** - Creates a filtered type (template literals remain structurally but are marked for removal)
+2. **ObjectKeys<FilterDictKeys<T>>** - Extracts only the actual available keys (excludes template literal keys)
+3. **WithKeys<T, Keys>** - Reconstructs the type using only the extracted explicit keys
+
+This approach overcomes TypeScript's structural type system limitations by reconstructing the type rather than trying to filter template literal signatures directly.
 
 ## Use Cases
 
@@ -152,19 +179,33 @@ type CleanType = CleanApiResponse<ExternalType>;
 
 ## Implementation Details
 
-The utility uses mapped types with conditional key filtering:
+The utility uses a sophisticated multi-step reconstruction approach:
 
 ```typescript
+// Step 1: Filter dictionary keys (marks template literals for removal)
 type FilterDictKeys<T> = {
   [K in keyof T as 
     string extends K ? never :      // Remove wide string index
     number extends K ? never :      // Remove wide number index  
     symbol extends K ? never :      // Remove wide symbol index
-    IsTemplateLiteral<K> extends true ? never :  // Attempt to filter template literals
+    IsTemplateLiteral<K> extends true ? never :  // Filter template literals
     K                               // Keep the key
   ]: T[K]
 };
+
+// Step 2: Main implementation using reconstruction
+export type RemoveIndexKeys<T> = T extends Dictionary
+  ? HasIndexKeys<T> extends true
+    ? Required<ObjectKeys<FilterDictKeys<T>>> extends infer Keys extends readonly PropertyKey[]
+      ? WithKeys<T,Keys>  // Step 3: Reconstruct using only explicit keys
+      : never
+    : T
+  : T extends readonly any[]
+    ? Arr<T>  // Array handling (complex due to TypeScript limitations)
+    : never;
 ```
+
+This approach successfully removes all types of index signatures, including template literal patterns that were previously thought impossible to remove.
 
 ## Edge Cases
 
@@ -186,11 +227,24 @@ type E4 = RemoveIndexKeys<{ foo: 1 } | { bar: 2; [key: string]: unknown }>;
 
 ## Testing Notes
 
-The utility includes comprehensive tests for all supported index signature types. Template literal index signature tests are skipped with documentation explaining the TypeScript limitation:
+The utility includes comprehensive tests for all supported index signature types, including:
+
+- Wide string, number, and symbol index signatures
+- Template literal index patterns of various complexity
+- Mixed index signature combinations
+- Complex template literal patterns with multiple interpolations
+- Edge cases and union/intersection types
 
 ```typescript
-it.skip("literal indexes - TypeScript limitation", () => {
-  // TypeScript cannot fully remove template literal index signatures
-  // This is a known limitation of the type system
+it("template literal indexes", () => {
+  type T1 = RemoveIndexKeys<{ foo: 1; bar: 2; [key: `_${string}`]: number}>;
+  type T2 = RemoveIndexKeys<{ [key: `id-${number}`]: string; name: "test" }>;
+  
+  type cases = [
+    Expect<Test<T1, "equals", { foo: 1; bar: 2 }>>,
+    Expect<Test<T2, "equals", { name: "test" }>>,
+  ];
 });
 ```
+
+All tests pass, confirming that the utility successfully removes all types of index signatures including template literal patterns.

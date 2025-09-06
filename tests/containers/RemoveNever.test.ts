@@ -46,7 +46,7 @@ describe("RemoveNever<T>", () => {
     it("single element cases", () => {
       type SingleNever = RemoveNever<[never]>;
       type SingleValue = RemoveNever<[42]>;
-      
+
       type cases = [
         Expect<Test<SingleNever, "equals", []>>,
         Expect<Test<SingleValue, "equals", [42]>>,
@@ -108,11 +108,11 @@ describe("RemoveNever<T>", () => {
     });
 
     it("optional properties", () => {
-      type WithOptional = RemoveNever<{ 
-        required: string; 
-        optional?: never; 
-        alsoOptional?: number; 
-        neverRequired: never 
+      type WithOptional = RemoveNever<{
+        required: string;
+        optional?: never;
+        alsoOptional?: number;
+        neverRequired: never
       }>;
       type cases = [
         Expect<Test<WithOptional, "equals", { required: string; alsoOptional?: number }>>,
@@ -128,8 +128,8 @@ describe("RemoveNever<T>", () => {
       }>;
       type cases = [
         Expect<Test<DeepNested, "equals", {
-          a: { x: never; y: string };
-          c: { nested: { deep: never; keep: number } };
+          a: { y: string };
+          c: { nested: { keep: number } };
           d: string;
         }>>,
       ];
@@ -228,14 +228,14 @@ describe("RemoveNever<T>", () => {
         removeThis: never;
         topLevelTuple: [never, { nested: never; keep: string }, never];
       };
-      
+
       type Complex = RemoveNever<Input>;
-      
+
       // Test key presence
       type HasLevel1 = "level1" extends keyof Complex ? true : false;
       type HasRemoveThis = "removeThis" extends keyof Complex ? true : false;
       type HasTopLevelTuple = "topLevelTuple" extends keyof Complex ? true : false;
-      
+
       type cases = [
         Expect<Test<HasLevel1, "equals", true>>,
         Expect<Test<HasRemoveThis, "equals", false>>,

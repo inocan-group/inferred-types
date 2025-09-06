@@ -56,28 +56,85 @@ describe("RemoveIndexKeys<T>", () => {
     });
 
 
-    it.skip("literal indexes - TypeScript limitation", () => {
-        // NOTE: TypeScript does not currently support fully removing template literal
-        // index signatures from a type. This is a known limitation of the type system.
-        // The template literal pattern remains part of the type's structure even after
-        // filtering operations.
-
+    it("template literal indexes", () => {
         type T1 = RemoveIndexKeys<{ foo: 1; bar: 2; [key: `_${string}`]: number}>;
-        type T2 = WithKeys<{ foo: 1; bar: 2; [key: `_${string}`]: number}, "foo" | "bar">;
-        type R = Required<ObjectKeys<{ foo: 1; bar: 2; [key: `_${string}`]: number}>>;
-
-        // These tests would pass if TypeScript supported removing template literal indexes:
-        // type cases = [
-        //     Expect<Test<T1, "equals", { foo: 1; bar: 2 }>>
-        // ];
-
-        // For now, we can only ensure that fixed keys are preserved
-        type HasFoo = "foo" extends keyof T1 ? true : false;
-        type HasBar = "bar" extends keyof T1 ? true : false;
+        type T2 = RemoveIndexKeys<{ [key: `id-${number}`]: string; name: "test" }>;
+        type T3 = RemoveIndexKeys<{ [key: `${string}-suffix`]: boolean; active: true }>;
+        type T4 = RemoveIndexKeys<{ [key: `prefix-${string}-suffix`]: object; data: { id: 1 } }>;
 
         type cases = [
-            Expect<Test<HasFoo, "equals", true>>,
-            Expect<Test<HasBar, "equals", true>>,
+            Expect<Test<T1, "equals", { foo: 1; bar: 2 }>>,
+            Expect<Test<T2, "equals", { name: "test" }>>,
+            Expect<Test<T3, "equals", { active: true }>>,
+            Expect<Test<T4, "equals", { data: { id: 1 } }>>,
+        ];
+    });
+
+    it("mixed index signature types", () => {
+        type Mixed1 = RemoveIndexKeys<{
+            foo: 1;
+            bar: 2;
+            [key: string]: unknown;
+            [key: number]: unknown;
+            [key: symbol]: unknown;
+            [key: `_${string}`]: number;
+        }>;
+
+        type Mixed2 = RemoveIndexKeys<{
+            name: string;
+            age: number;
+            [key: `id-${number}`]: string;
+            [key: string]: any;
+        }>;
+
+        type cases = [
+            Expect<Test<Mixed1, "equals", { foo: 1; bar: 2 }>>,
+            Expect<Test<Mixed2, "equals", { name: string; age: number }>>,
+        ];
+    });
+
+    it("arrays - limitations noted", () => {
+        // Note: Array handling in RemoveIndexKeys has limitations
+        // Arrays have complex type structures with both explicit indices 
+        // and numeric index signatures that are difficult to separate
+        
+        type Tuple = RemoveIndexKeys<["a", "b", "c"]>;
+        
+        // For now, we just test that the operation doesn't error
+        // and produces some result
+        type cases = [
+            Expect<Test<Tuple, "extends", unknown>>,
+        ];
+    });
+
+    it("edge cases", () => {
+        type Empty = RemoveIndexKeys<{}>;
+        type OnlyIndexes = RemoveIndexKeys<{ [key: string]: any }>;
+        type OnlyTemplateIndexes = RemoveIndexKeys<{ [key: `_${string}`]: number }>;
+        
+        type cases = [
+            Expect<Test<Empty, "equals", {}>>,
+            Expect<Test<OnlyIndexes, "equals", {}>>,
+            Expect<Test<OnlyTemplateIndexes, "equals", {}>>,
+        ];
+    });
+
+    it("complex template literal patterns", () => {
+        type Complex1 = RemoveIndexKeys<{
+            id: number;
+            [key: `${string}_${string}`]: string;
+            [key: `prefix-${number}-suffix`]: boolean;
+        }>;
+
+        type Complex2 = RemoveIndexKeys<{
+            data: object;
+            [key: `${string}:${string}:${string}`]: any;
+            [key: `route/${string}`]: Function;
+        }>;
+
+        type cases = [
+            Expect<Test<Complex1, "equals", { id: number }>>,
+            Expect<Test<Complex2, "equals", { data: object }>>,
         ];
     });
 

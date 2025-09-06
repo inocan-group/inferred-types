@@ -7,10 +7,21 @@ import type { Container, Dictionary, Expand, FromKv, KeyValue, ToKv, Unbrand } f
  *
  * **Related:** `Unbrand`, `Brand`, `IsBranded`, `GetBrand`
  */
+// Helper to map Unbrand over tuple/array elements without touching array prototype keys.
+type UnbrandTuple<T extends readonly unknown[]> =
+    // exact empty tuple
+    T extends readonly []
+        ? []
+        // finite tuple: peel head and recurse on tail
+        : T extends readonly [infer H, ...infer R extends readonly unknown[]]
+            ? [Unbrand<H>, ...UnbrandTuple<R>]
+            // array fallback: map element type
+            : T extends readonly (infer U)[]
+                ? Unbrand<U>[]
+                : readonly unknown[];
+
 export type UnbrandValues<T extends Container> = T extends readonly unknown[]
-    ? {
-        [K in keyof T]: Unbrand<T[K]>
-    }
+    ? UnbrandTuple<T>
     : T extends Dictionary
         ? ToKv<T> extends infer KeyValues extends readonly KeyValue[]
             ? {

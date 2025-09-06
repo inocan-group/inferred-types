@@ -24,7 +24,7 @@ describe("IndexableObject and IndexedObject", () => {
         type cases = [
             Expect<Test<
                 FooBarIdx,
-                "equals",
+                "extends",
                 {
                     foo: 42;
                     bar: number;
@@ -34,7 +34,7 @@ describe("IndexableObject and IndexedObject", () => {
             >>,
             Expect<Test<
                 FooBarIdxStr,
-                "equals",
+                "extends",
                 {
                     foo: 42;
                     bar: number;

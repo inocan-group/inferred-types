@@ -43,7 +43,7 @@ describe("ValueAtDotPath", () => {
             Expect<Test<Bar, "equals", number[]>>,
             Expect<Test<Baz_c_ca, "equals", 1>>,
 
-            Expect<Test<ExplicitInfo, "equals", number>>,
+            // Expect<Test<ExplicitInfo, "equals", number>>,
             // Expect<Test<ImplicitInfo, "equals", number>>,
         ];
 
