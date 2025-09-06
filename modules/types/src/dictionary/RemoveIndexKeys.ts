@@ -1,4 +1,4 @@
-import type { Dictionary, DictionaryWithFixedKeys } from "inferred-types/types";
+import type { Dictionary, HasIndexKeys, IsTemplateLiteral, ObjectKeys, WithKeys } from "inferred-types/types";
 
 // For arrays, preserve the structure but remove index signatures
 type Arr<T> = {
@@ -10,6 +10,24 @@ type Arr<T> = {
                 ? never
                 : K]: T[K]
 };
+
+// For dictionaries, filter out wide keys and template literal keys
+type FilterDictKeys<T> = {
+    [K in keyof T as
+        // Remove wide string index
+        string extends K ? never :
+        // Remove wide number index
+        number extends K ? never :
+        // Remove wide symbol index
+        symbol extends K ? never :
+        // Remove template literal index patterns (this doesn't work!)
+        IsTemplateLiteral<K> extends true ? never :
+        // Keep the key
+        K
+    ]: T[K]
+};
+
+
 
 /**
  * **RemoveIndexKeys**`<T>`
@@ -27,7 +45,11 @@ type Arr<T> = {
  * ```
  */
 export type RemoveIndexKeys<T> = T extends Dictionary
-    ? DictionaryWithFixedKeys<T>
-    : T extends readonly any[]
-        ? Arr<T>
-        : never;
+    ? HasIndexKeys<T> extends true
+        ? Required<ObjectKeys<FilterDictKeys<T>>> extends infer Keys extends readonly PropertyKey[]
+            ? WithKeys<T,Keys>
+            : never
+
+
+    : T
+: never;

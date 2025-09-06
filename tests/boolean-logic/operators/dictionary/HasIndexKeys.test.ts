@@ -30,4 +30,14 @@ describe("HasIndexKeys<T>", () => {
         ];
     });
 
+
+    it("can detect template literal indexes", () => {
+        type T1 = HasIndexKeys<{foo: 1; [key: `_${string}`]: string }>;
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>
+        ];
+    });
+
+
 });
