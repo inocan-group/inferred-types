@@ -146,6 +146,33 @@ export interface IT_Token_Function extends IT_Token_Base<"function"> {
     isAsync: boolean;
 }
 
+export interface IT_Token_Generator extends IT_Token_Base<"generator"> {
+    /** the name of the generator; `null` if anonymous */
+    name: string | null;
+
+    /** the generics used for the parameters of the generator */
+    generics: readonly GenericParam[];
+
+    /** a tuple representing the parameters in the generator function */
+    parameters: readonly IT_Parameter[];
+    /**
+     * whether the generator is shaped as a _narrowing_ function
+     * with generics (`true`) or a _static_ generator (`false`).
+     */
+    narrowing: boolean;
+
+    /** the tokenized representation of the return */
+    returnToken: string;
+
+    /**
+     * the return type of the generator function (i.e., the Generator/AsyncGenerator type)
+     */
+    returnType: unknown;
+
+    /** whether or not the generator is asynchronous */
+    isAsync: boolean;
+}
+
 /**
  * **IT_Token**`<T>`
  *
@@ -182,7 +209,9 @@ export type IT_Token<T extends IT_TakeKind = IT_TakeKind> = IsUnion<T> extends t
                                         ? IT_Token_Union
                                         : T extends "function"
                                             ? IT_Token_Function
-                                            : T extends "promise"
+                                            : T extends "generator"
+                                                ? IT_Token_Generator
+                                                : T extends "promise"
                                                 ? IT_Token_Promise
                                                 : T extends "intersection"
                                                     ? IT_Token_Intersection

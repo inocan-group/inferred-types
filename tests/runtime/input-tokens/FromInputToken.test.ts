@@ -220,6 +220,66 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
+    it("generator functions", () => {
+        // sync named generator
+        type G1 = FromInputToken<
+            "function* iterate(count: number): Generator<number, void, unknown>"
+        >;
+        // sync named generator with generics in params and return type
+        type G2 = FromInputToken<
+            "function* <T extends number>(arr: Array<T>): IterableIterator<T>"
+        >;
+        // async named generator
+        type AG1 = FromInputToken<
+            "async function* stream(url: string): AsyncGenerator<string, number, unknown>"
+        >;
+        // async anonymous generator with generic used in return type
+        type AG2 = FromInputToken<
+            "async function* <T>(v: T): AsyncIterableIterator<T>"
+        >;
+
+        type cases = [
+            // sync
+            Expect<Test<G1, "equals", Generator<number, void, unknown>>>,
+            Expect<Test<G2, "equals", IterableIterator<number>>>,
+
+            // async
+            Expect<Test<AG1, "equals", AsyncGenerator<string, number, unknown>>>,
+            // no constraint on T => unknown
+            Expect<Test<AG2, "equals", AsyncIterableIterator<unknown>>>,
+        ];
+    });
+
+    it("generator functions with group + intersection", () => {
+        type Tok = FromInputToken<
+            "(function* (name: string): Generator<string, void, unknown>) & { foo: 1; bar: 2 }"
+        >;
+
+        type cases = [
+            Expect<Test<
+                Tok,
+                "equals",
+                (Generator<string, void, unknown>) & { foo: 1; bar: 2 }
+            >>,
+        ];
+    });
+
+    it("generator function errors", () => {
+        // sync generator returning async type
+        type Bad1 = FromInputToken<
+            "function* g(): AsyncGenerator<string, void, unknown>"
+        >;
+        // async generator returning sync type
+        type Bad2 = FromInputToken<
+            "async function* g(): Generator<string, void, unknown>"
+        >;
+
+        type cases = [
+            Expect<Test<Bad1, "isError", "malformed-token">>,
+            Expect<Test<Bad2, "isError", "malformed-token">>,
+        ];
+    });
+
     it("functions with parenthesis around them work too", () => {
         // should use IT_TakeGroup<T> and then IT_TakeFunction<T>
         type A1 = FromInputToken<"(() => 'hi')">;
@@ -232,7 +292,9 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<A1, "equals", () => "hi">>,
             Expect<Test<A2, "equals", <T extends readonly [string]>(...args: T) => string>>,
 
-            Expect<Test<N1, "equals", (() => "hi") & { name: "greet" }>>,
+            Expect<Test<N1, "equals", (() => "String(hi)") & {
+                name: "greet";
+            }>>,
             Expect<Test<N2, "equals", (<T extends readonly [string]>(...args: T) => string) & {
                 name: "greet";
             }>>,
@@ -252,27 +314,7 @@ describe("FromInputToken<Token>", () => {
     });
 
 
-    it.skip("Generator function using type syntax", () => {
-        type G1 = FromInputToken<
-            "Generator<number,string,boolean>"
-        >;
-        type G2 = FromInputToken<
-            "AsyncGenerator<number,void,string>"
-        >;
 
-        type cases = [
-            Expect<Test<
-                G1,
-                "equals",
-                Generator<number, string, boolean>
-            >>,
-            Expect<Test<
-                G2,
-                "equals",
-                AsyncGenerator<number, void, string>
-            >>,
-        ];
-    });
 
     it("string object definition", () => {
         type O1 = FromInputToken<"{ foo: Number(1); bar: number }">;
@@ -450,7 +492,7 @@ describe("FromInputToken<Token>", () => {
 
         type cases = [
             Expect<Test<T1, "equals", [ number, number, string ]>>,
-            Expect<Test<T2, "equals", [ never, boolean ]>>,
+            Expect<Test<T2, "equals", [ string|number, boolean ]>>,
         ];
     });
 

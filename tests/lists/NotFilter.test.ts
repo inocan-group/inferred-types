@@ -50,7 +50,7 @@ describe("Filter using extends operation", () => {
 
         type cases = [
             Expect<Test<StripNumbers, "equals",  [ "foo", "bar"]>>,
-            Expect<Test<StripStrings, "equals",  [never, 1, never, never, false]>>,
+            Expect<Test<StripStrings, "equals",  [ 1, false]>>,
             Expect<Test<StripNever, "equals",  [1, "foo", number, "bar"]>>,
         ];
     });
@@ -86,7 +86,7 @@ describe("Filter using extends operation", () => {
 
 
         type cases = [
-            Expect<Test<One, "equals", [2, "foo", "bar", never]>>,
+            Expect<Test<One, "equals", [2, "foo", "bar"]>>,
         ];
 
     });

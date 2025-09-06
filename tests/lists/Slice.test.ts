@@ -149,9 +149,9 @@ describe("Slice<TList, TStart, TEnd>", () => {
     it("with optional types", () => {
         type SomeOpt = ["foo","bar", string?, number?];
 
-        type ReqSlice = Slice<SomeOpt, 0,2>;
-        type DipInto = Slice<SomeOpt, 0,3>;
-        type TakeAll = Slice<SomeOpt, 0,4>;
+        type ReqSlice = Slice<SomeOpt, 0, 2>;
+        type DipInto = Slice<SomeOpt, 0, 3>;
+        type TakeAll = Slice<SomeOpt, 0, 4>;
         type JustOpt = Slice<SomeOpt, -2>;
 
         type cases = [

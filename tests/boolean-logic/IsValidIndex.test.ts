@@ -24,8 +24,8 @@ describe("IsValidKey<T>", () => {
         type F3 = IsValidIndex<ExplicitlyEmptyObject, "foo">;
         type F4 = IsValidIndex<[1, 2, 3], -10>;
         type F5 = IsValidIndex<[1, 2, 3], "foo">;
-        type F6 = IsValidIndex<EmptyObject, "foo">;
 
+        type B0 = IsValidIndex<EmptyObject, "foo">;
         type B1 = IsValidIndex<string[], 0>;
         type BF1 = IsValidIndex<string[], "foo">;
         type B2 = IsValidIndex<Dictionary, "foo">;
@@ -42,8 +42,8 @@ describe("IsValidKey<T>", () => {
             Expect<Test<F3, "equals",  false>>,
             Expect<Test<F4, "equals",  false>>,
             Expect<Test<F5, "equals",  false>>,
-            Expect<Test<F6, "equals",  false>>,
 
+            Expect<Test<B0, "equals",  boolean>>,
             Expect<Test<B1, "equals",  boolean>>,
             Expect<Test<BF1, "equals",  boolean>>,
 

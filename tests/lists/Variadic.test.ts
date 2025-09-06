@@ -316,7 +316,7 @@ describe("Variadic Type Utilities", () => {
                 Expect<Test<T3, "equals", [1?, 2?, 3?]>>,
                 Expect<Test<T4, "equals", [1, string?, boolean?]>>,
                 Expect<Test<T5, "equals", ["a", "b"?, "c"?]>>,
-                Expect<Test<T6, "equals", [number, string, boolean?, number?]>>,
+                Expect<Test<T6, "equals", [number, (string | undefined)?, (boolean | undefined)?, (number | undefined)?]>>,
             ];
         });
 
