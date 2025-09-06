@@ -1,12 +1,12 @@
-import { Dictionary, Err, ExpandRecursively, FnKeyValue, IsNever, IsUnset, RemoveFnProps, TypedFunction, Unset } from "inferred-types/types";
+import type { Dictionary, Err, ExpandRecursively, FnKeyValue, IsNever, IsUnset, TypedFunction, Unset } from "inferred-types/types";
 
 type Break<
     TMsg extends string,
     TCtx extends Dictionary,
     E extends "error" | "never"
 > = E extends "error"
-? Err<"invalid-intersection", TMsg, TCtx>
-: never;
+    ? Err<"invalid-intersection", TMsg, TCtx>
+    : never;
 
 type Set<V, W> = IsUnset<V> extends true
     ? W
@@ -24,7 +24,7 @@ type Intersect<
         ? IsNever<Set<V, FnKeyValue<Head>>> extends true
             ? Break<
                 `A function with a key-value dictionary caused the intersection type to become 'never'`,
-                { intersection: V,  conflict: Head},
+                { intersection: V; conflict: Head },
                 E
             >
             : Intersect<
@@ -33,26 +33,24 @@ type Intersect<
                 Head,
                 Set<V, FnKeyValue<Head>>
             >
-    : IsNever<Set<V,Head>> extends true
-        ? Break<
-            `TupleToIntersection<T> hit an element which caused the intersection type to become 'never'`,
-            { intersection: V, conflict: Head },
-            E
-        >
-        : Intersect<
-        Rest,
-        E,
-        F,
-        Set<V,Head>
-    >
+        : IsNever<Set<V, Head>> extends true
+            ? Break<
+                `TupleToIntersection<T> hit an element which caused the intersection type to become 'never'`,
+                { intersection: V; conflict: Head },
+                E
+            >
+            : Intersect<
+                Rest,
+                E,
+                F,
+                Set<V, Head>
+            >
 
-
-: F extends undefined
-    ? ExpandRecursively<V>
-: F extends TypedFunction
-    ? F & ExpandRecursively<V>
-: never;
-
+    : F extends undefined
+        ? ExpandRecursively<V>
+        : F extends TypedFunction
+            ? F & ExpandRecursively<V>
+            : never;
 
 /**
  * **TupleToIntersection**`<T, [E]>`
@@ -68,7 +66,5 @@ export type TupleToIntersection<
     T extends readonly unknown[],
     E extends "error" | "never" = "never"
 > = [] extends T
-? unknown
-: Intersect<T, E>;
-
-
+    ? unknown
+    : Intersect<T, E>;

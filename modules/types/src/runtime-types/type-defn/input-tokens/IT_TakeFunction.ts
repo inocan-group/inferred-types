@@ -1,8 +1,7 @@
 import type {
-    AlphaChar,
-    AlphanumericChar,
     AsLiteralTemplate,
     AsStaticTemplate,
+    Contains,
     EmptyObject,
     Err,
     Extends,
@@ -11,19 +10,15 @@ import type {
     FromInputToken,
     FromInputToken__String,
     GenericParam,
-    Contains,
-    IsAlphanumeric,
     IsStaticTemplate,
     IsTrue,
     IT_Parameter,
     IT_ParameterResults,
     IT_TakeParameters,
     IT_Token,
-    OptSpace,
     TemplateMap__Generics,
     Trim,
     TypedFunction,
-    ValidateCharacterSet,
 } from "inferred-types/types";
 
 /**
@@ -61,7 +56,7 @@ type GetReturnType<
                     AsStaticTemplate<StripSurroundingQuotes<TToken>, TemplateMap__Generics<TGenerics>>,
                     TemplateMap__Generics<TGenerics>
                 >
-            : FromInputToken__String<TToken>;
+                : FromInputToken__String<TToken>;
 
 type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer AfterFunction extends string}`
     ? Trim<AfterFunction> extends `${infer Leading extends string}(${infer AfterParen extends string}`

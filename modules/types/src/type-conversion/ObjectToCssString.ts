@@ -7,7 +7,6 @@ import type {
     Join,
     Keys,
     KeyValue,
-    Or,
     Surround,
     ToKv
 } from "inferred-types/types";
@@ -36,15 +35,15 @@ export type ObjectToCssString<
     TObj extends object,
     TExpand extends boolean = false,
 > = Keys<TObj>["length"] extends 0
-? "{}"
-: IsWideObject<TObj> extends true
-    ? string
-: TObj extends ExplicitlyEmptyObject
     ? "{}"
-: Process<ToKv<As<TObj, Dictionary>>, false> extends infer P extends string
-        ? Surround<
-            P,
-            TExpand extends false ? "{ " : "{",
-            TExpand extends false ? " }" : "\n}"
-        >
-        : never;
+    : IsWideObject<TObj> extends true
+        ? string
+        : TObj extends ExplicitlyEmptyObject
+            ? "{}"
+            : Process<ToKv<As<TObj, Dictionary>>, false> extends infer P extends string
+                ? Surround<
+                    P,
+                    TExpand extends false ? "{ " : "{",
+                    TExpand extends false ? " }" : "\n}"
+                >
+                : never;

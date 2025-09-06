@@ -1,7 +1,6 @@
 import type {
     As,
     Container,
-    Contains,
     Dictionary,
     FnKeyValue,
     Get,
@@ -28,8 +27,8 @@ type Process<
         : TList[K] extends TypedFunction
             ? Get<FnKeyValue<TList[K]>, TKey, TDefault>
             : TKey extends "."
-            ? TList[K]
-            : never
+                ? TList[K]
+                : never
 }>;
 
 /**

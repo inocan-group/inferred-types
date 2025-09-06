@@ -32,7 +32,6 @@ import type {
     UnionToTuple,
 } from "inferred-types/types";
 
-
 /**
  * **WidenScalar**`<T>`
  *

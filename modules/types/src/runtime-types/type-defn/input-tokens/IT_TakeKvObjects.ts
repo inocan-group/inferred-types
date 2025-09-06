@@ -2,14 +2,10 @@ import type {
     Err,
     FromInputToken__String,
     GetInputToken,
-    HasErrors,
-    IsolateErrors,
     IT_Token,
     Join,
-    Length,
     NestedSplit,
-    Trim,
-    TrimEach
+    Trim
 } from "inferred-types/types";
 
 type ParseRecord<T extends string> = NestedSplit<T, ">"> extends [
@@ -109,7 +105,6 @@ type ParseWeakMap<T extends string> = NestedSplit<T, ">"> extends [
                     : never
         : Err<`malformed-token/weakmap`, `The terminating '>' character was not found while parsing: 'WeakMap<${T}'`>
     : Err<"wrong-handler/weakmap">;
-
 
 type Select<
     T extends readonly unknown[],

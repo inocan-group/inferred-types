@@ -42,13 +42,12 @@ export type IT_TakeGroup<T extends string> = As<
                                 kind: "group";
                                 token: `(${Trim<Block>})`;
                                 underlying: IT;
-                                type: ( IT["type"] );
+                                type: (IT["type"]);
                                 rest: Trim<Join<Rest, ")">>;
                             }, IT_Token<"group">>
-                : never // Block/Rest will always resolve
-        : Err<`wrong-handler/group`>
-    : Err<`wrong-handler/group`>
-    : never,
+                            : never // Block/Rest will always resolve
+                    : Err<`wrong-handler/group`>
+            : Err<`wrong-handler/group`>
+        : never,
     IT_TakeOutcome<"group">
 >;
-
