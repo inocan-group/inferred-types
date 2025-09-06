@@ -59,6 +59,6 @@ export type DictionaryWithIndexKeys<T extends Dictionary>
  * - an index can be wide-type indexes such as `{ [x: string]: string }`
  * - but they can also be _template literal_ indexes like `{ [x: `_${string}`]: string }`
  *
- * **Related: `DictionaryWithIndexKeys`
+ * **Related:** `DictionaryWithIndexKeys`
  */
 export type GetIndexKeys<T extends Dictionary> = keyof DictionaryWithIndexKeys<T> & string;

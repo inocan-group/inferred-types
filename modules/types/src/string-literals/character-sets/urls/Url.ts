@@ -1,4 +1,4 @@
-import type { NETWORK_PROTOCOL_LOOKUP, PROTOCOL_DEFAULT_PORTS } from "inferred-types/constants";
+import type { NETWORK_PROTOCOL, NETWORK_PROTOCOL_LOOKUP, PROTOCOL_DEFAULT_PORTS } from "inferred-types/constants";
 import type {
     AlphanumericChar,
     AsNumber,
@@ -30,10 +30,7 @@ import type {
 
 type ProtocolPortLookup = typeof PROTOCOL_DEFAULT_PORTS;
 
-type Proto = typeof NETWORK_PROTOCOL_LOOKUP;
-export type NetworkProtocol = Mutable<Values<Proto>> extends infer P extends readonly (string)[]
-    ? RemoveEmpty<Flatten<P>>[number]
-    : never;
+export type NetworkProtocol = Mutable<typeof NETWORK_PROTOCOL>[number];
 
 /**
  * **NetworkProtocolPrefix**

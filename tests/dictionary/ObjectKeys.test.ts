@@ -7,7 +7,9 @@ import {
     Test,
     ObjectKey,
     DropVariadic,
-    GetIndexKeys
+    GetIndexKeys,
+    HasIndex,
+    HasIndexKeys
 } from "inferred-types/types";
 import { RemoveIndexKeys } from "inferred-types";
 
@@ -73,11 +75,14 @@ describe("ObjectKeys<T>", () => {
 
         // here we discretely define `foo` and `bar` but then provide an index
         // which overlaps with them
-        type FooBarOverlap = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
+        type FooBarOverlap = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>;
         //   ^?
 
-        type X = RemoveIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
-        type Y = GetIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
+        type V = { foo: 1; bar: 2; [x: string]: unknown; [y:symbol]: number };
+        type X = RemoveIndexKeys<V>;
+        type H = HasIndexKeys<V>;
+        type Y = GetIndexKeys<V>;
+        type G = V[symbol]; // =>
 
         type cases = [
             Expect<Test<
