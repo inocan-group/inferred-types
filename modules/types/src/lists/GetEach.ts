@@ -1,21 +1,10 @@
 import type {
-    As,
     Container,
-    Dictionary,
     FnKeyValue,
     Get,
     RemoveNever,
     TypedFunction,
 } from "inferred-types/types";
-/**
- * extract props from functions
- */
-type F<T> = As<
-    T extends TypedFunction
-        ? FnKeyValue<T>
-        : T,
-    Dictionary
->;
 
 type Process<
     TList extends readonly unknown[],

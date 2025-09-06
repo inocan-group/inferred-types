@@ -17,7 +17,6 @@ import type {
 } from "inferred-types/types";
 import type { IsTemplateLiteral } from "types/interpolation";
 
-type DateProps = ["year", "month", "date"];
 type Lookup = {
     hour: TwoDigitHour<"00">;
     minute: TwoDigitMinute<"00">;
@@ -37,25 +36,25 @@ type Check<
     infer Head extends string & keyof A & keyof B & keyof Lookup & keyof DateMeta,
     ...infer Rest extends readonly (keyof A & keyof B & string & keyof Lookup & keyof DateMeta)[]
 ]
-    ? // normalize values for this component
-    Fallback<A[Head], Lookup[Head]> extends infer AV
+    // normalize values for this component
+    ? Fallback<A[Head], Lookup[Head]> extends infer AV
         ? Fallback<B[Head], Lookup[Head]> extends infer BV
-            ? // if exactly one side is null, comparison is indeterminate
-            Xor<IsNull<AV>, IsNull<BV>> extends true
+        // if exactly one side is null, comparison is indeterminate
+            ? Xor<IsNull<AV>, IsNull<BV>> extends true
                 ? boolean
-                : // if both null, move to next component
-                [AV] extends [null]
+                // if both null, move to next component
+                : [AV] extends [null]
                     ? Check<A, B, Rest>
-                    : // both sides have comparable numeric-like strings
-                    IsLessThan<As<AV, `${number}`>, As<BV, `${number}`>> extends true
+                    // both sides have comparable numeric-like strings
+                    : IsLessThan<As<AV, `${number}`>, As<BV, `${number}`>> extends true
                         ? true
                         : IsEqual<As<AV, `${number}`>, As<BV, `${number}`>> extends true
                             ? Check<A, B, Rest>
                             : false
             : false
         : false
-    : // ran out of components with all equal -> not before
-    false;
+    // ran out of components with all equal -> not before
+    : false;
 
 /**
  * **IsBefore**`<A,B>`
@@ -108,8 +107,8 @@ export type IsBefore<
                                                 >
                                     : AsDateMeta<A> extends infer AParsed
                                         ? AsDateMeta<B> extends infer BParsed
-                                            ? // if either parse is potentially an Error (wide/ambiguous), return boolean
-                                            [Extract<AParsed, Error>] extends [never]
+                                            // if either parse is potentially an Error (wide/ambiguous), return boolean
+                                            ? [Extract<AParsed, Error>] extends [never]
                                                 ? [Extract<BParsed, Error>] extends [never]
                                                     ? Check<As<AParsed, DateMeta>, As<BParsed, DateMeta>>
                                                     : boolean

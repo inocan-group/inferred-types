@@ -27,7 +27,10 @@ type DetermineKeyType<
         ? symbol
         : T extends string
             ? StripTrailing<T, "?">
-            : Err<"malformed-token/object-literal", `A key '${T}' can not be converted to a type!`>;
+            : Err<
+                "malformed-token/object-literal",
+                `A key '${T}' can not be converted to a type!`
+            >;
 
 type GetKv<
     TKey extends string,
@@ -87,8 +90,8 @@ type ParseObjectLiteral<T extends string> = NestedSplit<T, "}"> extends infer Pa
             infer Block extends string,
             ...infer Rest extends readonly string[]
         ]
-            ? NestedSplit<Trim<Block>, [",", ";"]> extends infer KVs extends readonly string[]
-                ? TrimEach<KVs> extends infer KVs extends readonly string[]
+            ? NestedSplit<Trim<Block>, [",", ";"]> extends infer KvPairs extends readonly string[]
+                ? TrimEach<KvPairs> extends infer KVs extends readonly string[]
                     ? ParseKv<KVs> extends infer Outcome extends IsolatedResults
                         ? Length<Outcome["errors"]> extends 0
                             ? Outcome["successes"] extends infer Success extends readonly KeyValue[]
@@ -107,13 +110,13 @@ type ParseObjectLiteral<T extends string> = NestedSplit<T, "}"> extends infer Pa
                                 >
                             : Err<
                                 "malformed-token/object-literal",
-                    `Error(s) occurred in parsing the key/value pairs of an object literal. The following errors were found: ${Join<GetEach<Outcome["errors"], "message">, "\n\t">}`,
-                    { token: `{ ${Trim<Block>} }`; block: Trim<Block>; split: NestedSplit<Trim<Block>, [",", ";"]>; errors: GetEach<Outcome["errors"], "message"> }
+                                `Error(s) occurred in parsing the key/value pairs of an object literal. The following errors were found: ${Join<GetEach<Outcome["errors"], "message">, "\n\t">}`,
+                                { token: `{ ${Trim<Block>} }`; block: Trim<Block>; split: NestedSplit<Trim<Block>, [",", ";"]>; errors: GetEach<Outcome["errors"], "message"> }
                             >
                         : Err<
                             `malformed-token/object-literal`,
-            `Failed to parse the key values found in the object literal: '${T}'`,
-            { token: T; block: Block }
+                            `Failed to parse the key values found in the object literal: '${T}'`,
+                            { token: T; block: Block }
                         >
                     : Err<
                         "malformed-token/object-literal",

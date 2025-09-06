@@ -23,5 +23,5 @@ export function fromKeyValue<
         obj[kv.key] = kv.value;
     }
 
-    return obj  as FromKv<[...T]>;
+    return obj as FromKv<[...T]>;
 }

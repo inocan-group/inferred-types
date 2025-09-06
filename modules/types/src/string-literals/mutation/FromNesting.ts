@@ -27,10 +27,10 @@ type ReplaceChildMarkers<
 > = TChildren extends readonly [infer Head extends NestedString, ...infer Rest extends readonly NestedString[]]
     ? TContent extends `${infer Before}{{child}}${infer After}`
         ? `${Before}${ReconstructChild<Head>}${ReplaceChildMarkers<After, Rest>}`
-        : // no placeholder found; append remaining reconstructed children (fallback)
-          `${TContent}${JoinChildren<TChildren>}`
-    : // no more children; strip any remaining placeholders
-    ReplaceAll<TContent, "{{child}}", "">;
+        // no placeholder found; append remaining reconstructed children (fallback)
+        : `${TContent}${JoinChildren<TChildren>}`
+    // no more children; strip any remaining placeholders
+    : ReplaceAll<TContent, "{{child}}", "">;
 
 /**
  * Joins multiple children by reconstructing each with enter/exit chars

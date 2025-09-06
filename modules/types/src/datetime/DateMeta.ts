@@ -8,8 +8,7 @@ import type {
     TwoDigitMinute,
     TwoDigitMonth,
     TwoDigitSecond,
-} from "types/datetime/general";
-import type { UnbrandValues } from "types/literals/branding/UnbrandValues";
+} from "inferred-types/types";
 
 /**
  * a property of `DateMeta`
@@ -35,50 +34,3 @@ export type DateMeta = {
     ms: ThreeDigitMillisecond<"branded"> | null;
     timezone: TimezoneOffset<"branded"> | null;
 };
-
-type X = UnbrandValues<DateMeta>;
-
-// & {
-//     toString(): ToIsoString<
-//         "auto",
-//         TType, THas,
-//         TYear, TMonth, TDate,
-//         THour, TMin, TSec, TMs,
-//         TTz
-//     > & (string);
-//     asYear(): ToIsoString<
-//         "year",
-//         TType, THas,
-//         TYear, TMonth, TDate,
-//         THour, TMin, TSec, TMs,
-//         TTz
-//     >;
-//     asYearIndependent(): ToIsoString<
-//         "year-independent",
-//         TType, THas,
-//         TYear, TMonth, TDate,
-//         THour, TMin, TSec, TMs,
-//         TTz
-//     >;
-//     asYearMonth(): ToIsoString<
-//         "year-month",
-//         TType, THas,
-//         TYear, TMonth, TDate,
-//         THour, TMin, TSec, TMs,
-//         TTz
-//     >;
-//     asDate(): ToIsoString<
-//         "date",
-//         TType, THas,
-//         TYear, TMonth, TDate,
-//         THour, TMin, TSec, TMs,
-//         TTz
-//     >;
-//     asDateTime(): ToIsoString<
-//         "datetime",
-//         TType, THas,
-//         TYear, TMonth, TDate,
-//         THour, TMin, TSec, TMs,
-//         TTz
-//     >;
-// }

@@ -1,4 +1,4 @@
-import type { Narrowable, SomeEqual } from "inferred-types/types";
+import type { Narrowable } from "inferred-types/types";
 
 /**
  * partial application of the equalsSome(...some) utility.
@@ -8,7 +8,6 @@ export type EqualsSome__Partial<
 > = <const TVal extends Narrowable>(val: TVal) => (
     TVal extends TSome[number] ? true : false
 );
-
 
 /**
  * **equalsSome**`(...some) -> (val) -> boolean`
