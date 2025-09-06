@@ -28,28 +28,28 @@ type GenericsParsed = {
 };
 
 export type IT_TakeTokenGeneric<T extends string>
-= T extends `${infer Name extends string} extends ${infer Type extends string}`
-    ? Trim<Name> extends infer CleanName extends string
-        ? Trim<Type> extends infer CleanType extends string
-            ? FromInputToken<CleanType> extends infer ParsedType
-                ? {
-                    name: CleanName;
-                    token: CleanType;
-                    type: ParsedType;
-                }
+    = T extends `${infer Name extends string} extends ${infer Type extends string}`
+        ? Trim<Name> extends infer CleanName extends string
+            ? Trim<Type> extends infer CleanType extends string
+                ? FromInputToken<CleanType> extends infer ParsedType
+                    ? {
+                        name: CleanName;
+                        token: CleanType;
+                        type: ParsedType;
+                    }
+                    : never
                 : never
             : never
-        : never
-    : IsAlphanumeric<Trim<T>> extends true
-        ? {
-            name: Trim<T>;
-            token: "unknown";
-            type: unknown;
-        }
-        : Err<
-            `malformed-token/generic`,
+        : IsAlphanumeric<Trim<T>> extends true
+            ? {
+                name: Trim<T>;
+                token: "unknown";
+                type: unknown;
+            }
+            : Err<
+                `malformed-token/generic`,
         `The string -- '${T}' -- passed to TakeTokenGeneric<T> is invalid as a generic name!`
-        >;
+            >;
 
 /**
  *

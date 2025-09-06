@@ -235,12 +235,12 @@ export type WhereLeft<
         { library: "inferred-types/constants"; utility: "IfLeft" }
     >,
 >
-= TOp extends "extends"
-    ? LeftExtends<TEval, TLeftRight> extends true ? IF : ELSE
-    : TOp extends "equals"
-        ? LeftEquals<TEval, TLeftRight> extends true ? IF : ELSE
-        : TOp extends "includes"
-            ? LeftIncludes<TEval, TLeftRight> extends true ? IF : ELSE
-            : TOp extends "contains"
-                ? LeftContains<TEval, TLeftRight> extends true ? IF : ELSE
-                : never;
+    = TOp extends "extends"
+        ? LeftExtends<TEval, TLeftRight> extends true ? IF : ELSE
+        : TOp extends "equals"
+            ? LeftEquals<TEval, TLeftRight> extends true ? IF : ELSE
+            : TOp extends "includes"
+                ? LeftIncludes<TEval, TLeftRight> extends true ? IF : ELSE
+                : TOp extends "contains"
+                    ? LeftContains<TEval, TLeftRight> extends true ? IF : ELSE
+                    : never;

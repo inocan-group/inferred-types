@@ -66,7 +66,7 @@ type OptionalPercent = "%" | "";
  * - Hue distinguishes the actual color you're viewing
  */
 export type CssOkLch
-  = | `oklch(${number}${OptionalPercent} ${number}${OptionalPercent} ${number})`;
+    = | `oklch(${number}${OptionalPercent} ${number}${OptionalPercent} ${number})`;
 
 /**
  * a hexadecimal color representation for CSS

@@ -20,14 +20,14 @@ import type { IsAny, IsNever, IsUnion } from "inferred-types/types";
  * **Related:** `IsLiteralLikeArray`
  */
 export type IsLiteralLikeTuple<T>
-= [IsAny<T>] extends [true]
-    ? false
-    : [IsNever<T>] extends [true]
+    = [IsAny<T>] extends [true]
         ? false
-        : [T] extends [readonly unknown[]]
-            ? [number] extends [T["length"]]
-                ? false
-                : IsUnion<T["length"]> extends true
+        : [IsNever<T>] extends [true]
+            ? false
+            : [T] extends [readonly unknown[]]
+                ? [number] extends [T["length"]]
                     ? false
-                    : true
-            : false;
+                    : IsUnion<T["length"]> extends true
+                        ? false
+                        : true
+                : false;

@@ -1,7 +1,7 @@
 import type { AnyObject, ExpandRecursively, Tuple, TupleToUnion, UnionToIntersection } from "inferred-types/types";
 
 type MakeIntoUnion<K extends PropertyKey | readonly PropertyKey[]>
-  = K extends readonly PropertyKey[] ? TupleToUnion<K> : K;
+    = K extends readonly PropertyKey[] ? TupleToUnion<K> : K;
 
 // TODO: this needs to convert a KV (with keys such as "0", "1", etc.) into an array
 type MakeNumericIndex<
@@ -29,12 +29,12 @@ export type WithKeys<
     T extends AnyObject | Tuple,
     K extends PropertyKey | readonly PropertyKey[],
 >
-= ExpandRecursively<
-    UnionToIntersection<
-        MakeIntoUnion<K> extends keyof T
-            ? T extends Tuple
-                ? MakeNumericIndex<Pick<T, MakeIntoUnion<K>>>
-                : Pick<T, MakeIntoUnion<K>>
-            : never
-    >
->;
+    = ExpandRecursively<
+        UnionToIntersection<
+            MakeIntoUnion<K> extends keyof T
+                ? T extends Tuple
+                    ? MakeNumericIndex<Pick<T, MakeIntoUnion<K>>>
+                    : Pick<T, MakeIntoUnion<K>>
+                : never
+        >
+    >;

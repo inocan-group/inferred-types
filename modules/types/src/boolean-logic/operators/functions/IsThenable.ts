@@ -5,15 +5,15 @@ import type { IsAny, IsNever, IsUnknown, Thenable } from "inferred-types/types";
  * `Thenable` variable (aka, promise-like).
  */
 export type IsThenable<T>
-= [IsAny<T>] extends [true]
-    ? false
-    : [IsNever<T>] extends [true]
+    = [IsAny<T>] extends [true]
         ? false
-        : [IsUnknown<T>] extends [true]
-            ? boolean
-            : T extends Thenable
-                ? true
-                : false;
+        : [IsNever<T>] extends [true]
+            ? false
+            : [IsUnknown<T>] extends [true]
+                ? boolean
+                : T extends Thenable
+                    ? true
+                    : false;
 
 export type IsStrictPromise<T> = [IsAny<T>] extends [true]
     ? false

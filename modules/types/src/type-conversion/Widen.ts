@@ -204,30 +204,30 @@ export type WidenContainer<
     T extends Container,
     TForce extends boolean = false,
 >
-= [T] extends [readonly unknown[]]
-    ? TForce extends true
-        ? readonly unknown[]
-        : WidenArray<T>
-    : [T] extends [Dictionary]
+    = [T] extends [readonly unknown[]]
         ? TForce extends true
-            ? Dictionary
-            : WidenDictionary<T>
-        : [T] extends [Map<infer K, infer V>]
+            ? readonly unknown[]
+            : WidenArray<T>
+        : [T] extends [Dictionary]
             ? TForce extends true
-                ? AnyMap
-                : Map<K, Widen<V>>
-            : [T] extends [WeakMap<infer K, infer V>]
+                ? Dictionary
+                : WidenDictionary<T>
+            : [T] extends [Map<infer K, infer V>]
                 ? TForce extends true
-                    ? AnyWeakMap
-                    : WeakMap<
-                        K extends object ? K : any,
-                        Widen<V>
-                    >
-                : [T] extends [Set<infer V>]
+                    ? AnyMap
+                    : Map<K, Widen<V>>
+                : [T] extends [WeakMap<infer K, infer V>]
                     ? TForce extends true
-                        ? AnySet
-                        : Set<Widen<V>>
-                    : T;
+                        ? AnyWeakMap
+                        : WeakMap<
+                            K extends object ? K : any,
+                            Widen<V>
+                        >
+                    : [T] extends [Set<infer V>]
+                        ? TForce extends true
+                            ? AnySet
+                            : Set<Widen<V>>
+                        : T;
 
 /**
  * **Widen**`<T, [TForce]>`
@@ -245,20 +245,20 @@ export type Widen<
     T,
     TForce extends boolean = false,
 >
-= [IsUnion<T>] extends [true]
-    ? WidenUnion<T>
-    : [T] extends [TypedFunction]
-        ? FnFrom<
-            IsWideArray<Parameters<T>> extends true
-                ? Parameters<T>
-                : WidenArray<Parameters<T>>,
-            Widen<FnReturn<T>>,
-            WidenDictionary<FnKeyValue<T>>
-        >
-        : [T] extends [Scalar]
-            ? WidenScalar<T>
-            : [T] extends [Container]
-                ? WidenContainer<T, TForce>
-                : T extends Scalar
-                    ? WidenScalar<T>
-                    : Process<T>;
+    = [IsUnion<T>] extends [true]
+        ? WidenUnion<T>
+        : [T] extends [TypedFunction]
+            ? FnFrom<
+                IsWideArray<Parameters<T>> extends true
+                    ? Parameters<T>
+                    : WidenArray<Parameters<T>>,
+                Widen<FnReturn<T>>,
+                WidenDictionary<FnKeyValue<T>>
+            >
+            : [T] extends [Scalar]
+                ? WidenScalar<T>
+                : [T] extends [Container]
+                    ? WidenContainer<T, TForce>
+                    : T extends Scalar
+                        ? WidenScalar<T>
+                        : Process<T>;

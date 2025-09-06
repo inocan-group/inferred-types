@@ -36,28 +36,28 @@ type Shaped<
 type HandleDict<
     TObj extends Dictionary
 >
-= Required<TObj> extends Record<infer K, any>
-    ? IsNever<K> extends true
-        ? TObj extends Dictionary
-            ? []
-            : PropertyKey[]
-        : IsEqual<K, string | symbol> extends true
-            ? ObjectKey[]
-            : IsNever<K> extends true
-                ? PropertyKey[]
-                : IsLiteralString<K> extends true
-                    ? Shaped<
-                        As<UnionToTuple<K>, readonly PropertyKey[]>,
-                        OptionalKeysTuple<TObj>
-                    >
-                    : IsUnion<K> extends true
+    = Required<TObj> extends Record<infer K, any>
+        ? IsNever<K> extends true
+            ? TObj extends Dictionary
+                ? []
+                : PropertyKey[]
+            : IsEqual<K, string | symbol> extends true
+                ? ObjectKey[]
+                : IsNever<K> extends true
+                    ? PropertyKey[]
+                    : IsLiteralString<K> extends true
                         ? Shaped<
                             As<UnionToTuple<K>, readonly PropertyKey[]>,
                             OptionalKeysTuple<TObj>
                         >
-                    // wide type
-                        : K[]
-    : never;
+                        : IsUnion<K> extends true
+                            ? Shaped<
+                                As<UnionToTuple<K>, readonly PropertyKey[]>,
+                                OptionalKeysTuple<TObj>
+                            >
+                        // wide type
+                            : K[]
+        : never;
 
 /**
  * **ObjectKeys**`<TObj>`

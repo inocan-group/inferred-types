@@ -3,11 +3,11 @@ import type { Extends, If, Increment, ToNumber } from "inferred-types/types";
 export type ToIntegerOp = "truncate" | "round";
 
 type Truncate<T extends `${number}`>
-= T extends `${number}.${number}`
-    ? T extends `${infer Q}.${number}`
-        ? Q & `${number}`
-        : never
-    : T;
+    = T extends `${number}.${number}`
+        ? T extends `${infer Q}.${number}`
+            ? Q & `${number}`
+            : never
+        : T;
 
 type Round<T extends `${number}`> = T extends `${number}.${number}`
     ? T extends `${infer Q}.${infer D}${number}`

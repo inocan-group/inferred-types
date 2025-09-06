@@ -15,13 +15,13 @@ type Rtn<
     TColor extends TwColor,
     TLum extends TwLuminosity,
 >
-  = TLum extends keyof TwLuminosityLookup
-      ? TLum extends keyof TwChromaLookup
-          ? TColor extends keyof TwHue
-              ? `oklch(${TwLuminosityLookup[TLum]} ${TwChromaLookup[TLum]} ${TwHue[TColor]})`
-              : never
-          : never
-      : never;
+    = TLum extends keyof TwLuminosityLookup
+        ? TLum extends keyof TwChromaLookup
+            ? TColor extends keyof TwHue
+                ? `oklch(${TwLuminosityLookup[TLum]} ${TwChromaLookup[TLum]} ${TwHue[TColor]})`
+                : never
+            : never
+        : never;
 
 /**
  * **twColor**`(color, luminosity)` => `oklch(...)`

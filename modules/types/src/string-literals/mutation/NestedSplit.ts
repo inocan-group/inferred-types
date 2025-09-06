@@ -216,23 +216,23 @@ export type NestedSplit<
     TNesting extends Nesting | NestingConfig__Named = DefaultNesting,
     TPolicy extends NestedSplitPolicy = "omit"
 >
-= string extends TContent
-    ? string[]
-    : string extends TSplit
+    = string extends TContent
         ? string[]
-        : TSplit extends readonly string[]
-            ? AllLengthOf<TSplit, 1> extends true
-                ? Convert<Chars<TContent>, TSplit[number], FromNamedNestingConfig<TNesting>, TPolicy>
-                : Err<
-                    `invalid-nesting/nested-split`,
-                    `A tuple of strings were passed into to form a union type of characters which would provide the 'split', however, at least one of these were longer than a single character!`,
-                    { split: ToStringLiteral<TSplit>; content: TContent }
-                >
-            : TSplit extends string
-                ? StrLen<TSplit> extends 1
-                    ? Convert<Chars<TContent>, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
-                    : MultiConvert<TContent, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
-                : never;
+        : string extends TSplit
+            ? string[]
+            : TSplit extends readonly string[]
+                ? AllLengthOf<TSplit, 1> extends true
+                    ? Convert<Chars<TContent>, TSplit[number], FromNamedNestingConfig<TNesting>, TPolicy>
+                    : Err<
+                        `invalid-nesting/nested-split`,
+                        `A tuple of strings were passed into to form a union type of characters which would provide the 'split', however, at least one of these were longer than a single character!`,
+                        { split: ToStringLiteral<TSplit>; content: TContent }
+                    >
+                : TSplit extends string
+                    ? StrLen<TSplit> extends 1
+                        ? Convert<Chars<TContent>, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
+                        : MultiConvert<TContent, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
+                    : never;
 
 // DEBUGGING
 // type T = "WeakMap<{id: number, data: Array<string>}, string>"

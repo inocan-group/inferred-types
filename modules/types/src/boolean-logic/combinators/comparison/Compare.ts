@@ -432,28 +432,10 @@ type Process__Numeric<
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[],
 >
-= TOp extends "greaterThan"
-    ? TVal extends NumberLike
-        ? First<TParams> extends NumberLike
-            ? IsGreaterThan<
-                TVal,
-                First<TParams>
-            >
-            : Err<
-                `invalid-param/not-number-like`,
-                `The operation '${TOp}' expects the first parameter to be NumberLike!`,
-                { val: TVal; params: TParams }
-            >
-        : Err<
-            `invalid-value/not-number-like`,
-            `The operation '${TOp}' expects the value to be compared with the comparator to be NumberLike!`,
-            { val: TVal; params: TParams }
-        >
-
-    : TOp extends "greaterThanOrEqual"
+    = TOp extends "greaterThan"
         ? TVal extends NumberLike
             ? First<TParams> extends NumberLike
-                ? IsGreaterThanOrEqual<
+                ? IsGreaterThan<
                     TVal,
                     First<TParams>
                 >
@@ -468,10 +450,10 @@ type Process__Numeric<
             { val: TVal; params: TParams }
             >
 
-        : TOp extends "lessThan"
+        : TOp extends "greaterThanOrEqual"
             ? TVal extends NumberLike
                 ? First<TParams> extends NumberLike
-                    ? IsLessThan<
+                    ? IsGreaterThanOrEqual<
                         TVal,
                         First<TParams>
                     >
@@ -486,10 +468,10 @@ type Process__Numeric<
             { val: TVal; params: TParams }
                 >
 
-            : TOp extends "lessThanOrEqual"
+            : TOp extends "lessThan"
                 ? TVal extends NumberLike
                     ? First<TParams> extends NumberLike
-                        ? IsLessThanOrEqual<
+                        ? IsLessThan<
                             TVal,
                             First<TParams>
                         >
@@ -504,34 +486,52 @@ type Process__Numeric<
             { val: TVal; params: TParams }
                     >
 
-                : TOp extends "betweenExclusively"
+                : TOp extends "lessThanOrEqual"
                     ? TVal extends NumberLike
-                        ? TParams extends readonly [
-                            infer Min extends NumberLike,
-                            infer Max extends NumberLike
-                        ]
-                            ? IsBetweenExclusively<
+                        ? First<TParams> extends NumberLike
+                            ? IsLessThanOrEqual<
                                 TVal,
-                                Min,
-                                Max
+                                First<TParams>
                             >
-                            : false
-                        : false
+                            : Err<
+                                `invalid-param/not-number-like`,
+                `The operation '${TOp}' expects the first parameter to be NumberLike!`,
+                { val: TVal; params: TParams }
+                            >
+                        : Err<
+                            `invalid-value/not-number-like`,
+            `The operation '${TOp}' expects the value to be compared with the comparator to be NumberLike!`,
+            { val: TVal; params: TParams }
+                        >
 
-                    : TOp extends "betweenInclusively"
+                    : TOp extends "betweenExclusively"
                         ? TVal extends NumberLike
                             ? TParams extends readonly [
                                 infer Min extends NumberLike,
                                 infer Max extends NumberLike
                             ]
-                                ? IsBetweenInclusively<
+                                ? IsBetweenExclusively<
                                     TVal,
                                     Min,
                                     Max
                                 >
                                 : false
                             : false
-                        : Unset;
+
+                        : TOp extends "betweenInclusively"
+                            ? TVal extends NumberLike
+                                ? TParams extends readonly [
+                                    infer Min extends NumberLike,
+                                    infer Max extends NumberLike
+                                ]
+                                    ? IsBetweenInclusively<
+                                        TVal,
+                                        Min,
+                                        Max
+                                    >
+                                    : false
+                                : false
+                            : Unset;
 
 type Process__Other<
     TVal,

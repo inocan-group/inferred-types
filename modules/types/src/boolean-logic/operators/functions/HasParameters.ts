@@ -12,10 +12,10 @@ import type { IsAny, IsEqual, IsNever, Length, TypedFunction } from "inferred-ty
  * ```
  */
 export type HasParameters<T>
-= [IsAny<T>] extends [true] ? false
-    : [IsNever<T>] extends [true] ? false
-        : T extends TypedFunction
-            ? IsEqual<Length<Parameters<T>>, 0> extends true
-                ? false
-                : true
-            : false;
+    = [IsAny<T>] extends [true] ? false
+        : [IsNever<T>] extends [true] ? false
+            : T extends TypedFunction
+                ? IsEqual<Length<Parameters<T>>, 0> extends true
+                    ? false
+                    : true
+                : false;

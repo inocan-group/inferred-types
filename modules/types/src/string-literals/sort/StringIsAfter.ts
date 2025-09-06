@@ -9,22 +9,22 @@ export type StringIsAfter<
     A extends string,
     B extends string
 >
-  = A extends B ? false
-      : A extends `${infer AHead}${infer ATail}`
-          ? B extends `${infer BHead}${infer BTail}`
-              ? AHead extends BHead
-                  ? StringIsAfter<ATail, BTail>
-                  : AHead extends keyof CharOrder
-                      ? BHead extends keyof CharOrder
-                          ? CharOrder[AHead] extends number
-                              ? CharOrder[BHead] extends number
-                                  ? IsGreaterThan<CharOrder[AHead], CharOrder[BHead]>
-                                  : false
-                              : false
-                          : false
-                      : false
-              : true // B is empty, so A is after
-          : false; // A is empty, so not after
+    = A extends B ? false
+        : A extends `${infer AHead}${infer ATail}`
+            ? B extends `${infer BHead}${infer BTail}`
+                ? AHead extends BHead
+                    ? StringIsAfter<ATail, BTail>
+                    : AHead extends keyof CharOrder
+                        ? BHead extends keyof CharOrder
+                            ? CharOrder[AHead] extends number
+                                ? CharOrder[BHead] extends number
+                                    ? IsGreaterThan<CharOrder[AHead], CharOrder[BHead]>
+                                    : false
+                                : false
+                            : false
+                        : false
+                : true // B is empty, so A is after
+            : false; // A is empty, so not after
 
 // Example CharOrder mapping (expand as needed)
 type CharOrder = {

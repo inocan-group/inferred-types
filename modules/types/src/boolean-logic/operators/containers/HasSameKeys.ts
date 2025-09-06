@@ -49,16 +49,16 @@ export type HasSameKeys<
     A extends Container,
     B extends Container,
 >
-= IsTuple<A> extends true
-    ? IsTuple<B> extends true
-        ? AsTuple<A>["length"] extends AsTuple<B>["length"]
-            ? Process<AsTuple<A>, AsTuple<B>>
-            : false
-        : false
-    : DoesExtend<A, object> extends true
-        ? DoesExtend<B, object> extends true
-            ? _Keys<A>["length"] extends _Keys<B>["length"]
-                ? HasSameValues<_Keys<A>, _Keys<B>>
+    = IsTuple<A> extends true
+        ? IsTuple<B> extends true
+            ? AsTuple<A>["length"] extends AsTuple<B>["length"]
+                ? Process<AsTuple<A>, AsTuple<B>>
                 : false
             : false
-        : false;
+        : DoesExtend<A, object> extends true
+            ? DoesExtend<B, object> extends true
+                ? _Keys<A>["length"] extends _Keys<B>["length"]
+                    ? HasSameValues<_Keys<A>, _Keys<B>>
+                    : false
+                : false
+            : false;

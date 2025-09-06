@@ -7,6 +7,6 @@ import type { AllLiteral, Tuple } from "inferred-types/types";
  * has _literal_ values for every member.
  */
 export type IfAllLiteral<TTuple extends Tuple, IF, ELSE>
-= AllLiteral<TTuple> extends true
-    ? IF
-    : ELSE;
+    = AllLiteral<TTuple> extends true
+        ? IF
+        : ELSE;

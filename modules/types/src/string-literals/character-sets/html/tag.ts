@@ -88,16 +88,16 @@ export type AsHtmlTag<
  * (`kebab-case` or `PascalCase`) and ensures valid attributes.
  */
 export type AsHtmlComponentTag<T>
-  = T extends `<${infer Name} ${infer Attr}/>`
-      ? T & (`<${PascalCase<Name>} ${Attr}/>` | `<${KebabCase<Name>} ${Attr}/>`)
-      : T extends `<${infer Name} ${infer Attr}>`
-          ? T & (`<${PascalCase<Name>} ${Attr}>` | `<${KebabCase<Name>} ${Attr}>`)
-          : T extends `<${infer Name}/>`
-              ? T & (`<${PascalCase<Name>}/>` | `<${KebabCase<Name>}/>`)
-              : T extends `<${infer Name}>`
-                  ? T & (`<${PascalCase<Name>}` | `<${KebabCase<Name>}`)
-                  : T extends string // Wide string matching
-                      ? IsWideString<T> extends true
-                          ? T & `<${PascalCase<StripSurround<T, "<" | ">">>}${string}>`
-                          : never
-                      : never;
+    = T extends `<${infer Name} ${infer Attr}/>`
+        ? T & (`<${PascalCase<Name>} ${Attr}/>` | `<${KebabCase<Name>} ${Attr}/>`)
+        : T extends `<${infer Name} ${infer Attr}>`
+            ? T & (`<${PascalCase<Name>} ${Attr}>` | `<${KebabCase<Name>} ${Attr}>`)
+            : T extends `<${infer Name}/>`
+                ? T & (`<${PascalCase<Name>}/>` | `<${KebabCase<Name>}/>`)
+                : T extends `<${infer Name}>`
+                    ? T & (`<${PascalCase<Name>}` | `<${KebabCase<Name>}`)
+                    : T extends string // Wide string matching
+                        ? IsWideString<T> extends true
+                            ? T & `<${PascalCase<StripSurround<T, "<" | ">">>}${string}>`
+                            : never
+                        : never;

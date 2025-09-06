@@ -1,7 +1,7 @@
 import type { IT_AtomicToken, Suggest } from "inferred-types/types";
 
 type BaseSuggest
-= | `${IT_AtomicToken}`
+    = | `${IT_AtomicToken}`
 | `string | undefined`
 | `number | undefined`
 | `boolean | undefined`
@@ -11,7 +11,7 @@ type BaseSuggest
 | `string | number | undefined`;
 
 type LiteralSuggest
-= | `String(foo)` | `String(bar)`
+    = | `String(foo)` | `String(bar)`
 | `Number(1)` | `Number(42)`
 | `Boolean(true)` | `Boolean(false)`
 | `"foo" | "bar"`;
@@ -21,7 +21,7 @@ type LiteralSuggest
  * or a suggested type.
  */
 export type InputToken__SimpleTokens
-= | BaseSuggest
+    = | BaseSuggest
 | `Array<string>` | `Array<number>` | `Array<boolean>` | `Array<unknown>`
 | `Array<string | number>`
 | `Array<string | undefined>` | `Array<number | undefined>` | `Array<boolean | undefined>`

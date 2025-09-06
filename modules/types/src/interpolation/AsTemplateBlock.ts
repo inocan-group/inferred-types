@@ -9,13 +9,13 @@ import type { DefaultTemplateBlocks } from "inferred-types/types";
  * **Related:** `AsTemplateTypes`
  */
 export type AsTemplateType<T extends DefaultTemplateBlocks>
-= [T] extends [`{{string}}`]
-    ? string
-    : [T] extends [`{{number}}`]
-        ? number
-        : [T] extends [`{{boolean}}`]
-            ? boolean
-            : never;
+    = [T] extends [`{{string}}`]
+        ? string
+        : [T] extends [`{{number}}`]
+            ? number
+            : [T] extends [`{{boolean}}`]
+                ? boolean
+                : never;
 
 /**
  * **AsTemplateTypes**`<T>`

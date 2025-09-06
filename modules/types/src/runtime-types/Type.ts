@@ -107,56 +107,56 @@ type ToBaseType<
     TKind extends TypeKind,
     TUnderlying extends TypeUnderlying = "no-underlying",
 > //
-  = TKind extends "string" ? string
-      : TKind extends "number" ? number
-          : TKind extends "boolean" ? boolean
-              : TKind extends "null" ? null
-                  : TKind extends "undefined" ? undefined
-                      : TKind extends "stringLiteral" ? TupleToUnion<TUnderlying>
-                          : TKind extends "numericLiteral" ? TupleToUnion<TUnderlying>
-                              : TKind extends "true" ? true
-                                  : TKind extends "false" ? false
-                                      : TKind extends "anyArray" ? unknown[]
-                                          : TKind extends "unknownObject" ? Record<string, unknown>
-                                              : TKind extends "unknownObject" ? Record<string, unknown>
-                                                  : TKind extends "unknownFunction" ? AnyFunction
-                                                      : TKind extends "unknownObject" ? Record<string, unknown>
-                                                          : TKind extends "fnWithDict"
-                                                              ? TUnderlying extends readonly [
-                                                                  { kind: "fnType"; type: unknown; [key: string]: unknown },
-                                                                  { kind: "object"; type: unknown; [key: string]: unknown },
-                                                              ]
-                                                                  ? TUnderlying[0]["type"] & TUnderlying[1]["type"]
-                                                                  : never
-                                                              : TKind extends "tuple"
-                                                                  ? TUnderlying extends readonly unknown[]
-                                                                      ? TupleToUnion<TUnderlying>
-                                                                      : never
-                                                                  : TKind extends "union"
-                                                                      ? TUnderlying extends readonly unknown[]
-                                                                          ? TupleToUnion<NotFilter<
-                                                                              TUnderlying,
-                                                                              "extends",
-                                                                              {
-                                                                                  kind: TypeKind;
-                                                                                  required: TypeIsRequired;
-                                                                                  underlying: readonly unknown[] | "none";
-                                                                              }
-                                                                          >>
-                                                                          : never
-                                                                      : TKind extends "intersection"
-                                                                          ? TUnderlying extends readonly unknown[]
-                                                                              ? UnionToIntersection<TupleToUnion<NotFilter<
-                                                                                  TUnderlying,
-                                                                                  "extends",
-                                                                                  {
-                                                                                      kind: TypeKind;
-                                                                                      required: TypeIsRequired;
-                                                                                      underlying: readonly unknown[] | "none";
-                                                                                  }
-                                                                              >>>
-                                                                              : never
-                                                                          : unknown;
+    = TKind extends "string" ? string
+        : TKind extends "number" ? number
+            : TKind extends "boolean" ? boolean
+                : TKind extends "null" ? null
+                    : TKind extends "undefined" ? undefined
+                        : TKind extends "stringLiteral" ? TupleToUnion<TUnderlying>
+                            : TKind extends "numericLiteral" ? TupleToUnion<TUnderlying>
+                                : TKind extends "true" ? true
+                                    : TKind extends "false" ? false
+                                        : TKind extends "anyArray" ? unknown[]
+                                            : TKind extends "unknownObject" ? Record<string, unknown>
+                                                : TKind extends "unknownObject" ? Record<string, unknown>
+                                                    : TKind extends "unknownFunction" ? AnyFunction
+                                                        : TKind extends "unknownObject" ? Record<string, unknown>
+                                                            : TKind extends "fnWithDict"
+                                                                ? TUnderlying extends readonly [
+                                                                    { kind: "fnType"; type: unknown; [key: string]: unknown },
+                                                                    { kind: "object"; type: unknown; [key: string]: unknown },
+                                                                ]
+                                                                    ? TUnderlying[0]["type"] & TUnderlying[1]["type"]
+                                                                    : never
+                                                                : TKind extends "tuple"
+                                                                    ? TUnderlying extends readonly unknown[]
+                                                                        ? TupleToUnion<TUnderlying>
+                                                                        : never
+                                                                    : TKind extends "union"
+                                                                        ? TUnderlying extends readonly unknown[]
+                                                                            ? TupleToUnion<NotFilter<
+                                                                                TUnderlying,
+                                                                                "extends",
+                                                                                {
+                                                                                    kind: TypeKind;
+                                                                                    required: TypeIsRequired;
+                                                                                    underlying: readonly unknown[] | "none";
+                                                                                }
+                                                                            >>
+                                                                            : never
+                                                                        : TKind extends "intersection"
+                                                                            ? TUnderlying extends readonly unknown[]
+                                                                                ? UnionToIntersection<TupleToUnion<NotFilter<
+                                                                                    TUnderlying,
+                                                                                    "extends",
+                                                                                    {
+                                                                                        kind: TypeKind;
+                                                                                        required: TypeIsRequired;
+                                                                                        underlying: readonly unknown[] | "none";
+                                                                                    }
+                                                                                >>>
+                                                                                : never
+                                                                            : unknown;
 
 /**
  * **TypeUnderlying**

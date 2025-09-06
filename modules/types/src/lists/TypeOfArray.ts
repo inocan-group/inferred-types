@@ -20,8 +20,8 @@ import type { IsTuple } from "inferred-types/types";
  *
  */
 export type TypeOfArray<T extends unknown[]>
-= IsTuple<T> extends true
-    ? never
-    : T extends (infer Type)[]
-        ? Type
-        : never;
+    = IsTuple<T> extends true
+        ? never
+        : T extends (infer Type)[]
+            ? Type
+            : never;

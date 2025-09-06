@@ -33,10 +33,10 @@ type Reduce<
  * string which is longest.
  */
 export type FindMaxLength<T>
-= T extends readonly string[]
-    ? Reduce<{
-        [K in keyof T]: T[K] extends string
-            ? [T[K], StrLen<T[K]>]
-            : never
-    }>
-    : never;
+    = T extends readonly string[]
+        ? Reduce<{
+            [K in keyof T]: T[K] extends string
+                ? [T[K], StrLen<T[K]>]
+                : never
+        }>
+        : never;

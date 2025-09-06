@@ -40,25 +40,25 @@ type StringNumCompare<A extends string, B extends string>
                 : ComparePositive<A, B>;
 
 type ComparePositive<A extends string, B extends string>
-= A extends `${infer _A1}${infer _A2}${infer _A3}${infer _A4}${infer ARest}`
-    ? B extends `${infer _B1}${infer _B2}${infer _B3}${infer _B4}${infer BRest}`
-        ? ComparePositive<ARest, BRest> // Continue comparing rest
-        : false // A is longer, so A > B
-    : B extends `${infer _B1}${infer _B2}${infer _B3}${infer _B4}${infer _BRest}`
-        ? true // B is longer, so A < B
-        : A extends `${infer A1}${infer A2}${infer A3}`
-            ? B extends `${infer B1}${infer B2}${infer B3}`
-                ? CompareByDigits<`${A1}${A2}${A3}`, `${B1}${B2}${B3}`>
-                : false // A is longer
-            : B extends `${infer _B1}${infer _B2}${infer _B3}`
-                ? true // B is longer
-                : A extends `${infer A1}${infer A2}`
-                    ? B extends `${infer B1}${infer B2}`
-                        ? CompareByDigits<`${A1}${A2}`, `${B1}${B2}`>
-                        : false // A is longer
-                    : B extends `${infer _B1}${infer _B2}`
-                        ? true // B is longer
-                        : CompareByDigits<A, B>; // Both single digit
+    = A extends `${infer _A1}${infer _A2}${infer _A3}${infer _A4}${infer ARest}`
+        ? B extends `${infer _B1}${infer _B2}${infer _B3}${infer _B4}${infer BRest}`
+            ? ComparePositive<ARest, BRest> // Continue comparing rest
+            : false // A is longer, so A > B
+        : B extends `${infer _B1}${infer _B2}${infer _B3}${infer _B4}${infer _BRest}`
+            ? true // B is longer, so A < B
+            : A extends `${infer A1}${infer A2}${infer A3}`
+                ? B extends `${infer B1}${infer B2}${infer B3}`
+                    ? CompareByDigits<`${A1}${A2}${A3}`, `${B1}${B2}${B3}`>
+                    : false // A is longer
+                : B extends `${infer _B1}${infer _B2}${infer _B3}`
+                    ? true // B is longer
+                    : A extends `${infer A1}${infer A2}`
+                        ? B extends `${infer B1}${infer B2}`
+                            ? CompareByDigits<`${A1}${A2}`, `${B1}${B2}`>
+                            : false // A is longer
+                        : B extends `${infer _B1}${infer _B2}`
+                            ? true // B is longer
+                            : CompareByDigits<A, B>; // Both single digit
 
 type CompareByDigits<A extends string, B extends string>
     = A extends B ? "equal"
@@ -91,22 +91,22 @@ type FilterLessThanOrEqual<
     TValues extends readonly number[],
     TOut extends readonly number[] = [],
 >
-  = TValues extends readonly [infer head extends number, ...infer tail extends readonly number[]]
-      ? NumLessThanOrEqual<head, TVal> extends true
-          ? FilterLessThanOrEqual<TVal, tail, [...TOut, head]>
-          : FilterLessThanOrEqual<TVal, tail, TOut>
-      : TOut;
+    = TValues extends readonly [infer head extends number, ...infer tail extends readonly number[]]
+        ? NumLessThanOrEqual<head, TVal> extends true
+            ? FilterLessThanOrEqual<TVal, tail, [...TOut, head]>
+            : FilterLessThanOrEqual<TVal, tail, TOut>
+        : TOut;
 
 type FilterGreaterThan<
     TVal extends number,
     TValues extends readonly number[],
     TOut extends readonly number[] = [],
 >
-  = TValues extends readonly [infer head extends number, ...infer tail extends readonly number[]]
-      ? NumGreaterThan<head, TVal> extends true
-          ? FilterGreaterThan<TVal, tail, [...TOut, head]>
-          : FilterGreaterThan<TVal, tail, TOut>
-      : TOut;
+    = TValues extends readonly [infer head extends number, ...infer tail extends readonly number[]]
+        ? NumGreaterThan<head, TVal> extends true
+            ? FilterGreaterThan<TVal, tail, [...TOut, head]>
+            : FilterGreaterThan<TVal, tail, TOut>
+        : TOut;
 
 /**
  * Optimized quicksort that uses string comparison instead of Iterator

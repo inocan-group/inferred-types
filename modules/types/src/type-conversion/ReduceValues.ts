@@ -4,11 +4,11 @@ type ProcessTuple<
     TArray extends readonly unknown[] | unknown[],
     TResults extends readonly unknown[] = [],
 > //
-  = [] extends TArray
-      ? TResults
-      : First<TArray> extends TypedFunction
-          ? ProcessTuple<AfterFirst<TArray>, [...TResults, ReturnType<First<TArray>>]>
-          : ProcessTuple<AfterFirst<TArray>, [...TResults, First<TArray>]>;
+    = [] extends TArray
+        ? TResults
+        : First<TArray> extends TypedFunction
+            ? ProcessTuple<AfterFirst<TArray>, [...TResults, ReturnType<First<TArray>>]>
+            : ProcessTuple<AfterFirst<TArray>, [...TResults, First<TArray>]>;
 /**
  * **ReduceValues**`<TContainer>`
  *

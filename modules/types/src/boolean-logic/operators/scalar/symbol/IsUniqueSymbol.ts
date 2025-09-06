@@ -13,15 +13,15 @@ import type { IsAny, IsEqual, IsNever, IsUnion } from "inferred-types/types";
  * **Related:** `IsWideSymbol`
  */
 export type IsUniqueSymbol<T>
-  = IsAny<T> extends true
-      ? false
-      : IsNever<T> extends true
-          ? false
-          // must be a subtype of symbol
-          : [T] extends [symbol]
-              ? IsEqual<T, symbol> extends true
-                  ? false
-                  : IsUnion<T> extends true
-                      ? false
-                      : true
-              : false;
+    = IsAny<T> extends true
+        ? false
+        : IsNever<T> extends true
+            ? false
+        // must be a subtype of symbol
+            : [T] extends [symbol]
+                ? IsEqual<T, symbol> extends true
+                    ? false
+                    : IsUnion<T> extends true
+                        ? false
+                        : true
+                : false;

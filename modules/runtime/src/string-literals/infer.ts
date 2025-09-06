@@ -16,26 +16,26 @@ type InferenceVars<
     T extends string,
     Vars extends [strings: string[], nums: string[], bools: string[]] = [[], [], []],
 >
-  // Peel off a block
-  = T extends `${infer _HEAD}${START}${infer Content}${END}${infer REST}`
-      ? (
-          Content extends `${OptSpace}infer ${infer Var} extends ${infer Type extends Ext}${OptSpace}`
-          // 2a) `{{ infer Foo extends string|number|boolean }}`
-              ? Type extends "string"
-                  ? InferenceVars<REST, [[...Vars[0], Var], Vars[1], Vars[2]]>
-                  : Type extends "number"
-                      ? InferenceVars<REST, [Vars[0], [...Vars[1], Var], Vars[2]]>
-                      : InferenceVars<REST, [Vars[0], Vars[1], [...Vars[2], Var]]>
+// Peel off a block
+    = T extends `${infer _HEAD}${START}${infer Content}${END}${infer REST}`
+        ? (
+            Content extends `${OptSpace}infer ${infer Var} extends ${infer Type extends Ext}${OptSpace}`
+            // 2a) `{{ infer Foo extends string|number|boolean }}`
+                ? Type extends "string"
+                    ? InferenceVars<REST, [[...Vars[0], Var], Vars[1], Vars[2]]>
+                    : Type extends "number"
+                        ? InferenceVars<REST, [Vars[0], [...Vars[1], Var], Vars[2]]>
+                        : InferenceVars<REST, [Vars[0], Vars[1], [...Vars[2], Var]]>
 
-          // 2b) `{{ infer Foo }}` with no “extends”
-              : Content extends `${OptSpace}infer ${infer Var2}${OptSpace}`
-                  ? InferenceVars<REST, [[...Vars[0], Var2], Vars[1], Vars[2]]>
+            // 2b) `{{ infer Foo }}` with no “extends”
+                : Content extends `${OptSpace}infer ${infer Var2}${OptSpace}`
+                    ? InferenceVars<REST, [[...Vars[0], Var2], Vars[1], Vars[2]]>
 
-              // 2c) If it’s some other weird content inside `{{ ... }}`, just keep going
-                  : InferenceVars<REST, Vars>
-      )
-  // Done
-      : Vars;
+                // 2c) If it’s some other weird content inside `{{ ... }}`, just keep going
+                    : InferenceVars<REST, Vars>
+        )
+    // Done
+        : Vars;
 
 type TypeLiteral<
     T extends string,
@@ -161,7 +161,7 @@ type Returns<T extends string> = IsDynamic<T> extends true
 function parseTemplate(template: string) {
     // updated pattern:
     const pattern
-    = /\{\{\s*infer\s+([A-Za-z_]\w*)\s*(?:(?:extends|as)\s+(string|number|boolean)\s*)?\}\}/g;
+        = /\{\{\s*infer\s+([A-Za-z_]\w*)\s*(?:(?:extends|as)\s+(string|number|boolean)\s*)?\}\}/g;
 
     let lastIndex = 0;
     let match: RegExpExecArray | null;

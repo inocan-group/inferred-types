@@ -12,14 +12,14 @@ import type { IsAny, IsNever, IsUndefined, IsUnknown, UnionToTuple } from "infer
  * - if `T` was already an array then it is just proxied through
  */
 export type AsArray<T>
-= [IsAny<T>] extends [true]
-    ? unknown[]
-    : [IsNever<T>] extends [true]
-        ? []
-        : [IsUnknown<T>] extends [true]
-            ? unknown[]
-            : [T] extends [readonly unknown[]]
-                ? T
-                : [IsUndefined<T>] extends [true]
-                    ? []
-                    : UnionToTuple<T>;
+    = [IsAny<T>] extends [true]
+        ? unknown[]
+        : [IsNever<T>] extends [true]
+            ? []
+            : [IsUnknown<T>] extends [true]
+                ? unknown[]
+                : [T] extends [readonly unknown[]]
+                    ? T
+                    : [IsUndefined<T>] extends [true]
+                        ? []
+                        : UnionToTuple<T>;

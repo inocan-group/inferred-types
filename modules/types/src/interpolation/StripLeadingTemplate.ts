@@ -33,10 +33,10 @@ export type StripLeadingTemplate<
     T extends string,
     K extends "all" | "string" | "number" | "boolean" = "all"
 >
-= [IsWideString<T>] extends [true]
-    ? string
-    : [T] extends [`${infer First}${infer Rest}`]
-        ? [Check<First, K>] extends [true]
-            ? Rest
-            : FixUnion<T>
-        : "";
+    = [IsWideString<T>] extends [true]
+        ? string
+        : [T] extends [`${infer First}${infer Rest}`]
+            ? [Check<First, K>] extends [true]
+                ? Rest
+                : FixUnion<T>
+            : "";

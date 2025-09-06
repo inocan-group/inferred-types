@@ -1,7 +1,7 @@
 import type { GenericParam, IsDictionary, IsUnion, KeyValue } from "inferred-types/types";
 
 export type IT_TakeKind
-= | "atomic"
+    = | "atomic"
 | "array"
 | "literal"
 | "kv"
@@ -16,12 +16,12 @@ export type IT_TakeKind
 | "object-literal";
 
 export type IT_Combinators
-= | "union"
+    = | "union"
 | "intersection"
 | "none";
 
 export type IT_KvType
-= | "Record"
+    = | "Record"
 | "Map"
 | "WeakMap";
 
@@ -227,5 +227,5 @@ export type IT_NumericLiteralToken = `Number(${number})` | `${number}`;
 export type IT_BooleanLiteralToken = `Boolean(${"true" | "false"})` | "true" | "false";
 
 export type IT_TakeOutcome<T extends IT_TakeKind = IT_TakeKind>
-= | IT_Token<T>
+    = | IT_Token<T>
 | (Error & { type: IT_Failure });

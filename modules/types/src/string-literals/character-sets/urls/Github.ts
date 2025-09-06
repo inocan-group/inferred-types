@@ -99,9 +99,9 @@ export type GithubRepoProjectUrl = `${GithubRepoUrl}/projects/${number}${OptUrlQ
  * if you're only wanting to match the summary page.
  */
 export type GithubActionsUrl<TOnlySummary extends boolean = false>
-= IsTrue<TOnlySummary> extends true
-    ? `https://github.com/${string}/${string}/actions`
-    : `https://github.com/${string}/${string}/actions` | `https://github.com/${string}/${string}/actions/${string}`;
+    = IsTrue<TOnlySummary> extends true
+        ? `https://github.com/${string}/${string}/actions`
+        : `https://github.com/${string}/${string}/actions` | `https://github.com/${string}/${string}/actions/${string}`;
 
 type GithubLookup = typeof GITHUB_INSIGHT_CATEGORY_LOOKUP;
 type GhLookup = {

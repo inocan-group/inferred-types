@@ -39,29 +39,29 @@ export type StartsWith<
     TValue extends string | number,
     TComparator extends string | number | readonly (string | number)[],
 >
-= [IsUnion<TComparator>] extends [true]
-    ? FirstChar<`${TValue}`> extends TComparator
-        ? true
-        : false
-    : [IsAny<TValue>] extends [true]
-        ? false
-        : [IsNever<TValue>] extends [true]
+    = [IsUnion<TComparator>] extends [true]
+        ? FirstChar<`${TValue}`> extends TComparator
+            ? true
+            : false
+        : [IsAny<TValue>] extends [true]
             ? false
-            : [IsUnknown<TValue>] extends [true]
-                ? boolean
-                : string extends TValue
+            : [IsNever<TValue>] extends [true]
+                ? false
+                : [IsUnknown<TValue>] extends [true]
                     ? boolean
-                    : number extends TValue
+                    : string extends TValue
                         ? boolean
-                        : number extends TComparator
+                        : number extends TValue
                             ? boolean
-                            : string extends TComparator
+                            : number extends TComparator
                                 ? boolean
-                                : Check<
+                                : string extends TComparator
+                                    ? boolean
+                                    : Check<
     `${TValue}`,
     TComparator extends readonly (string | number)[]
         ? ToStringArray<TComparator>
         : TComparator extends (string | number)
             ? [`${TComparator}`]
             : never
-                                >;
+                                    >;

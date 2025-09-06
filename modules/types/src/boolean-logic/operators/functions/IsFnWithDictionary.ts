@@ -16,14 +16,14 @@ import type {
 export type IsFnWithDictionary<
     T,
 >
-= [IsAny<T>] extends [true]
-    ? false
-    : [IsNever<T>] extends [true]
+    = [IsAny<T>] extends [true]
         ? false
-        : [IsUnknown<T>] extends [true]
-            ? boolean
-            : T extends AnyFunction
-                ? T extends TypedFunction
-                    ? AsFnMeta<T>["hasProps"]
-                    : boolean
-                : false;
+        : [IsNever<T>] extends [true]
+            ? false
+            : [IsUnknown<T>] extends [true]
+                ? boolean
+                : T extends AnyFunction
+                    ? T extends TypedFunction
+                        ? AsFnMeta<T>["hasProps"]
+                        : boolean
+                    : false;

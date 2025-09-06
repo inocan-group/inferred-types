@@ -54,13 +54,13 @@ type HandleCamelCase<T extends string, Result extends string = "">
  * Simplified PascalCase conversion that uses recursive approach for delimited strings
  */
 type PascalCaseSimple<T extends string>
-= T extends `${string}-${string}` | `${string}_${string}` | `${string} ${string}`
-    ? RecursivePascalCase<T>
-    : T extends `${infer _First}${infer Rest}`
-        ? Rest extends `${string}${Uppercase<string>}${string}`
-            ? RecursivePascalCase<HandleCamelCase<T>> // Convert camelCase to delimited then to PascalCase
-            : Capitalize<T> // Simple string, just capitalize
-        : Capitalize<T>;
+    = T extends `${string}-${string}` | `${string}_${string}` | `${string} ${string}`
+        ? RecursivePascalCase<T>
+        : T extends `${infer _First}${infer Rest}`
+            ? Rest extends `${string}${Uppercase<string>}${string}`
+                ? RecursivePascalCase<HandleCamelCase<T>> // Convert camelCase to delimited then to PascalCase
+                : Capitalize<T> // Simple string, just capitalize
+            : Capitalize<T>;
 
 /**
  * Converts a string literal type to a **PascalCase** representation.

@@ -37,46 +37,46 @@ type Member<
  * so this utility will get you to a literal `true`/`false`.
  */
 export type IsDateLike<T>
-= [IsAny<T>] extends [true]
-    ? false
-    : [IsNever<T>] extends [true]
+    = [IsAny<T>] extends [true]
         ? false
-        : [IsUnknown<T>] extends [true]
-            ? boolean
-            : [IsUnion<T>] extends [true]
-                ? Every<Member<UnionToTuple<T>>, "equals", true> extends true
-                    ? true
-                    : Some<Member<UnionToTuple<T>>, "equals", true> extends true
-                        ? boolean
-                        : false
-                : [T] extends [object]
-                    ? [IsJsDate<T>] extends [true]
+        : [IsNever<T>] extends [true]
+            ? false
+            : [IsUnknown<T>] extends [true]
+                ? boolean
+                : [IsUnion<T>] extends [true]
+                    ? Every<Member<UnionToTuple<T>>, "equals", true> extends true
                         ? true
-                        : [IsMoment<T>] extends [true]
+                        : Some<Member<UnionToTuple<T>>, "equals", true> extends true
+                            ? boolean
+                            : false
+                    : [T] extends [object]
+                        ? [IsJsDate<T>] extends [true]
                             ? true
-                            : [IsLuxonDateTime<T>] extends [true]
+                            : [IsMoment<T>] extends [true]
                                 ? true
-                                : [IsDayJs<T>] extends [true]
+                                : [IsLuxonDateTime<T>] extends [true]
                                     ? true
-                                    : false
-                    : [number] extends [T]
-                        ? boolean
-                        : [T] extends [number]
-                            ? IsNegativeNumber<T> extends true
-                                ? false
-                                : IsInteger<T> extends true
-                                    ? true
-                                    : false
-                            : [IsString<T>] extends [true]
-                                ? [IsIsoYear<T>] extends [true]
-                                    ? true
-                                    : [IsIsoMonthDate<T>] extends [true]
+                                    : [IsDayJs<T>] extends [true]
                                         ? true
-                                        : [IsIsoYearMonth<T>] extends [true]
+                                        : false
+                        : [number] extends [T]
+                            ? boolean
+                            : [T] extends [number]
+                                ? IsNegativeNumber<T> extends true
+                                    ? false
+                                    : IsInteger<T> extends true
+                                        ? true
+                                        : false
+                                : [IsString<T>] extends [true]
+                                    ? [IsIsoYear<T>] extends [true]
+                                        ? true
+                                        : [IsIsoMonthDate<T>] extends [true]
                                             ? true
-                                            : [IsIsoFullDate<T>] extends [true]
+                                            : [IsIsoYearMonth<T>] extends [true]
                                                 ? true
-                                                : [IsIsoDateTime<T>] extends [true]
+                                                : [IsIsoFullDate<T>] extends [true]
                                                     ? true
-                                                    : false
-                                : false;
+                                                    : [IsIsoDateTime<T>] extends [true]
+                                                        ? true
+                                                        : false
+                                    : false;

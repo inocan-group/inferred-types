@@ -108,11 +108,11 @@ type CharCodeMap = {
 };
 
 type CodePointsTuple<T extends readonly string[]>
-  = T extends [infer H extends string, ...infer R extends string[]]
-      ? H extends keyof CharCodeMap
-          ? [CharCodeMap[H], ...CodePointsTuple<R>]
-          : [1, ...CodePointsTuple<R>]
-      : [];
+    = T extends [infer H extends string, ...infer R extends string[]]
+        ? H extends keyof CharCodeMap
+            ? [CharCodeMap[H], ...CodePointsTuple<R>]
+            : [1, ...CodePointsTuple<R>]
+        : [];
 
 /**
  * **CodePointOf**`<T>`
@@ -127,12 +127,12 @@ type CodePointsTuple<T extends readonly string[]>
  * error back respectively.
  */
 export type CodePointOf<T extends string>
-  = IsWideString<T> extends true
-      ? Err<`invalid-value/wide-string`, `Call to the type utility CodePointOf<T> with a wide string value is not allowed!`>
-      : Chars<T> extends [infer Char extends string]
-          ? Char extends keyof CharCodeMap
-              ? CharCodeMap[Char]
-              : 1
-          : Chars<T>["length"] extends 0
-              ? Err<`invalid-value/empty`, `Call to the type utility CodePointOf<T> with an empty string literal value!`>
-              : CodePointsTuple<Chars<T>>;
+    = IsWideString<T> extends true
+        ? Err<`invalid-value/wide-string`, `Call to the type utility CodePointOf<T> with a wide string value is not allowed!`>
+        : Chars<T> extends [infer Char extends string]
+            ? Char extends keyof CharCodeMap
+                ? CharCodeMap[Char]
+                : 1
+            : Chars<T>["length"] extends 0
+                ? Err<`invalid-value/empty`, `Call to the type utility CodePointOf<T> with an empty string literal value!`>
+                : CodePointsTuple<Chars<T>>;

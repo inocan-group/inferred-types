@@ -276,15 +276,15 @@ export type RemoveUrlSource<T extends string> = IsStringLiteral<T> extends true
     : string;
 
 type _GetUrlPath<T extends string>
-   = [T] extends [`${string}//${string}`]
-       ? never
-       : T extends ""
-           ? ""
-           : StripAfter<T, "?"> extends "/"
-               ? ""
-               : T extends `/${string}`
-                   ? StripAfter<T, "?">
-                   : never;
+    = [T] extends [`${string}//${string}`]
+        ? never
+        : T extends ""
+            ? ""
+            : StripAfter<T, "?"> extends "/"
+                ? ""
+                : T extends `/${string}`
+                    ? StripAfter<T, "?">
+                    : never;
 
 /**
  * **GetUrlPath**`<T>`
@@ -347,11 +347,11 @@ export type RelativeUrl = `${RelativeStart}${UrlPath}`;
 export type FullyQualifiedUrl = `${NetworkProtocol}://${Ip4AddressLike | DomainName}/${string}`;
 
 export type UrlBuilder
-  = | (<P extends NetworkProtocol, D extends DomainName, B extends RelativeUrl>(
-      protocol: P,
-      domain: D,
-      basePath: B
-  ) => `${P}://${D}/${B}`)
+    = | (<P extends NetworkProtocol, D extends DomainName, B extends RelativeUrl>(
+        protocol: P,
+        domain: D,
+        basePath: B
+    ) => `${P}://${D}/${B}`)
   | (<U extends RelativeUrl>(url: U) => U);
 
 /**
@@ -381,9 +381,9 @@ type _Path<T extends string> = GetUrlPath<T> extends UrlPath
     : never;
 
 type _Proto<TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions>
-= NetworkProtocolPrefix<[] extends TOpt["protocols"]
-    ? "https"
-    : TupleToUnion<TOpt["protocols"]>>;
+    = NetworkProtocolPrefix<[] extends TOpt["protocols"]
+        ? "https"
+        : TupleToUnion<TOpt["protocols"]>>;
 
 type _QP<
     TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions,

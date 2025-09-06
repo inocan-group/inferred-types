@@ -4,7 +4,7 @@
  * parameters to a single parameter.
  */
 export type ComparisonParamConvert__List
-= | "union"
+    = | "union"
 | "stringUnion"
 | "stringArray";
 
@@ -14,7 +14,7 @@ export type ComparisonParamConvert__List
  * will not change the _arity_ of the Comparator vs. the params.
  */
 export type ComparisonParamConvert__Unit
-= | "token"
+    = | "token"
 | "stringLiteral"
 | "none";
 

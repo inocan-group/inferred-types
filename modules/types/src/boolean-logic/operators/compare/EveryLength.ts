@@ -9,11 +9,11 @@ export type EveryLength<
     T extends readonly (string | string[])[],
     N extends number,
 >
-  = [] extends T
-      ? true
-      : First<T>["length"] extends N
-          ? EveryLength<
-              AfterFirst<T>,
-              N
-          >
-          : false;
+    = [] extends T
+        ? true
+        : First<T>["length"] extends N
+            ? EveryLength<
+                AfterFirst<T>,
+                N
+            >
+            : false;

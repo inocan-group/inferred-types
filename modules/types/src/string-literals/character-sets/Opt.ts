@@ -22,9 +22,9 @@ type Cascade<
  * string literal up left-to-right.
  */
 export type Opt<T extends string | readonly string[]>
-= T extends readonly string[]
-    ? Cascade<T>
-    : T | "";
+    = T extends readonly string[]
+        ? Cascade<T>
+        : T | "";
 
 /**
  * an _optional_ percentage symbol

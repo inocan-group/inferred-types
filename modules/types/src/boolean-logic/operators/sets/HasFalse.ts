@@ -31,10 +31,10 @@ type Validate<T extends Container> = [IsAny<T>] extends [true]
  * - if `T` is a wide type then this utility will always return `boolean`
  */
 export type HasFalse<T extends Container>
-= [Validate<T>] extends [Error]
-    ? Validate<T> // return error
-    : [Values<T>] extends [readonly unknown[]]
-        ? [number] extends [Values<T>["length"]]
-            ? boolean
-            : Test<Values<T>>
-        : never;
+    = [Validate<T>] extends [Error]
+        ? Validate<T> // return error
+        : [Values<T>] extends [readonly unknown[]]
+            ? [number] extends [Values<T>["length"]]
+                ? boolean
+                : Test<Values<T>>
+            : never;

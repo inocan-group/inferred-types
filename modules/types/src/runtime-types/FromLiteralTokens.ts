@@ -15,21 +15,21 @@ import type {
 } from "inferred-types/types";
 
 type _Tokenize<T extends StringLiteralToken> //
-  = If<
-      StartsWith<T, "literal:">,
-      StripLeading<T, "literal:">,
-      T extends "<string>" ? `${string}`
-          : T extends "<number>" ? `${number}`
-              : T extends "<boolean>" ? `${boolean}`
-                  : T extends "<letter>" ? `${AlphaChar}`
-                      : T extends "<letter:lowercase>" ? `${LowerAlphaChar}`
-                          : T extends "<letter:uppercase>" ? `${UpperAlphaChar}`
-                              : T extends "<digit>" ? `${Digit}`
-                                  : T extends "<bracket>" ? `${Bracket}`
-                                      : T extends "<bracket:opening>" ? `${OpeningBracket}`
-                                          : T extends "<bracket:closing>" ? `${ClosingBracket}`
-                                              : never
-  >;
+    = If<
+        StartsWith<T, "literal:">,
+        StripLeading<T, "literal:">,
+        T extends "<string>" ? `${string}`
+            : T extends "<number>" ? `${number}`
+                : T extends "<boolean>" ? `${boolean}`
+                    : T extends "<letter>" ? `${AlphaChar}`
+                        : T extends "<letter:lowercase>" ? `${LowerAlphaChar}`
+                            : T extends "<letter:uppercase>" ? `${UpperAlphaChar}`
+                                : T extends "<digit>" ? `${Digit}`
+                                    : T extends "<bracket>" ? `${Bracket}`
+                                        : T extends "<bracket:opening>" ? `${OpeningBracket}`
+                                            : T extends "<bracket:closing>" ? `${ClosingBracket}`
+                                                : never
+    >;
 
 type _Convert<
     T extends readonly StringLiteralToken[],

@@ -43,13 +43,13 @@ type GetTemplateLiteralIndexes<
  * **Related: `GetIndexKeys`
  */
 export type DictionaryWithIndexKeys<T extends Dictionary>
-= ExtractIndexKeysFromObj<T> extends infer Extraction
-    ? IsNever<keyof Extraction> extends true
-        ? IsUnion<keyof T> extends true
-            ? GetTemplateLiteralIndexes<T, UnionToTuple<keyof T>>
-            : never
-        : Extraction
-    : never;
+    = ExtractIndexKeysFromObj<T> extends infer Extraction
+        ? IsNever<keyof Extraction> extends true
+            ? IsUnion<keyof T> extends true
+                ? GetTemplateLiteralIndexes<T, UnionToTuple<keyof T>>
+                : never
+            : Extraction
+        : never;
 
 /**
  * **GetIndexKeys`<T>`

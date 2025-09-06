@@ -24,10 +24,10 @@ type MutableArray<T extends readonly unknown[]> = [...{
  * widening the type.
  */
 export type Mutable<T>
-= [IsUnion<T>] extends [true]
-    ? [T]
-    : [T] extends [readonly unknown[]]
-        ? MutableArray<T>
-        : [IsLiteralLikeObject<T>] extends [true]
-            ? MutableObject<T>
-            : T;
+    = [IsUnion<T>] extends [true]
+        ? [T]
+        : [T] extends [readonly unknown[]]
+            ? MutableArray<T>
+            : [IsLiteralLikeObject<T>] extends [true]
+                ? MutableObject<T>
+                : T;

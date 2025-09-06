@@ -6,14 +6,14 @@ type _ExcludeIndexHelper<
     Count extends readonly unknown[],
     Output extends readonly unknown[]
 >
-  = TList extends readonly [infer First, ...infer Rest]
-  /* if current index (Count['length']) is in the TIdx union, skip First */
-      ? Count["length"] extends TIdx[number]
-          ? _ExcludeIndexHelper<Rest, TIdx, [...Count, unknown], Output>
-      /* otherwise, include First in Output */
-          : _ExcludeIndexHelper<Rest, TIdx, [...Count, unknown], [...Output, First]>
-  /* when we've walked the whole tuple, return what we've accumulated */
-      : Output;
+    = TList extends readonly [infer First, ...infer Rest]
+    /* if current index (Count['length']) is in the TIdx union, skip First */
+        ? Count["length"] extends TIdx[number]
+            ? _ExcludeIndexHelper<Rest, TIdx, [...Count, unknown], Output>
+        /* otherwise, include First in Output */
+            : _ExcludeIndexHelper<Rest, TIdx, [...Count, unknown], [...Output, First]>
+    /* when we've walked the whole tuple, return what we've accumulated */
+        : Output;
 
 /**
  * **ExcludeIndex****`<TList, TIdx>`

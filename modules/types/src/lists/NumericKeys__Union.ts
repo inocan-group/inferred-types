@@ -1,9 +1,9 @@
 type TupleIndices<T extends readonly unknown[]>
-  = Exclude<keyof T, keyof any[]> extends infer K
-      ? K extends `${infer N extends number}` // parse the string literal back to a number literal
-          ? N
-          : never
-      : never;
+    = Exclude<keyof T, keyof any[]> extends infer K
+        ? K extends `${infer N extends number}` // parse the string literal back to a number literal
+            ? N
+            : never
+        : never;
 
 /**
  * **NumericKeys__Union**`<T>`

@@ -25,16 +25,16 @@ type Shape = {
  * a boolean operator which returns `true` when `T` appears to be a Moment.js instance.
  */
 export type IsMoment<T>
-= [IsAny<T>] extends [true]
-    ? false
-    : [IsNever<T>] extends [true]
+    = [IsAny<T>] extends [true]
         ? false
-        : [IsUnknown<T>] extends [true]
-            ? boolean
-            : [IsUnion<T>] extends true
-                ? UnionMemberExtends<T, Shape> extends true
-                    ? boolean
-                    : false
-                : T extends Shape
-                    ? true
-                    : false;
+        : [IsNever<T>] extends [true]
+            ? false
+            : [IsUnknown<T>] extends [true]
+                ? boolean
+                : [IsUnion<T>] extends true
+                    ? UnionMemberExtends<T, Shape> extends true
+                        ? boolean
+                        : false
+                    : T extends Shape
+                        ? true
+                        : false;

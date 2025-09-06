@@ -36,10 +36,10 @@ export type HasNonTemplateLiteral<
     T extends Container,
     R extends Container = Required<T>
 >
-= [Validate<T>] extends [Error]
-    ? Validate<T> // return error
-    : [Values<R>] extends [readonly unknown[]]
-        ? [number] extends [Values<R>["length"]]
-            ? boolean
-            : Test<Values<R>>
-        : never;
+    = [Validate<T>] extends [Error]
+        ? Validate<T> // return error
+        : [Values<R>] extends [readonly unknown[]]
+            ? [number] extends [Values<R>["length"]]
+                ? boolean
+                : Test<Values<R>>
+            : never;

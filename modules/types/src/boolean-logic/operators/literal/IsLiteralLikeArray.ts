@@ -22,17 +22,17 @@ import type {
  * **Related:** `IsLiteralLikeTuple`
  */
 export type IsLiteralLikeArray<T>
-= [IsAny<T>] extends [true]
-    ? false
-    : [IsNever<T>] extends [true]
+    = [IsAny<T>] extends [true]
         ? false
-        : [T] extends [readonly unknown[]]
-            ? [IsVariadicArray<T>] extends [true]
-                ? number extends DropVariadic<T>["length"]
-                    ? false
-                    : true
-                : [number] extends [T["length"]]
-                    ? false
-                    : true
+        : [IsNever<T>] extends [true]
+            ? false
+            : [T] extends [readonly unknown[]]
+                ? [IsVariadicArray<T>] extends [true]
+                    ? number extends DropVariadic<T>["length"]
+                        ? false
+                        : true
+                    : [number] extends [T["length"]]
+                        ? false
+                        : true
 
-            : false;
+                : false;

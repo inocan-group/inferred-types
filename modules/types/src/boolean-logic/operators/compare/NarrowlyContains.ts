@@ -13,11 +13,11 @@ export type NarrowlyContains<
     TContains,
 >
 
-  = IsEqual<
-      First<TList>,
-      TContains
-  > extends true
-      ? true
-      : [] extends AfterFirst<TList>
-          ? false
-          : NarrowlyContains<AfterFirst<TList>, TContains>;
+    = IsEqual<
+        First<TList>,
+        TContains
+    > extends true
+        ? true
+        : [] extends AfterFirst<TList>
+            ? false
+            : NarrowlyContains<AfterFirst<TList>, TContains>;

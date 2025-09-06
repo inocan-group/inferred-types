@@ -207,11 +207,11 @@ type SubtractNoBorrow<
 
 // Extract rightmost digit from a string
 type RightMostDigit<s extends string>
-  = s extends `${infer rest}${NumericChar}`
-      ? s extends `${rest}${infer digit}`
-          ? { rest: rest; digit: digit }
-          : never
-      : never;
+    = s extends `${infer rest}${NumericChar}`
+        ? s extends `${rest}${infer digit}`
+            ? { rest: rest; digit: digit }
+            : never
+        : never;
 
 // Subtract two strings digit by digit
 type SubtractStrings<
@@ -220,31 +220,31 @@ type SubtractStrings<
     accumulatedResultDigits extends string = "",
     borrow extends boolean = false,
 >
-  = "" extends left
-      ? "" extends right
-          ? borrow extends true
-              ? never // Should not happen if we check magnitude first
-              : RemoveLeadingZeros<accumulatedResultDigits>
-          : never // right should not be longer than left
-      : "" extends right
-          ? RightMostDigit<left> extends { rest: infer remainingLeft; digit: infer leftDigit }
-              ? leftDigit extends NumericChar
-                  ? SubtractSingleDigits<leftDigit, "0", borrow> extends SingleDigitSubResult<infer resultDigit, infer resultBorrow>
-                      ? SubtractStrings<remainingLeft & string, "", `${resultDigit}${accumulatedResultDigits}`, resultBorrow>
-                      : never
-                  : never
-              : never
-          : RightMostDigit<left> extends { rest: infer remainingLeft; digit: infer leftDigit }
-              ? RightMostDigit<right> extends { rest: infer remainingRight; digit: infer rightDigit }
-                  ? leftDigit extends NumericChar
-                      ? rightDigit extends NumericChar
-                          ? SubtractSingleDigits<leftDigit, rightDigit, borrow> extends SingleDigitSubResult<infer resultDigit, infer resultBorrow>
-                              ? SubtractStrings<remainingLeft & string, remainingRight & string, `${resultDigit}${accumulatedResultDigits}`, resultBorrow>
-                              : never
-                          : never
-                      : never
-                  : never
-              : never;
+    = "" extends left
+        ? "" extends right
+            ? borrow extends true
+                ? never // Should not happen if we check magnitude first
+                : RemoveLeadingZeros<accumulatedResultDigits>
+            : never // right should not be longer than left
+        : "" extends right
+            ? RightMostDigit<left> extends { rest: infer remainingLeft; digit: infer leftDigit }
+                ? leftDigit extends NumericChar
+                    ? SubtractSingleDigits<leftDigit, "0", borrow> extends SingleDigitSubResult<infer resultDigit, infer resultBorrow>
+                        ? SubtractStrings<remainingLeft & string, "", `${resultDigit}${accumulatedResultDigits}`, resultBorrow>
+                        : never
+                    : never
+                : never
+            : RightMostDigit<left> extends { rest: infer remainingLeft; digit: infer leftDigit }
+                ? RightMostDigit<right> extends { rest: infer remainingRight; digit: infer rightDigit }
+                    ? leftDigit extends NumericChar
+                        ? rightDigit extends NumericChar
+                            ? SubtractSingleDigits<leftDigit, rightDigit, borrow> extends SingleDigitSubResult<infer resultDigit, infer resultBorrow>
+                                ? SubtractStrings<remainingLeft & string, remainingRight & string, `${resultDigit}${accumulatedResultDigits}`, resultBorrow>
+                                : never
+                            : never
+                        : never
+                    : never
+                : never;
 
 // Remove leading zeros from result
 type RemoveLeadingZeros<s extends string>

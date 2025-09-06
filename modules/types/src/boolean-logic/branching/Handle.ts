@@ -36,16 +36,16 @@ export type Handle<
     TMapTo,
     TSpecificity extends "extends" | "equals" = "extends",
 >
-= [THandle] extends [never[]]
-    ? [TContent] extends never[]
-        ? TMapTo
-        : TContent
-    : TSpecificity extends "extends"
-        ? [TContent] extends [THandle]
+    = [THandle] extends [never[]]
+        ? [TContent] extends never[]
             ? TMapTo
-            : Narrow<TContent, THandle>
-        : If<
-            IsEqual<[TContent], [THandle]>,
-            TMapTo,
-            TContent
-        >;
+            : TContent
+        : TSpecificity extends "extends"
+            ? [TContent] extends [THandle]
+                ? TMapTo
+                : Narrow<TContent, THandle>
+            : If<
+                IsEqual<[TContent], [THandle]>,
+                TMapTo,
+                TContent
+            >;

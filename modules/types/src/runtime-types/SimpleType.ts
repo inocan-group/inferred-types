@@ -33,35 +33,35 @@ type DictValues = typeof SIMPLE_DICT_VALUES[number];
  * Converts a `SimpleScalarToken` into the _type_ it represents.
  */
 export type SimpleTypeScalar<T extends SimpleScalarToken>
-= T extends "string"
-    ? string
-    : T extends `string(${infer Literal})`
-        ? Literal extends `${string},${string}`
-            ? CsvToStrUnion<Literal>
-            : Literal
-        : T extends "number"
-            ? number
-            : T extends `number(${infer Literal})`
-                ? Literal extends `${string},${string}`
-                    ? CsvToUnion<Literal>
-                    : AsNumber<Literal>
-                : T extends "boolean"
-                    ? boolean
-                    : T extends "true"
-                        ? true
-                        : T extends "false"
-                            ? false
-                            : T extends "null"
-                                ? null
-                                : T extends "any"
-                                    ? any
-                                    : T extends "undefined"
-                                        ? undefined
-                                        : T extends "unknown"
-                                            ? unknown
-                                            : T extends `Opt<${infer Underlying extends SimpleScalarToken}>`
-                                                ? undefined | SimpleTypeScalar<Underlying>
-                                                : never;
+    = T extends "string"
+        ? string
+        : T extends `string(${infer Literal})`
+            ? Literal extends `${string},${string}`
+                ? CsvToStrUnion<Literal>
+                : Literal
+            : T extends "number"
+                ? number
+                : T extends `number(${infer Literal})`
+                    ? Literal extends `${string},${string}`
+                        ? CsvToUnion<Literal>
+                        : AsNumber<Literal>
+                    : T extends "boolean"
+                        ? boolean
+                        : T extends "true"
+                            ? true
+                            : T extends "false"
+                                ? false
+                                : T extends "null"
+                                    ? null
+                                    : T extends "any"
+                                        ? any
+                                        : T extends "undefined"
+                                            ? undefined
+                                            : T extends "unknown"
+                                                ? unknown
+                                                : T extends `Opt<${infer Underlying extends SimpleScalarToken}>`
+                                                    ? undefined | SimpleTypeScalar<Underlying>
+                                                    : never;
 
 /**
  * **SimpleTypeUnion**`<T>`
@@ -69,44 +69,44 @@ export type SimpleTypeScalar<T extends SimpleScalarToken>
  * Converts a `SimpleUnionToken` into the _type_ it represents.
  */
 export type SimpleTypeUnion<T extends SimpleUnionToken>
-= T extends "opt(string)"
-    ? string | undefined
-    : T extends "opt(number)"
-        ? number | undefined
-        : T extends "opt(boolean)"
-            ? boolean | undefined
-            : T extends "opt(unknown)"
-                ? unknown | undefined
-                : T extends `opt(${infer Literal extends string})`
-                    ? Literal extends `${string},${string}`
-                        ? TupleToUnion<CsvToTuple<Literal>> | undefined
-                        : UnderlyingType<Literal> | undefined
-                    : T extends `Union(${infer Literal})`
+    = T extends "opt(string)"
+        ? string | undefined
+        : T extends "opt(number)"
+            ? number | undefined
+            : T extends "opt(boolean)"
+                ? boolean | undefined
+                : T extends "opt(unknown)"
+                    ? unknown | undefined
+                    : T extends `opt(${infer Literal extends string})`
                         ? Literal extends `${string},${string}`
-                            ? CsvToTuple<Literal>
-                            : Literal
-                        : never;
+                            ? TupleToUnion<CsvToTuple<Literal>> | undefined
+                            : UnderlyingType<Literal> | undefined
+                        : T extends `Union(${infer Literal})`
+                            ? Literal extends `${string},${string}`
+                                ? CsvToTuple<Literal>
+                                : Literal
+                            : never;
 
 export type SimpleTypeDict<T extends SimpleDictToken>
-= T extends `Dict`
-    ? Dictionary
-    : T extends `Dict<string, ${infer Value extends DictValues & SimpleScalarToken}>`
-        ? Dictionary<string, SimpleTypeScalar<Value>>
-        : T extends `Dict<{${infer K}: ${infer V}, ${infer K2}: ${infer V2}}>`
-            ? V extends SimpleScalarToken
-                ? V2 extends SimpleScalarToken
-                    ? ExpandDictionary<
+    = T extends `Dict`
+        ? Dictionary
+        : T extends `Dict<string, ${infer Value extends DictValues & SimpleScalarToken}>`
+            ? Dictionary<string, SimpleTypeScalar<Value>>
+            : T extends `Dict<{${infer K}: ${infer V}, ${infer K2}: ${infer V2}}>`
+                ? V extends SimpleScalarToken
+                    ? V2 extends SimpleScalarToken
+                        ? ExpandDictionary<
           Record<K, SimpleTypeScalar<V>> & Record<K2, SimpleTypeScalar<V2>> & Dictionary
-                    >
-                    : ExpandDictionary<Record<K, SimpleTypeScalar<V>> & Dictionary>
-                : V2 extends SimpleScalarToken
-                    ? ExpandDictionary<Record<K2, SimpleTypeScalar<V2>> & Dictionary>
-                    : never
-            : T extends `Dict<{${infer Key}: ${infer Value}}>`
-                ? Value extends SimpleScalarToken
-                    ? ExpandDictionary<Record<Key, SimpleTypeScalar<Value>> & Dictionary>
-                    : never
-                : never;
+                        >
+                        : ExpandDictionary<Record<K, SimpleTypeScalar<V>> & Dictionary>
+                    : V2 extends SimpleScalarToken
+                        ? ExpandDictionary<Record<K2, SimpleTypeScalar<V2>> & Dictionary>
+                        : never
+                : T extends `Dict<{${infer Key}: ${infer Value}}>`
+                    ? Value extends SimpleScalarToken
+                        ? ExpandDictionary<Record<Key, SimpleTypeScalar<Value>> & Dictionary>
+                        : never
+                    : never;
 
 export type SimpleTypeArray<T extends SimpleArrayToken> = T extends "Array"
     ? any[]

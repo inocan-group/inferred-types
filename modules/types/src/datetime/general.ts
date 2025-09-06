@@ -103,23 +103,23 @@ export type TwoDigitSecond<
 export type ThreeDigitMillisecond<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
 >
-= T extends "weak"
-    ? `${number}`
-    : T extends "normal"
-        ? `${NumericChar}${number}`
-        : T extends "strong"
-            ? `${NumericChar}${NumericChar}${NumericChar}`
-            : T extends "branded"
-                ? Brand<`${number}`, "ThreeDigitMillisecond">
-                : T extends `${number}`
-                    ? T extends ThreeDigitMillisecond<"strong">
-                        ? Brand<T, "ThreeDigitMillisecond">
-                        : Err<
-                            `invalid-type/ms`,
+    = T extends "weak"
+        ? `${number}`
+        : T extends "normal"
+            ? `${NumericChar}${number}`
+            : T extends "strong"
+                ? `${NumericChar}${NumericChar}${NumericChar}`
+                : T extends "branded"
+                    ? Brand<`${number}`, "ThreeDigitMillisecond">
+                    : T extends `${number}`
+                        ? T extends ThreeDigitMillisecond<"strong">
+                            ? Brand<T, "ThreeDigitMillisecond">
+                            : Err<
+                                `invalid-type/ms`,
             `The type passed into 'ThreeDigitMillisecond<${T}>' is not valid!`,
             { ms: T }
-                        >
-                    : never;
+                            >
+                        : never;
 
 /**
  * **TwoDigitMonth**`<normal|weak|branded>`
@@ -173,28 +173,28 @@ export type MonthNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 export type TwoDigitDate<
     T extends "weak" | "normal" | "branded" | `${number}` = "normal"
 >
-= T extends "normal"
-    ? | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+    = T extends "normal"
+        ? | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `3${0 | 1}`
 
-    : T extends "weak"
-        ? | `0${number}`
+        : T extends "weak"
+            ? | `0${number}`
     | `1${number}`
     | `2${number}`
     | `3${number}`
-        : T extends "branded"
-            ? Brand<`${number}`, "TwoDigitDate">
-            : T extends `${number}`
-                ? T extends TwoDigitDate<"normal">
-                    ? Brand<T, "TwoDigitDate">
-                    : Err<
-                        `invalid-type/date`,
+            : T extends "branded"
+                ? Brand<`${number}`, "TwoDigitDate">
+                : T extends `${number}`
+                    ? T extends TwoDigitDate<"normal">
+                        ? Brand<T, "TwoDigitDate">
+                        : Err<
+                            `invalid-type/date`,
             `The type passed into TwoDigitDate<${T}> is not valid!`,
             { dte: T }
-                    >
-                : never;
+                        >
+                    : never;
 
 /**
  * **MinimalDigitDate**

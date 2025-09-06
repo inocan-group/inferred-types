@@ -1,7 +1,7 @@
 type Process<L, C extends unknown[] = [], R = L>
-  = C["length"] extends L
-      ? R
-      : Process<L, [...C, 0], C["length"] | R>;
+    = C["length"] extends L
+        ? R
+        : Process<L, [...C, 0], C["length"] | R>;
 
 /**
  * **NumericRange**`<TLow,THigh>`

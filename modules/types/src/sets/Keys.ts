@@ -95,11 +95,11 @@ export type PrivateKeys<T extends Dictionary> = {
 }[keyof T];
 
 type _KeyOf<TContainer extends Container>
-  = TupleToUnion<Keys<TContainer>> extends PropertyKey
-      ? TupleToUnion<Keys<TContainer>> extends keyof TContainer
-          ? TupleToUnion<Keys<TContainer>>
-          : never
-      : never;
+    = TupleToUnion<Keys<TContainer>> extends PropertyKey
+        ? TupleToUnion<Keys<TContainer>> extends keyof TContainer
+            ? TupleToUnion<Keys<TContainer>>
+            : never
+        : never;
 
 /**
  * **KeyOf**`<TContainer>`

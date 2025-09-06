@@ -21,13 +21,13 @@ type Process<
     TFirst extends string,
     TLast extends string,
 >
-= TFirst extends `/${string}`
-    ? TLast extends `${string}/`
-        ? `/${TPath}/`
-        : `/${TPath}`
-    : TLast extends `${string}/`
-        ? `${TPath}/`
-        : TPath;
+    = TFirst extends `/${string}`
+        ? TLast extends `${string}/`
+            ? `/${TPath}/`
+            : `/${TPath}`
+        : TLast extends `${string}/`
+            ? `${TPath}/`
+            : TPath;
 
 /**
  * **PathJoin**`<T,U>`

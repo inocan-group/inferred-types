@@ -13,7 +13,7 @@ import type {
 
 /** Does T have at least one fixed (non-variadic) element? */
 type HasFixedHead<T extends readonly unknown[]>
-  = Exclude<keyof T, keyof any[]> extends never ? false : true;
+    = Exclude<keyof T, keyof any[]> extends never ? false : true;
 
 /**
  * **SplitAtVariadic**`<T>`
@@ -33,11 +33,11 @@ export type SplitAtVariadic<
     Acc extends readonly unknown[] = [],
     Depth extends readonly unknown[] = []
 >
-  = Depth["length"] extends 30 // Add depth limit to prevent unbounded recursion
-      ? [T, Acc] // Fallback when depth exceeded
-      : T extends readonly [...infer P, infer L]
-          ? SplitAtVariadic<P, [L, ...Acc], [...Depth, unknown]>
-          : [T, Acc];
+    = Depth["length"] extends 30 // Add depth limit to prevent unbounded recursion
+        ? [T, Acc] // Fallback when depth exceeded
+        : T extends readonly [...infer P, infer L]
+            ? SplitAtVariadic<P, [L, ...Acc], [...Depth, unknown]>
+            : [T, Acc];
 
 /**
  * **HasVariadicTail**`<T>`
@@ -208,15 +208,15 @@ export type GetRequiredElementCount<T extends readonly unknown[]> = NonVariadicR
  * **Related:** `GetRequiredElementCount`, `TupleMeta`, `MakeOptional`
  */
 export type GetOptionalElementCount<T extends readonly unknown[]>
-  = T extends readonly unknown[]
-      ? T["length"] extends number
-          ? GetNonVariadicLength<T> extends infer NonVarLen extends number
-              ? GetRequiredElementCount<T> extends infer ReqLen extends number
-                  ? Subtract<NonVarLen, ReqLen>
-                  : 0 // fallback when required count computation fails
-              : 0 // fallback when non-variadic length computation fails
-          : 0 // fallback for infinite length arrays
-      : never;
+    = T extends readonly unknown[]
+        ? T["length"] extends number
+            ? GetNonVariadicLength<T> extends infer NonVarLen extends number
+                ? GetRequiredElementCount<T> extends infer ReqLen extends number
+                    ? Subtract<NonVarLen, ReqLen>
+                    : 0 // fallback when required count computation fails
+                : 0 // fallback when non-variadic length computation fails
+            : 0 // fallback for infinite length arrays
+        : never;
 
 /**
  * **ExtractOptionalElements**`<T>`
@@ -287,9 +287,9 @@ export type DropVariadicTail<
  * both will return `true`
  */
 export type IsVariadicArray<T extends readonly unknown[]>
-  = number extends T["length"]
-      ? true
-      : false;
+    = number extends T["length"]
+        ? true
+        : false;
 
 /**
  * **DropVariadicHead**`<T>`
@@ -304,13 +304,13 @@ export type IsVariadicArray<T extends readonly unknown[]>
  * ```
  */
 export type DropVariadicHead<T extends readonly unknown[]>
-= SplitAtVariadic<T> extends [infer Prefix extends readonly unknown[], infer Suffix extends readonly unknown[]]
-    ? IsVariadicArray<Prefix> extends true
-        ? HasFixedHead<Prefix> extends false
-            ? Suffix
+    = SplitAtVariadic<T> extends [infer Prefix extends readonly unknown[], infer Suffix extends readonly unknown[]]
+        ? IsVariadicArray<Prefix> extends true
+            ? HasFixedHead<Prefix> extends false
+                ? Suffix
+                : T
             : T
-        : T
-    : never;
+        : never;
 
 /**
  * **DropVariadic**`<T>`
@@ -328,21 +328,21 @@ export type DropVariadicHead<T extends readonly unknown[]>
  * **Related:** `DropVariadicHead`, `DropVariadicTail`, `IsVariadicArray`
  */
 export type DropVariadic<T extends readonly unknown[]>
-= IsVariadicArray<T> extends false
-    ? T // Early return for non-variadic arrays
-    : HasVariadicHead<T> extends true
-        ? DropVariadicHead<T>
-        : HasVariadicTail<T> extends true
-            ? DropVariadicTail<T>
-            : HasVariadicInterior<T> extends true
-                ? SplitAtVariadic<T> extends [ ...infer Head, ...infer Tail ]
-                    ? IsVariadicArray<Head> extends true
-                        ? Tail extends readonly unknown[] ? Tail : never
-                        : IsVariadicArray<Tail> extends true
-                            ? Head extends readonly unknown[] ? Head : never
-                            : T
-                    : T
-                : T;
+    = IsVariadicArray<T> extends false
+        ? T // Early return for non-variadic arrays
+        : HasVariadicHead<T> extends true
+            ? DropVariadicHead<T>
+            : HasVariadicTail<T> extends true
+                ? DropVariadicTail<T>
+                : HasVariadicInterior<T> extends true
+                    ? SplitAtVariadic<T> extends [ ...infer Head, ...infer Tail ]
+                        ? IsVariadicArray<Head> extends true
+                            ? Tail extends readonly unknown[] ? Tail : never
+                            : IsVariadicArray<Tail> extends true
+                                ? Head extends readonly unknown[] ? Head : never
+                                : T
+                        : T
+                    : T;
 
 /**
  * **VariadicType**`<T>`

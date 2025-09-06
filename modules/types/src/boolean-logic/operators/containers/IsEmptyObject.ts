@@ -8,13 +8,13 @@ import type { AnyFunction, IsAny, IsNever, IsNull, IsObject, IsUndefined, Object
  * - `any`, `unknown`, and `never` are rejected
  */
 export type IsEmptyObject<T>
-= IsAny<T> extends true ? false
-    : IsNever<T> extends true ? false
-        : IsNull<T> extends true ? false
-            : IsUndefined<T> extends true ? false
-                : T extends AnyFunction ? false
-                    : IsObject<T> extends true
-                        ? ObjectKeys<T> extends readonly PropertyKey[]
-                            ? TupleMeta<ObjectKeys<T>>["isEmpty"]
-                            : false
-                        : false;
+    = IsAny<T> extends true ? false
+        : IsNever<T> extends true ? false
+            : IsNull<T> extends true ? false
+                : IsUndefined<T> extends true ? false
+                    : T extends AnyFunction ? false
+                        : IsObject<T> extends true
+                            ? ObjectKeys<T> extends readonly PropertyKey[]
+                                ? TupleMeta<ObjectKeys<T>>["isEmpty"]
+                                : false
+                            : false;

@@ -24,16 +24,16 @@ import type {
 export type IsMixedUnion<
     T
 >
-= [IsAny<T>] extends [true]
-    ? false
-    : [IsNever<T>] extends [true]
+    = [IsAny<T>] extends [true]
         ? false
-        : [IsUnknown<T>] extends [true]
-            ? boolean
-            : IsUnion<T> extends true
-                ? IsLiteralUnion<T> extends false
-                    ? IsWideUnion<T> extends false
-                        ? true
+        : [IsNever<T>] extends [true]
+            ? false
+            : [IsUnknown<T>] extends [true]
+                ? boolean
+                : IsUnion<T> extends true
+                    ? IsLiteralUnion<T> extends false
+                        ? IsWideUnion<T> extends false
+                            ? true
+                            : false
                         : false
-                    : false
-                : false;
+                    : false;

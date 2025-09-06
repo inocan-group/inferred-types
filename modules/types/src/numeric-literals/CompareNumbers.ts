@@ -62,17 +62,17 @@ export type CompareNumbers<
 // Fallback to complex comparison for cases not covered by the lookup table
 type ComplexCompare<A extends NumberLike, B extends NumberLike>
 // Handle negative numbers
-                        = `${A}` extends `-${string}`
-                            ? `${B}` extends `-${string}`
-                            // Both negative - compare absolute values in reverse
-                                ? CompareNegative<`${A}`, `${B}`>
-                            // A negative, B positive
-                                : "less"
-                            : `${B}` extends `-${string}`
-                            // A positive, B negative
-                                ? "greater"
-                            // Both positive
-                                : ComparePositive<`${A}`, `${B}`>;
+    = `${A}` extends `-${string}`
+        ? `${B}` extends `-${string}`
+// Both negative - compare absolute values in reverse
+            ? CompareNegative<`${A}`, `${B}`>
+// A negative, B positive
+            : "less"
+        : `${B}` extends `-${string}`
+// A positive, B negative
+            ? "greater"
+// Both positive
+            : ComparePositive<`${A}`, `${B}`>;
 
 // For negative numbers, we reverse the comparison
 type CompareNegative<A extends string, B extends string>

@@ -5,87 +5,87 @@ import type { IT_Token } from "types/runtime-types/type-defn/input-tokens/IT_Bas
  * matches on tokens like `string[]`, `number[]`, etc.
  */
 type IT_TakeArray_Postfix<T extends string>
-= T extends `${infer Block extends string}[][]${infer Rest extends string}`
-    ? ErrType<GetInputToken<Block>> extends "malformed-token"
-        ? Err<
-            `malformed-token/array`,
-            `the token has the shape of a two-dimensional array of '${Block}' but the type of array could not be parsed into a type!`,
-            { token: T; block: Block; rest: Rest }
-        >
-        : GetInputToken<Block> extends infer Token extends IT_Token
-            ? {
-                __kind: "IT_Token";
-                kind: "array";
-                token: `${Token["token"]}[][]`;
-                type: (Token["type"])[][];
-                rest: Rest;
-            }
-            : never
-
-    : T extends `${infer Block extends string}[]${infer Rest extends string}`
+    = T extends `${infer Block extends string}[][]${infer Rest extends string}`
         ? ErrType<GetInputToken<Block>> extends "malformed-token"
             ? Err<
                 `malformed-token/array`,
-            `the token has the shape of an array of type '${Block}' but the type of array could not be parsed into a type!`,
+            `the token has the shape of a two-dimensional array of '${Block}' but the type of array could not be parsed into a type!`,
             { token: T; block: Block; rest: Rest }
             >
             : GetInputToken<Block> extends infer Token extends IT_Token
                 ? {
                     __kind: "IT_Token";
                     kind: "array";
-                    token: `${Token["token"]}[]`;
-                    type: (Token["type"])[];
+                    token: `${Token["token"]}[][]`;
+                    type: (Token["type"])[][];
                     rest: Rest;
                 }
-                : Err<"wrong-handler/array">
-        : Err<"wrong-handler/array">;
+                : never
+
+        : T extends `${infer Block extends string}[]${infer Rest extends string}`
+            ? ErrType<GetInputToken<Block>> extends "malformed-token"
+                ? Err<
+                    `malformed-token/array`,
+            `the token has the shape of an array of type '${Block}' but the type of array could not be parsed into a type!`,
+            { token: T; block: Block; rest: Rest }
+                >
+                : GetInputToken<Block> extends infer Token extends IT_Token
+                    ? {
+                        __kind: "IT_Token";
+                        kind: "array";
+                        token: `${Token["token"]}[]`;
+                        type: (Token["type"])[];
+                        rest: Rest;
+                    }
+                    : Err<"wrong-handler/array">
+            : Err<"wrong-handler/array">;
 
 /**
  * matches on tokens like `(string)[]`, `(string | number)[]`, etc.
  */
 type IT_TakeArray_Postfix_Grouped<T extends string>
-= T extends `(${infer Rest}`
-    ? NestedSplit<Rest, ")[][]"> extends [
-        infer Block extends string,
-        ...infer Rest extends [string, ...string[]]
-    ]
-        ? GetInputToken<Trim<Block>> extends infer Token extends IT_Token
-            ? {
-                __kind: "IT_Token";
-                kind: "array";
-                token: `(${Token["token"]})[][]`;
-                type: (Token["type"])[][];
-                rest: Trim<Join<Rest, ")[][]">>;
-            }
-            : Err<
-                "malformed-token/array",
-                `The token '${T}' appeared to be a grouped two-dimensional array but the interior block '${Block}' could not be parsed as a valid type!`,
-                { token: T; block: Block; rest: Rest }
-            >
-
-        : NestedSplit<Rest, ")[]"> extends [
+    = T extends `(${infer Rest}`
+        ? NestedSplit<Rest, ")[][]"> extends [
             infer Block extends string,
-            ...infer Rest extends readonly [string, ...string[]]
+            ...infer Rest extends [string, ...string[]]
         ]
-            ? GetInputToken<Block> extends infer Token extends IT_Token
+            ? GetInputToken<Trim<Block>> extends infer Token extends IT_Token
                 ? {
                     __kind: "IT_Token";
                     kind: "array";
-                    token: `(${Token["token"]})[]`;
-                    type: (Token["type"])[];
-                    rest: Trim<Join<Rest, ")[]">>;
+                    token: `(${Token["token"]})[][]`;
+                    type: (Token["type"])[][];
+                    rest: Trim<Join<Rest, ")[][]">>;
                 }
                 : Err<
                     "malformed-token/array",
-                `The token '${T}' appeared to be a grouped array but the interior block '${Block}' could not be parsed as a valid type!`,
+                `The token '${T}' appeared to be a grouped two-dimensional array but the interior block '${Block}' could not be parsed as a valid type!`,
                 { token: T; block: Block; rest: Rest }
                 >
-            : Err<
-                "wrong-handler/array",
-                `The grouped function matcher could not parse the string token.`,
-                { token: T; rest: Rest }
-            >
-    : Err<"wrong-handler/array">;
+
+            : NestedSplit<Rest, ")[]"> extends [
+                infer Block extends string,
+                ...infer Rest extends readonly [string, ...string[]]
+            ]
+                ? GetInputToken<Block> extends infer Token extends IT_Token
+                    ? {
+                        __kind: "IT_Token";
+                        kind: "array";
+                        token: `(${Token["token"]})[]`;
+                        type: (Token["type"])[];
+                        rest: Trim<Join<Rest, ")[]">>;
+                    }
+                    : Err<
+                        "malformed-token/array",
+                `The token '${T}' appeared to be a grouped array but the interior block '${Block}' could not be parsed as a valid type!`,
+                { token: T; block: Block; rest: Rest }
+                    >
+                : Err<
+                    "wrong-handler/array",
+                    `The grouped function matcher could not parse the string token.`,
+                    { token: T; rest: Rest }
+                >
+        : Err<"wrong-handler/array">;
 
 /**
  * matches on tokens like `Array<string|number>`, etc.
