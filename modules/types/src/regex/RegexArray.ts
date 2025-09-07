@@ -13,7 +13,7 @@ import type {
 export type RegexGroupValue = string | number | bigint | boolean | null | undefined;
 
 /**
- * Converts the psuedo Regex (which hasn't been escaped to be "real" regex)
+ * Converts the pseudo Regex (which hasn't been escaped to be "real" regex)
  * back to the curly braced template blocks expected by the `StringLiteralTemplate`
  * utility.
  */
@@ -54,17 +54,17 @@ type Groups<
 
 type _RegexArray<
     TTemplate extends string,
-    TStrat extends RegexHandlingStrategy,
+    TStrategy extends RegexHandlingStrategy,
     TValue extends string,
 > = RemoveIndexKeys<
     Expand<
-            Groups<TValue, TTemplate, TStrat>
+            Groups<TValue, TTemplate, TStrategy>
             & Record<"kind", "RegexArray">
-            & (TStrat extends "subset"
+            & (TStrategy extends "subset"
                 ? Record<"template", StripSurroundingStringTemplate<TTemplate>>
                 : Record<"template", TTemplate>
             )
-            & Record<"matchStrategy", TStrat>
+            & Record<"matchStrategy", TStrategy>
             & RegExpExecArray
             & Record<"input", TValue>
     >
@@ -78,7 +78,7 @@ type _RegexArray<
  *
  * - When a successful match is made, the matched expression will be returned in it's entirety
  * as the first element (aka, index 0)
- * - the remaining array elements are
+ * - the remaining array elements are the matches found within the parenthesis
  */
 export type RegexArray<
     /** the template in a RegExp-like format for human readability */

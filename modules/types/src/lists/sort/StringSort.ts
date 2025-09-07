@@ -25,6 +25,27 @@ export interface StringSortOptions<
 // Internal test hook (not part of public API)
 // (no exported debug types)
 
+/**
+ * Convert value to string for comparison purposes
+ */
+type ToComparisonString<T> = T extends string
+    ? T
+    : T extends number
+        ? `${T}`
+        : T extends boolean
+            ? T extends true ? "true" : "false"
+            : never;
+
+/** Mixed type comparison - converts to strings for comparison but handles positioning */
+type MixedLessThan<A, B> = 
+    A extends string | number | boolean
+        ? B extends string | number | boolean
+            ? StringLessThan<ToComparisonString<A>, ToComparisonString<B>>
+            : true  // Comparable types come before non-comparable
+        : B extends string | number | boolean
+            ? false // Non-comparable comes after comparable
+            : false; // Non-comparable vs non-comparable - maintain order
+
 /** Lexicographic string comparison honoring wide strings as greatest */
 type StringLessThan<A extends string, B extends string>
     = A extends B ? false
@@ -58,60 +79,67 @@ type StringGreaterThan<A extends string, B extends string>
             : true;
 
 /**
- * Filter strings that are less than or equal to the pivot
+ * Filter values that are less than or equal to the pivot (supports mixed types)
  */
-type FilterStringLessThanOrEqual<
-    TPivot extends string,
-    TValues extends readonly string[],
-    TOut extends readonly string[] = [],
-> = TValues extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
-    ? StringLessThan<Head, TPivot> extends true
-        ? FilterStringLessThanOrEqual<TPivot, Tail, [...TOut, Head]>
+type FilterMixedLessThanOrEqual<
+    TPivot,
+    TValues extends readonly unknown[],
+    TOut extends readonly unknown[] = [],
+> = TValues extends readonly [infer Head, ...infer Tail extends readonly unknown[]]
+    ? MixedLessThan<Head, TPivot> extends true
+        ? FilterMixedLessThanOrEqual<TPivot, Tail, [...TOut, Head]>
         : Head extends TPivot
-            ? FilterStringLessThanOrEqual<TPivot, Tail, [...TOut, Head]>
-            : FilterStringLessThanOrEqual<TPivot, Tail, TOut>
+            ? FilterMixedLessThanOrEqual<TPivot, Tail, [...TOut, Head]>
+            : FilterMixedLessThanOrEqual<TPivot, Tail, TOut>
     : TOut;
 
 /**
- * Filter strings that are greater than the pivot
+ * Filter values that are greater than the pivot (supports mixed types)
  */
-type FilterStringGreaterThan<
-    TPivot extends string,
-    TValues extends readonly string[],
-    TOut extends readonly string[] = [],
-> = TValues extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
-    ? StringGreaterThan<Head, TPivot> extends true
-        ? FilterStringGreaterThan<TPivot, Tail, [...TOut, Head]>
-        : FilterStringGreaterThan<TPivot, Tail, TOut>
+type FilterMixedGreaterThan<
+    TPivot,
+    TValues extends readonly unknown[],
+    TOut extends readonly unknown[] = [],
+> = TValues extends readonly [infer Head, ...infer Tail extends readonly unknown[]]
+    ? MixedGreaterThan<Head, TPivot> extends true
+        ? FilterMixedGreaterThan<TPivot, Tail, [...TOut, Head]>
+        : FilterMixedGreaterThan<TPivot, Tail, TOut>
     : TOut;
 
+type MixedGreaterThan<A, B> = 
+    MixedLessThan<A, B> extends true
+        ? false
+        : A extends B
+            ? false
+            : true;
+
 /**
- * Quicksort implementation for strings
+ * Quicksort implementation for mixed types (string, number, boolean)
  */
-type _SortStrings<
-    TValues extends readonly string[],
+type _SortMixed<
+    TValues extends readonly unknown[],
     TReverse extends boolean,
-> = TValues extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
+> = TValues extends readonly [infer Head, ...infer Tail extends readonly unknown[]]
     ? TReverse extends true
         ? [
-            ..._SortStrings<
-                FilterStringGreaterThan<Head, Tail>,
+            ..._SortMixed<
+                FilterMixedGreaterThan<Head, Tail>,
                 TReverse
             >,
             Head,
-            ..._SortStrings<
-                FilterStringLessThanOrEqual<Head, Tail>,
+            ..._SortMixed<
+                FilterMixedLessThanOrEqual<Head, Tail>,
                 TReverse
             >,
         ]
         : [
-            ..._SortStrings<
-                FilterStringLessThanOrEqual<Head, Tail>,
+            ..._SortMixed<
+                FilterMixedLessThanOrEqual<Head, Tail>,
                 TReverse
             >,
             Head,
-            ..._SortStrings<
-                FilterStringGreaterThan<Head, Tail>,
+            ..._SortMixed<
+                FilterMixedGreaterThan<Head, Tail>,
                 TReverse
             >,
         ]
@@ -171,51 +199,53 @@ type _SortStringOffset<
     : [];
 
 /**
- * Partition a tuple of strings into narrow and wide (in original order)
+ * Partition mixed types: strings into narrow/wide, others stay as-is
  */
 type PartitionWide<
-    T extends readonly string[],
-    TNarrow extends readonly string[] = [],
-    TWide extends readonly string[] = []
-> = T extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
-    ? IsWideString<Head> extends true
-        ? PartitionWide<Tail, TNarrow, [...TWide, Head]>
-        : PartitionWide<Tail, [...TNarrow, Head], TWide>
+    T extends readonly unknown[],
+    TNarrow extends readonly unknown[] = [],
+    TWide extends readonly unknown[] = []
+> = T extends readonly [infer Head, ...infer Tail extends readonly unknown[]]
+    ? Head extends string
+        ? IsWideString<Head> extends true
+            ? PartitionWide<Tail, TNarrow, [...TWide, Head]>
+            : PartitionWide<Tail, [...TNarrow, Head], TWide>
+        : PartitionWide<Tail, [...TNarrow, Head], TWide> // Non-strings go to narrow
     : { narrow: TNarrow; wide: TWide };
 
 /**
- * Extract first elements from array
+ * Extract first elements from array (supports mixed types)
  */
 type ExtractFirst<
-    T extends readonly string[],
+    T extends readonly unknown[],
     TFirst,
-    TOut extends readonly string[] = []
+    TOut extends readonly unknown[] = []
 > = TFirst extends readonly unknown[]
-    ? T extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
+    ? T extends readonly [infer Head, ...infer Tail extends readonly unknown[]]
         ? Head extends TFirst[number]
             ? ExtractFirst<Tail, TFirst, [...TOut, Head]>
             : ExtractFirst<Tail, TFirst, TOut>
         : TOut
-    : T extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
+    : T extends readonly [infer Head, ...infer Tail extends readonly unknown[]]
         ? Head extends TFirst
             ? ExtractFirst<Tail, TFirst, [...TOut, Head]>
             : ExtractFirst<Tail, TFirst, TOut>
         : TOut;
 
 /**
- * Remove first elements from array
+ * Remove first elements from array (supports mixed types)
  */
 type RemoveFirst<
-    T extends readonly string[],
+    T extends readonly unknown[],
     TFirst,
-    TOut extends readonly string[] = []
+    TOut extends readonly unknown[] = []
 > = TFirst extends readonly unknown[]
-    ? T extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
+    ? T extends readonly [infer Head, ...infer Tail extends readonly unknown[]]
         ? Head extends TFirst[number]
             ? RemoveFirst<Tail, TFirst, TOut>
             : RemoveFirst<Tail, TFirst, [...TOut, Head]>
         : TOut
-    : T extends readonly [infer Head extends string, ...infer Tail extends readonly string[]]
+    : T extends readonly [infer Head, ...infer Tail extends readonly unknown[]]
         ? Head extends TFirst
             ? RemoveFirst<Tail, TFirst, TOut>
             : RemoveFirst<Tail, TFirst, [...TOut, Head]>
@@ -232,7 +262,7 @@ type RemoveFirst<
  * - supports container/offset sorting
  */
 export type StringSort<
-    T extends readonly (string | Container)[],
+    T extends readonly (string | number | boolean | Container)[],
     O extends StringSortOptions = EmptyObject,
 > = IsStringLiteral<O["offset"]> extends true
     ? T extends readonly Container[]
@@ -244,7 +274,7 @@ export type StringSort<
                     : _SortStringOffset<T, As<O["offset"], string>>
             : never
         : never // Cannot use offset with non-container types
-    : T extends readonly string[]
+    : T extends readonly (string | number | boolean)[]
         ? Length<T> extends 0
             ? T
             : Length<T> extends 1
@@ -262,20 +292,20 @@ export type StringSort<
  * Main sorting logic without first elements
  */
 type _StringSortMain<
-    T extends readonly string[],
+    T extends readonly unknown[],
     O extends StringSortOptions,
     OOrder = O extends { order: infer Ord } ? Ord : undefined,
     TPart = PartitionWide<T>,
-    TNatural extends readonly string[] = TPart extends { narrow: infer N; wide: infer W }
-        ? N extends readonly string[]
-            ? W extends readonly string[]
+    TNatural extends readonly unknown[] = TPart extends { narrow: infer N; wide: infer W }
+        ? N extends readonly unknown[]
+            ? W extends readonly unknown[]
                 ? [...N, ...W]
                 : N
             : []
         : [],
-    TSorted extends readonly string[] = [IsEqual<OOrder, "Natural">] extends [true]
+    TSorted extends readonly unknown[] = [IsEqual<OOrder, "Natural">] extends [true]
         ? TNatural
-        : _SortStrings<
+        : _SortMixed<
             T,
             [IsEqual<OOrder, "DESC">] extends [true] ? true : false
         >
@@ -285,23 +315,23 @@ type _StringSortMain<
  * Sorting logic with first elements
  */
 type _StringSortWithFirst<
-    T extends readonly string[],
+    T extends readonly unknown[],
     O extends StringSortOptions,
     OOrder = O extends { order: infer Ord } ? Ord : undefined,
     TStart = O["start"] extends readonly unknown[] ? O["start"] : [O["start"]] extends readonly [infer S] ? S : O["start"],
-    TStartElements extends readonly string[] = ExtractFirst<T, TStart>,
-    TRemainingElements extends readonly string[] = RemoveFirst<T, TStart>,
+    TStartElements extends readonly unknown[] = ExtractFirst<T, TStart>,
+    TRemainingElements extends readonly unknown[] = RemoveFirst<T, TStart>,
     TPart = PartitionWide<TRemainingElements>,
-    TNatural extends readonly string[] = TPart extends { narrow: infer N; wide: infer W }
-        ? N extends readonly string[]
-            ? W extends readonly string[]
+    TNatural extends readonly unknown[] = TPart extends { narrow: infer N; wide: infer W }
+        ? N extends readonly unknown[]
+            ? W extends readonly unknown[]
                 ? [...N, ...W]
                 : N
             : []
         : [],
-    TSorted extends readonly string[] = [IsEqual<OOrder, "Natural">] extends [true]
+    TSorted extends readonly unknown[] = [IsEqual<OOrder, "Natural">] extends [true]
         ? TNatural
-        : _SortStrings<
+        : _SortMixed<
             TRemainingElements,
             [IsEqual<OOrder, "DESC">] extends [true] ? true : false
         >
@@ -311,23 +341,23 @@ type _StringSortWithFirst<
  * Sorting logic with end elements
  */
 type _StringSortWithEnd<
-    T extends readonly string[],
+    T extends readonly unknown[],
     O extends StringSortOptions,
     OOrder = O extends { order: infer Ord } ? Ord : undefined,
     TEnd = O["end"] extends readonly unknown[] ? O["end"] : [O["end"]] extends readonly [infer E] ? E : O["end"],
-    TEndElements extends readonly string[] = ExtractFirst<T, TEnd>,
+    TEndElements extends readonly unknown[] = ExtractFirst<T, TEnd>,
     TRemainingElements extends readonly string[] = RemoveFirst<T, TEnd>,
     TPart = PartitionWide<TRemainingElements>,
-    TNatural extends readonly string[] = TPart extends { narrow: infer N; wide: infer W }
-        ? N extends readonly string[]
-            ? W extends readonly string[]
+    TNatural extends readonly unknown[] = TPart extends { narrow: infer N; wide: infer W }
+        ? N extends readonly unknown[]
+            ? W extends readonly unknown[]
                 ? [...N, ...W]
                 : N
             : []
         : [],
-    TSorted extends readonly string[] = [IsEqual<OOrder, "Natural">] extends [true]
+    TSorted extends readonly unknown[] = [IsEqual<OOrder, "Natural">] extends [true]
         ? TNatural
-        : _SortStrings<
+        : _SortMixed<
             TRemainingElements,
             [IsEqual<OOrder, "DESC">] extends [true] ? true : false
         >
@@ -337,7 +367,7 @@ type _StringSortWithEnd<
  * Sorting logic with both start and end elements
  */
 type _StringSortWithStartAndEnd<
-    T extends readonly string[],
+    T extends readonly unknown[],
     O extends StringSortOptions,
     OOrder = O extends { order: infer Ord } ? Ord : undefined,
     TStart = O["start"] extends readonly unknown[] ? O["start"] : [O["start"]] extends readonly [infer S] ? S : O["start"],
@@ -346,16 +376,16 @@ type _StringSortWithStartAndEnd<
     TEndElements extends readonly string[] = ExtractFirst<RemoveFirst<T, TStart>, TEnd>,
     TRemainingElements extends readonly string[] = RemoveFirst<RemoveFirst<T, TStart>, TEnd>,
     TPart = PartitionWide<TRemainingElements>,
-    TNatural extends readonly string[] = TPart extends { narrow: infer N; wide: infer W }
-        ? N extends readonly string[]
-            ? W extends readonly string[]
+    TNatural extends readonly unknown[] = TPart extends { narrow: infer N; wide: infer W }
+        ? N extends readonly unknown[]
+            ? W extends readonly unknown[]
                 ? [...N, ...W]
                 : N
             : []
         : [],
-    TSorted extends readonly string[] = [IsEqual<OOrder, "Natural">] extends [true]
+    TSorted extends readonly unknown[] = [IsEqual<OOrder, "Natural">] extends [true]
         ? TNatural
-        : _SortStrings<
+        : _SortMixed<
             TRemainingElements,
             [IsEqual<OOrder, "DESC">] extends [true] ? true : false
         >

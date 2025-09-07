@@ -7,6 +7,7 @@ import type {
     DnsName,
     DomainName,
     EmptyObject,
+    Err,
     ExpandUnion,
     Flatten,
     Ip4AddressLike,
@@ -18,6 +19,7 @@ import type {
     NumericChar,
     RemoveEmpty,
     RetainWhile,
+    Slice,
     StripAfter,
     StripBefore,
     StripLeading,
@@ -233,10 +235,12 @@ export type UrlPath<T extends string | null = null> = T extends null
     ? "" | `/${UrlPathChars}${string}`
     : T extends string
         ? string extends T
-            ? never
+            ? string | Error
             : T extends `/${AlphanumericChar}${infer Rest}`
-                ? ValidateCharacterSet<Rest, AlphanumericChar | "_" | "@" | "." | "-" | "/">
-                : never
+                ? ValidateCharacterSet<Rest, AlphanumericChar | "_" | "@" | "." | "-" | "/"> extends infer Rest extends string
+                    ? `${Slice<T,0,2>}${Rest}`
+                    : ValidateCharacterSet<Rest, AlphanumericChar | "_" | "@" | "." | "-" | "/">
+                : Err<`invalid-character`>
         : never; // when not string or null
 
 /**

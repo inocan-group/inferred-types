@@ -37,7 +37,7 @@ describe("Url testing", () => {
 
             Expect<Test<FooBar, "equals", `/foo/bar`>>,
 
-            Expect<Test<LeadingBadGuy, "equals", never>>,
+            Expect<Test<LeadingBadGuy, "isError", "invalid-character">>,
             Expect<Test<TrailingBadGuy, "isError", "invalid-character">>,
         ];
 

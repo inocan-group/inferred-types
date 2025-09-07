@@ -68,6 +68,100 @@ describe("StringSort<T, O>", () => {
         ];
     });
 
+    it("supports offset property for container sorting", () => {
+        type DATA = [
+            { id: "foo", name: "zebra" },
+            { id: "baz", name: "apple" },
+            { id: "bar", name: "mango" },
+        ];
 
+        type Asc = StringSort<DATA, { offset: "name", order: "ASC" }>;
+        type Desc = StringSort<DATA, { offset: "name", order: "DESC" }>;
+        type Natural = StringSort<DATA, { offset: "name", order: "Natural" }>;
+
+        type cases = [
+            Expect<Test<
+                Asc,
+                "equals",
+                [
+                    { id: "baz", name: "apple" },
+                    { id: "bar", name: "mango" },
+                    { id: "foo", name: "zebra" },
+                ]
+            >>,
+            Expect<Test<
+                Desc,
+                "equals",
+                [
+                    { id: "foo", name: "zebra" },
+                    { id: "bar", name: "mango" },
+                    { id: "baz", name: "apple" },
+                ]
+            >>,
+            Expect<Test<
+                Natural,
+                "equals",
+                [
+                    { id: "foo", name: "zebra" },
+                    { id: "baz", name: "apple" },
+                    { id: "bar", name: "mango" },
+                ]
+            >>,
+        ];
+    });
+
+    it("supports offset property with nested object paths", () => {
+        type DATA = [
+            { user: { profile: { displayName: "John" } }, id: 1 },
+            { user: { profile: { displayName: "Alice" } }, id: 2 },
+            { user: { profile: { displayName: "Bob" } }, id: 3 },
+        ];
+
+        type Sorted = StringSort<DATA, { offset: "user.profile.displayName" }>;
+
+        type cases = [
+            Expect<Test<
+                Sorted,
+                "equals",
+                [
+                    { user: { profile: { displayName: "Alice" } }, id: 2 },
+                    { user: { profile: { displayName: "Bob" } }, id: 3 },
+                    { user: { profile: { displayName: "John" } }, id: 1 },
+                ]
+            >>,
+        ];
+    });
+
+    it("handles wide strings with offset sorting", () => {
+        type DATA = [
+            { name: "banana", type: string },
+            { name: "apple", type: "fruit" },
+            { name: "carrot", type: "vegetable" },
+        ];
+
+        type Sorted = StringSort<DATA, { offset: "type" }>;
+
+        type cases = [
+            Expect<Test<
+                Sorted,
+                "equals",
+                [
+                    { name: "apple", type: "fruit" },
+                    { name: "carrot", type: "vegetable" },
+                    { name: "banana", type: string },
+                ]
+            >>,
+        ];
+    });
+
+    it("supports Natural order preserving original positions", () => {
+        type Natural1 = StringSort<["zebra", "apple", "banana"], { order: "Natural" }>;
+        type Natural2 = StringSort<["z", "a", "b"], { order: "Natural" }>;
+
+        type cases = [
+            Expect<Test<Natural1, "equals", ["zebra", "apple", "banana"]>>,
+            Expect<Test<Natural2, "equals", ["z", "a", "b"]>>,
+        ];
+    });
 
 });

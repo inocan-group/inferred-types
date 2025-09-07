@@ -33,7 +33,6 @@ export * from "./Second";
 export * from "./Shift";
 export * from "./Shortest";
 export * from "./Slice";
-export * from "./Sort";
 export * from "./sort/index";
 export * from "./SortByKey";
 export * from "./TakeFirst";

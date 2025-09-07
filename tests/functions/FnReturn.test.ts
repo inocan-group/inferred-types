@@ -49,18 +49,18 @@ describe("FnReturn<TFn>", () => {
 
     it("numeric literal in return", () => {
         type F1 = <A extends number>(age: A) => `${A} years old`; // =>
-        type F2 = <T extends readonly [age: number]>(...args: T) => `${T[1]} years old`;
+        type F2 = <T extends readonly [age: number]>(...args: T) => `${T[0]} years old`;
         type F4 = (age: number) => `${typeof age} years old`;
 
         type RT1 = ReturnType<F1>; // =>
-        type R1 = FnReturns<F1>;
-        type R2 = FnReturns<F4>;
-        type R3 = FnReturns<F2>;
+        type R1 = FnReturn<F1>;
+        type R2 = FnReturn<F2>;
+        type R4 = FnReturn<F4>;
 
         type cases = [
             Expect<Test<R1, "equals",  `${number} years old`>>,
             Expect<Test<R2, "equals",  `${number} years old`>>,
-            Expect<Test<R3, "equals",  `${number} years old`>>,
+            Expect<Test<R4, "equals",  `${number} years old`>>,
         ];
     });
 

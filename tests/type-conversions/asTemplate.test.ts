@@ -2,8 +2,6 @@ import { describe, expect, it } from "vitest";
 import { asTemplate } from "inferred-types/runtime";
 import {
     Expect,
-    Csv,
-    Integer,
     Test
 } from "inferred-types/types";
 
@@ -18,7 +16,7 @@ describe("asTemplate()", () => {
         expect(t_integer).toEqual(integer);
 
         type cases = [
-            Expect<Test<Int, "equals", `I'm a little ${Integer}`>>
+            Expect<Test<Int, "equals", `I'm a little {{integer}}`>>
         ];
     });
 
@@ -30,7 +28,7 @@ describe("asTemplate()", () => {
         expect(t_date).toEqual(date);
 
         type cases = [
-            Expect<Test<D, "equals", `I'm a little ${IsoDateLike}`>>
+            Expect<Test<D, "equals", `I'm a little {{date}}`>>
         ];
     });
 
@@ -42,7 +40,7 @@ describe("asTemplate()", () => {
         expect(t_csv).toEqual(csv);
 
         type cases = [
-            Expect<Test<D, "equals", `I'm a little ${Csv}`>>
+            Expect<Test<D, "equals", `I'm a little {{csv}}`>>
         ];
     });
 

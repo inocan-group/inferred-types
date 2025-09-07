@@ -1,4 +1,4 @@
-import type { IsEqual, Not, StaticFn, TypedFunction } from "inferred-types/types";
+import type { IsEqual, IsStaticFn, Not, StaticFn, TypedFunction } from "inferred-types/types";
 
 /**
  * **IsNarrowingFn**`<TFn>`
@@ -12,8 +12,5 @@ import type { IsEqual, Not, StaticFn, TypedFunction } from "inferred-types/types
  * - `NarrowingFn`, `StaticFn`
  */
 export type IsNarrowingFn<TFn> = TFn extends TypedFunction
-    ? Not<IsEqual<
-        StaticFn<TFn>,
-        TFn
-    >>
+    ? Not<IsStaticFn<TFn>>
     : false;

@@ -1,4 +1,5 @@
 import type {
+    Expand,
     ObjectKey,
     TypedFunction,
 } from "inferred-types/types";
@@ -17,4 +18,4 @@ type Process<
  */
 export type FnKeyValue<
     T extends TypedFunction,
-> = Process<T>;
+> = Expand<Process<T>>;
