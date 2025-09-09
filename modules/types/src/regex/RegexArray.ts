@@ -3,11 +3,13 @@ import type {
     As,
     AsFromTo,
     Expand,
+    IsStringLiteral,
     RegexHandlingStrategy,
     RemoveIndexKeys,
     ReplaceAllFromTo,
     StringLiteralTemplate,
     StripSurroundingStringTemplate,
+    Err,
 } from "inferred-types/types";
 
 export type RegexGroupValue = string | number | bigint | boolean | null | undefined;
@@ -39,13 +41,16 @@ type Groups<
     TTemplate extends string,
     TStrategy extends RegexHandlingStrategy
 > = TStrategy extends "exact"
-    ? As<ApplyTemplate<TValue, TTemplate>, readonly string[]>
+    ? ApplyTemplate<TValue, TTemplate, false>
     : TStrategy extends "subset"
         ? [
             TValue,
             StringLiteralTemplate<StripSurroundingStringTemplate<TTemplate>>,
             ...(
-                ApplyTemplate<TValue, TTemplate> extends readonly [string, ...infer Rest]
+                ApplyTemplate<TValue, StripSurroundingStringTemplate<TTemplate>, false> extends readonly [
+                    string,
+                    ...infer Rest
+                ]
                     ? Rest
                     : []
             )
@@ -56,18 +61,16 @@ type _RegexArray<
     TTemplate extends string,
     TStrategy extends RegexHandlingStrategy,
     TValue extends string,
-> = RemoveIndexKeys<
-    Expand<
-            Groups<TValue, TTemplate, TStrategy>
-            & Record<"kind", "RegexArray">
-            & (TStrategy extends "subset"
-                ? Record<"template", StripSurroundingStringTemplate<TTemplate>>
-                : Record<"template", TTemplate>
-            )
-            & Record<"matchStrategy", TStrategy>
-            & RegExpExecArray
-            & Record<"input", TValue>
-    >
+> = Expand<
+    Groups<TValue, TTemplate, TStrategy>
+    & Record<"kind", "RegexArray">
+    & (TStrategy extends "subset"
+        ? Record<"template", StripSurroundingStringTemplate<TTemplate>>
+        : Record<"template", TTemplate>
+    )
+    & Record<"matchStrategy", TStrategy>
+    & RegExpExecArray
+    & Record<"input", TValue>
 >;
 
 /***
@@ -90,4 +93,10 @@ export type RegexArray<
         ? "subset"
         : "exact",
     TValue
->;
+> extends infer R
+    ? IsStringLiteral<TValue> extends true
+        ? TValue extends StringLiteralTemplate<AsTemplateString<TTemplate>>
+            ? R
+            : Err<"no-match">
+        : R
+    : never;

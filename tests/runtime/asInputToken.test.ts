@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { asType } from "inferred-types/runtime";
+import { asType, fromInputToken } from "inferred-types/runtime";
 import type {
     Expect,
     FromInputToken__String,
@@ -75,11 +75,11 @@ describe("FromInputToken<Token>", () => {
 describe("asType(token)", () => {
 
     it("atomic types", () => {
-        const str = asType("string");
-        const num = asType("number");
-        const undef = asType("undefined");
-        const yes = asType("true");
-        const bool = asType("boolean");
+        const str = fromInputToken("string");
+        const num = fromInputToken("number");
+        const undef = fromInputToken("undefined");
+        const yes = fromInputToken("true");
+        const bool = fromInputToken("boolean");
 
         type cases = [
             Expect<Test<typeof str, "equals", string>>,
@@ -91,9 +91,9 @@ describe("asType(token)", () => {
     });
 
     it("atomic types with whitespace", () => {
-        const str = asType("string    ");
-        const num = asType("    number");
-        const undef = asType(" undefined  ");
+        const str = fromInputToken("string    ");
+        const num = fromInputToken("    number");
+        const undef = fromInputToken(" undefined  ");
 
         type cases = [
             Expect<Test<typeof str, "equals", string>>,
@@ -103,9 +103,9 @@ describe("asType(token)", () => {
     });
 
     it("literal types", () => {
-        const foo = asType("String(foo)");
-        const num = asType("Number(42)");
-        const yes = asType("Boolean(true)");
+        const foo = fromInputToken("String(foo)");
+        const num = fromInputToken("Number(42)");
+        const yes = fromInputToken("Boolean(true)");
 
         type cases = [
             Expect<Test<typeof foo, "equals", "foo">>,
@@ -115,9 +115,9 @@ describe("asType(token)", () => {
     });
 
     it("literal types with whitespace", () => {
-        const foo = asType("  String(foo)");
-        const num = asType("Number(42)   ");
-        const yes = asType("   Boolean(true)   \n\t");
+        const foo = fromInputToken("  String(foo)");
+        const num = fromInputToken("Number(42)   ");
+        const yes = fromInputToken("   Boolean(true)   \n\t");
 
         type cases = [
             Expect<Test<typeof foo, "equals", "foo">>,
@@ -127,8 +127,8 @@ describe("asType(token)", () => {
     });
 
     it("union of wide types", () => {
-        const strNum = asType("string | number ");
-        const optStr = asType("string | undefined");
+        const strNum = fromInputToken("string | number ");
+        const optStr = fromInputToken("string | undefined");
 
         expect(strNum).toEqual("string | number")
 
@@ -140,9 +140,9 @@ describe("asType(token)", () => {
 
 
     it("union of mixed wide and narrow", () => {
-        const strNum1 = asType("String(foo) | number");
-        const strNum2 = asType("number | String(foo)");
-        const optStr = asType("String(bar) | undefined");
+        const strNum1 = fromInputToken("String(foo) | number");
+        const strNum2 = fromInputToken("number | String(foo)");
+        const optStr = fromInputToken("String(bar) | undefined");
 
         type cases = [
             Expect<Test<typeof strNum1, "equals", "foo" | number>>,
@@ -152,10 +152,10 @@ describe("asType(token)", () => {
     });
 
     it("string literals (including template literals)", () => {
-        const fooBar = asType("String(foo) | String(bar)");
-        const foo42 = asType("String(foo) | Number(42)");
-        const starting = asType("String(foo_{{string}})");
-        const multi = asType("String({{number}} x {{number}})")
+        const fooBar = fromInputToken("String(foo) | String(bar)");
+        const foo42 = fromInputToken("String(foo) | Number(42)");
+        const starting = fromInputToken("String(foo_{{string}})");
+        const multi = fromInputToken("String({{number}} x {{number}})")
 
         type cases = [
             Expect<Test<typeof fooBar, "equals", "foo" | "bar">>,
@@ -167,7 +167,7 @@ describe("asType(token)", () => {
 
 
     it("different literal types", () => {
-        const all = asType("Number(1) | Number(2) | Boolean(false)")
+        const all = fromInputToken("Number(1) | Number(2) | Boolean(false)")
 
         type cases = [
             Expect<Test<typeof all, "equals", 1 | 2 | false>>
@@ -246,7 +246,7 @@ describe("asType(token)", () => {
 
 
 
-    it("tuple definition", () => {
+    it("destructured tuple definition", () => {
         const tup = asType("String(foo)", "Array<String(bar)>");
         const tup2 = asType("Number(1)", "Number(2)", "Number(3)");
         const tup3 = asType("Number(1) | Number(2)", "Number(3) | Number(4)");
@@ -271,19 +271,19 @@ describe("asType(token)", () => {
     });
 
 
+
     it("invalid tuple definition attempt", () => {
         const inv1 = asType(["String(foo)", "String(bar)"]);
         type E = typeof inv1;
 
         type cases = [
-            Expect<Test<E["type"], "equals", "invalid-token">>,
-            Expect<Test<E["subType"], "equals", "tuple">>,
+            Expect<Test<E, "isError", "invalid-token/tuple">>,
         ];
     });
 
 
     it("Record<K,V>", () => {
-        const obj = asType("Record<string, function>");
+        const obj = asType("Record<string, () => string>");
         const obj2 = asType("Record<string,   number>");
         const union = asType("Record<string, Object> | Record<string, number>")
 
@@ -350,8 +350,8 @@ describe("asType(token)", () => {
             >>,
             Expect<Test<typeof num, "equals", WeakMap<object, number>>>,
             Expect<Test<
-                typeof union, "extends",
-                Err<"invalid-token/weakmap">
+                typeof union, "isError",
+                "malformed-token/weakmap"
             >>,
         ];
     });

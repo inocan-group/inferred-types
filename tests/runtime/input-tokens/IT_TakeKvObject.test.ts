@@ -14,15 +14,18 @@ describe("IT_TakeKvObject<T>", () => {
             type Str = IT_TakeKvObjects<"Record<string, string>">;
             type Num = IT_TakeKvObjects<"Record<string, number>">;
             type Union = IT_TakeKvObjects<"Record<string, 'foo' | 'bar' >">;
+            type OFn = IT_TakeKvObjects<"Record<string, () => string>">;
 
             type cases = [
                 Expect<Test<Str, "extends", IT_Token<"kv">>>,
                 Expect<Test<Num, "extends", IT_Token<"kv">>>,
                 Expect<Test<Union, "extends", IT_Token<"kv">>>,
+                Expect<Test<OFn, "extends", IT_Token<"kv">>>,
 
                 Expect<Test<Str["type"], "equals", Record<string,string>>>,
                 Expect<Test<Num["type"], "equals", Record<string,number>>>,
                 Expect<Test<Union["type"], "equals", Record<string, "foo" | "bar">>>,
+                Expect<Test<OFn["type"], "equals", Record<string, () => string>>>,
             ];
         });
 

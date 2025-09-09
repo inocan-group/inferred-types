@@ -9,7 +9,7 @@ import { fnProps } from "runtime/functions";
 /**
  * **createFnWithProps**`(fn, props)`
  *
- * Creates a strongly typed function along with properties.
+ * Creates a strongly typed function along with key/value properties.
  */
 export function createFnWithProps<
     const TFn extends TypedFunction<P>,

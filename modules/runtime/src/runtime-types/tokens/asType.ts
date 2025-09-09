@@ -1,5 +1,6 @@
 import type {
     As,
+    DefineObject,
     Dictionary,
     Err,
     FromInputToken,
@@ -33,7 +34,7 @@ type AsType<T extends readonly InputToken[]> = T["length"] extends 0
                 `You passed in a single token to asType() but it was an array/tuple. If you're trying to define a tuple type then be sure to use a spread notation instead.`,
                 { tokens: ToStringLiteral<T> }
             >
-            : Only extends Dictionary
+            : Only extends DefineObject
                 ? KeysWithError<
                     As<FromInputToken__Object<Only>, Dictionary>
                 > extends []
@@ -68,14 +69,15 @@ export function asType<
         ) as unknown as AsType<T>;
     }
     const first = token[0];
+    const defn = defineObject(first) as unknown as DefineObject | Error;
     return (
         token.length === 1
-            ? isDefineObject(first)
-                ? isError(defineObject(first))
-                    ? defineObject(first)
-                    : keysWithError(defineObject(first)).length > 0
-                        ? err(`invalid-token/object`, `Some of the keys in a DefineObject structure were invalid and caused an error`, { keys: keysWithError(defineObject(first)) })
-                        : defineObject(first)
+            ? isDefineObject(defn)
+                ? isError(defn)
+                    ? defn
+                    : keysWithError(defn).length > 0
+                        ? err(`invalid-token/object`, `Some of the keys in a DefineObject structure were invalid and caused an error`, { keys: keysWithError(defn) })
+                        : defn
                 : isString(first)
                     ? first.trim()
                     : isArray(first)

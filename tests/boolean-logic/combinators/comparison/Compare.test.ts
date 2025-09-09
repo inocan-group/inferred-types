@@ -606,6 +606,7 @@ describe("compare() runtime function", () => {
             expect((t2 as any) instanceof Error).toBe(true);
 
             // in these case both runtime and type system know it's false
+            // @ts-expect-error
             const f1 = isStaticTemplate(42);
             const f2 = compare("isTemplateLiteral")(42);
 

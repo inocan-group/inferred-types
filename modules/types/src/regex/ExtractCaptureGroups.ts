@@ -13,9 +13,11 @@ type SegmentToType<S extends TemplateSegment> = S extends "{{string}}"
 /**
  * Extracts the capture groups in a RegExp and their type.
  */
+type IsSubset<T extends string> = T extends `.*(${string}).*` ? true : false;
+
 export type ExtractCaptureGroups<
     TTmpl extends string,
-    TSubset extends boolean,
+    TSubset extends boolean = IsSubset<TTmpl>,
     Acc extends RegexGroupValue[] = [],
 > = TTmpl extends `${infer _Before}{{${infer Segment}}}${infer After}`
     ? Segment extends "string" | "number" | "boolean"

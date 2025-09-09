@@ -4,7 +4,7 @@ import { toStringLiteral } from "inferred-types/runtime";
 /**
  * Takes an `DefineObject` definition and:
  *
- * - converts it to a string-based `InputToken` representation at runtime
+ * - converts it's runtime value to a string-based `InputToken` representation at runtime
  * - converts the _type_ to be the type this token is representing.
  */
 export function fromDefineObject<

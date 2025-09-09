@@ -1,14 +1,27 @@
 import type {
     Expand,
+    Mutable,
     ObjectKey,
     TypedFunction,
 } from "inferred-types/types";
 
+/**
+ * Built-in function property keys which should NOT be treated as user props.
+ */
+type BuiltinFnKeys =
+    | "arguments"
+    | "caller"
+    | "length"
+    | "name"
+    | "prototype"
+    | "apply"
+    | "call"
+    | "bind"
+    | "toString";
+
 type Process<
     T extends TypedFunction,
-> = keyof T extends ObjectKey
-    ? Pick<T, keyof T>
-    : never;
+> = Omit<Pick<T, Extract<keyof T, ObjectKey>>, BuiltinFnKeys>;
 
 /**
  * **FnKeyValue**`<T>`
@@ -18,4 +31,4 @@ type Process<
  */
 export type FnKeyValue<
     T extends TypedFunction,
-> = Expand<Process<T>>;
+> = Expand<Mutable<Process<T>>>;

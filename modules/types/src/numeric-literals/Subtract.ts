@@ -278,7 +278,11 @@ type Process<
                 : `${number}`
             // A is positive, B is negative: A + |B|
             : IsNegativeNumber<B> extends true
-                ? AddPositive<A, Abs<B>>
+                ? AddPositive<A, Abs<B>> extends infer Sum
+                    ? Sum extends `${number}` | number
+                        ? Sum
+                        : never
+                    : never
                 // Both positive: check which is larger
                 : CompareNumbers<A, B> extends "less"
                     ? SubtractStrings<B, A> extends infer Result
@@ -308,7 +312,13 @@ type PreProcess<
         : number
     : A extends `${number}`
         ? B extends `${number}`
-            ? As<Process<A, B>, `${number}`>
+            ? Process<A, B> extends infer Result
+                ? Result extends `${number}`
+                    ? Result
+                    : Result extends number
+                        ? `${Result}`
+                        : `${number}`
+                : `${number}`
             : As<Process<A, `${As<B, number>}`>, `${number}`>
         : A extends number
             ? B extends number

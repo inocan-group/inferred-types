@@ -14,10 +14,9 @@ import {
  * **asInputToken**`(token)`
  *
  * takes both string and _non-string_ representations of an input token
- * (defined by `InputTokenLike`) and ensures that they are converted to
- * their _string-literal_ form.
- *
- *
+ * and ensures that they are converted to their _string-literal_ form
+ * while the _type_ is converted to the _type_ which the token
+ * represents.
  */
 export function fromInputToken<
     T extends InputToken
