@@ -22,9 +22,9 @@ type AsTemplateString<
 /**
  * A typed version of `RegExpExecArray`
  */
-type RegexExecFn<
-    TTmpl extends string
-> = <T extends string>(test: T) => RegexArray<TTmpl, T>;
+export type RegexExecFn<
+    TTpl extends string
+> = <T extends string>(test: T) => RegexArray<TTpl, T>;
 
 /**
  * Provides strong typing to the **RegExp**'s `test()` function.
@@ -32,12 +32,12 @@ type RegexExecFn<
  * - knows whether outcome is `true` or `false` if input string is a string literal
  * - if the input string is wide then result is always just a boolean value
  */
-type TestFn<
+export type RegexTestFn<
     TInput extends string,
-    TTempl extends string
-> = IsStringLiteral<TInput> extends true
-    ? TInput extends AsTemplateString<TTempl> ? true : false
-    : boolean;
+    TTpl extends string
+> = string extends TInput
+    ? boolean
+    : TInput extends AsTemplateString<TTpl> ? true : false;
 
 /**
  * **RegularExpression**`<TLitTemplate>`
@@ -49,7 +49,7 @@ export type RegularExpression<
     TLitTemplate extends string
 > = Omit<RegExp, "test" | "exec"> & {
     kind: "RegexpArray";
-    test: <T extends string>(test: T) => TestFn<T, TLitTemplate>;
+    test: <T extends string>(test: T) => RegexTestFn<T, TLitTemplate>;
     exec: RegexExecFn<TLitTemplate>;
     pattern: TLitTemplate;
 };

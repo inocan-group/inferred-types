@@ -3,7 +3,6 @@ import type {
      Expand, First,  RegularExpression, StringKeys
 } from "inferred-types/types";
 import { createTemplateRegExp, isObject, isString } from "inferred-types/runtime";
-import { Never } from "inferred-types/constants";
 
 
 type ToDictRegex<

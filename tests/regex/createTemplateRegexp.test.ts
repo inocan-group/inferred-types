@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { createTemplateRegExp } from "inferred-types/runtime";
-import { Extends, RegularExpression, Test } from "inferred-types/types";
+import { Extends, RegexExecFn, RegexTestFn, RegularExpression, Test } from "inferred-types/types";
 
 describe("createTemplateRegExp", () => {
 
@@ -189,9 +189,30 @@ describe("createTemplateRegExp", () => {
     });
 
 
-    it("type testing of exec() function with exact match", () => {
+    it("runtime API has exec() and test() functions", () => {
         const re = createTemplateRegExp(`Name: {{string}}, Age: {{number}}`, "exact");
         const execFunction = re.exec;
+        const testFunction = re.test;
+
+        expect(typeof execFunction).toBe("function");
+        expect(typeof testFunction).toBe("function");
+
+        type cases = [
+            Expect<Test<
+                typeof execFunction, "equals",
+                RegexExecFn<"^Name: (.+?), Age: (\\d+)$">
+            >>,
+            Expect<Test<
+                typeof testFunction, "equals",
+                <T extends string>(test: T) => RegexTestFn<T, "^Name: (.+?), Age: (\\d+)$">
+            >>,
+        ];
+    });
+
+
+
+    it("exec() function with exact match", () => {
+        const re = createTemplateRegExp(`Name: {{string}}, Age: {{number}}`, "exact");
 
         const t1 = re.exec(`Name: Bob, Age: 55`);
         const a1 = Array.from(t1);
@@ -201,10 +222,10 @@ describe("createTemplateRegExp", () => {
         type One = typeof t1[1];
         type Two = typeof t1[2];
 
-        expect(a1).toEqual([`Name: Bob, Age: 55`, `Bob`, `55`]);
+        expect(a1).toEqual([`Name: Bob, Age: 55`, `Bob`, 55]);
 
         type cases = [
-            Expect<Extends<typeof t1, RegExpExecArray>>,
+            Expect<Test<typeof t1, "extends", RegExpExecArray>>,
             Expect<Test<Len, "equals",  3>>,
             Expect<Test<
                 Full,
@@ -212,11 +233,11 @@ describe("createTemplateRegExp", () => {
                 "Name: Bob, Age: 55"
             >>,
             Expect<Test<One, "equals",  "Bob">>,
-            Expect<Test<Two, "equals",  `55`>>
+            Expect<Test<Two, "equals",  55>>
         ];
     });
 
-    it("type testing of exec() function with subset match", () => {
+    it("exec() function with subset match", () => {
         const re = createTemplateRegExp(`Name: {{string}}, Age: {{number}}`, "subset");
 
         const t1 = re.exec(`- Name: Bob, Age: 55`);
@@ -232,7 +253,7 @@ describe("createTemplateRegExp", () => {
             `- Name: Bob, Age: 55`,
             `Name: Bob, Age: 55`,
             `Bob`,
-            `55`
+            55
         ]);
 
         type cases = [
@@ -248,7 +269,7 @@ describe("createTemplateRegExp", () => {
                 `Name: ${string}, Age: ${number}`
             >>,
             Expect<Test<Two, "equals",  "Bob">>,
-            Expect<Test<Three, "equals",  `55`>>,
+            Expect<Test<Three, "equals",  55>>,
         ];
     });
 

@@ -18,7 +18,7 @@ If you're a library author who's keen on keeping your types as narrow as possibl
 This is useful because you now have a runtime and type pairing which can be leveraged in type guards and other runtime utilities. Here's a simple example:
 
 ```ts
-const DAY_OF_WEEEK = [
+const DAY_OF_WEEK = [
   "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
 ] as const;
 

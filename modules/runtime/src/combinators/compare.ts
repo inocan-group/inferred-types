@@ -32,7 +32,7 @@ import {
     firstChar,
     indexOf,
     isAfter,
-    isTemplateLiteral,
+    isStaticTemplate,
     last,
     parseDate,
     unset
@@ -134,7 +134,7 @@ function handle_string<
         }
 
         case "isTemplateLiteral": {
-            return isTemplateLiteral(val) === "maybe"
+            return isStaticTemplate(val) === "maybe"
                 ? err(
                     `unknown-at-runtime`,
                     `isTemplateLiteral(val) can not know at runtime whether the passed in string value was a TemplateLiteral at design time!`,

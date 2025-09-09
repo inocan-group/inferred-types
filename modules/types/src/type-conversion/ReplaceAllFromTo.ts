@@ -29,7 +29,7 @@ type ApplyMapping<
  * **ReplaceAllFromTo**`<TText, TMappings>`
  *
  * Replaces the _all instances_ of the `from` element of `TFromTo` found in
- * `TText` with the cooresponding `to` value in `TFromTo`.
+ * `TText` with the corresponding `to` value in `TFromTo`.
  *
  * ```ts
  * // "Foo-bar-baz"

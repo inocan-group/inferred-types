@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { compare, isTemplateLiteral, startsWith } from "inferred-types/runtime";
+import { compare, isStaticTemplate, startsWith } from "inferred-types/runtime";
 import {
     Compare,
     Expect,
@@ -599,18 +599,18 @@ describe("compare() runtime function", () => {
 
         it("isTemplateLiteral", () => {
             const str = "hi Mike" as `hi ${string}`;
-            const t1 = isTemplateLiteral(str);
+            const t1 = isStaticTemplate(str);
             const t2 = compare("isTemplateLiteral")(str);
 
             expect(t1).toBe("maybe");
             expect((t2 as any) instanceof Error).toBe(true);
 
             // in these case both runtime and type system know it's false
-            const f1 = isTemplateLiteral(42);
+            const f1 = isStaticTemplate(42);
             const f2 = compare("isTemplateLiteral")(42);
 
             // in these cases only the type system knows it's false
-            const f3 = isTemplateLiteral("Hi");
+            const f3 = isStaticTemplate("Hi");
             const f4 = compare("isTemplateLiteral")("Hi");
 
             expect(f1).toBe(false);
