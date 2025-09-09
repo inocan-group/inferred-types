@@ -1,6 +1,5 @@
 import type {
     AsFromTo,
-    IsStringLiteral,
     RegexArray,
     ReplaceAllFromTo,
 } from "inferred-types/types";

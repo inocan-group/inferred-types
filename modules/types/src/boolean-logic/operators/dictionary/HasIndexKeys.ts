@@ -1,4 +1,4 @@
-import { Dictionary, IsTemplateLiteral, UnionToTuple } from "inferred-types/types";
+import type { Dictionary, IsTemplateLiteral, UnionToTuple } from "inferred-types/types";
 
 // Helper to check if any element in a tuple is a template literal
 type HasTemplateLiteralKey<
@@ -24,18 +24,18 @@ type HasTemplateLiteralKey<
  *
  * **Related:** `HasFixedKeys`
  */
-export type HasIndexKeys<T extends Dictionary> =
+export type HasIndexKeys<T extends Dictionary>
     // Check for string index signature
-    string extends keyof T
+    = string extends keyof T
         ? true
     // Check for number index signature
-    : number extends keyof T
-        ? true
-    // Check for symbol index signature
-    : symbol extends keyof T
-        ? true
-    // Check for template literal index signatures
-    : HasTemplateLiteralKey<UnionToTuple<keyof T>> extends true
-        ? true
-    // No index signatures found
-    : false;
+        : number extends keyof T
+            ? true
+        // Check for symbol index signature
+            : symbol extends keyof T
+                ? true
+            // Check for template literal index signatures
+                : HasTemplateLiteralKey<UnionToTuple<keyof T>> extends true
+                    ? true
+                // No index signatures found
+                    : false;

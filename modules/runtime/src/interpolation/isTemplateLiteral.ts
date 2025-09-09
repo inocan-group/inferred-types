@@ -1,4 +1,4 @@
-import type { IsTemplateLiteral, Narrowable } from "inferred-types/types";
+import type { IsTemplateLiteral } from "inferred-types/types";
 import { isString } from "inferred-types/runtime";
 
 /**

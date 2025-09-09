@@ -8,11 +8,13 @@ import type {
     Trim
 } from "inferred-types/types";
 
-type ParseRecord<T extends string> = NestedSplit<T, ">"> extends [
+// ensure that the closing '>' for generic params is not confused with the '>'
+// used in an arrow function ('=>') by extending nesting with '=' -> '>'
+type ParseRecord<T extends string> = NestedSplit<T, ">", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
     infer Block extends string,
     ...infer Rest extends readonly string[]
 ]
-    ? NestedSplit<Trim<Block>, ","> extends [
+    ? NestedSplit<Trim<Block>, ",", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
         infer Key extends string,
         infer Value extends string
     ]
@@ -27,7 +29,7 @@ type ParseRecord<T extends string> = NestedSplit<T, ">"> extends [
                     infer ParsedKey extends IT_Token,
                     infer ParsedValue extends IT_Token
                 ]
-                    ? ParsedKey["type"] extends string | symbol
+                    ? ParsedKey["type"] extends string
                         ? {
                             __kind: "IT_Token";
                             kind: "kv";
@@ -38,16 +40,16 @@ type ParseRecord<T extends string> = NestedSplit<T, ">"> extends [
                             valueToken: Trim<Value>;
                             rest: Trim<Join<Rest, ">">>;
                         }
-                        : Err<`malformed-token/record`, `The key and value tokens for the record 'Record<${Block}>' were parsed to types but the key's type did not extend string | symbol!`>
+                        : Err<`malformed-token/record`, `The key and value tokens for the record 'Record<${Block}>' were parsed to types but the key's type did not extend string!`>
                     : never
         : Err<`malformed-token/record`, `The terminating '>' character was not found while parsing the record: 'Record<${T}>'`>
     : Err<"wrong-handler/record">;
 
-type ParseMap<T extends string> = NestedSplit<T, ">"> extends [
+type ParseMap<T extends string> = NestedSplit<T, ">", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
     infer Block extends string,
     ...infer Rest extends readonly string[]
 ]
-    ? NestedSplit<Trim<Block>, ","> extends [
+    ? NestedSplit<Trim<Block>, ",", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
         infer Key extends string,
         infer Value extends string
     ]
@@ -71,11 +73,11 @@ type ParseMap<T extends string> = NestedSplit<T, ">"> extends [
         : Err<`malformed-token/map`, `The terminating '>' character was not found while parsing: 'Map<${T}'`>
     : Err<"wrong-handler/map">;
 
-type ParseWeakMap<T extends string> = NestedSplit<T, ">"> extends [
+type ParseWeakMap<T extends string> = NestedSplit<T, ">", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
     infer Block extends string,
     ...infer Rest extends readonly string[]
 ]
-    ? NestedSplit<Trim<Block>, ","> extends [
+    ? NestedSplit<Trim<Block>, ",", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
         infer Key extends string,
         infer Value extends string
     ]
@@ -119,7 +121,7 @@ type Select<
     : Err<
         "wrong-handler/kv",
         `None of the variants of KV containers matched on: '${TToken}'`,
-        { token: TToken; utility: "IT_TakeKvObject"; variants: TVariants }
+        { token: TToken; utility: "IT_TakeKvObjects"; variants: TVariants }
     >;
 
 /**

@@ -15,7 +15,24 @@ import type {
     TimezoneOffset
 } from "inferred-types/types";
 import { parseIsoDate } from "runtime/datetime";
-import { isDate, isDayJs, isEpochInMilliseconds, isEpochInSeconds, isIanaTimezone, isIsoDate, isIsoDateTime, isIsoYear, isIsoYearMonth, isLuxonDate, isMoment, isNumber, isTemporalDate, isTimezoneOffset } from "runtime/type-guards";
+import {
+    isDate,
+    isDayJs,
+    isEpochInMilliseconds,
+    isEpochInSeconds,
+    isIanaTimezone,
+    isIsoDate,
+    isIsoDateTime,
+    isIsoYear,
+    isIsoYearMonth,
+    isLuxonDate,
+    isMoment,
+    isNumber,
+    isTemporalDate,
+    isTimezoneOffset
+} from "runtime/type-guards";
+
+/* eslint-disable node/prefer-global/process */
 
 const getLocalIanaZone = (() => {
 // compute once, memoise

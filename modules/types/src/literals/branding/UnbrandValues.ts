@@ -1,4 +1,4 @@
-import type { Brand, BrandSymbol, Container, Dictionary, Expand, FromKv, KeyValue, ToKv } from "inferred-types/types";
+import type { Brand, Container, Dictionary, Expand, FromKv, KeyValue, ToKv } from "inferred-types/types";
 
 /**
  * **UnbrandValues**`<T>`

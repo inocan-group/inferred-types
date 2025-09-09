@@ -1,24 +1,16 @@
 import type {
-    StringSort,
-    StringSortOptions
-} from "./StringSort";
-import type {
-    NumericSort,
-    NumericSortOptions
-} from "./NumericSort";
-import type {
     BooleanSort,
-    BooleanSortOptions
-} from "./BooleanSort";
-import type {
+    BooleanSortOptions,
     Container,
+    EmptyObject,
     Get,
-    IsStringLiteral
+    IsStringLiteral,
+    NumericSort,
+    StringSort
 } from "inferred-types/types";
 
 type SortOrder = "ASC" | "DESC" | "Natural";
 type Dotpath = string;
-
 
 /**
  * **SortOptions**`<[TOrder],[TOffset],[TStart],[TEnd]>`
@@ -49,7 +41,7 @@ export type SortOptions = {
      * @default undefined
      */
     start?: unknown;
-    
+
     /**
      * allows pinning items to the _end_ of the list
      * Can be a single value or array of values
@@ -59,15 +51,14 @@ export type SortOptions = {
     end?: unknown;
 };
 
-
 /**
  * **Sort**`<TList, TOptions>`
  *
  * Sorts an array of values `TList` based on the configuration provided.
- * 
+ *
  * Automatically detects the appropriate sort type based on the data:
  * - Pure string arrays use StringSort
- * - Pure number arrays use NumericSort  
+ * - Pure number arrays use NumericSort
  * - Pure boolean arrays use BooleanSort
  * - Container arrays with offset use the type of the offset property
  * - Mixed type arrays fall back to StringSort with type conversion
@@ -79,7 +70,7 @@ export type SortOptions = {
  */
 export type Sort<
     TList extends readonly unknown[],
-    TOpt extends SortOptions = {}
+    TOpt extends SortOptions = EmptyObject
 > = IsStringLiteral<TOpt["offset"]> extends true
     ? TList extends readonly Container[]
         ? TList extends readonly [infer First extends Container, ...any]

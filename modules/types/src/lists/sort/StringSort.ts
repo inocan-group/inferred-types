@@ -37,11 +37,11 @@ type ToComparisonString<T> = T extends string
             : never;
 
 /** Mixed type comparison - converts to strings for comparison but handles positioning */
-type MixedLessThan<A, B> = 
-    A extends string | number | boolean
+type MixedLessThan<A, B>
+    = A extends string | number | boolean
         ? B extends string | number | boolean
             ? StringLessThan<ToComparisonString<A>, ToComparisonString<B>>
-            : true  // Comparable types come before non-comparable
+            : true // Comparable types come before non-comparable
         : B extends string | number | boolean
             ? false // Non-comparable comes after comparable
             : false; // Non-comparable vs non-comparable - maintain order
@@ -106,8 +106,8 @@ type FilterMixedGreaterThan<
         : FilterMixedGreaterThan<TPivot, Tail, TOut>
     : TOut;
 
-type MixedGreaterThan<A, B> = 
-    MixedLessThan<A, B> extends true
+type MixedGreaterThan<A, B>
+    = MixedLessThan<A, B> extends true
         ? false
         : A extends B
             ? false

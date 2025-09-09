@@ -43,7 +43,6 @@ type RegexPattern<
     ? Surround<ReplaceAllFromTo<TContent, TemplateToRegex>, "^", "$">
     : Surround<ReplaceAllFromTo<TContent, TemplateToRegex>, ".*(", ").*">;
 
-
 /**
  * **createTemplateRegExp**`(template, [handling]) -> (api)`
  *

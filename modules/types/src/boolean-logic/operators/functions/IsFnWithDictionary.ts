@@ -17,12 +17,12 @@ export type IsFnWithDictionary<
     T,
 > = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: T extends AnyFunction
-    ? T extends TypedFunction
-        ? FnMeta<T>["hasProps"]
-        : boolean
-: false;
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : T extends AnyFunction
+                ? T extends TypedFunction
+                    ? FnMeta<T>["hasProps"]
+                    : boolean
+                : false;

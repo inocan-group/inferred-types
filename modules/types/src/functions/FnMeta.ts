@@ -37,7 +37,5 @@ export type FnMeta<
     hasParams: Parameters<TFn>["length"] extends 0 ? false : true;
     kind: IsNarrowingFn<TFn> extends true
         ? "narrowing"
-        : Parameters<TFn>["length"] extends 0 ? "identity" : "static"
-}
-
-
+        : Parameters<TFn>["length"] extends 0 ? "identity" : "static";
+};

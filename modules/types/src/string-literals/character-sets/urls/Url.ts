@@ -1,4 +1,4 @@
-import type { NETWORK_PROTOCOL, NETWORK_PROTOCOL_LOOKUP, PROTOCOL_DEFAULT_PORTS } from "inferred-types/constants";
+import type { NETWORK_PROTOCOL, PROTOCOL_DEFAULT_PORTS } from "inferred-types/constants";
 import type {
     AlphanumericChar,
     AsNumber,
@@ -9,7 +9,6 @@ import type {
     EmptyObject,
     Err,
     ExpandUnion,
-    Flatten,
     Ip4AddressLike,
     IsEqual,
     IsFalse,
@@ -17,7 +16,6 @@ import type {
     IsUndefined,
     Mutable,
     NumericChar,
-    RemoveEmpty,
     RetainWhile,
     Slice,
     StripAfter,
@@ -27,7 +25,6 @@ import type {
     StripWhile,
     TupleToUnion,
     ValidateCharacterSet,
-    Values,
 } from "inferred-types/types";
 
 type ProtocolPortLookup = typeof PROTOCOL_DEFAULT_PORTS;
@@ -238,7 +235,7 @@ export type UrlPath<T extends string | null = null> = T extends null
             ? string | Error
             : T extends `/${AlphanumericChar}${infer Rest}`
                 ? ValidateCharacterSet<Rest, AlphanumericChar | "_" | "@" | "." | "-" | "/"> extends infer Rest extends string
-                    ? `${Slice<T,0,2>}${Rest}`
+                    ? `${Slice<T, 0, 2>}${Rest}`
                     : ValidateCharacterSet<Rest, AlphanumericChar | "_" | "@" | "." | "-" | "/">
                 : Err<`invalid-character`>
         : never; // when not string or null

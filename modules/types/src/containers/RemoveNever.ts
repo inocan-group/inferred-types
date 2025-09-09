@@ -22,9 +22,9 @@ type FilterTuple<
  */
 type FilterObject<T> = {
     [K in keyof T as [Required<T>[K]] extends [never] ? never : K]:
-        T[K] extends Dictionary
-            ? ProcessObject<T[K]>
-            : T[K]
+    T[K] extends Dictionary
+        ? ProcessObject<T[K]>
+        : T[K]
 };
 
 type ProcessObject<

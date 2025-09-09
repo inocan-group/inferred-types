@@ -1,4 +1,4 @@
-import type { IsEqual, IsStaticFn, Not, StaticFn, TypedFunction } from "inferred-types/types";
+import type { IsStaticFn, Not, TypedFunction } from "inferred-types/types";
 
 /**
  * **IsNarrowingFn**`<TFn>`

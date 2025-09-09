@@ -15,20 +15,18 @@ type Arr<T> = {
 // For dictionaries, filter out wide keys and template literal keys
 type FilterDictKeys<T> = {
     [K in keyof T as
-        // Remove wide string index
-        string extends K ? never :
+    // Remove wide string index
+    string extends K ? never
         // Remove wide number index
-        number extends K ? never :
+        : number extends K ? never
         // Remove wide symbol index
-        symbol extends K ? never :
-        // Remove template literal index patterns (this doesn't work!)
-        IsTemplateLiteral<K> extends true ? never :
-        // Keep the key
-        K
+            : symbol extends K ? never
+            // Remove template literal index patterns (this doesn't work!)
+                : IsTemplateLiteral<K> extends true ? never
+                // Keep the key
+                    : K
     ]: T[K]
 };
-
-
 
 /**
  * **RemoveIndexKeys**`<T>`
@@ -48,7 +46,7 @@ type FilterDictKeys<T> = {
 export type RemoveIndexKeys<T> = T extends Dictionary
     ? HasIndexKeys<T> extends true
         ? Required<ObjectKeys<FilterDictKeys<T>>> extends infer Keys extends readonly PropertyKey[]
-            ? WithKeys<T,Keys>
+            ? WithKeys<T, Keys>
             : never
         : T
     : T extends readonly any[]

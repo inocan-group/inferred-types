@@ -1,22 +1,23 @@
 import type {
     AfterFirst,
-     Expand, First,  RegularExpression, StringKeys
+    Expand,
+    First,
+    RegularExpression,
+    StringKeys
 } from "inferred-types/types";
 import { createTemplateRegExp, isObject, isString } from "inferred-types/runtime";
 
-
 type ToDictRegex<
-    T extends Record<string,string>,
+    T extends Record<string, string>,
     K extends readonly (keyof T & string)[] = StringKeys<T>,
     R extends Record<keyof T, RegularExpression<any>> = Record<keyof T, RegularExpression<any>>
 > = [] extends K
-? Expand<R>
-: ToDictRegex<
-    T,
-    AfterFirst<K>,
+    ? Expand<R>
+    : ToDictRegex<
+        T,
+        AfterFirst<K>,
     R & Record<First<K>, RegularExpression<T[First<K>]>>
->;
-
+    >;
 
 export type MatchTemplate<
     T extends Record<string, string> | string,
@@ -26,13 +27,12 @@ export type MatchTemplate<
     template: T;
     re: T extends string
         ? RegularExpression<T>
-        : T extends Record<string,string>
+        : T extends Record<string, string>
             ? ToDictRegex<T>
-            : never,
+            : never;
     test: <TTest extends string>(input: TTest) => boolean;
     match: M;
 };
-
 
 /**
  * **createMatchTemplate**`(defn)`
@@ -56,47 +56,45 @@ export function createMatchTemplate<
     template: T
 ) {
     if (isString(template)) {
-        const re = createTemplateRegExp(template) as RegularExpression<T & string>;
+        const re = createTemplateRegExp(template);
 
         const result = {
             kind: "MatchTemplate",
             template,
             re,
             test(input) {
-                return re.test(input)
+                return re.test(input);
             },
             match(input) {
-                return re.exec(input)
+                return re.exec(input);
             }
         } satisfies MatchTemplate<T & string>;
 
         return result;
-    } else if (isObject(template)) {
-
-        const re: Partial<T & Record<K,V>> =
-            Object.keys(template as Record<K,V>).reduce(
-            (acc, key) => {
-                const value = template[key as K];
-                return {
-                    ...acc,
-                    [key]: createTemplateRegExp(value)
-                }, {} as Partial<T & Record<K,V>>
-        })
+    }
+    else if (isObject(template)) {
+        const re = Object.keys(template as Record<K, V>).reduce(
+                (acc, key) => {
+                    const value = template[key as K];
+                    return {
+                        ...acc,
+                        [key]: createTemplateRegExp(value)
+                    }, {} as Partial<T & Record<K, V>>;
+                }
+            );
 
         const result = {
             kind: "MatchTemplate",
-            template: template as Record<K,V>,
+            template: template as Record<K, V>,
             re,
             test(input) {
-                return re.every(i => i[1].test(input))
+                return re.every(i => i[1].test(input));
             },
             match(input) {
 
             }
-        } satisfies MatchTemplate<T & Record<K,V>>;
+        } satisfies MatchTemplate<T & Record<K, V>>;
 
-        return result
+        return result;
     }
-
-
 }

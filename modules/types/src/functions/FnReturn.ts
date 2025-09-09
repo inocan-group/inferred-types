@@ -1,11 +1,13 @@
 import type {
+    As,
+    FromLiteralTemplate,
     IsAny,
     IsTemplateLiteral,
-    TypedFunction,
-    FromLiteralTemplate,
     ReplaceAll,
-    As
+    TypedFunction
 } from "inferred-types/types";
+
+/* eslint-disable  no-template-curly-in-string */
 
 /**
  * Enhanced template hole filler that handles multiple template literal patterns
@@ -27,7 +29,8 @@ type FillAllTemplateHoles<
             : FillAllTemplateHoles<TTpl, Rest>
     : ReplaceAll<
         ReplaceAll<TTpl, "{{string}}", "${string}">,
-        "{{number}}", "${number}"
+        "{{number}}",
+        "${number}"
     >;
 
 /**
@@ -51,22 +54,22 @@ type FillAllTemplateHoles<
 export type FnReturn<
     TFn extends TypedFunction
 > = [IsAny<ReturnType<TFn>>] extends [true]
-    ? string  // Fallback for functions with any return type that resolve to 'any'
+    ? string // Fallback for functions with any return type that resolve to 'any'
     : ReturnType<TFn> extends string
         ? IsTemplateLiteral<ReturnType<TFn>> extends true
             ? Parameters<TFn>["length"] extends 1
                 ? Parameters<TFn>[0] extends string
                     ? ReturnType<TFn> extends `hi ${string}`
-                        ? `hi ${Parameters<TFn>[0]}`  // Handle "hi ${param}" pattern specifically
+                        ? `hi ${Parameters<TFn>[0]}` // Handle "hi ${param}" pattern specifically
                         : FillAllTemplateHoles<
                             As<FromLiteralTemplate<ReturnType<TFn>>, string>,
                             Parameters<TFn>
-                          >
+                        >
                     : FillAllTemplateHoles<
                         As<FromLiteralTemplate<ReturnType<TFn>>, string>,
                         Parameters<TFn>
-                      >
-                : ReturnType<TFn>  // Multi-parameter functions return as-is for now
+                    >
+                : ReturnType<TFn> // Multi-parameter functions return as-is for now
             : ReturnType<TFn>
         : ReturnType<TFn>;
 

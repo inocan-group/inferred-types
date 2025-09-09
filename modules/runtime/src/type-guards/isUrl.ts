@@ -21,7 +21,6 @@ export function isUri<
         ? NetworkProtocol
         : TupleToUnion<P>
 > {
-
     const p = protocols.length === 0
         ? mutable(NETWORK_PROTOCOL)
         : mutable(protocols);
@@ -30,7 +29,6 @@ export function isUri<
         isString(val) && p.some(i => val.startsWith(`${i}://`))
     );
 }
-
 
 /**
  * **isUrl**`(val,[...protocols])`

@@ -1,15 +1,13 @@
 import type {
     ApplyTemplate,
-    As,
     AsFromTo,
+    Err,
     Expand,
     IsStringLiteral,
     RegexHandlingStrategy,
-    RemoveIndexKeys,
     ReplaceAllFromTo,
     StringLiteralTemplate,
     StripSurroundingStringTemplate,
-    Err,
 } from "inferred-types/types";
 
 export type RegexGroupValue = string | number | bigint | boolean | null | undefined;

@@ -105,7 +105,7 @@ describe("asType(token)", () => {
     it("literal types", () => {
         const foo = fromInputToken("String(foo)");
         const num = fromInputToken("Number(42)");
-        const yes = fromInputToken("Boolean(true)");
+        const yes = fromInputToken("true");
 
         type cases = [
             Expect<Test<typeof foo, "equals", "foo">>,
@@ -117,7 +117,7 @@ describe("asType(token)", () => {
     it("literal types with whitespace", () => {
         const foo = fromInputToken("  String(foo)");
         const num = fromInputToken("Number(42)   ");
-        const yes = fromInputToken("   Boolean(true)   \n\t");
+        const yes = fromInputToken("   true   \n\t");
 
         type cases = [
             Expect<Test<typeof foo, "equals", "foo">>,
@@ -167,7 +167,7 @@ describe("asType(token)", () => {
 
 
     it("different literal types", () => {
-        const all = fromInputToken("Number(1) | Number(2) | Boolean(false)")
+        const all = fromInputToken("Number(1) | Number(2) | false")
 
         type cases = [
             Expect<Test<typeof all, "equals", 1 | 2 | false>>
@@ -269,8 +269,6 @@ describe("asType(token)", () => {
             >>
         ];
     });
-
-
 
     it("invalid tuple definition attempt", () => {
         const inv1 = asType(["String(foo)", "String(bar)"]);

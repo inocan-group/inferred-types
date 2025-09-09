@@ -46,7 +46,7 @@
     ],
     "include": [
         "src/**/*.ts"
-    ],
+, "src/regex/createMatchTemplate.ts.drop"    ],
     "exclude": [
         "node_modules",
         "**/*.d.ts"
