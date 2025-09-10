@@ -158,10 +158,10 @@ type Iterate<
         ? Iterate<Success["rest"], Success>
 
 // Intersection
-// : Process<IT_TakeIntersection<TPrev, TRemaining>> extends infer E extends Error
-//     ? E
-//     : Process<IT_TakeIntersection<TPrev, TRemaining>> extends (infer Success extends IT_Token<"intersection">)
-//         ? Iterate<Success["rest"], Success>
+: Process<IT_TakeIntersection<TRemaining, TToken>> extends infer E extends Error
+    ? E
+    : Process<IT_TakeIntersection<TRemaining, TToken>> extends (infer Success extends IT_Token<"intersection">)
+        ? Iterate<Success["rest"], Success>
 
 // Incomplete Parse
 : TToken extends IT_Token

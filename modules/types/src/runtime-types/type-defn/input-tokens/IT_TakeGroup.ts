@@ -48,6 +48,6 @@ export type IT_TakeGroup<T extends string> = As<
                             : never // Block/Rest will always resolve
                     : Err<`wrong-handler/group`>
             : Err<`wrong-handler/group`>
-        : never,
+        : Err<`wrong-handler/group`>,
     IT_TakeOutcome<"group">
 >;

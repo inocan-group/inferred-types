@@ -77,7 +77,7 @@ describe("GetInputToken<T>", () => {
         type ArrOfUnion2 = GetInputToken<"(string|number)[]">;
         type ArrOfUnion3 = GetInputToken<"(string | number)[]">;
 
-        type Invalid = GetInputToken<"foobar">;
+        type Invalid = GetInputToken<"(foobar)[]">;
 
 
         type cases = [
@@ -101,13 +101,15 @@ describe("GetInputToken<T>", () => {
 
     it("unions", () => {
         type U1 = GetInputToken<"string | number">;
-        type Str = GetInputToken<"string ">;
-        type U2 = IT_TakeUnion<"| number", Str>;
+        type U2 = GetInputToken<"string | Record<string, string | number>">;
+
 
         type cases = [
             Expect<Test<U1, "extends", IT_Token<"union">>>,
+            Expect<Test<U2, "extends", IT_Token<"union">>>,
 
-            Expect<Test<U1["type"], "equals", string | number>>
+            Expect<Test<U1["type"], "equals", string | number>>,
+            Expect<Test<U2["type"], "equals", string | Record<string, string | number>>>,
         ];
     });
 
@@ -228,13 +230,11 @@ describe("GetInputToken<T>", () => {
 
 
 
-    it("Incomplete Parse", () => {
-        type Inc = GetInputToken<"Array<string | boolean> && trailing ">;
+    it("Edge Cases", () => {
+        type Inc = GetInputToken<"Array<string | boolean> & trailing ">;
 
         type cases = [
-            Expect<Test<Inc, "extends", Err<"incomplete-parse">>>,
-            Expect<Test<Inc["parsedType"], "equals", Array<string | boolean>>>,
-            Expect<Test<Inc["rest"], "equals", "&& trailing">>,
+            Expect<Test<Inc, "isError", "malformed-token/intersection">>,
         ];
     });
 

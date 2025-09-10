@@ -129,7 +129,3 @@ export type IT_TakeUnion<
     : Err<"wrong-handler/union", `The union handler only takes parse strings which start with '|'`, { parse: TParse; token: TToken }>,
     IT_TakeOutcome<"union">
 >;
-
-type Str = GetInputToken<"string">;
-type T = IT_TakeUnion<"| number", Str>;
-type X = T extends IT_TakeOutcome<"union"> ? true : false;
