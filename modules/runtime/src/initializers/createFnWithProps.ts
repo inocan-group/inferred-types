@@ -1,4 +1,5 @@
 import type {
+    ExpandRecursively,
     FnWithProps,
     Narrowable,
     ObjectKey,
@@ -15,7 +16,7 @@ export function createFnWithProps<
     const TFn extends TypedFunction<P>,
     const TProps extends Record<ObjectKey, unknown>,
     const P extends readonly Narrowable[],
-    TNarrowing extends boolean = false,
+    const TNarrowing extends boolean = false,
 >(
     fn: TFn,
     props: TProps,
@@ -41,8 +42,10 @@ export function createFnWithProps<
         });
     }
 
-    return fnWithProps as unknown as FnWithProps<
-        TFn,
-        TProps
+    return fnWithProps as unknown as ExpandRecursively<
+        FnWithProps<
+            TFn,
+            TProps
+        >
     >;
 }

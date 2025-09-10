@@ -6,7 +6,6 @@ import type {
     FromInputToken__Tuple,
     Contains,
     Test,
-    Err
 } from "inferred-types/types";
 
 
@@ -207,7 +206,7 @@ describe("asType(token)", () => {
 
     it("array definition", () => {
         const strArr = asType("Array<string>");
-        const fnArr = asType("Array<function>");
+        const fnArr = asType("Array<() => string)>");
         const objArr = asType("Array<object>");
         const boolArr = asType("Array<boolean>");
         const fooArr = asType("Array<String(foo)>");
@@ -217,7 +216,7 @@ describe("asType(token)", () => {
 
         type cases = [
             Expect<Test<typeof strArr, "equals", string[]>>,
-            Expect<Test<typeof fnArr, "equals", ((...args: any[]) => any)[]>>,
+            Expect<Test<typeof fnArr, "equals", (() => string)[]>>,
             Expect<Test<typeof objArr, "equals", object[]>>,
             Expect<Test<typeof boolArr, "equals", boolean[]>>,
             Expect<Test<typeof fooArr, "equals", "foo"[]>>,

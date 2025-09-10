@@ -1,3 +1,5 @@
+import { As } from "inferred-types/types";
+
 /**
  * Optimized string-based processing without array conversion
  */
@@ -31,4 +33,6 @@ export type RetainUntil<
     TContent extends string,
     TComparator extends string,
     TInclude extends boolean = false,
-> = ProcessDirect<TContent, TComparator, TInclude>;
+> = string extends TContent
+? string
+: As<ProcessDirect<TContent, TComparator, TInclude>, string>;
