@@ -2,36 +2,120 @@ import { describe, it } from "vitest";
 import {
     Expect,
     IT_TakeStringLiteral,
+    IT_Token,
     Test,
 } from "inferred-types/types";
 
 describe("IT_TakeStringLiteral<T>", () => {
+    it("double quoted", () => {
+        type Empty = IT_TakeStringLiteral<`""`>;
+        type Complete = IT_TakeStringLiteral<`"foo"`>;
+        type Partial = IT_TakeStringLiteral<`"foo" | "bar">`>;
+        type StrTemplate = IT_TakeStringLiteral<`"hello{{string}}"`>;
+        type NumTemplate = IT_TakeStringLiteral<`"age: {{number}}"`>;
 
-    it("happy path", () => {
-        type Foo = IT_TakeStringLiteral<`"foo"`>;
-        type FooRemaining = IT_TakeStringLiteral<`"foo" | "bar"`>;
+        type Unbalanced = IT_TakeStringLiteral<`"foo`>;
+        type WrongQuote = IT_TakeStringLiteral<`"foo'`>;
 
-        type Foo2 = IT_TakeStringLiteral<`"foo"`>;
-        type FooRemaining2 = IT_TakeStringLiteral<`String(foo) | String(bar)`>;
-
-        type TemplateStr = IT_TakeStringLiteral<`"Hi ${string}, what's your name?"`>;
-        type TemplateStr2 = IT_TakeStringLiteral<`"Hi {{string}}, what's your name?"`>;
 
         type cases = [
-            Expect<Test<Foo["type"], "equals", "foo">>,
-            Expect<Test<Foo2["type"], "equals", "foo">>,
+            Expect<Test<Empty, "extends", IT_Token<"literal">>>,
+            Expect<Test<Complete, "extends", IT_Token<"literal">>>,
+            Expect<Test<Partial, "extends", IT_Token<"literal">>>,
+            Expect<Test<StrTemplate, "extends", IT_Token<"literal">>>,
+            Expect<Test<NumTemplate, "extends", IT_Token<"literal">>>,
 
-            Expect<Test<FooRemaining["type"], "equals", "foo">>,
-            Expect<Test<FooRemaining["rest"], "equals", `| "bar"`>>,
-            Expect<Test<FooRemaining2["type"], "equals", "foo">>,
-            Expect<Test<FooRemaining2["rest"], "equals", `| String(bar)`>>,
+            Expect<Test<Unbalanced, "isError", "malformed-token">>,
+            Expect<Test<WrongQuote, "isError", "malformed-token">>,
 
-            Expect<Test<TemplateStr["token"], "equals", `"Hi {{string}}, what's your name?"`>>,
-            Expect<Test<TemplateStr["type"], "equals", `Hi ${string}, what's your name?`>>,
-
-            Expect<Test<TemplateStr2["token"], "equals", `"Hi {{string}}, what's your name?"`>>,
-            Expect<Test<TemplateStr2["type"], "equals", `Hi ${string}, what's your name?`>>,
+            Expect<Test<Complete["type"], "equals", "foo">>,
+            Expect<Test<Partial["type"], "equals", "foo">>,
+            Expect<Test<StrTemplate["type"], "equals", `hello${string}`>>,
+            Expect<Test<NumTemplate["type"], "equals", `age: ${number}`>>,
         ];
     });
+
+
+
+    it("single quoted", () => {
+        type Empty = IT_TakeStringLiteral<`''`>;
+        type Complete = IT_TakeStringLiteral<`'foo'`>;
+        type Partial = IT_TakeStringLiteral<`'foo' | 'bar'>`>;
+        type StrTemplate = IT_TakeStringLiteral<`'hello{{string}}'`>;
+        type NumTemplate = IT_TakeStringLiteral<`'age: {{number}}'`>;
+
+        type Unbalanced = IT_TakeStringLiteral<`'foo`>;
+        type WrongQuote = IT_TakeStringLiteral<`'foo"`>;
+
+
+        type cases = [
+            Expect<Test<Complete, "extends", IT_Token<"literal">>>,
+            Expect<Test<Partial, "extends", IT_Token<"literal">>>,
+            Expect<Test<StrTemplate, "extends", IT_Token<"literal">>>,
+            Expect<Test<NumTemplate, "extends", IT_Token<"literal">>>,
+
+            Expect<Test<Unbalanced, "isError", "malformed-token/string-literal">>,
+            Expect<Test<WrongQuote, "isError", "malformed-token/string-literal">>,
+
+            Expect<Test<Complete["type"], "equals", "foo">>,
+            Expect<Test<Partial["type"], "equals", "foo">>,
+            Expect<Test<StrTemplate["type"], "equals", `hello${string}`>>,
+            Expect<Test<NumTemplate["type"], "equals", `age: ${number}`>>,
+        ];
+    });
+
+    it("grave marker", () => {
+        type Complete = IT_TakeStringLiteral<'`foo`'>;
+        type Partial = IT_TakeStringLiteral<'`foo` | `bar`'>;
+        type StrTemplate = IT_TakeStringLiteral<'`hello{{string}}`'>;
+        type NumTemplate = IT_TakeStringLiteral<'`age: {{number}}`'>;
+
+        type Unbalanced = IT_TakeStringLiteral<'`foo'>;
+        type WrongQuote = IT_TakeStringLiteral<'`foo"'>;
+
+        type cases = [
+            Expect<Test<Complete, "extends", IT_Token<"literal">>>,
+            Expect<Test<Partial, "extends", IT_Token<"literal">>>,
+            Expect<Test<StrTemplate, "extends", IT_Token<"literal">>>,
+            Expect<Test<NumTemplate, "extends", IT_Token<"literal">>>,
+
+            Expect<Test<Unbalanced, "isError", "malformed-token/string-literal">>,
+            Expect<Test<WrongQuote, "isError", "malformed-token/string-literal">>,
+
+            Expect<Test<Complete["type"], "equals", "foo">>,
+            Expect<Test<Partial["type"], "equals", "foo">>,
+            Expect<Test<StrTemplate["type"], "equals", `hello${string}`>>,
+            Expect<Test<NumTemplate["type"], "equals", `age: ${number}`>>,
+        ];
+    });
+
+    it("String() bracketed", () => {
+        type Complete = IT_TakeStringLiteral<`String(foo)`>;
+        type Partial = IT_TakeStringLiteral<`String(foo) | String(bar)>`>;
+        type StrTemplate = IT_TakeStringLiteral<`String(hello{{string}})`>;
+        type NumTemplate = IT_TakeStringLiteral<`String(age: {{number}})`>;
+
+        type Unbalanced = IT_TakeStringLiteral<`String(foo`>;
+        type WrongQuote = IT_TakeStringLiteral<`'foo"`>;
+
+
+        type cases = [
+            Expect<Test<Complete, "extends", IT_Token<"literal">>>,
+            Expect<Test<Partial, "extends", IT_Token<"literal">>>,
+            Expect<Test<StrTemplate, "extends", IT_Token<"literal">>>,
+            Expect<Test<NumTemplate, "extends", IT_Token<"literal">>>,
+
+            Expect<Test<Unbalanced, "isError", "malformed-token/string-literal">>,
+            Expect<Test<WrongQuote, "isError", "malformed-token/string-literal">>,
+
+            Expect<Test<Complete["type"], "equals", "foo">>,
+            Expect<Test<Partial["type"], "equals", "foo">>,
+            Expect<Test<StrTemplate["type"], "equals", `hello${string}`>>,
+            Expect<Test<NumTemplate["type"], "equals", `age: ${number}`>>,
+        ];
+    });
+
+
+
 
 });
