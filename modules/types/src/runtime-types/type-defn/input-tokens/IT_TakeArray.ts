@@ -94,15 +94,16 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
 type IT_TakeArray_Bracket<T extends string> = T extends `Array<${infer Rest extends string}`
     ? NestedSplit<Rest, ">"> extends [
         infer Block extends string,
-        infer Rest extends string
+        ...infer Rest extends readonly string[]
     ]
-        ? GetInputToken<Block> extends infer Token extends IT_Token
+        ?
+            GetInputToken<Block> extends infer Token extends IT_Token
             ? {
                 __kind: "IT_Token";
                 kind: "array";
                 token: `Array<${Token["token"]}>`;
                 type: Array<Token["type"]>;
-                rest: Trim<Rest>;
+                rest: Trim<Join<Rest, ">">>;
             }
             : Err<
                 "malformed-token/array",

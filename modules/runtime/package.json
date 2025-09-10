@@ -13,6 +13,7 @@
         }
     },
     "scripts": {
+        "nuke": "rm -rf node_modules",
         "build": "tsdown",
         "test": "vitest run",
         "lint": "eslint src",

@@ -1,32 +1,82 @@
-import { IT_Token } from 'inferred-types/types';
-import { isTokenDefinition, isErr, err } from 'inferred-types/runtime';
+import type { Err, IT_TakeOutcome } from 'inferred-types/types';
+import { isErr, err, createTemplateRegExp, isError, retainAfter, nestedSplit, getInputToken } from 'inferred-types/runtime';
+import { IT_TakeArray, IT_Token } from '@inferred-types/types';
+import { isOk } from 'runtime/type-guards/isOk';
 
-function it_takeArray_Postfix_Grouped(parse: string) {
-    // TODO
-    return err("wrong-handler/postfix-array-grouped")
+function it_takeArray_Postfix_Grouped<T extends string>(parse: T): IT_TakeOutcome<"array"> {
+    // Pattern: `(string | number)[]` or `(string)[][]`
+    const groupedRegex = /^\(([^)]+)\)(\[\]*)(.*)$/;
+    const match = parse.match(groupedRegex);
+
+    if (!match) {
+        return err("wrong-handler/array-postfix-grouped");
+    }
+
+    const [, block, arraySuffix, rest] = match;
+
+    // For now, we'll return a basic structure - actual type parsing will be done by getInputToken
+    return {
+        __kind: "IT_Token" as const,
+        kind: "array" as const,
+        token: `(${block})${arraySuffix}`,
+        type: Array, // This will be refined by the orchestrator
+        rest: rest.trim()
+    };
 }
 
-function it_takeArray_Postfix(parse: string) {
-    // TODO
-    return err("wrong-handler/array-postfix")
+export function it_takeArray__Postfix<T extends string>(parse: T): IT_TakeOutcome<"array"> {
+    // Pattern: `string[]` or `string[][]`
+    const postfixRegex = /^([^\[\]]+)(\[\]+)(.*)$/;
+    const match = parse.match(postfixRegex);
+
+    if (!match || !match[2]) {
+        return err("wrong-handler/array-postfix");
+    }
+
+    const [, block, arraySuffix, rest] = match;
+
+    return {
+        __kind: "IT_Token" as const,
+        kind: "array" as const,
+        token: `${block}${arraySuffix}`,
+        type: Array, // This will be refined by the orchestrator
+        rest: rest.trim()
+    };
 }
 
-function it_takeArray_Bracket(parse: string) {
-    // TODO
-    return err("wrong-handler/array-bracketed")
-}
+export function it_takeArray__Bracket<T extends string>(parse: T): T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed"> {
+    if(parse.startsWith("Array<")) {
+        // pattern matches
+        const start = retainAfter(parse, "Array<");
+        const [block, ...rest] = nestedSplit(start, ">") as readonly string[];
+        const parsed = getInputToken(block.trim()); // try to parse the array's type
+        if(isError(parsed)) {
+            return parsed as T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed">
+        }
 
+        return {
+            __kind: "IT_Token",
+            kind: "array",
+            token: `Array<${block.trim()}>`,
+            type: parsed.type,
+            rest: rest.join(">").trim()
+        } as T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed">
+    }
+
+    return err(`wrong-handler/array-bracketed`) as unknown as T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed">;
+}
 
 function select<TParse extends string>(parseStr: TParse) {
-    return <TVariants extends ((str: string) => IT_Token<"array"> | Error)[]>(...variants: TVariants) => {
+    return <TVariants extends ((str: string) => IT_TakeOutcome<"array">)[]>(...variants: TVariants) => {
         for (const v of variants) {
-            if(isErr(v(parseStr), "malformed-token")) {
-                return v;
-            } else if (isTokenDefinition(v)) {
-                return v;
+            const result = v(parseStr);
+            if (isErr(result, "malformed-token")) {
+                return result;
+            } else if (!isErr(result, "wrong-handler")) {
+                return result;
             }
         }
-        return err(`wrong-handler/array`)
+        return err("wrong-handler/array");
     }
 }
 
@@ -44,8 +94,7 @@ export function it_takeArray<T extends string>(parseStr: T) {
 
     return select(parse)(
         it_takeArray_Postfix_Grouped,
-        it_takeArray_Postfix,
-        it_takeArray_Bracket
+        it_takeArray__Postfix,
+        it_takeArray__Bracket
     );
-
 }

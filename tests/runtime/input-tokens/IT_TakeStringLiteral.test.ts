@@ -17,7 +17,6 @@ describe("IT_TakeStringLiteral<T>", () => {
         type Unbalanced = IT_TakeStringLiteral<`"foo`>;
         type WrongQuote = IT_TakeStringLiteral<`"foo'`>;
 
-
         type cases = [
             Expect<Test<Empty, "extends", IT_Token<"literal">>>,
             Expect<Test<Complete, "extends", IT_Token<"literal">>>,

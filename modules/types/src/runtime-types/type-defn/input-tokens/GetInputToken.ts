@@ -1,8 +1,10 @@
 import type {
+    As,
     Err,
     ErrType,
     InputTokenSuggestions,
     IsInputTokenSuccess,
+    IsNever,
     IT_TakeArray,
     IT_TakeAtomic,
     IT_TakeFunction,
@@ -22,17 +24,30 @@ import type {
     Trim
 } from "inferred-types/types";
 
+/**
+ * Narrows the return type to:
+ *
+ *   - `Err<"malformed-token">` if handler tried to parse but hit an error while parsing
+ *      - note: if the value is `never` it will also convert this to a `Err<"malformed-error">`
+ *      because while this is NOT expected it does represent an unexpected failure of the take function
+ *   - `IT_Token` if handler was successful at parsing the head of the string
+ *   - `null` if a `wrong-handler` error was found
+ */
 type Process<
-    T extends IT_TakeOutcome
-> = IsInputTokenSuccess<T> extends true
-    ? T extends infer Token extends IT_Token<infer _Kind>
-        ? Token
-        : IT_Token
-    : T extends Error
-        ? ErrType<T> extends "malformed-token"
-            ? T
+    T
+> = IsNever<T> extends true
+? Err<"unexpected-error/never", `A take function returned 'never'; this should not happen!`>
+: T extends IT_TakeOutcome
+    ? IsInputTokenSuccess<T> extends true
+        ? T extends infer Token extends IT_Token<infer _Kind>
+            ? Token
+            : IT_Token
+        : T extends Error
+            ? ErrType<T> extends "malformed-token"
+                ? T
+                : null
             : null
-        : null;
+: Err<"unexpected-error", `A take function returned an unexpected type!`, { type: T }>;
 
 /**
  * **Iterate**`<TToken>`
@@ -54,138 +69,116 @@ type Process<
  *     - `unparsed` is returned when no parsing was possible
  */
 type Iterate<
-    TToken extends string,
-    TPrev extends IT_Token | undefined = undefined,
-    TRemaining extends string = Trim<TToken>
+    TParse extends string,
+    TToken extends IT_Token | undefined = undefined,
+    TRemaining extends string = Trim<TParse>
 > = TRemaining extends ""
-    ? TPrev extends IT_Token
-        ? TPrev
+    ? TToken extends IT_Token
+        ? TToken // successful parse
         : Err<
-            "unparsed",
-            `The token string was unable to be parsed! No parsing has taken place.`
+            "empty-parse",
+            `The token string was an empty string so there is nothing to parse!`
         >
 
-    // Combinators (inline)
-    : TRemaining extends `|${string}`
-        ? IT_TakeUnion<TPrev, TRemaining> extends infer U
-            ? U extends IT_Token
-                ? U
-                : U extends Error
-                    ? U
-                    : never
-            : never
-        : TRemaining extends `&&${string}`
-            ? TPrev extends IT_Token
-                ? Err<
-                    "incomplete-parse",
-                `The token string was not fully parsed; the text '${TRemaining}' remains unparsed`,
-                {
-                    underlying: readonly [TPrev];
-                    parsedType: TPrev["type"];
-                    rest: TRemaining;
-                    combinator: "none";
-                }
-                >
-                : Err<
-                    "unparsed",
-                    `The token string was unable to be parsed! No parsing has taken place.`
-                >
-            : TRemaining extends `&${string}`
-                ? IT_TakeIntersection<TPrev, TRemaining> extends infer I
-                    ? I extends IT_Token
-                        ? I
-                        : I extends Error
-                            ? I
-                            : never
-                    : never
+// Atomic
+: Process<IT_TakeAtomic<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeAtomic<TRemaining>> extends (infer Success extends IT_Token<"atomic">)
+        ? Iterate<Success["rest"], Success>
 
-            // Atomic
-                : Process<IT_TakeAtomic<TRemaining>> extends infer E extends Error
-                    ? E // fast fail
-                    : Process<IT_TakeAtomic<TRemaining>> extends (infer Success extends IT_Token)
-                        ? Iterate<Success["rest"], Success>
+// String Literal
+: Process<IT_TakeStringLiteral<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeStringLiteral<TRemaining>> extends (infer Success extends IT_Token<"literal">)
+        ? Iterate<Success["rest"], Success>
 
-                    // String Literal
-                        : Process<IT_TakeStringLiteral<TRemaining>> extends infer E extends Error
-                            ? E // fast fail
-                            : Process<IT_TakeStringLiteral<TRemaining>> extends (infer Success extends IT_Token)
-                                ? Iterate<Success["rest"], Success>
+// Numeric Literal
+: Process<IT_TakeNumericLiteral<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeNumericLiteral<TRemaining>> extends (infer Success extends IT_Token<"literal">)
+        ? Iterate<Success["rest"], Success>
 
-                            // Numeric Literal
-                                : Process<IT_TakeNumericLiteral<TRemaining>> extends infer E extends Error
-                                    ? E // fast fail
-                                    : Process<IT_TakeNumericLiteral<TRemaining>> extends (infer Success extends IT_Token)
-                                        ? Iterate<Success["rest"], Success>
+// KV Objects
+: Process<IT_TakeKvObjects<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeKvObjects<TRemaining>> extends (infer Success extends IT_Token<"kv">)
+        ? Iterate<Success["rest"], Success>
 
-                                    // KV Objects
-                                        : Process<IT_TakeKvObjects<TRemaining>> extends infer E extends Error
-                                            ? E // fast fail
-                                            : Process<IT_TakeKvObjects<TRemaining>> extends (infer Success extends IT_Token)
-                                                ? Iterate<Success["rest"], Success>
+// Arrays
+: Process<IT_TakeArray<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeArray<TRemaining>> extends (infer Success extends IT_Token<"array">)
+        ? Iterate<Success["rest"], Success>
 
-                                            // Arrays
-                                                : Process<IT_TakeArray<TRemaining>> extends infer E extends Error
-                                                    ? E // fast fail
-                                                    : Process<IT_TakeArray<TRemaining>> extends (infer Success extends IT_Token)
-                                                        ? Iterate<Success["rest"], Success>
+// Promises
+: Process<IT_TakePromise<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakePromise<TRemaining>> extends (infer Success extends IT_Token<"promise">)
+        ? Iterate<Success["rest"], Success>
 
-                                                    // Promises
-                                                        : Process<IT_TakePromise<TRemaining>> extends infer E extends Error
-                                                            ? E // fast fail
-                                                            : Process<IT_TakePromise<TRemaining>> extends (infer Success extends IT_Token)
-                                                                ? Iterate<Success["rest"], Success>
+// Sets
+: Process<IT_TakeSet<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeSet<TRemaining>> extends (infer Success extends IT_Token<"set">)
+        ? Iterate<Success["rest"], Success>
 
-                                                            // Sets
-                                                                : Process<IT_TakeSet<TRemaining>> extends infer E extends Error
-                                                                    ? E // fast fail
-                                                                    : Process<IT_TakeSet<TRemaining>> extends (infer Success extends IT_Token)
-                                                                        ? Iterate<Success["rest"], Success>
+// Generators
+: Process<IT_TakeGenerator<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeGenerator<TRemaining>> extends (infer Success extends IT_Token<"generator">)
+        ? Iterate<Success["rest"], Success>
+// Functions
+: Process<IT_TakeFunction<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeFunction<TRemaining>> extends (infer Success extends IT_Token<"function">)
+        ? Iterate<Success["rest"], Success>
 
-                                                                    // Generators
-                                                                        : Process<IT_TakeGenerator<TRemaining>> extends infer E extends Error
-                                                                            ? E // fast fail
-                                                                            : Process<IT_TakeGenerator<TRemaining>> extends (infer Success extends IT_Token)
-                                                                                ? Iterate<Success["rest"], Success>
-                                                                            // Functions
-                                                                                : Process<IT_TakeFunction<TRemaining>> extends infer E extends Error
-                                                                                    ? E // fast fail
-                                                                                    : Process<IT_TakeFunction<TRemaining>> extends (infer Success extends IT_Token)
-                                                                                        ? Iterate<Success["rest"], Success>
+// literal arrays
+: Process<IT_TakeLiteralArray<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeLiteralArray<TRemaining>> extends (infer Success extends IT_Token<"literal-array">)
+        ? Iterate<Success["rest"], Success>
 
-                                                                                    // literal arrays
-                                                                                        : Process<IT_TakeLiteralArray<TRemaining>> extends infer E extends Error
-                                                                                            ? E // fast fail
-                                                                                            : Process<IT_TakeLiteralArray<TRemaining>> extends (infer Success extends IT_Token)
-                                                                                                ? Iterate<Success["rest"], Success>
+// object literals
+: Process<IT_TakeObjectLiteral<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeObjectLiteral<TRemaining>> extends (infer Success extends IT_Token<"object-literal">)
+        ? Iterate<Success["rest"], Success>
 
-                                                                                            // object literals
-                                                                                                : Process<IT_TakeObjectLiteral<TRemaining>> extends infer E extends Error
-                                                                                                    ? E // fast fail
-                                                                                                    : Process<IT_TakeObjectLiteral<TRemaining>> extends (infer Success extends IT_Token)
-                                                                                                        ? Iterate<Success["rest"], Success>
+// take grouped expression
+: Process<IT_TakeGroup<TRemaining>> extends infer E extends Error
+    ? E // fast fail
+    : Process<IT_TakeGroup<TRemaining>> extends (infer Success extends IT_Token<"group">)
+        ? Iterate<Success["rest"], Success>
 
-                                                                                                    // take grouped expression
-                                                                                                        : Process<IT_TakeGroup<TRemaining>> extends infer E extends Error
-                                                                                                            ? E // fast fail
-                                                                                                            : Process<IT_TakeGroup<TRemaining>> extends (infer Success extends IT_Token)
-                                                                                                                ? Iterate<Success["rest"], Success>
+// Union
+: Process<IT_TakeUnion<TRemaining, TToken>> extends infer E extends Error
+    ? E
+    : Process<IT_TakeUnion<TRemaining, TToken>> extends (infer Success extends IT_Token<"union">)
+        ? Iterate<Success["rest"], Success>
 
-                                                                                                            // If we've parsed something already then this is an incomplete parse
-                                                                                                                : TPrev extends IT_Token
-                                                                                                                    ? Err<
-                                                                                                                        "incomplete-parse",
-                    `The token string was not fully parsed; the text '${TRemaining}' remains unparsed`,
-                    {
-                        underlying: readonly [TPrev];
-                        parsedType: TPrev["type"];
-                        rest: TRemaining;
-                        combinator: "none";
-                    }
-                                                                                                                    >
-                                                                                                                    : Err<
-                                                                                                                        "unparsed",
-                                                                                                                        `The token string was unable to be parsed! No parsing has taken place.`
-                                                                                                                    >;
+// Intersection
+// : Process<IT_TakeIntersection<TPrev, TRemaining>> extends infer E extends Error
+//     ? E
+//     : Process<IT_TakeIntersection<TPrev, TRemaining>> extends (infer Success extends IT_Token<"intersection">)
+//         ? Iterate<Success["rest"], Success>
+
+// Incomplete Parse
+: TToken extends IT_Token
+    ? Err<
+        "incomplete-parse",
+        `The token string was not fully parsed; the text '${TRemaining}' remains unparsed`,
+        {
+            underlying: readonly [TToken];
+            parsedType: As<TToken, IT_Token>["type"];
+            rest: TRemaining;
+            combinator: "none";
+        }
+    >
+    : Err<
+        "unparsed",
+        `The token string -- ${TRemaining} -- was unable to be parsed!`
+    >;
 
 /**
  * **GetInputToken**`<T>`
@@ -215,4 +208,6 @@ type Iterate<
  * should have lots of contextual properties to help the caller understand
  * where the error is occurring.
  */
-export type GetInputToken<T extends InputTokenSuggestions> = Iterate<T>;
+export type GetInputToken<T extends InputTokenSuggestions> = string extends T
+? IT_Token | Error
+: Iterate<T>;

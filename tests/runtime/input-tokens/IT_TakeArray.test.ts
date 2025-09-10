@@ -1,6 +1,7 @@
 import { describe, it } from "vitest";
 import {
     Expect,
+    GetInputToken,
     IT_TakeArray,
     IT_Token,
     NestedSplit,
@@ -45,6 +46,8 @@ describe("IT_TakeArray<T>", () => {
     it("bracketed", () => {
         type Str = IT_TakeArray<"Array<string>">;
         type StrRemaining = IT_TakeArray<"Array<string>    | string">;
+        type Invalid = IT_TakeArray<"Array<foobar>">;
+        type X = GetInputToken<"foobar">; // =>
 
         type cases = [
            Expect<Test<Str["token"], "equals", "Array<string>">>,
@@ -53,6 +56,7 @@ describe("IT_TakeArray<T>", () => {
            Expect<Test<StrRemaining["token"], "equals", "Array<string>">>,
            Expect<Test<StrRemaining["type"], "equals", Array<string>>>,
            Expect<Test<StrRemaining["rest"], "equals", "| string">>,
+           Expect<Test<Invalid, "isError", "malformed-token">>
         ];
     });
 

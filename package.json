@@ -44,7 +44,7 @@
         "modules/types/dist"
     ],
     "scripts": {
-        "nuke": "",
+        "nuke": "pnpm -r nuke",
         "test": "vitest run",
         "test:ci": "vitest run",
         "test:watch": "vitest",

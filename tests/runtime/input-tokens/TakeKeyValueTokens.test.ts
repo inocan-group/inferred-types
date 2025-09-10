@@ -22,6 +22,7 @@ describe("TakeKeyValueTokens<T>", () => {
 
     it("take Maps", () => {
         type T1 = IT_TakeKvObjects<"Map<string, number>">;
+        type T2 = IT_TakeKvObjects<`Map<"foo" | "bar", number>`>;
 
         type cases = [
             Expect<Test<T1, "extends", IT_Token>>,
@@ -44,7 +45,7 @@ describe("TakeKeyValueTokens<T>", () => {
 
 
     it("Records with union keys", () => {
-        type T1 = IT_TakeKvObjects<"Record<String(foo) | String(bar), string | number>">;
+        type T1 = IT_TakeKvObjects<"Record<'foo' | 'bar', string | number>">;
 
         type cases = [
             Expect<Test<T1, "extends", IT_Token>>,

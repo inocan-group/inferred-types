@@ -112,20 +112,7 @@ export function createTemplateRegExp<
     const api: RegularExpression<Pattern> = {
         kind: "RegexpArray",
         pattern: fullPattern as Pattern,
-        get source() { return regex.source; },
-        get flags() { return regex.flags; },
-        get dotAll() { return (regex as any).dotAll; },
-        get global() { return regex.global; },
-        get ignoreCase() { return regex.ignoreCase; },
-        get multiline() { return regex.multiline; },
-        get sticky() { return (regex as any).sticky; },
-        get unicode() { return (regex as any).unicode; },
-        get lastIndex() { return regex.lastIndex; },
-        set lastIndex(v: number) { regex.lastIndex = v; },
-        [Symbol.match](str: string) { return (regex as any)[Symbol.match](str); },
-        [Symbol.replace](str: string, repl: string) { return (regex as any)[Symbol.replace](str, repl); },
-        [Symbol.search](str: string) { return (regex as any)[Symbol.search](str); },
-        [Symbol.split](str: string, limit?: number) { return (regex as any)[Symbol.split](str, limit as any); },
+
         test(test: string) {
             return regex.test(test) as any;
         },
@@ -170,7 +157,7 @@ export function createTemplateRegExp<
             return result;
         },
         toString() { return regex.toString(); }
-    } as any;
+    };
 
     return api;
 }

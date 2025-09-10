@@ -12,7 +12,7 @@ describe("IT_TakeUnion", () => {
 
     it("happy path", () => {
         type Token = GetInputToken<"string">;
-        type Union = IT_TakeUnion<Token, "| number">;
+        type Union = IT_TakeUnion<"| number", Token>;
         //    ^?
 
         type cases = [
@@ -24,7 +24,7 @@ describe("IT_TakeUnion", () => {
 
     it("literals", () => {
         type Token = GetInputToken<`'foo'`>;
-        type Union = IT_TakeUnion<Token, "| 'bar' | 'baz'">;
+        type Union = IT_TakeUnion<"| 'bar' | 'baz'", Token>;
 
         type cases = [
             Expect<Test<Union, "extends", IT_Token<"union">>>,
@@ -35,7 +35,7 @@ describe("IT_TakeUnion", () => {
 
     it("union member can be an intersection", () => {
         type Token = GetInputToken<"string">;
-        type Union = IT_TakeUnion<Token, "| number & boolean">;
+        type Union = IT_TakeUnion<"| number & boolean", Token>;
 
         type cases = [
             Expect<Test<Union, "extends", IT_Token<"union">>>,
@@ -45,7 +45,7 @@ describe("IT_TakeUnion", () => {
 
 
     it("leading | character", () => {
-        type Union = IT_TakeUnion<undefined, "| number">;
+        type Union = IT_TakeUnion<"| number", undefined>;
 
         type cases = [
             Expect<Test<Union, "isError", "malformed-token/union">>,
@@ -56,7 +56,7 @@ describe("IT_TakeUnion", () => {
 
     it("trailing | character", () => {
         type Token = GetInputToken<"string">;
-        type Union = IT_TakeUnion<Token, "| number |">;
+        type Union = IT_TakeUnion<"| number |", Token>;
 
         type cases = [
             Expect<Test<Union, "isError", "malformed-token/union">>,
@@ -67,8 +67,8 @@ describe("IT_TakeUnion", () => {
 
     it("double '|' character", () => {
         type Token = GetInputToken<"string">;
-        type Union = IT_TakeUnion<Token, "| number || boolean">;
-        type Union2 = IT_TakeUnion<Token, "| number | | boolean">;
+        type Union = IT_TakeUnion<"| number || boolean", Token>;
+        type Union2 = IT_TakeUnion<"| number | | boolean", Token>;
 
         type cases = [
             Expect<Test<Union, "isError", "malformed-token/union">>,
@@ -78,10 +78,6 @@ describe("IT_TakeUnion", () => {
             Expect<Contains<Union2["message"], "The union operator '|' was found next to another '|' operator">>
         ];
     });
-
-
-
-
 
 
 });

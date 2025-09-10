@@ -3,4 +3,12 @@ export * from "./asStringInputToken";
 export * from "./fromDefineObject";
 export * from "./fromDefineTuple";
 export * from "./fromInputToken";
-export * from "./isTokenDefinition"
+export * from "./getInputToken";
+export * from "./isTokenDefinition";
+export * from "./take/it_takeArray";
+export * from "./take/it_takeAtomic";
+export * from "./take/it_takeGroup";
+export * from "./take/it_takeIntersection";
+export * from "./take/it_takeNumericLiteral";
+export * from "./take/it_takeStringLiteral";
+export * from "./take/it_takeUnion";

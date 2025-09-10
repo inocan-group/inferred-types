@@ -1,4 +1,19 @@
-import type { As, Err, FromInputToken__String, GetEach, GetInputToken, IT_TakeOutcome, IT_Token, Join, Last, NestedSplit, Trim, TupleToUnion } from "inferred-types/types";
+import type {
+    As,
+    Err,
+    FromInputToken__String,
+    FromInputToken__Tuple,
+    GetEach,
+    GetInputToken,
+    IT_TakeOutcome,
+    IT_Token,
+    Join,
+    Last,
+    NestedSplit,
+    Trim,
+    TrimEach,
+    TupleToUnion
+} from "inferred-types/types";
 
 type HasEmptyString<T extends readonly string[]> = T extends [infer Head extends string, ...infer Rest extends readonly string[]]
     ? Trim<Head> extends ""
@@ -37,220 +52,43 @@ type ParsePartTypes<
 }, readonly unknown[]>;
 
 type Parse<
-    TToken extends IT_Token,
-    TParts extends (readonly string[]) | Error
+    TParts extends readonly string[]
 > = As<
-    TParts extends Error
-        ? TParts
-        : TParts extends readonly string[]
-            ? Trim<Last<TParts>> extends ""
-                ? Err<
-                    `malformed-token/union`,
-                    `The union operator '|' was found at the end of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!`,
-                    { parseString: TToken }
-                >
-                : HasEmptyString<TParts> extends true
-                    ? Err<
-                        `malformed-token/union`,
-                        `The union operator '|' was found next to another '|' operator. This is not allowed as the union operator is an inline operator and must have types on both sides of it!`,
-                        { parseString: TToken }
-                    >
-                    : TParts extends [infer Only extends string]
-                        ? Trim<Only> extends `${infer A} & ${infer B}`
-                            ? Trim<A> extends "number"
-                                ? Trim<B> extends "boolean"
-                                    ? {
-                                        __kind: "IT_Token";
-                                        kind: "union";
-                                        token: Join<[
-                                            As<TToken, IT_Token>["token"],
-                                            Trim<Only>
-                                        ], " | ">;
-                                        type: TupleToUnion<[
-                                            TToken["type"],
-                                            never
-                                        ]>;
-                                        rest: "";
-                                        members: [
-                                            As<TToken, IT_Token>["type"],
-                                            never
-                                        ];
-                                    }
-                                    : ParseParts<TParts> extends Error
-                                        ? ParseParts<TParts>
-                                        : ParseParts<TParts> extends readonly IT_Token[]
-                                            ? {
-                                                __kind: "IT_Token";
-                                                kind: "union";
-                                                token: Join<[
-                                                    As<TToken, IT_Token>["token"],
-                                                    ...As<GetEach<ParseParts<TParts>, "token">, readonly string[]>
-                                                ], " | ">;
-                                                type: TupleToUnion<[
-                                                    TToken["type"],
-                                                    ...(ParsePartTypes<TParts> & readonly unknown[])
-                                                ]>;
-                                                rest: "";
-                                                members: [
-                                                    As<TToken, IT_Token>["type"],
-                                                    ...As<GetEach<ParseParts<TParts>, "type">, readonly unknown[]>
-                                                ];
-                                            }
-                                            : Err<"empty">
-                                : Trim<Only> extends `(${infer Inner})`
-                                    ? Trim<Inner> extends `${infer IA} & ${infer IB}`
-                                        ? Trim<IA> extends "number"
-                                            ? Trim<IB> extends "boolean"
-                                                ? {
-                                                    __kind: "IT_Token";
-                                                    kind: "union";
-                                                    token: Join<[
-                                                        As<TToken, IT_Token>["token"],
-                                                        Trim<Only>
-                                                    ], " | ">;
-                                                    type: TupleToUnion<[
-                                                        TToken["type"],
-                                                        never
-                                                    ]>;
-                                                    rest: "";
-                                                    members: [
-                                                        As<TToken, IT_Token>["type"],
-                                                        never
-                                                    ];
-                                                }
-                                                : ParseParts<TParts> extends Error
-                                                    ? ParseParts<TParts>
-                                                    : ParseParts<TParts> extends readonly IT_Token[]
-                                                        ? {
-                                                            __kind: "IT_Token";
-                                                            kind: "union";
-                                                            token: Join<[
-                                                                As<TToken, IT_Token>["token"],
-                                                                ...As<GetEach<ParseParts<TParts>, "token">, readonly string[]>
-                                                            ], " | ">;
-                                                            type: TupleToUnion<[
-                                                                TToken["type"],
-                                                                ...(ParsePartTypes<TParts> & readonly unknown[])
-                                                            ]>;
-                                                            rest: "";
-                                                            members: [
-                                                                As<TToken, IT_Token>["type"],
-                                                                ...As<GetEach<ParseParts<TParts>, "type">, readonly unknown[]>
-                                                            ];
-                                                        }
-                                                        : Err<"empty">
-                                            : ParseParts<TParts> extends Error
-                                                ? ParseParts<TParts>
-                                                : ParseParts<TParts> extends readonly IT_Token[]
-                                                    ? {
-                                                        __kind: "IT_Token";
-                                                        kind: "union";
-                                                        token: Join<[
-                                                            As<TToken, IT_Token>["token"],
-                                                            ...As<GetEach<ParseParts<TParts>, "token">, readonly string[]>
-                                                        ], " | ">;
-                                                        type: TupleToUnion<[
-                                                            TToken["type"],
-                                                            ...(ParsePartTypes<TParts> & readonly unknown[])
-                                                        ]>;
-                                                        rest: "";
-                                                        members: [
-                                                            As<TToken, IT_Token>["type"],
-                                                            ...As<GetEach<ParseParts<TParts>, "type">, readonly unknown[]>
-                                                        ];
-                                                    }
-                                                    : Err<"empty">
-                                        : ParseParts<TParts> extends Error
-                                            ? ParseParts<TParts>
-                                            : ParseParts<TParts> extends readonly IT_Token[]
-                                                ? {
-                                                    __kind: "IT_Token";
-                                                    kind: "union";
-                                                    token: Join<[
-                                                        As<TToken, IT_Token>["token"],
-                                                        ...As<GetEach<ParseParts<TParts>, "token">, readonly string[]>
-                                                    ], " | ">;
-                                                    type: TupleToUnion<[
-                                                        TToken["type"],
-                                                        ...(ParsePartTypes<TParts> & readonly unknown[])
-                                                    ]>;
-                                                    rest: "";
-                                                    members: [
-                                                        As<TToken, IT_Token>["type"],
-                                                        ...As<GetEach<ParseParts<TParts>, "type">, readonly unknown[]>
-                                                    ];
-                                                }
-                                                : Err<"empty">
-                                    : ParseParts<TParts> extends Error
-                                        ? ParseParts<TParts>
-                                        : ParseParts<TParts> extends readonly IT_Token[]
-                                            ? {
-                                                __kind: "IT_Token";
-                                                kind: "union";
-                                                token: Join<[
-                                                    As<TToken, IT_Token>["token"],
-                                                    ...As<GetEach<ParseParts<TParts>, "token">, readonly string[]>
-                                                ], " | ">;
-                                                type: TupleToUnion<[
-                                                    TToken["type"],
-                                                    ...(ParsePartTypes<TParts> & readonly unknown[])
-                                                ]>;
-                                                rest: "";
-                                                members: [
-                                                    As<TToken, IT_Token>["type"],
-                                                    ...As<GetEach<ParseParts<TParts>, "type">, readonly unknown[]>
-                                                ];
-                                            }
-                                            : Err<"empty">
-                            : ParseParts<TParts> extends Error
-                                ? ParseParts<TParts> // exit with Error
-                                : ParseParts<TParts> extends readonly IT_Token[]
-                                    ? {
-                                        __kind: "IT_Token";
-                                        kind: "union";
-                                        token: Join<[
-                                            As<TToken, IT_Token>["token"],
-                                            ...As<GetEach<ParseParts<TParts>, "token">, readonly string[]>
-                                        ], " | ">;
-                                        type: TupleToUnion<[
-                                            TToken["type"],
-                                            ...(ParsePartTypes<TParts> & readonly unknown[])
-                                        ]>;
-                                        rest: "";
-                                        members: [
-                                            As<TToken, IT_Token>["type"],
-                                            ...As<GetEach<ParseParts<TParts>, "type">, readonly unknown[]>
-                                        ];
-                                    }
-                                    : Err<"empty">
-                        : ParseParts<TParts> extends Error
-                            ? ParseParts<TParts> // exit with Error
-                            : ParseParts<TParts> extends readonly IT_Token[]
-                                ? {
-                                    __kind: "IT_Token";
-                                    kind: "union";
-                                    token: Join<[
-                                        As<TToken, IT_Token>["token"],
-                                        ...As<GetEach<ParseParts<TParts>, "token">, readonly string[]>
-                                    ], " | ">;
-                                    type: TupleToUnion<[
-                                        TToken["type"],
-                                        ...(ParsePartTypes<TParts> & readonly unknown[])
-                                    ]>;
-                                    rest: "";
-                                    members: [
-                                        As<TToken, IT_Token>["type"],
-                                        ...As<GetEach<ParseParts<TParts>, "type">, readonly unknown[]>
-                                    ];
-                                }
-                                : Err<"empty">
-            : Err<"mystery">,
-    IT_Token<"union"> | Error
+    ValidateStructure<TParts> extends Err<"malformed-token">
+        ? ValidateStructure<TParts>
+    : ValidateStructure<TParts> extends readonly string[]
+        ? FromInputToken__Tuple<TParts> extends Err<"malformed-token">
+            ? Err<
+                "malformed-token/union",
+                `Attempt to parse members of a union type failed because one or more were unable to be parsed into a valid type. ${FromInputToken__Tuple<TParts>["message"]}`,
+                { parts: TParts }
+            >
+        : {
+            __kind: "IT_Token";
+            kind: "union";
+            token: Trim<Join<ValidateStructure<TParts>, " | ">>;
+            type: TupleToUnion<
+                FromInputToken__Tuple<ValidateStructure<TParts>>
+            >;
+            rest: "";
+            members:  FromInputToken__Tuple<ValidateStructure<TParts>>;
+        }
+    : Err<`malformed-token/union`>,
+    IT_TakeOutcome<"union">
 >;
 
+/**
+ * looks at the underlying tokens which will be part of the union; returns a `Err<"malformed-token">` if
+ * an error is detected.
+ *
+ * - ensures no trailing empty string (which indicates | at end of string)
+ * - ensure no interior members are empty strings (which indicates a duplicate '|' operator)
+ *
+ * If all passes then tokens are returned in a _trimmed_ form.
+ */
 type ValidateStructure<
     T extends readonly string[]
-> = As<
+> =
     Trim<Last<T>> extends ""
         ? Err<
             `malformed-token/union`,
@@ -263,12 +101,10 @@ type ValidateStructure<
                 `The union operator '|' was found next to another '|' operator. This is not allowed as the union operator is an inline operator and must have types on both sides of it!`,
                 { parseString: T }
             >
-            : T,
-    readonly string[] | Error
->;
+        : TrimEach<T>;
 
 /**
- * **IT_TakeUnion**`<TToken,TParse>`
+ * **IT_TakeUnion**`<TParse,TToken>`
  *
  * Takes a token (or undefined) and the remaining parse string.
  *
@@ -277,19 +113,23 @@ type ValidateStructure<
  * - if the remaining parse string doesn't start with `|` then the Error "wrong-handler" is returned
  */
 export type IT_TakeUnion<
-    TToken extends IT_Token | undefined,
-    TParse extends string
+    TParse extends string,
+    TToken extends IT_Token | undefined
 > = As<
-    TParse extends `|${infer Rest extends string}`
+    Trim<TParse> extends `|${infer Rest extends string}`
         ? TToken extends undefined
             ? Err<
                 `malformed-token/union`,
                 `The union operator '|' was found at the beginning of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!`,
-                { parseString: TToken }
+                { parseString: TToken,  previousToken: TToken }
             >
             : NestedSplit<Rest, "|"> extends infer Parts extends readonly string[]
-                ? Parse<As<TToken, IT_Token>, ValidateStructure<Parts>>
+                ? Parse<[`${As<TToken, IT_Token>["token"]}`, ...Parts]>
                 : never
-        : Err<"wrong-handler/union", `The union handler only takes parse strings which start with '|'`>,
+    : Err<"wrong-handler/union", `The union handler only takes parse strings which start with '|'`, { parse: TParse; token: TToken }>,
     IT_TakeOutcome<"union">
 >;
+
+type Str = GetInputToken<"string">;
+type T = IT_TakeUnion<"| number", Str>;
+type X = T extends IT_TakeOutcome<"union"> ? true : false;
