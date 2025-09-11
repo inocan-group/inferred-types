@@ -385,12 +385,12 @@ export type ToStringLiteral<
     ? "any"
     : [IsNever<T>] extends [true]
         ? "never"
-        : [IsUnion<T>] extends [true]
-            ? ToStringLiteral__Union<UnionToTuple<T>, Opt>
-            : [T] extends [Scalar]
-                ? ToStringLiteral__Scalar<T, Opt>
-                : [T] extends [readonly unknown[]]
-                    ? ToStringLiteral__Array<T, O<Opt>>
-                    : [T] extends [Dictionary]
-                        ? ToStringLiteral__Object<T, O<Opt>>
-                        : never; ;
+    : [IsUnion<T>] extends [true]
+        ? ToStringLiteral__Union<UnionToTuple<T>, Opt>
+    : [T] extends [Scalar]
+        ? ToStringLiteral__Scalar<T, Opt>
+        : [T] extends [readonly unknown[]]
+            ? ToStringLiteral__Array<T, O<Opt>>
+            : [T] extends [Dictionary]
+                ? ToStringLiteral__Object<T, O<Opt>>
+                : never;

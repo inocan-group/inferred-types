@@ -1,5 +1,4 @@
 export * from "./asOutputToken";
-export * from "./asToken";
 export * from "./asType";
 export * from "./createGrammar";
 export * from "./createToken";

@@ -72,7 +72,7 @@ export type IT_TakeIntersection<
                         `An intersection type was detected and parsed into elements but at least one of these elements was unable to be parsed as an InputToken!`,
                         { tokens: SplitTokens }
                     >
-                : Err<"malformed-token/intersection"
+                : Err<"malformed-token/intersection">
             : Err<
                 `malformed-handler/intersection`,
                 `The token string contained a '&' character indicating that this is an intersection type but `

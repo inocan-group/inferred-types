@@ -22,9 +22,9 @@ import type {
  * ```
  */
 export function narrow<
-    N extends Narrowable,
-    K extends PropertyKey,
-    T extends readonly (Record<K, N> | N)[],
+    const N extends Narrowable,
+    const K extends PropertyKey,
+    const T extends readonly (Record<K, N> | N)[],
 >(...values: T) {
     return (
         values.length === 1
@@ -34,10 +34,10 @@ export function narrow<
         ? T[0] extends readonly unknown[]
             ? T[0] extends infer Arr
                 ? [IsUnion<First<Arr & readonly unknown[]>>] extends [true]
-                    ? Readonly<UnionToTuple<First<T[0]>>>
+                    ? UnionToTuple<First<T[0]>>
                     : T[0]
 
-                : Readonly<T[0]>
+                : T[0]
             : T[0]
-        : Readonly<T>;
+        : T;
 }
