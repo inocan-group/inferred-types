@@ -1,4 +1,5 @@
 import type {
+    As,
     Abs,
     Chars,
     Concat,
@@ -6,8 +7,9 @@ import type {
     IsNegativeNumber,
     TakeFirst,
     TakeLast,
+    IsGreaterThan
 } from "inferred-types/types";
-import type { IsGreaterThan } from "../boolean-logic/operators/scalar/numeric/IsGreaterThan";
+
 
 export type DropLeading<
     TList extends readonly unknown[],
@@ -82,5 +84,14 @@ export type Slice<
             : ProcessChars<Chars<TList>, TStart, TLen>
         : never
     : TList extends readonly unknown[]
-        ? ProcessList<TList, TStart, TLen>
+        ? As<ProcessList<TList, TStart, TLen>, readonly TList[]>
         : never;
+
+
+export type SliceArray<
+    TList extends readonly unknown[],
+    TStart extends number,
+    TLen extends number | undefined = undefined
+> = ProcessList<TList, TStart, TLen> extends readonly (TList[number])[]
+    ? ProcessList<TList, TStart, TLen>
+    : never;

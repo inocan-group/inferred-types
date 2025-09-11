@@ -9,3 +9,4 @@ export * from "./isNegativeNumber";
 export * from "./lessThan";
 export * from "./lessThanOrEqual";
 export * from "./toInteger";
+export * from "./abs"

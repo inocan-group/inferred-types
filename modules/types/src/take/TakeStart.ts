@@ -1,5 +1,4 @@
-import { AsTakeState, StripLeading, TakeState } from "inferred-types/types";
-import { As, StartsWith } from "types/boolean-logic";
+import { AsTakeState, StripLeading, TakeState, Err, As, StartsWith, InputToken } from "inferred-types/types";
 
 type GetMatch<
     TMatch extends readonly string[],
@@ -9,6 +8,17 @@ type GetMatch<
     ? Head
     : GetMatch<Rest, TContent>
 : null;
+
+
+export type TakeStartCallback = <V extends string, S extends TakeState>(
+    value: V,
+    state: S
+) => TakeState | Err<"skip"> | Err<"no-token"> | Err<"invalid-token">;
+
+export type TakeStartMatches =
+| readonly [string, ...readonly string[]]
+| readonly [TakeStartCallback, string, ...readonly string[]]
+| Record<string, string | [string, InputToken]>;
 
 /**
  * **TakeStart**`<TMatch, TContent>`

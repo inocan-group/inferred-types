@@ -1,5 +1,5 @@
-import { TakeStart, TakeState, Err, InputToken, StartsWith } from 'inferred-types/types';
-import { stripLeading, asTakeState } from 'inferred-types/runtime';
+import { TakeStart, TakeState,  StartsWith, TakeStartMatches, TakeStartCallback, BeforeLast, Pop } from 'inferred-types/types';
+import { stripLeading, asTakeState, isArray, pop } from 'inferred-types/runtime';
 
 type Which<
     T extends TakeState,
@@ -13,16 +13,6 @@ type Which<
         : Which<T,Rest>
 : undefined;
 
-type MatchCallback = <V extends string, S extends TakeState>(
-    value: V,
-    state: S
-) => TakeState | Err<"skip"> | Err<"no-token"> | Err<"invalid-token">;
-
-type MatchConfig =
-| readonly [string, ...readonly string[]]
-| readonly [MatchCallback, string, ...readonly string[]]
-| Record<string, string | [string, InputToken]>;
-
 function findMatch<
     T extends TakeState,
     M extends readonly string[]
@@ -32,6 +22,33 @@ function findMatch<
 ) {
     return matches.find(i => state.parseString.startsWith(i)) as Which<T,M>
 }
+
+function isCallback(val: unknown): val is [TakeStartCallback, string, ...readonly string[]] {
+    return isArray(val) && val.length > 2 && typeof val[0] === "function" && typeof val[1] === "string"
+}
+
+type Variant = {
+    variant: "callback" | "mapper" | "default";
+    callback: TakeStartCallback | undefined;
+    matches: readonly string[]
+}
+
+function variant<T extends TakeStartMatches>(matches: T) {
+    if(isCallback(matches)) {
+        const [m, callback] = pop(matches);
+        return {
+            variant: "callback",
+            callback: matches[0],
+            matches: m
+        } satisfies Variant;
+    } else if (isMapper(matches)) {
+
+    } else {
+
+    }
+}
+
+type X = PopList<[TakeStartCallback, string, ...string[]]>;
 
 /**
  * **takeStart**`(...matches) -> (value) -> TakeState | Err<"invalid-token">`
@@ -103,7 +120,7 @@ export function takeStart<T extends readonly string[]>(...matches: T) {
     return <U extends string | TakeState>(value: U): TakeStart<T,U> => {
         const state = asTakeState(value);
         const match = findMatch(state, matches);
-         matches.find(i => state.parseString.startsWith(i));
+
         return (
             match
             ? {

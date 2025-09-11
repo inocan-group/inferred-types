@@ -1,5 +1,6 @@
+import { describe, it, expect } from "vitest";
 import { Slice, Test, Expect } from "inferred-types/types";
-import { describe, it } from "vitest";
+import { slice } from "inferred-types/runtime";
 
 describe("Slice<TList, TStart, TEnd>", () => {
     type List = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -313,3 +314,35 @@ describe("Slice<TList, TStart, TEnd>", () => {
     });
 
 });
+
+
+describe("slice(list, start, [len])", () => {
+
+
+    it("start index", () => {
+        const t1 = slice([1,2,3,4],2);
+        expect(t1).toEqual([3,4]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", [3,4]>>
+        ];
+    });
+
+
+    it("start index and length", () => {
+        const t1 = slice([1,2,3,4],1,2);
+        expect(t1).toEqual([2,3]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", [2,3]>>
+        ];
+    });
+
+    it.todo("negative start index");
+    it.todo("negative start index with length");
+
+    it.todo("indexing empty array");
+
+    it.todo("length larger than remaining length")
+
+})

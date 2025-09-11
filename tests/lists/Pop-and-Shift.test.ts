@@ -19,6 +19,29 @@ describe("Pop", () => {
         ];
     });
 
+
+    it("pop with optional", () => {
+        type One = Pop<["foo", "bar", "baz"?]>;
+        type Two = Pop<["foo", "bar"?, "baz"?]>;
+
+
+        type cases = [
+            Expect<Test<One, "equals", ["foo","bar"] | ["foo"]>>,
+            Expect<Test<Two, "equals", ["foo","bar"] | ["foo"] | []>>,
+        ];
+    });
+
+
+
+    it("pop with variadic tail", () => {
+        type T = Pop<[1,2,3, ...string[]]>;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
+
     it("Pop<string literal>", () => {
         type Foobar = Pop<"foobar">;
         type Empty = Pop<"">;

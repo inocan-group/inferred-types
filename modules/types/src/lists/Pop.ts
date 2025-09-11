@@ -1,4 +1,5 @@
-import type { Chars, Concat, IsStringLiteral, IsWideType, Tuple } from "inferred-types/types";
+import type { Chars, Concat, Decrement, HasOptionalElements, MakeOptional, IsStringLiteral, IsWideType, Tuple, OptionalProps, TupleMeta } from "inferred-types/types";
+import { IsGreaterThan } from '../boolean-logic/operators/scalar/numeric/IsGreaterThan';
 
 type _Pop<
     TVal extends Tuple,
@@ -23,8 +24,16 @@ type _Pop<
 export type Pop<
     TList extends readonly unknown[] | string,
 > = TList extends readonly unknown[]
-    ? TList extends [...(infer Front extends [unknown, ...unknown[]]), unknown ]
-        ? Front
+    ? Required<TList> extends [...(infer Front extends [unknown, ...unknown[]]), unknown ]
+        ? HasOptionalElements<TList> extends true
+            ? TupleMeta<TList>["optionalElementCount"] extends infer Optional extends number
+                ? IsGreaterThan<Decrement<Optional>, 0> extends true
+                    ? MakeOptional<Front, Decrement<Optional>> extends infer Next extends readonly Exclude<TList, string>[number][]
+                        ? Front | Pop<Next> | ["testing", Decrement<Optional>, Pop<Next>]
+                        : never
+                : Front | Pop<Front>
+                : Front | Pop<Front>
+            : Front
         : []
     : TList extends string
         ? IsWideType<TList> extends true
