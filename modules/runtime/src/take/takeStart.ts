@@ -48,7 +48,6 @@ function variant<T extends TakeStartMatches>(matches: T) {
     }
 }
 
-type X = PopList<[TakeStartCallback, string, ...string[]]>;
 
 /**
  * **takeStart**`(...matches) -> (value) -> TakeState | Err<"invalid-token">`

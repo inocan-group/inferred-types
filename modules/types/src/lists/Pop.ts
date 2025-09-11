@@ -8,7 +8,12 @@ import type {
     IsWideType,
     Tuple,
     IsGreaterThan,
-    TupleMeta
+    TupleMeta,
+    IsWideArray,
+    DropVariadic,
+    IsVariadicArray,
+    VariadicType,
+    As
 } from "inferred-types/types";
 
 type _Pop<
@@ -16,6 +21,23 @@ type _Pop<
 > = TVal extends [...(infer Rest), unknown]
     ? Rest
     : [];
+
+type AdjustVariadic<
+    /** the list of elements with any variadic elements removed */
+    TList extends readonly unknown[],
+    /** the original array which we'll use to detect variadic properties */
+    TOrigin extends readonly unknown[],
+    /** the element which was just removed */
+    TRemoved,
+    TLast = TList extends [...readonly unknown[], infer Last] ? Last : undefined,
+    TType = VariadicType<TOrigin> extends (infer Base)[]
+        ? Base
+        : never
+> = IsVariadicArray<TOrigin> extends true
+? TRemoved extends TType
+    ? [...TList, ...TType[]]
+    : [...TList, ...TType[]] | [...TList, TRemoved, ...TType[]]
+: TList;
 
 
 /**
@@ -35,16 +57,18 @@ type _Pop<
 export type Pop<
     TList extends readonly unknown[] | string,
 > = TList extends readonly unknown[]
-    ? Required<TList> extends [...infer Front extends readonly [unknown, ...unknown[]], unknown]
+    ? IsWideArray<TList> extends true
+        ? TList
+    : DropVariadic<Required<TList>> extends [...infer NewList extends readonly [unknown, ...unknown[]], infer Removed]
         ? HasOptionalElements<TList> extends true
             ? TupleMeta<TList>["optionalElementCount"] extends infer Optional extends number
                 ? IsGreaterThan<Decrement<Optional>, 0> extends true
-                    ? MakeOptional<Front, Decrement<Optional>> extends infer Next extends readonly unknown[]
-                        ? Front | Pop<Next>
+                    ? MakeOptional<NewList, Decrement<Optional>> extends infer Next extends readonly unknown[]
+                        ? AdjustVariadic<NewList | Pop<Next>, TList, Removed>
                         : never
-                    : Front | Pop<Front>
-                : Front | Pop<Front>
-            : Front
+                    : NewList | Pop<NewList>
+                : NewList | Pop<NewList>
+            : AdjustVariadic<NewList,TList,Removed>
         : []
 
     : TList extends string
@@ -60,3 +84,5 @@ export type Pop<
                     : never
                 : string
         : _Pop<Exclude<TList, string>>;
+
+

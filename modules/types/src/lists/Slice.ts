@@ -72,22 +72,57 @@ type ProcessChars<
  * - `TLen` defaults to the all the remaining elements
  * but can be any amount; if you use negative values this
  * will drop that many values off the end of the tuple
+ *
+ * **Related:** `SliceArray`, `SliceString`
  */
 export type Slice<
     TList extends readonly unknown[] | string,
     TStart extends number,
     TLen extends number | undefined = undefined,
-> = TList extends string
-    ? Chars<TList> extends readonly string[]
-        ? IsGreaterThan<TStart, Chars<TList>["length"]> extends true
+> = [TList] extends [string]
+? SliceString<TList,TStart,TLen>
+: [TList] extends [readonly unknown[]]
+? SliceArray<TList,TStart,TLen>
+: never;
+
+
+/**
+ * **SliceArray**<TList, TStart, [TLen]>
+ *
+ * Slices an array.
+ *
+ * - negative indexes for `TEnd` can be used
+ * - `TStart` defaults to 0
+ * - `TLen` defaults to the all the remaining elements
+ * but can be any amount; if you use negative values this
+ * will drop that many values off the end of the tuple
+ *
+ * **Related:** `Slice`, `SliceArray`
+ */
+export type SliceString<
+    TStr extends string,
+    TStart extends number,
+    TLen extends number | undefined = undefined
+> = Chars<TStr> extends readonly string[]
+        ? IsGreaterThan<TStart, Chars<TStr>["length"]> extends true
             ? ""
-            : ProcessChars<Chars<TList>, TStart, TLen>
+            : ProcessChars<Chars<TStr>, TStart, TLen>
         : never
-    : TList extends readonly unknown[]
-        ? As<ProcessList<TList, TStart, TLen>, readonly TList[]>
-        : never;
 
 
+/**
+ * **SliceArray**<TList, TStart, [TLen]>
+ *
+ * Slices an array.
+ *
+ * - negative indexes for `TEnd` can be used
+ * - `TStart` defaults to 0
+ * - `TLen` defaults to the all the remaining elements
+ * but can be any amount; if you use negative values this
+ * will drop that many values off the end of the tuple
+ *
+ * **Related:** `Slice`, `SliceString`
+ */
 export type SliceArray<
     TList extends readonly unknown[],
     TStart extends number,
