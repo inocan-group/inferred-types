@@ -2,6 +2,15 @@
 
 This monorepo uses a set of type references between projects and is published not only to "npm" but also "jsr" which has stricter (or at least different) rules about how to process import statements. For this reason we need to be careful to follow a strict standard when importing source files.
 
+## Modules
+
+Just as a quick reminder, the modules in this monorepo are:
+
+- `constants` - defines constants used by both the `runtime` and `types` modules
+- `types` - type utilities and base type definitions, depends on `constants` module for some symbol definitions
+- `runtime` - runtime utilities; depends on symbols from both `constants` and `types` modules
+- `inferred-type` - no real source code, this is just a consolidator of the other three modules to create the overall package which will be published to **npm** and **JSR**.
+
 ## The Preferred Path Alias Imports
 
 A vast majority of the import sources in this repo should come from one of these three:
@@ -27,6 +36,16 @@ This depth limit is in part because EVERY path alias must be explicitly enumerat
 
 **Note:** `runtime/*` path alias imports should never be used in tests.
 
+#### `types` module
+
+Just like the runtime module, the types module DOES allow for path aliases to points one level deep in the **types** module rather than pointing to the root with (`inferred-types/types`). For instance:
+
+- `types/boolean-logic`
+- `types/take`
+
+These are even less likely necessary and should be avoided unless absolutely necessary. They should NEVER be used beyond a depth of 2 directories and wherever they are used that alias must be explicitly added to the `deno.jsonc` file
+as explicit path aliases.
+
 ## Package Name Imports
 
 The package/module `inferred-types` (found in `/modules/inferred-types/src`) is the ONLY package that should use namespace imports such as `@inferred-types/types`, etc. In this one module that is what is expected but it should not be used elsewhere!
@@ -45,46 +64,160 @@ Each module's source code is organized in a set of nested folders and every nest
 
 should work in almost all cases. Each of these import sources is a defined path alias to the `index.ts` file in the root of the given module. These path aliases are defined both in each module's `tsconfig.json` file but also in the `deno.jsonc` file in the root of the monorepo.
 
-## Modules
+## Finding Problems
 
-Just as a quick reminder, the modules in this monorepo are:
+Running the `pnpm test:imports` script will send XML data to STDOUT enumerating the problems which were detected. These problems are broken down into categories:
 
-- `constants` - defines constants used by both the `runtime` and `types` modules
-- `types` - type utilities and base type definitions, depends on `constants` module for some symbol definitions
-- `runtime` - runtime utilities; depends on symbols from both `constants` and `types` modules
-- `inferred-type` - no real source code, this is just a consolidator of the other three modules to create the overall package which will be published to **npm** and **JSR**.
+1. `invalid-runtime-alias-depth`
 
-## Search Patterns
+    Detects all import statements which use the `runtime/*` path alias pattern but which are more than two directories deep.
 
-When auditing the repo for import rule violations, these ripgrep patterns are useful:
+2. `invalid-type-alias-depth`
 
-- Baseline imports/exports scan
-  - `rg -n "^import .* from ['\"][^'\"]+['\"];?$|^export .* from ['\"][^'\"]+['\"];?$" -S --glob '!node_modules' --glob '!**/*.map'`
+    Detects all import statements which use the `types/*` path alias pattern but which are more than two directories deep.
 
-- Relative imports (./ or ../)
-  - Entire repo: `rg -n "^import\\s+.*?from\\s+['\"][.]{1,2}/" --glob '!node_modules' --glob '!**/*.map'`
-  - Runtime only: `rg -n "^import\\s+.*?from\\s+['\"][.]{1,2}/" modules/runtime --no-heading`
-  - Types only: `rg -n "^import\\s+.*?from\\s+['\"][.]{1,2}/" modules/types --no-heading`
-  - Helpers: append `| cut -d: -f1 | sort -u` to dedupe, or `| wc -l` to count files
+3. `unspecified-path-alias`
 
-- Forbidden internal aliases (prefer `inferred-types/*` instead)
-  - Any `types/*`: `rg -n "['\"]types/[^'\"]+['\"]" --glob '!node_modules' --glob '!**/*.map'`
-  - Any `constants/*`: `rg -n "['\"]constants/[^'\"]+['\"]" --glob '!node_modules' --glob '!**/*.map'`
-  - In runtime specifically: `rg -n "^import\\s+.*?from\\s+['\"]types/" modules/runtime --no-heading`
+    Detects imports using `runtime/*` or `types/*` as sources where:
+    - the alias is 2 directory levels (aka, it's valid)
+    - but the explicit path is NOT referenced in the `deno.jsonc` file!
 
-- runtime/* alias checks (allowed only in runtime and only one-level deep)
-  - All runtime alias imports: `rg -n "['\"]runtime/[^'\"]+['\"]" --glob '!node_modules' --glob '!**/*.map'`
-  - Deep runtime imports (invalid): `rg -n "['\"]runtime/[^/'\"]+/[^'\"]+['\"]" --glob '!node_modules' --glob '!**/*.map'`
+4. `relative-path`
 
-- Forbidden `@inferred-types/*` usage (only allowed in the aggregator module)
-  - `rg -n "@inferred-types/" --glob '!node_modules' --glob '!**/*.map'`
+    Detects relative imports.
 
-- Tests using invalid sources
-  - Locate tests that import from `../`, `types/*`, `constants/*`, `runtime/*`, or `@inferred-types/*`:
-    - `rg -n "^import\\s+.*?from\\s+['\"](\.{1,2}/|types/|constants/|runtime/|@inferred-types/)" tests --no-heading`
+5. `forbidden-@-import`
 
-- Alias definitions (for reference)
-  - `sed -n '1,200p' deno.jsonc`
-  - `sed -n '1,200p' tsconfig.json`
+    Detects the use of a `@inferred-types/*` imports that is NOT in the "inferred-types" module.
 
-These patterns help quickly identify files that need to be refactored to use the preferred `inferred-types/*` aliases, keep `runtime/*` depth to one level inside the runtime module, avoid `@inferred-types/*` outside the aggregator, and eliminate relative imports.
+6. `forbidden-runtime-import`
+
+    Finds imports that use the `runtime/*` source structure but are NOT part of the **runtime** module.
+
+7. `missing-type-modifier`
+
+    Finds imports of `inferred-types/types` which **do not** use the `type` modifier:
+
+    ```ts
+    // wrong
+    import { Foo } from "inferred-types/types";
+    // correct
+    import type { Foo } from "inferred-types/types";
+    ```
+
+8. `multiple-imports-same-source`
+
+    Identifies all source files which have multiple imports of the same source.
+
+    ```ts
+    // wrong
+    import type { Foo } from "inferred-types/types";
+    import type { Bar } from "inferred-types/types";
+    // correct
+    import type { Foo, Bar } from "inferred-types/types";
+    ```
+
+### Schema
+
+The XML Schema which describes the output is as follows:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <!-- Simple types -->
+  <xs:simpleType name="SectionName">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="invalid-runtime-alias-depth"/>
+      <xs:enumeration value="invalid-type-alias-depth"/>
+      <xs:enumeration value="unspecified-path-alias"/>
+      <xs:enumeration value="relative-path"/>
+      <xs:enumeration value="forbidden-@-import"/>
+      <xs:enumeration value="forbidden-runtime-import"/>
+      <xs:enumeration value="forbidden-const-aliases"/>
+      <xs:enumeration value="missing-type-modifier"/>
+      <xs:enumeration value="multiple-imports-same-source"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="FilePath">
+    <!-- Keep lenient; you can tighten with a regex if you want -->
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="LineNumber">
+    <xs:restriction base="xs:positiveInteger"/>
+  </xs:simpleType>
+
+  <!-- Elements -->
+  <xs:element name="invalid-imports">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="section" type="Section"
+                    minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="Section">
+    <xs:sequence>
+      <xs:element name="file" type="File"
+                  minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="SectionName" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="File">
+    <xs:sequence>
+      <xs:element name="instance" type="Instance"
+                  minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="path" type="FilePath" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="Instance" mixed="true">
+    <!-- mixed=true allows the import line as text content -->
+    <xs:attribute name="line" type="LineNumber" use="required"/>
+    <!-- Optional: room for future metadata -->
+    <xs:attribute name="severity" use="optional">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="error"/>
+          <xs:enumeration value="warning"/>
+          <xs:enumeration value="info"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="href" type="xs:anyURI" use="optional"/>
+    <xs:attribute name="column" type="xs:positiveInteger" use="optional"/>
+    <xs:attribute name="endColumn" type="xs:positiveInteger" use="optional"/>
+  </xs:complexType>
+
+</xs:schema>
+```
+
+## Fixing Problems
+
+In the prior section we discussed using the `pnpm test:imports` command to _find_ the problems with imports in this monorepo but how should we FIX them? This section discusses the preferred approach:
+
+1. Run the `pnpm test:imports` script to get the diagnostics
+2. If there are any problems in the `missing-type-modifier`, `relative-path`, `forbidden-@-import`, `invalid-runtime-alias-depth` or `invalid-type-alias-depth` then immediately fix these as these types of errors always need to be fixed and the approach to fixing them is pretty straight forward:
+
+    - `missing-type-modifier` - add the "type" keyword to the import for all of the items in this section
+    - `relative-path` - replace a relative path import with a `inferred-types/*` based import
+    - `forbidden-@-import` - replace all `@inferred-types/*` with `inferred-types/*` imports
+    - `invalid-runtime-alias-depth` - reduce the depth to `runtime` and one directory (e.g., `runtime/datetime`, `runtime/lists`, etc.)
+    - `invalid-types-alias-depth` - reduce the depth to `types` and one directory (e.g., `types/errors`, `types/regex`, etc.)
+
+3. Build the project to make sure nothing has broken
+4. Ask the user whether they would like to add the missing path aliases found in the `unspecified-path-alias` section
+
+    - if they DO want to add them then just update the `deno.jsonc` in the "imports" section
+    - if they DON'T want to add them then update all the imports to use the appropriate `inferred-types/*` based import
+    - if you have a way of giving the user a choice between individual sources rather than "all of them" then that would be better but it is not required.
+
+5. Build the project to make sure nothing has broken

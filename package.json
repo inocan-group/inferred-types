@@ -46,6 +46,7 @@
     "scripts": {
         "nuke": "pnpm -r nuke",
         "test": "vitest run",
+        "test:imports": "scripts/invalid-imports.sh",
         "test:ci": "vitest run",
         "test:watch": "vitest",
         "test:ui": "vitest --ui",

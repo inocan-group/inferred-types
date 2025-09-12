@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { asFourDigitYear } from "inferred-types/runtime";
 import { AsFourDigitYear, Expect, Test } from "inferred-types/types";
-import { FourDigitYear } from "../../modules/types/dist";
+import { FourDigitYear } from "inferred-types/types";
 
 describe("FourDigitYear", () => {
     describe("AsFourDigitYear<T>", () => {

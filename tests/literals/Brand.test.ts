@@ -18,7 +18,7 @@ import {
     AsDateMeta,
     ParsedDate
 } from "inferred-types/types";
-import { UnbrandValues } from "types/literals/branding/UnbrandValues";
+import { UnbrandValues } from "inferred-types/types";
 
 
 describe("Brand & Unbrand", () => {

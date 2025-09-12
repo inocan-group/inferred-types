@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { asTwoDigitMonth } from "inferred-types/runtime";
 import { AsTwoDigitMonth, Expect, IsBranded, ParseDate, Test, TwoDigitMonth } from "inferred-types/types";
-import { TwoDigitDate } from "../../modules/types/dist";
+import { TwoDigitDate } from "inferred-types/types";
 
 describe("TwoDigitMonth", () => {
 
@@ -271,6 +271,5 @@ describe("TwoDigitMonth", () => {
         });
     });
 })
-
 
 

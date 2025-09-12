@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Expect, Find, Test } from "inferred-types/types";
 import { find, narrow } from "inferred-types/runtime";
-import { InputTokenSuggestions } from "../../modules/types/dist";
+import { InputTokenSuggestions } from "inferred-types/types";
 
 describe("Find<TList, 'equals', TValue, TIndex>", () => {
 

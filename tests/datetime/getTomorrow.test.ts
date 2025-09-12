@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { Test, Expect } from "inferred-types/types";
 import { getTomorrow } from "inferred-types/runtime";
-import { IsoDate } from "../../modules/types/dist";
+import { IsoDate } from "inferred-types/types";
 
 describe("getTomorrow() -> Iso8601Date", () => {
 

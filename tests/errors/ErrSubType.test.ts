@@ -5,7 +5,7 @@ import {
     Expect,
     Test,
 } from "inferred-types/types";
-import { ErrSubType } from "types/errors/ErrSubType";
+import { ErrSubType } from "inferred-types/types";
 
 describe("ErrSUbType<T>", () => {
 
