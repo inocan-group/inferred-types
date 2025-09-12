@@ -23,7 +23,7 @@ export function slice<
     length: TLen = undefined as TLen,
 ) {
     const sliced: readonly unknown[] = isNumber(length)
-        ? list.slice(start, length)
+        ? list.slice(start, start+length)
         : list.slice(start)
 
     return sliced as unknown as TLen extends number ? SliceArray<TList,TStart,TLen> : SliceArray<TList,TStart>

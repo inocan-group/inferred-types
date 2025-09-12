@@ -31,12 +31,12 @@ const ATOMIC_TYPES = [
  * `void`, `never`, `undefined`, `null`, `object`, `Object`, `symbol`, and `bigint`
  */
 export function it_takeAtomic<T extends string>(parseStr: T) {
-    const parse = trim(parseStr);
-    const take = takeStart(...ATOMIC_TYPES);
+    // const parse = trim(parseStr);
+    // const take = takeStart(...ATOMIC_TYPES);
 
-    const state = take(parse);
+    // const state = take(parse);
 
-    return last(state.parsed)
+    // return last(state.parsed)
 }
 
-const a = it_takeAtomic("string");
+

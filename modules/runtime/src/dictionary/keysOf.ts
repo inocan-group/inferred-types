@@ -1,8 +1,7 @@
 import type {
     As,
+    Dictionary,
     Keys,
-    Narrowable,
-    NarrowObject,
     ObjectKey,
 } from "inferred-types/types";
 import { isArray, isVueRef } from "inferred-types/runtime";
@@ -17,8 +16,7 @@ import { isArray, isVueRef } from "inferred-types/runtime";
  * on props like `__v_isRef`, etc.
  */
 export function keysOf<
-    TObj extends NarrowObject<N>,
-    N extends Narrowable
+    const TObj extends Dictionary
 >(
     container: TObj,
 ) {
@@ -30,5 +28,5 @@ export function keysOf<
                 : Object.keys(container)
     );
 
-    return keys as unknown as As<Keys<TObj>, Array<keyof TObj & ObjectKey>>;
+    return keys as As<Keys<TObj>, Array<keyof TObj & ObjectKey>>;
 }

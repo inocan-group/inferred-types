@@ -6,15 +6,15 @@ import type { Narrowable } from "src/literals";
  *
  * A function which has basic typing information.
  *
- * **Related:** `AnyFunction`
+ * **Related:** `TypedFunctionWithDictionary>`
  */
 export type TypedFunction<
     P extends readonly any[] = readonly any[],
-    R = unknown
+    R = any
 > = ((...args: P) => R);
 
 export type TypedFunctionWithDictionary<
     P extends readonly any[] = readonly any[],
-    R = any,
+    R = unknown,
     D extends Record<ObjectKey, Narrowable> = Record<ObjectKey, Narrowable>
 > = ((...args: P) => R) & D;

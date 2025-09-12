@@ -1,7 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { KeyOf, PublicKeyOf, Test } from "inferred-types/types";
+import { Dictionary, KeyOf, ObjectKey, PublicKeyOf, Test } from "inferred-types/types";
+import { keysOf } from "inferred-types/runtime";
 
 describe("KeyOf<T> and PublicKeyOf<T>", () => {
 
@@ -19,3 +20,53 @@ describe("KeyOf<T> and PublicKeyOf<T>", () => {
     });
 
 });
+
+
+describe("keysOf(obj)", () => {
+
+
+    it("happy path", () => {
+        const t1 = keysOf({foo: 1, bar: 2});
+
+        expect(t1).toEqual(["foo","bar"]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", ["foo","bar"]>>
+        ];
+    });
+
+
+    it("empty object", () => {
+        const t1 = keysOf({});
+
+        expect(t1).toEqual([]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", []>>
+        ];
+    });
+
+
+    it("deeply nested", () => {
+        const t1 = keysOf({foo: { bar: { baz: 1 } } });
+
+        expect(t1).toEqual(["foo"]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", ["foo"]>>
+        ];
+    });
+
+    it("wide object", () => {
+        const t1 = keysOf({foo: 1, bar: 2} as Dictionary);
+
+        expect(t1).toEqual(["foo","bar"]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", ObjectKey[]>>
+        ];
+    });
+
+
+
+})

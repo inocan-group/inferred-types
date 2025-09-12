@@ -90,6 +90,14 @@ type GetCallback<T extends TakeStartMatches> = T extends TakeStartMatches<"callb
     >
 : <S extends TakeState>(val: string, state: S) => S;
 
+type GetVariant<T extends TakeStartMatches> = T extends TakeStartMatches<"callback">
+? "callback"
+: T extends TakeStartMatches<"mapper">
+? "mapper"
+: T extends TakeStartMatches<"default">
+? "default"
+: "invalid";
+
 
 type GetToken<
     T extends string,
@@ -126,12 +134,18 @@ type GetToken<
     { config: M }
 >;
 
-type Cb = <M extends string, S extends TakeState>(val: M, state: S) => UpdateTake<S,M>;
-type T1 = GetMatches<[Cb, "foo", "bar"]>; // =>
-type T2 = GetMatch<T1, "foobar">; // =>
-type T3 = GetCallback<[Cb, "foo", "bar"]>; // =>
-type RT3 = ReturnType<T3>; // =>
-type T4 = GetToken<"foo", [Cb, "foo", "bar"]>; // =>
+/**
+ * **TakeStartFn**`(value) => TakeState | Error`
+ *
+ * A partial application of the `takeStart()` utility.
+ *
+ * - the match configuration is complete,
+ * - ready for passing in values to start parsing
+ */
+export type TakeStartFn<T extends TakeStartMatches> = (
+    <U extends string | TakeState>(value: U) => TakeStart<T,U>
+) & { variant: GetVariant<T>; matches: GetMatches<T> }
+
 
 /**
  * **TakeStart**`<TMatch, TContent>`

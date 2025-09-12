@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
-    AsTakeState,
     Expect,
     TakeStart,
+    TakeStartFn,
     TakeState,
     Test,
     UpdateTake,
@@ -45,7 +45,6 @@ describe("TakeStart<TMatch, TContent>", () => {
     it("with callback", () => {
         type Cb = <M extends string, S extends TakeState>(val: M, state: S) => UpdateTake<S,M,Capitalize<M>>;
 
-        type InitialState = AsTakeState<"foobar">;
         type T1 = TakeStart<[Cb, "foo", "bar"], "foobar">; // =>
         type T2 = TakeStart<[Cb, "foo", "bar"], T1>;
 
@@ -67,32 +66,77 @@ describe("TakeStart<TMatch, TContent>", () => {
 
 describe("takeStart(...matches)(content)", () => {
 
-    it("happy path", () => {
-        const content = "foobar forever";
-        const take1 = takeStart("foo","bar")(content);
+    describe("default variant", () => {
+        it("happy path", () => {
+            const content = "foobar forever";
+            // partial application of HOF
+            const partial = takeStart("foo","bar");
+            expect(partial.variant).toBe("default")
 
-        expect(take1).toBe({
-            kind: "TakeState",
-            parsed: ["foo"],
-            parseString: "bar forever",
-            tokens: ["foo"]
+            const take1 = takeStart("foo","bar")(content);
+
+            expect(take1).toBe({
+                kind: "TakeState",
+                parsed: ["foo"],
+                parseString: "bar forever",
+                tokens: ["foo"]
+            });
+
+            const take2 = takeStart("foo","bar")(take1);
+
+            expect(take2).toBe({
+                kind: "TakeState",
+                parsed: ["foo","bar"],
+                parseString: " forever",
+                tokens: ["foo","bar"]
+            })
+
+            type cases = [
+                Expect<Test<typeof partial, "equals", TakeStartFn<["foo","bar"]>>>,
+
+                Expect<Test<typeof take1, "extends", TakeState>>,
+                Expect<Test<typeof take1["parsed"], "equals", ["foo"]>>,
+                Expect<Test<typeof take2["parsed"], "equals", ["foo", "bar"]>>,
+                Expect<Test<typeof take2["parseString"], "equals", " forever">>,
+            ];
+        });
+    })
+
+    describe("mapper variant", () => {
+
+        it("happy path", () => {
+            const content = "foobar forever";
+            const take1 = takeStart({foo: "foey", bar: "barred"})(content);
+
+            expect(take1).toEqual({
+                kind: "TakeState",
+                parsed: ["foo"],
+                parseString: "bar forever",
+                tokens: ["foo"]
+            });
+
+            const take2 = takeStart("foo","bar")(take1);
+
+            expect(take2).toBe({
+                kind: "TakeState",
+                parsed: ["foo","bar"],
+                parseString: " forever",
+                tokens: ["foo","bar"]
+            })
+
+            type cases = [
+                Expect<Test<typeof take1, "extends", TakeState>>,
+                Expect<Test<typeof take2, "extends", TakeState>>,
+
+                Expect<Test<typeof take1["parsed"], "equals", ["foo"]>>,
+                Expect<Test<typeof take2["parsed"], "equals", ["foo", "bar"]>>,
+
+                Expect<Test<typeof take2["parsed"], "equals", ["foo", "bar"]>>,
+                Expect<Test<typeof take2["parseString"], "equals", " forever">>,
+            ];
         });
 
-        const take2 = takeStart("foo","bar")(take1);
+    })
 
-        expect(take2).toBe({
-            kind: "TakeState",
-            parsed: ["foo","bar"],
-            parseString: " forever",
-            tokens: ["foo","bar"]
-        })
-
-        type cases = [
-            Expect<Test<typeof take1, "extends", TakeState>>,
-            Expect<Test<typeof take1["parsed"], "equals", ["foo"]>>,
-            Expect<Test<typeof take2["parsed"], "equals", ["foo", "bar"]>>,
-            Expect<Test<typeof take2["parseString"], "equals", " forever">>,
-        ];
-    });
 
 })
