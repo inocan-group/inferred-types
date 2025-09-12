@@ -3,8 +3,9 @@ import {
     Expect,
     IT_TakeAtomic,
     Test,
+    IT_Token
 } from "inferred-types/types";
-import { IT_Token } from "types/runtime-types/type-defn/input-tokens/IT_Base";
+
 
 describe("IT_TakeAtomic<T>", () => {
 

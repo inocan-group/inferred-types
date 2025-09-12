@@ -6,8 +6,8 @@ import {
     IT_Token,
     GetInputToken,
     IT_TakeGroup,
+    IT_TakeFunction
 } from "inferred-types/types";
-import { IT_TakeFunction } from "types/runtime-types/type-defn/input-tokens/IT_TakeFunction";
 
 describe("IT_TakeFunction<T>", () => {
 

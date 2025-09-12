@@ -2,6 +2,7 @@ import { describe, it } from "vitest";
 import {
     Contains,
     Expect,
+    GetInputToken,
     IT_TakeGroup,
     Test,
 } from "inferred-types/types";
@@ -22,8 +23,6 @@ describe("IT_TakeGroup<T>", () => {
     });
 
 
-
-
     it("incomplete group results in error", () => {
         type E = IT_TakeGroup<`(123`>;
 
@@ -33,8 +32,6 @@ describe("IT_TakeGroup<T>", () => {
             Expect<Contains<E["message"], `terminating ')' character`>>
         ];
     });
-
-
 
     it("fn in group with leftover content to parse", () => {
         type FnWithProps = IT_TakeGroup<"((name: string) => string) & { foo: 1; bar: 2 }">;

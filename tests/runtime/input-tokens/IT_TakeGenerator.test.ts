@@ -5,8 +5,8 @@ import {
   IT_Token,
   GetInputToken,
   IT_TakeGroup,
+  IT_TakeGenerator
 } from "inferred-types/types";
-import { IT_TakeGenerator } from "types/runtime-types/type-defn/input-tokens/IT_TakeGenerator";
 
 describe("IT_TakeGenerator<T>", () => {
   describe("named generators", () => {
