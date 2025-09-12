@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
 import type { DoesExtend, Expect, Test } from "inferred-types/types";
+import {
     narrow,
     optional,
     isArray,

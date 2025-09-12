@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
 import type { Expect, Get, Test } from "inferred-types/types";
+import {
     defineObject,
     get,
 } from "inferred-types/runtime";

@@ -1,5 +1,5 @@
-import {
 import type { Acceleration, AccelerationUom, Expect, Extends, Metric, Speed, SpeedUom, Test, Uom } from "inferred-types/types";
+import {
     isMetricCategory,
     isSpeedMetric,
     isSpeedUom,

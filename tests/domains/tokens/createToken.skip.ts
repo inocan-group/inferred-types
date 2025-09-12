@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
 import type { DynamicToken, DynamicTokenApi, Expect, StaticToken, StaticTokenApi, Test, Token } from "inferred-types/types";
+import {
     isNull,
     createToken,
     isUndefined,

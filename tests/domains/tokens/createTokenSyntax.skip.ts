@@ -1,5 +1,5 @@
-import {
 import type { Expect, Extends, Test, TokenSyntax } from "inferred-types/types";
+import {
     asUnion,
     createToken,
     createTokenSyntax,

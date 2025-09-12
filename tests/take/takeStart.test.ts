@@ -98,7 +98,7 @@ describe("takeStart(...matches)(content)", () => {
             const content = "foobar forever";
             const take1 = takeStart({foo: "foey", bar: "barred"})(content);
 
-            expect(take1).toEqual({
+            expect(take1).toStrictEqual({
                 kind: "TakeState",
                 parsed: ["foo"],
                 parseString: "bar forever",
@@ -107,7 +107,7 @@ describe("takeStart(...matches)(content)", () => {
 
             const take2 = takeStart("foo","bar")(take1);
 
-            expect(take2).toBe({
+            expect(take2).toStrictEqual({
                 kind: "TakeState",
                 parsed: ["foo","bar"],
                 parseString: " forever",

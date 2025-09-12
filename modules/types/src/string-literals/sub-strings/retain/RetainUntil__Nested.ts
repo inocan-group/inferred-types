@@ -73,23 +73,23 @@ type FindLast<
                         TFind,
                         TNesting,
                         TInclude,
-        `${TRtn}${First<TChars>}`,
-        // when we have start chars but no end chars
-        // we can only have a stack depth of 1 (as max)
-        And<[
-            IsNestingTuple<TNesting>,
-            IsGreaterThan<TStack["length"], 0>
-        ]> extends true
-            ? TStack
-            : [...TStack, First<TChars>]
+                        `${TRtn}${First<TChars>}`,
+                        // when we have start chars but no end chars
+                        // we can only have a stack depth of 1 (as max)
+                        And<[
+                            IsNestingTuple<TNesting>,
+                            IsGreaterThan<TStack["length"], 0>
+                        ]> extends true
+                            ? TStack
+                            : [...TStack, First<TChars>]
                     >
                     : FindLast<
                         AfterFirst<TChars>,
                         TFind,
                         TNesting,
                         TInclude,
-        `${TRtn}${First<TChars>}`,
-        TStack
+                        `${TRtn}${First<TChars>}`,
+                        TStack
                     >;
 
 /**

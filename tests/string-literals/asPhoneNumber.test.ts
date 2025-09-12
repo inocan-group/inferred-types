@@ -1,5 +1,5 @@
-import {
 import type { Expect, GetPhoneCountryCode, GetPhoneNumberType, RemovePhoneCountryCode, Test } from "inferred-types/types";
+import {
     getPhoneCountryCode,
     removePhoneCountryCode
 } from "inferred-types/runtime";
