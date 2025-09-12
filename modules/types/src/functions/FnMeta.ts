@@ -1,4 +1,5 @@
 import type {
+    Dictionary,
     FnKeyValue,
     FnReturn,
     IsNarrowingFn,
@@ -39,3 +40,13 @@ export type FnMeta<
         ? "narrowing"
         : Parameters<TFn>["length"] extends 0 ? "identity" : "static";
 };
+
+export type FnMetaShape = {
+    fn: TypedFunction;
+    params: readonly unknown[];
+    returns: unknown;
+    props: Dictionary;
+    hasProps: boolean;
+    hasParams: boolean;
+    kind: "narrowing" | "identity" | "static"
+}

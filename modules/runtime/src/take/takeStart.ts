@@ -1,5 +1,15 @@
-import { TakeStart, TakeState,  StartsWith, TakeStartMatches, TakeStartCallback, BeforeLast, Pop } from 'inferred-types/types';
-import { stripLeading, asTakeState, isArray, pop } from 'inferred-types/runtime';
+import { TakeStart, TakeState,  StartsWith, TakeStartMatches, TakeStartCallback, BeforeLast, Pop, Expand, TakeStartMatchesKind, Dictionary, StringKeys, Slice, Err } from 'inferred-types/types';
+import {
+    stripLeading,
+    asTakeState,
+    isArray,
+    slice,
+    isStringArray,
+    keysOf,
+    isNarrowableDictionary,
+    isErr
+} from 'inferred-types/runtime';
+import { Never } from 'constants/Never';
 
 type Which<
     T extends TakeState,
@@ -23,29 +33,68 @@ function findMatch<
     return matches.find(i => state.parseString.startsWith(i)) as Which<T,M>
 }
 
-function isCallback(val: unknown): val is [TakeStartCallback, string, ...readonly string[]] {
+function isCallback(val: unknown): val is TakeStartMatches<"callback"> {
     return isArray(val) && val.length > 2 && typeof val[0] === "function" && typeof val[1] === "string"
 }
 
-type Variant = {
-    variant: "callback" | "mapper" | "default";
-    callback: TakeStartCallback | undefined;
-    matches: readonly string[]
+function isMapper(val: unknown): val is TakeStartMatches<"mapper"> {
+    return isNarrowableDictionary(val) && isStringArray(keysOf(val));
 }
 
-function variant<T extends TakeStartMatches>(matches: T) {
+
+
+type GetVariant<T extends TakeStartMatches> = T extends TakeStartMatches<"callback">
+? {
+    variant: "callback";
+    callback: T[0];
+    matches: Slice<T,1>;
+    lookup: undefined;
+}
+: T extends TakeStartMatches<"mapper">
+? {
+    variant: "mapper";
+    callback: undefined;
+    matches: StringKeys<T>;
+    lookup: T;
+}
+: T extends TakeStartMatches<"default">
+? {
+    variant: "default";
+    callback: undefined;
+    matches: T;
+    lookup: undefined
+}
+: never;
+
+
+
+function getVariant<const T extends TakeStartMatches>(matches: T): GetVariant<T> {
     if(isCallback(matches)) {
-        const [m, callback] = pop(matches);
         return {
             variant: "callback",
             callback: matches[0],
-            matches: m
-        } satisfies Variant;
+            matches: slice(matches,1),
+            lookup: undefined
+        } as unknown as GetVariant<T>
     } else if (isMapper(matches)) {
-
+        return {
+            variant: "mapper",
+            callback: undefined,
+            matches: keysOf(matches),
+            lookup: matches
+        } as unknown as GetVariant<T>
     } else {
-
+        return {
+            variant: "default",
+            callback: undefined,
+            matches,
+            lookup: undefined
+        } as unknown as GetVariant<T>
     }
+}
+
+function handleCallback<T extends TakeState | Err<"skip"> | Err<"no-token"> | Err<"invalid-token">>(result: T) {
+
 }
 
 
@@ -115,18 +164,36 @@ function variant<T extends TakeStartMatches>(matches: T) {
  * and because of this this function is able to handle non-matches by itself. If you want an
  * unconstrained set of start tokens then use the `take()` utility to create this yourself.
  */
-export function takeStart<T extends readonly string[]>(...matches: T) {
+export function takeStart<T extends TakeStartMatches>(...config: T) {
     return <U extends string | TakeState>(value: U): TakeStart<T,U> => {
         const state = asTakeState(value);
+        const { variant, matches, callback, lookup } = getVariant(config);
+
         const match = findMatch(state, matches);
+        const token = match !== undefined
+            ? variant === "default"
+                ? match
+                : variant === "mapper"
+                ? lookup[match]
+                : variant === "callback"
+                ? handleCallback(callback(state.parseString, state))
+                : Never
+            : undefined;
+
+        if (isErr(token, "invalid-token")) {
+            return token as unknown as TakeStart<T,U>
+        }
 
         return (
-            match
+            match && (
+                variant !== "callback" ||
+                !isErr(token, "skip")
+            )
             ? {
                 kind: "TakeState",
                 parsed: [...state["parsed"], match],
                 parseString: stripLeading(state.parseString, match),
-                tokens: [...state["tokens"], match]
+                tokens: [...state["tokens"], token]
             }
             : state
         ) as unknown as TakeStart<T,U>

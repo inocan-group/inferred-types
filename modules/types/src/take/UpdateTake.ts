@@ -1,32 +1,22 @@
-import { ErrContext, StripLeading, TakeState } from "inferred-types/types";
+import { As, ErrContext, StripLeading, TakeState } from "inferred-types/types";
 
 /**
- * **UpdateTake**`<T, U>`
+ * **UpdateTake**`<TState, TParsed, [TToken]>`
  *
- * Updates an existing **Take** state `T` with the content found in `U`.
+ * Updates an existing **TakeState** `TState` by:
  *
- * - `U` is the return type of the `TakeParser` function
+ * - the `TParsed` generic must always be a _string_ and will represent the "parsed" value
+ *   as well as the substring which will be removed from the `parseString` property
+ * - the `TToken` generic -- when set -- will be what is added to the `tokens` property
+ *    - when `TToken` is not set it's value is set to `TToken`
  */
 export type UpdateTake<
-    T extends TakeState | Error,
-    U extends [ null, Error ] | [ taken: string, parsed: readonly unknown[] ]
-> = T extends Error
-    ? T
-: T extends TakeState
-    ? U extends [
-        infer _Taken extends null,
-        infer Token extends Error
-    ]
-        ? ErrContext<Token, { parsed: T["parsed"]; parseString: T["parseString"]; tokens: T["tokens"] }>
-    : U extends [
-        infer Taken extends string,
-        infer Token
-    ]
-        ? {
-            kind: "Take";
-            parsed: [...T["parsed"], Taken];
-            parseString: StripLeading<T["parseString"], Taken>;
-            tokens: [...T["tokens"], Token];
-        }
-: never
-: never;
+    TState extends TakeState,
+    TParsed extends string,
+    TToken = TParsed
+> = As<{
+    kind: "TakeState";
+    parsed: [...TState["parsed"], TParsed];
+    parseString: StripLeading<TState["parseString"], TParsed>;
+    tokens: [...TState["tokens"], TToken];
+}, TakeState>

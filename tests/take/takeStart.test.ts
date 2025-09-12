@@ -5,13 +5,14 @@ import {
     TakeStart,
     TakeState,
     Test,
+    UpdateTake,
 } from "inferred-types/types";
-import { takeStart } from "runtime/take/takeStart";
+import { takeStart } from "inferred-types/runtime";
 
 
 describe("TakeStart<TMatch, TContent>", () => {
 
-    it("happy path", () => {
+    it("with default matcher pattern", () => {
         type T1 = TakeStart<["foo","bar"], "foobar">;
         type T2 = TakeStart<["foo","bar"], T1>;
 
@@ -23,6 +24,41 @@ describe("TakeStart<TMatch, TContent>", () => {
             Expect<Test<T2, "extends", TakeState>>,
             Expect<Test<T2["parsed"], "equals", ["foo","bar"]>>,
             Expect<Test<T2["parseString"], "equals", "">>
+        ];
+    });
+
+
+    it("with mapper", () => {
+        type T1 = TakeStart<[{foo: "foey", bar: "barred"}], "foobar">; // =>
+        type T2 = TakeStart<[{foo: "foey", bar: "barred"}], T1>;
+
+        type cases = [
+            Expect<Test<T1, "extends", TakeState>>,
+            Expect<Test<T2, "extends", TakeState>>,
+
+            Expect<Test<T1["tokens"], "equals", ["foey"]>>,
+            Expect<Test<T2["tokens"], "equals", ["foey", "barred"]>>,
+        ];
+    });
+
+
+    it("with callback", () => {
+        type Cb = <M extends string, S extends TakeState>(val: M, state: S) => UpdateTake<S,M,Capitalize<M>>;
+
+        type InitialState = AsTakeState<"foobar">;
+        type T1 = TakeStart<[Cb, "foo", "bar"], "foobar">; // =>
+        type T2 = TakeStart<[Cb, "foo", "bar"], T1>;
+
+        type cases = [
+            Expect<Test<T1, "extends", TakeState>>,
+            Expect<Test<T2, "extends", TakeState>>,
+
+            Expect<Test<T1["parsed"], "equals", ["foo"]>>,
+            Expect<Test<T2["parsed"], "equals", ["foo","bar"]>>,
+
+            // TODO: need to see if there's a way to do this with a callback
+            // Expect<Test<T1["tokens"], "equals", ["Foo"]>>,
+            // Expect<Test<T2["tokens"], "equals", ["Foo","Bar"]>>,
         ];
     });
 

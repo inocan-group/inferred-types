@@ -11,9 +11,9 @@ import { BeforeLast, Last } from "inferred-types/types";
  *
  * All attempts are made to keep the types literals.
  */
-export function pop<T extends readonly unknown[]>(list: T): [ Last<T>, BeforeLast<T>] {
+export function pop<T extends readonly unknown[]>(list: T): [ BeforeLast<T>, Last<T> ] {
     const before = [...list];
     const last = before.pop();
 
-    return [before, last] as [ Last<T>, BeforeLast<T>]
+    return [before, last] as [ BeforeLast<T>, Last<T> ]
 }
