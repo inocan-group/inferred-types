@@ -1,5 +1,5 @@
 import type { Opt } from "inferred-types/types";
-import type { CssSizingLight } from "types/string-literals/character-sets/css";
+import type { CssSizingLight } from "inferred-types/types";
 
 export type CssPadding = CssSizingLight
     | `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;

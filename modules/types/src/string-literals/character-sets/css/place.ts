@@ -6,7 +6,7 @@ import type {
     CssJustifyContent,
     CssJustifyItems,
     CssJustifySelf
-} from "types/string-literals/character-sets/css";
+} from "inferred-types/types";
 
 export type CssPlaceContent = `${CssAlignContent} ${CssJustifyContent}`
     | CssAlignContent

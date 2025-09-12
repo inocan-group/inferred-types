@@ -1,5 +1,5 @@
 import type { And, IsUnion, UnionToTuple } from "inferred-types/types";
-import type { IsWideType } from "types/boolean-logic/operators/literal/IsWideType";
+import type { IsWideType } from "inferred-types/types";
 
 type Check<
     T extends readonly unknown[]

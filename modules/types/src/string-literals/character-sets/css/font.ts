@@ -1,5 +1,5 @@
 import type { Opt } from "inferred-types/types";
-import type { CssGlobal, CssRotation, CssSizing, CssSizingLight } from "types/string-literals/character-sets/css";
+import type { CssGlobal, CssRotation, CssSizing, CssSizingLight } from "inferred-types/types";
 
 export type CssFontFamily
     = | `"${string}"`

@@ -3,7 +3,7 @@ import type {
     CssGlobal,
     CssRotation,
     CssSizingLight
-} from "types/string-literals/character-sets/css";
+} from "inferred-types/types";
 
 export type CssTransform
     = | `matrix(${number}${Opt<`, ${number}${string}`>})`

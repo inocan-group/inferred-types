@@ -1,4 +1,4 @@
-import type { CssGlobal, CssSizing } from "types/string-literals/character-sets/css";
+import type { CssGlobal, CssSizing } from "inferred-types/types";
 
 type Overflow
     = | "visible"

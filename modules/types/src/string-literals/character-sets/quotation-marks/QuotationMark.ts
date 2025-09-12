@@ -1,9 +1,8 @@
 import type {
-
     SmartMark,
     SmartMarkPlus,
     StandardMark
-} from "types/string-literals/character-sets/quotation-marks";
+} from "inferred-types/types";
 
 /**
  * **QuotationMark**

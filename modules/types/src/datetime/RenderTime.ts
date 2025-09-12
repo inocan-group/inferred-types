@@ -1,5 +1,5 @@
 import type { As } from "types/boolean-logic";
-import type { ThreeDigitMillisecond, TimezoneOffset, TwoDigitHour, TwoDigitMinute, TwoDigitSecond } from "types/datetime/general";
+import type { ThreeDigitMillisecond, TimezoneOffset, TwoDigitHour, TwoDigitMinute, TwoDigitSecond } from "inferred-types/types";
 import type { Err } from "types/errors";
 
 /**

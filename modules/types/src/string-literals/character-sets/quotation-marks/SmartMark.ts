@@ -1,4 +1,4 @@
-import type { FullWidthQuotation, LeftDoubleMark, LeftHeavyDoubleTurned, LeftHeavySingleTurned, LeftReversedDoublePrime, LeftSingleMark, RightDoubleMark, RightHeavyDoubleTurned, RightHeavySingleTurned, RightReversedDoublePrime, RightSingleMark } from "types/string-literals/character-sets/quotation-marks/individual-smart-marks";
+import type { FullWidthQuotation, LeftDoubleMark, LeftHeavyDoubleTurned, LeftHeavySingleTurned, LeftReversedDoublePrime, LeftSingleMark, RightDoubleMark, RightHeavyDoubleTurned, RightHeavySingleTurned, RightReversedDoublePrime, RightSingleMark } from "inferred-types/types";
 
 /**
  * **SmartMark**

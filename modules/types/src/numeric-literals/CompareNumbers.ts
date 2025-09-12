@@ -1,5 +1,5 @@
-import type { NumberLike } from "types/numeric-literals/NumberLike";
-import type { AsNumber } from "types/type-conversion";
+import type { NumberLike } from "inferred-types/types";
+import type { AsNumber } from "inferred-types/types";
 
 // Fast lookup for common single-digit comparisons
 type SimpleCompareMap = {

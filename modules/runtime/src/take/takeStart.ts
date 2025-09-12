@@ -1,4 +1,4 @@
-import {
+import type {
     TakeStart,
     TakeState,
     StartsWith,
@@ -23,7 +23,7 @@ import {
     isStringArray,
     isNarrowableDictionary
 } from 'runtime/type-guards';
-import { TypedFunction } from 'inferred-types/types';
+import type { TypedFunction } from 'inferred-types/types';
 
 type Which<
     T extends TakeState,
@@ -222,4 +222,3 @@ export function takeStart<T extends TakeStartMatches>(...config: T): TakeStartFn
 
     return result;
 }
-

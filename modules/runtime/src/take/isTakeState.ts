@@ -1,4 +1,4 @@
-import { InputToken, TakeState } from "inferred-types/types";
+import type { InputToken, TakeState } from "inferred-types/types";
 import { isArray, isDefined, isObject } from "runtime/type-guards";
 
 /**

@@ -1,6 +1,6 @@
 import type { If, IsFalse, IsTrue } from "inferred-types/types";
 import { isDefined, isFalse, isTrue } from "inferred-types/runtime";
-import { addToken } from "./addToken";
+import { addToken } from "runtime/runtime-types";
 
 export function boolean<L extends boolean>(literal?: L) {
     return (

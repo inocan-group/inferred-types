@@ -1,6 +1,6 @@
 import type { Contains } from "inferred-types/types";
 import type { StringKeys } from "types/dictionary";
-import type { TemplateMap__Basic } from "types/interpolation/template-maps";
+import type { TemplateMap__Basic } from "inferred-types/types";
 import type { DefineObject } from "types/runtime-types";
 
 type Curly<

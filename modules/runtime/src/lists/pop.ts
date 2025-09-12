@@ -1,4 +1,4 @@
-import { BeforeLast, Last } from "inferred-types/types";
+import type { BeforeLast, Last } from "inferred-types/types";
 
 
 /**

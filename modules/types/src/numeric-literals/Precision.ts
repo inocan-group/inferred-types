@@ -1,6 +1,4 @@
-import type { Contains } from "types/boolean-logic";
-import type { NumberLike } from "types/numeric-literals/NumberLike";
-import type { RetainAfter, StrLen } from "types/string-literals";
+import type { Contains, NumberLike, RetainAfter, StrLen } from "inferred-types/types";
 
 /**
  * Provides the number of digits _to the right of_ of the decimal

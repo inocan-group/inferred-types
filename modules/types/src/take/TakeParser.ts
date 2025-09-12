@@ -1,4 +1,4 @@
-import { TakeState } from "inferred-types/types";
+import type { TakeState } from "inferred-types/types";
 
 /**
  * **TakeParser**

@@ -1,4 +1,4 @@
-import type { CssGlobal } from "types/string-literals/character-sets/css";
+import type { CssGlobal } from "inferred-types/types";
 
 export type CssJustifyContent = "center"
     | "start"

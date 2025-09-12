@@ -22,6 +22,7 @@ export * from "./isEmail";
 export * from "./isEmpty";
 export * from "./isError";
 export * from "./isErr";
+export * from "./isOk";
 export * from "./isEven";
 export * from "./isFalse";
 export * from "./isFalsy";
@@ -78,4 +79,3 @@ export * from "./tokens/index";
 export * from "./tw/index";
 export * from "./urls/index";
 export * from "./vue/index";
-

@@ -1,5 +1,5 @@
 import { asTakeState, isError, isNull, stripLeading } from "inferred-types/runtime";
-import { AsTakeState, TakeState, TakeParser, UpdateTake } from "inferred-types/types";
+import type { AsTakeState, TakeState, TakeParser, UpdateTake } from "inferred-types/types";
 
 
 
@@ -48,6 +48,5 @@ export function take<TParse extends TakeParser>(parser: TParse) {
     }
 
 }
-
 
 

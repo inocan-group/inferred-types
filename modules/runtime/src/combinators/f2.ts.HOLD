@@ -1,6 +1,6 @@
-import { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "inferred-types/types";
-import { AsArray } from "inferred-types/types";
-import { withoutValue } from "inferred-types/types";
+import type { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "inferred-types/types";
+import type { AsArray } from "inferred-types/types";
+import type { withoutValue } from "inferred-types/types";
 
 /** ways in which an "undefined" value should be handled in a filter function */
 export type FilterUndefinedBehavior = "filter out" | "throw error" | "do not allow";
@@ -238,4 +238,3 @@ const apiDefn = <TConfig extends FilterConfig>(config: TConfig) => <TExclude ext
 
   return api as FilterApi<TExclude, TConfig>;
 };
-

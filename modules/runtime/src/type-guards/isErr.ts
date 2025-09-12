@@ -1,6 +1,6 @@
-import { Err } from "inferred-types/types";
+import type { Err } from "inferred-types/types";
 import { retainUntil, stripUntil } from "runtime/string-literals";
-import { isError } from "runtime/type-guards/isError";
+import { isError } from "runtime/type-guards";
 
 /**
  * **IsErr**`<T,[U]>`

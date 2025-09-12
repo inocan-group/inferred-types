@@ -1,6 +1,6 @@
 import { Never } from "inferred-types/constants";
 import { isString, isTakeState } from "inferred-types/runtime";
-import { AsTakeState, TakeState } from "inferred-types/types";
+import type { AsTakeState, TakeState } from "inferred-types/types";
 
 
 

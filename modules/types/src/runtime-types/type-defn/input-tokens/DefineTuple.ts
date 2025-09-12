@@ -1,4 +1,4 @@
-import type { InputToken } from "types/runtime-types/type-defn/input-tokens/InputToken";
+import type { InputToken } from "inferred-types/types";
 
 /**
  * A tuple who's elements are all `InputToken`'s

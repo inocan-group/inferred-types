@@ -1,4 +1,4 @@
-import type { IsLeapYear } from "types/boolean-logic/operators/datetime";
+import type { IsLeapYear } from "inferred-types/types";
 import type { AsDateMeta, DateMeta, ParseDate, ParsedDate } from "types/datetime";
 import type { Err, TypedError } from "types/errors";
 import type {

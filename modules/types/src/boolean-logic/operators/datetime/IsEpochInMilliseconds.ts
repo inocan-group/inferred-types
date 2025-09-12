@@ -1,4 +1,4 @@
-import type { IsGreaterThanOrEqual, IsInteger } from "types/boolean-logic/operators";
+import type { IsGreaterThanOrEqual, IsInteger } from "inferred-types/types";
 
 /** the epoch timestamp (in seconds) for the date 2500-01-01 */
 type _Epoch_2500 = 16725225600;

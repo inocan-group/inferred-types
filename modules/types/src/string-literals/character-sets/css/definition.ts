@@ -55,7 +55,7 @@ import type {
     CssWhiteSpaceCollapse,
     CssWordBreak,
     CssWritingMode
-} from "types/string-literals/character-sets/css";
+} from "inferred-types/types";
 
 /**
  * **CssDefinition**

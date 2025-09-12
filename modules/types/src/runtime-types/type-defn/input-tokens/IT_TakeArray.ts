@@ -1,5 +1,5 @@
 import type { Err, ErrType, GetInputToken, Join, NestedSplit, Trim } from "inferred-types/types";
-import type { IT_Token } from "types/runtime-types/type-defn/input-tokens/IT_Base";
+import type { IT_Token } from "inferred-types/types";
 
 /**
  * matches on tokens like `string[]`, `number[]`, etc.

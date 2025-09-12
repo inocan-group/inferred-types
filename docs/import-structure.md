@@ -210,14 +210,18 @@ In the prior section we discussed using the `pnpm test:imports` command to _find
     - `missing-type-modifier` - add the "type" keyword to the import for all of the items in this section
     - `relative-path` - replace a relative path import with a `inferred-types/*` based import
     - `forbidden-@-import` - replace all `@inferred-types/*` with `inferred-types/*` imports
+    - `multiple-imports-same-source` - reduce all raised examples to a single import; the one exception to this rule would be if one import imports _types_ and the other imports _runtime_ symbols but this would only happen in the runtime module if at all.
     - `invalid-runtime-alias-depth` - reduce the depth to `runtime` and one directory (e.g., `runtime/datetime`, `runtime/lists`, etc.)
     - `invalid-types-alias-depth` - reduce the depth to `types` and one directory (e.g., `types/errors`, `types/regex`, etc.)
+3. Build the project (`pnpm build`) to make sure nothing has broken
+4. Re-run the `pnpm test:imports` scripts as solving problems like alias-depth can lead to new problems like `multiple-imports-same-source`, etc.
 
-3. Build the project to make sure nothing has broken
-4. Ask the user whether they would like to add the missing path aliases found in the `unspecified-path-alias` section
+   - make sure that all items found in the categories above (e.g., `missing-type-modifier`, `relative-path`, `forbidden-@-import`, `multiple-imports-same-source`, `invalid-runtime-alias-depth`, `invalid-types-alias-depth`)
+
+5. Ask the user whether they would like to add the missing path aliases found in the `unspecified-path-alias` section
 
     - if they DO want to add them then just update the `deno.jsonc` in the "imports" section
     - if they DON'T want to add them then update all the imports to use the appropriate `inferred-types/*` based import
     - if you have a way of giving the user a choice between individual sources rather than "all of them" then that would be better but it is not required.
 
-5. Build the project to make sure nothing has broken
+6. Build the project (`pnpm build`) to make sure nothing has broken

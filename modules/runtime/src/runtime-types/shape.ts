@@ -16,11 +16,16 @@ import {
     boolean,
     nullType,
     undefinedType,
-    unknown
-} from "./shape-helpers/atomics";
-import { fn } from "./shape-helpers/functions";
-import { dictionary, tuple } from "./shape-helpers/literal-containers";
-import { array, map, record, set, weakMap } from "./shape-helpers/wide-containers";
+    unknown,
+    fn,
+    dictionary,
+    tuple,
+    array,
+    map,
+    record,
+    set,
+    weakMap
+} from "runtime/runtime-types";
 
 function isAddOrDone<T>(val: T): val is ShapeTupleOrUnion & T {
     return isDictionary(val) && hasKeys("add", "done") && typeof val.done === "function" && typeof val.add === "function";

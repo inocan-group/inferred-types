@@ -1,4 +1,4 @@
-import { As, ErrContext, StripLeading, TakeState } from "inferred-types/types";
+import type { As, ErrContext, StripLeading, TakeState } from "inferred-types/types";
 
 /**
  * **UpdateTake**`<TState, TParsed, [TToken]>`

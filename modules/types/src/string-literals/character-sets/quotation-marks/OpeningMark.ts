@@ -7,7 +7,7 @@ import type {
     LeftReversedDoublePrime,
     LeftSingleMark,
     SingleQuote
-} from "types/string-literals/character-sets/quotation-marks";
+} from "inferred-types/types";
 
 /**
  * **OpeningMark**

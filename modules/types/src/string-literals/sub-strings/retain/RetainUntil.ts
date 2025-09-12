@@ -1,4 +1,4 @@
-import { As } from "inferred-types/types";
+import type { As } from "inferred-types/types";
 
 /**
  * Optimized string-based processing without array conversion

@@ -1,8 +1,8 @@
 import type { IsNegativeNumber } from "types/boolean-logic";
 import type { Err } from "types/errors";
 import type { First } from "types/lists";
-import type { AddPositive } from "types/numeric-literals/AddPositive";
-import type { NumberLike } from "types/numeric-literals/NumberLike";
+import type { AddPositive } from "inferred-types/types";
+import type { NumberLike } from "inferred-types/types";
 import type { AsNumber } from "types/type-conversion";
 
 export type Count<

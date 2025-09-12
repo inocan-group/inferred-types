@@ -1,7 +1,7 @@
 import type { Err, IT_TakeOutcome } from 'inferred-types/types';
 import { isErr, err, createTemplateRegExp, isError, retainAfter, nestedSplit, getInputToken } from 'inferred-types/runtime';
-import { IT_TakeArray, IT_Token } from 'inferred-types/types';
-import { isOk } from 'runtime/type-guards/isOk';
+import type { IT_TakeArray, IT_Token } from 'inferred-types/types';
+import { isOk } from 'runtime/type-guards';
 
 function it_takeArray_Postfix_Grouped<T extends string>(parse: T): IT_TakeOutcome<"array"> {
     // Pattern: `(string | number)[]` or `(string)[][]`

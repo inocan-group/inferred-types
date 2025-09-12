@@ -1,4 +1,4 @@
-import { TakeState, ExpandDictionary, As } from "inferred-types/types";
+import type { TakeState, ExpandDictionary, As } from "inferred-types/types";
 
 /**
  * **AsTakeState**`<T>`
@@ -18,5 +18,4 @@ T extends string
     ? Error | TakeState
     : TakeState
 >;
-
 

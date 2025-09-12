@@ -1,4 +1,4 @@
-import type { ClosingBracket, OpeningBracket } from "types/string-literals/character-sets/brackets";
+import type { ClosingBracket, OpeningBracket } from "inferred-types/types";
 
 /**
  * Opening and closing brackets. Where brackets are parenthesis, square brackets, and curly brackets.

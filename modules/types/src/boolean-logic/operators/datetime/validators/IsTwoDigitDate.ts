@@ -1,11 +1,11 @@
 import type {
     IsDoubleLeap,
     IsLeapYear
-} from "types/boolean-logic/operators";
+} from "inferred-types/types";
 import type {
     IsoDate30,
     IsoDate31,
-} from "types/datetime";
+} from "inferred-types/types";
 
 type TestFeb<
     T,

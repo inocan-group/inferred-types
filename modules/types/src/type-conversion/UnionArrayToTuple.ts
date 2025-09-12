@@ -1,4 +1,4 @@
-import type { ElementOf } from "types/lists/ElementOf";
+import type { ElementOf } from "inferred-types/types";
 
 // Existing utility: UnionToTuple (unchanged)
 type UnionToIntersection<U> = (
