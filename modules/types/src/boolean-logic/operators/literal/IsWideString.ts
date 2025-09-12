@@ -1,4 +1,4 @@
-import type { IsEqual } from "../compare/IsEqual";
+import type { IsEqual } from "inferred-types/types";
 
 /**
  * **IsWideString**`<T>`

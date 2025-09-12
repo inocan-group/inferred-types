@@ -1,4 +1,4 @@
-import type { Narrowable } from "./Narrowable";
+import type { Narrowable } from "inferred-types/types";
 
 /**
  * **Narrow**

@@ -5,7 +5,7 @@ import type {
     TypedError
 } from "inferred-types/types";
 import { toKebabCase } from "inferred-types/runtime";
-import { dropFirstStackFrame } from "./dropFirstStackFrame";
+import { dropFirstStackFrame } from "runtime/errors/dropFirstStackFrame";
 
 /**
  * **typedError**(type, message, [ctx])

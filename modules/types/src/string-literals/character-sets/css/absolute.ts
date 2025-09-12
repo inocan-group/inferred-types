@@ -1,4 +1,4 @@
-import type { CssSizing } from "./sizing";
+import type { CssSizing } from "inferred-types/types";
 
 export interface CssAbsolutionPositioningProperties {
 

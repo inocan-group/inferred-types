@@ -1,16 +1,10 @@
-import type {
-    DateLike,
-    DateMeta,
-    IsoDate,
-    IsoDateTime,
-    IsoDateTimeLike
-} from "types/datetime";
+import type { DateLike, DateMeta, IsoDate, IsoDateTime } from "inferred-types/types";
 import { asDate, parseIsoDate, toIsoDateString } from "runtime/datetime";
 import { isError } from "runtime/type-guards";
 
 export function dateObjectToIso(d: DateLike & object) {
     const date: Date = d instanceof Date ? d : asDate(d);
-    const iso = date.toISOString() as IsoDateTimeLike;
+    const iso = date.toISOString() as IsoDateTime;
     const parsed = parseIsoDate(iso);
 
     if (isError(parsed)) {

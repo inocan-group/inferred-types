@@ -1,22 +1,24 @@
 import type { NewsUrls } from "inferred-types/types";
-import { isAustralianNewsUrl } from "./australian";
-import { isBelgiumNewsUrl } from "./belgium";
-import { isCanadianNewsUrl } from "./canadian";
-import { isDanishNewsUrl } from "./danish";
-import { isDutchNewsUrl } from "./dutch";
-import { isFrenchNewsUrl } from "./french";
-import { isGermanNewsUrl } from "./german";
-import { isIndianNewsUrl } from "./indian";
-import { isItalianNewsUrl } from "./italian";
-import { isJapaneseNewsUrl } from "./japanese";
-import { isMexicanNewsUrl } from "./mexican";
-import { isNorwegianNewsUrl } from "./norwegian";
-import { isSouthKoreanNewsUrl } from "./south-korean";
-import { isSpanishNewsUrl } from "./spanish";
-import { isSwissNewsUrl } from "./swiss";
-import { isTurkishNewsUrl } from "./turkish";
-import { isUkNewsUrl } from "./uk";
-import { isUsNewsUrl } from "./us";
+import {
+  isAustralianNewsUrl,
+  isBelgiumNewsUrl,
+  isCanadianNewsUrl,
+  isDanishNewsUrl,
+  isDutchNewsUrl,
+  isFrenchNewsUrl,
+  isGermanNewsUrl,
+  isIndianNewsUrl,
+  isItalianNewsUrl,
+  isJapaneseNewsUrl,
+  isMexicanNewsUrl,
+  isNorwegianNewsUrl,
+  isSouthKoreanNewsUrl,
+  isSpanishNewsUrl,
+  isSwissNewsUrl,
+  isTurkishNewsUrl,
+  isUkNewsUrl,
+  isUsNewsUrl,
+} from "runtime/type-guards";
 /**
  * Type guard which identifies whether the `val` passed in is a URL pointing to a leading
  * worldwide news organization.

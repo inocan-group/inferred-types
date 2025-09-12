@@ -8,9 +8,9 @@ import type {
     First,
     IsWideObject,
     Keys,
-    ObjectKey
+    ObjectKey,
+    IsDictionary
 } from "inferred-types/types";
-import type { IsDictionary } from "../boolean-logic/operators/containers/IsDictionary";
 
 type BuildObj<
     TObj extends Dictionary,

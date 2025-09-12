@@ -1,5 +1,4 @@
-import type { Dictionary } from "./Dictionary";
-import type { EmptyObject, ExplicitlyEmptyObject } from "./EmptyObject";
+import type { Dictionary, EmptyObject, ExplicitlyEmptyObject } from "inferred-types/types";
 
 /**
  * **AnyObject**

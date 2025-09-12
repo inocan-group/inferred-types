@@ -1,5 +1,4 @@
-import type { Scalar } from "@inferred-types/types";
-import type { Brand } from "inferred-types/types";
+import type { Scalar, Brand } from "inferred-types/types";
 
 export function brand<
     T extends Scalar,

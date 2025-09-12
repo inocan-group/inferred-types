@@ -1,4 +1,4 @@
-import type { IfEquals } from "./IfEqual";
+import type { IfEquals } from "inferred-types/types";
 
 /**
  * **Passthrough**`<TContent,TPass,THandle>`

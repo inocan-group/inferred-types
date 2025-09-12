@@ -1,4 +1,4 @@
-import type { CssGlobal } from "./global";
+import type { CssGlobal } from "inferred-types/types";
 
 type Positions = | "normal"
     | "start"

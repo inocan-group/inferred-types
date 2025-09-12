@@ -1,5 +1,4 @@
-import type { FullWidthQuotation, RightDoubleMark, RightHeavyDoubleTurned, RightHeavySingleTurned, RightReversedDoublePrime, RightSingleMark } from "./individual-smart-marks";
-import type { DoubleQuote, SingleQuote } from "./StandardMark";
+import type { FullWidthQuotation, RightDoubleMark, RightHeavyDoubleTurned, RightHeavySingleTurned, RightReversedDoublePrime, RightSingleMark, DoubleQuote, SingleQuote } from "inferred-types/types";
 
 /**
  * **ClosingMark**

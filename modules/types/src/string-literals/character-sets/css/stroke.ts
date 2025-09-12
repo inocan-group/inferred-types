@@ -1,7 +1,9 @@
-import type { Opt } from "inferred-types/types";
-import type { CssColorLight } from "./color";
-import type { CssGlobal } from "./global";
-import type { CssSizingLight } from "./sizing";
+import type {
+    Opt,
+    CssColorLight,
+    CssGlobal,
+    CssSizingLight
+} from "inferred-types/types";
 
 export type CssStroke = CssColorLight | CssGlobal;
 

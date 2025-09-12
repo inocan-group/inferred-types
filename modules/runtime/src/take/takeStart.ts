@@ -17,13 +17,13 @@ import {
     isErr,
     createFnWithProps
 } from 'inferred-types/runtime';
-import { Never } from 'constants/Never';
+import { Never } from 'inferred-types/constants';
 import {
     isArray,
     isStringArray,
     isNarrowableDictionary
 } from 'runtime/type-guards';
-import { TypedFunction } from '@inferred-types/types';
+import { TypedFunction } from 'inferred-types/types';
 
 type Which<
     T extends TakeState,
@@ -222,5 +222,4 @@ export function takeStart<T extends TakeStartMatches>(...config: T): TakeStartFn
 
     return result;
 }
-
 

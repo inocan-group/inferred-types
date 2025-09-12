@@ -1,5 +1,4 @@
-import { asDate } from "./asDate";
-import { getTomorrow } from "./getTomorrow";
+import { asDate, getTomorrow } from "runtime/datetime";
 
 /**
  * **isTomorrow**`(input, now?)`

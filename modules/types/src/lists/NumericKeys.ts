@@ -1,5 +1,4 @@
-import type { HasVariadicTail } from "types/lists/Variadic";
-import type { DropVariadicTail } from "./Variadic";
+import type { DropVariadicTail, HasVariadicTail } from "inferred-types/types";
 
 /* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
 

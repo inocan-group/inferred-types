@@ -1,4 +1,4 @@
-import { isString } from "./isString";
+import { isString } from "runtime/type-guards";
 
 /**
  * **isTrimable**`(val)`

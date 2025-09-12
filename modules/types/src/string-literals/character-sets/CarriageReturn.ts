@@ -1,4 +1,4 @@
-import type { Indent } from "./Indent";
+import type { Indent } from "inferred-types/types";
 
 /** The **carriage return** character */
 export type Cr = "\n";

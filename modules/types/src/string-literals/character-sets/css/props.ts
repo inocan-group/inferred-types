@@ -1,7 +1,4 @@
-import type { Opt, OptPercent, Suggest } from "inferred-types/types";
-import type { CssGlobal } from "./global";
-import type { CssSizing, CssSizingLight } from "./sizing";
-import type { CssTextWrap } from "./text";
+import type { Opt, OptPercent, Suggest, CssGlobal, CssSizing, CssSizingLight, CssTextWrap } from "inferred-types/types";
 
 export type CssOpacity = `${number}${OptPercent}`;
 

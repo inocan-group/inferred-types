@@ -1,4 +1,4 @@
-import type { AfterFirst, First } from "inferred-types/types";
+import type { AfterFirst, First, TypeToken } from "inferred-types/types";
 import type {
     SimpleArrayToken,
     SimpleDictToken,
@@ -17,7 +17,6 @@ import type {
     SimpleTypeSet,
     SimpleTypeUnion,
 } from "./SimpleType";
-import type { TypeToken } from "./TypeToken";
 
 type ProcessSimple<T extends SimpleToken | TypeToken> = T extends SimpleToken
     ? SimpleType<T>

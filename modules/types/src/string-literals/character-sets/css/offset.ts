@@ -1,6 +1,4 @@
-import type { CssGlobal } from "./global";
-import type { CssRotation } from "./props";
-import type { CssSizing } from "./sizing";
+import type { CssGlobal, CssRotation, CssSizing } from "inferred-types/types";
 
 type NamedPosition = "bottom" | "top" | "left" | "right" | "center" | "auto" | "normal";
 

@@ -1,5 +1,4 @@
-import type { AsNumber, If, IsEqual } from "inferred-types/types";
-import type { NumberLike } from "./NumberLike";
+import type { AsNumber, If, IsEqual, NumberLike } from "inferred-types/types";
 
 type Tighten<
     T extends string,

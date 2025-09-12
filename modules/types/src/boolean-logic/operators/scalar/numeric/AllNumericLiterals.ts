@@ -1,5 +1,4 @@
-import type { And } from "inferred-types/types";
-import type { IsNumericLiteral } from "../../literal/IsNumericLiteral";
+import type { And, IsNumericLiteral } from "inferred-types/types";
 
 /**
  * **AllNumericLiterals**`<T>`

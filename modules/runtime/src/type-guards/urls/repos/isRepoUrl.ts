@@ -1,7 +1,5 @@
 import type { RepoUrls } from "inferred-types/types";
-import { isBitbucketUrl } from "./bitbucket";
-import { isCodeCommitUrl } from "./codeCommit";
-import { isGithubUrl } from "./github";
+import { isBitbucketUrl, isCodeCommitUrl, isGithubUrl } from "runtime/type-guards";
 
 /**
  * **isRepoUrl**`(val)`

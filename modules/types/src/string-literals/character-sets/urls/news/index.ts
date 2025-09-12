@@ -1,22 +1,24 @@
-import type { AustralianNewsUrls } from "./australian";
-import type { BelgianNewsUrls } from "./belgian";
-import type { CanadianNewsUrls } from "./canadian";
-import type { ChineseNewsUrls } from "./chinese";
-import type { DanishNewsUrls } from "./danish";
-import type { DutchNewsUrls } from "./dutch";
-import type { FrenchNewsUrls } from "./french";
-import type { GermanNewsUrls } from "./german";
-import type { IndianNewsUrls } from "./indian";
-import type { ItalianNewsUrls } from "./italian";
-import type { JapaneseNewsUrls } from "./japanese";
-import type { MexicanNewsUrls } from "./mexican";
-import type { NorwegianNewsUrls } from "./norwegian";
-import type { SouthKoreanNewsUrls } from "./south-korean";
-import type { SpanishNewsUrls } from "./spanish";
-import type { SwissNewsUrls } from "./swiss";
-import type { TurkishNewsUrls } from "./turkish";
-import type { UkNewsUrls } from "./uk";
-import type { UsNewsUrls } from "./us";
+import type {
+  AustralianNewsUrls,
+  BelgianNewsUrls,
+  CanadianNewsUrls,
+  ChineseNewsUrls,
+  DanishNewsUrls,
+  DutchNewsUrls,
+  FrenchNewsUrls,
+  GermanNewsUrls,
+  IndianNewsUrls,
+  ItalianNewsUrls,
+  JapaneseNewsUrls,
+  MexicanNewsUrls,
+  NorwegianNewsUrls,
+  SouthKoreanNewsUrls,
+  SpanishNewsUrls,
+  SwissNewsUrls,
+  TurkishNewsUrls,
+  UkNewsUrls,
+  UsNewsUrls,
+} from "inferred-types/types";
 
 export * from "./australian";
 export * from "./belgian";

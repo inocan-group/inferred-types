@@ -1,6 +1,4 @@
-import type { CssColor } from "./color";
-import type { CssGlobal } from "./global";
-import type { CssSizing } from "./sizing";
+import type { CssColor, CssGlobal, CssSizing } from "inferred-types/types";
 
 /**
  * CSS Border Styles

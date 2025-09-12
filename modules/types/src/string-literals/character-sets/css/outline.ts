@@ -1,6 +1,4 @@
-import type { Opt } from "inferred-types/types";
-import type { CssColorLight } from "./color";
-import type { CssSizingLight } from "./sizing";
+import type { Opt, CssColorLight, CssSizingLight } from "inferred-types/types";
 
 export type CssOutlineColor = CssColorLight;
 

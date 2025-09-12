@@ -1,5 +1,4 @@
-import type { CssColor } from "./color";
-import type { CssSizing } from "./sizing";
+import type { CssColor, CssSizing } from "inferred-types/types";
 
 export type CssVar = `var(--${string})`;
 

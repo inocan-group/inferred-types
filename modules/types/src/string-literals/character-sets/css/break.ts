@@ -1,4 +1,4 @@
-import type { CssGlobal } from "./global";
+import type { CssGlobal } from "inferred-types/types";
 
 export type CssBreak
     = | "auto"

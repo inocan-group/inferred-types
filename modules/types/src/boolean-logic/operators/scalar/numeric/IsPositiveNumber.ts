@@ -1,5 +1,4 @@
-import type { NumberLike } from "inferred-types/types";
-import type { IsNegativeNumber } from "./IsNegativeNumber";
+import type { NumberLike, IsNegativeNumber } from "inferred-types/types";
 
 /**
  * **IsPositiveNumber**`<T>`

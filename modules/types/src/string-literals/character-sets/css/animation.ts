@@ -1,6 +1,4 @@
-import type { Opt } from "inferred-types/types";
-import type { CssGlobal } from "./global";
-import type { CssTiming } from "./props";
+import type { Opt, CssGlobal, CssTiming } from "inferred-types/types";
 
 export type CssAnimationDelay = CssTiming;
 

@@ -1,6 +1,4 @@
-import type { CssColorLight } from "./color";
-import type { CssGlobal } from "./global";
-import type { CssSizingLight } from "./sizing";
+import type { CssColorLight, CssGlobal, CssSizingLight } from "inferred-types/types";
 
 export type CssBoxAlign
     = | "start"

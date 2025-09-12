@@ -12,8 +12,8 @@ import type {
 import type {
     IsEqual,
     IsUnion,
+    TypeTokenLookup
 } from "inferred-types/types";
-import type { TypeTokenLookup } from "./TypeToken-variants";
 
 /**
  * **BaseTypeToken**

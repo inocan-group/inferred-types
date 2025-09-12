@@ -1,4 +1,4 @@
-import type { Dictionary, StringKeys } from "@inferred-types/types";
+import type { Dictionary, StringKeys } from "inferred-types/types";
 import type {
     Expand,
     Mutable,

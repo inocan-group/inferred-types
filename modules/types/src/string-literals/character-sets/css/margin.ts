@@ -1,5 +1,4 @@
-import type { Opt } from "inferred-types/types";
-import type { CssSizingLight } from "./sizing";
+import type { Opt, CssSizingLight } from "inferred-types/types";
 
 export type CssMargin = CssSizingLight
     | `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;

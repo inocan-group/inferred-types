@@ -4,9 +4,10 @@ import type {
     FnReturn,
     IsNonEmptyObject,
     TypedFunction,
+    WithoutKeys,
+    ExpandRecursively
 } from "inferred-types/types";
-import type { WithoutKeys } from "../dictionary/WithoutKeys";
-import type { ExpandRecursively } from "../literals/ExpandRecursively";
+
 
 /**
  * **FnWithProps**`<TFn,TProps,[TClone]>`
