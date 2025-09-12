@@ -1,7 +1,6 @@
-import { Expect, And, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { And, Expect, Test } from "inferred-types/types";
 
 describe("And<T>", () => {
 
@@ -64,7 +63,6 @@ describe("And<T>", () => {
         ];
     });
 
-
     it("invalid conditions", () => {
         // invalid conditions result in `false` by default
         type F1 = And<[true, "foo", true]>;
@@ -77,6 +75,5 @@ describe("And<T>", () => {
             Expect<Test<E1, "isError", "invalid/and">>,
         ];
     });
-
 
 });

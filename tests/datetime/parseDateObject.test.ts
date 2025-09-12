@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseDateObject, keysOf, asDateTime } from 'inferred-types/runtime';
-import { isError } from "inferred-types/runtime";
+import { parseDateObject, keysOf, asDateTime, isError } from 'inferred-types/runtime';
 import moment from "moment";
 import { DateTime } from "luxon";
 import { parseISO } from "date-fns";

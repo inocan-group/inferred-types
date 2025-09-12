@@ -1,9 +1,6 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { Expect, IsDefined, Test } from "inferred-types/types";
-
-
+import type { Expect, IsDefined, Test } from "inferred-types/types";
 
 describe("IsDefined", () => {
 

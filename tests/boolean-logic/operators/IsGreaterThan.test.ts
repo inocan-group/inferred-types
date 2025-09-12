@@ -1,11 +1,6 @@
 import { describe, it, expect } from "vitest";
-import {
-    Expect,
-    FourDigitYear,
-    IsGreaterThan,
-    IsGreaterThanOrEqual,
-    Test
-} from "inferred-types/types";
+import type { Expect, FourDigitYear, IsGreaterThan, IsGreaterThanOrEqual, Test } from "inferred-types/types";
+
 import { isGreaterThan, isGreaterThanOrEqual } from "inferred-types/runtime";
 
 describe("IsGreaterThan<A,B> Type Utility", () => {
@@ -86,7 +81,6 @@ describe("IsGreaterThan<A,B> Type Utility", () => {
         ];
     });
 
-
     it("using branded values", () => {
         type Y1 = FourDigitYear<"2012">;
         type Y2 = FourDigitYear<"2020">;
@@ -99,7 +93,6 @@ describe("IsGreaterThan<A,B> Type Utility", () => {
             Expect<Test<F1, "equals", false>>,
         ];
     });
-
 
     it("mixed integer and decimal comparisons", () => {
         type T1 = IsGreaterThan<2, 1.5>;

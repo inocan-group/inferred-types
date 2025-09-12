@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Err,
-    ErrType,
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { Err, ErrType, Expect, Test } from "inferred-types/types";
 
 describe("ErrType<T>", () => {
 
@@ -13,7 +8,6 @@ describe("ErrType<T>", () => {
         type NotError = ErrType<{ id: 1, message: "hi", type: "foo" }>;
         type Foo = ErrType<Err<"foo">>;
         type FooBar = ErrType<Err<"foo/bar">>;
-
 
         type cases = [
             Expect<Test<Wide, "equals", undefined>>,

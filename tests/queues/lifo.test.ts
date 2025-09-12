@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createLifoQueue, widen } from "inferred-types/runtime"
-import { Expect, LifoQueue, Test } from "inferred-types/types";
-
-
+import type { Expect, LifoQueue, Test } from "inferred-types/types";
 
 describe("LIFO Queue tests", () => {
 

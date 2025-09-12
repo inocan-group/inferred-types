@@ -1,18 +1,6 @@
 import { Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import {
-  DoesExtend,
-  IndexableObject,
-  EmptyObject,
-  DoesNotExtend,
-  Something,
-  Nothing,
-  Scalar,
-  ExplicitlyEmptyObject,
-} from "inferred-types/types";
-
-
+import type { DoesExtend, DoesNotExtend, EmptyObject, ExplicitlyEmptyObject, IndexableObject, Nothing, Scalar, Something } from "inferred-types/types";
 
 describe("EmptyObject", () => {
 
@@ -36,7 +24,6 @@ describe("EmptyObject", () => {
       Expect<DoesExtend<EmptyObject, ViaRuntime>>,
       Expect<DoesExtend<EmptyObject, ViaRuntime2>>,
     ];
-
 
   });
 
@@ -67,9 +54,7 @@ describe("EmptyObject", () => {
       Expect<DoesNotExtend<IndexableObject, ExplicitlyEmptyObject>>,
     ];
 
-
   });
-
 
 });
 

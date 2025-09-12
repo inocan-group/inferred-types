@@ -1,6 +1,7 @@
-import { AsDateMeta, IsBefore } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+
+
 import { describe, it } from "vitest";
+import type { AsDateMeta, Expect, IsBefore, Test } from "inferred-types/types";
 
 describe("IsBefore<A, B>", () => {
 
@@ -35,7 +36,6 @@ describe("IsBefore<A, B>", () => {
             type T1 = IsBefore<"2020", "2021">;
             type T2 = IsBefore<"1999", "2000">;
             type T3 = IsBefore<"2023", "2024">;
-
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,

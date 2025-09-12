@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    CodePointOf,
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { CodePointOf, Expect, Test } from "inferred-types/types";
 
 describe("CodePointOf<T>", () => {
 
@@ -13,7 +9,6 @@ describe("CodePointOf<T>", () => {
         type Dash = CodePointOf<"-">;
         type Space = CodePointOf<" ">;
 
-
         type cases = [
             Expect<Test<A, "equals", 65>>,
             Expect<Test<a, "equals", 97>>,
@@ -22,11 +17,9 @@ describe("CodePointOf<T>", () => {
         ];
     });
 
-
     it("Get tuple of code points from longer string", () => {
 
         type T = CodePointOf<"There I was, in the jungle">;
-
 
         type cases = [
             Expect<Test<
@@ -35,6 +28,5 @@ describe("CodePointOf<T>", () => {
             >>
         ];
     });
-
 
 });

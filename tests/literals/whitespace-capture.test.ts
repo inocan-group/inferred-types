@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Expect, LeftWhitespace, RightWhitespace, Test } from "inferred-types/types";
+import type { Expect, LeftWhitespace, RightWhitespace, Test } from "inferred-types/types";
 
 describe("LeftWhitespace<T> utility", () => {
     it("no whitespace results in empty string literal", () => {

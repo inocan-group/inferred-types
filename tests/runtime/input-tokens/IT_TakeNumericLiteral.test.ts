@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IT_TakeNumericLiteral,
-    IT_Token,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IT_TakeNumericLiteral, IT_Token, Test } from "inferred-types/types";
 
 describe("IT_TakeNumericLiteral<T>", () => {
 
@@ -13,7 +8,6 @@ describe("IT_TakeNumericLiteral<T>", () => {
         type Partial = IT_TakeNumericLiteral<"42 | 56">;
 
         type Invalid = IT_TakeNumericLiteral<"42a">;
-
 
         type cases = [
             Expect<Test<Complete, "extends", IT_Token<"literal">>>,
@@ -38,7 +32,6 @@ describe("IT_TakeNumericLiteral<T>", () => {
         ];
     });
 
-
     it("float", () => {
         type Complete = IT_TakeNumericLiteral<"42.01">;
         type Partial = IT_TakeNumericLiteral<"42.01 | 56">;
@@ -51,8 +44,6 @@ describe("IT_TakeNumericLiteral<T>", () => {
             Expect<Test<Partial["rest"], "equals", "| 56">>,
         ];
     });
-
-
 
     it("Numeric constructor", () => {
         type CompleteInt = IT_TakeNumericLiteral<"Number(42)">;
@@ -87,6 +78,5 @@ describe("IT_TakeNumericLiteral<T>", () => {
 
         ];
     });
-
 
 });

@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    DefineModifiers,
-    Expect,
-    HasModifier,
-    Test,
-} from "inferred-types/types";
+import type { DefineModifiers, Expect, HasModifier, Test } from "inferred-types/types";
 
 describe("HasModifier<T,S>", () => {
 
@@ -19,7 +14,6 @@ describe("HasModifier<T,S>", () => {
         type T4 = HasModifier<"foo", Actual, Modifier>;
         type T5 = HasModifier<"bar", Actual, Modifier>;
         type T6 = HasModifier<"baz", Actual, Modifier>;
-
 
         type cases = [
             Expect<Test<Actual, "extends", Modifier>>,
@@ -37,7 +31,6 @@ describe("HasModifier<T,S>", () => {
             Expect<Test<T3, "equals", true>>,
         ];
     });
-
 
     it("negative tests", () => {
         type Defn = DefineModifiers<["foo","bar","baz"]>;
@@ -71,8 +64,6 @@ describe("HasModifier<T,S>", () => {
         ];
     });
 
-
-
     it("force invalid modifier (when including modifier defn)", () => {
         type Defn = DefineModifiers<["foo","bar","baz"]>;
         type Config = ["bar","baz"];
@@ -92,6 +83,5 @@ describe("HasModifier<T,S>", () => {
             Expect<Test<F2, "equals", false>>,
         ];
     });
-
 
 });

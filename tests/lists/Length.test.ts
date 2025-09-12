@@ -1,5 +1,6 @@
-import { Expect, Length, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Length, Test } from "inferred-types/types";
 
 describe("Length<T>", () => {
     it("using arrays", () => {
@@ -26,7 +27,6 @@ describe("Length<T>", () => {
 
     });
 
-
     it("using strings", () => {
         type Foo = Length<"foo">;
         type WideStr = Length<string>;
@@ -36,7 +36,6 @@ describe("Length<T>", () => {
             Expect<Test<WideStr, "equals",  number>>,
         ];
     });
-
 
     it("using numbers", () => {
         type NumericLit = Length<1234>;
@@ -55,6 +54,5 @@ describe("Length<T>", () => {
             Expect<Test<WideErr, "isError", "invalid-type">>
         ];
     });
-
 
 });

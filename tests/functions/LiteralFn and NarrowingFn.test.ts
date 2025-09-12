@@ -1,16 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    AsFnMeta,
-    AsStaticFn,
-    AsNarrowingFn,
-    IsNarrowingFn,
-    StaticFn,
-    NarrowingFn,
-    Test
-} from "inferred-types/types";
-
-
+import type { AsFnMeta, AsNarrowingFn, AsStaticFn, Expect, IsNarrowingFn, NarrowingFn, StaticFn, Test } from "inferred-types/types";
 
 describe("IsNarrowingFn<T>", () => {
 
@@ -34,7 +23,6 @@ describe("IsNarrowingFn<T>", () => {
   });
 
 });
-
 
 describe("NarrowingFn<T>", () => {
 
@@ -113,7 +101,6 @@ describe("AsStaticFn<TParam,TReturn,TProps>", () => {
     type Basic = AsStaticFn<[], "hi">;
     type WithParams = AsStaticFn<[name: string], "hi">;
     type WithProps = AsStaticFn<[], "hi", { foo: 1}>;
-
 
     type cases = [
       Expect<Test<Basic, "equals",  () => "hi">>,

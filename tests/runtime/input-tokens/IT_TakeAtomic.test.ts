@@ -1,11 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IT_TakeAtomic,
-    Test,
-    IT_Token
-} from "inferred-types/types";
-
+import type { Expect, IT_TakeAtomic, IT_Token, Test } from "inferred-types/types";
 
 describe("IT_TakeAtomic<T>", () => {
 
@@ -26,7 +20,6 @@ describe("IT_TakeAtomic<T>", () => {
             Expect<Test<Null, "extends", IT_Token<"atomic">>>,
             Expect<Test<Undef, "extends", IT_Token<"atomic">>>,
 
-
             Expect<Test<Str["type"], "equals", string>>,
             Expect<Test<Num["type"], "equals", number>>,
             Expect<Test<Biggie["type"], "equals", bigint>>,
@@ -38,7 +31,6 @@ describe("IT_TakeAtomic<T>", () => {
         ];
     });
 
-
     it("trailing content", () => {
         type Union = IT_TakeAtomic<"string   | number">;
 
@@ -48,6 +40,5 @@ describe("IT_TakeAtomic<T>", () => {
             Expect<Test<Union["rest"], "equals", "| number">>
         ];
     });
-
 
 });

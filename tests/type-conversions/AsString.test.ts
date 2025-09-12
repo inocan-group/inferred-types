@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    AsString,
-    Something,
-    Test
-} from "inferred-types/types";
+import type { AsString, Expect, Something, Test } from "inferred-types/types";
 
 describe("AsString<T>", () => {
 
@@ -24,7 +19,6 @@ describe("AsString<T>", () => {
         ];
     });
 
-
     it("numeric", () => {
         type Num = AsString<42>;
         type WideNum = AsString<number>;
@@ -34,7 +28,6 @@ describe("AsString<T>", () => {
             Expect<Test<WideNum, "equals",  `${number}`>>,
         ];
     });
-
 
     it("boolean", () => {
         type B1 = AsString<true>;
@@ -52,7 +45,6 @@ describe("AsString<T>", () => {
         type UnionStrAndArr = AsString<string | readonly string[]>;
         type NumNull = AsString<42 | null>;
 
-
         type cases = [
             Expect<Test<UnionStrNull, "equals",  "foobar">>,
             Expect<Test<UnionStrNum, "equals",  "foobar" | "42">>,
@@ -60,7 +52,6 @@ describe("AsString<T>", () => {
             Expect<Test<NumNull, "equals",  "42">>,
         ];
     });
-
 
     it("wide arrays", () => {
         type WideStr = AsString<string[]>;
@@ -74,7 +65,6 @@ describe("AsString<T>", () => {
         ];
     });
 
-
     it("tuples", () => {
         type StrTup = AsString<["foo","bar"]>;
 
@@ -83,17 +73,11 @@ describe("AsString<T>", () => {
         ];
     });
 
-
     it("dictionaries", () => {
-
 
         type cases = [
             /** type tests */
         ];
     });
-
-
-
-
 
 });

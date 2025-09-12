@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Expect, CamelCase, Test } from "inferred-types/types";
+import type { CamelCase, Expect, Test } from "inferred-types/types";
 
 const target = "twoThreeFour";
 type TARGET = typeof target;
@@ -104,8 +104,6 @@ describe("CamelCase<T> type utility", () => {
             Expect<Test<T5, "equals", "oneTwoThreeFourFiveSixSevenEightNine">>
         ];
     });
-
-
 
     it("camel casing a tuple of things", () => {
         type T = CamelCase<["foo_bar", 42, true, "BarBaz"]>;

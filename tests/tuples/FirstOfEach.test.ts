@@ -1,15 +1,11 @@
 import { describe, it } from "vitest";
-import { Expect, FirstOfEach, Chars, LastOfEach, Test } from "inferred-types/types";
-
-
-
+import type { Chars, Expect, FirstOfEach, LastOfEach, Test } from "inferred-types/types";
 
 describe("FirstOfEach<TList>", () => {
 
     it("with an Tuple of array elements", () => {
         type Arr = FirstOfEach<[["foo", 1], ["bar", 2]]>;
         type Foo = FirstOfEach<[Chars<"Foo">, Chars<"Bar">]>;
-
 
         type cases = [
             Expect<Test<Arr, "equals",  "foo" | "bar">>,
@@ -19,13 +15,11 @@ describe("FirstOfEach<TList>", () => {
 
 });
 
-
 describe("LastOfEach<TList>", () => {
 
     it("with a Tuple of array elements", () => {
         type Arr = LastOfEach<[["foo", 1], ["bar", 2]]>;
         type Foo = LastOfEach<[Chars<"Foo">, Chars<"Bar">]>;
-
 
         type cases = [
             Expect<Test<Arr, "equals", [1,  2]>>,

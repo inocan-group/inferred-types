@@ -1,12 +1,6 @@
-import {
-    Expect,
-    Test,
-    OnPass,
-    Err,
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Err, Expect, OnPass, Test } from "inferred-types/types";
 
 describe("OnPass<TTest,TPass", () => {
 
@@ -23,7 +17,6 @@ describe("OnPass<TTest,TPass", () => {
 
         type RF = OnPass<false, "mapped", Mapper>;
         type RE = OnPass<Err, "mapped", { error: "mapped" }>;
-
 
         type cases = [
             Expect<Test<P1, "equals",  "pass">>,

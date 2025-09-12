@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, Email, Test } from "inferred-types/types"
+import type { Email, Expect, Test } from "inferred-types/types";
+
 import { isEmail } from "inferred-types/runtime"
-
-
 
 describe("isEmail(val)", () => {
 

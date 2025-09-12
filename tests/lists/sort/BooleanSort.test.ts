@@ -42,7 +42,6 @@ describe("BooleanSort<T, O>", () => {
         expect(true).toBe(true);
     });
 
-
     it("handles edge cases", () => {
         // Empty array
         type Empty = BooleanSort<[]>;

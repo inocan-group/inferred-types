@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    GetInputToken,
-    IT_TakeArray,
-    IT_Token,
-    NestedSplit,
-    Test,
-} from "inferred-types/types";
+import type { Expect, GetInputToken, IT_TakeArray, IT_Token, NestedSplit, Test } from "inferred-types/types";
 
 describe("IT_TakeArray<T>", () => {
 
@@ -41,8 +34,6 @@ describe("IT_TakeArray<T>", () => {
         ];
     });
 
-
-
     it("bracketed", () => {
         type Str = IT_TakeArray<"Array<string>">;
         type StrRemaining = IT_TakeArray<"Array<string>    | string">;
@@ -59,6 +50,5 @@ describe("IT_TakeArray<T>", () => {
            Expect<Test<Invalid, "isError", "malformed-token">>
         ];
     });
-
 
 });

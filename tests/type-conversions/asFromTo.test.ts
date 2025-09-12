@@ -1,7 +1,7 @@
 import { asFromTo } from "inferred-types/runtime";
-import { AsFromTo, Expect, Test } from "inferred-types/types";
-import { describe, expect, it } from "vitest";
+import type { AsFromTo, Expect, Test } from "inferred-types/types";
 
+import { describe, expect, it } from "vitest";
 
 describe("AsFromTo<T>", () => {
 
@@ -23,7 +23,6 @@ describe("AsFromTo<T>", () => {
     });
 
 });
-
 
 describe("asFromTo", () => {
 
@@ -98,6 +97,5 @@ describe("asFromTo", () => {
         ];
 
     });
-
 
 });

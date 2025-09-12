@@ -1,9 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { Mutable } from "inferred-types/types";
-
-
+import type { Mutable } from "inferred-types/types";
 
 describe("Mutable<T>", () => {
 

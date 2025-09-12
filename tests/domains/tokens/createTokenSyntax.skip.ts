@@ -1,4 +1,5 @@
 import {
+import type { Expect, Extends, Test, TokenSyntax } from "inferred-types/types";
     asUnion,
     createToken,
     createTokenSyntax,
@@ -7,7 +8,7 @@ import {
     isString,
     isStringLiteral
 } from "inferred-types/runtime";
-import { Expect, Extends, Test, TokenSyntax } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 describe.skip("createTokenSyntax()", () => {
@@ -77,7 +78,6 @@ describe.skip("createTokenSyntax()", () => {
             Expect<Test<typeof decoded, "equals", `{{string}} is the 'best'`>>,
         ];
     });
-
 
     it.skip("token shape -> static token", () => {
         const n = createToken("null", "static")("null", isNull);

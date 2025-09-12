@@ -1,5 +1,6 @@
-import { Expect, ReplaceAll, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, ReplaceAll, Test } from "inferred-types/types";
 
 describe("ReplaceAll<TText,TFind,TReplace>", () => {
 
@@ -12,7 +13,6 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
             Expect<Test<Three, "equals", "BarBarBar">>,
         ];
     });
-
 
     it("multiple text elements", () => {
         type Foo = ReplaceAll<["Foo", "Bar"], "Bar", "Foo">

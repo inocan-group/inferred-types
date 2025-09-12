@@ -1,8 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { AfterFirst, Test } from "inferred-types/types";
+import type { AfterFirst, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("AfterFirst", () => {
 

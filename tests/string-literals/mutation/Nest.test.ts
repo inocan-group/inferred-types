@@ -1,15 +1,7 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Nest,
-    Test,
-    BracketNesting,
-    QuoteNesting,
-    Err,
-} from "inferred-types/types";
+import type { BracketNesting, Err, Expect, Nest, QuoteNesting, Test } from "inferred-types/types";
 
 describe("Nest<T>", () => {
-
 
     it("basics", () => {
         type Str = "hi(there), who are you?";
@@ -35,7 +27,6 @@ describe("Nest<T>", () => {
             Expect<Test<T1, "equals", Expected>>,
         ];
     });
-
 
     it("multiple level 1 entrants", () => {
         type Str = `function doIt(name: string) { ... }; something else`
@@ -68,7 +59,6 @@ describe("Nest<T>", () => {
         ];
     });
 
-
     it("deeply nested", () => {
         type Str = "a(b(c+d), foo)"
         type T1 = Nest<Str>;
@@ -98,8 +88,6 @@ describe("Nest<T>", () => {
         ];
     });
 
-
-
     it("unbalanced brackets", () => {
         type Str = `function add() {`;
         type T1 = Nest<Str>;
@@ -108,7 +96,6 @@ describe("Nest<T>", () => {
             Expect<Test<T1, "extends", Err<"unbalanced">>>,
         ];
     });
-
 
     it("custom nesting with only parentheses", () => {
         type CustomNesting = { "(": ")" };

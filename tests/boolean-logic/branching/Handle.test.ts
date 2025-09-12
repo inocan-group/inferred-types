@@ -1,7 +1,6 @@
-import { Expect, Handle, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Handle, Test } from "inferred-types/types";
 
 describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
 
@@ -31,7 +30,6 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
         ];
     });
 
-
     it("equals specificity", () => {
         type WideCondition = Handle<"foo", string, "handled", "equals">;
         type WideValue = Handle<string, "foo", "handled", "equals">;
@@ -51,7 +49,6 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
             true, true,
         ];
     });
-
 
     it("using equals for boolean handling", () => {
         type BoolIsTrue = Handle<boolean, boolean, true, "equals">;

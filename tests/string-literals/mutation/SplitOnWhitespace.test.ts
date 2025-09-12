@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    SplitOnWhitespace,
-    Test,
-} from "inferred-types/types";
+import type { Expect, SplitOnWhitespace, Test } from "inferred-types/types";
 
 describe("SplitOnWhitespace<T>", () => {
 

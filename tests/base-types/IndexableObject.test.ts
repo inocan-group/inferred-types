@@ -1,19 +1,11 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    DoesExtend,
-    IndexableObject,
-    Dictionary,
-    Test
-} from "inferred-types/types";
-
+import type { Dictionary, DoesExtend, Expect, IndexableObject, Test } from "inferred-types/types";
 
 type FooBar = { foo: 42; bar: number };
 type FooBarExt = { foo: 42; bar: number; [key: string]: unknown };
 
 describe("IndexableObject and IndexedObject", () => {
     type Generic = { [key: string]: unknown };
-
 
     it("IndexableObject Basics", () => {
         type FooBarIdx = IndexableObject<FooBar>;
@@ -58,7 +50,5 @@ describe("IndexableObject and IndexedObject", () => {
 
         ];
     });
-
-
 
 });

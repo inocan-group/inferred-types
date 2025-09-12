@@ -1,10 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { daysInMonth } from "inferred-types/runtime";
-import { AsFourDigitYear, DaysInMonth, Expect, IsDoubleLeap, IsLeapYear, Test } from "inferred-types/types";
+import type { AsFourDigitYear, DaysInMonth, Expect, IsDoubleLeap, IsLeapYear, Test } from "inferred-types/types";
 
 describe("Days in Month", () => {
     describe("DaysInMonth<T>", () => {
-
 
         it("numbers between 1 and 12 treated as month number", () => {
             type T1 = DaysInMonth<1>;
@@ -36,7 +35,6 @@ describe("Days in Month", () => {
             ];
         });
 
-
         it("handles two-digit month literals without year", () => {
             type T01 = DaysInMonth<"01">;
             type T02 = DaysInMonth<"02">;
@@ -67,7 +65,6 @@ describe("Days in Month", () => {
             ];
         });
 
-
         it("February through the years", () => {
             type NonLeap = DaysInMonth<"02", 1999>;
             type Leap = DaysInMonth<"Feb", 2004>;
@@ -84,7 +81,6 @@ describe("Days in Month", () => {
             ];
         });
 
-
         it("handles month name literals (without year)", () => {
             type TJan = DaysInMonth<"January">;
             type TFeb = DaysInMonth<"February">;
@@ -100,7 +96,6 @@ describe("Days in Month", () => {
                 Expect<Test<TDec, "equals", 31>>,
             ];
         });
-
 
         it("handles month abbreviation literals (without year)", () => {
             type TJan = DaysInMonth<"Jan">;
@@ -218,7 +213,6 @@ describe("Days in Month", () => {
             ];
         });
     });
-
 
     describe("daysInMonth()", () => {
 
@@ -372,6 +366,4 @@ describe("Days in Month", () => {
 
     });
 })
-
-
 

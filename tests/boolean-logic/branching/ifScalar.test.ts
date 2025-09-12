@@ -1,11 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { ifScalar } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("ifScalar(value)", () => {
-
 
   it("happy path for runtime and types", () => {
     const wide: number = 42 as number;

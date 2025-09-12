@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createCssKeyframe } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("createCssKeyframe()", () => {
 
@@ -25,7 +24,6 @@ describe("createCssKeyframe()", () => {
   from { opacity: 0; transform: rotate(0deg) }
   to { opacity: 1; transform: rotate(360deg) }
 }`)
-
 
         type cases = [
             Expect<Test<KF["name"], "equals", "scroll-show">>,
@@ -51,5 +49,4 @@ describe("createCssKeyframe()", () => {
     });
 
 });
-
 

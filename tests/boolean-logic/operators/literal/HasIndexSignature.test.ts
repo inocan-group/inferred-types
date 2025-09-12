@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    HasIndexSignature,
-    Test,
-} from "inferred-types/types";
+import type { Expect, HasIndexSignature, Test } from "inferred-types/types";
 
 describe("HasIndexSignature<T>", () => {
   it("should return true for types with index signatures", () => {

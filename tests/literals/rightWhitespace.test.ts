@@ -1,5 +1,6 @@
 import { rightWhitespace } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 describe("rightWhitespace(content)", () => {

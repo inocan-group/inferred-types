@@ -1,12 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { retainKeys, withKeys } from "inferred-types/runtime";
-import {
-    Expect,
-    Test,
-    DoesExtend,
-    WithKeys,
-    Err
-} from "inferred-types/types";
+import type { DoesExtend, Err, Expect, Test, WithKeys } from "inferred-types/types";
+
 // NOTE: "withKeys" and "retainKeys" are aliases of one another
 // so these tests really pertain to both
 
@@ -83,7 +78,6 @@ describe("withKeys() runtime with objects", () => {
       Expect<Test<typeof t2, "equals",  { readonly foo: 1; readonly baz: "hi" }>>
     ];
   });
-
 
   it("runtime: when keys includes a value which is a union the type is ErrorCondition", () => {
     const obj = retainKeys({ foo: 1, bar: 2, baz: 3 }, "bar" as "bar" | "baz");

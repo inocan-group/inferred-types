@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isUri } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("isUri(val) type guard", () => {
 
@@ -18,7 +16,6 @@ describe("isUri(val) type guard", () => {
     expect(isUri(http, "https", "ftp")).toBe(false);
 
     if (isUri(http, "http", "https")) {
-
 
       type cases = [
         Expect<Test<typeof http, "equals",  `http://${string}` | `https://${string}`>>

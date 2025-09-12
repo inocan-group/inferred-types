@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import {Expect, NumericRange, Test } from "inferred-types/types";
-
-
+import type { Expect, NumericRange, Test } from "inferred-types/types";
 
 describe("NumericRange<TLow,THigh>", () => {
 

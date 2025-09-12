@@ -1,5 +1,6 @@
-import { Expect, HasParameters, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, HasParameters, Test } from "inferred-types/types";
 
 // Note: type tests fail visible inspection but pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

@@ -1,9 +1,6 @@
 import { Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { Dict, Extends } from "inferred-types/types";
-
-
-
+import type { Dict, Extends } from "inferred-types/types";
 
 describe.skip("Dict<T,ID>", () => {
 
@@ -19,7 +16,6 @@ describe.skip("Dict<T,ID>", () => {
 
     delete opt["bar"];
     expect(opt).toEqual({ foo: 1 });
-
 
     type cases = [
       Expect<Extends<typeof fooBar, Dict<{ foo: number; bar: number }>>>,

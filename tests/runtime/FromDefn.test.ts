@@ -1,14 +1,9 @@
-import {
-    Expect,
-    FromDefn,
-    FromDefineObject,
-    Test
-} from "inferred-types/types";
+
 
 import { shape } from "inferred-types/runtime"
+import type { Expect, FromDefineObject, FromDefn, Test } from "inferred-types/types";
 
 import { describe, it } from "vitest";
-
 
 describe("FromDefineObject<T>", () => {
 
@@ -17,7 +12,6 @@ describe("FromDefineObject<T>", () => {
         bar: "number",
         baz: "{{string}}foo"
     }>
-
 
     it("using SimpleTokens", () => {
         type Foo = FromDefineObject<{ foo: "number" }>;
@@ -33,8 +27,6 @@ describe("FromDefineObject<T>", () => {
     });
 })
 
-
-
 describe("FromDefn<T>", () => {
 
     it("using SimpleTokens for definition", () => {
@@ -47,6 +39,5 @@ describe("FromDefn<T>", () => {
         ];
 
     });
-
 
 });

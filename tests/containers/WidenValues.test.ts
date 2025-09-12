@@ -1,7 +1,6 @@
-import { Expect, HasSameValues, Test, WidenValues } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, HasSameValues, Test, WidenValues } from "inferred-types/types";
 
 describe("WidenValues<T>", () => {
 

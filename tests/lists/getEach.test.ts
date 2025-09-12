@@ -42,7 +42,6 @@ describe("GetEach<T,P>", () => {
         ];
     });
 
-
     it("array of errors", () => {
         type E1 = Err<"context","There I was, there I was">;
         type E2 = Err<"location", "In the Jungle">;
@@ -56,8 +55,6 @@ describe("GetEach<T,P>", () => {
             ]>>
         ];
     });
-
-
 
     it("deep path", () => {
         type List = readonly [
@@ -81,7 +78,6 @@ describe("GetEach<T,P>", () => {
             Expect<Test<Owns, "equals",   [undefined, undefined, "grey"]>>,
         ];
     });
-
 
     it("into an array structure", () => {
         type List = [
@@ -117,14 +113,11 @@ describe("GetEach<T,P>", () => {
         ];
     });
 
-
     const arrSet = [
         { id: 1, color: ["blue", "green", "red"] as const },
         { id: 2, color: ["purple", "lime", "orange", "fuchsia"] as const },
         { id: 3 },
     ] as const;
-
-
 
     it("Functions with Props should work too", () => {
         type List = [
@@ -144,7 +137,6 @@ describe("GetEach<T,P>", () => {
     });
 });
 
-
 describe("getEach(list, prop)", () => {
     it("happy path", () => {
         const kv = tuple(
@@ -156,7 +148,6 @@ describe("getEach(list, prop)", () => {
         const each = getEach(kv, "key");
         expect(each).toEqual(["foo","bar","baz","color"]);
     });
-
 
     it("keying on a property which is only represented in some of the items", () => {
         const kv = tuple(
@@ -172,6 +163,5 @@ describe("getEach(list, prop)", () => {
             Expect<Test<typeof each, "equals", ["foo", undefined, "baz", undefined]>>
         ];
     });
-
 
 })

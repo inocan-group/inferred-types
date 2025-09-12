@@ -1,19 +1,7 @@
 
-import {
-    Contains,
-    Err,
-    Expect,
-    Extends,
-    FnKeyValue,
-    FromInputToken,
-    FromInputToken__String,
-    FromInputToken__Tuple,
-    GetInputToken,
-    Test,
-    TypedFunction
-} from "inferred-types/types";
-import { describe, expect, it } from "vitest";
 
+import { describe, expect, it } from "vitest";
+import type { Contains, Err, Expect, Extends, FnKeyValue, FromInputToken, FromInputToken__String, FromInputToken__Tuple, GetInputToken, Test, TypedFunction } from "inferred-types/types";
 
 describe("FromInputToken__String<T>", () => {
     it("atomic tokens", () => {
@@ -29,7 +17,6 @@ describe("FromInputToken__String<T>", () => {
             Expect<Test<Unknown, "equals",  unknown>>,
         ];
     });
-
 
     it("string literals", () => {
         type Foo = FromInputToken__String<`"foo"`>;
@@ -59,7 +46,6 @@ describe("FromInputToken__String<T>", () => {
         ];
     });
 
-
     it("arrays", () => {
         type PostStr = FromInputToken__String<"string[]">;
         type PostStr2 = FromInputToken__String<"string[][]">;
@@ -82,7 +68,6 @@ describe("FromInputToken__String<T>", () => {
         ];
     });
 })
-
 
 describe("FromInputToken<Token>", () => {
 
@@ -108,7 +93,6 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
-
     it("union with 'unknown' as an element resolves to just 'unknown'", () => {
         type U = FromInputToken__String<"string | number | unknown">;
 
@@ -117,7 +101,6 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
-
     it("unions with FromInputToken", () => {
         type U = FromInputToken<"number | String(bar)">;
 
@@ -125,7 +108,6 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<U, "equals",  number | "bar">>
         ];
     });
-
 
     it("named function", () => {
         type F = FromInputToken<
@@ -183,7 +165,6 @@ describe("FromInputToken<Token>", () => {
         type cases = [
             Expect<Extends<F, TypedFunction>>,
             Expect<Extends<FN, TypedFunction>>,
-
 
             Expect<Test<
                 Parameters<F>, "equals",
@@ -307,15 +288,11 @@ describe("FromInputToken<Token>", () => {
         type NamedWithArrow = FromInputToken<"function greet() => 'String(hi)'">;
         type NamedWithArrowInParenthesis = FromInputToken<"(function greet() => 'String(hi)')">;
 
-
         type cases = [
             Expect<Test<NamedWithArrow, "isError", "malformed-token/named-function">>,
             Expect<Test<NamedWithArrowInParenthesis, "isError", "malformed-token/group">>,
         ];
     });
-
-
-
 
     it("string object definition", () => {
         type O1 = FromInputToken<"{ foo: Number(1); bar: number }">;
@@ -324,7 +301,6 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<O1, "equals", { foo: 1, bar: number }>>
         ];
     });
-
 
     it("string object definition accepts non-required props", () => {
         type O1 = FromInputToken<"{ foo?: Number(1); bar: number }">;
@@ -338,7 +314,6 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
-
     it("object definition as part of union type", () => {
         type O1 = FromInputToken<"{ foo?: number, bar: string, baz: String(baz) } | string">;
 
@@ -351,7 +326,6 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
-
     it("a '{' character -- indicate an object -- but with no terminal '}' character produces an error", () => {
         // the object literal definition is missing the terminating `}`
         type E = FromInputToken<"{ foo: 1">;
@@ -363,7 +337,6 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
-
     it("error when function with leading parenthesis is unmatched", () => {
         // missing the terminating `)` character for the group
         type E = FromInputToken<"(() => string">;
@@ -374,7 +347,6 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
-
     it("union type starting with function", () => {
         type U1 = FromInputToken<"(() => string) | string">;
         type U2 = FromInputToken<"(() => string | number) | string">;
@@ -384,8 +356,6 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<U2, "equals",  (() => string | number) | string>>,
         ];
     });
-
-
 
     it("Record token with FromInputToken", () => {
         type R1 = FromInputToken<"Record<string,string>">;
@@ -415,7 +385,6 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
-
     it("Array<...> as part of union", () => {
         type AU1 = FromInputToken<"Array<boolean> | false">;
         type AU2 = FromInputToken<"Array<boolean> | string">;
@@ -428,7 +397,6 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<AU3, "equals",  false | boolean[]>>,
         ];
     });
-
 
     it("parse Set<..> type", () => {
         type S1 = FromInputToken<"Set<string>">;
@@ -477,7 +445,6 @@ describe("FromInputToken<Token>", () => {
         ];
     });
 
-
     it("Array beginning but without a terminating '>' character", () => {
         type E = FromInputToken<"Array<string">;
 
@@ -485,7 +452,6 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<E, "isError", "malformed-token">>
         ]
     })
-
 
     it("string-based tuple token", () => {
         type T1 = FromInputToken<"[ number, number, string ]">;
@@ -549,6 +515,5 @@ describe("FromInputToken<Token>", () => {
     });
 
 })
-
 
 describe.todo("fromInputToken(token)")

@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, GetYouTubePageType, Test } from "inferred-types/types";
+import type { Expect, GetYouTubePageType, Test } from "inferred-types/types";
+
 import { getYouTubePageType, isYouTubeFeedUrl, youtubeMeta } from "inferred-types/runtime";
-
-
 
 describe("YouTube utilities", () => {
 
@@ -23,7 +22,6 @@ describe("YouTube utilities", () => {
     type ShareLinkWithTimestamp = GetYouTubePageType<`https://youtu.be/M6hHvI6IinM?si=aVRJ2-cIevM-jXZh&t=22`>;
 
     type ShowVideosInPlaylist = GetYouTubePageType<`https://www.youtube.com/playlist?list=PLYuw9x8TuK9u3s8qnucWs7M2q9vf7OZ-X`>;
-
 
     type cases = [
       Expect<Test<Home, "equals",  "home">>,
@@ -46,7 +44,6 @@ describe("YouTube utilities", () => {
     ];
 
   });
-
 
   it("isYouTubeFeedUrl(val)", () => {
     const history = isYouTubeFeedUrl("https://www.youtube.com/feed/history");
@@ -76,7 +73,6 @@ describe("YouTube utilities", () => {
 
   });
 
-
   it("youTubeMeta()", () => {
     const m1 = youtubeMeta("https://www.youtube.com/feed/playlists");
     expect(m1.isYouTubeUrl).toBe(true);
@@ -84,6 +80,5 @@ describe("YouTube utilities", () => {
     expect(m1.isShareUrl).toBe(false);
 
   });
-
 
 });

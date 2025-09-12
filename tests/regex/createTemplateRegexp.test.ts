@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { createTemplateRegExp } from "inferred-types/runtime";
-import { Extends, RegexExecFn, RegexTestFn, RegularExpression, Test } from "inferred-types/types";
+import type { Extends, RegexExecFn, RegexTestFn, RegularExpression, Test } from "inferred-types/types";
 
 describe("createTemplateRegExp", () => {
 
@@ -119,7 +119,6 @@ describe("createTemplateRegExp", () => {
         ]
     })
 
-
     it("type testing of test() function when exact match", () => {
         const re = createTemplateRegExp(`Name: {{string}}`, "exact");
 
@@ -188,7 +187,6 @@ describe("createTemplateRegExp", () => {
         ];
     });
 
-
     it("runtime API has exec() and test() functions", () => {
         const re = createTemplateRegExp(`Name: {{string}}, Age: {{number}}`, "exact");
         const execFunction = re.exec;
@@ -208,8 +206,6 @@ describe("createTemplateRegExp", () => {
             >>,
         ];
     });
-
-
 
     it("exec() function with exact match", () => {
         const re = createTemplateRegExp(`Name: {{string}}, Age: {{number}}`, "exact");

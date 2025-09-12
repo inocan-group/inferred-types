@@ -1,16 +1,10 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IT_TakeKvObjects,
-    IT_Token,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IT_TakeKvObjects, IT_Token, Test } from "inferred-types/types";
 
 describe("TakeKeyValueTokens<T>", () => {
 
     it("take Records", () => {
         type T1 = IT_TakeKvObjects<"Record<string,string>">;
-
 
         type cases = [
             Expect<Test<T1, "extends", IT_Token>>,
@@ -18,7 +12,6 @@ describe("TakeKeyValueTokens<T>", () => {
             Expect<Test<T1["type"], "equals", Record<string,string>>>,
         ];
     });
-
 
     it("take Maps", () => {
         type T1 = IT_TakeKvObjects<"Map<string, number>">;
@@ -31,7 +24,6 @@ describe("TakeKeyValueTokens<T>", () => {
         ];
     });
 
-
     it("take WeakMaps", () => {
         type T1 = IT_TakeKvObjects<"WeakMap<object, string>">;
 
@@ -42,8 +34,6 @@ describe("TakeKeyValueTokens<T>", () => {
         ];
     });
 
-
-
     it("Records with union keys", () => {
         type T1 = IT_TakeKvObjects<"Record<'foo' | 'bar', string | number>">;
 
@@ -53,6 +43,5 @@ describe("TakeKeyValueTokens<T>", () => {
             Expect<Test<T1["type"], "equals", Record<"foo" | "bar", string | number>>>
         ];
     });
-
 
 });

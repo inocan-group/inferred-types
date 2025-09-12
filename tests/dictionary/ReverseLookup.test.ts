@@ -1,5 +1,6 @@
-import { Expect, ReverseLookup, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, ReverseLookup, Test } from "inferred-types/types";
 
 describe("ReverseLookup<T>", () => {
 
@@ -158,6 +159,5 @@ describe("ReverseLookup<T>", () => {
             Expect<Test<keyof Reversed, "equals", never>>
         ];
     });
-
 
 });

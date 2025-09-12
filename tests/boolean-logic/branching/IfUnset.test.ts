@@ -1,14 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    Dictionary,
-    IfUnset,
-    IfUnsetOrUndefined,
-    Unset
-} from "inferred-types/types";
-
-
+import type { Dictionary, Expect, IfUnset, IfUnsetOrUndefined, Test, Unset } from "inferred-types/types";
 
 describe("IfUnset<TTest,TElse>", () => {
 

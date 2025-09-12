@@ -1,7 +1,6 @@
-import { Expect, AsNonNull, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { AsNonNull, Expect, Test } from "inferred-types/types";
 
 describe("AsNonNull<T>", () => {
 

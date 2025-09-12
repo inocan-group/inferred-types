@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Subtract, Test } from "inferred-types/types";
-
-
+import type { Expect, Subtract, Test } from "inferred-types/types";
 
 describe("Subtract<A,B>", () => {
 
@@ -20,7 +18,6 @@ describe("Subtract<A,B>", () => {
         ];
 
     });
-
 
     it("negative results return literal types", () => {
         type NegOne = Subtract<4, 5>;
@@ -88,6 +85,5 @@ describe("Subtract<A,B>", () => {
             Expect<Test<Large4, "equals", -100>>,
         ];
     });
-
 
 });

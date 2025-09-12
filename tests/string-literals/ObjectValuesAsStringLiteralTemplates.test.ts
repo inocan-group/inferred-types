@@ -1,5 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ObjectValuesAsStringLiteralTemplate, Test } from "inferred-types/types";
+import type { ObjectValuesAsStringLiteralTemplate, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("Name", () => {
@@ -9,7 +10,6 @@ describe("Name", () => {
             str: "Foo{{string}}",
             num: "{{number}} x {{number}}"
         }>;
-
 
         type cases = [
             Expect<Test<

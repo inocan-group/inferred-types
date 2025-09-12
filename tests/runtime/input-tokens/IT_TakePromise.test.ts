@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IT_TakePromise,
-    IT_Token,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IT_TakePromise, IT_Token, Test } from "inferred-types/types";
 
 describe("IT_TakePromise<T>", () => {
 

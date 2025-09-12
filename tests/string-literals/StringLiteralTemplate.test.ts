@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, StringLiteralTemplate, Test } from "inferred-types/types";
+import type { Expect, StringLiteralTemplate, Test } from "inferred-types/types";
 
 describe("StringLiteralTemplate<T>", () => {
 
@@ -14,5 +14,4 @@ describe("StringLiteralTemplate<T>", () => {
   });
 
 });
-
 

@@ -1,7 +1,6 @@
-import { Expect, ContainerKeyGuarantee, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { ContainerKeyGuarantee, Expect, Test } from "inferred-types/types";
 
 describe("ContainerKeyGuarantee<T>", () => {
 
@@ -13,7 +12,6 @@ describe("ContainerKeyGuarantee<T>", () => {
         type Bar = ContainerKeyGuarantee<Obj, "bar">;
         type Two = ContainerKeyGuarantee<Tup, 2>;
         type ThreeArr = ContainerKeyGuarantee<StrArr, 3>;
-
 
         type cases = [
             Expect<Test<Bar, "equals",  { foo: 1; bar: unknown }>>,

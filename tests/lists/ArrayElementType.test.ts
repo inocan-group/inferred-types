@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, ArrayElementType, Test } from "inferred-types/types";
+import type { ArrayElementType, Expect, Test } from "inferred-types/types";
 
 describe("ArrayElementType<T>", () => {
 
@@ -17,7 +17,6 @@ describe("ArrayElementType<T>", () => {
         ];
     });
 
-
     it("tuple as input", () => {
         type S = ArrayElementType<["foo", "bar"]>;
         type N = ArrayElementType<[1, 2, 3]>;
@@ -32,6 +31,5 @@ describe("ArrayElementType<T>", () => {
         ];
 
     });
-
 
 });

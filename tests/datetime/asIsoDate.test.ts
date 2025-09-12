@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
+
 import { asIsoDate } from "inferred-types/runtime";
 
 describe("asIsoDate(d)", () => {

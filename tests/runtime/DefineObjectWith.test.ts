@@ -1,14 +1,9 @@
 import { describe, expect, it } from "vitest";
-import {
-    DefineObjectWith,
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { DefineObjectWith, Expect, Test } from "inferred-types/types";
+
 import { defineObjectWith } from "inferred-types/runtime";
 
 describe("DefineObjectWith<TDefn,TMap>", () => {
-
-
 
     it("happy path", () => {
         type Mapper = {

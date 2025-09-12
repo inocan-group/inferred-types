@@ -1,5 +1,6 @@
 import { AlphaChar } from "inferred-types";
-import { Expect, Err, Test, ValidateCharacterSet, AlphanumericChar } from "inferred-types/types";
+import type { AlphanumericChar, Err, Expect, Test, ValidateCharacterSet } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("ValidateCharacterSet<TContent,TCharset,[E]>", () => {
@@ -36,8 +37,5 @@ describe("ValidateCharacterSet<TContent,TCharset,[E]>", () => {
         ];
     });
 
-
-
 });
-
 

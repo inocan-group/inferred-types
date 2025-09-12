@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, NotFilter, HasSameValues, Test } from "inferred-types/types";
+import type { Expect, HasSameValues, NotFilter, Test } from "inferred-types/types";
 
 describe("Filter using extends operation", () => {
 
@@ -17,7 +17,6 @@ describe("Filter using extends operation", () => {
             Expect<Test<Hybrid, "equals", [2, "foo", "bar"]>>,
         ];
     });
-
 
     it("readonly Tuple, single filter", () => {
         type Foobar = NotFilter<readonly [1, 2, "foo", "bar"], "extends", [number]>;
@@ -41,7 +40,6 @@ describe("Filter using extends operation", () => {
             Expect<Test<Foo, "equals",  [1, 2, "bar"]>>,
         ];
     });
-
 
     it("filter out wide types, including never", () => {
         type StripNumbers = NotFilter<[1, "foo", number, "bar"], "extends", [number]>;
@@ -83,7 +81,6 @@ describe("Filter using extends operation", () => {
         type List = [1, 2, "foo", "bar", never, 1];
 
         type One = NotFilter<List, "equals", [1]>;
-
 
         type cases = [
             Expect<Test<One, "equals", [2, "foo", "bar"]>>,

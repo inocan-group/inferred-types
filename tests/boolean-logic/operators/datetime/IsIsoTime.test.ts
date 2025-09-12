@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsIsoTime,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsIsoTime, Test } from "inferred-types/types";
 
 describe("IsIsoTime<T>", () => {
 
@@ -286,7 +282,6 @@ describe("IsIsoTime<T>", () => {
         type Format13 = IsIsoTime<"01:23:45.678+09">;         // HH:MM:SS.mmm + TZ(short)
         type Format14 = IsIsoTime<"01:23:45.678+0900">;       // HH:MM:SS.mmm + TZ(compact)
         type Format15 = IsIsoTime<"01:23:45.678+09:00">;      // HH:MM:SS.mmm + TZ(extended)
-
 
         type cases = [
             Expect<Test<Format1, "equals", true>>,

@@ -1,12 +1,6 @@
 import { describe, it } from "vitest";
 import { Ref } from "vue";
-import {
-    Expect,
-    IsValidDotPath,
-    Test,
-    ValueAtDotPath
-} from "inferred-types/types";
-
+import type { Expect, IsValidDotPath, Test, ValueAtDotPath } from "inferred-types/types";
 
 describe("ValueAtDotPath", () => {
 

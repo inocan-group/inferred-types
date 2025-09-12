@@ -1,10 +1,8 @@
-import {  Or, Expect, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Or, Test } from "inferred-types/types";
 
 describe("Or<T>", () => {
-
 
     it("global error conditions", () => {
         type E1 = Or<never, {err: "error"}>;
@@ -28,7 +26,6 @@ describe("Or<T>", () => {
         type T5 = Or<[false, false, boolean]>; // boolean
         type T6 = Or<[boolean, false, false]>; // boolean
 
-
         type cases = [
             Expect<Test<T1, "equals",  true>>, //
             Expect<Test<T2, "equals",  false>>,
@@ -46,7 +43,6 @@ describe("Or<T>", () => {
         type T4 = Or<[() => true, () => false, () => boolean]>; // true
         type T5 = Or<[() => false, () => false, () => boolean]>; // boolean
 
-
         type cases = [
             Expect<Test<T1, "equals",  true>>, //
             Expect<Test<T2, "equals",  false>>,
@@ -55,7 +51,6 @@ describe("Or<T>", () => {
             Expect<Test<T5, "equals",  boolean>>,
         ];
     });
-
 
     it("any as element", () => {
         type E1 = Or<[true, false, any], { err: "error" }>;
@@ -80,8 +75,6 @@ describe("Or<T>", () => {
             Expect<Test<E3, "isError", "invalid/or">>,
         ];
     });
-
-
 
 });
 

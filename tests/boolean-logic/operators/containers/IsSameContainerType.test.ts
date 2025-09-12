@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsSameContainerType,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsSameContainerType, Test } from "inferred-types/types";
 
 describe("IsSameContainerType<A,B>", () => {
 
@@ -21,7 +17,6 @@ describe("IsSameContainerType<A,B>", () => {
         ];
     });
 
-
     it("negative tests", () => {
         type F1 = IsSameContainerType<[1,2,3], { foo: 1}>;
         type F2 = IsSameContainerType<string[], { foo: 1}>;
@@ -31,6 +26,5 @@ describe("IsSameContainerType<A,B>", () => {
             Expect<Test<F2, "equals", false>>,
         ];
     });
-
 
 });

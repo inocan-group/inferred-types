@@ -1,5 +1,6 @@
-import { Expect, Max, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Max, Test } from "inferred-types/types";
 
 describe("Max<T>", () => {
 

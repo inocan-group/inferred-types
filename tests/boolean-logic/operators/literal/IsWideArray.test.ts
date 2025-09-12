@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    DropVariadic,
-    Expect,
-    IsWideArray,
-    Test,
-} from "inferred-types/types";
+import type { DropVariadic, Expect, IsWideArray, Test } from "inferred-types/types";
 
 describe("IsWideArray<T>", () => {
     it("should return true for wide array types", () => {

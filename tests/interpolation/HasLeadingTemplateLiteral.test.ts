@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    StartsWithTemplateLiteral,
-    Test,
-} from "inferred-types/types";
+import type { Expect, StartsWithTemplateLiteral, Test } from "inferred-types/types";
 
 describe("HasLeadingTemplateLiteral<T>", () => {
 

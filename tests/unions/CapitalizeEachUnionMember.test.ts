@@ -1,7 +1,6 @@
-import { Expect, CapitalizeEachUnionMember, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { CapitalizeEachUnionMember, Expect, Test } from "inferred-types/types";
 
 describe("CapitalizeEachUnionMember<T>", () => {
 

@@ -1,7 +1,6 @@
-import { Expect, ReduceValues, Test, Values } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, ReduceValues, Test, Values } from "inferred-types/types";
 
 describe("ReduceValues<T>", () => {
 
@@ -22,8 +21,6 @@ describe("ReduceValues<T>", () => {
         const cases: cases = [true, true, true, true, true];
     });
 
-
-
     it("happy path with dictionaries", () => {
         type T1 = ReduceValues<{ foo: number; bar: () => "hi" }>;
         type V = Values<{ foo: number; bar: () => "hi" }>;
@@ -32,8 +29,6 @@ describe("ReduceValues<T>", () => {
             Expect<Test<T1, "equals", [number,  "hi"]>>
         ];
 
-
     });
-
 
 });

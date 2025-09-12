@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
+
 import { between } from "inferred-types/runtime";
 
 describe("between(min,max,scope) -> (val) -> boolean", () => {
@@ -66,7 +64,6 @@ describe("between(min,max,scope) -> (val) -> boolean", () => {
         ];
     });
 
-
     it("exclusive with decimal numbers", () => {
         const zeroToFour = between(0,4, "exclusively");
 
@@ -80,6 +77,5 @@ describe("between(min,max,scope) -> (val) -> boolean", () => {
             Expect<Test<typeof t2, "equals", true>>,
         ];
     });
-
 
 });

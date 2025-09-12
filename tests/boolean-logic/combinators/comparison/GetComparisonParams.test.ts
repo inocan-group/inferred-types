@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    GetComparisonParams
-} from "inferred-types/types";
+import type { Expect, GetComparisonParams, Test } from "inferred-types/types";
 
 describe("GetComparisonParams<TOp>", () => {
 

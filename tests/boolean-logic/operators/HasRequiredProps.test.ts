@@ -1,20 +1,12 @@
-import type {
-    Expect,
-    EmptyObject,
-    HasRequiredProps,
-    Test,
-    RequiredKeysTuple,
-    Keys,
-    ObjectKeys
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { EmptyObject, Expect, HasRequiredProps, Keys, ObjectKeys, RequiredKeysTuple, Test } from "inferred-types/types";
 
 describe("HasRequiredProps<T>", () => {
 
     it("happy path", () => {
         type T1 = HasRequiredProps<{ foo: 1; bar: 2 }>;
         type T2 = HasRequiredProps<{ foo: 1; bar?: 2 }>;
-
 
         type F1 = HasRequiredProps<{ foo?: 1; bar?: 2 }>;
         type F2 = HasRequiredProps<EmptyObject>;

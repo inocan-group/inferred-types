@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    EmptyObject,
-    Expect,
-    FnKeyValue,
-    Test,
-} from "inferred-types/types";
+import type { EmptyObject, Expect, FnKeyValue, Test } from "inferred-types/types";
 
 describe("FnKeyValue<T>", () => {
 
@@ -25,6 +20,5 @@ describe("FnKeyValue<T>", () => {
             Expect<Test<KV, "equals", EmptyObject>>
         ];
     });
-
 
 });

@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, HasParameters } from "inferred-types/types";
+import type { Expect, HasParameters, Test } from "inferred-types/types";
 
 describe("HasParameters<T>", () => {
   it("should return true for functions with at least one parameter", () => {

@@ -1,6 +1,6 @@
 import { trim, trimEnd, trimStart } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
-import { Expect, Test, Trim, TrimLeft, TrimRight } from "inferred-types/types";
+import type { Expect, Test, Trim, TrimLeft, TrimRight } from "inferred-types/types";
 
 describe("Trim<T> and trim()", () => {
 
@@ -22,7 +22,6 @@ describe("Trim<T> and trim()", () => {
         ];
     });
 
-
     it("runtime tests", () => {
         const foobar = trim("  foobar  ");
 
@@ -34,7 +33,6 @@ describe("Trim<T> and trim()", () => {
     });
 
 });
-
 
 describe("TrimLeft<T>", () => {
 
@@ -50,7 +48,6 @@ describe("TrimLeft<T>", () => {
         ];
     });
 
-
     it("runtime tests", () => {
         const foobar = trimStart("  foobar ");
         const foobar2 = trimStart("  foobar ");
@@ -63,7 +60,6 @@ describe("TrimLeft<T>", () => {
             Expect<Test<typeof foobar2, "equals", "foobar ">>,
         ];
     });
-
 
 });
 
@@ -81,7 +77,6 @@ describe("TrimRight<T>", () => {
         ];
     });
 
-
     it("runtime tests", () => {
         const foobar = trimEnd(" foobar ");
 
@@ -91,6 +86,5 @@ describe("TrimRight<T>", () => {
             Expect<Test<typeof foobar, "equals", " foobar">>,
         ];
     });
-
 
 });

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Container, DoesExtend, Expect, IsContainer, Test, Tuple } from "inferred-types/types";
+import type { Container, DoesExtend, Expect, IsContainer, Test, Tuple } from "inferred-types/types";
+
 import { isContainer, narrow } from "inferred-types/runtime";
 import { ExpectTrue } from "@type-challenges/utils";
 
@@ -10,7 +11,6 @@ describe("IsContainer<T>", () => {
         type Empty = IsContainer<{}>;
         type GenericObj = IsContainer<NonNullable<unknown>>;
         type Rec = IsContainer<Record<string, string>>;
-
 
         type cases = [
             Expect<Test<ObjLit, "equals",  true>>,
@@ -34,7 +34,6 @@ describe("IsContainer<T>", () => {
         ];
     });
 
-
     it("functions are not containers", () => {
         type F1 = IsContainer<() => "hi">;
         type F2 = IsContainer<Function>;
@@ -54,7 +53,6 @@ describe("IsContainer<T>", () => {
         type Nada2 = IsContainer<undefined>;
         type Never = IsContainer<never>;
         type Always = IsContainer<any>;
-
 
         type cases = [
             Expect<Test<Num, "equals",  false>>,

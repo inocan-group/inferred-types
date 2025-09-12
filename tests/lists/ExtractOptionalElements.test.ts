@@ -1,5 +1,6 @@
-import { Expect, ExtractOptionalElements, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, ExtractOptionalElements, Test } from "inferred-types/types";
 
 describe("ExtractOptionalElements<T>", () => {
     it("non-variadic", () => {
@@ -13,7 +14,6 @@ describe("ExtractOptionalElements<T>", () => {
             Expect<Test<NV_SomeOptional, "equals", [boolean?]>>,
         ];
     });
-
 
     it("variadic", () => {
         type V_NoOptional = ExtractOptionalElements<[string, boolean, ...number[]]>;

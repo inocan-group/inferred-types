@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    FromLiteralTemplate,
-    IntoTemplate,
-    TemplateBlocks,
-    TemplateParams,
-    Test,
-} from "inferred-types/types";
+import type { Expect, FromLiteralTemplate, IntoTemplate, TemplateBlocks, TemplateParams, Test } from "inferred-types/types";
 
 describe("IntoTemplate<TTpl, TArgs>", () => {
 

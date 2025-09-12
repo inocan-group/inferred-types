@@ -1,11 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { isAfter, asDate } from "inferred-types/runtime";
-import {
-    Test,
-    Expect,
-    DateLike,
-    IsAfter
-} from "inferred-types/types";
+import type { DateLike, Expect, IsAfter, Test } from "inferred-types/types";
 
 describe("isAfter()", () => {
 

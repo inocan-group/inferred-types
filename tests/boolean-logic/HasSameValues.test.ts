@@ -1,5 +1,6 @@
-import { Err, Expect, HasSameValues, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Err, Expect, HasSameValues, Test } from "inferred-types/types";
 
 describe("HasSameValues<TContainer,TComparator", () => {
 
@@ -27,7 +28,6 @@ describe("HasSameValues<TContainer,TComparator", () => {
         ];
 
     });
-
 
     it("same values with different type structures", () => {
         type T1 = HasSameValues<{foo: 1; bar: 2}, [1,2]>;
@@ -58,7 +58,6 @@ describe("HasSameValues<TContainer,TComparator", () => {
 
         type O1 = HasSameValues<[1, 2, 3], any, Err<"oops/there-i-go-again">>;
         type O2 = HasSameValues<[1, 2, 3], any, Err<"oops/there-i-go-again">>;
-
 
         type cases = [
             Expect<Test<F3, "equals",  false>>,

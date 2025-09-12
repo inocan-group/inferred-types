@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isEmpty, isNotEmpty } from "inferred-types/runtime"
-import { Expect, Empty, Test } from "inferred-types/types";
+import type { Empty, Expect, Test } from "inferred-types/types";
 
 describe("isEmpty(val)", () => {
 
@@ -96,13 +96,10 @@ describe("isNotEmpty(val)", () => {
         }
     });
 
-
     it("as array filter", () => {
         const arr = [1, 2, undefined, 3, "", 4].filter(isNotEmpty);
         expect(arr).toEqual([1, 2, 3, 4])
     });
 
 });
-
-
 

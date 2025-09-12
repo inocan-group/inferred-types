@@ -1,8 +1,7 @@
-import { describe, it } from "vitest";
-import { expect} from "vitest";
-import { Expect, Abs, Test } from "inferred-types/types";
-import { abs } from "inferred-types/runtime"
+import { describe, it, expect } from "vitest";
+import type { Abs, Expect, Test } from "inferred-types/types";
 
+import { abs } from "inferred-types/runtime"
 
 describe("Abs<T>", () => {
 
@@ -22,9 +21,7 @@ describe("Abs<T>", () => {
 
 });
 
-
 describe("abs(num)", () => {
-
 
     it("positive number", () => {
         const test = abs(1);
@@ -36,7 +33,6 @@ describe("abs(num)", () => {
         ];
     });
 
-
     it("zero", () => {
         const test = abs(0);
 
@@ -46,7 +42,6 @@ describe("abs(num)", () => {
             Expect<Test<typeof test, "equals", 0>>,
         ];
     });
-
 
     it("negative number", () => {
         const test = abs(-1);
@@ -67,7 +62,5 @@ describe("abs(num)", () => {
             Expect<Test<typeof test, "equals", number>>,
         ];
     });
-
-
 
 })

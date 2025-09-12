@@ -1,5 +1,6 @@
-import { Expect, EmptyObject, RemoveNever, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { EmptyObject, Expect, RemoveNever, Test } from "inferred-types/types";
 
 describe("RemoveNever<T>", () => {
 

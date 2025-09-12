@@ -1,7 +1,7 @@
 
-import { Expect, Test } from "inferred-types/types";
-import { describe, expect, it } from "vitest";
 
+import { describe, expect, it } from "vitest";
+import type { Expect, Test } from "inferred-types/types";
 
 describe.skip("Encoding JS to HTML string and back", () => {
 
@@ -10,7 +10,6 @@ describe.skip("Encoding JS to HTML string and back", () => {
     const asHtml = encodeJsStringToHtml(jsStr);
     const fromHtml = decodeHtmlStringToJs(`Everyone knows that 5 &gt; 4, but if they don&#39;t I&#39;ve copyrighted it here &rarr; &copy; 2025`)
     const back = decodeHtmlStringToJs(asHtml);
-
 
     expect(asHtml).toBe("Everyone knows that 5 &gt; 4, but if they don&#39;t I&#39;ve copyrighted it here &rarr; &copy; 2025")
     expect(fromHtml).toEqual(jsStr);

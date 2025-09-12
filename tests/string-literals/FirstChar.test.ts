@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, FirstChar, Test } from "inferred-types/types";
-
+import type { Expect, FirstChar, Test } from "inferred-types/types";
 
 describe("FirstChar<T>", () => {
 
@@ -14,7 +13,6 @@ describe("FirstChar<T>", () => {
         ];
         const cases: cases = [true, true];
     });
-
 
     it("with array input", () => {
         type FooBarBaz = FirstChar<["foo", "bar", "baz"]>;

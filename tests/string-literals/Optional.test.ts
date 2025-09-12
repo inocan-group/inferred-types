@@ -1,7 +1,6 @@
-import { Expect, Opt, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Opt, Test } from "inferred-types/types";
 
 describe("Optional<T>", () => {
 
@@ -12,7 +11,6 @@ describe("Optional<T>", () => {
 
         type Multi = Opt<["foo", "bar"]>;
         type MultiUnion = Opt<["foo" | "bar", "foo" | "bar"]>;
-
 
         type cases = [
             Expect<Test<FooMaybeBar, "equals",  "foo" | "foobar">>,

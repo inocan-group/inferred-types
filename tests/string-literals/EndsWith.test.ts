@@ -1,8 +1,7 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { EndsWith } from "inferred-types/types";
+import type { EndsWith } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("EndsWith<TValue,TTest>", () => {
 

@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    AllLengthOf,
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { AllLengthOf, Expect, Test } from "inferred-types/types";
 
 describe("AllLengthOf", () => {
 
@@ -17,17 +13,14 @@ describe("AllLengthOf", () => {
         ];
     });
 
-
     it("negative tests", () => {
         type F1 = AllLengthOf<["a","bb"], 1>;
         type F2 = AllLengthOf<["aa","bb"], 1>;
-
 
         type cases = [
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
         ];
     });
-
 
 });

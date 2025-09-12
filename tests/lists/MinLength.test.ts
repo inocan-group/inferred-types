@@ -1,5 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { MinLength, Test } from "inferred-types/types";
+import type { MinLength, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("MinLength<T>", () => {

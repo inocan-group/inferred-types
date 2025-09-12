@@ -1,8 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsLessThan, Test } from "inferred-types/types";
-
-
+import type { IsLessThan, Test } from "inferred-types/types";
 
 describe("IsLessThan<A,B>", () => {
 

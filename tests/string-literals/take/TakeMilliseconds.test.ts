@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    TakeMilliseconds,
-    ThreeDigitMillisecond
-} from "inferred-types/types";
+import type { Expect, TakeMilliseconds, Test, ThreeDigitMillisecond } from "inferred-types/types";
 
 describe("TakeMilliseconds<T>", () => {
 

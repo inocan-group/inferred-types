@@ -1,7 +1,6 @@
-import { Expect, IsVariable, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, IsVariable, Test } from "inferred-types/types";
 
 describe("IsVariable<T>", () => {
 
@@ -13,7 +12,6 @@ describe("IsVariable<T>", () => {
     type F1 = IsVariable<"foo-bar">;
     type F2 = IsVariable<"foobar!">;
     type F3 = IsVariable<"foo/bar">;
-
 
     // @ts-ignore
     type cases = [

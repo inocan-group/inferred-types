@@ -1,5 +1,6 @@
-import { Expect, Test, TrimDictionary } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Test, TrimDictionary } from "inferred-types/types";
 
 describe("TrimDictionary<T>", () => {
 

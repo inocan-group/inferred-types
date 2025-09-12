@@ -1,8 +1,6 @@
 import { describe, it } from "vitest";
 import { objectValues } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("objectValues", () => {
 

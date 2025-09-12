@@ -1,16 +1,6 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import {
-    IsNever,
-    IfNever,
-    Something,
-    Nothing,
-    Test,
-    Expect
-} from "inferred-types/types";
-
-
+import type { Expect, IfNever, IsNever, Nothing, Something, Test } from "inferred-types/types";
 
 describe("IsNever<T>", () => {
 
@@ -33,7 +23,6 @@ describe("IsNever<T>", () => {
         const cases: cases = [false, false, false, false, false, false];
     });
 
-
     it("positive tests", () => {
         type T1 = IsNever<never>;
 
@@ -42,8 +31,6 @@ describe("IsNever<T>", () => {
         ];
         const cases: cases = [true];
     });
-
-
 
     it("IfTrue<T,IF,ELSE> branching", () => {
         type B1 = IfNever<never, "yup", "nope">;

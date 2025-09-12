@@ -1,8 +1,6 @@
 import { ExpectFalse, ExpectTrue, IsFalse, IsTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsDomainName, IsIp4Octet, IsIp6HexGroup, IsIpAddress } from "inferred-types/types";
-
-
+import type { IsDomainName, IsIp4Octet, IsIp6HexGroup, IsIpAddress } from "inferred-types/types";
 
 describe("Network utilities", () => {
 
@@ -34,7 +32,6 @@ describe("Network utilities", () => {
 
     ];
   });
-
 
   it("IsIp4Octet<T>", () => {
     type T1 = IsIp4Octet<"255">;
@@ -68,8 +65,6 @@ describe("Network utilities", () => {
     ];
   });
 
-
-
   it("IsIp6HexGroup<T>", () => {
     type T1 = IsIp6HexGroup<"fe08">;
     type T2 = IsIp6HexGroup<"fe0">;
@@ -94,7 +89,6 @@ describe("Network utilities", () => {
     ];
 
   });
-
 
   it("IsIpAddress", () => {
     type T1 = IsIpAddress<"192.168.1.1">;
@@ -128,7 +122,6 @@ describe("Network utilities", () => {
       IsFalse<F5>,
       IsFalse<F6>,
     ];
-
 
   });
 

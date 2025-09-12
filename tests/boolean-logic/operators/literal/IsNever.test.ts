@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsNever,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsNever, Test } from "inferred-types/types";
 
 describe("IsNever", () => {
     it("should return true for never type", () => {

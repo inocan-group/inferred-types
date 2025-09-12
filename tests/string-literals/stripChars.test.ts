@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { stripChars } from "inferred-types/runtime";
 import { UPPER_ALPHA_CHARS } from "inferred-types/constants"
-import { Test, Expect } from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
 
 describe("stripChars(content,...strip)", () => {
 

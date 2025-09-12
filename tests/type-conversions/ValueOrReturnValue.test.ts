@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, ValueOrReturnValue } from "inferred-types/types";
+import type { Expect, Test, ValueOrReturnValue } from "inferred-types/types";
 
 describe("ValueOrReturnValue<T>", () => {
 
@@ -17,7 +17,6 @@ describe("ValueOrReturnValue<T>", () => {
         ];
 
     });
-
 
     it("happy path for tuple input", () => {
         type Bool = ValueOrReturnValue<readonly [true, () => false, true]>;

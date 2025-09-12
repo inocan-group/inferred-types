@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, BeforeLast, Test } from "inferred-types/types";
-
-
+import type { BeforeLast, Expect, Test } from "inferred-types/types";
 
 describe("BeforeLast", () => {
 

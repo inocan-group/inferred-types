@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, IsEscapeFunction } from "inferred-types/types";
+import type { Expect, IsEscapeFunction, Test } from "inferred-types/types";
 
 describe("IsEscapeFunction<T>", () => {
   it("should return true for escape functions", () => {

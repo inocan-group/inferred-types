@@ -1,5 +1,6 @@
-import { Expect, Add, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Add, Expect, Test } from "inferred-types/types";
 
 describe("Add<A,B>", () => {
 
@@ -32,7 +33,6 @@ describe("Add<A,B>", () => {
             Expect<Test<OneHundred, "equals",  "100">>
         ];
     });
-
 
     it("First operand is negative", () => {
         type Three = Add<-2, 5>;

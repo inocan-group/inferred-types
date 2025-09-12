@@ -1,10 +1,6 @@
 import { describe, it, expect } from "vitest";
-import type {
-    Expect,
-    Extends,
-    NotEqual,
-    Test,
-} from "inferred-types/types";
+import type { Expect, Extends, NotEqual, Test } from "inferred-types/types";
+
 import { idLiteral, literal } from "inferred-types/runtime";
 
 describe("literal enforcement", () => {

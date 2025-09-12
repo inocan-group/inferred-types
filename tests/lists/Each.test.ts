@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Each,
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { Each, Expect, Test } from "inferred-types/types";
 
 describe("Each<T,Op,Param>", () => {
 
@@ -20,8 +16,6 @@ describe("Each<T,Op,Param>", () => {
         ];
     });
 
-
-
     it("get operation", () => {
         type People = [
             { id: 1, name: "Bob", about: { color: "blue"; age: 45 }},
@@ -34,7 +28,6 @@ describe("Each<T,Op,Param>", () => {
             Expect<Test<Color,"equals", ["blue","green","yellow"]>>,
         ];
     });
-
 
     it("isLiteral operation", () => {
         type T1 = Each<[1,2,3], "isLiteral">;
@@ -64,7 +57,6 @@ describe("Each<T,Op,Param>", () => {
         ];
     });
 
-
     it("append operation", () => {
         type FooBar = Each<["foo","bar"], "append", "!">;
         type Float = Each<[1,2,3], "append", ".5">;
@@ -92,7 +84,5 @@ describe("Each<T,Op,Param>", () => {
             Expect<Test<SkipSome, "equals", ["?foo", { foo: 1 }, "?bar"]>>,
         ];
     });
-
-
 
 });

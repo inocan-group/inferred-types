@@ -1,9 +1,8 @@
 /* eslint-disable ts/ban-ts-comment */
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  IsIsoDate, IsIsoTime } from "inferred-types/types";
+import type { IsIsoDate, IsIsoTime } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("Operators", () => {
 
@@ -21,7 +20,6 @@ describe("Operators", () => {
     type T10 = IsIsoTime<"12:34:56.123Z">;
     type T11 = IsIsoTime<"12:34:56.123+00:00">;
     type T12 = IsIsoTime<"12:34:56.123-00:00">;
-
 
     type F1 = IsIsoTime<"12:34:56.123+00:00:00">;
     type F2 = IsIsoTime<"12:34:56.123-00:00:00">;
@@ -83,7 +81,6 @@ describe("Operators", () => {
     type F1 = IsIsoDate<"20241255">;
     type F2 = IsIsoDate<"20244225">;
     type F3 = IsIsoDate<"2024a1225">;
-
 
     type _cases = [
       ExpectTrue<T1>,

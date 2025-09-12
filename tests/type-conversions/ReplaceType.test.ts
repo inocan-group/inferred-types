@@ -1,5 +1,6 @@
-import { Expect, ReplaceType, Test, Unset } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, ReplaceType, Test, Unset } from "inferred-types/types";
 
 describe("ReplaceType<TContent,TFind,TReplace>", () => {
 
@@ -17,7 +18,6 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
             Expect<Test<T1, "equals", "foo">>,
         ];
     });
-
 
     it("null to string", () => {
         type T1 = ReplaceType<null, null, string>;
@@ -115,7 +115,6 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         ];
     });
 
-
     it("tuple type replacement of numeric literal", () => {
         type T1 = ReplaceType<[42, 99, 99], 99, "foo">;
 
@@ -123,7 +122,6 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
             Expect<Test<T1, "equals", [42, "foo", "foo"]>>
         ];
     });
-
 
     it("union type replacement of numeric literal", () => {
         type T1 = ReplaceType<1 | 2 | 3, 3, 4>;
@@ -133,7 +131,6 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         ];
     });
 
-
     it("union type replace of true to numeric literal", () => {
         type T1 = ReplaceType<1 | 2 | 3 | true, true, 4>;
 
@@ -141,6 +138,5 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
             Expect<Test<T1, "equals", 1 | 2 | 3 | 4>>,
         ];
     });
-
 
 });

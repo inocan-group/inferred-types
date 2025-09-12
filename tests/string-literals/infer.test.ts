@@ -1,10 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { infer } from "inferred-types/runtime";
-import { Test } from "inferred-types/types";
+import type { Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 const datum = "Llama-3.3-70B-Instruct-f16/Llama-3.3-70B-Instruct-f16-00001-of-00004.gguf" as const;
-
 
 describe("infer(template) → (test) → RESULT", () => {
 
@@ -75,7 +75,6 @@ describe("infer(template) → (test) → RESULT", () => {
         ];
     });
 
-
     it("Wide strings passed in to inference test deferred to runtime", () => {
         const inference = infer(
             `{{infer Model}}/{{infer File}}-{{infer Index extends number}}-of-{{infer Total extends number}}.{{infer Rest}}`
@@ -104,7 +103,6 @@ describe("infer(template) → (test) → RESULT", () => {
         ];
 
     });
-
 
     it("numeric inferences are returned as numbers", () => {
         const inference = infer(

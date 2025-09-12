@@ -1,13 +1,9 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    SomeEqual,
-    Test,
-} from "inferred-types/types";
+import type { Expect, SomeEqual, Test } from "inferred-types/types";
+
 import { equalsSome } from "inferred-types/runtime";
 
 describe("equalsSome(v1, v2, v3)(compare)", () => {
-
 
     it("SomeEquals<T> happy path", () => {
         type T1 = SomeEqual<["foo","bar","baz"], "foo">;
@@ -24,7 +20,6 @@ describe("equalsSome(v1, v2, v3)(compare)", () => {
             Expect<Test<F1, "equals", false>>,
         ];
     });
-
 
     it("runtime types and values", () => {
         const fooBarBaz = equalsSome("foo", "bar", "baz");

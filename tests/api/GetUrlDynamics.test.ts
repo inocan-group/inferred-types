@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    GetQueryParameterDynamics,
-    GetUrlDynamics,
-    GetUrlPathDynamics,
-    IsErrMsg,
-} from "inferred-types/types";
+import type { Expect, GetQueryParameterDynamics, GetUrlDynamics, GetUrlPathDynamics, IsErrMsg, Test } from "inferred-types/types";
 
 describe("GetUrlPathDynamics<T>", () => {
 

@@ -1,5 +1,6 @@
-import { Expect, Fallback, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Fallback, Test } from "inferred-types/types";
 
 describe("Fallback<TVal,TDefault,[TProtect]>", () => {
 
@@ -17,7 +18,6 @@ describe("Fallback<TVal,TDefault,[TProtect]>", () => {
         ];
     });
 
-
     it("union type for T", () => {
         type T = "foo" | "bar" | undefined;
 
@@ -27,6 +27,5 @@ describe("Fallback<TVal,TDefault,[TProtect]>", () => {
             Expect<Test<U, "equals", "foo" | "bar" | "baz">>
         ];
     });
-
 
 });

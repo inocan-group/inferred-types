@@ -1,7 +1,6 @@
-import { Expect, TakeLast, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, TakeLast, Test } from "inferred-types/types";
 
 describe("TakeLast<TContent,TLen,[THandle]>", () => {
 
@@ -20,7 +19,6 @@ describe("TakeLast<TContent,TLen,[THandle]>", () => {
         ];
     });
 
-
     it("all elements are optional", () => {
         type T1 = TakeLast<[1?, 2?, 3?, string?], 1>;
         type T2 = TakeLast<[1?, 2?, 3?, string?], 2>;
@@ -35,13 +33,11 @@ describe("TakeLast<TContent,TLen,[THandle]>", () => {
         ];
     });
 
-
     it("some elements are optional", () => {
         type T1 = TakeLast<[1, 2?, 3?, string?], 1>;
         type T2 = TakeLast<[1, 2?, 3?, string?], 2>;
         type T3 = TakeLast<[1, 2?, 3?, string?], 3>;
         type T4 = TakeLast<[1, 2?, 3?, string?], 4>;
-
 
         type cases = [
             Expect<Test<T1, "equals", [string?]>>,
@@ -50,7 +46,5 @@ describe("TakeLast<TContent,TLen,[THandle]>", () => {
             Expect<Test<T4, "equals", [1, 2?, 3?, string?]>>,
         ];
     });
-
-
 
 });

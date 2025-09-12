@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, PascalKeys, Test } from "inferred-types/types";
-
-
+import type { Expect, PascalKeys, Test } from "inferred-types/types";
 
 describe("PascalKeys<T>", () => {
 

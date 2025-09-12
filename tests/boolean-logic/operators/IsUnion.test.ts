@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, IsNever, IsUnion, Test } from "inferred-types/types";
-
-
+import type { Expect, IsNever, IsUnion, Test } from "inferred-types/types";
 
 describe("IsUnion<T>", () => {
 
@@ -34,7 +32,6 @@ describe("IsUnion<T>", () => {
 
     });
 
-
     it("edge cases", () => {
         type Any = IsUnion<any>;
         type Never = IsUnion<never>;
@@ -44,7 +41,6 @@ describe("IsUnion<T>", () => {
             Expect<Test<Never, "equals", false>>,
         ];
     });
-
 
 });
 

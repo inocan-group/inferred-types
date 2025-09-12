@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IT_TakeFunction,
-    IT_TakeIntersection,
-    IT_TakeOutcome,
-    IT_Token,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IT_TakeFunction, IT_TakeIntersection, IT_TakeOutcome, IT_Token, Test } from "inferred-types/types";
 
 describe("IT_TakeIntersection<T,P>", () => {
 
@@ -31,5 +24,4 @@ describe("IT_TakeIntersection<T,P>", () => {
     });
 
 });
-
 

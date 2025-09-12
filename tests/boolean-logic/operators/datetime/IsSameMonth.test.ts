@@ -1,6 +1,6 @@
 import { isSameMonth } from "inferred-types/runtime";
-import { DateLike, IsSameMonth } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+import type { DateLike, Expect, IsSameMonth, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 describe("IsSameMonth<A, B>", () => {

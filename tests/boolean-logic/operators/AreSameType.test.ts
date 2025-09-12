@@ -1,14 +1,6 @@
-import {
-    AreSameType,
-    Dictionary,
-    Expect,
-    Test,
-    Tuple
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
-
+import type { AreSameType, Dictionary, Expect, Test, Tuple } from "inferred-types/types";
 
 describe("AreSameType<A,B>", () => {
 

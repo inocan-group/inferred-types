@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    EmptyObject,
-    Expect,
-    IsTruthy,
-    Test,
-} from "inferred-types/types";
+import type { EmptyObject, Expect, IsTruthy, Test } from "inferred-types/types";
 
 describe("IsTruthy<T>", () => {
 
@@ -26,7 +21,6 @@ describe("IsTruthy<T>", () => {
         ];
     });
 
-
     it("negative tests", () => {
         type F1 = IsTruthy<false>;
         type F2 = IsTruthy<null>;
@@ -42,6 +36,5 @@ describe("IsTruthy<T>", () => {
             Expect<Test<F5, "equals", false>>,
         ];
     });
-
 
 });

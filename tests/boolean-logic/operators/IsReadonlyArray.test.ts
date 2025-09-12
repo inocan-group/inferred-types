@@ -1,7 +1,6 @@
-import { Expect, IsReadonlyArray, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, IsReadonlyArray, Test } from "inferred-types/types";
 
 describe("IsReadonlyArray", () => {
 

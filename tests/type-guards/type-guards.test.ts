@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+import type { DoesExtend, Expect, Test } from "inferred-types/types";
     narrow,
     optional,
     isArray,
@@ -20,9 +21,6 @@ import {
     Never
 } from "inferred-types/constants";
 import { ref, Ref } from "vue";
-import { Expect, DoesExtend, Test } from "inferred-types/types";
-
-
 
 describe("isNumericString", () => {
 
@@ -48,13 +46,11 @@ describe("isNumericString", () => {
         const cases: cases = [];
     });
 
-
     it("positive outcomes", () => {
         const numericString = "42" as const;
         const wideString = "42" as string;
 
         expect(isNumericString(numericString), "numericString variable not recognized:" + typeof numericString).toBe(true);
-
 
         if (isNumericString(numericString)) {
             expect(true, "numeric string identified").toBe(true);
@@ -77,7 +73,6 @@ describe("isNumericString", () => {
         }
 
     });
-
 
 });
 
@@ -130,7 +125,6 @@ describe("isRef - testing for VueJS reference types", () => {
 
     });
 
-
     it("negative tests", () => {
         if (isRef(obj)) {
             throw new Error("false positive for isRef");
@@ -175,7 +169,6 @@ describe("isArray / isReadonlyArray", () => {
             throw new Error("didn't detect array");
         }
     });
-
 
     it("positive test of union type", () => {
         if (isReadonlyArray(optFoobar)) {
@@ -222,7 +215,6 @@ describe("hasDefaultValue(v)", () => {
         }
     });
 
-
     it("negative tests", () => {
         if (hasDefaultValue(noNumeric)) {
             throw new Error(`noNumeric should not have passed`);
@@ -257,7 +249,6 @@ describe("isConstant()", () => {
         }
     });
 
-
     it.skip("positive test for Never type", () => {
         // special case because the type system sees as `never` rather than as Constant
         const maybe = Never;
@@ -279,7 +270,6 @@ describe("isConstant()", () => {
             throw new Error(`Never was not found to be a SpecificConstant<\"never\">! Value: ${JSON.stringify(maybe)}`);
         }
     });
-
 
     it("negative test", () => {
         if (isConstant(notReally)) {

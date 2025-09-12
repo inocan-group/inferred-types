@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    Test,
-} from "inferred-types/types";
-import { startsWith, startsWithTypeguard } from "inferred-types/runtime";
+import type { Expect, Test } from "inferred-types/types";
 
+import { startsWith, startsWithTypeguard } from "inferred-types/runtime";
 
 describe("startsWithTypeguard(variants) -> (val) -> boolean", () => {
 

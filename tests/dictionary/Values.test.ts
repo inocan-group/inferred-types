@@ -1,12 +1,9 @@
 import { describe, expect, it } from "vitest";
+import type { Dictionary, EmptyObject, Expect, ObjectKey, Test, Values } from "inferred-types/types";
 
 import { valuesOf } from "inferred-types/runtime";
-import { Expect,  Dictionary, ObjectKey, Values, EmptyObject, Test } from "inferred-types/types";
-
-
 
 describe("Values<T>", () => {
-
 
     it("Values<T> where T is a wide object", () => {
 
@@ -23,7 +20,6 @@ describe("Values<T>", () => {
         ];
 
     });
-
 
     it("Values<T> where T is a LiteralLike object", () => {
         type FooBar = Values<{ foo: 1; bar: 2}>;
@@ -42,7 +38,6 @@ describe("Values<T>", () => {
             Expect<Test<FooBar2, "equals", [2,1?]>>,
         ];
     });
-
 
     it("Values<T> where T is an array", () => {
         type VArr = Values<[1, 2, 3]>;

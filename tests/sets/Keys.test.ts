@@ -1,16 +1,6 @@
 import { describe, it, expect } from "vitest";
-import type {
-    Expect,
-    Keys,
-    NumericKeys,
-    EmptyObject,
-    ObjectKey,
-    Dictionary,
-    HasSameValues,
-    Test,
-    ObjectKeys,
-    RemoveIndexKeys,
-} from "inferred-types/types";
+import type { Dictionary, EmptyObject, Expect, HasSameValues, Keys, NumericKeys, ObjectKey, ObjectKeys, RemoveIndexKeys, Test } from "inferred-types/types";
+
 import { keysOf } from "inferred-types/runtime";
 
 describe("NumericKeys<T>", () => {
@@ -38,7 +28,6 @@ describe("NumericKeys<T>", () => {
     });
 });
 
-
 describe("Keys<T>", () => {
 
     // `ObjectKeys` is a more direct way of getting keys for Objects
@@ -53,9 +42,7 @@ describe("Keys<T>", () => {
             type FooBar_RO = Keys<Readonly<{ foo: 1; bar: 2 }>>;
             type FoobarWideVal = Keys<{ foo: number; bar: string }>;
 
-
             type UnionRec = Keys<Record<"foo" | "bar", number>>;
-
 
             type cases = [
                 Expect<HasSameValues<Uno, ["baz"]>>,
@@ -66,7 +53,6 @@ describe("Keys<T>", () => {
                 Expect<Test<UnionRec, "hasSameValues", ["foo", "bar"]>>,
             ];
         });
-
 
         it("narrow with optional", () => {
             type Uno = Keys<{ baz?: 3 }>;
@@ -91,7 +77,6 @@ describe("Keys<T>", () => {
             ];
         });
 
-
         it("variadic", () => {
             // must have foo and bar, optionally can have keys leading with `_`
             type Optional = Keys<Record<"foo" | "bar" | `_${string}`, number>>;
@@ -106,7 +91,6 @@ describe("Keys<T>", () => {
             type FooBarOverlap = Keys<{ foo: 1; bar: 2; [x: string]: unknown }>;
             //   ^?
             type X = RemoveIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
-
 
             type cases = [
                 Expect<Test<
@@ -143,7 +127,6 @@ describe("Keys<T>", () => {
 
 });
 
-
 // RUNTIME
 describe("keysOf()", () => {
     it("with just object passed in, keys are extracted as expected", () => {
@@ -152,7 +135,6 @@ describe("keysOf()", () => {
             color: "blue",
             isFavorite: false
         } as { id: 123; color: string; isFavorite: boolean };
-
 
         const k = keysOf(obj);
         const k2 = keysOf({} as EmptyObject);

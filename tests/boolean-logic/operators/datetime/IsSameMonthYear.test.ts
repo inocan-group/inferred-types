@@ -1,6 +1,6 @@
 import { isSameMonthYear } from "inferred-types/runtime";
-import { IsSameMonthYear } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, IsSameMonthYear, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 describe("IsSameMonthYear<A, B>", () => {
@@ -42,7 +42,6 @@ describe("IsSameMonthYear<A, B>", () => {
     ];
   });
 
-
   it("Month Boundaries", () => {
     type cases = [
       // Adjacent days across month boundaries
@@ -70,7 +69,6 @@ describe("IsSameMonthYear<A, B>", () => {
     type T3 = IsSameMonthYear<"2023-01-15", "2023-01-15T12:30:00Z">;
 
     type F1 = IsSameMonthYear<"-2024-01", "2023-01-15">;
-
 
     type cases = [
       Expect<Test<T1, "equals", true>>,

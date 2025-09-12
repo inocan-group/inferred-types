@@ -1,7 +1,6 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { Expect, IsCsv, Test, Variable } from "inferred-types/types";
+import type { Expect, IsCsv, Test, Variable } from "inferred-types/types";
 
 describe("IsCsv<T,[K]>", () => {
 
@@ -11,11 +10,9 @@ describe("IsCsv<T,[K]>", () => {
     type T2 = IsCsv<"foo,">;
     type T3 = IsCsv<"foo,bar,">;
 
-
     type F1 = IsCsv<"foo,bar, 4baz, 2ff,yup", Variable>;
     type F2 = IsCsv<"">;
     type F3 = IsCsv<"foo,,bar">;
-
 
     type cases = [
         Expect<Test<T1, "equals", true>>,

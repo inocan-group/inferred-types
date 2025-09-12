@@ -1,9 +1,6 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    TakeNumeric
-} from "inferred-types/types";
+import type { Expect, TakeNumeric, Test } from "inferred-types/types";
+
 import { Equal } from "@type-challenges/utils";
 
 describe("TakeNumeric<T,[TFollow]>", () => {

@@ -1,5 +1,6 @@
 import {  Expect } from "@type-challenges/utils";
-import { FirstDefined, Test } from "inferred-types/types";
+import type { FirstDefined, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("FirstDefined<T,U>", () => {

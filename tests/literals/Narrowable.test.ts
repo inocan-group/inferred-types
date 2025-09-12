@@ -1,9 +1,6 @@
 import { describe, it } from "vitest";
 import { narrow } from "inferred-types/runtime";
-import { Expect, Narrowable, Test } from "inferred-types/types";
-
-
-
+import type { Expect, Narrowable, Test } from "inferred-types/types";
 
 describe("Narrowable", () => {
 
@@ -22,7 +19,6 @@ describe("Narrowable", () => {
       Expect<Test<Obj, "equals",  object>>,
     ];
   });
-
 
   it("narrow() runtime util", () => {
     const stringLiteral = narrow("foo");

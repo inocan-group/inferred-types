@@ -1,11 +1,11 @@
 import {
+import type { Expect, Test } from "inferred-types/types";
     defineObj,
     DictionaryWithoutValueFilter,
     withoutValue
 } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-import { describe, expect, it } from "vitest";
 
+import { describe, expect, it } from "vitest";
 
 describe("withoutValue(wo) => (obj) => obj", () => {
   const obj = defineObj({ foo: "hi", bar: 42, baz: 99, bax: "bye" })();

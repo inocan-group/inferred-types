@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, CompareNumbers } from "inferred-types/types";
+import type { CompareNumbers, Expect, Test } from "inferred-types/types";
 
 describe("CompareNumbers<A,B>", () => {
 

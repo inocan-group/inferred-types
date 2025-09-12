@@ -1,5 +1,6 @@
 import {  Expect } from "@type-challenges/utils";
-import { FirstValue, Test } from "inferred-types/types";
+import type { FirstValue, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("FirstValue<T,U>", () => {
@@ -13,7 +14,6 @@ describe("FirstValue<T,U>", () => {
     type Terminal = FirstValue<[undefined,undefined,1]>;
 
     type Null = FirstValue<[undefined, null, 1]>;
-
 
     type cases = [
         Expect<Test<Empty, "equals",  undefined>>,

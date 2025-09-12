@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, IsNegativeNumber, NumberLike, Test } from "inferred-types/types";
-
-
+import type { Expect, IsNegativeNumber, NumberLike, Test } from "inferred-types/types";
 
 describe("IsNegativeNumber<T>", () => {
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isTypeToken } from "inferred-types/runtime";
-import { Expect, AsOutputToken, Test } from "inferred-types/types";
+import type { AsOutputToken, Expect, Test } from "inferred-types/types";
 
 describe("isTypeToken(val)", () => {
 

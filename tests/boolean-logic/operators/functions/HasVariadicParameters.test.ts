@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, HasVariadicParameters } from "inferred-types/types";
+import type { Expect, HasVariadicParameters, Test } from "inferred-types/types";
 
 describe("HasVariadicParameters<T>", () => {
   it("should return true for functions with variadic parameters that are not wide arrays", () => {

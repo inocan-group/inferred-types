@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    RetainUntil__Nested,
-    Test,
-} from "inferred-types/types";
+import type { Expect, RetainUntil__Nested, Test } from "inferred-types/types";
+
 import { isError, nesting, retainUntil__Nested } from "inferred-types/runtime";
 import { ALPHA_CHARS, NUMERIC_CHAR } from "inferred-types";
 import { QUOTE_NESTING } from "inferred-types/constants";
@@ -101,12 +98,10 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
 
 });
 
-
 // RUNTIME
 // -----------------------------------------------------------------
 
 describe("retainUntil__Nested(str, find, incl, nesting)", () => {
-
 
     it("no nesting chars", () => {
         const t1 = retainUntil__Nested("Hi! Welcome.", "!");
@@ -153,7 +148,6 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
         ];
     });
 
-
     it("using NestingTuple with undefined for END", () => {
         const t1 = retainUntil__Nested(
             "Hi,12456 is a number", " ", true,
@@ -181,8 +175,6 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
             Expect<Test<typeof t1, "equals", "Hi,12456 is ">>,
         ];
     });
-
-
 
     it("using quotes nesting config", () => {
         const t1 = retainUntil__Nested(
@@ -215,8 +207,6 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
         ];
     });
 
-
-
     it("one type of quote to start, another quote type in attempt to close results in error", () => {
         const t1 = retainUntil__Nested(
             `he said, 'do it!", and of course we did! right?`,
@@ -231,7 +221,6 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
             Expect<Test<typeof t1, "isError", "unbalanced">>,
         ];
     });
-
 
     it("multiple find chars", () => {
         const t1 = retainUntil__Nested(
@@ -254,9 +243,7 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
 
 })
 
-
 describe("calling via nesting(config) HOF", () => {
-
 
     it("no nesting chars", () => {
         const t1 = nesting("default").retainUntil("Hi! Welcome.", "!");
@@ -313,6 +300,5 @@ describe("calling via nesting(config) HOF", () => {
         ];
 
     });
-
 
 })

@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, StripLeading, Test} from "inferred-types/types";
+import type { Expect, StripLeading, Test } from "inferred-types/types";
+
 import { stripLeading } from "inferred-types/runtime";
-
-
 
 describe("StripLeading<TStr,TRemove>", () => {
 
@@ -17,7 +16,6 @@ describe("StripLeading<TStr,TRemove>", () => {
   });
 
 });
-
 
 describe("stripLeading(content, remove)", () => {
 
@@ -38,12 +36,10 @@ describe("stripLeading(content, remove)", () => {
     ];
   });
 
-
   // I removed this capability until I can get all perf issues sorted
   it("with multiple strip sequences", () => {
     const bar = stripLeading("foobar", "foo", "baz");
     const bar2 = stripLeading("foobar", "baz", "foo");
-
 
     expect(bar).toBe("bar");
     expect(bar2).toBe("bar");
@@ -53,8 +49,6 @@ describe("stripLeading(content, remove)", () => {
       Expect<Test<typeof bar2, "equals",  "bar">>,
     ];
 
-
   });
-
 
 });

@@ -1,14 +1,12 @@
 import { describe, it } from "vitest";
-import { Expect, Test } from "inferred-types/types";
+import type { DistinguishEmpty, Expect, Test } from "inferred-types/types";
+
 import type {
     EmptyObject,
     ExplicitlyEmptyObject,
 } from "inferred-types";
 
 // Import the types we're testing
-import type {
-    DistinguishEmpty,
-} from "inferred-types/types";
 
 describe("DistinguishEmptyTypes utilities", () => {
 
@@ -184,7 +182,6 @@ describe("DistinguishEmptyTypes utilities", () => {
                 Expect<Test<ExplicitGuard, "equals", "This type can have properties added">>,
             ];
         });
-
 
     });
 });

@@ -1,8 +1,7 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { ErrMsg, IsErrMsg } from "inferred-types/types";
+import type { ErrMsg, IsErrMsg } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("IsErrMsg<T>", () => {
 

@@ -1,8 +1,6 @@
 import { Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Extends, RepoUrls, SemanticVersion } from "inferred-types/types";
-
-
+import type { Extends, RepoUrls, SemanticVersion } from "inferred-types/types";
 
 describe("Repo related utilities", () => {
     it("RepoUrls - happy path", () => {
@@ -20,7 +18,6 @@ describe("Repo related utilities", () => {
         ];
 
     });
-
 
     it("SemanticVersion", () => {
         type T1 = Extends<"1.1.1", SemanticVersion>;
@@ -44,8 +41,5 @@ describe("Repo related utilities", () => {
         ];
 
     });
-
-
-
 
 });

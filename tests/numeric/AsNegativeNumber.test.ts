@@ -1,6 +1,6 @@
-import { Expect, AsNegativeNumber, Test } from "inferred-types/types";
-import { describe, it } from "vitest";
 
+import { describe, it } from "vitest";
+import type { AsNegativeNumber, Expect, Test } from "inferred-types/types";
 
 describe("AsNegativeNumber<T>", () => {
 
@@ -16,7 +16,6 @@ describe("AsNegativeNumber<T>", () => {
         ];
     });
 
-
     it("testing with numeric strings", () => {
         type T1 = AsNegativeNumber<"-1">;
         type T2 = AsNegativeNumber<"1">;
@@ -28,6 +27,5 @@ describe("AsNegativeNumber<T>", () => {
             Expect<Test<T3, "equals",  "-500">>,
         ];
     });
-
 
 });

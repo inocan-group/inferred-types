@@ -1,23 +1,11 @@
 import { describe, it } from "vitest";
-import {
-    AsDateMeta,
-    Expect,
-    ParseDate,
-    Test,
-    TwoDigitDate,
-    DateMeta,
-    FourDigitYear,
-    TwoDigitMonth,
-    ParsedDate,
-} from "inferred-types/types";
-
+import type { AsDateMeta, DateMeta, Expect, FourDigitYear, ParseDate, ParsedDate, Test, TwoDigitDate, TwoDigitMonth } from "inferred-types/types";
 
 describe("AsDateMeta<T>", () => {
 
     it("from a parsed date", () => {
         type P = ParseDate<"2022-12-24">;
         type M = AsDateMeta<P>;
-
 
         type cases = [
             Expect<Test<
@@ -38,7 +26,6 @@ describe("AsDateMeta<T>", () => {
             >>,
         ];
     });
-
 
     it("from ISO Year string", () => {
         type P = ParseDate<"2024">;
@@ -83,7 +70,5 @@ describe("AsDateMeta<T>", () => {
             Expect<Test<T["dateType"], "equals", "datetime">>,
         ];
     });
-
-
 
 });

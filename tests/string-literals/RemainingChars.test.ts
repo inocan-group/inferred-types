@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, AfterFirstChar, Test } from "inferred-types/types";
-
-
+import type { AfterFirstChar, Expect, Test } from "inferred-types/types";
 
 describe("LastChar<T>", () => {
 
@@ -16,7 +14,6 @@ describe("LastChar<T>", () => {
         const cases: cases = [true, true];
     });
 
-
     it("with array input", () => {
         type FooBarBaz = AfterFirstChar<["foo", "bar", "baz"]>;
 
@@ -25,6 +22,5 @@ describe("LastChar<T>", () => {
         ];
 
     });
-
 
 });

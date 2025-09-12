@@ -1,25 +1,17 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    TakeSeconds,
-    Test,
-    TwoDigitSecond
-} from "inferred-types/types";
+import type { Expect, TakeSeconds, Test, TwoDigitSecond } from "inferred-types/types";
 
 describe("TakeSeconds<T>", () => {
-
 
     it("numeric literal generic tests validity", () => {
         type Valid = TwoDigitSecond<"42">;
         type Invalid = TwoDigitSecond<"99">;
-
 
         type cases = [
             Expect<Test<Valid, "equals", TwoDigitSecond<"branded"> & "42">>,
             Expect<Test<Invalid, "isError", "invalid-type">>
         ];
     });
-
 
     it("happy path", () => {
         type T1 = TakeSeconds<"03, more">;

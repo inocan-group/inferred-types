@@ -3,8 +3,6 @@ import type { Expect, StringSort, StringSortOptions, Test } from "inferred-types
 
 describe("StringSort<T, O>", () => {
 
-
-
     it("handles ascending order sort", () => {
         type Sorted = StringSort<["Orange", "Apple", "Peach", "Banana"], { order: "ASC" }>;
 
@@ -56,7 +54,6 @@ describe("StringSort<T, O>", () => {
             Expect<Test<Sorted2, "equals", ["c", "a", "b", "d"]>>,
         ]
     });
-
 
     it("supports end property", () => {
         type Sorted1 = StringSort<["d", "c", "a", "b"], { end: "c" }>;

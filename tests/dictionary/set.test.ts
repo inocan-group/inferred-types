@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    Test,
-    Set
-} from "inferred-types/types";
+import type { Expect, Set, Test } from "inferred-types/types";
+
 import { set } from "inferred-types/runtime";
 
 describe("Set<TContainer,TDotPath,TValue>", () => {
@@ -21,7 +18,6 @@ describe("Set<TContainer,TDotPath,TValue>", () => {
             ];
         });
 
-
         it("deep mutation", () => {
             type Obj = {
                 foo: {
@@ -36,7 +32,6 @@ describe("Set<TContainer,TDotPath,TValue>", () => {
                 Expect<Test<Mutated, "equals", { foo: { bar: { baz: 42 }}}>>
             ];
         });
-
 
         it("add new property", () => {
             type Obj = {
@@ -104,9 +99,7 @@ describe("Set<TContainer,TDotPath,TValue>", () => {
         });
     })
 
-
     describe("arrays", () => {
-
 
         it("shallow mutation", () => {
             type Arr = [1,2,3];
@@ -137,7 +130,6 @@ describe("Set<TContainer,TDotPath,TValue>", () => {
                 }>>
             ];
         });
-
 
     })
 });

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Pluralize, Test } from "inferred-types/types";
+
 import { pluralize } from "inferred-types/runtime";
 
 type Bugs = Pluralize<"bug">;
@@ -20,7 +21,6 @@ describe("Pluralize<T>", () => {
       Expect<Test<People, "equals",  "people">>
     ];
   });
-
 
   it("wide string is left as a string type", () => {
     type Wide = Pluralize<string>;
@@ -52,8 +52,6 @@ describe("pluralize(word)", () => {
     ];
   });
 
-
-
   it("ending in 'is' is treated appropriately", () => {
     const miss = pluralize("miss");
 
@@ -63,7 +61,6 @@ describe("pluralize(word)", () => {
       Expect<Test<typeof miss, "equals",  "misses">>,
     ];
   });
-
 
   it("words ending in singular noun", () => {
     const rich = pluralize("rich");
@@ -95,7 +92,6 @@ describe("pluralize(word)", () => {
     ];
   });
 
-
   it("words ending in y", () => {
     const currency = pluralize("currency");
     const c2 = pluralize("currency ");
@@ -112,7 +108,6 @@ describe("pluralize(word)", () => {
     ];
 
   });
-
 
   it("words ending in a consonant and then y", () => {
     const money = pluralize("money");

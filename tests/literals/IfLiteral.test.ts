@@ -1,15 +1,7 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    IsLiteralLike,
-    EmptyObject,
-    ExplicitlyEmptyObject,
-    Dictionary,
-} from "inferred-types/types";
+import type { Dictionary, EmptyObject, Expect, ExplicitlyEmptyObject, IsLiteralLike, Test } from "inferred-types/types";
+
 import { IsWideType, Keys } from "inferred-types";
-
-
 
 describe("IsLiteral<T>", () => {
 
@@ -31,14 +23,12 @@ describe("IsLiteral<T>", () => {
         ];
     });
 
-
     it("negative tests", () => {
         type F1 = IsLiteralLike<string>;
         type F2 = IsLiteralLike<number>;
         type F4 = IsLiteralLike<object>;
         type F5 = IsLiteralLike<string[]>;
         type F6 = IsLiteralLike<readonly string[]>;
-
 
         type cases = [
             Expect<Test<F1, "equals", false>>,
@@ -48,7 +38,6 @@ describe("IsLiteral<T>", () => {
             Expect<Test<F6, "equals", false>>,
         ];
     });
-
 
     it("Edge Cases", () => {
         type Empty = IsLiteralLike<EmptyObject>;
@@ -70,7 +59,5 @@ describe("IsLiteral<T>", () => {
         ];
 
     });
-
-
 
 });

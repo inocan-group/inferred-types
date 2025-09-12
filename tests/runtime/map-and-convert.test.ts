@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createConverter } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
+import type { Expect, Test } from "inferred-types/types";
 
 // Note: while type tests fail visible inspection they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

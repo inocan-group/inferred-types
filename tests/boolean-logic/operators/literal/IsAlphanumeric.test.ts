@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    IsAlphanumeric
-} from "inferred-types/types";
+import type { Expect, IsAlphanumeric, Test } from "inferred-types/types";
 
 describe("IsAlphanumeric<T,U>", () => {
 
@@ -33,7 +29,6 @@ describe("IsAlphanumeric<T,U>", () => {
         ];
     });
 
-
     it("wide types", () => {
         type W1 = IsAlphanumeric<string>;
         // regardless of what `U` will be at runtime
@@ -48,7 +43,6 @@ describe("IsAlphanumeric<T,U>", () => {
         ];
     });
 
-
     it("adding characters to validation", () => {
         type T1 = IsAlphanumeric<"foobar", "!">;
         type T2 = IsAlphanumeric<"foobar!", "!">;
@@ -58,7 +52,6 @@ describe("IsAlphanumeric<T,U>", () => {
         type F1 = IsAlphanumeric<"foo bar!", "!">;
         type F2 = IsAlphanumeric<" foobar!", "!">;
         type F3 = IsAlphanumeric<"foobar! ", "!">;
-
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -71,8 +64,5 @@ describe("IsAlphanumeric<T,U>", () => {
             Expect<Test<F3, "equals", false>>,
         ];
     });
-
-
-
 
 });

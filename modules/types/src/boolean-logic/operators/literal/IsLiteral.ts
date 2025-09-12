@@ -1,5 +1,4 @@
-import type { If, IsAny, IsLiteralObject, IsLiteralScalar, IsNever, Or } from "inferred-types/types";
-import type { DefineModifiers, HasModifier, IsLiteralTuple } from "inferred-types/types";
+import type { If, IsAny, IsLiteralObject, IsLiteralScalar, IsNever, Or, DefineModifiers, HasModifier, IsLiteralTuple } from "inferred-types/types";
 
 
 export type LiteralModifiers = DefineModifiers<[

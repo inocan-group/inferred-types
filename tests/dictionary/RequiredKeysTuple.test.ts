@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";;
-import { Expect, RequiredKeysTuple, Test } from "inferred-types/types";
+import type { Expect, RequiredKeysTuple, Test } from "inferred-types/types";
 
 describe("RequiredKeysTuple<T>", () => {
 
@@ -14,6 +14,5 @@ describe("RequiredKeysTuple<T>", () => {
             Expect<Test<None, "equals", []>>,
         ];
     });
-
 
 })

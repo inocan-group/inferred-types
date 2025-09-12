@@ -1,13 +1,9 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    TakeState,
-    Test,
-} from "inferred-types/types";
+import type { Expect, TakeState, Test } from "inferred-types/types";
+
 import { asTakeState, startsWith, take } from "inferred-types/runtime";
 
 describe("take(parser) -> (val) -> Take", () => {
-
 
     it("Partial: provide parser", () => {
         function parser<T extends string | TakeState>(state: T) {
@@ -26,6 +22,5 @@ describe("take(parser) -> (val) -> Take", () => {
             /** type tests */
         ];
     });
-
 
 });

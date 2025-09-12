@@ -1,6 +1,6 @@
-import {  Expect, FnMeta, Test } from "inferred-types/types";
-import { describe, it } from "vitest";
 
+import { describe, it } from "vitest";
+import type { Expect, FnMeta, Test } from "inferred-types/types";
 
 describe("FnMeta<T>", () => {
 
@@ -23,7 +23,6 @@ describe("FnMeta<T>", () => {
         ];
     });
 
-
     it("static function with parameters", () => {
         type T = FnMeta<(name: string, age: number) => `Hi ${typeof name}, you are ${typeof age} years old`>;
 
@@ -42,7 +41,6 @@ describe("FnMeta<T>", () => {
             >>
         ];
     });
-
 
     it("narrowing function with params", () => {
         type T1 = FnMeta<<TName extends string, TAge extends number>(name: TName, age: TAge) => `Hi ${typeof name}, you are ${typeof age} years old`>;
@@ -75,8 +73,6 @@ describe("FnMeta<T>", () => {
             >>
         ];
     });
-
-
 
     it("TArgs (not readonly)", () => {
         type T1 = FnMeta<<TArgs extends [string, number]>(...args: TArgs) => `Hi ${TArgs[0]}, you are ${TArgs[1]} years old`>;
@@ -115,6 +111,5 @@ describe("FnMeta<T>", () => {
             >>
         ];
     });
-
 
 })

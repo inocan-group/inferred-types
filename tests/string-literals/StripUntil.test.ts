@@ -1,8 +1,6 @@
 import { Equal,  } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Expect, NumericChar, StripUntil, StripWhile, Test, Whitespace } from "inferred-types/types";
-
-
+import type { Expect, NumericChar, StripUntil, StripWhile, Test, Whitespace } from "inferred-types/types";
 
 describe("StripUntil<TContent,TComparator>", () => {
 

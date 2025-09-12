@@ -1,11 +1,10 @@
 import { describe, it } from "vitest";
-import { Expect, Some, Test, UnionMemberExtends } from "inferred-types/types";
+import type { Expect, Some, Test, UnionMemberExtends } from "inferred-types/types";
 
 describe("UnionMemberExtends<T,U>", () => {
   it("should return true when any union member extends the target type", () => {
     // String literal union with matching member
     type T1 = UnionMemberExtends<"foo" | "bar" | "baz", string>;
-
 
     // Numeric literal union with matching member
     type T2 = UnionMemberExtends<1 | 2 | 3, number>;

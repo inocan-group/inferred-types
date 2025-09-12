@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    DictionaryWithFixedKeys,
-    Expect,
-    GetFixedKeys,
-    Test,
-} from "inferred-types/types";
+import type { DictionaryWithFixedKeys, Expect, GetFixedKeys, Test } from "inferred-types/types";
 
 describe("DictionaryWithFixedKeys", () => {
 
@@ -19,7 +14,6 @@ describe("DictionaryWithFixedKeys", () => {
     });
 
 })
-
 
 describe("GetFixedKeys<T>", () => {
 

@@ -1,8 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { SnakeKeys, Test } from "inferred-types/types";
-
-
+import type { SnakeKeys, Test } from "inferred-types/types";
 
 describe("SnakeKeys<T>", () => {
 

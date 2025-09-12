@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, HasOtherCharacters, HexadecimalChar, Test } from "inferred-types/types";
-
-
+import type { Expect, HasOtherCharacters, HexadecimalChar, Test } from "inferred-types/types";
 
 describe("HasOtherCharacters<TStr,TChars>", () => {
 
@@ -15,7 +13,6 @@ describe("HasOtherCharacters<TStr,TChars>", () => {
 
         type B1 = HasOtherCharacters<string, "a">;
         type B2 = HasOtherCharacters<"a", string>;
-
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -32,5 +29,4 @@ describe("HasOtherCharacters<TStr,TChars>", () => {
     });
 
 });
-
 

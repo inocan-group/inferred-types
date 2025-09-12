@@ -1,16 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import {
-  CsvToJsonTuple,
-  CsvToStrUnion,
-  CsvToTuple,
-  CsvToTupleStr,
-  CsvToUnion,
-  Test
-} from "inferred-types/types";
+import type { CsvToJsonTuple, CsvToStrUnion, CsvToTuple, CsvToTupleStr, CsvToUnion, Test } from "inferred-types/types";
+
 import { csv } from "inferred-types/runtime";
-
-
 
 describe("CsvToTuple<T> and CsvToTupleStr<T>", () => {
 
@@ -49,7 +41,6 @@ describe("CsvToJsonTuple<T>", () => {
   });
 
 });
-
 
 describe("CsvToUnion<T> and CsvToStrUnion<T>", () => {
 

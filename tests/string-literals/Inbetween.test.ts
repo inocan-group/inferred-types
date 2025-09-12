@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, InBetween, Test } from "inferred-types/types";
+import type { Expect, InBetween, Test } from "inferred-types/types";
 
 describe("InBetween<T,S,E>", () => {
 

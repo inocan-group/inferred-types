@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { indexOf } from "inferred-types/runtime";
 import type { Expect, IndexOf, Test } from "inferred-types/types";
+
 import { Dictionary } from "inferred-types";
-
-
 
 describe("IndexOf<T>", () => {
 
@@ -25,7 +24,6 @@ describe("IndexOf<T>", () => {
             Expect<Test<Arr, "equals", 2>>,
             Expect<Test<InvalidStrIdx, "isError", "invalid-index">>,
 
-
             Expect<Test<Neg, "equals", 3>>,
 
             Expect<Test<ArrBadIdx, "isError", true>>,
@@ -34,7 +32,6 @@ describe("IndexOf<T>", () => {
         ];
 
     });
-
 
     it("wide arrays", () => {
         type Arr1 = IndexOf<string[], 2>;
@@ -45,8 +42,6 @@ describe("IndexOf<T>", () => {
             /** type tests */
         ];
     });
-
-
 
     it("using Override feature", () => {
         type Arr = IndexOf<[1, 2, 3], 8, "oops">;
@@ -62,10 +57,7 @@ describe("IndexOf<T>", () => {
 
     });
 
-
-
     it.todo("type tests for negative offsets", () => {
-
 
         type cases = [
             /** type tests */
@@ -73,7 +65,6 @@ describe("IndexOf<T>", () => {
         const cases: cases = [];
 
     });
-
 
     it("runtime", () => {
         const arr = indexOf([1, 2, 3] as const, 1);
@@ -89,6 +80,5 @@ describe("IndexOf<T>", () => {
             `Use of an invalid index: ${JSON.stringify(invalidIndex)}`
         ).toBe(true);
     });
-
 
 });

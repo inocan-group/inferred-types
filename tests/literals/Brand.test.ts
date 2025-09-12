@@ -1,25 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Brand,
-    BrandSymbol,
-    Expect,
-    FourDigitYear,
-    IsBranded,
-    IsTwoDigitMonth,
-    TakeDate,
-    TakeMonth,
-    TakeYear,
-    Test,
-    TwoDigitDate,
-    TwoDigitMonth,
-    Unbrand,
-    GetBrand,
-    ParseDate,
-    AsDateMeta,
-    ParsedDate
-} from "inferred-types/types";
-import { UnbrandValues } from "inferred-types/types";
-
+import type { AsDateMeta, Brand, BrandSymbol, Expect, FourDigitYear, GetBrand, IsBranded, IsTwoDigitMonth, ParseDate, ParsedDate, TakeDate, TakeMonth, TakeYear, Test, TwoDigitDate, TwoDigitMonth, Unbrand, UnbrandValues } from "inferred-types/types";
 
 describe("Brand & Unbrand", () => {
 
@@ -44,7 +24,6 @@ describe("Brand & Unbrand", () => {
         ];
     });
 
-
     it("IsBranded<T>", () => {
         type NotBranded = "02";
         type Branded = TwoDigitMonth<NotBranded>;
@@ -60,7 +39,6 @@ describe("Brand & Unbrand", () => {
             Expect<Test<F2, "equals", false>>,
         ];
     });
-
 
     it("GetBrand<T>", () => {
         type NotBranded = "02";
@@ -81,7 +59,6 @@ describe("Brand & Unbrand", () => {
         ];
     });
 
-
     it("Unbrand<T>", () => {
         type Nada = Unbrand<"nada">;
         type Year = Unbrand<FourDigitYear<"1999">>;
@@ -93,8 +70,6 @@ describe("Brand & Unbrand", () => {
             Expect<Test<YearUnion, "equals", "1999" | null>>,
         ];
     });
-
-
 
     it("UnbrandValues<T>", () => {
         type Iso = "2024-09-23";
@@ -122,12 +97,9 @@ describe("Brand & Unbrand", () => {
         ];
     });
 
-
 });
 
-
 describe("Branded Types", () => {
-
 
     it("FourDigitYear", () => {
         type T1 = FourDigitYear<"2024">;
@@ -140,7 +112,6 @@ describe("Branded Types", () => {
             Expect<Test<U1, "equals", "2024">>
         ];
     });
-
 
     it("TakeYear -> FourDigitYear", () => {
         type T1 = TakeYear<"2024">["take"];
@@ -167,7 +138,6 @@ describe("Branded Types", () => {
         ];
     });
 
-
     it("TakeMonth -> TwoDigitMonth", () => {
         type T1 = TakeMonth<"12">["take"];
         type U1 = Unbrand<T1>;
@@ -176,8 +146,6 @@ describe("Branded Types", () => {
             Expect<Test<U1, "equals", "12">>
         ];
     });
-
-
 
     it("TwoDigitDate", () => {
         type T1 = TwoDigitDate<"12">;
@@ -190,7 +158,6 @@ describe("Branded Types", () => {
             Expect<Test<U1, "equals", "12">>
         ];
     });
-
 
     it("TakeDate -> TwoDigitDate", () => {
         type T1 = TakeDate<"20">["take"];

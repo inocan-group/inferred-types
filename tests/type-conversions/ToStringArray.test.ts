@@ -1,5 +1,6 @@
-import { Expect, Test, ToStringArray } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Test, ToStringArray } from "inferred-types/types";
 
 describe("ToStringArray<T>", () => {
 

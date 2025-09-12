@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-    Err,
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { Err, Expect, Test } from "inferred-types/types";
+
 import { err } from "inferred-types/runtime";
 
 describe("Err<...>", () => {
@@ -20,17 +17,14 @@ describe("Err<...>", () => {
         ];
     });
 
-
     it("long text works", () => {
         type Long = Err<`this-is-a-long/error-that-goes-forever`>;
-
 
         type cases = [
             Expect<Test<Long, "extends", Error>>,
             Expect<Test<Long, "isError", "this-is-a-long">>
         ];
     });
-
 
 });
 

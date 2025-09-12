@@ -1,13 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    EndsWith,
-    DoesExtend,
-    LowerAlphaChar,
-    Or,
-    StartsWith,
-    Test,
-} from "inferred-types/types";
+import type { DoesExtend, EndsWith, Expect, LowerAlphaChar, Or, StartsWith, Test } from "inferred-types/types";
 
 import {
     ifArray,
@@ -25,7 +17,6 @@ import {
     startsWith,
     isTrue
 } from "runtime/type-guards"
-
 
 describe("runtime if/is", () => {
     it("ifString(v,i,e)", () => {
@@ -265,7 +256,6 @@ describe("runtime if/is", () => {
         expect(foot("foobar")).toBe(false);
 
     });
-
 
     it("ifSameType", () => {
         const t1 = ifSameType(

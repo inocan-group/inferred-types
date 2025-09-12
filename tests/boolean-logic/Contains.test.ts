@@ -1,5 +1,6 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { Expect, Contains, NarrowlyContains, Test } from "inferred-types/types";
+import type { Contains, Expect, NarrowlyContains, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("Contains<T,A>", () => {
@@ -51,7 +52,6 @@ describe("Contains<T,A>", () => {
 
     });
 
-
     it("undefined and null", () => {
         type T1 = Contains<[null], null>;
         type T2 = Contains<[undefined], undefined>;
@@ -67,8 +67,6 @@ describe("Contains<T,A>", () => {
             Expect<Test<F2, "equals",  false>>,
         ];
     });
-
-
 
     it("Using numeric literals", () => {
         type Found = Contains<2000, 2>;
@@ -103,7 +101,6 @@ describe("Contains<T,A>", () => {
             Expect<Test<WideContains, "equals",  boolean>>
         ];
     });
-
 
     it("Comparator is a union", () => {
         type Foo = Contains<["foo", "bar"], ["foo", 42]>;

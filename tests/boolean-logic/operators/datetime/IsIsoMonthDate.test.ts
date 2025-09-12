@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsIsoMonthDate,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsIsoMonthDate, Test } from "inferred-types/types";
 
 describe("IsIsoMonthDate<T>", () => {
 

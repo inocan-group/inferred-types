@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect,CreateLookup, IsNever, Test } from "inferred-types/types";
-
-
+import type { CreateLookup, Expect, IsNever, Test } from "inferred-types/types";
 
 describe("CreateLookup<TPayload,TKeyProp,TValProp>", () => {
     type Tup = [

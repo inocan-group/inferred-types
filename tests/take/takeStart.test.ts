@@ -1,14 +1,7 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    TakeStart,
-    TakeStartFn,
-    TakeState,
-    Test,
-    UpdateTake,
-} from "inferred-types/types";
-import { takeStart } from "inferred-types/runtime";
+import type { Expect, TakeStart, TakeStartFn, TakeState, Test, UpdateTake } from "inferred-types/types";
 
+import { takeStart } from "inferred-types/runtime";
 
 describe("TakeStart<TMatch, TContent>", () => {
 
@@ -27,7 +20,6 @@ describe("TakeStart<TMatch, TContent>", () => {
         ];
     });
 
-
     it("with mapper", () => {
         type T1 = TakeStart<[{foo: "foey", bar: "barred"}], "foobar">; // =>
         type T2 = TakeStart<[{foo: "foey", bar: "barred"}], T1>;
@@ -40,7 +32,6 @@ describe("TakeStart<TMatch, TContent>", () => {
             Expect<Test<T2["tokens"], "equals", ["foey", "barred"]>>,
         ];
     });
-
 
     it("with callback", () => {
         type Cb = <M extends string, S extends TakeState>(val: M, state: S) => UpdateTake<S,M,Capitalize<M>>;
@@ -62,7 +53,6 @@ describe("TakeStart<TMatch, TContent>", () => {
     });
 
 });
-
 
 describe("takeStart(...matches)(content)", () => {
 
@@ -137,6 +127,5 @@ describe("takeStart(...matches)(content)", () => {
         });
 
     })
-
 
 })

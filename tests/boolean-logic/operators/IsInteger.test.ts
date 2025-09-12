@@ -1,7 +1,6 @@
-import { Expect, IsInteger, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, IsInteger, Test } from "inferred-types/types";
 
 describe("IsInteger<T>", () => {
 
@@ -12,7 +11,6 @@ describe("IsInteger<T>", () => {
 
         type F1 = IsInteger<1.1>;
         type F2 = IsInteger<"1.1">;
-
 
         type cases = [
             Expect<Test<T1, "equals", true>>,

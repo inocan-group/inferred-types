@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    GetTemplateBlocks,
-    TemplateBlocks,
-    Test,
-} from "inferred-types/types";
+import type { Expect, GetTemplateBlocks, TemplateBlocks, Test } from "inferred-types/types";
 
 describe("TemplateBlocks<T>", () => {
 
@@ -32,7 +27,6 @@ describe("GetTemplateBlocks<T>", () => {
         ];
     });
 
-
     it("with bespoke tokens", () => {
         type T1 = GetTemplateBlocks<"Hi {{A}}, you're age is {{B}}", "{{A}}" | "{{B}}">
 
@@ -40,6 +34,5 @@ describe("GetTemplateBlocks<T>", () => {
             Expect<Test<T1, "equals", ["{{A}}", "{{B}}"]>>
         ];
     });
-
 
 });

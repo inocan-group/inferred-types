@@ -1,4 +1,5 @@
 import {
+import type { Acceleration, AccelerationUom, Expect, Extends, Metric, Speed, SpeedUom, Test, Uom } from "inferred-types/types";
     isMetricCategory,
     isSpeedMetric,
     isSpeedUom,
@@ -6,17 +7,7 @@ import {
     MetricTypeGuard,
     UomTypeGuard
 } from "inferred-types/runtime";
-import {
-    Expect,
-    Test,
-    Uom,
-    AccelerationUom,
-    SpeedUom,
-    Extends,
-    Metric,
-    Acceleration,
-    Speed,
-} from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 describe("Uom<T>", () => {

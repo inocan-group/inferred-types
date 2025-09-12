@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IT_TakeKvObjects,
-    IT_Token,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IT_TakeKvObjects, IT_Token, Test } from "inferred-types/types";
 
 describe("IT_TakeKvObject<T>", () => {
 
@@ -28,7 +23,6 @@ describe("IT_TakeKvObject<T>", () => {
                 Expect<Test<OFn["type"], "equals", Record<string, () => string>>>,
             ];
         });
-
 
         it("Record definition with literal keys", () => {
             type FooBar = IT_TakeKvObjects<"Record<'foo' | 'bar', string>">;
@@ -68,9 +62,7 @@ describe("IT_TakeKvObject<T>", () => {
         });
     })
 
-
     describe("Map", () => {
-
 
         it("happy path", () => {
             type T1 = IT_TakeKvObjects<"Map<string,string>">;
@@ -118,7 +110,6 @@ describe("IT_TakeKvObject<T>", () => {
 
     });
 
-
     describe("WeakMap", () => {
         it("happy path", () => {
             type T1 = IT_TakeKvObjects<"WeakMap<object,string>">;
@@ -152,6 +143,5 @@ describe("IT_TakeKvObject<T>", () => {
             ];
         });
     });
-
 
 });

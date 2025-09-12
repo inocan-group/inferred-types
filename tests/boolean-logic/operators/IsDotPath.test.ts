@@ -1,8 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsDotPath, Test } from "inferred-types/types";
-
-
+import type { IsDotPath, Test } from "inferred-types/types";
 
 describe("IsDotPath<T>", () => {
 

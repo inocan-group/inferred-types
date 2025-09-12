@@ -1,17 +1,6 @@
-import {
-    Expect,
-    Digital,
-    DigitalLiteral,
-    DoesExtend,
-    Digitize,
-    NumericSign,
-    Digit,
-    NumericChar,
-    Test
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Digit, Digital, DigitalLiteral, Digitize, DoesExtend, Expect, NumericChar, NumericSign, Test } from "inferred-types/types";
 
 describe("Digitize<T>", () => {
 

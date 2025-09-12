@@ -1,6 +1,7 @@
-import { Expect, ObjectToJsString, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 import { Ref } from "vue";
+import type { Expect, ObjectToJsString, Test } from "inferred-types/types";
 
 describe("ObjectToJsString<T>", () => {
 
@@ -27,9 +28,5 @@ describe("ObjectToJsString<T>", () => {
             >>,
         ];
     });
-
-
-
-
 
 });

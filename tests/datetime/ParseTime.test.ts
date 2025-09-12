@@ -1,17 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    ParseTime,
-    ParsedTime,
-    Test,
-    TwoDigitHour,
-    TwoDigitMinute,
-    TwoDigitSecond,
-    ThreeDigitMillisecond,
-    TimezoneOffset
-} from "inferred-types/types";
-
-
+import type { Expect, ParsedTime, ParseTime, Test, ThreeDigitMillisecond, TimezoneOffset, TwoDigitHour, TwoDigitMinute, TwoDigitSecond } from "inferred-types/types";
 
 describe("ParseTime<T>", () => {
 
@@ -108,7 +96,6 @@ describe("ParseTime<T>", () => {
             >>
         ];
     });
-
 
     it("HH:MM:SS.sss format", () => {
         type T1 = ParseTime<"14:30:45.123">;

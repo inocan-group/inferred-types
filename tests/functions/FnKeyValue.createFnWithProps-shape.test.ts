@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-  Expect,
-  Test,
-  FnKeyValue,
-  FnWithProps,
-} from "inferred-types/types";
+import type { Expect, FnKeyValue, FnWithProps, Test } from "inferred-types/types";
 
 describe("FnKeyValue< FnWithProps > shape", () => {
   it("basic", () => {

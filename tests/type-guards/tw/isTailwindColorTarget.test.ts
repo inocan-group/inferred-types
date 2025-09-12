@@ -1,6 +1,7 @@
-import { Expect, Test, TwColorTarget } from "inferred-types/types";
+
 import { isTailwindColorTarget } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
+import type { Expect, Test, TwColorTarget } from "inferred-types/types";
 
 describe("isTailwindColorTarget(val)", () => {
 

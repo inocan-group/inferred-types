@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, HasNoParameters } from "inferred-types/types";
+import type { Expect, HasNoParameters, Test } from "inferred-types/types";
 
 describe("HasNoParameters<T>", () => {
   it("should return true for functions with no parameters", () => {

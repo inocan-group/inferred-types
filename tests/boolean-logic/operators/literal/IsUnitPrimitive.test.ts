@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsUnitPrimitive,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsUnitPrimitive, Test } from "inferred-types/types";
 
 describe("IsUnitPrimitive<T>", () => {
   it("should return true for unit primitive types", () => {

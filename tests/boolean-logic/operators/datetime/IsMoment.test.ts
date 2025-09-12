@@ -1,7 +1,8 @@
-import { IsMoment, MomentLike } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+
+
 import moment from "moment";
 import { describe, it } from "vitest";
+import type { Expect, IsMoment, MomentLike, Test } from "inferred-types/types";
 
 describe("IsMoment<T>", () => {
 
@@ -97,8 +98,6 @@ describe("IsMoment<T>", () => {
       Expect<Test<IsMoment<Function>, "equals", false>>,
     ];
   });
-
-
 
   it("Union Types", () => {
     type ValidMoment = {

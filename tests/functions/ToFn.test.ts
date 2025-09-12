@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, ToFn } from "inferred-types/types";
+import type { Expect, Test, ToFn } from "inferred-types/types";
 
 describe("ToFn<T> utility", () => {
 

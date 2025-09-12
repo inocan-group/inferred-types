@@ -1,11 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type {
-    Expect,
-    OptionalKeys,
-    OptionalKeysTuple,
-    Test
-} from "inferred-types/types";
-
+import type { Expect, OptionalKeys, OptionalKeysTuple, Test } from "inferred-types/types";
 
 describe("OptionalKeys<T, V>", () => {
   it("basic usage without filtering on value", () => {
@@ -23,7 +17,6 @@ describe("OptionalKeys<T, V>", () => {
   });
 
 });
-
 
 describe("OptionalKeysTuple<T, V>", () => {
   it("basic usage without filtering on value", () => {

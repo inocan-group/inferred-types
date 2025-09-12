@@ -1,7 +1,7 @@
 import { Length } from "inferred-types";
-import {  DropVariadicTail, Expect, MaxSafeInteger, Test, TupleMeta } from "inferred-types/types";
+import type { DropVariadic, DropVariadicTail, Expect, MaxSafeInteger, Test, TupleMeta } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-import { DropVariadic } from 'inferred-types/types';
 
 describe("TupleMeta<T>", () => {
 
@@ -30,7 +30,6 @@ describe("TupleMeta<T>", () => {
         ];
     });
 
-
     it("[T] handled correctly", () => {
         type Undef = TupleMeta<[undefined]>;
         type Unknown = TupleMeta<[unknown]>;
@@ -49,7 +48,6 @@ describe("TupleMeta<T>", () => {
             Expect<Test<OptString["maxLength"], "equals", 1>>,
         ];
     });
-
 
     it("[ T, ...U[] ] handled correctly", () => {
         type Len = Length<[string|undefined, ...undefined[]]>
@@ -71,7 +69,6 @@ describe("TupleMeta<T>", () => {
         ];
     });
 
-
     it("length property", () => {
         type Empty = TupleMeta<[]>;
         type Single = TupleMeta<[string]>;
@@ -88,7 +85,6 @@ describe("TupleMeta<T>", () => {
             Expect<Test<Variadic["length"], "equals", number>>,
         ];
     });
-
 
     it("nonVariadicLength property", () => {
         type Empty = TupleMeta<[]>;
@@ -111,7 +107,6 @@ describe("TupleMeta<T>", () => {
         ];
     });
 
-
     it("isVariadic property", () => {
         type Empty = TupleMeta<[]>;
         type Single = TupleMeta<[string]>;
@@ -128,7 +123,6 @@ describe("TupleMeta<T>", () => {
         ];
     });
 
-
     it("hasVariadicHead property", () => {
         type Empty = TupleMeta<[]>;
         type Single = TupleMeta<[string]>;
@@ -143,7 +137,6 @@ describe("TupleMeta<T>", () => {
         ];
     });
 
-
     it("hasVariadicTail property", () => {
         type Empty = TupleMeta<[]>;
         type Single = TupleMeta<[string]>;
@@ -157,7 +150,6 @@ describe("TupleMeta<T>", () => {
             Expect<Test<VariadicHead["hasVariadicTail"], "equals", false>>,
         ];
     });
-
 
     it("isWide property", () => {
         type EmptyTuple = TupleMeta<[]>;
@@ -179,7 +171,6 @@ describe("TupleMeta<T>", () => {
         ];
     });
 
-
     it("excludingVariadicElement property", () => {
         type Empty = TupleMeta<[]>;
         type Single = TupleMeta<[string]>;
@@ -195,7 +186,6 @@ describe("TupleMeta<T>", () => {
         ];
     });
 
-
     it("variadicType property", () => {
         type Empty = TupleMeta<[]>;
         type Single = TupleMeta<[string]>;
@@ -209,7 +199,6 @@ describe("TupleMeta<T>", () => {
             Expect<Test<VariadicHead["variadicType"], "equals", string[]>>,
         ];
     });
-
 
     it("hasOptionalElements property", () => {
         type Empty = TupleMeta<[]>;
@@ -227,7 +216,6 @@ describe("TupleMeta<T>", () => {
         ];
     });
 
-
     it("requiredElementCount property", () => {
         type Empty = TupleMeta<[]>;
         type Single = TupleMeta<[string]>;
@@ -243,7 +231,6 @@ describe("TupleMeta<T>", () => {
             Expect<Test<AllRequired["requiredElementCount"], "equals", 2>>,
         ];
     });
-
 
     it("optionalElementCount property", () => {
         type Empty = TupleMeta<[]>;

@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createCssSelector } from "inferred-types/runtime";
-import { Test, Expect } from "inferred-types/types";
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("createCssSelector(opt) -> (selectors) -> selector", () => {
 
@@ -26,5 +25,4 @@ describe("createCssSelector(opt) -> (selectors) -> selector", () => {
   });
 
 });
-
 

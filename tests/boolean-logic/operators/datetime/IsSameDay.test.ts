@@ -1,11 +1,7 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    IsSameDay,
-    Test,
-} from "inferred-types/types";
-import { isSameDay } from "inferred-types/runtime";
+import type { Expect, IsSameDay, Test } from "inferred-types/types";
 
+import { isSameDay } from "inferred-types/runtime";
 
 describe("IsSameDay<A,B>", () => {
 
@@ -14,13 +10,11 @@ describe("IsSameDay<A,B>", () => {
         type T2 = IsSameDay<"2024-01-01", "2024-01-01">;
         type T3 = IsSameDay<"2024-02-29", "2024-02-29">;
 
-
         type cases = [
             // Identical full ISO dates
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
             Expect<Test<T3, "equals", true>>, // Leap year
-
 
             Expect<Test<IsSameDay<"2024-12-25", "2024-12-24">, "equals", false>>,
             Expect<Test<IsSameDay<"2024-12-01", "2024-12-31">, "equals", false>>,
@@ -72,12 +66,10 @@ describe("IsSameDay<A,B>", () => {
         ];
     });
 
-
     it("non-integer numeric values return error", () => {
         type E1 = IsSameDay<12.5, 12.5>;
         type E2 = IsSameDay<12, 12.5>;
         type E3 = IsSameDay<12.5, 12>;
-
 
         type cases = [
             Expect<Test<E1, "isError", "invalid-date">>,
@@ -85,7 +77,6 @@ describe("IsSameDay<A,B>", () => {
             Expect<Test<E3, "isError", "invalid-date">>,
         ];
     });
-
 
     it("wide types should return boolean", () => {
         type cases = [
@@ -95,7 +86,6 @@ describe("IsSameDay<A,B>", () => {
             Expect<Test<IsSameDay<number, number>, "equals", boolean>>,
         ];
     });
-
 
     it("same month different day returns false", () => {
         type cases = [

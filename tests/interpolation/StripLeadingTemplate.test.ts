@@ -1,9 +1,9 @@
-import { StripLeadingTemplate } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
+import type { StripLeadingTemplate } from "inferred-types/types";
 
 describe("StripLeadingTemplate<T, K>", () => {
-
 
     it("should strip leading template segment", () => {
 
@@ -30,16 +30,13 @@ describe("StripLeadingTemplate<T, K>", () => {
         ];
     });
 
-
     it("isolated template scope only removes that which was specified", () => {
         type Proxy1 = StripLeadingTemplate<`${string}, well hello`, "number">;
-
 
         type cases = [
             Expect<Equal<Proxy1, `${string}, well hello`>>,
         ];
     });
-
 
     it("te", () => {
         type Num = StripLeadingTemplate<`${number}foo`, "number">;
@@ -52,6 +49,5 @@ describe("StripLeadingTemplate<T, K>", () => {
             Expect<Equal<Bool, "foo">>,
         ];
     });
-
 
 });

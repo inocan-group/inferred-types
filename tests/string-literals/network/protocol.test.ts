@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { hasProtocolPrefix, isProtocol, isProtocolPrefix } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("isProtocol()", () => {
 

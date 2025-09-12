@@ -1,9 +1,8 @@
-import { IsLuxonDateTime, Expect, Test, LuxonLikeDateTime } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, IsLuxonDateTime, LuxonLikeDateTime, Test } from "inferred-types/types";
 
 describe("IsLuxonDateTime<T>", () => {
-
-
 
     it("Invalid Luxon DateTime Objects", () => {
         type IncompleteLuxon = {

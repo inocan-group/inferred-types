@@ -1,8 +1,6 @@
 import {  Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AsPropertyKey, Test } from "inferred-types/types";
-
-
+import type { AsPropertyKey, Test } from "inferred-types/types";
 
 describe("AsPropertyKey<T,[C]>", () => {
 
@@ -17,6 +15,5 @@ describe("AsPropertyKey<T,[C]>", () => {
         ];
 
     });
-
 
 });

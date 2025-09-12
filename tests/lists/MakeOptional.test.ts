@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    MakeOptional,
-    Test,
-} from "inferred-types/types";
+import type { Expect, MakeOptional, Test } from "inferred-types/types";
 
 describe("MakeOptional<T,U>", () => {
 
@@ -32,7 +28,6 @@ describe("MakeOptional<T,U>", () => {
             Expect<Test<T3, "equals", [1?,2?, string?]>>,
         ];
     });
-
 
     it("from mixed", () => {
         type Opt = [ 1, 2, string? ];

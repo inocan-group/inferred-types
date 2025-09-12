@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, StripAfter, Test, UpperAlphaChar } from "inferred-types/types";
+import type { Expect, StripAfter, Test, UpperAlphaChar } from "inferred-types/types";
+
 import { stripAfter } from "inferred-types/runtime";
-
-
 
 describe("StripAfter<TStr,TBreak>", () => {
 
@@ -21,7 +20,6 @@ describe("StripAfter<TStr,TBreak>", () => {
             Expect<Test<BothWide, "equals", string>>,
         ];
     });
-
 
     it("using a union type to break", () => {
         type Text = "foo,bar baz";

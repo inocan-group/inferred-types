@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, FnKeyValue, RemoveFnProps, Test } from "inferred-types/types";
-
+import type { Expect, FnKeyValue, RemoveFnProps, Test } from "inferred-types/types";
 
 describe("RemoveFnProps<Fn>", () => {
     const fn = () => "hi" as const;
@@ -18,7 +17,5 @@ describe("RemoveFnProps<Fn>", () => {
             Expect<Test<JustProps, "equals",  Dict>>,
         ];
     });
-
-
 
 });

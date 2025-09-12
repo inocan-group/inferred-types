@@ -1,13 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    IT_Token_Function,
-    IT_Token,
-    GetInputToken,
-    IT_TakeGroup,
-    IT_TakeFunction
-} from "inferred-types/types";
+import type { Expect, GetInputToken, IT_TakeFunction, IT_TakeGroup, IT_Token, IT_Token_Function, Test } from "inferred-types/types";
 
 describe("IT_TakeFunction<T>", () => {
 
@@ -144,7 +136,6 @@ describe("IT_TakeFunction<T>", () => {
             ];
         });
 
-
         it("implicitly async named functions", () => {
             type Fn1 = `function greet(name: string): Promise<string>`
             type T1 = IT_TakeFunction<Fn1>;
@@ -160,7 +151,6 @@ describe("IT_TakeFunction<T>", () => {
                 Expect<Test<T1["isAsync"], "equals", true>>,
             ];
         });
-
 
         it("explicitly async named functions", () => {
             type Fn1 = `async function fetchData(url: string): Promise<string>`
@@ -233,7 +223,6 @@ describe("IT_TakeFunction<T>", () => {
 
             ];
         });
-
 
         it("asynchronous functions", () => {
             type Fn1 = `async function (url: string): Promise<string>`

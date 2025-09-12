@@ -1,18 +1,8 @@
 import { Equal  } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    Filter,
-    Test,
-    UnionToTuple,
-    UpperAlphaChar,
-    EndsWith,
-    NumberLike,
-    Compare,
-    Narrowable
-} from "inferred-types/types";
-import { filter } from "inferred-types/runtime";
+import type { Compare, EndsWith, Expect, Filter, Narrowable, NumberLike, Test, UnionToTuple, UpperAlphaChar } from "inferred-types/types";
 
+import { filter } from "inferred-types/runtime";
 
 describe("Filter", () => {
 
@@ -40,7 +30,6 @@ describe("Filter", () => {
         ];
     });
 
-
     it("isTemplateLiteral", () => {
         type One = Filter<[1,2,"foo", `Hi ${string}`], "isTemplateLiteral", []>;
 
@@ -48,7 +37,6 @@ describe("Filter", () => {
             Expect<Test<One, "equals", [`Hi ${string}`]>>
         ];
     });
-
 
     it("extends, read-write Tuple, OR/SOME filter", () => {
         type T1 = Filter<[1, 2, "foo", "bar"], "extends", ["foo", 1, 7]>;
@@ -76,7 +64,6 @@ describe("Filter", () => {
 
     });
 
-
     it("objectKeyEquals", () => {
         type Objects = [
             { foo: 1, bar: "hi" },
@@ -99,7 +86,6 @@ describe("Filter", () => {
             "startsWith",
             [UpperAlphaChar]
         >;
-
 
         type CappyTuple = Filter<
             ["foo", "Bar", "Baz"],
@@ -438,7 +424,6 @@ describe("Filter", () => {
 
 });
 
-
 // RUNTIME
 
 describe("filter()", () => {
@@ -504,7 +489,5 @@ describe("filter()", () => {
             Expect<Test<T, "equals", ["fooBar", "barBar"]>>
         ];
     });
-
-
 
 });

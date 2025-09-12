@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Err,
-    Expect,
-    IT_TakeSet,
-    Test,
-} from "inferred-types/types";
+import type { Err, Expect, IT_TakeSet, Test } from "inferred-types/types";
 
 describe("IT_TakeSet<T>", () => {
 
@@ -43,7 +38,6 @@ describe("IT_TakeSet<T>", () => {
         ];
     });
 
-
     it("has rest content", () => {
         type Str = IT_TakeSet<"Set<string> | Map<string,number>">;
         type Expected_Str = {
@@ -59,16 +53,12 @@ describe("IT_TakeSet<T>", () => {
         ];
     });
 
-
     it("invalid interior type", () => {
         type Invalid = IT_TakeSet<"Set<WeakMap<string,string>>">;
-
 
         type cases = [
             Expect<Test<Invalid, "extends", Err<"malformed-token">>>
         ];
     });
-
-
 
 });

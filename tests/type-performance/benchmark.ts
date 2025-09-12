@@ -1,3 +1,4 @@
+import type { AsDateMeta, ParseDate, ParseTime, RenderTime, ThreeDigitMillisecond, TimezoneOffset, TwoDigitDate, TwoDigitHour, TwoDigitMinute, TwoDigitMonth, TwoDigitSecond } from "inferred-types/types";
 /**
  * Type Performance Benchmarking Suite
  *
@@ -5,20 +6,6 @@
  * by exercising them with unions of different sizes to identify performance
  * bottlenecks and measure optimization impact.
  */
-
-import type {
-    TwoDigitHour,
-    TwoDigitMinute,
-    TwoDigitSecond,
-    ThreeDigitMillisecond,
-    TimezoneOffset,
-    TwoDigitMonth,
-    TwoDigitDate,
-    RenderTime,
-    ParseTime,
-    AsDateMeta,
-    ParseDate
-} from "inferred-types/types";
 
 // =============================================================================
 // UNION SIZE ANALYSIS

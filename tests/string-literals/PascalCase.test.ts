@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { toPascalCase } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
 
 describe("toPascalCase() function", () => {
   it("camelCase is converted correctly", () => {
@@ -96,5 +96,4 @@ describe("toPascalCase() function", () => {
   });
 
 });
-
 

@@ -1,9 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {
-    StaticTemplateSections,
-    TemplateParams,
-     Test
-} from "inferred-types/types";
+import type { StaticTemplateSections, TemplateParams, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("StaticTemplateSections", () => {
@@ -41,7 +38,6 @@ describe("StaticTemplateSections", () => {
         ];
     });
 
-
     it("all template blocks used", () => {
         type Actual = `Age: 42, Weight: 190, Name: Bob, Employed: true`
         type Template = `Age: {{number}}, Weight: {{number}}, Name: {{string}}, Employed: {{boolean}}`
@@ -56,9 +52,7 @@ describe("StaticTemplateSections", () => {
         ];
     });
 
-
 });
-
 
 describe("TemplateParams", () => {
 

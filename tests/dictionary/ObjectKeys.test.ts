@@ -1,18 +1,7 @@
 import { describe, it } from "vitest";
-import {
-    Dictionary,
-    EmptyObject,
-    Expect,
-    ObjectKeys,
-    Test,
-    ObjectKey,
-    DropVariadic,
-    GetIndexKeys,
-    HasIndex,
-    HasIndexKeys
-} from "inferred-types/types";
-import { RemoveIndexKeys } from "inferred-types";
+import type { Dictionary, DropVariadic, EmptyObject, Expect, GetIndexKeys, HasIndex, HasIndexKeys, ObjectKey, ObjectKeys, Test } from "inferred-types/types";
 
+import { RemoveIndexKeys } from "inferred-types";
 
 describe("ObjectKeys<T>", () => {
 
@@ -25,7 +14,6 @@ describe("ObjectKeys<T>", () => {
         //   ^?
         type W4 = ObjectKeys<Record<symbol, string>>;
         //   ^?
-
 
         type cases = [
             Expect<Test<W1, "equals", PropertyKey[]>>,
@@ -53,7 +41,6 @@ describe("ObjectKeys<T>", () => {
         ];
     });
 
-
     it("optional keys are last", () => {
         type BarOpt = ObjectKeys<{ foo: 1, bar?: string, baz: 2 }>;
         //   ^?
@@ -62,7 +49,6 @@ describe("ObjectKeys<T>", () => {
             Expect<Test<BarOpt, "equals", ["foo", "baz", ("bar" | undefined)?]>>
         ];
     });
-
 
     it("variadic key shape", () => {
         // must have foo and bar, optionally can have keys leading with `_`
@@ -78,7 +64,6 @@ describe("ObjectKeys<T>", () => {
         // TODO: bring this back in as a test
         type FooBarOverlap = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>;
         //   ^?
-
 
         type cases = [
             Expect<Test<
@@ -96,7 +81,6 @@ describe("ObjectKeys<T>", () => {
         ];
     });
 
-
     it("simple Map types", () => {
         type T1 = ObjectKeys<Map<string, number>>;
         type T2 = ObjectKeys<Map<"foo" | "bar" | "baz", number>>;
@@ -107,7 +91,6 @@ describe("ObjectKeys<T>", () => {
         ];
     });
 
-
     it("Set keys is an error", () => {
         type E1 = ObjectKeys<Set<string>>;
 
@@ -115,7 +98,6 @@ describe("ObjectKeys<T>", () => {
             Expect<Test<E1, "isError", "invalid-type/object-keys">>
         ];
     });
-
 
     it("simple WeakMap types", () => {
         type T1 = ObjectKeys<WeakMap<object, number>>;
@@ -126,8 +108,6 @@ describe("ObjectKeys<T>", () => {
             Expect<Test<T2, "equals", {id: 1} | {id: 2}>>,
         ];
     });
-
-
 
     it("error handling for any type", () => {
         type AnyType = ObjectKeys<any>;
@@ -140,7 +120,6 @@ describe("ObjectKeys<T>", () => {
         ];
     });
 
-
     it("never", () => {
         type Never = ObjectKeys<never>;
 
@@ -148,8 +127,6 @@ describe("ObjectKeys<T>", () => {
             Expect<Test<Never, "isError", "invalid-type">>
         ];
     });
-
-
 
     it("never keys", () => {
         // This would be an object where keyof TObj resolves to never
@@ -162,7 +139,6 @@ describe("ObjectKeys<T>", () => {
         ];
     });
 
-
     it("empty object", () => {
         type Empty = ObjectKeys<EmptyObject>;
         //   ^?
@@ -174,7 +150,6 @@ describe("ObjectKeys<T>", () => {
             Expect<Test<ExplicitlyEmpty, "equals", []>>
         ];
     });
-
 
     it("symbol and string keys", () => {
         type NumberLike = ObjectKeys<{ "1": string; "2": number; foo: boolean }>;
@@ -190,7 +165,6 @@ describe("ObjectKeys<T>", () => {
 
         ];
     });
-
 
     it("multiple optional keys", () => {
         type MultipleOptional = ObjectKeys<{
@@ -210,6 +184,5 @@ describe("ObjectKeys<T>", () => {
             >>
         ];
     });
-
 
 });

@@ -1,7 +1,6 @@
-import { IsReadonlyObject, Test, Expect } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, IsReadonlyObject, Test } from "inferred-types/types";
 
 describe("IsReadonlyObject<T>", () => {
 

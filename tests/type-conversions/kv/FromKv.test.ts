@@ -1,6 +1,6 @@
-import { Expect, FromKv, Test, EmptyObject, KeyValue } from "inferred-types/types";
-import { describe, it } from "vitest";
 
+import { describe, it } from "vitest";
+import type { EmptyObject, Expect, FromKv, KeyValue, Test } from "inferred-types/types";
 
 describe("FromKv<T>", () => {
     it("all required", () => {
@@ -16,7 +16,6 @@ describe("FromKv<T>", () => {
         ];
     });
 
-
     it("all optional", () => {
        type Foobar = FromKv<[
             { key: "foo", value: 1, required: false },
@@ -27,7 +26,6 @@ describe("FromKv<T>", () => {
             Expect<Test<Foobar, "equals",  { foo?: 1; bar?: "hi" }>>,
         ];
     });
-
 
     it("mixture of required and optional", () => {
         type Foobar = FromKv<[
@@ -40,18 +38,12 @@ describe("FromKv<T>", () => {
         ];
     });
 
-
-
-
     it("nested", () => {
-
 
         type cases = [
             /** type tests */
         ];
     });
-
-
 
     it("Pascalize", () => {
         type T = FromKv<[
@@ -63,14 +55,12 @@ describe("FromKv<T>", () => {
         ];
     });
 
-
     it("with optional props", () => {
         type FooBar = FromKv<[
             { key: "foo", value: 1, required: false },
             { key: "bar", value: 2, required: true },
             { key: "baz", value: "baz", required: true }
         ]>;
-
 
         type MoreComplex = FromKv<[
             { key: "foo", value: 1, required: false },

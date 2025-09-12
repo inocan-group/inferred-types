@@ -1,11 +1,6 @@
 import { setupSafeStringEncoding } from "inferred-types/runtime";
-import {
-    Expect,
-    SafeEncode,
-    SafeDecode,
-    SafeEncodeEscaped,
-    Test
-} from "inferred-types/types";
+import type { Expect, SafeDecode, SafeEncode, SafeEncodeEscaped, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 type test = `There I was, "in the jungle (or maybe forest)"`;

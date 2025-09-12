@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    TakeYear,
-    FourDigitYear
-} from "inferred-types/types";
+import type { Expect, FourDigitYear, TakeYear, Test } from "inferred-types/types";
 
 describe("TakeYear<T>", () => {
 

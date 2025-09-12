@@ -205,7 +205,7 @@ The XML Schema which describes the output is as follows:
 In the prior section we discussed using the `pnpm test:imports` command to _find_ the problems with imports in this monorepo but how should we FIX them? This section discusses the preferred approach:
 
 1. Run the `pnpm test:imports` script to get the diagnostics
-2. If there are any problems in the `missing-type-modifier`, `relative-path`, `forbidden-@-import`, `invalid-runtime-alias-depth` or `invalid-type-alias-depth` then immediately fix these as these types of errors always need to be fixed and the approach to fixing them is pretty straight forward:
+2. If there are any problems in the `missing-type-modifier`, `relative-path`, `forbidden-@-import`, `multiple-imports-same-source`, `invalid-runtime-alias-depth` or `invalid-type-alias-depth` then immediately fix these as these types of errors always need to be fixed and the approach to fixing them is pretty straight forward:
 
     - `missing-type-modifier` - add the "type" keyword to the import for all of the items in this section
     - `relative-path` - replace a relative path import with a `inferred-types/*` based import

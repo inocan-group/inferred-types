@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, IsThenable } from "inferred-types/types";
+import type { Expect, IsThenable, Test } from "inferred-types/types";
 
 describe("IsThenable<T>", () => {
   it("should return true for thenable objects (promise-like)", () => {

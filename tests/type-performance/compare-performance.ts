@@ -1,6 +1,4 @@
-import type {
-    Compare
-} from "inferred-types/types";
+import type { Compare } from "inferred-types/types";
 
 /**
  * Compare Type Performance Benchmarking

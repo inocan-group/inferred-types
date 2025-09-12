@@ -1,5 +1,6 @@
-import { Expect, JustFunction, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, JustFunction, Test } from "inferred-types/types";
 
 describe("JustFunction<T>", () => {
 

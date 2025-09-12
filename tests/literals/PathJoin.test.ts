@@ -1,5 +1,6 @@
 import { pathJoin } from "inferred-types/runtime";
-import { Expect, PathJoin, Test } from "inferred-types/types";
+import type { Expect, PathJoin, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 // Note: type tests fail visible inspection but pass from Vitest

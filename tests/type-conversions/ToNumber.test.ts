@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, Test, ToNumber } from "inferred-types/types";
+import type { Expect, Test, ToNumber } from "inferred-types/types";
+
 import { narrow, toNumber } from "inferred-types/runtime";
-
-
 
 describe("ToNumber<T>", () => {
 
@@ -27,7 +26,6 @@ describe("ToNumber<T>", () => {
             Expect<Test<Nan, "equals", never>>,
         ];
     });
-
 
     it("happy path for tuples and arrays", () => {
         type NumericArray = ToNumber<[1, 2, 3]>;
@@ -57,7 +55,6 @@ describe("ToNumber<T>", () => {
         ];
 
     });
-
 
     it("runtime tests of toNumber()", () => {
         const str = toNumber("42");

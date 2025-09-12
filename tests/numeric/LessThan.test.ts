@@ -1,10 +1,6 @@
 import { describe, it, expect } from "vitest";
-import {
-    Expect,
-    LessThan,
-    LessThanOrEqual,
-    Test
-} from "inferred-types/types";
+import type { Expect, LessThan, LessThanOrEqual, Test } from "inferred-types/types";
+
 import { lessThan, lessThanOrEqual } from "inferred-types/runtime";
 
 describe("LessThan<A,B> Type Utility", () => {
@@ -219,7 +215,6 @@ describe("LessThan<A,B> Type Utility", () => {
             Expect<Test<W3, "equals", false>>,
         ];
     });
-
 
 });
 

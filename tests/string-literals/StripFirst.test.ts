@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test } from "inferred-types/types";
-import { StripFirst } from "inferred-types/types";
+import type { Expect, StripFirst, Test } from "inferred-types/types";
 
 describe("StripFirst<T, U>", () => {
     it("should strip the first matching element from head of string", () => {

@@ -1,5 +1,6 @@
-import { Expect, Repeat, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Repeat, Test } from "inferred-types/types";
 
 describe("Repeat<TStr,TCount>", () => {
 
@@ -13,7 +14,6 @@ describe("Repeat<TStr,TCount>", () => {
         ];
     });
 
-
     it("zeros", () => {
         type Three = Repeat<"0",3>;
         type Ten = Repeat<"0",10>;
@@ -23,6 +23,5 @@ describe("Repeat<TStr,TCount>", () => {
             Expect<Test<Ten, "equals", "0000000000">>,
         ];
     });
-
 
 });

@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { shape } from "inferred-types/runtime";
-import { ZipCode } from "inferred-types/types";
+import type { ZipCode } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("shape", () => {

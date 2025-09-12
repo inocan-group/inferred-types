@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    TupleToIntersection,
-} from "inferred-types/types";
+import type { Expect, Test, TupleToIntersection } from "inferred-types/types";
 
 describe("TupleToIntersection<T,[E]>", () => {
 
@@ -17,7 +13,6 @@ describe("TupleToIntersection<T,[E]>", () => {
         ];
     });
 
-
     it("overlapping but non-destructive dictionaries", () => {
         type T1 = TupleToIntersection<[{ foo: 1 }, { foo: number }]>;
 
@@ -25,7 +20,6 @@ describe("TupleToIntersection<T,[E]>", () => {
             Expect<Test<T1, "equals", { foo: 1 }>>
         ];
     });
-
 
     it("overlapping and destructive dictionaries", () => {
         type T1 = TupleToIntersection<[{ foo: 1 }, { foo: string }]>;
@@ -39,7 +33,6 @@ describe("TupleToIntersection<T,[E]>", () => {
         ];
     });
 
-
     it("dictionaries and functions intersected", () => {
         type T1 = TupleToIntersection<[
             (name: string) => "hi",
@@ -51,7 +44,6 @@ describe("TupleToIntersection<T,[E]>", () => {
             { foo: 1 },
             { bar: 2 }
         ]>
-
 
         type cases = [
             Expect<Test<T1, "equals", ((name: string) => "hi") & {
@@ -65,6 +57,5 @@ describe("TupleToIntersection<T,[E]>", () => {
             }>>,
         ];
     });
-
 
 });

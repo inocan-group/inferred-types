@@ -1,14 +1,7 @@
 import { describe, expect, it } from "vitest";
+import type { AnyFunction, Dictionary, Expect, KeysWithValue, Test } from "inferred-types/types";
 
-import {
-    Expect,
-    KeysWithValue,
-    Dictionary,
-    AnyFunction,
-    Test
-} from "inferred-types/types";
 import { createFnWithProps } from "inferred-types/runtime";
-
 
 const obj = {
     id: "foobar",

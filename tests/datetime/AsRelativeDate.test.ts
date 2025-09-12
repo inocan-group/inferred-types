@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    AsRelativeDate,
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { AsRelativeDate, Expect, Test } from "inferred-types/types";
 
 describe.skip("AsRelativeDate<T>", () => {
 

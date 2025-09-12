@@ -1,8 +1,6 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsTemplateLiteral,
-} from "inferred-types/types";
+import type { Expect, IsTemplateLiteral } from "inferred-types/types";
+
 import { Equal } from "@type-challenges/utils";
 
 describe("IsTemplateLiteral<T>", () => {

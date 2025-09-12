@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { createFnWithProps } from "inferred-types/runtime";
-import { EmptyObject, Dictionary, WithValue, Test } from "inferred-types/types";
+import type { Dictionary, EmptyObject, Test, WithValue } from "inferred-types/types";
+
 import {
     DictionaryWithValueFilter,
     withValue,
     defineObj
 } from "inferred-types/runtime";
-
 
 const obj = defineObj({
   id: "foobar",

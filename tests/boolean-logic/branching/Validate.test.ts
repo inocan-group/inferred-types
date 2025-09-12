@@ -1,11 +1,6 @@
-import {
-    Expect,
-    Test,
-    IsDotPath,
-    Validate
-} from "inferred-types/types";
-import { describe, it } from "vitest";
 
+import { describe, it } from "vitest";
+import type { Expect, IsDotPath, Test, Validate } from "inferred-types/types";
 
 describe("Validate<T>", () => {
     it("happy path", () => {
@@ -22,7 +17,6 @@ describe("Validate<T>", () => {
         type F6 = Validate<IsDotPath<"abc...def", "abc...def">>;
 
         type E1 = Validate<IsDotPath<"foobar", string>>;
-
 
         type cases = [
             Expect<Test<T1, "equals",  "foo.bar.baz">>, //

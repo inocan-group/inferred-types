@@ -1,15 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
+import type { LowerAlphaChar, Replace, ReplaceAll, ReplaceAllFromTo, ReplaceFromTo, Test, UpperAlphaChar } from "inferred-types/types";
 
-import {
-    ReplaceAllFromTo,
-    ReplaceFromTo,
-    LowerAlphaChar,
-    Replace,
-    ReplaceAll,
-    UpperAlphaChar,
-    Test
-} from "inferred-types/types";
 import { replace, replaceAll, replaceAllFromTo } from "inferred-types/runtime";
 
 describe("Replace<TText,TFind,TReplace>", () => {
@@ -29,7 +21,6 @@ describe("Replace<TText,TFind,TReplace>", () => {
         ];
     });
 
-
     it("empty string tests", () => {
         type EmptyText = Replace<"", "foo", "bar">;
         type BothEmpty = Replace<"", "", "bar">;
@@ -39,7 +30,6 @@ describe("Replace<TText,TFind,TReplace>", () => {
             Expect<Test<BothEmpty, "equals", "bar">>,
         ];
     });
-
 
     it("union type in TText", () => {
         type Text = "foobar" | "bazfoo";
@@ -73,10 +63,7 @@ describe("replace()", () => {
         ];
     });
 
-
 })
-
-
 
 describe("ReplaceAll<TText,TFind,TReplace>", () => {
 
@@ -93,7 +80,6 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
             Expect<Test<Curly, "equals", `https://www.amazon.com/${string}storeType=ebooks${string}`>>
         ];
     });
-
 
     it("using a union type for TFind", () => {
         type Lowered = ReplaceAll<"And there she WAS", UpperAlphaChar, "">;
@@ -126,14 +112,12 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
         type R = ReplaceAll<Text, "foo", "bar">;
         type R2 = ReplaceAll<Curly, "{{ string }}", "foo">;
 
-
         // @ts-ignore
         type cases = [
             Expect<Test<R, "equals", "barbar, bar" | "bazbar, bar">>,
             Expect<Test<R2, "equals", "foobar, foo" | "foobaz, foo">>,
         ];
     });
-
 
     it("an array of values for TText with multi-match", () => {
         const string = "{{ string }}";
@@ -143,7 +127,6 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
         ] as const;
 
         type Back = ReplaceAll<typeof books, "{{ string }}", `${string}`>;
-
 
         // @ts-ignore
         type cases = [

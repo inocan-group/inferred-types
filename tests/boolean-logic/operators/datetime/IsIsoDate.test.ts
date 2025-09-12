@@ -1,6 +1,7 @@
-import { IsIsoDate } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+
+
 import { describe, it } from "vitest";
+import type { Expect, IsIsoDate, Test } from "inferred-types/types";
 
 describe("IsIsoDate<T>", () => {
 

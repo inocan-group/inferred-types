@@ -1,6 +1,7 @@
-import { IsAfter } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+
+
 import { describe, it } from "vitest";
+import type { Expect, IsAfter, Test } from "inferred-types/types";
 
 describe("IsAfter<A, B>", () => {
 

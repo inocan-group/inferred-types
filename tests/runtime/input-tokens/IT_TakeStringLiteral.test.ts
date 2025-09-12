@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IT_TakeStringLiteral,
-    IT_Token,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IT_TakeStringLiteral, IT_Token, Test } from "inferred-types/types";
 
 describe("IT_TakeStringLiteral<T>", () => {
     it("double quoted", () => {
@@ -34,8 +29,6 @@ describe("IT_TakeStringLiteral<T>", () => {
         ];
     });
 
-
-
     it("single quoted", () => {
         type Empty = IT_TakeStringLiteral<`''`>;
         type Complete = IT_TakeStringLiteral<`'foo'`>;
@@ -45,7 +38,6 @@ describe("IT_TakeStringLiteral<T>", () => {
 
         type Unbalanced = IT_TakeStringLiteral<`'foo`>;
         type WrongQuote = IT_TakeStringLiteral<`'foo"`>;
-
 
         type cases = [
             Expect<Test<Complete, "extends", IT_Token<"literal">>>,
@@ -97,7 +89,6 @@ describe("IT_TakeStringLiteral<T>", () => {
         type Unbalanced = IT_TakeStringLiteral<`String(foo`>;
         type WrongQuote = IT_TakeStringLiteral<`'foo"`>;
 
-
         type cases = [
             Expect<Test<Complete, "extends", IT_Token<"literal">>>,
             Expect<Test<Partial, "extends", IT_Token<"literal">>>,
@@ -113,8 +104,5 @@ describe("IT_TakeStringLiteral<T>", () => {
             Expect<Test<NumTemplate["type"], "equals", `age: ${number}`>>,
         ];
     });
-
-
-
 
 });

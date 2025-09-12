@@ -1,11 +1,5 @@
 import { describe, it } from "vitest";
-import type {
-    Expect,
-    Test,
-    MakePropsMutable,
-    Mutable,
-    MutablePropsExclusive
-} from "inferred-types/types";
+import type { Expect, MakePropsMutable, Mutable, MutablePropsExclusive, Test } from "inferred-types/types";
 
 describe("MutableProp<T,M> and MutableProps<T,M>", () => {
 
@@ -39,7 +33,6 @@ describe("MutableProp<T,M> and MutableProps<T,M>", () => {
             >>,
         ];
     });
-
 
     it("MutableProp<T,M> ", () => {
         type T = { foo: string; bar?: number; readonly baz: boolean };
@@ -83,7 +76,6 @@ describe("MutableProp<T,M> and MutableProps<T,M>", () => {
             >>
         ];
     });
-
 
     it("MutablePropsExclusive<T,M>", () => {
         type T = { foo: string; bar?: number; readonly baz: boolean };

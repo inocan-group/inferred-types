@@ -1,7 +1,7 @@
-import { Expect, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 import { isEqual } from "inferred-types/runtime";
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("isEqual(a)(b) type guard", () => {
 
@@ -21,14 +21,12 @@ describe("isEqual(a)(b) type guard", () => {
 
     });
 
-
     it("type narrowing", () => {
         const isFooBar = isEqual("foo", "bar");
         const passing = "bar";
         const failing = "bart";
         const widePass = "foo" as string | undefined;
         const fooBarBaz = "foo" as "foo" | "bar" | "baz";
-
 
         if (isFooBar(passing)) {
             type V = typeof passing;
@@ -72,7 +70,6 @@ describe("isEqual(a)(b) type guard", () => {
             ];
         }
 
-
         if (isFooBar(fooBarBaz)) {
             type V = typeof fooBarBaz;
 
@@ -87,8 +84,6 @@ describe("isEqual(a)(b) type guard", () => {
             ];
         }
 
-
     });
-
 
 });

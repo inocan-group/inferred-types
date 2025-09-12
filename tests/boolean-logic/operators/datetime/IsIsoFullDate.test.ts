@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsIsoFullDate,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsIsoFullDate, Test } from "inferred-types/types";
 
 describe("IsIsoFullDate<T>", () => {
 
@@ -18,7 +14,6 @@ describe("IsIsoFullDate<T>", () => {
             ];
         });
 
-
         it("out-of-range fails", () => {
             type F1 = IsIsoFullDate<"20222-06-01">; // year
             type F2 = IsIsoFullDate<"2022-13-01">; // month
@@ -31,7 +26,6 @@ describe("IsIsoFullDate<T>", () => {
             ];
         });
 
-
         it("month context -> date", () => {
             type T1 = IsIsoFullDate<"2022-05-31">;
             type F1 = IsIsoFullDate<"2022-06-31">; // June only has 30 days
@@ -41,7 +35,6 @@ describe("IsIsoFullDate<T>", () => {
                 Expect<Test<F1, "equals", false>>,
             ];
         });
-
 
         it("leap year context", () => {
             type T1 = IsIsoFullDate<"2024-02-29">; // 2024 is a double leap year
@@ -60,7 +53,6 @@ describe("IsIsoFullDate<T>", () => {
                 Expect<Test<F2, "equals", false>>,
             ];
         });
-
 
         it("time information -> false", () => {
             type F1 = IsIsoFullDate<"2024-03-01TZ">;
@@ -85,7 +77,6 @@ describe("IsIsoFullDate<T>", () => {
             ];
         });
 
-
         it("out-of-range fails", () => {
             type F1 = IsIsoFullDate<"202220601">; // year
             type F2 = IsIsoFullDate<"20221301">; // month
@@ -98,7 +89,6 @@ describe("IsIsoFullDate<T>", () => {
             ];
         });
 
-
         it("month context -> date", () => {
             type T1 = IsIsoFullDate<"20220531">;
             type F1 = IsIsoFullDate<"20220631">; // June only has 30 days
@@ -108,7 +98,6 @@ describe("IsIsoFullDate<T>", () => {
                 Expect<Test<F1, "equals", false>>,
             ];
         });
-
 
         it("leap year context", () => {
             type T1 = IsIsoFullDate<"20240229">; // 2024 is a double leap year
@@ -128,7 +117,6 @@ describe("IsIsoFullDate<T>", () => {
             ];
         });
 
-
         it("time information -> false", () => {
             type F1 = IsIsoFullDate<"20240301TZ">;
             type F2 = IsIsoFullDate<"20240301 12:34">;
@@ -140,6 +128,5 @@ describe("IsIsoFullDate<T>", () => {
         });
 
     })
-
 
 });

@@ -1,19 +1,17 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { defineTuple, shift } from "inferred-types/runtime";
-import { Shift, Test } from "inferred-types/types";
+import type { Shift, Test } from "inferred-types/types";
 
 describe("Shift<T>", () => {
 
   it("shift a tuple", () => {
     type Bar = Shift<["foo", "bar"]>;
 
-
     type cases = [
       Expect<Test<Bar, "equals",  ["bar"]>>,
     ]
   });
-
 
   it("Shift empty Tuple", () => {
     type Nada = Shift<[]>;
@@ -23,7 +21,6 @@ describe("Shift<T>", () => {
     ];
   });
 
-
   it("shift a string", () => {
     type Bar = Shift<"#bar">;
 
@@ -32,7 +29,6 @@ describe("Shift<T>", () => {
     ]
   })
 
-
   it("shift an empty string", () => {
     type Empty = Shift<"">;
 
@@ -40,7 +36,6 @@ describe("Shift<T>", () => {
       Expect<Test<Empty, "equals",  undefined>>
     ];
   });
-
 
 });
 
@@ -69,7 +64,6 @@ describe("shift()", () => {
     ];
   });
 
-
   it("The list value is never mutated regardless of whether property is readonly", () => {
     const arr_ro = [1, 2, 3] as const;
     let arr = defineTuple(1, 2, 3);
@@ -82,10 +76,5 @@ describe("shift()", () => {
 
   });
 
-
 });
-
-
-
-
 

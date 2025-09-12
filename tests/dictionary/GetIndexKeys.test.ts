@@ -1,11 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    DictionaryWithIndexKeys,
-    Test,
-    UpperAlphaChar,
-    GetIndexKeys,
-} from "inferred-types/types";
+import type { DictionaryWithIndexKeys, Expect, GetIndexKeys, Test, UpperAlphaChar } from "inferred-types/types";
 
 describe("DictionaryWithIndexKeys", () => {
 
@@ -23,7 +17,6 @@ describe("DictionaryWithIndexKeys", () => {
         ];
     });
 
-
     it("multiple indexes", () => {
         type T1 = DictionaryWithIndexKeys<{ foo: 1; [x: `_${string}`]: string; [y: `${UpperAlphaChar}${string}`]: number }>;
 
@@ -31,7 +24,6 @@ describe("DictionaryWithIndexKeys", () => {
             Expect<Test<T1, "equals", { [x: `_${string}`]: string; [x: `${UpperAlphaChar}${string}`]: number }>>
         ];
     });
-
 
 });
 

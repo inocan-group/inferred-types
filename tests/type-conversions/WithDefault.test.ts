@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, WithDefault } from "inferred-types/types";
-
+import type { Expect, Test, WithDefault } from "inferred-types/types";
 
 describe("WithDefault<T,D>", () => {
 

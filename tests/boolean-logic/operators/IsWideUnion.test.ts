@@ -1,8 +1,6 @@
-import { Expect, IsWideUnion, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
-
+import type { Expect, IsWideUnion, Test } from "inferred-types/types";
 
 describe("IsWideUnion<T>", () => {
 

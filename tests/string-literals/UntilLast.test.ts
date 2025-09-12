@@ -1,10 +1,6 @@
-import {
-    Expect,
-    Err,
-    Test,
-    UntilLast
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Err, Expect, Test, UntilLast } from "inferred-types/types";
 
 describe("UntilLast<TText, TFind, [TBreak]>", () => {
 
@@ -19,7 +15,6 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
             "Array<Record<string, string> | Array<string>>", ">"
         >;
 
-
         type cases = [
             Expect<Test<T1, "equals", "Array<Record<string, string>">>,
             Expect<Test<T2, "equals", "Array<Record<string, string>">>,
@@ -30,7 +25,6 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
             Expect<Test<T6, "equals", "Array<Record<string, string> | Array<string>">>,
         ];
     });
-
 
     it("with break character", () => {
         type T1 = UntilLast<

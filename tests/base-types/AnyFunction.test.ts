@@ -1,8 +1,6 @@
 import {  ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AnyFunction,  AsStaticFn,  Extends } from "inferred-types/types";
-
-
+import type { AnyFunction, AsStaticFn, Extends } from "inferred-types/types";
 
 describe("AnyFunction", () => {
 

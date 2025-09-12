@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Expect, Constructor, Test } from "inferred-types/types";
+import type { Constructor, Expect, Test } from "inferred-types/types";
 
 class TestClass {
     public foo: number;

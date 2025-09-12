@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Slice, Test, Expect } from "inferred-types/types";
+import type { Expect, Slice, Test } from "inferred-types/types";
+
 import { slice } from "inferred-types/runtime";
 
 describe("Slice<TList, TStart, TEnd>", () => {
@@ -146,7 +147,6 @@ describe("Slice<TList, TStart, TEnd>", () => {
         ];
     });
 
-
     it("with optional types", () => {
         type SomeOpt = ["foo","bar", string?, number?];
 
@@ -162,7 +162,6 @@ describe("Slice<TList, TStart, TEnd>", () => {
             Expect<Test<JustOpt, "equals", [ string?, number? ]>>
         ];
     });
-
 
     it("out of bounds scenarios", () => {
         type ShortList = [1, 2, 3];
@@ -315,9 +314,7 @@ describe("Slice<TList, TStart, TEnd>", () => {
 
 });
 
-
 describe("slice(list, start, [len])", () => {
-
 
     it("start index", () => {
         const t1 = slice([1,2,3,4],2);
@@ -327,7 +324,6 @@ describe("slice(list, start, [len])", () => {
             Expect<Test<typeof t1, "equals", [3,4]>>
         ];
     });
-
 
     it("start index and length", () => {
         const t1 = slice([1,2,3,4],1,2);

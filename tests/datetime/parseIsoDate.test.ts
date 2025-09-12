@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
+import type { AsDateMeta, Expect, Test } from "inferred-types/types";
     isError,
     keysOf,
     parseIsoDate
 } from "inferred-types/runtime";
-import { AsDateMeta, Expect, Test } from 'inferred-types/types';
 
 describe("parseIsoDate()", () => {
     it("datetime, UTC", () => {
@@ -325,7 +325,6 @@ describe("parseIsoDate()", () => {
         // expect(date).toBe("2023-03-05");
         // expect(year).toBe("2023");
         // expect(yearIndependent).toBe("--03-05")
-
 
         // type cases = [
         //     Expect<Test<

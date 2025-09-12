@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, IsFnWithDictionary } from "inferred-types/types";
+import type { Expect, IsFnWithDictionary, Test } from "inferred-types/types";
 
 describe("IsFnWithDictionary<T>", () => {
   it("should return true for functions with dictionary properties when TParamMatch is undefined", () => {

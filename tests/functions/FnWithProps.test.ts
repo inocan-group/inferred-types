@@ -1,8 +1,6 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
+
 import { FnWithProps } from "inferred-types";
 
 describe("FnWithProps<TFn, TProps, TClone>", () => {

@@ -1,19 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { compare, isStaticTemplate, startsWith } from "inferred-types/runtime";
-import {
-    Compare,
-    Expect,
-    Test,
-    IsFalse,
-    IsFalsy,
-    IsDateLike,
-    Contains,
-    EmptyObject,
-    UpperAlphaChar,
-    IsAfter,
-    IsSameDay,
-    IsGreaterThan
-} from "inferred-types/types";
+import type { Compare, Contains, EmptyObject, Expect, IsAfter, IsDateLike, IsFalse, IsFalsy, IsGreaterThan, IsSameDay, Test, UpperAlphaChar } from "inferred-types/types";
+
 import { StartsWith } from "inferred-types";
 
 describe("Compare<TVal,TOp,TComparator> type util", () => {
@@ -24,7 +12,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             type T1 = Compare<42, "equals", [42]>;
             type T2 = Compare<string, "equals", [string]>;
             type T3 = Compare<"foo", "equals", ["foo"]>;
-
 
             type F1 = Compare<"foo", "equals", ["bar"]>;
             type F2 = Compare<"foo", "equals", [42]>;
@@ -37,7 +24,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
                 Expect<Test<T3, "equals", true>>,
-
 
                 Expect<Test<F1, "equals", false>>,
                 Expect<Test<F2, "equals", false>>,
@@ -58,7 +44,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             ];
         });
 
-
         it("equalsSome", () => {
             type T1 = Compare<42, "equalsSome", [42, 99]>;
             type T2 = Compare<99, "equalsSome", [42, 99]>;
@@ -70,7 +55,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<E1, "isError", "invalid-parameters">>
             ];
         });
-
 
         it("isTruthy", () => {
             type T1 = Compare<true, "truthy", []>;
@@ -131,7 +115,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             ];
         });
 
-
     })
 
     describe("string", () => {
@@ -181,7 +164,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             ];
         });
 
-
         it("contains with string input", () => {
             type T1 = Compare<"foobar", "contains", ["foo"]>;
 
@@ -200,7 +182,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
     })
 
-
     describe("numeric", () => {
         it("greaterThan", () => {
             type T1 = Compare<42, "greaterThan", [30]>;
@@ -208,7 +189,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             type F1 = Compare<"42", "greaterThan", [42]>;
             type A1 = IsGreaterThan<number, 42>;
             type B1 = Compare<number, "greaterThan", [42]>;
-
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
@@ -241,7 +221,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             type F1 = Compare<"42", "lessThan", [42]>;
             type B1 = Compare<number, "lessThan", [42]>;
 
-
             type cases = [
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
@@ -256,7 +235,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             type T3 = Compare<"42", "lessThanOrEqual", [42]>;
             type F1 = Compare<"43", "lessThanOrEqual", [42]>;
             type B1 = Compare<number, "lessThanOrEqual", [42]>;
-
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
@@ -298,9 +276,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             ];
         });
 
-
     })
-
 
     it("numeric operators", () => {
         type T1 = Compare<4, "greaterThan", [2]>;
@@ -320,7 +296,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
         // Test the specific failing case mentioned
         type T10 = Compare<7, "betweenInclusively", [5, 10]>;
-
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -357,7 +332,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             ];
         });
 
-
         it("objectKeyExtends operator", () => {
             type Obj = { foo: 2, bar: "bye" };
 
@@ -367,7 +341,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             type F1 = Compare<Obj, "objectKeyExtends", ["foo", 5]>;
             type F2 = Compare<Obj, "objectKeyExtends", ["bar", 2]>;
 
-
             type cases = [
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
@@ -375,7 +348,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<F2, "equals", false>>,
             ];
         });
-
 
         it("objectKey numeric ops", () => {
             type Obj = { foo: 2, bar: "bye" };
@@ -432,7 +404,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
     })
 
     describe("datetime", () => {
-
 
         it("sameDay", () => {
             type D = "2023-10-15";
@@ -587,7 +558,6 @@ describe("compare() runtime function", () => {
             expect(alphaNum("abc 123")).toBe(false); // space is not alphanumeric
             expect(alphaNum("abc-123")).toBe(false); // hyphen is not alphanumeric
 
-
             type cases = [
                 Expect<Test<
                     typeof alpha123, "equals",
@@ -595,7 +565,6 @@ describe("compare() runtime function", () => {
                 >>
             ]
         });
-
 
         it("isTemplateLiteral", () => {
             const str = "hi Mike" as `hi ${string}`;
@@ -1253,9 +1222,6 @@ describe("compare() runtime function", () => {
     });
 
     describe("Edge cases and error handling", () => {
-
-
-
 
         it("handles complex nested comparisons", () => {
             const data = [

@@ -1,7 +1,6 @@
-import { Expect, ReturnValues, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, ReturnValues, Test } from "inferred-types/types";
 
 describe("ReturnValues<T>", () => {
 

@@ -1,15 +1,8 @@
 /* eslint-disable ts/ban-ts-comment */
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { getDaysBetween } from "inferred-types/runtime";
-import {
-  Extends,
-  IsIsoDateTime,
-  IsIsoDate,
-  IsLuxonDateTime,
-  Test,
-  IsoDateTime,
-  IsoDate,
-} from "inferred-types/types";
+import type { Extends, IsIsoDate, IsIsoDateTime, IsLuxonDateTime, IsoDate, IsoDateTime, Test } from "inferred-types/types";
+
 import { DateTime } from "luxon";
 import moment from "moment";
 import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
@@ -141,7 +134,6 @@ describe("getDaysBetween()", () => {
         "2024-01-01T23:00:00Z",
         "2024-01-02T01:00:00Z"
       )).toBe(1);
-
 
       // Mixed UTC and offset times
       expect(getDaysBetween(

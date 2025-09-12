@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Sort,
-    Test,
-} from "inferred-types/types";
+import type { Expect, Sort, Test } from "inferred-types/types";
 
 describe("Sort<T>", () => {
 

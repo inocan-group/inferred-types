@@ -1,17 +1,10 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IfLength,
-    Length,
-    Test
-} from "inferred-types/types";
+import type { Expect, IfLength, Length, Test } from "inferred-types/types";
+
 import {
     narrow,
     ifLength
 } from "inferred-types/runtime";
-
-
-
 
 describe("IfLength<TCompareTo,TVal,IF,ELSE>", () => {
 
@@ -32,7 +25,6 @@ describe("IfLength<TCompareTo,TVal,IF,ELSE>", () => {
 
 });
 
-
 it("evaluating a string", () => {
     type E1 = IfLength<"Foobar", 6, "yes", "no">;
     type NE1 = IfLength<"Foobar", 3, "yes", "no">;
@@ -43,8 +35,6 @@ it("evaluating a string", () => {
     ];
 
 });
-
-
 
 describe("ifLength(val,len,if,else)", () => {
 

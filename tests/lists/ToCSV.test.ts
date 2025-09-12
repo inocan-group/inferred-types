@@ -1,8 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Test, ToCSV } from "inferred-types/types";
-
-
+import type { Test, ToCSV } from "inferred-types/types";
 
 describe("ToCSV<TTuple,TReplace>", () => {
 

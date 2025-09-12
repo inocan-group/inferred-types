@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, StripAfterLast, Test } from "inferred-types/types";
-import { stripAfterLast } from "inferred-types/runtime";
+import type { Expect, StripAfterLast, Test } from "inferred-types/types";
 
+import { stripAfterLast } from "inferred-types/runtime";
 
 describe("StripAfterLast<TStr,TBreak>", () => {
 

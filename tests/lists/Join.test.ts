@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Expect, Join , EnsureLeading, Test } from "inferred-types/types";
+import type { EnsureLeading, Expect, Join, Test } from "inferred-types/types";
+
 import {  Joiner, joinWith } from "inferred-types/runtime";
 
 describe("Join<T,S>", () => {
@@ -11,7 +12,6 @@ describe("Join<T,S>", () => {
     type IgnoreBlanks = Join<["foo", "", "bar", "","baz", ""], ",">;
     type IgnoreBlanks2 = Join<["foo", ""], ",">;
 
-
     type cases = [
       Expect<Test<T1, "equals",  "foobar">>,
       Expect<Test<T2, "equals",  "foo\nbar">>,
@@ -20,7 +20,6 @@ describe("Join<T,S>", () => {
       Expect<Test<IgnoreBlanks2, "equals",  "foo">>,
     ];
   });
-
 
   it("non-string types", () => {
     type Arr1 = Join<[1,2,never,3]>;
@@ -35,7 +34,6 @@ describe("Join<T,S>", () => {
       >>
     ];
   });
-
 
   it("truncation tests when using TMax generic", () => {
     type NoTrunc = Join<[1,2,3], ", ", 4>;

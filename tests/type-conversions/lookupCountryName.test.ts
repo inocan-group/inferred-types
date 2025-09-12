@@ -1,8 +1,7 @@
 import { lookupCountryAlpha2, lookupCountryAlpha3, lookupCountryCode, lookupCountryName } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
-
-
 
 describe("lookupCountryName()", () => {
 
@@ -12,7 +11,6 @@ describe("lookupCountryName()", () => {
         const uk = lookupCountryName("GB");
 
         const usLower = lookupCountryName("us");
-
 
         expect(us).toBe("United States of America");
         expect(ca).toBe("Canada");
@@ -33,12 +31,10 @@ describe("lookupCountryName()", () => {
 
         const usLower = lookupCountryName("usa");
 
-
         expect(us).toBe("United States of America");
         expect(ca).toBe("Canada");
         expect(uk).toBe("United Kingdom");
         expect(usLower).toBe("United States of America");
-
 
         type cases = [
             Expect<Test<typeof us, "equals", "United States of America">>,
@@ -64,7 +60,6 @@ describe("lookupCountryName()", () => {
         ]
     });
 
-
 });
 
 describe("lookupCountryAlpha2", () => {
@@ -77,13 +72,11 @@ describe("lookupCountryAlpha2", () => {
 
         const usLower = lookupCountryAlpha2("usa");
 
-
         expect(us).toBe("US");
         expect(ca).toBe("CA");
         expect(ca2).toBe("CA");
         expect(uk).toBe("GB");
         expect(usLower).toBe("US");
-
 
         type cases = [
             Expect<Test<typeof us, "equals", "US">>,
@@ -101,12 +94,10 @@ describe("lookupCountryAlpha2", () => {
 
         const usLower = lookupCountryAlpha2("usa");
 
-
         expect(us).toBe("US");
         expect(ca).toBe("CA");
         expect(uk).toBe("GB");
         expect(usLower).toBe("US");
-
 
         type cases = [
             Expect<Test<typeof us, "equals", "US">>,
@@ -115,7 +106,6 @@ describe("lookupCountryAlpha2", () => {
             Expect<Test<typeof usLower, "equals", "US">>,
         ]
     });
-
 
     it("lookupCountryAlpha2() with numeric string", () => {
         const us = lookupCountryAlpha2("840");
@@ -160,12 +150,10 @@ describe("lookupCountryAlpha3", () => {
 
         const usLower = lookupCountryAlpha3("usa");
 
-
         expect(us).toBe("USA");
         expect(ca).toBe("CAN");
         expect(uk).toBe("GBR");
         expect(usLower).toBe("USA");
-
 
         type cases = [
             Expect<Test<typeof us, "equals", "USA">>,
@@ -182,12 +170,10 @@ describe("lookupCountryAlpha3", () => {
 
         const usLower = lookupCountryAlpha3("usa");
 
-
         expect(us).toBe("USA");
         expect(ca).toBe("CAN");
         expect(uk).toBe("GBR");
         expect(usLower).toBe("USA");
-
 
         type cases = [
             Expect<Test<typeof us, "equals", "USA">>,
@@ -196,7 +182,6 @@ describe("lookupCountryAlpha3", () => {
             Expect<Test<typeof usLower, "equals", "USA">>,
         ]
     });
-
 
     it("lookupCountryAlpha3() with numeric string", () => {
         const us = lookupCountryAlpha3("840");
@@ -241,12 +226,10 @@ describe("lookupCountryCode", () => {
 
         const usLower = lookupCountryCode("usa");
 
-
         expect(us).toBe("840");
         expect(ca).toBe("124");
         expect(uk).toBe("826");
         expect(usLower).toBe("840");
-
 
         type cases = [
             Expect<Test<typeof us, "equals", "840">>,
@@ -263,12 +246,10 @@ describe("lookupCountryCode", () => {
 
         const usLower = lookupCountryCode("usa");
 
-
         expect(us).toBe("840");
         expect(ca).toBe("124");
         expect(uk).toBe("826");
         expect(usLower).toBe("840");
-
 
         type cases = [
             Expect<Test<typeof us, "equals", "840">>,
@@ -277,7 +258,6 @@ describe("lookupCountryCode", () => {
             Expect<Test<typeof usLower, "equals", "840">>,
         ]
     });
-
 
     it("lookupCountryCode() with country name", () => {
         const us = lookupCountryCode("United States of America");
@@ -294,6 +274,5 @@ describe("lookupCountryCode", () => {
             Expect<Test<typeof uk, "equals", "826">>,
         ]
     });
-
 
 })

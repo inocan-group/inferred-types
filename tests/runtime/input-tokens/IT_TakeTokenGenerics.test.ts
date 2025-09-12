@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-} from "inferred-types/types";
-import { IT_TakeTokenGenerics } from "inferred-types/types";
+import type { Expect, IT_TakeTokenGenerics, Test } from "inferred-types/types";
 
 describe("TakeTokenGenerics<T>", () => {
 
@@ -17,7 +13,6 @@ describe("TakeTokenGenerics<T>", () => {
         type T3 = IT_TakeTokenGenerics<Input3>;
         type T4 = IT_TakeTokenGenerics<"<T extends string>(name: T) => string">;
         type T5 = IT_TakeTokenGenerics<"<A extends number, B extends number>(a: A, b: B): number">;
-
 
         type Expected = {
             generics: [
@@ -61,7 +56,6 @@ describe("TakeTokenGenerics<T>", () => {
         ];
     });
 
-
     it("Generic with no type", () => {
         type Token = "<T>";
         type T1 = IT_TakeTokenGenerics<Token>;
@@ -74,7 +68,6 @@ describe("TakeTokenGenerics<T>", () => {
 
         ];
     });
-
 
     it("mixed", () => {
         type Token = "<T extends string, V>(name: T, value: V) {}";
@@ -98,7 +91,6 @@ describe("TakeTokenGenerics<T>", () => {
         ];
     });
 
-
     it("invalid tokens", () => {
         type E1 = IT_TakeTokenGenerics<"foobar!">;
         type E2 = IT_TakeTokenGenerics<"<T extends string, U hates number>">;
@@ -108,7 +100,6 @@ describe("TakeTokenGenerics<T>", () => {
             Expect<Test<E2, "isError", `malformed-token/generic`>>,
         ];
     });
-
 
 });
 

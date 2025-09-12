@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IT_TakeParameters,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IT_TakeParameters, Test } from "inferred-types/types";
 
 describe("IT_TakeParameters<T>", () => {
 
@@ -91,6 +87,5 @@ describe("IT_TakeParameters<T>", () => {
             Expect<Test<T3, "equals", T3_Expected>>,
         ];
     });
-
 
 });

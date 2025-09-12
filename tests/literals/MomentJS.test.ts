@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
-import { Expect, IsMoment, Test } from "inferred-types/types";
-import moment from "moment";
+import type { Expect, IsMoment, Test } from "inferred-types/types";
 
+import moment from "moment";
 
 describe("MomentJS", () => {
 

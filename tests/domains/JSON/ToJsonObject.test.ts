@@ -1,5 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { EmptyObject, Test, ToJsonObject } from "inferred-types/types";
+import type { EmptyObject, Test, ToJsonObject } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("ToJsonObject<T>", () => {
@@ -66,7 +67,5 @@ describe("ToJsonObject<T>", () => {
         ];
     });
 
-
 });
-
 

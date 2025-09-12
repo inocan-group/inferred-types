@@ -1,13 +1,7 @@
 import { describe, expect, it } from "vitest";
+import type { EmptyObject, Expect, Test } from "inferred-types/types";
 
 import { omitKeys } from "inferred-types/runtime";
-import {
-    Expect,
-    EmptyObject,
-    Test
-} from "inferred-types/types";
-
-
 
 describe("omit()", () => {
 
@@ -32,7 +26,6 @@ describe("omit()", () => {
 
     });
 
-
     it("Narrowing a typed object", () => {
         const input: { foo: 1; bar: 2; baz: 3 } = { foo: 1, bar: 2, baz: 3 };
         const test = omitKeys(input, "foo");
@@ -40,7 +33,6 @@ describe("omit()", () => {
         type cases = [
             Expect<Test<typeof test, "equals", { bar: 2; baz: 3 }>>
         ];
-
 
         expect(test).toEqual({ bar: 2, baz: 3 });
     });
@@ -64,6 +56,5 @@ describe("omit()", () => {
 
         expect(test).toEqual({ bar: 2, baz: ["testing", "something"] });
     });
-
 
 });

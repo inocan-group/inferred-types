@@ -1,6 +1,7 @@
-import { Expect, Err, FailFast, Test } from "inferred-types/types";
-import { Extends } from "inferred-types/types";
+
+
 import { describe, it } from "vitest";
+import type { Err, Expect, Extends, FailFast, Test } from "inferred-types/types";
 
 describe("FailFast<[]>", () => {
 
@@ -24,7 +25,6 @@ describe("FailFast<[]>", () => {
       Expect<Test<Override, "isError", "biscuit">>,
     ];
   });
-
 
   it("only fail on errors", () => {
 

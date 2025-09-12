@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, TypedFunction, HasTypedFunctionKeys } from "inferred-types/types";
+import type { Expect, HasTypedFunctionKeys, Test, TypedFunction } from "inferred-types/types";
 
 describe("HasTypedFunctionKeys<T, K>", () => {
 

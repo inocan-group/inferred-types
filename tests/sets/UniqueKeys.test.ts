@@ -1,16 +1,7 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    LeftRight,
-    UniqueKeys,
-    Left,
-    Right,
-    HasSameValues,
-    UniqueKeysUnion,
-    Test
-} from "inferred-types/types";
-import { uniqueKeys } from "inferred-types/runtime";
+import type { Expect, HasSameValues, Left, LeftRight, Right, Test, UniqueKeys, UniqueKeysUnion } from "inferred-types/types";
 
+import { uniqueKeys } from "inferred-types/runtime";
 
 describe("UniqueKeys<L,R>", () => {
 
@@ -27,7 +18,6 @@ describe("UniqueKeys<L,R>", () => {
       Expect<Test<Tup,"equals",  LeftRight<never, "3">>>,
     ];
   });
-
 
   it("happy path for UniqueKey<L,R>", () => {
     type Obj = UniqueKeys<{ foo: 1; bar: 2 }, { bar: 5; baz: 42 }>;
@@ -47,7 +37,6 @@ describe("UniqueKeys<L,R>", () => {
       Expect<Test<Tup, "equals", LeftRight<[], [3]>>>,
     ];
   });
-
 
 });
 

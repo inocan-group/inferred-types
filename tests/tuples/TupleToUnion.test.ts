@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Expect, Test, TupleToUnion } from "inferred-types/types";
+import type { Expect, Test, TupleToUnion } from "inferred-types/types";
 
 describe("TupleToUnion<T> type utility", () => {
     it("an array of literals is converted ot a tuple", () => {

@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, IsEqual, Pop, Shift, Test, VariadicType } from "inferred-types/types";
-
-
+import type { Expect, IsEqual, Pop, Shift, Test, VariadicType } from "inferred-types/types";
 
 describe("Pop", () => {
 
@@ -23,18 +21,15 @@ describe("Pop", () => {
             ];
         });
 
-
         it("pop with optional", () => {
             type One = Pop<["foo", "bar", "baz"?]>;
             type Two = Pop<["foo", "bar"?, "baz"?]>;
-
 
             type cases = [
                 Expect<Test<One, "equals", ["foo","bar"] | ["foo"]>>,
                 Expect<Test<Two, "equals", ["foo","bar"] | ["foo"] | []>>,
             ];
         });
-
 
         it("pop with variadic tail", () => {
             type NonMatchedVariadic = Pop<[1,2,3, ...string[]]>;
@@ -66,10 +61,7 @@ describe("Pop", () => {
         });
     })
 
-
-
 });
-
 
 describe("Shift", () => {
 
@@ -86,7 +78,6 @@ describe("Shift", () => {
             Expect<Test<Empty, "equals", undefined>>,
         ];
     });
-
 
     it("shift character off of string", () => {
         type Foobar = Shift<"foobar">;

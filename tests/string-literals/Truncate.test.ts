@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Expect, Test, Truncate } from "inferred-types/types";
+import type { Expect, Test, Truncate } from "inferred-types/types";
+
 import { truncate } from "inferred-types/runtime";
 
 describe("Truncate<T>", () => {

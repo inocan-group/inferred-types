@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-  Expect,
-  IsUndefined,
-  Test,
-} from "inferred-types/types";
+import type { Expect, IsUndefined, Test } from "inferred-types/types";
 
 describe("IsUndefined", () => {
   it("should return true for undefined type", () => {

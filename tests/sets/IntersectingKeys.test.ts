@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, IntersectingKeys, Test } from "inferred-types/types";
-
+import type { Expect, IntersectingKeys, Test } from "inferred-types/types";
 
 describe("IntersectingKeys<L,R>", () => {
 
@@ -14,7 +13,6 @@ describe("IntersectingKeys<L,R>", () => {
         ];
     });
 
-
     it("with tuples", () => {
         type T = IntersectingKeys<[1,2,3], ["foo","bar"]>;
 
@@ -22,6 +20,5 @@ describe("IntersectingKeys<L,R>", () => {
             Expect<Test<T, "equals", [0,1]>>
         ];
     });
-
 
 });

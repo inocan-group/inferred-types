@@ -1,7 +1,6 @@
-import { Expect, EmptyObject, RemoveUndefined, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { EmptyObject, Expect, RemoveUndefined, Test } from "inferred-types/types";
 
 describe("RemoveUndefined<T>", () => {
 

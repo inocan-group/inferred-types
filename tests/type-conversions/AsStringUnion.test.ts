@@ -1,11 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    AsStringUnion,
-    Test
-} from "inferred-types/types";
-
-
+import type { AsStringUnion, Expect, Test } from "inferred-types/types";
 
 describe("AsStringUnion<T>", () => {
 

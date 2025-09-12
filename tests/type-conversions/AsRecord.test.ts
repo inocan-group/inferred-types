@@ -1,12 +1,6 @@
-import {
-    Expect,
-    AsRecord,
-    ObjectKey,
-    Test
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { AsRecord, Expect, ObjectKey, Test } from "inferred-types/types";
 
 describe("AsRecord<T>", () => {
 

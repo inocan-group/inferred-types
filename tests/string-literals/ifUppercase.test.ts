@@ -1,9 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import {  ifUppercaseChar, toAllCaps } from "inferred-types/runtime";
-import { Test } from "inferred-types/types";
+import type { Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("ifUppercase()", () => {
 
@@ -37,7 +36,6 @@ describe("ifUppercase()", () => {
   //   const cases: cases = [ true, true, true, true];
   // });
 
-
   // it("testing with a string", () => {
   //   const fooBar = ifUppercase("fooBar", () => "P", v => v);
   //   expect(fooBar).toBe("fooPar");
@@ -48,6 +46,5 @@ describe("ifUppercase()", () => {
   //   const cases: cases = [ true ];
 
   // });
-
 
 });

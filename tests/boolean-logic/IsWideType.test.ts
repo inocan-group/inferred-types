@@ -1,14 +1,6 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {
-    IsWideContainer,
-    IsWideScalar,
-    IsWideType,
-    Dictionary,
-    Test,
-    Expect,
-    Keys,
-    IsWideUnion
-} from "inferred-types/types";
+import type { Dictionary, Expect, IsWideContainer, IsWideScalar, IsWideType, IsWideUnion, Keys, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("IsWideScalar<T>", () => {
@@ -22,7 +14,6 @@ describe("IsWideScalar<T>", () => {
         type F2 = IsWideScalar<true>;
         type F3 = IsWideScalar<42>;
         type F4 = IsWideScalar<null>;
-
 
         type cases = [
             ExpectTrue<T1>,

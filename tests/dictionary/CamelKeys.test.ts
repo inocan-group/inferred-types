@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, CamelKeys, Test } from "inferred-types/types";
-
+import type { CamelKeys, Expect, Test } from "inferred-types/types";
 
 describe("CamelKeys<T>", () => {
 
@@ -12,7 +11,6 @@ describe("CamelKeys<T>", () => {
             Expect<Test<T, "equals", { fooBar: 42; barBaz: 55; opt?: "maybe" | undefined }>>
         ];
     });
-
 
     it("recursive/deep object", () => {
         type Obj = { foo_bar: { bar_baz: 42 }; up_down: 44 };

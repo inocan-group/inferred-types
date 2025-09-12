@@ -1,10 +1,6 @@
 import { Equal } from "@type-challenges/utils";
-import {
-    Expect,
-    ReplaceBooleanInterpolation,
-    ReplaceNumericInterpolation,
-    ReplaceStringInterpolation,
-} from "inferred-types/types";
+import type { Expect, ReplaceBooleanInterpolation, ReplaceNumericInterpolation, ReplaceStringInterpolation } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("ReplaceInterpolation Utilities", () => {
@@ -54,7 +50,6 @@ describe("ReplaceInterpolation Utilities", () => {
         ];
     });
 
-
     it("numeric replacement with `${string}` intermixed", () => {
         type TheAnswer = ReplaceNumericInterpolation<`Yes ${string}, ${number} is the answer`, "42">;
 
@@ -62,7 +57,6 @@ describe("ReplaceInterpolation Utilities", () => {
             Expect<Equal<TheAnswer, `Yes ${string}, 42 is the answer`>>
         ];
     });
-
 
     it("ReplaceNumericInterpolation<...> with an array of values", () => {
         type TheAnswer = ReplaceNumericInterpolation<
@@ -102,7 +96,6 @@ describe("ReplaceInterpolation Utilities", () => {
         ];
     });
 
-
     it("ReplaceBooleanInterpolation<...> with single replacement value", () => {
         type Start = ReplaceBooleanInterpolation<
             `${boolean} value`,
@@ -134,6 +127,5 @@ describe("ReplaceInterpolation Utilities", () => {
             >>
         ];
     });
-
 
 });

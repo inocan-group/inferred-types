@@ -1,8 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  Test, UnionFromProp } from "inferred-types/types";
+import type { Test, UnionFromProp } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("UnionFromProp<T,P>", () => {
   type D1 = [

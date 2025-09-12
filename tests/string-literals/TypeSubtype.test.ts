@@ -1,7 +1,7 @@
-import { Expect, Test, TypeSubtype } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 import { isTypeSubtype, getTypeSubtype } from "inferred-types/runtime";
-
+import type { Expect, Test, TypeSubtype } from "inferred-types/types";
 
 describe("isTypeSubtype(val)", () => {
 
@@ -43,7 +43,6 @@ describe("isTypeSubtype(val)", () => {
     });
 
 });
-
 
 describe("getTypeSubtype(str)", () => {
 

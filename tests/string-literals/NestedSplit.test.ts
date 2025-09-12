@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { UPPER_ALPHA_CHARS } from "inferred-types/constants";
-import {  NestedSplit, Test, DefaultNesting } from "inferred-types/types";
+import type { DefaultNesting, NestedSplit, Test } from "inferred-types/types";
+
 import { nestedSplit, nesting } from "inferred-types/runtime";
 import { describe, it, expect } from "vitest";
 
@@ -20,7 +21,6 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         ];
     });
 
-
     it("splitting on character associated with nesting exit", () => {
         type T1 = NestedSplit<
             "string | Number<4>> | string",
@@ -34,7 +34,6 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
                 ["string | Number<4>",  " | string"]>>
         ];
     });
-
 
     it("last character is split character leaves an empty string at end of tuple result", () => {
         type T1 = NestedSplit<"Foobar>", ">">;
@@ -57,7 +56,6 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
             >>
         ];
     });
-
 
     it("using named presets and tuple splitters", () => {
         type T1 = NestedSplit<"Foo(Bar)Baz", typeof UPPER_ALPHA_CHARS, "brackets", "before">;
@@ -149,7 +147,6 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         ];
     });
 
-
     it("a nested split with NO matches and one with matches but no trailing whitespace should be distinguishable", () => {
         type T1 = "foo: 1}";
         type T2 = "foo: 1";
@@ -161,8 +158,6 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
             Expect<Test<N2, "equals", ["foo: 1"]>>,
         ];
     });
-
-
 
 });
 

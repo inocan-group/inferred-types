@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Concat, Test } from "inferred-types/types";
-
-
+import type { Concat, Expect, Test } from "inferred-types/types";
 
 describe("Concat<T>", () => {
 
@@ -18,7 +16,6 @@ describe("Concat<T>", () => {
             Expect<Test<T4, "equals",  "foo-is-true">>,
         ];
     });
-
 
     it("wide types", () => {
         type T1 = Concat<[string]>;
@@ -43,6 +40,5 @@ describe("Concat<T>", () => {
             Expect<Test<T3, "equals",  `${string}42${string}`>>,
         ];
     });
-
 
 });

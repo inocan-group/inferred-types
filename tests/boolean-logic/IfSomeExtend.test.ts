@@ -1,7 +1,6 @@
-import { Expect, Dictionary, SomeExtend, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Dictionary, Expect, SomeExtend, Test } from "inferred-types/types";
 
 describe("SomeExtend<TList,TExtend> and IfSomeExtend<TList,TExtend>", () => {
 

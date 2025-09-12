@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Divide } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+import type { Divide, Expect, Test } from "inferred-types/types";
 
 describe("Divide type utility", () => {
   it("should handle basic division operations", () => {

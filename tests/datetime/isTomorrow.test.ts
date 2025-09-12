@@ -1,15 +1,7 @@
 /* eslint-disable ts/ban-ts-comment */
 import { isTomorrow } from "inferred-types/runtime";
-import {
-    Expect,
-    IsIsoDateTime,
-    IsIsoDate,
-    IsLuxonDateTime,
-    Test,
-    LuxonLikeDateTime,
-    IsoDateTime,
-    IsoDate,
-} from "inferred-types/types";
+import type { Expect, IsIsoDate, IsIsoDateTime, IsLuxonDateTime, IsoDate, IsoDateTime, LuxonLikeDateTime, Test } from "inferred-types/types";
+
 import { DateTime } from "luxon";
 import moment from "moment";
 import { describe, expect, it } from "vitest";

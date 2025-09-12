@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { Expect, AsArray, Test, UnionToTuple } from "inferred-types/types";
-import { asArray } from "inferred-types/runtime";
+import type { AsArray, Expect, Test, UnionToTuple } from "inferred-types/types";
 
+import { asArray } from "inferred-types/runtime";
 
 describe("AsArray<T>", () => {
     it("happy path", () => {
@@ -22,7 +22,6 @@ describe("AsArray<T>", () => {
         ];
     });
 
-
     it("unions are converted to tuples", () => {
         type FooBar = AsArray<"foo" | "bar">;
 
@@ -30,8 +29,6 @@ describe("AsArray<T>", () => {
             Expect<Test<FooBar, "hasSameValues", ["foo", "bar"]>>
         ];
     });
-
-
 
     it("using with a union tuple type", () => {
         type X = (readonly unknown[] | [readonly unknown[]]);
@@ -71,7 +68,6 @@ describe("asArray() function", () => {
             Expect<Test<O, "equals", string[]>>
         ];
     });
-
 
     it("handling non-array element which presents as undefined", () => {
         type T = string | undefined;

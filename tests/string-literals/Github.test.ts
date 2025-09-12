@@ -1,5 +1,6 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import {
+import type { DoesNotExtend, Expect, Extends, GithubRepoIssuesListUrl, GithubRepoIssueUrl, GithubRepoProjectsUrl, GithubRepoProjectUrl, GithubRepoReleasesUrl, GithubRepoReleaseTagUrl, GithubRepoUrl, Test } from "inferred-types/types";
     isGithubIssuesListUrl,
     isGithubIssueUrl,
     isGithubProjectsListUrl,
@@ -8,25 +9,10 @@ import {
     isGithubReleaseTagUrl,
     isGithubRepoUrl
 } from "inferred-types/runtime";
-import {
-    Expect,
-    DoesNotExtend,
-    Extends,
-    GithubRepoIssuesListUrl,
-    GithubRepoIssueUrl,
-    GithubRepoProjectsUrl,
-    GithubRepoProjectUrl,
-    GithubRepoReleasesUrl,
-    GithubRepoReleaseTagUrl,
-    GithubRepoUrl,
-    Test
-} from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
-
-
 describe("Github types and type guards", () => {
-
 
   it("GithubRepoUrl<T> and isGithubRepoUrl()", () => {
     type T1 = Extends<"https://github.com/inocan-group/inferred-types", GithubRepoUrl>;
@@ -61,7 +47,6 @@ describe("Github types and type guards", () => {
       ]
     }
 
-
     type cases = [
       ExpectTrue<T1>,
       ExpectFalse<F1>,
@@ -71,14 +56,12 @@ describe("Github types and type guards", () => {
     ];
   });
 
-
   it("GithubIssuesUrl, GithubIssueUrl, and type guards ", () => {
     const validIssueList = "https://github.com/inocan-group/inferred-types/issues";
     const validIssue = "https://github.com/inocan-group/inferred-types/issues/001";
     const validIssueWithQuery = "https://github.com/inocan-group/inferred-types/issues/001?foo=bar";
 
     const malformedIssue = "https://github.com/inferred-types/issues/001";
-
 
     expect(isGithubIssuesListUrl(validIssueList)).toBe(true);
     expect(isGithubIssueUrl(validIssue)).toBe(true);

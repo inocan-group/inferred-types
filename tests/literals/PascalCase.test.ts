@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Expect, PascalCase, Test } from "inferred-types/types";
+import type { Expect, PascalCase, Test } from "inferred-types/types";
 
 const target = "TwoThreeFour";
 type TARGET = typeof target;

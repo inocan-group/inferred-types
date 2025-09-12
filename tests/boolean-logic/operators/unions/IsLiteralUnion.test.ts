@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, IsLiteralUnion, Test } from "inferred-types/types";
+import type { Expect, IsLiteralUnion, Test } from "inferred-types/types";
 
 describe("IsLiteralUnion<T>", () => {
     it("should return true for literal unions", () => {
@@ -16,7 +16,6 @@ describe("IsLiteralUnion<T>", () => {
         // boolean is immediately expanded to `true` | `false` which is a literal union
         type T7 = IsLiteralUnion<boolean>;
 
-
         type cases = [
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
@@ -32,7 +31,6 @@ describe("IsLiteralUnion<T>", () => {
         type T1 = IsLiteralUnion<"hello">;
         type T2 = IsLiteralUnion<string>;
         type T3 = IsLiteralUnion<number>;
-
 
         // Object type
         type ObjectType = { foo: string };

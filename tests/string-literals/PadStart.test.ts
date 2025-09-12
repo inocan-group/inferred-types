@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, PadStart } from "inferred-types/types";
+import type { Expect, PadStart, Test } from "inferred-types/types";
 
 describe("PadStart<TContent,TChar,TLen>", () => {
     

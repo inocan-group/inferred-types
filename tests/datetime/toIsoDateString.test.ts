@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
 
 import { parseIsoDate, toIsoDateString } from "inferred-types/runtime";
 

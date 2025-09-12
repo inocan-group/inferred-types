@@ -1,19 +1,11 @@
 import { describe, expect, it } from "vitest";
+import type { Expect, Extends, GetEach, KeyValue, Last, Test } from "inferred-types/types";
 
-import {
-    Expect,
-    Extends,
-    GetEach,
-    KeyValue,
-    Last,
-    Test
-} from "inferred-types/types";
 import {
     toKeyValue,
     tuple,
     defineObj
 } from "inferred-types/runtime";
-
 
 describe("toKeyValue(obj)", () => {
 
@@ -37,7 +29,6 @@ describe("toKeyValue(obj)", () => {
         ];
     });
 
-
     it("nesting", () => {
         const fooBar = toKeyValue({ foo: 1, bar: { uno: 1, dos: 2 } });
 
@@ -45,7 +36,6 @@ describe("toKeyValue(obj)", () => {
             /** type tests */
         ];
     });
-
 
     it("forcing a key to start position", () => {
         const fooBar = toKeyValue({ foo: 1, bar: "hi", id: 123 }, { start: "id" });
@@ -69,7 +59,6 @@ describe("toKeyValue(obj)", () => {
             >>
         ];
     });
-
 
     it("forcing a key to end position", () => {
         const fooBar = toKeyValue({ foo: 1, bar: "hi", id: 123 }, { end: "bar" });
@@ -95,7 +84,6 @@ describe("toKeyValue(obj)", () => {
         ];
     });
 
-
     it("Forcing both start and end keys", () => {
         const obj = defineObj({
             "company": "[[Anthropic]]",
@@ -113,7 +101,6 @@ describe("toKeyValue(obj)", () => {
             start: ["type", "kind", "category", "subcategory"],
             end: "desc"
         });
-
 
         const kv = tuple(
             { key: "type", value: "[[kind/types/AI.md|AI]]", required: true },

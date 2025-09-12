@@ -1,9 +1,8 @@
 import {  Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import {  Test, Unique } from "inferred-types/types";
+import type { Test, Unique } from "inferred-types/types";
+
 import { unique } from "inferred-types/runtime";
-
-
 
 describe("Unique properties in Sets", () => {
   describe("Unique<A,B,Deref>", () => {

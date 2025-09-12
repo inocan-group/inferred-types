@@ -1,8 +1,7 @@
 import { toCamelCase } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
+
 import { describe, it, expect } from "vitest";
-
-
 
 describe("CamelCase<T>", () => {
     it("from PascalCase", () => {
@@ -21,8 +20,6 @@ describe("CamelCase<T>", () => {
         expect(toCamelCase("dash_me")).toEqual("dashMe");
         expect(toCamelCase("dash-for-css")).toEqual("dashForCss");
     });
-
-
 
     it(`Using "string literal", type is modified appropriately`, () => {
         const dash = "one-two-three";
@@ -66,5 +63,4 @@ describe("CamelCase<T>", () => {
     });
 
 });
-
 

@@ -1,18 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    DropVariadicTail,
-    HasVariadicHead,
-    HasVariadicTail,
-    VariadicType,
-    GetNonVariadicLength,
-    SplitAtVariadic,
-    HasVariadicInterior,
-    DropVariadicHead,
-    ExtractOptionalKeys,
-    ExtractOptionalElements
-} from "inferred-types/types";
+import type { DropVariadicHead, DropVariadicTail, Expect, ExtractOptionalElements, ExtractOptionalKeys, GetNonVariadicLength, HasVariadicHead, HasVariadicInterior, HasVariadicTail, SplitAtVariadic, Test, VariadicType } from "inferred-types/types";
 
 describe("Variadic Type Utilities", () => {
 
@@ -67,16 +54,13 @@ describe("Variadic Type Utilities", () => {
             ];
         });
 
-
         it("interior variadic element", () => {
             type F1 = HasVariadicTail<[string, ...number[], string]>
-
 
             type cases = [
                 Expect<Test<F1, "equals", false>>,
             ];
         });
-
 
         it("handles edge cases", () => {
             type E1 = HasVariadicTail<[...unknown[]]>;
@@ -119,7 +103,6 @@ describe("Variadic Type Utilities", () => {
             ];
         });
 
-
         it("tail variadic element", () => {
             type F1 = HasVariadicHead<[string, ...number[]]>;
 
@@ -127,9 +110,6 @@ describe("Variadic Type Utilities", () => {
                 Expect<Test<F1, "equals", false>>,
             ];
         });
-
-
-
 
         it("returns false for tuples without variadic heads", () => {
             // No variadic head pattern
@@ -147,7 +127,6 @@ describe("Variadic Type Utilities", () => {
             type F9 = HasVariadicHead<[...[string, boolean], number]>;
             type F10 = HasVariadicHead<[...[1, 2, 3], string]>;
 
-
             type cases = [
                 Expect<Test<F1, "equals", false>>,
                 Expect<Test<F2, "equals", false>>,
@@ -161,7 +140,6 @@ describe("Variadic Type Utilities", () => {
                 Expect<Test<F10, "equals", false>>,
             ];
         });
-
 
     });
 
@@ -177,7 +155,6 @@ describe("Variadic Type Utilities", () => {
             ];
         });
 
-
         it("wide arrays", () => {
             type F1 = HasVariadicInterior<string[]>;
 
@@ -185,7 +162,6 @@ describe("Variadic Type Utilities", () => {
                 Expect<Test<F1, "equals", false>>,
             ];
         });
-
 
         it("variadic head", () => {
             type F1 = HasVariadicInterior<[...string[], number]>;
@@ -195,7 +171,6 @@ describe("Variadic Type Utilities", () => {
             ];
         });
 
-
         it("variadic tail", () => {
             type F1 = HasVariadicInterior<[ number, ...string[] ]>;
 
@@ -203,7 +178,6 @@ describe("Variadic Type Utilities", () => {
                 Expect<Test<F1, "equals", false>>,
             ];
         });
-
 
         it("variadic interior", () => {
             type T1 = HasVariadicInterior<[string, ...number[], boolean]>;
@@ -213,10 +187,7 @@ describe("Variadic Type Utilities", () => {
             ];
         });
 
-
-
     });
-
 
     describe("GetNonVariadicLength<T>", () => {
 
@@ -249,7 +220,6 @@ describe("Variadic Type Utilities", () => {
             type RO_AllOptional = GetNonVariadicLength<readonly [string?, boolean?, ...number[]]>;
             type RO_SomeOptional = GetNonVariadicLength<readonly [string, boolean?, ...number[]]>;
 
-
             type cases = [
                 Expect<Test<RO_NoOptional, "equals", 2>>,
                 Expect<Test<RO_AllOptional, "equals", 2>>,
@@ -265,7 +235,6 @@ describe("Variadic Type Utilities", () => {
             ];
         });
     })
-
 
     describe("DropVariadicTail<T>", () => {
 
@@ -344,7 +313,6 @@ describe("Variadic Type Utilities", () => {
             ];
         });
 
-
         it("variadic tail", () => {
             type T1 = DropVariadicHead<[1,2,3,...string[]]>;
 
@@ -353,7 +321,6 @@ describe("Variadic Type Utilities", () => {
             ];
         });
 
-
         it("variadic interior", () => {
             type T1 = DropVariadicHead<[1,2,3,...string[], number]>;
 
@@ -361,7 +328,6 @@ describe("Variadic Type Utilities", () => {
                 Expect<Test<T1, "equals", [1,2,3,...string[], number]>>
             ];
         });
-
 
         it("variadic head", () => {
             type T1 = DropVariadicHead<[...string[],1,2,3]>;
@@ -466,7 +432,6 @@ describe("Variadic Type Utilities", () => {
         });
     });
 
-
     describe("Optional and Required Elements", () => {
 
         type V1 = [ 1, 2, 3? ];
@@ -488,7 +453,6 @@ describe("Variadic Type Utilities", () => {
 
             ]
         })
-
 
     })
 

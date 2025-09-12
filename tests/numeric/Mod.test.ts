@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Mod } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, Mod, Test } from "inferred-types/types";
 
 describe("Mod type utility", () => {
     it("should handle basic modulus operations", () => {

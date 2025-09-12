@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    GetTemplateParams,
-    TemplateParams,
-    Test,
-} from "inferred-types/types";
+import type { Expect, GetTemplateParams, TemplateParams, Test } from "inferred-types/types";
 
 describe("TemplateParams<T>", () => {
 
@@ -32,7 +27,6 @@ describe("GetTemplateParams<T>", () => {
         ];
     });
 
-
     it("adding custom segments", () => {
         type T1 = GetTemplateParams<
             "Hi {{string}}, you're email is {{email}}",
@@ -43,6 +37,5 @@ describe("GetTemplateParams<T>", () => {
             Expect<Test<T1, "equals", [ string, `${string}@${string}.${string}` ]>>
         ];
     });
-
 
 });

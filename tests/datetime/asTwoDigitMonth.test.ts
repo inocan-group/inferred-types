@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { asTwoDigitMonth } from "inferred-types/runtime";
-import { AsTwoDigitMonth, Expect, IsBranded, ParseDate, Test, TwoDigitMonth } from "inferred-types/types";
-import { TwoDigitDate } from "inferred-types/types";
+import type { AsTwoDigitMonth, Expect, IsBranded, ParseDate, Test, TwoDigitDate, TwoDigitMonth } from "inferred-types/types";
 
 describe("TwoDigitMonth", () => {
 
@@ -23,7 +22,6 @@ describe("TwoDigitMonth", () => {
             ];
         });
 
-
         it("numbers above 12 will be seen as epoch timestamps instead of month numbers", () => {
             type ValidEpoch = AsTwoDigitMonth<15>;
             type ValidEpochBranded = AsTwoDigitMonth<15, true>;
@@ -37,7 +35,6 @@ describe("TwoDigitMonth", () => {
                 Expect<Test<FloatNum, "isError", "invalid-month/float">>,
             ];
         });
-
 
         it("handles ISO date string literals", () => {
             type T1 = AsTwoDigitMonth<"2024-01-15">;
@@ -65,7 +62,6 @@ describe("TwoDigitMonth", () => {
             ];
         });
 
-
         it("passthrough of TwoDigitMonth", () => {
             type PassThrough = AsTwoDigitMonth<"02">;
             type MakeBranded = AsTwoDigitMonth<"02", true>;
@@ -81,7 +77,6 @@ describe("TwoDigitMonth", () => {
                 Expect<Test<MakeUnbranded, "equals", "02">>
             ];
         });
-
 
         it("handling wide types", () => {
             type NumWide = AsTwoDigitMonth<number>;
@@ -139,7 +134,6 @@ describe("TwoDigitMonth", () => {
             ];
         });
     });
-
 
     describe("asTwoDigitMonth()", () => {
 
@@ -271,5 +265,4 @@ describe("TwoDigitMonth", () => {
         });
     });
 })
-
 

@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsNestingTuple,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsNestingTuple, Test } from "inferred-types/types";
 
 describe("IsNestingTuple<T>", () => {
 
@@ -23,7 +19,6 @@ describe("IsNestingTuple<T>", () => {
         ];
     });
 
-
     it("negative tests", () => {
         type EStart = IsNestingTuple<[
             ["a",""],
@@ -34,12 +29,10 @@ describe("IsNestingTuple<T>", () => {
             ["c","dd"]
         ]>;
 
-
         type cases = [
             Expect<Test<EStart, "isError", "invalid-nesting">>,
             Expect<Test<EEnd, "isError", "invalid-nesting">>,
         ];
     });
-
 
 });

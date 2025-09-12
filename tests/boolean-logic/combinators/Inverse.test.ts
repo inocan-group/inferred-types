@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Inverse,
-    Test,
-} from "inferred-types/types";
+import type { Expect, Inverse, Test } from "inferred-types/types";
 
 describe("Inverse<T>", () => {
 
@@ -27,6 +23,4 @@ describe("Inverse<T>", () => {
     });
 
 });
-
-
 

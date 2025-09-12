@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, ShiftDecimalPlace } from "inferred-types/types";
+import type { Expect, ShiftDecimalPlace, Test } from "inferred-types/types";
 
 describe("ShiftDecimalPlace<T,U>", () => {
 
@@ -25,7 +25,6 @@ describe("ShiftDecimalPlace<T,U>", () => {
             Expect<Test<T3, "equals", number>>,
         ];
     });
-
 
     it("positive shift multiplies by 10^n", () => {
         type T1 = ShiftDecimalPlace<1, 1>;
@@ -162,7 +161,6 @@ describe("ShiftDecimalPlace<T,U>", () => {
             Expect<Test<T2, "extends", string | number>>,
         ];
     });
-
 
     it("summary of behavior", () => {
         // Currently working:

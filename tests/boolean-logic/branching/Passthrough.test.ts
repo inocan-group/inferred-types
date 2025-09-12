@@ -1,11 +1,6 @@
-import {
-    Expect,
-    Passthrough,
-    Test
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Passthrough, Test } from "inferred-types/types";
 
 describe("Passthrough<TContent,TPass,THandle,TSpecificity>", () => {
 
@@ -34,7 +29,6 @@ describe("Passthrough<TContent,TPass,THandle,TSpecificity>", () => {
 
     });
 
-
     it("equals specificity", () => {
         type TooWide = Passthrough<"foo", string, false, "equals">;
         type InReverse = Passthrough<string, "foo", false, "equals">;
@@ -51,6 +45,5 @@ describe("Passthrough<TContent,TPass,THandle,TSpecificity>", () => {
         ];
 
     });
-
 
 });

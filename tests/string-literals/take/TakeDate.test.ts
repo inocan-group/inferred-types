@@ -1,5 +1,5 @@
 import { describe,  it } from "vitest";
-import { TakeDate, Expect, Test, TwoDigitDate, Unbrand } from "inferred-types/types";
+import type { Expect, TakeDate, Test, TwoDigitDate, Unbrand } from "inferred-types/types";
 
 describe("TakeDate<T>", () => {
 
@@ -241,6 +241,5 @@ describe("TakeDate<T>", () => {
             >>,
         ];
     });
-
 
 });

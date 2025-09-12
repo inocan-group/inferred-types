@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, LastChar, Test } from "inferred-types/types";
-
-
+import type { Expect, LastChar, Test } from "inferred-types/types";
 
 describe("LastChar<T>", () => {
 

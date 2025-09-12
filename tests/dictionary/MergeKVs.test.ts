@@ -1,8 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Dictionary, MergeKVs } from "inferred-types/types";
+import type { Dictionary, MergeKVs } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("MergeKVs<T>", () => {
 

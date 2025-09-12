@@ -1,5 +1,6 @@
-import { Err, Expect, Extends, IsBalanced, Test, TypedError } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Err, Expect, Extends, IsBalanced, Test, TypedError } from "inferred-types/types";
 
 describe("IsBalanced<T,U>", () => {
 
@@ -18,7 +19,6 @@ describe("IsBalanced<T,U>", () => {
     ];
   });
 
-
   it("greater-than and less-than chars", () => {
     type Basic = IsBalanced<"<1> monkey went to the market, <0> bacon was purchased", { "<":">" }>;
     type Nested = IsBalanced<"<1 or <2>> monkey went to the market, <0> bacon was purchased", { "<":">" }>;
@@ -34,8 +34,6 @@ describe("IsBalanced<T,U>", () => {
         Expect<Test<Imbalanced, "equals",  false>>,
     ];
   });
-
-
 
   it("Nested brackets", () => {
     type T1 = IsBalanced<"{ foo: (name: string) => `hi ${name}` }", {
@@ -58,7 +56,5 @@ describe("IsBalanced<T,U>", () => {
         Expect<Test<F2, "equals",  false>>,
     ];
   });
-
-
 
 });

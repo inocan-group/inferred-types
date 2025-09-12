@@ -1,13 +1,8 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    StripWhile,
-    Test,
-    Whitespace
-} from "inferred-types/types";
+import type { Expect, StripWhile, Test, Whitespace } from "inferred-types/types";
+
 import { stripWhile } from "inferred-types/runtime";
 import { NUMERIC_CHAR } from "inferred-types/constants";
-
 
 describe("StripWhile<TContent,TComparator>", () => {
 

@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Err,
-    Expect,
-    HasErrors,
-    Test,
-} from "inferred-types/types";
+import type { Err, Expect, HasErrors, Test } from "inferred-types/types";
 
 describe("HasErrors<T,[U]>", () => {
 

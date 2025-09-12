@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { stripParenthesis } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("stripParenthesis(val)", () => {
 
@@ -14,7 +12,6 @@ describe("stripParenthesis(val)", () => {
     expect(t1).toEqual("foo bar");
     expect(t2).toEqual("foo bar");
     expect(t3).toEqual("foo bar");
-
 
     type cases = [
       Expect<Test<typeof t1, "equals",  "foo bar">>,

@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-  Expect,
-  Test,
-  IT_Token,
-  GetInputToken,
-  IT_TakeGroup,
-  IT_TakeGenerator
-} from "inferred-types/types";
+import type { Expect, GetInputToken, IT_TakeGenerator, IT_TakeGroup, IT_Token, Test } from "inferred-types/types";
 
 describe("IT_TakeGenerator<T>", () => {
   describe("named generators", () => {

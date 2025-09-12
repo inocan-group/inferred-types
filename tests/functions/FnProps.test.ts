@@ -1,7 +1,6 @@
-import { Expect, EmptyObject, FnKeyValue, Test, TypedFunction } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { EmptyObject, Expect, FnKeyValue, Test, TypedFunction } from "inferred-types/types";
 
 describe("FnProps", () => {
 

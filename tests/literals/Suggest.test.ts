@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Expect, Suggest, Test } from "inferred-types/types";
+import type { Expect, Suggest, Test } from "inferred-types/types";
 
 describe("Suggest<T>", () => {
 
@@ -12,7 +12,6 @@ describe("Suggest<T>", () => {
             Expect<Test<FooBarUnion, "equals", "foo" | "bar" | (string & {})>>,
         ];
     });
-
 
     it("runtime tests for Suggest<T>", () => {
         type Choice = Suggest<"foo" | "bar" | "baz">;

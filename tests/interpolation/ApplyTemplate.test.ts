@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { ApplyTemplate, Test } from "inferred-types/types";
+import type { ApplyTemplate, Test } from "inferred-types/types";
 
 describe("ApplyTemplate<TContent,TTemplate>", () => {
 

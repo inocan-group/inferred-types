@@ -1,7 +1,6 @@
-import { Expect, Test, TwModifiers } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Test, TwModifiers } from "inferred-types/types";
 
 describe("TwModifiers<T>", () => {
 

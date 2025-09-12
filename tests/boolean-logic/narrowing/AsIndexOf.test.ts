@@ -1,8 +1,5 @@
 import { describe, it } from "vitest";
-
-import { Expect, AsIndexOf,  Test } from "inferred-types/types";
-
-
+import type { AsIndexOf, Expect, Test } from "inferred-types/types";
 
 describe("AsIndexOf<T,K>", () => {
 

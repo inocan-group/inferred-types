@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Err,
-    Expect,
-    IsolateErrors,
-    Test,
-} from "inferred-types/types";
+import type { Err, Expect, IsolateErrors, Test } from "inferred-types/types";
 
 describe("IsolateErrors<T,[U]>", () => {
 

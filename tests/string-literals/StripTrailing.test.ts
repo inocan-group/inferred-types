@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    StripTrailing,
-    Test
-} from "inferred-types/types";
+import type { Expect, StripTrailing, Test } from "inferred-types/types";
+
 import { stripTrailing } from "inferred-types/runtime";
 
 describe("StripTrailing", () => {
@@ -21,7 +18,6 @@ describe("StripTrailing", () => {
 
     });
 
-
     it("numeric inputs", () => {
         type TheMeaning = StripTrailing<422, 2>;
         type NoChange = StripTrailing<42, 9>;
@@ -33,7 +29,6 @@ describe("StripTrailing", () => {
 
     });
 
-
     it("union stripper", () => {
         type Foo = StripTrailing<"foobar", "foo" | "bar">;
 
@@ -42,7 +37,6 @@ describe("StripTrailing", () => {
         ];
     });
 });
-
 
 describe("stripTrailing() runtime", () => {
 
@@ -53,14 +47,12 @@ describe("stripTrailing() runtime", () => {
         expect(foo).toBe("foo");
         expect(noChange).toBe("foobar");
 
-
         type cases = [
             Expect<Test<typeof foo, "equals", "foo">>,
             Expect<Test<typeof noChange, "equals", "foobar">>,
 
         ];
     });
-
 
     it("numeric inputs", () => {
         const theAnswer = stripTrailing(422, 2);
@@ -72,7 +64,6 @@ describe("stripTrailing() runtime", () => {
         ];
 
     });
-
 
     it("multiple strippers", () => {
         const foo = stripTrailing("foobar", "foo", "bar");
@@ -86,7 +77,5 @@ describe("stripTrailing() runtime", () => {
             Expect<Test<typeof foo2, "equals", "foo">>,
         ];
     });
-
-
 
 });

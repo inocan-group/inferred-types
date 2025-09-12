@@ -1,17 +1,7 @@
 import { IsNarrowingFn, NarrowingFn } from "inferred-types";
-import {
-    Expect,
-    EmptyObject,
-    Dictionary,
-    Widen,
-    WidenFunction,
-    Test,
-    WidenFn,
-    AsNarrowingFn
-} from "inferred-types/types";
+import type { AsNarrowingFn, Dictionary, EmptyObject, Expect, Test, Widen, WidenFn, WidenFunction } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("Widen<T>", () => {
 
@@ -20,7 +10,6 @@ describe("Widen<T>", () => {
         type CS = AsNarrowingFn<Parameters<BobNancy>, string>;
 
         type X = BobNancy extends Str ? true : false;
-
 
         type Str = <T extends "Bob" | "Nancy">(name: T) => string;
         type Number = <T extends "Bob" | "Nancy">(name: T) => number;
@@ -59,7 +48,6 @@ describe("Widen<T>", () => {
             /** type tests */
         ];
     });
-
 
     it("happy path", () => {
         type NumLiteral = Widen<42>; // number

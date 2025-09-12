@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import type { Expect, AfterFirst, First, Test } from "inferred-types/types";
+import type { AfterFirst, Expect, First, Test } from "inferred-types/types";
 
 describe("First<T>, AfterFirst<T>", () => {
     it("First<T> with literals", () => {

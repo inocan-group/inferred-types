@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    AlphanumericChar,
-    Expect,
-    NumericChar,
-    StripChars,
-    Test
-} from "inferred-types/types";
-
+import type { AlphanumericChar, Expect, NumericChar, StripChars, Test } from "inferred-types/types";
 
 describe("StripChars<TContent,TStrip>", () => {
 

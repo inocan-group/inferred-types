@@ -1,8 +1,6 @@
 import {  Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Not, Test } from "inferred-types/types";
-
-
+import type { Not, Test } from "inferred-types/types";
 
 describe("Not<T>", () => {
 

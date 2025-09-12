@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { defineObj } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("defineType() utility", () => {
   it("only specify a wide type", () => {

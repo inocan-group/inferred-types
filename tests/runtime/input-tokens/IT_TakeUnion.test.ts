@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Contains,
-    Expect,
-    GetInputToken,
-    IT_TakeUnion,
-    IT_Token,
-    Test,
-} from "inferred-types/types";
+import type { Contains, Expect, GetInputToken, IT_TakeUnion, IT_Token, Test } from "inferred-types/types";
 
 describe("IT_TakeUnion", () => {
 
@@ -43,7 +36,6 @@ describe("IT_TakeUnion", () => {
         ];
     });
 
-
     it("leading | character", () => {
         type Union = IT_TakeUnion<"| number", undefined>;
 
@@ -52,7 +44,6 @@ describe("IT_TakeUnion", () => {
             Expect<Contains<Union["message"], "was found at the beginning of the parse string">>,
         ];
     });
-
 
     it("trailing | character", () => {
         type Token = GetInputToken<"string">;
@@ -63,7 +54,6 @@ describe("IT_TakeUnion", () => {
             Expect<Contains<Union["message"], "was found at the end of the parse string">>,
         ];
     });
-
 
     it("double '|' character", () => {
         type Token = GetInputToken<"string">;
@@ -78,6 +68,5 @@ describe("IT_TakeUnion", () => {
             Expect<Contains<Union2["message"], "The union operator '|' was found next to another '|' operator">>
         ];
     });
-
 
 });

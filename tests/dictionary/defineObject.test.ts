@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
+import type { Expect, Test } from "inferred-types/types";
 
 import { defineObject } from "inferred-types/runtime"
-import { Expect,  Test } from "inferred-types/types";
-
 
 describe("defineObject()", () => {
 
@@ -30,7 +29,6 @@ describe("defineObject()", () => {
             >>
         ];
     });
-
 
     it("using optional property syntax", () => {
         const fooBar = defineObject({
@@ -67,6 +65,5 @@ describe("defineObject()", () => {
             >>
         ];
     });
-
 
 });

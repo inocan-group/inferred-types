@@ -1,8 +1,7 @@
 import { isFnWithParams } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
-
-
 
 describe("isFnWithParams(test, ...params)", () => {
 
@@ -11,7 +10,6 @@ describe("isFnWithParams(test, ...params)", () => {
   }
 
   const hello = <T extends string>(name: T) => `Hello ${name}`;
-
 
   it("happy path", () => {
     const t1 = isFnWithParams(greet);
@@ -34,7 +32,6 @@ describe("isFnWithParams(test, ...params)", () => {
         Expect<Test<M, "equals",  <T extends readonly [string]>(...args: T) => unknown>>
       ];
     }
-
 
   });
 

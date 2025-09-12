@@ -1,20 +1,10 @@
+import type { FourDigitYear, ThreeDigitMillisecond, TimezoneOffset, TwoDigitDate, TwoDigitHour, TwoDigitMinute, TwoDigitMonth, TwoDigitSecond } from "inferred-types/types";
 /**
  * Union Size Analysis Tool
  *
  * This file provides utilities to analyze and measure union type sizes
  * to identify performance bottlenecks caused by union explosion.
  */
-
-import type {
-    TwoDigitHour,
-    TwoDigitMinute,
-    TwoDigitSecond,
-    ThreeDigitMillisecond,
-    TimezoneOffset,
-    TwoDigitMonth,
-    TwoDigitDate,
-    FourDigitYear
-} from "inferred-types/types";
 
 // =============================================================================
 // UNION SIZE MEASUREMENT UTILITIES

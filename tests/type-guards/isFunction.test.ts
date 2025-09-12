@@ -1,8 +1,6 @@
 import { describe, it, expect} from "vitest";
 import { isFunction, createFnWithProps } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("isFunction(val) type-guard", () => {
 

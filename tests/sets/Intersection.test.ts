@@ -1,11 +1,6 @@
 import { describe, it } from "vitest";
-import {
-    Expand,
-    Expect,
-    Intersection,
-    Test,
-    Values,
-} from "inferred-types/types";
+import type { Expand, Expect, Intersection, Test, Values } from "inferred-types/types";
+
 import { IsLiteral } from "inferred-types";
 
 describe("Intersection<A,B>", () => {
@@ -20,7 +15,6 @@ describe("Intersection<A,B>", () => {
             Expect<Test<T1, "equals", ["a","c"]>>,
         ];
     });
-
 
     it("tuple of objects", () => {
         type A = [
@@ -41,7 +35,6 @@ describe("Intersection<A,B>", () => {
         ];
     });
 
-
     it("wide arrays", () => {
         // even though both are wide their possible values do not intersect
         type T1 = Intersection<string[], number[]>;
@@ -58,7 +51,6 @@ describe("Intersection<A,B>", () => {
         ];
     });
 
-
     it("different container types", () => {
         type T1 = Intersection<[1,2,3], { foo: 1 }>;
 
@@ -66,7 +58,6 @@ describe("Intersection<A,B>", () => {
             Expect<Test<T1, "isError", "invalid-comparison">>,
         ];
     });
-
 
     it("with object", () => {
         // both 1 and 2 are found in both type's values
@@ -95,7 +86,6 @@ describe("Intersection<A,B>", () => {
         ];
     });
 
-
     it("edge cases - empty arrays", () => {
         type T1 = Intersection<[], []>;
         type T2 = Intersection<[], [1,2]>;
@@ -112,7 +102,6 @@ describe("Intersection<A,B>", () => {
         ];
     });
 
-
     it("edge cases - null and undefined values", () => {
         type T1 = Intersection<[1, null], [null, 2]>;
         type T2 = Intersection<[undefined, 1], [1, undefined]>;
@@ -126,7 +115,6 @@ describe("Intersection<A,B>", () => {
             Expect<Test<T4, "equals", [null, 3]>>,
         ];
     });
-
 
     it("complex offset cases", () => {
         // Invalid offset property
@@ -153,7 +141,6 @@ describe("Intersection<A,B>", () => {
         ];
     });
 
-
     it("union and mixed types", () => {
         // Arrays with union types
         type T1 = Intersection<[string | number], [string | boolean]>;
@@ -174,7 +161,6 @@ describe("Intersection<A,B>", () => {
             Expect<Test<T6, "equals", [42, undefined]>>,
         ];
     });
-
 
     it("object edge cases", () => {
         // Empty objects
@@ -203,7 +189,6 @@ describe("Intersection<A,B>", () => {
         ];
     });
 
-
     it("additional error cases", () => {
         // More mixed container type combinations that should error
         type T1 = Intersection<[1, 2, 3], Record<string, number>>;
@@ -216,7 +201,6 @@ describe("Intersection<A,B>", () => {
             Expect<Test<T3, "isError", "invalid-comparison">>,
         ];
     });
-
 
     it("wide container variations", () => {
         // Different wide container types
@@ -242,7 +226,6 @@ describe("Intersection<A,B>", () => {
             Expect<Test<T8, "equals", ("a" | "b")[]>>,
         ];
     });
-
 
     it("complex scenarios", () => {
         // Mixed readonly arrays
@@ -271,6 +254,5 @@ describe("Intersection<A,B>", () => {
             Expect<Test<T4, "equals", [string]>>,
         ];
     });
-
 
 });

@@ -1,13 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsEqual,
-    IsUniqueSymbol,
-    IsWideSymbol,
-    Test,
-} from "inferred-types/types";
-
-
+import type { Expect, IsEqual, IsUniqueSymbol, IsWideSymbol, Test } from "inferred-types/types";
 
 describe("IsUniqueSymbol<T>", () => {
     const u1 = Symbol("u1");
@@ -35,7 +27,6 @@ describe("IsUniqueSymbol<T>", () => {
         ];
     });
 
-
     it("edge cases", () => {
         type F1 = IsUniqueSymbol<never>;
         type F2 = IsUniqueSymbol<any>;
@@ -47,7 +38,6 @@ describe("IsUniqueSymbol<T>", () => {
     });
 
 });
-
 
 describe("IsWideSymbol", () => {
     const u1 = Symbol("u1");
@@ -66,11 +56,9 @@ describe("IsWideSymbol", () => {
         ];
     });
 
-
     it("negative tests", () => {
         type F1 = IsWideSymbol<U1>;
         type F2 = IsWideSymbol<U1 | U2>;
-
 
         type cases = [
             Expect<Test<F1, "equals", false>>,

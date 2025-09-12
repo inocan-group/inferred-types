@@ -1,5 +1,6 @@
-import { Test, UnionToIntersection, Expect } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Test, UnionToIntersection } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

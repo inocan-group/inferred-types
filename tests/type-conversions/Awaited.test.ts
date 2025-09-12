@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Awaited, Test } from "inferred-types/types";
-
+import type { Awaited, Expect, Test } from "inferred-types/types";
 
 describe("Awaited<T>", () => {
 

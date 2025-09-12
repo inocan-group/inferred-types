@@ -1,15 +1,7 @@
 import { describe, expect, it } from "vitest";
+import type { Expect, Extends, Split, Test, UnionToTuple, UpperAlphaChar } from "inferred-types/types";
 
-import {
-    Expect,
-    Split,
-    UpperAlphaChar,
-    UnionToTuple,
-    Test,
-    Extends
-} from "inferred-types/types";
 import { split } from "inferred-types/runtime";
-
 
 describe("Split<T,SEP>", () => {
 
@@ -38,7 +30,6 @@ describe("Split<T,SEP>", () => {
 
     });
 
-
     it("Split with before strategy", () => {
         type FooBarBazBefore = Split<"foo, bar, baz", ", ", "before">;
         type FooBarBefore = Split<"foo, bar", ", ", "before">;
@@ -59,7 +50,6 @@ describe("Split<T,SEP>", () => {
             >>,
         ];
     });
-
 
     it("Split<T, SEP> with string literals", () => {
         const str = "hello world, nice to meet you" as const;
@@ -109,7 +99,6 @@ describe("Split<T,SEP>", () => {
         ];
     });
 
-
     it("Split with a union separator converted to tuple", () => {
         type FooBar = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "omit">;
         type FooBarBefore = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "before">;
@@ -119,7 +108,6 @@ describe("Split<T,SEP>", () => {
             Expect<Test<FooBarBefore, "equals", ["F", "ooB", "ar"]>>,
         ];
     });
-
 
     it("Split called with a union separator", () => {
         type U = Split<"FooBar", "F" | "B">;
@@ -164,7 +152,6 @@ describe("Split<T,SEP>", () => {
     //     ];
     // });
 
-
 });
 
 describe("split()", () => {
@@ -195,8 +182,6 @@ describe("split()", () => {
         ];
     });
 
-
-
     it("inline variant", () => {
         const fooBar = split.inline("foo, bar", ", ");
         const fooBarBaz = split.inline("foo, bar; baz", ", ", "; ")
@@ -213,7 +198,6 @@ describe("split()", () => {
             ]>>,
         ];
     });
-
 
     it("inline variant with spaces", () => {
         const spaced = split.inline("hello world monkey", " ");

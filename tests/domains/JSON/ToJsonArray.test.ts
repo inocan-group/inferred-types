@@ -1,5 +1,6 @@
-import { Expect, Test, ToJsonArray } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Test, ToJsonArray } from "inferred-types/types";
 
 describe("ToJsonArray()", () => {
 
@@ -34,7 +35,6 @@ describe("ToJsonArray()", () => {
             Expect<Test<T, "equals", `[  ]`>>
         ];
     });
-
 
     it("wide types", () => {
         type WideStr = ToJsonArray<string[]>;

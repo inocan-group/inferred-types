@@ -1,6 +1,6 @@
-import { Expect, GetRequiredElementCount, Test } from "inferred-types/types";
-import { describe, it } from "vitest";
 
+import { describe, it } from "vitest";
+import type { Expect, GetRequiredElementCount, Test } from "inferred-types/types";
 
 describe("GetRequiredElementCount<T>", () => {
     it("non-variadic", () => {
@@ -14,7 +14,6 @@ describe("GetRequiredElementCount<T>", () => {
             Expect<Test<NV_SomeOptional, "equals", 1>>,
         ];
     });
-
 
     it("variadic", () => {
         type V_NoOptional = GetRequiredElementCount<[string, boolean, ...number[]]>;

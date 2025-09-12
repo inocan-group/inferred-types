@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, IsLiteralUnion, Test } from "inferred-types/types";
+import type { Expect, IsLiteralUnion, Test } from "inferred-types/types";
 
 describe("IsLiteralUnion<T>", () => {
     it("should return true for literal unions", () => {

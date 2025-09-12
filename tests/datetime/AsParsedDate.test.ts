@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    ParseDate,
-    Test,
-    ParsedDate
-} from "inferred-types/types";
+import type { Expect, ParseDate, ParsedDate, Test } from "inferred-types/types";
 
 describe("AsParsedDate<T>", () => {
 

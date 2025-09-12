@@ -1,15 +1,5 @@
 import { describe, it } from "vitest";
-
-import {
-    Expect,
-    IsValidIndex,
-    Dictionary,
-    ExplicitlyEmptyObject,
-    EmptyObject,
-    Test
-} from "inferred-types/types";
-
-
+import type { Dictionary, EmptyObject, Expect, ExplicitlyEmptyObject, IsValidIndex, Test } from "inferred-types/types";
 
 describe("IsValidKey<T>", () => {
 

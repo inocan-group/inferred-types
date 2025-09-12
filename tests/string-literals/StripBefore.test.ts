@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, StripBefore, Test } from "inferred-types/types";
+import type { Expect, StripBefore, Test } from "inferred-types/types";
+
 import { stripBefore } from "inferred-types/runtime";
-
-
 
 describe("StripBefore<TStr,TBreak>", () => {
 

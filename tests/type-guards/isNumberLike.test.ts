@@ -1,8 +1,6 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsNumberLike } from "inferred-types/types"
-
-
+import type { IsNumberLike } from "inferred-types/types";
 
 describe("IsNumberLike<T>", () => {
 
@@ -16,7 +14,6 @@ describe("IsNumberLike<T>", () => {
 
         type F1 = IsNumberLike<"32°">;
         type F2 = IsNumberLike<"a">;
-
 
         // @ts-ignore
         type cases = [

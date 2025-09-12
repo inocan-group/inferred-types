@@ -1,8 +1,6 @@
-import {Expect, Last, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
-
+import type { Expect, Last, Test } from "inferred-types/types";
 
 describe("Last<T>", () => {
     it("happy path", () => {

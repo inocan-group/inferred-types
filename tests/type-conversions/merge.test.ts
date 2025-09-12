@@ -1,13 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type {
-    Expect,
-    CombinedKeys,
-    MergeObjects,
-    MergeScalars,
-    MergeTuples,
-    Merge,
-    Test
-} from "inferred-types/types";
+import type { CombinedKeys, Expect, Merge, MergeObjects, MergeScalars, MergeTuples, Test } from "inferred-types/types";
+
 import { mergeScalars, mergeTuples } from "inferred-types/runtime";
 
 describe("MergeObjects<A,B>", () => {
@@ -55,7 +48,6 @@ describe("MergeTuples<TDefault,TOverride>", () => {
 
     });
 
-
 });
 
 describe("MergeScalars", () => {
@@ -72,7 +64,6 @@ describe("MergeScalars", () => {
         ];
     });
 });
-
 
 describe("mergeScalars(a,b)", () => {
     it("runtime", () => {
@@ -104,7 +95,6 @@ describe("Merge Tuples", () => {
         ];
     });
 
-
     it("runtime tests", () => {
         // override fully
         expect(mergeTuples(foobar, baz42)).toEqual(baz42);
@@ -120,7 +110,6 @@ describe("Merge Tuples", () => {
 
 describe("Merge Objects", () => {
 
-
     it("CombinedKeys<A,B>", () => {
         type FooBarBaz = CombinedKeys<{ foo: 1; bar: 2 }, { baz: 3 }>;
 
@@ -130,12 +119,10 @@ describe("Merge Objects", () => {
 
     });
 
-
     it("type tests", () => {
         type JustExtend = MergeObjects<{ foo: 1; bar: 2 }, { baz: 3 }>;
         type JustExtend2 = MergeObjects<{ baz: 3 }, { foo: 1; bar: 2 }>;
         type FullyOverride = MergeObjects<{ foo: 1; bar: 2 }, { foo: 2; bar: 3 }>;
-
 
         type cases = [
             Expect<Test<JustExtend, "equals", { foo: 1; bar: 2; baz: 3 }>>,
@@ -145,7 +132,6 @@ describe("Merge Objects", () => {
 
     });
 });
-
 
 describe("Merge<A,B>", () => {
 
@@ -175,5 +161,4 @@ describe("Merge<A,B>", () => {
     });
 
 });
-
 

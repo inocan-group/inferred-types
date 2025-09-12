@@ -1,7 +1,6 @@
-import { Expect, NextDigit, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, NextDigit, Test } from "inferred-types/types";
 
 describe("NextDigit<T>", () => {
 

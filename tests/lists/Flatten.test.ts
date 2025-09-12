@@ -1,5 +1,6 @@
-import { Expect, Flatten, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Flatten, Test } from "inferred-types/types";
 
 describe("Flatten<T>", () => {
 
@@ -8,7 +9,6 @@ describe("Flatten<T>", () => {
         type F1a = Flatten<[1, 2, [3, 4]], 2>;
         type F2 = Flatten<[1, 2, readonly [3, 4]]>;
         type F2a = Flatten<[1, 2, readonly [3, 4]], 2>;
-
 
         type D1 = Flatten<[[1, 2], [3, 4], [[5], 6]]>;
         type D2 = Flatten<[[1, 2], [3, 4], [[5], 6]], 2>;
@@ -35,7 +35,6 @@ describe("Flatten<T>", () => {
 
     });
 
-
     it("Union Types", () => {
         type U1 = Flatten<42 | [42, 56, [34, 77]]>;
 
@@ -43,7 +42,6 @@ describe("Flatten<T>", () => {
             Expect<Test<U1, "equals", 42 | [42, 56, 34, 77]>>
         ];
     });
-
 
     it("ToScalar types set to true", () => {
         type S1 = Flatten<[1, 2, [3, [4, 5]], "foo"], 1, true>;
@@ -76,7 +74,5 @@ describe("Flatten<T>", () => {
             Expect<Test<UnionToScalar, "equals",  number | string>>,
         ];
     });
-
-
 
 });

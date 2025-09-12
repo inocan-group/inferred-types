@@ -1,7 +1,7 @@
 import { Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { SomeEqual, Test } from "inferred-types/types";
-import { describe, it } from "vitest";
+import type { SomeEqual, Test } from "inferred-types/types";
 
+import { describe, it } from "vitest";
 
 describe("IfSomeEqual & SomeEqual", () => {
 
@@ -41,7 +41,6 @@ describe("IfSomeEqual & SomeEqual", () => {
         ];
     });
 
-
     it("SomeEqual<TVal,TCompareTo> edge cases", () => {
         type UnionMatch = SomeEqual<[string | symbol, string, symbol], string | symbol>;
         type UnionNotMatch = SomeEqual<[string, symbol], string | symbol>;
@@ -54,7 +53,5 @@ describe("IfSomeEqual & SomeEqual", () => {
 
     });
 
-
 });
-
 

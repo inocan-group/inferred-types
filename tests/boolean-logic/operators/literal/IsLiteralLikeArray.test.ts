@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    DropVariadic,
-    Expect,
-    IsLiteralLikeArray,
-    Test,
-} from "inferred-types/types";
+import type { DropVariadic, Expect, IsLiteralLikeArray, Test } from "inferred-types/types";
 
 describe("IsLiteralLikeArray<T>", () => {
 

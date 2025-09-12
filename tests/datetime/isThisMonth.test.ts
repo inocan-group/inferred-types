@@ -1,12 +1,8 @@
 /* eslint-disable ts/ban-ts-comment */
 import { Equal, ExpectTrue } from "@type-challenges/utils";
 import { isThisMonth } from "inferred-types/runtime";
-import {
-    Expect,
-    IsJsDate,
-    IsLuxonDateTime,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsJsDate, IsLuxonDateTime, Test } from "inferred-types/types";
+
 import { DateTime } from "luxon";
 import moment from "moment";
 import { describe, expect, it } from "vitest";

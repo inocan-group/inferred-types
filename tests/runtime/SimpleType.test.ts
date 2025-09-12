@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, Dictionary, SimpleType, Test } from "inferred-types/types";
+import type { Dictionary, Expect, SimpleType, Test } from "inferred-types/types";
+
 import { simpleType } from "inferred-types/runtime";
-
-
 
 describe("SimpleType<T>", () => {
 
@@ -51,9 +50,6 @@ describe("SimpleType<T>", () => {
         ];
     });
 
-
-
-
     it("Set, Map, and WeakMap", () => {
         type S1 = SimpleType<"Set">
         type S2 = SimpleType<"Set<string>">;
@@ -79,7 +75,6 @@ describe("SimpleType<T>", () => {
     });
 });
 
-
 describe("simpleType()", () => {
 
     it("happy path", () => {
@@ -98,7 +93,6 @@ describe("simpleType()", () => {
         ];
     });
 
-
     it("literals", () => {
         const strLit = simpleType("string(foo)");
         const strUnion = simpleType("string(foo,bar)")
@@ -111,6 +105,5 @@ describe("simpleType()", () => {
             Expect<Test<typeof strUnion, "equals", "foo" | "bar">>,
         ];
     });
-
 
 });

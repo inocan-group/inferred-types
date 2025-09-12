@@ -1,17 +1,12 @@
-import {
-    Expect,
-    ExplicitlyEmptyObject,
-    KeysOverlap,
-    Test
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, ExplicitlyEmptyObject, KeysOverlap, Test } from "inferred-types/types";
 
 describe("KeysOverlap<A,B>", () => {
 
   it("happy path", () => {
     type T1 = KeysOverlap<{foo: 1}, {foo: 2}>;
     type T2 = KeysOverlap<{foo: 1; bar: 2}, {bax: "hi", bar: "bye"}>;
-
 
     type F1 = KeysOverlap<{foo: 1}, {bar: 1}>;
     type F2 = KeysOverlap<{foo: 1}, ExplicitlyEmptyObject>;

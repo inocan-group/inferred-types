@@ -1,8 +1,6 @@
 import { describe, it } from "vitest";
 import type { Expect, IfEqual, IsEqual, IsNotEqual, Test } from "inferred-types/types";
 
-
-
 describe("IsEqual", () => {
 
     it("happy path", () => {

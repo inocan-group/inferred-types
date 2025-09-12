@@ -1,12 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type {
-    Test,
-    Expect,
-    RequiredKeys,
-    First,
-    Narrowable,
-    RequiredKeysTuple,
-} from "inferred-types/types";
+import type { Expect, First, Narrowable, RequiredKeys, RequiredKeysTuple, Test } from "inferred-types/types";
 
 type TestObj = { title: string; value: number; color?: string };
 
@@ -71,7 +64,6 @@ describe("RequiredKeysTuple<T, V>", () => {
         ];
 
     });
-
 
     it("typed explicitly", () => {
         type O = {

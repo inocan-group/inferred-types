@@ -1,7 +1,6 @@
-import { Expect, Test, UnionFilter } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Test, UnionFilter } from "inferred-types/types";
 
 describe("UnionFilter", () => {
 

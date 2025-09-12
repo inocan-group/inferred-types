@@ -1,5 +1,6 @@
-import { Expect, ValidateLength, Test, Err } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Err, Expect, Test, ValidateLength } from "inferred-types/types";
 
 describe("ValidateLength<T,O>", () => {
 

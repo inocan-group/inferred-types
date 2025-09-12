@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, Multiply } from "inferred-types/types";
+import type { Expect, Multiply, Test } from "inferred-types/types";
 
 describe("Multiply<A,B>", () => {
     it("basic multiplication", () => {

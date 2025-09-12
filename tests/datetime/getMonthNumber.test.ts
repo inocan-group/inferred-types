@@ -1,10 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    GetMonthNumber,
-    MonthNumber,
-    Test,
-} from "inferred-types/types";
+import type { Expect, GetMonthNumber, MonthNumber, Test } from "inferred-types/types";
+
 import moment from "moment";
 import { getMonthNumber } from "inferred-types/runtime";
 
@@ -42,7 +38,6 @@ describe("GetMonthNumber<T>", () => {
         ];
     });
 
-
     it("Month Name", () => {
         type Feb = GetMonthNumber<"February">;
         type Oct = GetMonthNumber<"October">;
@@ -66,7 +61,6 @@ describe("GetMonthNumber<T>", () => {
             Expect<Test<Dec, "equals", 12>>,
         ];
     });
-
 
     it("epoch in milliseconds, union type at design time", () => {
         const date = new Date("2022-12-01");
@@ -104,12 +98,9 @@ describe("GetMonthNumber<T>", () => {
         ];
     });
 
-
 });
 
-
 describe("getMonthNumber(date)", () => {
-
 
     it("ISO Year", () => {
         const year = getMonthNumber("2023");
@@ -119,7 +110,6 @@ describe("getMonthNumber(date)", () => {
             Expect<Test<typeof year, "isError", "month-number/missing">>
         ];
     });
-
 
     it("ISO Date", () => {
         const feb = getMonthNumber("2022-02-15");
@@ -137,7 +127,6 @@ describe("getMonthNumber(date)", () => {
         ];
     });
 
-
     it("named month", () => {
         const feb = getMonthNumber("February");
         const feb2 = getMonthNumber("Feb");
@@ -150,8 +139,5 @@ describe("getMonthNumber(date)", () => {
             Expect<Test<typeof feb2, "equals", 2>>,
         ];
     });
-
-
-
 
 });

@@ -1,7 +1,6 @@
-import { Dictionary, Expect, Every, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Dictionary, Every, Expect, Test } from "inferred-types/types";
 
 describe("Every<TContainer,TOp,TComparator>", () => {
 
@@ -59,7 +58,6 @@ describe("Every<TContainer,TOp,TComparator>", () => {
         ];
     });
 
-
     it("testing KV Object", () => {
         type T1 = Every<{foo: 1, bar: 42}, "extends", [number]>;
         type T2 = Every<{foo: 42, bar: 42}, "equals", [42]>;
@@ -76,8 +74,6 @@ describe("Every<TContainer,TOp,TComparator>", () => {
         ];
     });
 
-
-
     it("Wide Containers result in boolean", () => {
         type B1 = Every<string[], "extends", "42">;
         type B2 = Every<Dictionary, "extends", "42">;
@@ -87,7 +83,5 @@ describe("Every<TContainer,TOp,TComparator>", () => {
             Expect<Test<B2, "equals", boolean>>,
         ];
     });
-
-
 
 });

@@ -1,8 +1,7 @@
-import { Expect, LeftRight, Test, UniqueKeys } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 import { uniqueKeys } from "inferred-types/runtime";
-
-
+import type { Expect, LeftRight, Test, UniqueKeys } from "inferred-types/types";
 
 describe("UniqueKeys<A,B>", () => {
 
@@ -55,6 +54,5 @@ describe("uniqueKeys(a,b)", () => {
         expect(emptyLeft[1]).toEqual(["foo"]);
         expect(emptyLeft[2]).toEqual([]);
     });
-
 
 });

@@ -1,7 +1,6 @@
-import { Expect, ReplaceLast, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, ReplaceLast, Test } from "inferred-types/types";
 
 describe("ReplaceLast<TList, TVal>", () => {
 

@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, IsFunction } from "inferred-types/types";
+import type { Expect, IsFunction, Test } from "inferred-types/types";
 
 describe("IsFunction<T>", () => {
   it("should return true for functions of any kind", () => {

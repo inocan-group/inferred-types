@@ -1,12 +1,8 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { Expect, IsTuple, Test } from "inferred-types/types";
-
-
+import type { Expect, IsTuple, Test } from "inferred-types/types";
 
 describe("IsTuple<T>", () => {
-
 
     it("positive tests", () => {
         type Empty = IsTuple<[]>;
@@ -22,13 +18,10 @@ describe("IsTuple<T>", () => {
         ];
     });
 
-
     it("negative tests", () => {
         type Never = IsTuple<never>;
         type StrArr = IsTuple<string[]>;
         type RoStrArr = IsTuple<readonly string[]>;
-
-
 
         type cases = [
             Expect<Test<Never, "equals", false>>,
@@ -36,7 +29,6 @@ describe("IsTuple<T>", () => {
             Expect<Test<RoStrArr, "equals", false>>,
         ];
     });
-
 
     it("variadic array with known keys returns false", () => {
         type V1 = IsTuple<[1,2,3, ...string[]]>;
@@ -49,6 +41,5 @@ describe("IsTuple<T>", () => {
             Expect<Test<V3, "equals", false>>,
         ];
     });
-
 
 });

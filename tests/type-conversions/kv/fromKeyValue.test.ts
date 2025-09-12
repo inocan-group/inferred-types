@@ -1,5 +1,6 @@
 import { fromKeyValue, tuple } from "inferred-types/runtime";
-import { Expect, Test, KeyValue } from "inferred-types/types";
+import type { Expect, KeyValue, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 describe("fromKeyValue()", () => {

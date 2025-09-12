@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    EmptyObject,
-    Expect,
-    HasFalse,
-    Test,
-    Values,
-    Dictionary
-} from "inferred-types/types";
+import type { Dictionary, EmptyObject, Expect, HasFalse, Test, Values } from "inferred-types/types";
 
 describe("HasFalse<T>", () => {
 
@@ -49,7 +42,6 @@ describe("HasFalse<T>", () => {
             ];
         });
 
-
         it("wide input", () => {
             type W1 = HasFalse<string[]>;
             type W2 = HasFalse<unknown[]>;
@@ -60,7 +52,6 @@ describe("HasFalse<T>", () => {
             ];
         });
 
-
         it("any,never -> error", () => {
             type E1 = HasFalse<any>;
             type E2 = HasFalse<never>;
@@ -70,7 +61,6 @@ describe("HasFalse<T>", () => {
                 Expect<Test<E2, "isError", "invalid/has-false">>,
             ];
         });
-
 
         it("forced invalid type -> false", () => {
             // @ts-expect-error
@@ -103,7 +93,6 @@ describe("HasFalse<T>", () => {
             ];
         });
 
-
         it("wide input", () => {
             type W1 = HasFalse<readonly unknown[]>;
             type W2 = HasFalse<Dictionary>;
@@ -113,7 +102,6 @@ describe("HasFalse<T>", () => {
                 Expect<Test<W2, "equals", boolean>>,
             ];
         });
-
 
         it("any,never -> error", () => {
             type E1 = HasFalse<any>;
@@ -125,7 +113,6 @@ describe("HasFalse<T>", () => {
             ];
         });
 
-
         it("forced invalid type -> false", () => {
             // @ts-expect-error
             type E1 = HasFalse<42>;
@@ -135,8 +122,5 @@ describe("HasFalse<T>", () => {
             ];
         });
     })
-
-
-
 
 });

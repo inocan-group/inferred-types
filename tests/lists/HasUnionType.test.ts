@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, HasUnionType, Test } from "inferred-types/types";
+import type { Expect, HasUnionType, Test } from "inferred-types/types";
 
 describe("HasUnionType<T>", () => {
 

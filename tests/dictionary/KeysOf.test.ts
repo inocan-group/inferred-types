@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
+import type { Dictionary, KeyOf, ObjectKey, PublicKeyOf, Test } from "inferred-types/types";
 
-import { Dictionary, KeyOf, ObjectKey, PublicKeyOf, Test } from "inferred-types/types";
 import { keysOf } from "inferred-types/runtime";
 
 describe("KeyOf<T> and PublicKeyOf<T>", () => {
@@ -21,9 +21,7 @@ describe("KeyOf<T> and PublicKeyOf<T>", () => {
 
 });
 
-
 describe("keysOf(obj)", () => {
-
 
     it("happy path", () => {
         const t1 = keysOf({foo: 1, bar: 2});
@@ -35,7 +33,6 @@ describe("keysOf(obj)", () => {
         ];
     });
 
-
     it("empty object", () => {
         const t1 = keysOf({});
 
@@ -45,7 +42,6 @@ describe("keysOf(obj)", () => {
             Expect<Test<typeof t1, "equals", []>>
         ];
     });
-
 
     it("deeply nested", () => {
         const t1 = keysOf({foo: { bar: { baz: 1 } } });
@@ -66,7 +62,5 @@ describe("keysOf(obj)", () => {
             Expect<Test<typeof t1, "equals", ObjectKey[]>>
         ];
     });
-
-
 
 })

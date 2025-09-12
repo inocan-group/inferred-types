@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test } from "inferred-types/types";
-import { BooleanSort, BooleanSortOptions } from "inferred-types/types";
+import type { BooleanSort, BooleanSortOptions, Expect, Test } from "inferred-types/types";
 
 describe("BooleanSort<T, O> Type Tests", () => {
 

@@ -1,14 +1,9 @@
 import {
+import type { Expect, GetPhoneCountryCode, GetPhoneNumberType, RemovePhoneCountryCode, Test } from "inferred-types/types";
     getPhoneCountryCode,
     removePhoneCountryCode
 } from "inferred-types/runtime";
-import {
-    Expect,
-    GetPhoneCountryCode,
-    GetPhoneNumberType,
-    RemovePhoneCountryCode,
-    Test
-} from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 describe("asPhoneNumber() and supporting utils", () => {
@@ -30,7 +25,6 @@ describe("asPhoneNumber() and supporting utils", () => {
 
   });
 
-
   it("RemovePhoneCountryCode<T>", () => {
     type Global = RemovePhoneCountryCode<"+44 07989479178">;
     type Country = RemovePhoneCountryCode<"07989479178">;
@@ -46,7 +40,6 @@ describe("asPhoneNumber() and supporting utils", () => {
     ];
 
   });
-
 
   it("GetPhoneNumberType<T>", () => {
     type Intl = GetPhoneNumberType<"+44 7989449188">;
@@ -83,13 +76,11 @@ describe("asPhoneNumber() and supporting utils", () => {
 
   });
 
-
   it("getPhoneCountryCode()", () => {
     const none = getPhoneCountryCode("555-1212");
     const uk = getPhoneCountryCode("+44 798-947-9178");
     const uk2 = getPhoneCountryCode("0044 07989479178");
     const us = getPhoneCountryCode("+1 798-947-9178");
-
 
     expect(none).toBe("");
     expect(uk).toBe("44");
@@ -105,7 +96,6 @@ describe("asPhoneNumber() and supporting utils", () => {
     const cases: cases = [true, true, true, true];
 
   });
-
 
   it("getCountryPhoneNumber()", () => {
     const no_change = removePhoneCountryCode("442-555-1212");
@@ -136,7 +126,5 @@ describe("asPhoneNumber() and supporting utils", () => {
   //   const cases: cases = [];
 
   // });
-
-
 
 });

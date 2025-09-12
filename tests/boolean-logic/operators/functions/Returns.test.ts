@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, Returns } from "inferred-types/types";
+import type { Expect, Returns, Test } from "inferred-types/types";
 
 describe("Returns<TFn, TExpected>", () => {
   it("should return true when function returns type that extends expected type", () => {

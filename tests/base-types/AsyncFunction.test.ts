@@ -1,5 +1,5 @@
 import { describe,  it } from "vitest";
-import { Expect, AsyncFunction, Test } from "inferred-types/types";
+import type { AsyncFunction, Expect, Test } from "inferred-types/types";
 
 describe("AsyncFunction", () => {
 

@@ -1,7 +1,6 @@
-import { Test, Expect, UnionMutate } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Test, UnionMutate } from "inferred-types/types";
 
 describe("UnionMutate<T>", () => {
 

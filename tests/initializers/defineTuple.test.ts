@@ -1,15 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { defineTuple } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("createTuple(...values) runtime utility", () => {
 
   it("happy path", () => {
     const foobar = defineTuple("foo", "bar");
     const takeTwo = defineTuple(...foobar);
-
 
     expect(foobar).toEqual(["foo", "bar"]);
     expect(takeTwo).toEqual(["foo", "bar"]);
@@ -20,7 +17,6 @@ describe("createTuple(...values) runtime utility", () => {
     ];
 
   });
-
 
   it("passing a const array", () => {
     const arr = ["foo", "bar"] as const;

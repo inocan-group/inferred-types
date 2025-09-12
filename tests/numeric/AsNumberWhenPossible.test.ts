@@ -1,13 +1,6 @@
-import {
-    Expect,
-    AsNumberWhenPossible,
-    HasSameValues,
-    Test,
-    UnionToTuple
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { AsNumberWhenPossible, Expect, HasSameValues, Test, UnionToTuple } from "inferred-types/types";
 
 describe("AsNumberWhenPossible<T>", () => {
 
@@ -25,7 +18,6 @@ describe("AsNumberWhenPossible<T>", () => {
 
         type ObjUnion = AsNumberWhenPossible<"foo" | "bar" | "0" | 1>;
         type ArrUnion = AsNumberWhenPossible<0 | "1">;
-
 
         type cases = [
             Expect<Test<Mixed, "equals", [1, 2, "nope"]>>,

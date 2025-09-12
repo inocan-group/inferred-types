@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { filterEmpty, isEmpty } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("filterEmpty", () => {
 

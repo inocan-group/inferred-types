@@ -1,7 +1,6 @@
-import { Expect, IsString, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, IsString, Test } from "inferred-types/types";
 
 describe("IsString<T>", () => {
 
@@ -20,7 +19,6 @@ describe("IsString<T>", () => {
 
         ];
     });
-
 
     it("Union Types", () => {
         type StrUnion = IsString<"foo" | "bar">;

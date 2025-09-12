@@ -1,6 +1,7 @@
 import { describe, it } from "vitest";
 import { createFnWithProps } from "inferred-types/runtime";
-import { Expect, Test, FnKeyValue } from "inferred-types/types";
+import type { Expect, FnKeyValue, Test } from "inferred-types/types";
+
 import type { Equal } from "@type-challenges/utils";
 
 describe("createFnWithProps() type-only repro", () => {

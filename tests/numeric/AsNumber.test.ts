@@ -1,8 +1,7 @@
 import { asNumber } from "inferred-types/runtime";
-import { Expect, AsNumber, IsNever, Test } from "inferred-types/types";
+import type { AsNumber, Expect, IsNever, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
-
-
 
 describe("AsNumber<T>", () => {
 
@@ -22,7 +21,6 @@ describe("AsNumber<T>", () => {
         ];
     });
 
-
     it("leading zero", () => {
         type One = AsNumber<"01">;
         type Zero = AsNumber<"00">;
@@ -32,7 +30,6 @@ describe("AsNumber<T>", () => {
             Expect<Test<Zero, "equals", 0>>,
         ];
     });
-
 
     it("negative numbers", () => {
         type NegOne = AsNumber<"-1">;
@@ -44,7 +41,6 @@ describe("AsNumber<T>", () => {
         ];
     });
 
-
     it("can handle leading zeros", () => {
         type Five = AsNumber<"005">;
         type NegFive = AsNumber<"-005">;
@@ -55,7 +51,6 @@ describe("AsNumber<T>", () => {
         ];
     });
 
-
     it("can handle number with closing decimal marker (e.g., 1.)", () => {
         type T = AsNumber<"1.">;
 
@@ -63,8 +58,6 @@ describe("AsNumber<T>", () => {
             Expect<Test<T, "equals", 1>>
         ];
     });
-
-
 
     it("can handle a decimal value", () => {
         type PointOne = AsNumber<"0.1">;
@@ -82,7 +75,6 @@ describe("AsNumber<T>", () => {
         ];
     });
 
-
     it("decimal with trailing 0", () => {
         type Trailing = AsNumber<"0.10">;
 
@@ -91,11 +83,7 @@ describe("AsNumber<T>", () => {
         ];
     });
 
-
-
-
 });
-
 
 describe("asNumber(val)", () => {
 

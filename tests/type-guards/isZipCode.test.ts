@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isZipCode, isZipCode5, isZipPlus4 } from "inferred-types/runtime";
-import { Expect, Test, Zip5, ZipCode, ZipPlus4 } from "inferred-types/types";
-
-
+import type { Expect, Test, Zip5, ZipCode, ZipPlus4 } from "inferred-types/types";
 
 describe("isZipCode()", () => {
 
@@ -22,7 +20,6 @@ describe("isZipCode()", () => {
       ];
     }
   });
-
 
   it("zip5plus4", () => {
     const zc = "06250-1245" as string;

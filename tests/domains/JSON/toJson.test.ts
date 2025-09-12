@@ -1,5 +1,6 @@
 import { toJSON } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 
 describe("JSON Conversion", () => {
@@ -31,7 +32,6 @@ describe("JSON Conversion", () => {
         ];
     });
 
-
     it("object values", () => {
         const obj = { foo: 1, bar: "hi" } as const;
         const fooBarBaz = toJSON(obj);
@@ -48,6 +48,5 @@ describe("JSON Conversion", () => {
             >>,
         ];
     });
-
 
 });

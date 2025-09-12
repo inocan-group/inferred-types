@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    GetInputToken,
-    IsInputToken,
-    Test,
-} from "inferred-types/types";
+import type { Expect, GetInputToken, IsInputToken, Test } from "inferred-types/types";
 
 describe("IsInputToken<T>", () => {
 
@@ -38,7 +33,6 @@ describe("IsInputToken<T>", () => {
         ]
     });
 
-
     it("kv tokens -> negative", () => {
         type Weak = IsInputToken<"WeakMap<string, number>">; // weakmap's must have an object key
         type Rec = IsInputToken<"Record<string, number2>">; // bad value
@@ -66,6 +60,5 @@ describe("IsInputToken<T>", () => {
             Expect<Test<BracketUnion, "equals", true>>,
         ]
     })
-
 
 });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { IsLeapYear, ParseDate } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, IsLeapYear, ParseDate, Test } from "inferred-types/types";
+
 import { asDate, isLeapYear } from "inferred-types/runtime";
 import moment from "moment";
 import { DateTime } from "luxon";
@@ -85,7 +85,6 @@ describe("IsLeapYear type utility", () => {
             Expect<Test<E5, "isError", "parse-date/invalid-type">>,
         ];
     });
-
 
     it("should handle edge cases for specific years", () => {
         type cases = [

@@ -1,8 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Pop, Test } from "inferred-types/types";
-
-
+import type { Pop, Test } from "inferred-types/types";
 
 describe("ExcludeLast<T>", () => {
 

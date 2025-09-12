@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { defineObj, hasIndexOf, narrow } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
-
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("hasIndexOf(value, index)", () => {
   const lit_arr = narrow([1, 2, 3]);
@@ -20,7 +18,6 @@ describe("hasIndexOf(value, index)", () => {
     ];
 
   });
-
 
   it("used as type guard, type is reduced", () => {
     if (hasIndexOf(lit_arr, 2)) {

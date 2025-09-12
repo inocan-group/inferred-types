@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, ToNumericArray } from "inferred-types/types";
-
-
+import type { Expect, Test, ToNumericArray } from "inferred-types/types";
 
 describe("ToNumericArray<T>", () => {
 

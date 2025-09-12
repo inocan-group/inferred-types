@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Test, Expect, DateLike, IsDoubleLeap } from "inferred-types/types";
+import type { DateLike, Expect, IsDoubleLeap, Test } from "inferred-types/types";
+
 import { asDate, isDoubleLeap } from "inferred-types/runtime";
 import moment from "moment";
 import { DateTime } from "luxon";
@@ -124,7 +125,6 @@ describe("Double Leap Year", () => {
         });
     });
 
-
     describe("isDoubleLeap() runtime behavior", () => {
         it("should correctly validate ISO Year strings", () => {
         const t1 = "2024";
@@ -208,7 +208,6 @@ describe("Double Leap Year", () => {
             expect(isDoubleLeap(year as DateLike), `${year} should be a double leap year`).toBe(true);
         }
     });
-
 
         it("should correctly identify known double leap years", () => {
             // Test some known double leap years from the DOUBLE_LEAP_MODERN array

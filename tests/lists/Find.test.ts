@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, Find, Test } from "inferred-types/types";
+import type { Expect, Find, InputTokenSuggestions, Test } from "inferred-types/types";
+
 import { find, narrow } from "inferred-types/runtime";
-import { InputTokenSuggestions } from "inferred-types/types";
 
 describe("Find<TList, 'equals', TValue, TIndex>", () => {
 
@@ -71,13 +71,11 @@ describe("Find<TList, 'equals', TValue, TIndex>", () => {
     });
 });
 
-
 // RUNTIME TESTS
 
 describe("find(op, ...params) -> (list) -> result", () => {
 
     const list = narrow(1,2, 0 as number, "foo", "str" as string);
-
 
     it("equals op", () => {
         const f2 = find("equals", 2);
@@ -85,12 +83,10 @@ describe("find(op, ...params) -> (list) -> result", () => {
 
         expect(two).toBe(2);
 
-
         type cases = [
             Expect<Test<typeof two, "equals", 2>>,
         ];
     });
-
 
     it("extends op", () => {
         const findNumber = find("extends", 0 as number);

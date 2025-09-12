@@ -1,17 +1,7 @@
 /* eslint-disable ts/ban-types */
 import { describe, it } from "vitest";
 import { Ref } from "vue";
-import {
-    Expect,
-    DoesExtend,
-    DotPathFor,
-    Suggest,
-    Test,
-    As,
-    NestedString
-} from "inferred-types/types";
-
-
+import type { As, DoesExtend, DotPathFor, Expect, NestedString, Suggest, Test } from "inferred-types/types";
 
 describe("Name", () => {
     type myRef = Ref<{ age: number; address: string }>;
@@ -31,7 +21,6 @@ describe("Name", () => {
         color: [number, string, number];
         info: myRef;
     };
-
 
     it("using an object as target", () => {
         type Path = DotPathFor<Obj>;
@@ -68,7 +57,6 @@ describe("Name", () => {
         const cases: cases = [true, true];
     });
 
-
     it("NestedString", () => {
         type Nested = As<{
             content: "hi",
@@ -91,7 +79,6 @@ describe("Name", () => {
             >>
         ];
     });
-
 
     it("Container and Scalar values provide empty string offset", () => {
         type Obj = {
@@ -122,7 +109,6 @@ describe("Name", () => {
         ];
 
     });
-
 
     it("Wide object type and scalars resolve to only root path", () => {
         type TObj = DotPathFor<object>;

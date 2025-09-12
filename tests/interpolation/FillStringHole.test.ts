@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    FillStringHole,
-    Test,
-} from "inferred-types/types";
+import type { Expect, FillStringHole, Test } from "inferred-types/types";
 
 describe("FillStringHole<T,U>", () => {
 
@@ -11,7 +7,6 @@ describe("FillStringHole<T,U>", () => {
 
         type FooBarBaz = FillStringHole<`Foo${string}Baz`, "Bar">;
         type Multi = FillStringHole<`Foo${string}Baz${string}`, "Bar">;
-
 
         type cases = [
             Expect<Test<FooBarBaz, "equals", "FooBarBaz">>,

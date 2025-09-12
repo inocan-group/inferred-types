@@ -1,5 +1,6 @@
-import type { Expect, Test, ToKv } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, Test, ToKv } from "inferred-types/types";
 
 describe("ToKv<T>", () => {
     it("all required", () => {
@@ -34,7 +35,6 @@ describe("ToKv<T>", () => {
             ]>>
         ];
     });
-
 
     it("nesting", () => {
         type Shallow = ToKv<{ foo: 1, bar: { uno: 1; dos: 2}}>;

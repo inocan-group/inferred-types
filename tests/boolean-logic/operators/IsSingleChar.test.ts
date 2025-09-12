@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, IsSingleChar, Test } from "inferred-types/types";
-
-
+import type { Expect, IsSingleChar, Test } from "inferred-types/types";
 
 describe("IsSingleChar<T>", () => {
 

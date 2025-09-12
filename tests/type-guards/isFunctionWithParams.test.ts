@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { isFnWithParams } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
 
 describe("isFnWithParams(val) type-guard", () => {
 

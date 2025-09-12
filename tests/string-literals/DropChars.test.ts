@@ -1,9 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { DropChars, Test, UpperAlphaChar } from "inferred-types/types";
-
-
+import type { DropChars, Test, UpperAlphaChar } from "inferred-types/types";
 
 describe("DropChars<TContent,TDrop>", () => {
     it("dropping using a single string sequence", () => {
@@ -18,7 +15,6 @@ describe("DropChars<TContent,TDrop>", () => {
         ];
         const cases: cases = [true, true, true];
     });
-
 
     it("dropping with a union type", () => {
         type FooBarBaz = DropChars<"foo, bar, baz", "b" | "f">;

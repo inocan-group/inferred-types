@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { contains } from "inferred-types/runtime";
-import { Contains, Expect, Test } from "inferred-types/types";
+import type { Contains, Expect, Test } from "inferred-types/types";
 
 describe("Runtime contains()", () => {
     describe("Content is a tuple/array", () => {

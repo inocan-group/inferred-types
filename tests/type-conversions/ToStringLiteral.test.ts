@@ -1,13 +1,7 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    ObjectKeys,
-    Test,
-    ToStringLiteral,
-    TupleMeta
-} from "inferred-types/types";
-import { toStringLiteral, split, stripChars } from "inferred-types/runtime";
+import type { Expect, ObjectKeys, Test, ToStringLiteral, TupleMeta } from "inferred-types/types";
 
+import { toStringLiteral, split, stripChars } from "inferred-types/runtime";
 
 describe("ToStringLiteral<T>", () => {
 
@@ -70,7 +64,6 @@ describe("ToStringLiteral<T>", () => {
         ];
     });
 
-
     it("dictionary with optional keys", () => {
         type FooBar = ToStringLiteral<{foo: 1; bar?: 2}>
 
@@ -78,8 +71,6 @@ describe("ToStringLiteral<T>", () => {
             Expect<Test<FooBar, "equals", "{ foo: 1, bar?: 2 }">>
         ];
     });
-
-
 
     it("literal array", () => {
         type Numeric = ToStringLiteral<[1,2,3]>;
@@ -98,7 +89,6 @@ describe("ToStringLiteral<T>", () => {
             { id: 1 }
         ]>;
 
-
         type cases = [
             Expect<Test<Numeric, "equals", `[ 1, 2, 3 ]`>>,
             Expect<Test<Obj, "equals", `[ { id: 1 }, { id: 2 } ]`>>,
@@ -110,7 +100,6 @@ describe("ToStringLiteral<T>", () => {
             >>,
         ];
     });
-
 
     it("literal array (with optionals)", () => {
         type Opt1 = ToStringLiteral<[1,2,3?]>;
@@ -125,8 +114,6 @@ describe("ToStringLiteral<T>", () => {
             Expect<Test<AllOpt, "equals", `[ 1?, 2?, 3? ]`>>,
         ];
     });
-
-
 
     it("tuple (wide types)", () => {
         type StrArr = ToStringLiteral<string[]>;
@@ -148,7 +135,6 @@ describe("ToStringLiteral<T>", () => {
         ];
     })
 
-
     it("tuple (empty)", () => {
         type Empty = ToStringLiteral<[]>;
 
@@ -156,7 +142,6 @@ describe("ToStringLiteral<T>", () => {
             Expect<Test<Empty, "equals", "[]">>
         ];
     });
-
 
     it("Union type", () => {
         type StrNum = ToStringLiteral<string | number>;
@@ -181,7 +166,6 @@ describe("ToStringLiteral<T>", () => {
             >>,
         ];
     });
-
 
 });
 
@@ -225,12 +209,10 @@ describe("toStringLiteral(val)", () => {
             dos: [4,5,6]
         });
 
-
         expect(fooBar).toBe("{ foo: 1, bar: \"hi\" }");
         expect(nested).toBe(
             `{ uno: { foo: \"hi\", bar: [ 1, 2, 3 ] }, dos: [ 4, 5, 6 ] }`
         )
-
 
         type cases = [
             Expect<Test<
@@ -239,7 +221,6 @@ describe("toStringLiteral(val)", () => {
             >>
         ];
     });
-
 
     it("tuple", () => {
         const tup = toStringLiteral([

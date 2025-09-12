@@ -1,5 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Mutable, SortByKey, Test } from "inferred-types/types";
+import type { Mutable, SortByKey, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 import {  sortByKey, getEach,  tuple } from "inferred-types/runtime";
 
@@ -29,7 +30,6 @@ describe("SortByKey<KV, Key, Config>", () => {
             >>
         ];
     });
-
 
     it("multiple items pinned to start, one item pinned to end and all items moved", () => {
         type Before = [
@@ -64,7 +64,6 @@ describe("SortByKey<KV, Key, Config>", () => {
 });
 
 describe("sortByKey(kv, key, config)", () => {
-
 
     it("happy path", () => {
         const kv = tuple(
@@ -139,6 +138,5 @@ describe("sortByKey(kv, key, config)", () => {
             Expect<Test<T2, "equals",  After>>,
         ];
     });
-
 
 });

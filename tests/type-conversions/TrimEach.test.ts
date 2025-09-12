@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, TrimEach } from "inferred-types/types";
+import type { Expect, Test, TrimEach } from "inferred-types/types";
 
 describe("TrimEach<T>", () => {
 

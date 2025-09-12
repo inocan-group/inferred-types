@@ -1,11 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    Test,
-    FnReturn
-} from "inferred-types/types";
-
-
+import type { Expect, FnReturn, Test } from "inferred-types/types";
 
 describe("FnReturn<TFn>", () => {
 
@@ -46,7 +40,6 @@ describe("FnReturn<TFn>", () => {
         ];
     });
 
-
     it("numeric literal in return", () => {
         type F1 = <A extends number>(age: A) => `${A} years old`; // =>
         type F2 = <T extends readonly [age: number]>(...args: T) => `${T[0]} years old`;
@@ -64,8 +57,6 @@ describe("FnReturn<TFn>", () => {
         ];
     });
 
-
-
     it("numeric and string literal in return", () => {
         type F1 = <T extends string, A extends number>(name: T, age: A) => `${T} is ${A} years old`;
         type F2 = (name: string, age: number) => `${typeof name} is ${typeof age} years old`;
@@ -81,6 +72,5 @@ describe("FnReturn<TFn>", () => {
             Expect<Test<R3, "equals",  `${string} is ${number} years old`>>,
         ];
     });
-
 
 });

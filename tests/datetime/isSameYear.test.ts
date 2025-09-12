@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Test, Expect, DateLike } from "inferred-types/types";
+import type { DateLike, Expect, Test } from "inferred-types/types";
+
 import { isSameYear } from "inferred-types/runtime";
 
 describe("isSameYear(comparator) -> (date) -> boolean", () => {

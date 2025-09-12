@@ -1,7 +1,6 @@
-import { Expect, KlassMeta, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, KlassMeta, Test } from "inferred-types/types";
 
 describe("KlassMeta<T>", () => {
     class TestClass {
@@ -13,7 +12,6 @@ describe("KlassMeta<T>", () => {
             this.bar = bar;
         }
     }
-
 
     it("Happy Path", () => {
         type Inst = InstanceType<typeof TestClass>;

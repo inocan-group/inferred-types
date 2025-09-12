@@ -1,12 +1,9 @@
 import { describe, expect, it } from "vitest";
-import {  Expect, MergeObjects, Test } from "inferred-types/types";
+import type { Expect, MergeObjects, Test } from "inferred-types/types";
+
 import { mergeObjects } from "inferred-types/runtime";
 
-
-
-
 describe("MergeObjects<A,B>", () => {
-
 
     it("happy path", () => {
         type T1 = MergeObjects<{ foo: 1; bar: 2 }, { bar: 4; baz: "howdy" }>;
@@ -18,7 +15,6 @@ describe("MergeObjects<A,B>", () => {
         ];
 
     });
-
 
     it("empty override", () => {
       type T = MergeObjects<{ foo: 1; bar: 2}, {}>;
@@ -35,7 +31,6 @@ describe("MergeObjects<A,B>", () => {
             Expect<Test<T1, "equals",  { foo: "foo"; bar: "bar" }>>,
         ];
     });
-
 
     it("merging with optional params overriding", () => {
         type T1 = MergeObjects<

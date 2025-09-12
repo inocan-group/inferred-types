@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, TrimCharEnd } from "inferred-types/types";
+import type { Expect, Test, TrimCharEnd } from "inferred-types/types";
 
 describe("TrimCharEnd<T,U>", () => {
 

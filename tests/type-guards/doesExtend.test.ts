@@ -1,12 +1,9 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    Test,
-} from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
+
 import { doesExtend } from "inferred-types/runtime";
 
 describe("doesExtend(type)(val)", () => {
-
 
     it("partial ", () => {
         const str = doesExtend("string");
@@ -16,8 +13,6 @@ describe("doesExtend(type)(val)", () => {
             /** type tests */
         ];
     });
-
-
 
     it("extends string", () => {
         const tg = doesExtend("string");
@@ -48,6 +43,5 @@ describe("doesExtend(type)(val)", () => {
             /** type tests */
         ];
     });
-
 
 });

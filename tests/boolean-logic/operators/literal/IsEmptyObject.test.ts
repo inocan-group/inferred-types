@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsEmptyObject,
-    Test,
-    Dictionary, EmptyObject
-} from "inferred-types/types";
+import type { Dictionary, EmptyObject, Expect, IsEmptyObject, Test } from "inferred-types/types";
 
 describe("IsEmptyObject", () => {
     it("should return true for object with no keys", () => {
@@ -17,7 +12,6 @@ describe("IsEmptyObject", () => {
         ];
     });
 
-
     it("test", () => {
         type F1 = IsEmptyObject<Record<string,any>>;
         type F2 = IsEmptyObject<Record<string|symbol,string>>;
@@ -27,7 +21,6 @@ describe("IsEmptyObject", () => {
             Expect<Test<F2, "equals", false>>,
         ];
     });
-
 
     it("should return false for non-empty objects and primitives", () => {
         type F1 = IsEmptyObject<{ a: string }>;
@@ -53,5 +46,4 @@ describe("IsEmptyObject", () => {
         ];
     });
 });
-
 

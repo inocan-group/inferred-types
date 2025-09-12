@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+import type { DynamicToken, DynamicTokenApi, Expect, StaticToken, StaticTokenApi, Test, Token } from "inferred-types/types";
     isNull,
     createToken,
     isUndefined,
@@ -9,16 +10,6 @@ import {
     createTokenSyntax,
     ifEmpty
 } from "inferred-types/runtime";
-import {
-    Expect,
-    DynamicToken,
-    DynamicTokenApi,
-    StaticToken,
-    StaticTokenApi,
-    Test,
-    Token
-} from "inferred-types/types"
-
 
 describe("createToken(...)", () => {
 

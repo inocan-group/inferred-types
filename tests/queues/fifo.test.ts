@@ -1,10 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
+import type { FifoQueue, Test } from "inferred-types/types";
 
 import { createFifoQueue, widen } from "inferred-types/runtime"
-import { FifoQueue, Test } from "inferred-types/types";
-
-
 
 describe("FIFO Queue tests", () => {
 
@@ -23,7 +21,6 @@ describe("FIFO Queue tests", () => {
     let taken = wq.take(4);
     expect(taken).toEqual([1, 2, 3, 4]);
     expect(wq.queue).toEqual([5, 6]);
-
 
     type cases = [
       Expect<Test<typeof q, "equals",  FifoQueue<1 | 2 | 3>>>,

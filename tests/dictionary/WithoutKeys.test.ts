@@ -1,6 +1,7 @@
 
 import { describe, it, expect } from "vitest";
-import { Expect, Test,  WithoutKeys } from "inferred-types/types";
+import type { Expect, Test, WithoutKeys } from "inferred-types/types";
+
 import { withoutKeys } from "inferred-types/runtime";
 
 describe("WithoutKeys<T, K> utility", () => {
@@ -24,7 +25,6 @@ describe("WithoutKeys<T, K> utility", () => {
 
 describe("withoutKeys(obj, ...keys)", () => {
 
-
     it("remove subset", () => {
         const foo = withoutKeys({foo: 1, bar: 2}, "bar");
 
@@ -34,8 +34,6 @@ describe("withoutKeys(obj, ...keys)", () => {
             Expect<Test<typeof foo, "equals", { foo: 1 }>>,
         ];
     });
-
-
 
     it("runtime: happy path", () => {
         const literalObj = { foo: 1, bar: 42 as number | undefined, baz: "hi" } as const;

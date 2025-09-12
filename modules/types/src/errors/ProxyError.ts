@@ -1,6 +1,5 @@
-import type { Dictionary, ExpandDictionary, MergeObjects } from "inferred-types/types";
+import type { Dictionary, ExpandDictionary, MergeObjects, TypedError } from "inferred-types/types";
 import type { As } from "types/boolean-logic";
-import type { TypedError } from "inferred-types/types";
 
 /**
  * **ProxyErr**`<TError,TUtility,[TGeneric]>`

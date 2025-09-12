@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, Increment, Test } from "inferred-types/types";
+import type { Expect, Increment, Test } from "inferred-types/types";
+
 import { increment } from "inferred-types/runtime";
-
-
 
 describe("Increment<T>", () => {
 
@@ -32,9 +31,7 @@ describe("Increment<T>", () => {
 
 });
 
-
 describe("increment(val)", () => {
-
 
     it("happy path", () => {
         const two = increment(2);
@@ -48,6 +45,5 @@ describe("increment(val)", () => {
             Expect<Test<typeof twoStr, "equals", "3">>,
         ];
     });
-
 
 })

@@ -1,8 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { DoneFnTuple, Test } from "inferred-types/types";
+import type { DoneFnTuple, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("DoneFnTuple", () => {
 

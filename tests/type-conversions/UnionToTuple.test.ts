@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    UnionToTuple,
-    UnionArrayToTuple,
-    Test
-} from "inferred-types/types";
-
-
+import type { Expect, Test, UnionArrayToTuple, UnionToTuple } from "inferred-types/types";
 
 describe("UnionToTuple<U>", () => {
 
@@ -22,7 +15,6 @@ describe("UnionToTuple<U>", () => {
         ];
     });
 
-
     it("unions with boolean", () => {
         type StrBool = UnionToTuple<"foo" | "bar" | boolean>;
         type Wide = UnionToTuple<string | boolean>;
@@ -32,7 +24,6 @@ describe("UnionToTuple<U>", () => {
             Expect<Test<Wide, "hasSameValues", [string, true, false]>>
         ];
     });
-
 
     it("will convert a Union array into a tuple", () => {
         type UnionArr = (1 | 2 | 3)[];

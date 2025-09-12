@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, Tuple } from "inferred-types/types";
-
-
+import type { Expect, Test, Tuple } from "inferred-types/types";
 
 describe("Tuple<T,N>", () => {
 

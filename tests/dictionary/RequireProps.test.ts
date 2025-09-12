@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Expect, RequireProps, Test } from "inferred-types/types";
+import type { Expect, RequireProps, Test } from "inferred-types/types";
 
 describe("RequireProps<T,R>", () => {
     it("works as expected", () => {

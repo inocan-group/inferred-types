@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    DefaultNesting,
-    Expect,
-    IsNestingStart,
-    Test,
-} from "inferred-types/types";
+import type { DefaultNesting, Expect, IsNestingStart, Test } from "inferred-types/types";
 
 describe("IsNestingStart<TChar,TNesting>", () => {
 
@@ -16,7 +11,6 @@ describe("IsNestingStart<TChar,TNesting>", () => {
         type F1 = IsNestingStart<"}", DefaultNesting>;
         type F2 = IsNestingStart<"g", DefaultNesting>;
         type F3 = IsNestingStart<">", DefaultNesting>;
-
 
         type cases = [
             Expect<Test<T1, "equals", true>>,

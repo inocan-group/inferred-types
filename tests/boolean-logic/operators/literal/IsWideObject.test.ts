@@ -1,10 +1,6 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsWideObject,
-    Keys,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsWideObject, Keys, Test } from "inferred-types/types";
+
 import { EmptyObject } from "inferred-types";
 
 describe("IsWideObject<T>", () => {
@@ -26,7 +22,6 @@ describe("IsWideObject<T>", () => {
         // Weakmap
         type T7 = IsWideObject<WeakMap<object, string>>;
 
-
         type cases = [
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
@@ -37,7 +32,6 @@ describe("IsWideObject<T>", () => {
             Expect<Test<T7, "equals", true>>,
         ];
     });
-
 
     it("Record's key is a union", () => {
         // unbounded keys
@@ -52,13 +46,10 @@ describe("IsWideObject<T>", () => {
         ];
     });
 
-
     it("should return false for literal objects", () => {
         // Literal objects with known keys and literal values
         type F1 = IsWideObject<{ foo: "bar"; baz: 42 }>;
         type F2 = IsWideObject<{ x: 1; y: 2; z: 3 }>;
-
-
 
         // Map with literal union keys is not wide
         type F6 = IsWideObject<Map<"foo" | "bar", string>>;
@@ -72,7 +63,6 @@ describe("IsWideObject<T>", () => {
         ];
     });
 
-
     it("an empty object is NOT a wide object", () => {
         type F1 = IsWideObject<EmptyObject>;
 
@@ -80,7 +70,6 @@ describe("IsWideObject<T>", () => {
             Expect<Test<F1, "equals", false>>,
         ];
     });
-
 
     it("should return false for non-object types", () => {
         // Primitive types

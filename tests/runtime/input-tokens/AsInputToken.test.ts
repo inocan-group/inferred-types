@@ -1,11 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    AsInputToken,
-    Expect,
-    FromInputToken,
-    Test,
-    ToStringLiteral,
-} from "inferred-types/types";
+import type { AsInputToken, Expect, FromInputToken, Test, ToStringLiteral } from "inferred-types/types";
 
 describe("AsInputToken<T>", () => {
 
@@ -35,7 +29,6 @@ describe("AsInputToken<T>", () => {
         ];
     });
 
-
     it("literals", () => {
         type Foo = AsInputToken<"foo">;
         type FooBar = AsInputToken<"foo" | "bar">;
@@ -51,7 +44,6 @@ describe("AsInputToken<T>", () => {
         ];
     });
 
-
     it("template literals", () => {
         type Greet = AsInputToken<`Hi ${string}`>;
         type InvGreet = FromInputToken<Greet>;
@@ -66,7 +58,6 @@ describe("AsInputToken<T>", () => {
         ];
     });
 
-
     it("wide arrays", () => {
         type StrArr = AsInputToken<string[]>;
         type NumArr = AsInputToken<number[]>;
@@ -78,7 +69,6 @@ describe("AsInputToken<T>", () => {
             Expect<Test<Union, "equals", "(string | number)[]">>,
         ];
     });
-
 
     it("literal arrays", () => {
         type Tup1 = AsInputToken<[1,2,3]>;
@@ -95,7 +85,6 @@ describe("AsInputToken<T>", () => {
 
             Expect<Test<Tup2, "equals", '[ "foo", "bar", true ]'>>,
             Expect<Test<InvTup2, "equals", ["foo","bar",true]>>,
-
 
         ];
     });

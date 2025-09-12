@@ -1,5 +1,6 @@
-import { Expect, AnyFunction, FnWithDescription, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { AnyFunction, Expect, FnWithDescription, Test } from "inferred-types/types";
 
 describe("Fn<T> test", () => {
 

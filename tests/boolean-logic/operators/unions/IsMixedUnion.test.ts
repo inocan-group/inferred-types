@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, IsMixedUnion, Test } from "inferred-types/types";
+import type { Expect, IsMixedUnion, Test } from "inferred-types/types";
 
 describe("IsMixedUnion<T>", () => {
     it("positive tests", () => {
@@ -7,8 +7,6 @@ describe("IsMixedUnion<T>", () => {
         type T2 = IsMixedUnion<1 | 2 | 3 | 42 | string>;
         type T3 = IsMixedUnion<4 | object>;
         type T4 = IsMixedUnion<readonly unknown[] | "foo">;
-
-
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -24,7 +22,6 @@ describe("IsMixedUnion<T>", () => {
         type F3 = IsMixedUnion<1|2|3>;
         type F4 = IsMixedUnion<string|number>;
 
-
         type cases = [
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
@@ -32,7 +29,6 @@ describe("IsMixedUnion<T>", () => {
             Expect<Test<F4, "equals", false>>,
         ];
     });
-
 
     it("edge cases", () => {
         type Unknown = IsMixedUnion<unknown>;
@@ -45,6 +41,5 @@ describe("IsMixedUnion<T>", () => {
             Expect<Test<Never, "equals", false>>,
         ];
     });
-
 
 });

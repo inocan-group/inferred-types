@@ -1,5 +1,4 @@
-import type { Err, ErrType, GetInputToken, Join, NestedSplit, Trim } from "inferred-types/types";
-import type { IT_Token } from "inferred-types/types";
+import type { Err, ErrType, GetInputToken, Join, NestedSplit, Trim, IT_Token } from "inferred-types/types";
 
 /**
  * matches on tokens like `string[]`, `number[]`, etc.

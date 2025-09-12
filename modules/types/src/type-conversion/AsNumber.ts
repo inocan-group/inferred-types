@@ -1,5 +1,4 @@
-import type { As, Contains, IsBranded, RetainAfter, StartsWith, StripAfter, StripChars, StripLeading, StripWhile, Unbrand } from "inferred-types/types";
-import type { TrimCharEnd } from "inferred-types/types";
+import type { As, Contains, IsBranded, RetainAfter, StartsWith, StripAfter, StripChars, StripLeading, StripWhile, Unbrand, TrimCharEnd } from "inferred-types/types";
 
 /**
  * **ParseInt**`<T>`

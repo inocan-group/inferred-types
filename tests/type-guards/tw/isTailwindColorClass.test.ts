@@ -1,13 +1,7 @@
-import {
-    Expect,
-    Extends,
-    Opt,
-    Test,
-    TwTarget__Color,
-    TwTarget__ColorWithOptPrefixes
-} from "inferred-types/types";
+
 import { isTailwindColorClass } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
+import type { Expect, Extends, Opt, Test, TwTarget__Color, TwTarget__ColorWithOptPrefixes } from "inferred-types/types";
 
 describe("isTailwindColorClass(val)", () => {
 
@@ -43,7 +37,6 @@ describe("isTailwindColorClass(val)", () => {
         }
     });
 
-
     it("with allowed modifier prefixes", () => {
         const t1 = isTailwindColorClass("dark:bg-red-500", "dark");
         const t2 = isTailwindColorClass("lg:bg-red-500", "dark", "lg");
@@ -77,6 +70,5 @@ describe("isTailwindColorClass(val)", () => {
         }
 
     });
-
 
 });

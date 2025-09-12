@@ -1,7 +1,6 @@
-import {  Expect, NumericSort, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, NumericSort, Test } from "inferred-types/types";
 
 describe("Sort<TValues,[TReverse]>", () => {
 
@@ -51,7 +50,6 @@ describe("Sort<TValues,[TReverse]>", () => {
             { id: "baz", value: 0 },
             { id: "bar", value: 2 },
         ]
-
 
         type Asc = NumericSort<DATA, { offset: "value", order: "ASC" }>;
         type Desc = NumericSort<DATA, { offset: "value", order: "DESC" }>;

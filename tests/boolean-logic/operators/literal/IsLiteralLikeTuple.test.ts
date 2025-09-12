@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsLiteralLikeTuple,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsLiteralLikeTuple, Test } from "inferred-types/types";
 
 describe("IsLiteralLikeTuple<T>", () => {
 
@@ -18,8 +14,6 @@ describe("IsLiteralLikeTuple<T>", () => {
         type T5 = IsLiteralLikeTuple<[string, number, boolean]>;
         type T6 = IsLiteralLikeTuple<[1, string, true]>;
         type T7 = IsLiteralLikeTuple<[number, "hello", boolean]>;
-
-
 
         // Empty tuples
         type T10 = IsLiteralLikeTuple<[]>;

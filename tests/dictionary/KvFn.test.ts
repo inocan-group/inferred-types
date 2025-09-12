@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect,AnyFunction,  KvFn, Test } from "inferred-types/types";
-
-
+import type { AnyFunction, Expect, KvFn, Test } from "inferred-types/types";
 
 describe("KvFn", () => {
 

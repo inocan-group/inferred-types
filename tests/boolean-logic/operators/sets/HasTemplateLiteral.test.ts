@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    EmptyObject,
-    Expect,
-    HasTemplateLiteral,
-    Test,
-    Values,
-    Dictionary
-} from "inferred-types/types";
+import type { Dictionary, EmptyObject, Expect, HasTemplateLiteral, Test, Values } from "inferred-types/types";
 
 describe("HasTemplateLiteral<T>", () => {
 
@@ -35,7 +28,6 @@ describe("HasTemplateLiteral<T>", () => {
             ];
         });
 
-
         it("with optional values", () => {
             type T1 = HasTemplateLiteral<[`Hi ${string}`?]>;
             type T2 = HasTemplateLiteral<[1, 2, 3, `${number}`?]>;
@@ -48,8 +40,6 @@ describe("HasTemplateLiteral<T>", () => {
             ];
         });
 
-
-
         it("wide input", () => {
             type W1 = HasTemplateLiteral<string[]>;
             type W2 = HasTemplateLiteral<unknown[]>;
@@ -60,7 +50,6 @@ describe("HasTemplateLiteral<T>", () => {
             ];
         });
 
-
         it("any,never -> error", () => {
             type E1 = HasTemplateLiteral<any>;
             type E2 = HasTemplateLiteral<never>;
@@ -70,7 +59,6 @@ describe("HasTemplateLiteral<T>", () => {
                 Expect<Test<E2, "isError", "invalid/has-template-literal">>,
             ];
         });
-
 
         it("forced invalid type -> false", () => {
             // @ts-expect-error
@@ -103,7 +91,6 @@ describe("HasTemplateLiteral<T>", () => {
             ];
         });
 
-
         it("wide input", () => {
             type W1 = HasTemplateLiteral<Map<any,any>>;
             type W2 = HasTemplateLiteral<Dictionary>;
@@ -113,7 +100,6 @@ describe("HasTemplateLiteral<T>", () => {
                 Expect<Test<W2, "equals", boolean>>,
             ];
         });
-
 
         it("any,never -> error", () => {
             type E1 = HasTemplateLiteral<any>;
@@ -125,7 +111,6 @@ describe("HasTemplateLiteral<T>", () => {
             ];
         });
 
-
         it("forced invalid type -> false", () => {
             // @ts-expect-error
             type E1 = HasTemplateLiteral<42>;
@@ -135,8 +120,5 @@ describe("HasTemplateLiteral<T>", () => {
             ];
         });
     })
-
-
-
 
 });

@@ -1,20 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    ParseDate,
-    ParseTime,
-    Test,
-    FourDigitYear,
-    TwoDigitHour,
-    TwoDigitMinute,
-    TwoDigitSecond,
-    TwoDigitMonth,
-    TwoDigitDate,
-    ThreeDigitMillisecond,
-    TimezoneOffset,
-    ParsedDate,
-    DateMeta,
-} from "inferred-types/types";
+import type { DateMeta, Expect, FourDigitYear, ParseDate, ParsedDate, ParseTime, Test, ThreeDigitMillisecond, TimezoneOffset, TwoDigitDate, TwoDigitHour, TwoDigitMinute, TwoDigitMonth, TwoDigitSecond } from "inferred-types/types";
+
 import { parseDate } from "inferred-types/runtime";
 import moment from "moment";
 import { DateTime } from "luxon";
@@ -219,7 +205,6 @@ describe("ParseDate<T>", () => {
 
 });
 
-
 describe("parseDate()", () => {
     it("parses ISO string", () => {
         const result = parseDate("2024-01-15T12:34:56.789Z");
@@ -308,7 +293,6 @@ describe("parseDate()", () => {
         ];
     });
 
-
     it("fully qualified datetime", () => {
         const date = "2022-12-01T23:59:59.999+01:30";
         const result = parseDate(date);
@@ -332,7 +316,6 @@ describe("parseDate()", () => {
             Expect<Test<typeof result, "extends", DateMeta>>
         ];
     });
-
 
     it("parses Moment.js object", () => {
         const m = moment("2024-01-15T12:34:56.789Z");

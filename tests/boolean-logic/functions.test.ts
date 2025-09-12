@@ -1,4 +1,5 @@
 import {  describe, expect, it } from "vitest";
+import type { AnyFunction, Expect, IsFunction, Test } from "inferred-types/types";
 
 import {
     createFnWithProps,
@@ -6,13 +7,6 @@ import {
     isFunction,
     ifFunction
 } from "inferred-types/runtime";
-import type {
-    Expect,
-    AnyFunction,
-    IsFunction,
-    Test
-} from "inferred-types/types";
-
 
 describe("Boolean Logic for functions", () => {
 
@@ -61,7 +55,6 @@ describe("Boolean Logic for functions", () => {
       }
     });
 
-
     it("functions with params also pass", () => {
       if (isFunction(hybrid)) {
         expect(true).toBe(true);
@@ -69,7 +62,6 @@ describe("Boolean Logic for functions", () => {
         throw new Error("hybrid not detected as function");
       }
     });
-
 
     it("non-functions not confused as fn", () => {
       if (isFunction(empty)) {

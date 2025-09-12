@@ -1,13 +1,7 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    UpperAlphaChar,
-    StripSurround,
-    Test,
-    StripSurrounding
-} from "inferred-types/types";
-import { stripSurround } from "inferred-types/runtime";
+import type { Expect, StripSurround, StripSurrounding, Test, UpperAlphaChar } from "inferred-types/types";
 
+import { stripSurround } from "inferred-types/runtime";
 
 describe("StripSurrounding<TContent,TStrip>", () => {
 
@@ -36,8 +30,6 @@ describe("StripSurrounding<TContent,TStrip>", () => {
             Expect<Test<LowerBoth, "equals", "o">>,
         ];
     });
-
-
 
 });
 

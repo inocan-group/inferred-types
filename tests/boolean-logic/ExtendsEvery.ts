@@ -1,10 +1,6 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import {
-    Test,
-    Expect,
-    ExtendsEvery
-} from "inferred-types/types";
+import type { Expect, ExtendsEvery, Test } from "inferred-types/types";
 
 describe("ExtendsEvery<T,U>", () => {
 

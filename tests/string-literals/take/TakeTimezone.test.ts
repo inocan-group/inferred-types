@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, TakeTimezone, Test, TimezoneOffset } from "inferred-types/types";
+
 import { Equal } from "@type-challenges/utils";
 
 describe("TakeTimezone", () => {
@@ -30,8 +31,6 @@ describe("TakeTimezone", () => {
                 Expect<Test<IV3, "equals", never>>,
             ];
         });
-
-
 
         it("accepts UTC timezone 'Z'", () => {
             type T1 = TakeTimezone<"Z">;
@@ -85,7 +84,6 @@ describe("TakeTimezone", () => {
             type T4 = TakeTimezone<"+12:45">;
             type T5 = TakeTimezone<"-14:00">;
             type T6 = TakeTimezone<"+09:30 something">;
-
 
             type cases = [
                 Expect<Equal<T1, { take: TimezoneOffset<"+00:00">, rest: "" }>>,

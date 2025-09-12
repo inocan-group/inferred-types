@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { asFourDigitYear } from "inferred-types/runtime";
-import { AsFourDigitYear, Expect, Test } from "inferred-types/types";
-import { FourDigitYear } from "inferred-types/types";
+import type { AsFourDigitYear, Expect, FourDigitYear, Test } from "inferred-types/types";
 
 describe("FourDigitYear", () => {
     describe("AsFourDigitYear<T>", () => {
@@ -156,7 +155,6 @@ describe("FourDigitYear", () => {
                 Expect<Test<TAny, "equals", FourDigitYear | Error>>,
             ];
         });
-
 
         it("handles edge cases with branding and errors", () => {
             type TNegativeBranded = AsFourDigitYear<-2024, true>;

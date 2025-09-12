@@ -1,17 +1,11 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IT_TakeObjectLiteral,
-    IT_Token,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IT_TakeObjectLiteral, IT_Token, Test } from "inferred-types/types";
 
 describe("IT_TakeObjectLiteral<T>", () => {
 
     it("happy path", () => {
         type Foo = IT_TakeObjectLiteral<"{ foo: 1 }">;
         type FooBar = IT_TakeObjectLiteral<"{ foo: 1; bar: 2 }">;
-
 
         type cases = [
             Expect<Test<Foo, "extends", IT_Token<"object-literal">>>,
@@ -21,7 +15,6 @@ describe("IT_TakeObjectLiteral<T>", () => {
             Expect<Test<FooBar["type"], "equals", { foo: 1; bar: 2 }>>,
         ];
     });
-
 
     it("optional properties", () => {
         type Some = IT_TakeObjectLiteral<"{ foo: 1; bar?: 2 }">;
@@ -36,7 +29,6 @@ describe("IT_TakeObjectLiteral<T>", () => {
         ];
     });
 
-
     it("nested", () => {
         type Nested = IT_TakeObjectLiteral<"{ foo: { bar: { baz: 42 } } }">;
 
@@ -46,7 +38,6 @@ describe("IT_TakeObjectLiteral<T>", () => {
         ];
     });
 
-
     it("key/value invalid", () => {
         type Invalid = IT_TakeObjectLiteral<"{ foo: 1; bar: abc }">;
 
@@ -54,8 +45,6 @@ describe("IT_TakeObjectLiteral<T>", () => {
             Expect<Test<Invalid, "isError", "malformed-token">>
         ];
     });
-
-
 
 });
 

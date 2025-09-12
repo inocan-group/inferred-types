@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Xor } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+import type { Expect, Test, Xor } from "inferred-types/types";
 
 describe("Xor type utility", () => {
     it("should return true when only one argument is true", () => {

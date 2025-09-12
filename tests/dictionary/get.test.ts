@@ -1,13 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+import type { Expect, Get, Test } from "inferred-types/types";
     defineObject,
     get,
 } from "inferred-types/runtime";
-import type {
-    Expect,
-    Get,
-    Test,
-} from "inferred-types/types";
+
 import { ref } from "vue";
 
 describe("Get<T, K> type utility", () => {
@@ -36,7 +33,6 @@ describe("Get<T, K> type utility", () => {
         expect(c).toBe(c);
     });
 
-
     it("type: shallow path into Ref", () => {
         const myRef = ref({ foo: 1, bar: 2 } as const);
         const obj = {
@@ -60,7 +56,6 @@ describe("Get<T, K> type utility", () => {
         expect(c).toBe(c);
     });
 
-
     it("type: deep path through Ref", () => {
         const myRef = { bar: { baz: 42 } } as const;
         const obj = {
@@ -75,8 +70,6 @@ describe("Get<T, K> type utility", () => {
         ];
         const cases: cases = [true];
     });
-
-
 
     it("type: default values", () => {
         type Obj = {
@@ -117,7 +110,6 @@ describe("Get<T, K> type utility", () => {
         const cases: cases = [true, true, true];
     });
 
-
     it("type: Unavailable", () => {
         type Obj = {
             foo: 1;
@@ -138,7 +130,6 @@ describe("Get<T, K> type utility", () => {
         ];
 
     });
-
 
     it("runtime happy path", () => {
         const deep = ref({ deeperStill: [4, 5, 6] } as const);
@@ -174,7 +165,6 @@ describe("Get<T, K> type utility", () => {
         const cases: cases = [true, true, true, true];
     });
 
-
     it("Runtime Errors", () => {
         const deeperStill = ref([4, 5, 6] as const);
         const obj = {
@@ -194,7 +184,6 @@ describe("Get<T, K> type utility", () => {
 
         const handled1 = get(obj, "bar.abc", { handleInvalidDotpath: "handled" });
         const handled2 = get(obj, "deep.notSoDeep", { handleInvalidDotpath: "handled" });
-
 
         expect(handled1, "handled1 should have been handled").toBe("handled");
         expect(handled2, "handled2 should have been handled").toBe("handled");
@@ -221,6 +210,5 @@ describe("Get<T, K> type utility", () => {
 
         expect(defVal).toBe("foobar");
     });
-
 
 });

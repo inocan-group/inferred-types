@@ -1,27 +1,10 @@
 import { Equal, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {
-    Expect,
-    GetUrlPort,
-    AddUrlPathSegment,
-    Extends,
-    GetUrlSource,
-    GetUrlPath,
-    UrlPort,
-    UrlPath,
-    UrlsFrom,
-    GetUrlQueryParams,
-    IsUrl,
-    GetUrlProtocol,
-    RemoveUrlPort,
-    Test
-} from "inferred-types/types";
+import type { AddUrlPathSegment, Expect, Extends, GetUrlPath, GetUrlPort, GetUrlProtocol, GetUrlQueryParams, GetUrlSource, IsUrl, RemoveUrlPort, Test, UrlPath, UrlPort, UrlsFrom } from "inferred-types/types";
+
 import { getUrlPort, urlMeta } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
-
-
 describe("Url testing", () => {
-
 
     it("UrlPath<T> happy path", () => {
         type Base = UrlPath;
@@ -42,7 +25,6 @@ describe("Url testing", () => {
         ];
 
     });
-
 
     it("PortSpecifier", () => {
         type None = UrlPort<{ portRequirement: "not-allowed" }>;
@@ -67,7 +49,6 @@ describe("Url testing", () => {
 
     });
 
-
     it("GetDomainName<T> happy path", () => {
         type None = GetUrlSource<"there I was">;
         type FooBar = GetUrlSource<"https://foo.bar">;
@@ -84,7 +65,6 @@ describe("Url testing", () => {
 
         type MissingMiddle = GetUrlSource<"https://baz">;
         type MissingMiddle2 = GetUrlSource<"https:///baz">;
-
 
         type cases = [
             Expect<Test<None, "equals", never>>,
@@ -104,9 +84,7 @@ describe("Url testing", () => {
             Expect<Test<MissingMiddle2, "equals", never>>,
         ];
 
-
     });
-
 
     it("GetUrlProtocol<T>", () => {
         type Https = GetUrlProtocol<"https://foo.bar/baz">;
@@ -119,8 +97,6 @@ describe("Url testing", () => {
             Expect<Test<Union, "equals", "http" | "https">>,
         ];
     });
-
-
 
     it("GetUrlQueryParams<T>", () => {
         type None = GetUrlQueryParams<"https://github.com/foo/bar">;
@@ -148,7 +124,6 @@ describe("Url testing", () => {
         ];
     });
 
-
     it("GetUrlPort<T>", () => {
         type OnlyPort = GetUrlPort<":443">;
         type InUrl = GetUrlPort<`https://facebook.com:456/path/to/thing`>;
@@ -163,7 +138,6 @@ describe("Url testing", () => {
         ];
 
     });
-
 
     it("getUrlPort() runtime", () => {
         const onlyPort = getUrlPort(":443");
@@ -185,8 +159,6 @@ describe("Url testing", () => {
         ];
 
     });
-
-
 
     it("GetUrlPath<T>", () => {
         type FooBarBaz = GetUrlPath<"https://foo.bar/baz">;
@@ -234,7 +206,6 @@ describe("Url testing", () => {
         ];
     });
 
-
     it("AddUrlPathSegment<TExisting,TAdd>", () => {
         type FooBar = AddUrlPathSegment<"/foo", "bar">;
         type FooBarTerminated = AddUrlPathSegment<"/foo", "/bar/">;
@@ -250,7 +221,6 @@ describe("Url testing", () => {
             Expect<Test<ForeverAndEver, "equals", `/@${string}/${string}`>>,
         ];
     });
-
 
     it("UrlsFrom<T,TOpt> with HTTP protocol", () => {
         type FooBar = UrlsFrom<"foo.bar">;
@@ -361,7 +331,6 @@ describe("Url testing", () => {
         ];
     });
 
-
     it("urlMeta() runtime", () => {
         const google = urlMeta("https://google.com/foo/bar?track=123");
         expect(google.isUrl).toBe(true);
@@ -391,6 +360,5 @@ describe("Url testing", () => {
             Expect<Test<typeof homelab["isIp6Address"], "equals", false>>,
         ];
     });
-
 
 });

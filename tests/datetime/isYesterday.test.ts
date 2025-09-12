@@ -1,14 +1,6 @@
 import { isYesterday } from "inferred-types/runtime";
-import {
-    Expect,
-    Test,
-    Extends,
-    IsIsoDateTime,
-    IsIsoDate,
-    IsLuxonDateTime,
-    IsoDateTime,
-    IsoDate
-} from "inferred-types/types";
+import type { Expect, Extends, IsIsoDate, IsIsoDateTime, IsLuxonDateTime, IsoDate, IsoDateTime, Test } from "inferred-types/types";
+
 import { DateTime } from "luxon";
 import moment from "moment";
 import { describe, expect, it } from "vitest";
@@ -45,7 +37,6 @@ describe("isYesterday()", () => {
 
         if (isYesterday(yesterday, mockNow)) {
             type D = typeof yesterday;
-
 
             type cases = [
                 Expect<Extends<D, moment.Moment>>

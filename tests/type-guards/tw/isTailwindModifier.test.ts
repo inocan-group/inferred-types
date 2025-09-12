@@ -1,8 +1,7 @@
-import { Expect, Test, TwModifier } from "inferred-types/types";
+
 import { isTailwindModifier } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
-
-
+import type { Expect, Test, TwModifier } from "inferred-types/types";
 
 describe("isTailwindModifier(val)", () => {
 

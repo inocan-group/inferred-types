@@ -1,5 +1,6 @@
-import { Expect, Test, IsDateLike, EmptyObject, IsIsoYear } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { EmptyObject, Expect, IsDateLike, IsIsoYear, Test } from "inferred-types/types";
 
 describe("IsDateLike<T>", () => {
 
@@ -35,7 +36,6 @@ describe("IsDateLike<T>", () => {
         ];
     });
 
-
     it("valid ISO partial dates", () => {
         type YearMonth = IsDateLike<"-2023-06">;
         type YearMonthImplicit = IsDateLike<"-202306">;
@@ -51,12 +51,10 @@ describe("IsDateLike<T>", () => {
         ];
     });
 
-
     it("ISO Full Date Strings", () => {
         type T1 = IsDateLike<"2023-01-01">;
         type T2 = IsDateLike<"2023-12-31">
         type T3 = IsDateLike<"2024-02-29">; // leap day
-
 
         type F1 = IsDateLike<"2023-1-1">;
         type F2 = IsDateLike<"23-01-01">;
@@ -172,6 +170,5 @@ describe("IsDateLike<T>", () => {
             Expect<Test<None, "equals", false>>,
         ];
     });
-
 
 });

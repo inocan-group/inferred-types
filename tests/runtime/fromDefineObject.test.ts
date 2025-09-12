@@ -1,8 +1,7 @@
 
 import { describe, expect, it } from "vitest";
 import { fromDefineObject, isInputToken, isInputToken__String } from "inferred-types/runtime"
-import { Expect, Test, FromDefineObject } from "inferred-types/types";
-
+import type { Expect, FromDefineObject, Test } from "inferred-types/types";
 
 describe("FromDefineObject<T>", () => {
     it("happy path", () => {
@@ -17,7 +16,6 @@ describe("FromDefineObject<T>", () => {
         ];
     });
 })
-
 
 describe("fromDefineObject", () => {
     it("type tests", () => {

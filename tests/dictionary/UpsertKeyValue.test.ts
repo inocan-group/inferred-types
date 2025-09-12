@@ -1,7 +1,6 @@
-import { Expect, Test, UpsertKeyValue } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Test, UpsertKeyValue } from "inferred-types/types";
 
 describe("UpsertKeyValue<TObj,K,V>", () => {
 

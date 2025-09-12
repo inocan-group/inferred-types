@@ -1,16 +1,10 @@
+import type { RenderTime, TwoDigitHour, TwoDigitMinute, TwoDigitSecond } from "inferred-types/types";
 /**
  * Optimized Type Performance Benchmark
  *
  * Tests the optimized datetime types with complexity levels to verify
  * performance improvements compared to baseline measurements.
  */
-
-import type {
-    TwoDigitHour,
-    TwoDigitMinute,
-    TwoDigitSecond,
-    RenderTime
-} from "inferred-types/types";
 
 // =============================================================================
 // UNION SIZE MEASUREMENT UTILITIES

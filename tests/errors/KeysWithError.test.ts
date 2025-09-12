@@ -1,5 +1,6 @@
 import { keysWithError } from "inferred-types/runtime";
-import { Expect, KeysWithError, Test, Err } from "inferred-types/types";
+import type { Err, Expect, KeysWithError, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 describe("KeysWithError", () => {

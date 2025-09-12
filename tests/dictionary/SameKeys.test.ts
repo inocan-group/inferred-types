@@ -3,9 +3,7 @@ import type { Expect, HasSameKeys, Test } from "inferred-types/types";
 
 describe("SameKeys<T> utility", () => {
 
-
     it("happy path", () => {
-
 
         type cases = [
             Expect<Test<

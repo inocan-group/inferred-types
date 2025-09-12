@@ -1,7 +1,6 @@
-import { Expect, Negative, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Negative, Test } from "inferred-types/types";
 
 describe("Negative<T>", () => {
 

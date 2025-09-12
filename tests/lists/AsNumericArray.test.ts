@@ -1,7 +1,6 @@
-import { Expect, AsNumericArray, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { AsNumericArray, Expect, Test } from "inferred-types/types";
 
 describe("AsNumericArray<T>", () => {
 

@@ -1,7 +1,6 @@
-import { Expect, TakeFirst, Test, TupleMeta } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, TakeFirst, Test, TupleMeta } from "inferred-types/types";
 
 describe("TakeFirst<TContent,TLen,[THandle]>", () => {
 
@@ -19,7 +18,6 @@ describe("TakeFirst<TContent,TLen,[THandle]>", () => {
         ];
     });
 
-
     it("all elements are optional", () => {
         type T1 = TakeFirst<[1?, 2?, 3?, string?], 1>;
         type T2 = TakeFirst<[1?, 2?, 3?, string?], 2>;
@@ -34,13 +32,11 @@ describe("TakeFirst<TContent,TLen,[THandle]>", () => {
         ];
     });
 
-
     it("some elements are optional", () => {
         type T1 = TakeFirst<[1, 2?, 3?, string?], 1>;
         type T2 = TakeFirst<[1, 2?, 3?, string?], 2>;
         type T3 = TakeFirst<[1, 2?, 3?, string?], 3>;
         type T4 = TakeFirst<[1, 2?, 3?, string?], 4>;
-
 
         type cases = [
             Expect<Test<T1, "equals", [1]>>,

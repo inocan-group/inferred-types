@@ -1,7 +1,6 @@
 import { Expect } from "@type-challenges/utils";
 import { describe,  it } from "vitest";
-import { EnsureKeys,  Test, EmptyObject, Dictionary,  } from "inferred-types/types";
-
+import type { Dictionary, EmptyObject, EnsureKeys, Test } from "inferred-types/types";
 
 describe("EnsureKeys<TContainer,TKeys,TType>", () => {
 
@@ -30,7 +29,6 @@ describe("EnsureKeys<TContainer,TKeys,TType>", () => {
 
     });
 
-
     it("with wide container", () => {
         type Wide = EnsureKeys<Dictionary, {foo: number; bar: 3}>;
         type WideArr = EnsureKeys<Dictionary, ["foo", "bar"]>;
@@ -41,6 +39,5 @@ describe("EnsureKeys<TContainer,TKeys,TType>", () => {
 
         ];
     });
-
 
 });

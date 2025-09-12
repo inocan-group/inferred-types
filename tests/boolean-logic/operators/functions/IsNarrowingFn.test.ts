@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, IsNarrowingFn } from "inferred-types/types";
+import type { Expect, IsNarrowingFn, Test } from "inferred-types/types";
 
 describe("IsNarrowingFn<T>", () => {
   it("should return true for functions that use generics to narrow input parameters", () => {

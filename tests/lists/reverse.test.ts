@@ -1,8 +1,7 @@
 import { reverse } from "inferred-types/runtime";
 import type { Expect, Reverse, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
-
-
 
 describe("Reverse a Readonly Array", () => {
 
@@ -32,7 +31,6 @@ describe("Reverse a Readonly Array", () => {
     });
 
   });
-
 
   describe("Runtime tests", () => {
 

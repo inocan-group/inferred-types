@@ -1,9 +1,7 @@
 import { describe, expect, it } from "vitest";
+import type { Expect, IsScalar, Scalar, Test } from "inferred-types/types";
 
-import { Expect, IsScalar, Scalar, Test } from "inferred-types/types";
 import { isScalar } from "inferred-types/runtime"
-
-
 
 describe("IsScalar<T>", () => {
 
@@ -35,7 +33,6 @@ describe("IsScalar<T>", () => {
     ];
   });
 
-
   it("addressing union types", () => {
     type SomeScalar = IsScalar<number | number[]>;
     type AllScalarUnion = IsScalar<44 | 55>;
@@ -47,7 +44,6 @@ describe("IsScalar<T>", () => {
       Expect<Test<None, "equals",  false>>,
     ];
   });
-
 
 });
 
@@ -78,7 +74,6 @@ describe("isScalar(value) runtime type guard", () => {
     expect(f1).toBe(false);
   });
 
-
   it("types at runtime", () => {
     const val: unknown = 42 as unknown;
 
@@ -95,6 +90,5 @@ describe("isScalar(value) runtime type guard", () => {
     }
 
   });
-
 
 });

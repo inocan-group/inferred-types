@@ -1,9 +1,9 @@
-import { Expect, Test } from "inferred-types/types";
+
 import { describe, expect, it } from "vitest";
 import { isInUnion } from "inferred-types/runtime";
+import type { Expect, Test } from "inferred-types/types";
 
 describe("isInUnion(elements) => TypeGuard", () => {
-
 
     it("create type guard", () => {
         const tg = isInUnion(1, 2, 3);
@@ -14,7 +14,6 @@ describe("isInUnion(elements) => TypeGuard", () => {
             Expect<Test<typeof tg, "equals", (val: unknown) => val is 1 | 2 | 3>>,
         ];
     });
-
 
     it("happy path", () => {
         const fooBarBaz = isInUnion("foo", "bar", "baz")

@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IdentityFn,
-    Test
-} from "inferred-types/types";
+import type { Expect, IdentityFn, Test } from "inferred-types/types";
 
 describe("IdentityFn<T,[TNarrow]>", () => {
 
@@ -16,7 +12,6 @@ describe("IdentityFn<T,[TNarrow]>", () => {
             Expect<Test<Lit, "equals",  () => 42>>,
         ];
     });
-
 
     it("with narrowing", () => {
         type Num = IdentityFn<number, true>;

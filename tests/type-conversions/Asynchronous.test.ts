@@ -1,5 +1,6 @@
-import { Expect, Asynchronous, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Asynchronous, Expect, Test } from "inferred-types/types";
 
 describe("Asynchronous<T>", () => {
 

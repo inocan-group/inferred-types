@@ -1,7 +1,6 @@
-import { Expect, HasCharacters, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, HasCharacters, Test } from "inferred-types/types";
 
 describe("HasCharacter", () => {
 
@@ -34,7 +33,6 @@ describe("HasCharacter", () => {
         ];
     });
 
-
     it("Tuple for character patterns", () => {
         type With = HasCharacters<"hi", ["h", "i"]>;
         type Without = HasCharacters<"42", ["h", "i"]>;
@@ -43,7 +41,6 @@ describe("HasCharacter", () => {
             Expect<Test<With, "equals", true>>,
             Expect<Test<Without, "equals", false>>
         ];
-
 
     });
 
@@ -56,8 +53,6 @@ describe("HasCharacter", () => {
             Expect<Test<Without, "equals", false>>
         ];
 
-
     });
-
 
 });

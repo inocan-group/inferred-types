@@ -1,11 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Contains,
-    Expect,
-    GetInputToken,
-    IT_TakeGroup,
-    Test,
-} from "inferred-types/types";
+import type { Contains, Expect, GetInputToken, IT_TakeGroup, Test } from "inferred-types/types";
 
 describe("IT_TakeGroup<T>", () => {
 
@@ -21,7 +15,6 @@ describe("IT_TakeGroup<T>", () => {
             Expect<Test<Num["type"], "equals", 123>>,
         ];
     });
-
 
     it("incomplete group results in error", () => {
         type E = IT_TakeGroup<`(123`>;
@@ -41,6 +34,5 @@ describe("IT_TakeGroup<T>", () => {
             Expect<Test<FnWithProps["rest"], "equals", "& { foo: 1; bar: 2 }">>,
         ];
     });
-
 
 });

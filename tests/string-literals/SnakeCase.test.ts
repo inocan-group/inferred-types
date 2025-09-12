@@ -33,7 +33,6 @@ describe("toSnakeCase() function", () => {
         expect(toSnakeCase(" space case ", true)).toEqual(" space_case ");
     });
 
-
     it("SnakeCase<T> typing", () => {
         const dash = "one-two-three";
         const snake = "one_two_three";
@@ -56,7 +55,6 @@ describe("toSnakeCase() function", () => {
         ];
 
     });
-
 
 });
 

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { Expect, NumericChar, RetainUntil, Test } from "inferred-types/types";
+import type { Expect, NumericChar, RetainUntil, Test } from "inferred-types/types";
+
 import { retainUntil, retainUntilInclusive } from "inferred-types/runtime";
 import { NUMERIC_CHAR } from "inferred-types/constants";
-
 
 describe("RetainUntil<TContent,TComparator>", () => {
 
@@ -15,7 +15,6 @@ describe("RetainUntil<TContent,TComparator>", () => {
 
   });
 });
-
 
 describe("retainUntil(content, ...find) runtime", () => {
 
@@ -35,7 +34,6 @@ describe("retainUntil(content, ...find) runtime", () => {
   });
 });
 
-
 describe("retainUntilInclusive(content, ...find)", () => {
 
   it("happy path", () => {
@@ -54,5 +52,4 @@ describe("retainUntilInclusive(content, ...find)", () => {
   });
 
 });
-
 

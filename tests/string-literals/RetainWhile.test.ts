@@ -1,13 +1,8 @@
 import { describe, it } from "vitest";
 import { NUMERIC_CHAR } from "inferred-types/constants";
-import {
-    Expect,
-    NumericChar,
-    RetainWhile,
-    Test,
-} from "inferred-types/types";
-import { retainWhile, } from "inferred-types/runtime"
+import type { Expect, NumericChar, RetainWhile, Test } from "inferred-types/types";
 
+import { retainWhile, } from "inferred-types/runtime"
 
 describe("RetainWhile<TContent,TComparator>", () => {
 
@@ -20,7 +15,6 @@ describe("RetainWhile<TContent,TComparator>", () => {
   });
 
 });
-
 
 describe("retainWhile(content,...retain)", () => {
 

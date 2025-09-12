@@ -1,8 +1,6 @@
-import { Expect, DomainName, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
-
+import type { DomainName, Expect, Test } from "inferred-types/types";
 
 describe("DomainName<TDomain,TPrefixes>", () => {
 

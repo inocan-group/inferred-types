@@ -1,7 +1,6 @@
-import { Expect, Test, UnionWithAll } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Test, UnionWithAll } from "inferred-types/types";
 
 describe("UnionWithAll<TList,TUnion>", () => {
 

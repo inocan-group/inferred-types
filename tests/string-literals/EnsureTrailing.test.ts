@@ -1,7 +1,7 @@
 import { ensureTrailing } from "inferred-types/runtime";
-import { Expect, EnsureTrailing, Test } from "inferred-types/types";
-import { describe, expect, it } from "vitest";
+import type { EnsureTrailing, Expect, Test } from "inferred-types/types";
 
+import { describe, expect, it } from "vitest";
 
 describe("EnsureTrailing", () => {
 

@@ -1,7 +1,6 @@
-import { NotLength, Test, Expect } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, NotLength, Test } from "inferred-types/types";
 
 describe("NotLength<T,U>", () => {
 

@@ -1,16 +1,10 @@
+import type { Expect, Find, Test, UnionToTuple } from "inferred-types/types";
 /**
  * Find Type Performance Tests
  * 
  * Tests type-level performance of Find<> utility with various complexity levels
  * to identify type inference bottlenecks and union explosion issues.
  */
-
-import type { 
-    Find, 
-    Expect, 
-    Test,
-    UnionToTuple
-} from "inferred-types/types";
 
 // =============================================================================
 // UNION SIZE MEASUREMENT UTILITIES

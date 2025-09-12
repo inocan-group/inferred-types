@@ -1,14 +1,7 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    Extends,
-    PhoneNumber,
-    HasPhoneCountryCode,
-    Test,
-} from "inferred-types/types";
+import type { Expect, Extends, HasPhoneCountryCode, PhoneNumber, Test } from "inferred-types/types";
+
 import { isPhoneNumber } from "inferred-types/runtime";
-
-
 
 describe("isPhoneNumber(val)", () => {
 
@@ -113,5 +106,4 @@ describe("HasCountryCode<TPhone,TExplicit>", () => {
     });
 
 });
-
 

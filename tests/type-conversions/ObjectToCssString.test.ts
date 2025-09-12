@@ -1,12 +1,6 @@
-import {
-    Expect,
-    Test,
-    ExplicitlyEmptyObject,
-    ObjectToCssString,
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, ExplicitlyEmptyObject, ObjectToCssString, Test } from "inferred-types/types";
 
 describe("ObjectToCssString<T>", () => {
 

@@ -1,10 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    DefaultNesting,
-    Expect,
-    IsNestingMatchEnd,
-    Test,
-} from "inferred-types/types";
+import type { DefaultNesting, Expect, IsNestingMatchEnd, Test } from "inferred-types/types";
 
 describe("IsNestingMatchEnd<TChar,TStack,TNesting>", () => {
 

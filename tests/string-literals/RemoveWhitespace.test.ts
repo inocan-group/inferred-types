@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, RemoveWhitespace, Test } from "inferred-types/types";
+import type { Expect, RemoveWhitespace, Test } from "inferred-types/types";
 
 describe("RemoveWhitespace<T>", () => {
 

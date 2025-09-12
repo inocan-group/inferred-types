@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, RegexArray, Test } from "inferred-types/types";
+import type { Expect, RegexArray, Test } from "inferred-types/types";
 
 describe("RegexArray<T>", () => {
 

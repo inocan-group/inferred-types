@@ -1,7 +1,6 @@
-import { Expect, ExtendsSome, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, ExtendsSome, Test } from "inferred-types/types";
 
 describe("ExtendsSome<V,T>", () => {
 
@@ -24,6 +23,4 @@ describe("ExtendsSome<V,T>", () => {
         ];
     });
 });
-
-
 

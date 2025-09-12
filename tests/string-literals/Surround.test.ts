@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, Surround, Test } from "inferred-types/types";
-import { SurroundWith, surround } from "inferred-types/runtime";
+import type { Expect, Surround, Test } from "inferred-types/types";
 
+import { SurroundWith, surround } from "inferred-types/runtime";
 
 describe("Surround<TContent,TPre,TPost>", () => {
 

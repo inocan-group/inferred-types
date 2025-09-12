@@ -1,8 +1,7 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { AreSameLength, Expect, Test } from "inferred-types/types";
+import type { AreSameLength, Expect, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
 
 describe("OfEqualLength<A,B>", () => {
 

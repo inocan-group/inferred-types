@@ -1,9 +1,6 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsIsoYear,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsIsoYear, Test } from "inferred-types/types";
+
 import { EmptyObject } from "inferred-types";
 
 describe("IsIsoYear<T>", () => {

@@ -1,7 +1,6 @@
-import { Dictionary, Expect, Some, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Dictionary, Expect, Some, Test } from "inferred-types/types";
 
 describe("Some<TContainer,TOp,TComparator>", () => {
 
@@ -31,16 +30,12 @@ describe("Some<TContainer,TOp,TComparator>", () => {
         ];
     });
 
-
-
-
     it("testing KV Object", () => {
         type T1 = Some<{foo: "hi", bar: 42}, "extends", [number]>;
         type T2 = Some<{foo: "hi", bar: 42}, "equals", [42]>;
 
         type F1 = Some<{foo: "hi", bar: "bye"}, "extends", [number]>;
         type F2 = Some<{foo: "hi", bar: 42}, "equals", [number]>;
-
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -51,8 +46,6 @@ describe("Some<TContainer,TOp,TComparator>", () => {
         ];
     });
 
-
-
     it("Wide Containers result in boolean", () => {
         type B1 = Some<string[], "extends", ["42"]>;
         type B2 = Some<Dictionary, "extends", ["42"]>;
@@ -62,8 +55,6 @@ describe("Some<TContainer,TOp,TComparator>", () => {
             Expect<Test<B2, "equals", boolean>>,
         ];
     });
-
-
 
 });
 

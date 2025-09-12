@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    FromNesting,
-    Nest,
-    Test,
-    BracketNesting,
-    QuoteNesting,
-} from "inferred-types/types";
+import type { BracketNesting, Expect, FromNesting, Nest, QuoteNesting, Test } from "inferred-types/types";
 
 describe("FromNesting<T>", () => {
 

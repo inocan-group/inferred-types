@@ -1,7 +1,6 @@
-import { Expect,StartsWith, Test, UpperAlphaChar } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, StartsWith, Test, UpperAlphaChar } from "inferred-types/types";
 
 describe("StartsWith<TValue,TTest>", () => {
 
@@ -64,5 +63,4 @@ describe("StartsWith<TValue,TTest>", () => {
     });
 
 });
-
 

@@ -1,9 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { SimpleToken } from "inferred-types/types";
+import type { SimpleToken } from "inferred-types/types";
+
 import { isSimpleTokenTuple } from "inferred-types/runtime"
-
-
-
 
 describe("isSimpleTokenTuple(val)", () => {
   const t = <T extends SimpleToken>(token: T) => token;
@@ -24,7 +22,6 @@ describe("isSimpleTokenTuple(val)", () => {
     expect(isSimpleTokenTuple([])).toBe(false);
   });
 
-
   it("with dynamic variables", () => {
 
     const t1 = [t("Dict<{id: number}>"), "string", "number"];
@@ -43,6 +40,5 @@ describe("isSimpleTokenTuple(val)", () => {
     expect(isSimpleTokenTuple(f1)).toBe(false);
     expect(isSimpleTokenTuple(f2)).toBe(false);
   });
-
 
 });

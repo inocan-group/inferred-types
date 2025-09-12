@@ -1,12 +1,6 @@
-import {
-    Expect,
-    Iso3166Alpha2Lookup,
-    Iso3166CountryLookup,
-    Test
-} from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Iso3166Alpha2Lookup, Iso3166CountryLookup, Test } from "inferred-types/types";
 
 describe("Iso3166CountryLookup<T>", () => {
 

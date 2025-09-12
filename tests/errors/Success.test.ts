@@ -1,5 +1,6 @@
-import { Expect, Err, Success, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Err, Expect, Success, Test } from "inferred-types/types";
 
 describe("Success<T>", () => {
 
@@ -15,7 +16,6 @@ describe("Success<T>", () => {
         ];
     });
 
-
     it("using a typed error", () => {
         type T1 = Success<Err<`Oops`> | string>;
 
@@ -24,7 +24,6 @@ describe("Success<T>", () => {
         ];
     });
 
-
     it("no impact using on a type without an error in the union type", () => {
         type T1 = Success<string>;
 
@@ -32,7 +31,5 @@ describe("Success<T>", () => {
             Expect<Test<T1, "equals",  string>>
         ];
     });
-
-
 
 });

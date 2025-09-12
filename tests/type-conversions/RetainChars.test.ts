@@ -1,12 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    AlphaChar,
-    NumericChar,
-    RetainChars,
-    Test,
-    AlphanumericChar
-} from "inferred-types/types";
+import type { AlphaChar, AlphanumericChar, Expect, NumericChar, RetainChars, Test } from "inferred-types/types";
 
 describe("RetainChars<TContent,TStrip>", () => {
 
@@ -22,7 +15,6 @@ describe("RetainChars<TContent,TStrip>", () => {
         ];
 
     });
-
 
     it("using wide values", () => {
         type WideContent = RetainChars<string, NumericChar>;

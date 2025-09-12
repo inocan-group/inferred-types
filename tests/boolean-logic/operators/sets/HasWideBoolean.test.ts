@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    HasWideBoolean,
-    Test,
-} from "inferred-types/types";
+import type { Expect, HasWideBoolean, Test } from "inferred-types/types";
 
 describe("HasWideBoolean<T>", () => {
 
@@ -19,7 +15,6 @@ describe("HasWideBoolean<T>", () => {
         ];
     });
 
-
     it("negative tests", () => {
         type F1 = HasWideBoolean<[1,2]>;
         type F2 = HasWideBoolean<[]>;
@@ -32,7 +27,6 @@ describe("HasWideBoolean<T>", () => {
         ];
     });
 
-
     it("any, never", () => {
         type E1 = HasWideBoolean<any>;
         type E2 = HasWideBoolean<never>;
@@ -42,7 +36,5 @@ describe("HasWideBoolean<T>", () => {
             Expect<Test<E2, "isError", "invalid">>,
         ];
     });
-
-
 
 });

@@ -1,5 +1,6 @@
-import { Expect, AfterLast, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { AfterLast, Expect, Test } from "inferred-types/types";
 
 describe("AfterLast<TText, TFind, [TBreak]>", () => {
 

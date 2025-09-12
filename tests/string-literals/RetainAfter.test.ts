@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { Expect, RetainAfter, Test, Whitespace } from "inferred-types/types";
+import type { Expect, RetainAfter, Test, Whitespace } from "inferred-types/types";
+
 import { retainAfter, retainAfterInclusive } from "inferred-types/runtime";
 import { WHITESPACE_CHARS } from "inferred-types/constants";
-
 
 describe("RetainAfter<TStr,TBreak>", () => {
 
@@ -30,7 +30,6 @@ describe("RetainAfter<TStr,TBreak>", () => {
         ];
 
     });
-
 
     it("using a union type to break", () => {
         type World = RetainAfter<"hello world", " " | "\t">;
@@ -68,7 +67,6 @@ describe("retainAfter(contend,find) runtime utility", () => {
         ];
     });
 
-
     it("using an array of value for breaking", () => {
         const barBaz = retainAfter("foo\nbar\tbaz", ...WHITESPACE_CHARS);
 
@@ -79,6 +77,5 @@ describe("retainAfter(contend,find) runtime utility", () => {
         ];
 
     });
-
 
 });

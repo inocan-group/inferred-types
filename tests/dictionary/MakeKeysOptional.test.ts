@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, MakeKeysOptional, Test } from "inferred-types/types";
-
-
+import type { Expect, MakeKeysOptional, Test } from "inferred-types/types";
 
 describe("MakeKeysOptional<TObj,TKeys>", () => {
 
@@ -14,7 +12,6 @@ describe("MakeKeysOptional<TObj,TKeys>", () => {
                 Expect<Test<Opt, "equals", { foo: 1; bar?: 2 | undefined }>>
             ];
         });
-
 
         it("convert key which is already optional", () => {
             type Obj = { foo: 1; bar?: 2 };
@@ -36,7 +33,6 @@ describe("MakeKeysOptional<TObj,TKeys>", () => {
     });
 
     describe("array", () => {
-
 
         it("partial", () => {
             type T1 = MakeKeysOptional<[1,2,3],1>;
@@ -67,7 +63,6 @@ describe("MakeKeysOptional<TObj,TKeys>", () => {
                 Expect<Test<T2, "equals", [1?,2?,3?]>>,
             ];
         });
-
 
         it("too many", () => {
             type T1 = MakeKeysOptional<[1,2,3],8>;

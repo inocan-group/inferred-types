@@ -1,12 +1,11 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
+import type { FnKeyValue, FnWithProps, Test } from "inferred-types/types";
 
 import {
     createFnWithProps,
     fnProps
 } from "inferred-types/runtime";
-import { FnKeyValue, FnWithProps, Test } from "inferred-types/types";
-
 
 const fn = () => "hi" as const;
 
@@ -71,7 +70,6 @@ describe("createFnWithProps()", () => {
 
     });
 
-
     it("anon function has empty string for name", () => {
         const anon = createFnWithProps(() => "hi", { foo: 42 });
 
@@ -84,7 +82,6 @@ describe("createFnWithProps()", () => {
         ];
     });
 
-
     it("named function retains name for combined output", () => {
         const named = createFnWithProps(function Welcome() { return "hi" }, { foo: 42 });
 
@@ -96,7 +93,6 @@ describe("createFnWithProps()", () => {
             Expect<Test<Named, "equals",  string>>,
         ];
     });
-
 
     it("anon function can be given name when name is part of props", () => {
         const anon = createFnWithProps(() => "hi", { foo: 42, name: "Foo" });

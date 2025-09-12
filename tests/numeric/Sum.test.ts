@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test } from "inferred-types/types";
-import { Sum } from "inferred-types/types";
+import type { Expect, Sum, Test } from "inferred-types/types";
 
 describe("Sum<T>", () => {
     it("empty array returns 0", () => {

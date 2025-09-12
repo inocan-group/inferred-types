@@ -1,11 +1,8 @@
 /* eslint-disable ts/ban-ts-comment */
 import {  Expect, ExpectTrue } from "@type-challenges/utils";
 import { getWeekNumber } from "inferred-types/runtime";
-import {
-  Extends,
-  IsLuxonDateTime,
-  Test,
-} from "inferred-types/types";
+import type { Extends, IsLuxonDateTime, Test } from "inferred-types/types";
+
 import { DateTime } from "luxon";
 import moment from "moment";
 import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
@@ -107,8 +104,6 @@ describe("getWeekNumber()", () => {
     expect(getWeekNumber("2024-12-31T23:59:59Z")).toBe(1);
   });
 
-
-
   it("should handle default parameter (current date)", () => {
     expect(getWeekNumber()).toBe(3); // Week 3 for January 15, 2024
   });
@@ -118,7 +113,6 @@ describe("getWeekNumber()", () => {
     expect(getWeekNumber(testDate), `Jan 7th of 2024 should be in week 1, if starting on Monday `).toBe(1);
 
   });
-
 
   it("should handle invalid inputs gracefully", () => {
       expect(() => getWeekNumber(null as any)).toThrow();

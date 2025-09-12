@@ -1,10 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
+import type { Decrement, Test } from "inferred-types/types";
 
-import { Decrement, Test } from "inferred-types/types";
 import { decrement } from "inferred-types/runtime";
-
-
 
 describe("Decrement<T>", () => {
 
@@ -36,7 +34,6 @@ describe("Decrement<T>", () => {
 
 describe("decrement(val)", () => {
 
-
     it("happy path", () => {
         const two = decrement(2);
         const twoStr = decrement("2");
@@ -49,6 +46,5 @@ describe("decrement(val)", () => {
             Expect<Test<typeof twoStr, "equals", "1">>,
         ];
     });
-
 
 })

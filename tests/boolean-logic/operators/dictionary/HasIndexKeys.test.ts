@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    HasIndexKeys,
-    Test,
-} from "inferred-types/types";
+import type { Expect, HasIndexKeys, Test } from "inferred-types/types";
 
 describe("HasIndexKeys<T>", () => {
 
@@ -29,7 +25,6 @@ describe("HasIndexKeys<T>", () => {
 
         ];
     });
-
 
     it("template literal indexes", () => {
         type T1 = HasIndexKeys<{foo: 1; [key: `_${string}`]: string }>;
@@ -123,6 +118,5 @@ describe("HasIndexKeys<T>", () => {
             Expect<Test<UnionNoIndex, "equals", false>>,
         ];
     });
-
 
 });

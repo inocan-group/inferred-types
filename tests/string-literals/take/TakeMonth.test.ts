@@ -1,5 +1,6 @@
-import type { TakeMonth, Equals, Expect, TwoDigitMonth, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Equals, Expect, TakeMonth, Test, TwoDigitMonth } from "inferred-types/types";
 
 describe("TakeMonth", () => {
     it("valid months (01-12)", () => {

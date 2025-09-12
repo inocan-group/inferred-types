@@ -1,5 +1,6 @@
-import { Expect, MapKeys, Test } from "inferred-types/types";
+
 import { describe, it } from "vitest";
+import type { Expect, MapKeys, Test } from "inferred-types/types";
 
 describe("MapKeys<TText,TFromTo>", () => {
     it("Using ToFrom[] to replace multiple things", () => {
@@ -29,7 +30,6 @@ describe("MapKeys<TText,TFromTo>", () => {
         ];
     });
 
-
     it("testing deep replacement", () => {
         type Obj = { _foo: { _bar_: 2; _baz: 3 } }
         type FooBarBaz = MapKeys<Obj, [
@@ -49,7 +49,6 @@ describe("MapKeys<TText,TFromTo>", () => {
         ];
     });
 
-
     it("testing with replacing only first instance", () => {
         type Obj = { _foo_: { _bar_: 2; _baz: 3 } }
         type FooBarBaz = MapKeys<Obj, [
@@ -62,8 +61,6 @@ describe("MapKeys<TText,TFromTo>", () => {
             Expect<Test<FooBarBaz, "equals", { Foo_: { Bar_: 2; Baz: 3 } }>>,
         ];
     });
-
-
 
     it("convert to specific casing", () => {
         type Obj = { foo_bar: { "bar-baz": 2; } }

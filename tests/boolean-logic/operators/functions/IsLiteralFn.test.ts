@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
-import { Expect, Test, IsLiteralFn } from "inferred-types/types";
-import { TypedFunction } from "inferred-types";
+import type { Expect, IsLiteralFn, Test } from "inferred-types/types";
 
+import { TypedFunction } from "inferred-types";
 
 describe("IsLiteralFn<T>", () => {
     it("should return true for literal functions with literal parameters and return types", () => {
@@ -42,7 +42,6 @@ describe("IsLiteralFn<T>", () => {
         ];
     });
 
-
     it("should return false with variadic parameters unless explicitly allowed for", () => {
         type T1 = IsLiteralFn<(name: string, ...nickNames: string[]) => string, "allow-variadic-tail">;
         type F1 = IsLiteralFn<(name: string, ...nickNames: string[]) => string>;
@@ -53,7 +52,6 @@ describe("IsLiteralFn<T>", () => {
         ];
     });
 
-
     it("should return false when a wide array is used for parameters", () => {
         type F1 = IsLiteralFn<TypedFunction>;
         type F2 = IsLiteralFn<((...params: any[]) => string)>;
@@ -63,8 +61,6 @@ describe("IsLiteralFn<T>", () => {
             Expect<Test<F2, "equals", false>>,
         ];
     });
-
-
 
     it("should return true for functions with non-literal return types", () => {
         // Function with string return type (non-literal)

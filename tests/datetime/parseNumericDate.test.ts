@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { parseNumericDate, keysOf } from "inferred-types/runtime";
-import { DateMeta, Expect, Test } from 'inferred-types/types';
+import type { DateMeta, Expect, Test } from "inferred-types/types";
 
 describe("parseNumericDate()", () => {
     it("parses epoch milliseconds", () => {

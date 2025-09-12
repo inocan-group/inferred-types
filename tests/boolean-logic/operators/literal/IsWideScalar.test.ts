@@ -1,9 +1,5 @@
 import { describe, it } from "vitest";
-import {
-    Expect,
-    IsWideScalar,
-    Test,
-} from "inferred-types/types";
+import type { Expect, IsWideScalar, Test } from "inferred-types/types";
 
 describe("IsWideScalar<T>", () => {
     it("should return true for wide scalar types", () => {

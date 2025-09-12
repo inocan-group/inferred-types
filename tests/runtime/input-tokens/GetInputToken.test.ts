@@ -1,12 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-    Expect,
-    GetInputToken,
-    IT_Token,
-    Test,
-    Err,
-    IT_TakeTokenGenerics
-} from "inferred-types/types";
+import type { Err, Expect, GetInputToken, IT_TakeTokenGenerics, IT_Token, Test } from "inferred-types/types";
 
 describe("GetInputToken<T>", () => {
 
@@ -28,7 +21,6 @@ describe("GetInputToken<T>", () => {
             Expect<Test<Undef["type"], "equals", undefined>>,
         ];
     });
-
 
     it("string literals", () => {
         type Foo = GetInputToken<`"foo"`>;
@@ -64,7 +56,6 @@ describe("GetInputToken<T>", () => {
         ];
     });
 
-
     it("arrays", () => {
         type StrArr = GetInputToken<`string[]`>;
         type StrArr2 = GetInputToken<`string[][]`>;
@@ -76,7 +67,6 @@ describe("GetInputToken<T>", () => {
         type ArrOfUnion3 = GetInputToken<"(string | number)[]">;
 
         type Invalid = GetInputToken<"(foobar)[]">;
-
 
         type cases = [
             Expect<Test<StrArr, "extends", IT_Token<"array">>>,
@@ -96,11 +86,9 @@ describe("GetInputToken<T>", () => {
         ];
     });
 
-
     it("unions", () => {
         type U1 = GetInputToken<"string | number">;
         type U2 = GetInputToken<"string | Record<string, string | number>">;
-
 
         type cases = [
             Expect<Test<U1, "extends", IT_Token<"union">>>,
@@ -110,7 +98,6 @@ describe("GetInputToken<T>", () => {
             Expect<Test<U2["type"], "equals", string | Record<string, string | number>>>,
         ];
     });
-
 
     it("KV Objects", () => {
         type Rec1 = GetInputToken<"Record<string, string>">;
@@ -132,7 +119,6 @@ describe("GetInputToken<T>", () => {
         ];
     });
 
-
     it("Sets", () => {
         type Set1 = GetInputToken<"Set<string>">;
         type Set2 = GetInputToken<"Set<Record<string,string>>">;
@@ -145,7 +131,6 @@ describe("GetInputToken<T>", () => {
         ];
     });
 
-
     it("Functions", () => {
         type ArrowFn = GetInputToken<"() => string">;
         // named functions use ':' to separate params from return type
@@ -154,7 +139,6 @@ describe("GetInputToken<T>", () => {
         type cases = [
             Expect<Test<ArrowFn, "extends", IT_Token<"function">>>,
             Expect<Test<ArrowFn["type"], "equals", () => string>>,
-
 
             Expect<Test<
                 NamedFn["type"],
@@ -186,7 +170,6 @@ describe("GetInputToken<T>", () => {
         ];
     })
 
-
     it("Functions with Generics", () => {
         type ArrowFnWithGenerics = GetInputToken<"<T extends string>(name: T) => 'Hi {{string}}'">;
         type T1 = ArrowFnWithGenerics["type"];
@@ -203,7 +186,6 @@ describe("GetInputToken<T>", () => {
         type ArrowFnWithMultiGenericsImpactReturn = GetInputToken<
             "<TName extends string, TAge extends number>(name: TName, age: TAge) => 'Hi ${TName}; you are ${TAge} years old'"
         >;
-
 
         type cases = [
             Expect<Test<ArrowFnWithGenerics, "extends", IT_Token<"function">>>,
@@ -225,9 +207,6 @@ describe("GetInputToken<T>", () => {
         ];
     });
 
-
-
-
     it("Edge Cases", () => {
         type Inc = GetInputToken<"Array<string | boolean> & trailing ">;
 
@@ -235,7 +214,6 @@ describe("GetInputToken<T>", () => {
             Expect<Test<Inc, "isError", "malformed-token/intersection">>,
         ];
     });
-
 
     it("Multiple Combinators", () => {
         // (number & boolean) => never, so when in union with `string` the type is just `string`
@@ -252,6 +230,5 @@ describe("GetInputToken<T>", () => {
     });
 
 });
-
 
 describe.todo("getInputToken(token)");

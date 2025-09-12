@@ -1,7 +1,6 @@
-import { Expect,  Narrowable, Test, RemoveIndexKeys, WithKeys, ObjectKeys } from "inferred-types/types";
+
 import { describe, it } from "vitest";
-
-
+import type { Expect, Narrowable, ObjectKeys, RemoveIndexKeys, Test, WithKeys } from "inferred-types/types";
 
 describe("RemoveIndexKeys<T>", () => {
 
@@ -54,7 +53,6 @@ describe("RemoveIndexKeys<T>", () => {
             Expect<Test<LiteralWithNarrowableIdx, "equals",  { foo: "bar" }>>,
         ];
     });
-
 
     it("template literal indexes", () => {
         type T1 = RemoveIndexKeys<{ foo: 1; bar: 2; [key: `_${string}`]: number}>;
@@ -137,7 +135,6 @@ describe("RemoveIndexKeys<T>", () => {
             Expect<Test<Complex2, "equals", { data: object }>>,
         ];
     });
-
 
 });
 

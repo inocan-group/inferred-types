@@ -1,8 +1,7 @@
-import { Expect, Test } from "inferred-types/types";
+
 import { isTypeToken } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
-
-
+import type { Expect, Test } from "inferred-types/types";
 
 describe("isTypeToken(token, kind)", () => {
 

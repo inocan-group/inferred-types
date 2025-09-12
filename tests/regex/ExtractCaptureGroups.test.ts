@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { ExtractCaptureGroups, Test } from "inferred-types/types";
+import type { ExtractCaptureGroups, Test } from "inferred-types/types";
 
 describe("ExtractCaptureGroups<T>", () => {
 

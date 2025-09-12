@@ -1,7 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, Test, ToInteger } from "inferred-types/types";
-
-
+import type { Expect, Test, ToInteger } from "inferred-types/types";
 
 describe("ToInteger", () => {
 

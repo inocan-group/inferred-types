@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { Expect, EnsureLeading, Test } from "inferred-types/types";
+import type { EnsureLeading, Expect, Test } from "inferred-types/types";
+
 import { ensureLeading } from "inferred-types/runtime";
-
-
 
 describe("EnsureLeading", () => {
 
@@ -31,7 +30,6 @@ describe("EnsureLeading", () => {
     ];
   });
 
-
   it("use where TContent is a tuple", () => {
     type SuperWide = EnsureLeading<[string, number], string>;
     type Foo = EnsureLeading<["Foo", "Bar"], "Foo">;
@@ -57,7 +55,6 @@ describe("ensureLeading()", () => {
       Expect<Test<typeof fooBar, "equals",  "FooBar">>,
     ];
   });
-
 
   it("brackets", () => {
     const square = ensureLeading("FooBar", "[[");
