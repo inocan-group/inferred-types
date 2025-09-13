@@ -70,7 +70,7 @@ type GetVariant<T extends TakeStartMatches> = T extends TakeStartMatches<"callba
     variant: "mapper";
     callback: undefined;
     matches: StringKeys<T>;
-    lookup: T;
+    lookup: T[0];
 }
 : T extends TakeStartMatches<"default">
 ? {
@@ -96,7 +96,7 @@ function getVariant<const T extends TakeStartMatches>(matches: T): GetVariant<T>
             variant: "mapper",
             callback: undefined,
             matches: keysOf(matches[0]),
-            lookup: matches
+            lookup: matches[0]
         } as unknown as GetVariant<T>
     } else {
         return {
@@ -109,7 +109,7 @@ function getVariant<const T extends TakeStartMatches>(matches: T): GetVariant<T>
 }
 
 function handleCallback<T extends TakeState | Err<"skip"> | Err<"no-token"> | Err<"invalid-token">>(result: T) {
-
+    return result;
 }
 
 
@@ -186,33 +186,53 @@ export function takeStart<T extends TakeStartMatches>(...config: T): TakeStartFn
         const state = asTakeState(value);
 
         const match = findMatch(state, matches);
-        const token = match !== undefined
-            ? variant === "default"
-                ? match
-                : variant === "mapper"
-                ? lookup[match as keyof typeof lookup]
-                : variant === "callback"
-                ? handleCallback(callback(state.parseString, state))
-                : Never
-            : undefined;
 
-        if (isErr(token, "invalid-token")) {
-            return token as unknown as TakeStart<T,U>
+        // no match; return state unchanged
+        if (!match) {
+            return state as unknown as TakeStart<T, U>;
         }
 
-        return (
-            match && (
-                variant !== "callback" ||
-                !isErr(token, "skip")
-            )
-            ? {
+        if (variant === "default") {
+            const token = match;
+            return {
                 kind: "TakeState",
-                parsed: [...state["parsed"], match],
+                parsed: [...state.parsed, match],
                 parseString: stripLeading(state.parseString, match),
-                tokens: [...state["tokens"], token]
-            }
-            : state
-        )  as TakeStart<T,U>
+                tokens: [...state.tokens, token]
+            } as unknown as TakeStart<T, U>;
+        }
+
+        if (variant === "mapper") {
+            const mapped = lookup[match as keyof typeof lookup];
+            const token = Array.isArray(mapped) ? (mapped as unknown[])[0] : mapped;
+
+            return {
+                kind: "TakeState",
+                parsed: [...state.parsed, match],
+                parseString: stripLeading(state.parseString, match),
+                tokens: [...state.tokens, token]
+            } as unknown as TakeStart<T, U>;
+        }
+
+        // callback variant
+        const cbResult = handleCallback(callback!(match, state));
+        if (isErr(cbResult, "invalid-token")) {
+            return cbResult as unknown as TakeStart<T, U>;
+        }
+        if (isErr(cbResult, "skip")) {
+            return state as unknown as TakeStart<T, U>;
+        }
+        if (isErr(cbResult, "no-token")) {
+            return {
+                kind: "TakeState",
+                parsed: [...state.parsed, match],
+                parseString: stripLeading(state.parseString, match),
+                tokens: [...state.tokens]
+            } as unknown as TakeStart<T, U>;
+        }
+
+        // assume callback returned a valid TakeState
+        return cbResult as unknown as TakeStart<T, U>;
     }
 
     const result = createFnWithProps(fn, {

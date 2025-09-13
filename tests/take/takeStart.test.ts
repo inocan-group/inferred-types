@@ -65,7 +65,7 @@ describe("takeStart(...matches)(content)", () => {
 
             const take1 = takeStart("foo","bar")(content);
 
-            expect(take1).toBe({
+            expect(take1).toStrictEqual({
                 kind: "TakeState",
                 parsed: ["foo"],
                 parseString: "bar forever",
@@ -74,7 +74,7 @@ describe("takeStart(...matches)(content)", () => {
 
             const take2 = takeStart("foo","bar")(take1);
 
-            expect(take2).toBe({
+            expect(take2).toStrictEqual({
                 kind: "TakeState",
                 parsed: ["foo","bar"],
                 parseString: " forever",
@@ -102,7 +102,7 @@ describe("takeStart(...matches)(content)", () => {
                 kind: "TakeState",
                 parsed: ["foo"],
                 parseString: "bar forever",
-                tokens: ["foo"]
+                tokens: ["foey"]
             });
 
             const take2 = takeStart("foo","bar")(take1);
@@ -111,7 +111,7 @@ describe("takeStart(...matches)(content)", () => {
                 kind: "TakeState",
                 parsed: ["foo","bar"],
                 parseString: " forever",
-                tokens: ["foo","bar"]
+                tokens: ["foey","bar"]
             })
 
             type cases = [
