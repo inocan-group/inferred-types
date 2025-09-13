@@ -1,9 +1,7 @@
 import { describe, expect, it } from "vitest";
-import type { Expect, RetainUntil__Nested, Test } from "inferred-types/types";
-
+import { QUOTE_NESTING, ALPHA_CHARS, NUMERIC_CHAR } from "inferred-types/constants";
 import { isError, nesting, retainUntil__Nested } from "inferred-types/runtime";
-import { ALPHA_CHARS, NUMERIC_CHAR } from "inferred-types";
-import { QUOTE_NESTING } from "inferred-types/constants";
+import type { Expect, RetainUntil__Nested, Test } from "inferred-types/types";
 
 describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     type Fn = `function greet(name: string) { return "hi" + name; };`

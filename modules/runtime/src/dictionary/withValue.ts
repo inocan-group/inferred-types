@@ -1,6 +1,8 @@
 import type {
     Dictionary,
+    FromInputToken,
     FromSimpleToken,
+    InputToken,
     Narrowable,
     ObjectKey,
     SimpleToken,
@@ -29,15 +31,15 @@ export type DictionaryWithValueFilter<Without extends Narrowable> = <
  * manner -- removed the key/values where the value extends `string` or `"foo" | "bar"`
  * respectively.
  */
-export function withValue<TWithout extends SimpleToken>(
+export function withValue<TWithout extends InputToken>(
     wo: TWithout,
-): DictionaryWithValueFilter<FromSimpleToken<TWithout>> {
+): DictionaryWithValueFilter<FromInputToken<TWithout>> {
     return <
         T extends Record<ObjectKey, N>,
         N extends Narrowable,
     >(
         obj: T,
-    ): WithValue<T, FromSimpleToken<TWithout>> => {
+    ): WithValue<T, FromInputToken<TWithout>> => {
         const output: Dictionary = {};
 
         for (const key of keysOf(obj)) {
@@ -46,6 +48,6 @@ export function withValue<TWithout extends SimpleToken>(
                 output[key] = val;
             }
         }
-        return output as unknown as WithValue<T, FromSimpleToken<TWithout>>;
+        return output as unknown as WithValue<T, FromInputToken<TWithout>>;
     };
 }

@@ -13,7 +13,7 @@ describe("withoutValue(wo) => (obj) => obj", () => {
   it("strings", () => {
 
     const wide = withoutValue("string");
-    const narrow = withoutValue("string(hi,hello)");
+    const narrow = withoutValue(`"hi" | "hello"`);
 
     const wideObj = wide(obj);
     const narrowObj = narrow(obj);
@@ -21,7 +21,6 @@ describe("withoutValue(wo) => (obj) => obj", () => {
     expect(wideObj).toEqual({ bar: 42, baz: 99 });
     expect(narrowObj).toEqual({ bar: 42, baz: 99, bax: "bye" });
 
-    // @ts-ignore
     type cases = [
       Expect<Test<typeof wide, "equals",  DictionaryWithoutValueFilter<string>>>,
       Expect<Test<typeof narrow, "equals",  DictionaryWithoutValueFilter<"hi" | "hello">>>,

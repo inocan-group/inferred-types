@@ -18,8 +18,6 @@ import {
     undefinedType,
     unknown,
     fn,
-    dictionary,
-    tuple,
     array,
     map,
     record,
@@ -59,8 +57,6 @@ export const ShapeApiImplementation = {
     set,
     map,
     weakMap,
-    dictionary,
-    tuple,
 } as unknown as TShapeApi;
 
 /**

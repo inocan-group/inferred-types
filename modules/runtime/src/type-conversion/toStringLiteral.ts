@@ -140,7 +140,7 @@ export function toStringLiteral__Tuple<
  * **Related:** `toJSON()`
  */
 export function toStringLiteral<
-    T extends Scalar | Record<ObjectKey, V> | readonly (Scalar | Record<ObjectKey, V>)[],
+    const T extends Scalar | Record<ObjectKey, V> | readonly (Scalar | Record<ObjectKey, V>)[],
     V extends Narrowable,
     O extends ToLiteralOptions
 >(

@@ -66,7 +66,7 @@ describe("withValue(wo) => (obj) => obj", () => {
   it("strings", () => {
 
     const wide = withValue("string");
-    const narrow = withValue("string(hi,hello)");
+    const narrow = withValue(`"hi" | "hello"`);
 
     const wideObj = wide(obj);
     const narrowObj = narrow(obj);
@@ -74,7 +74,6 @@ describe("withValue(wo) => (obj) => obj", () => {
     expect(wideObj).toEqual({ foo: "hi", bax: "bye" });
     expect(narrowObj).toEqual({ foo: "hi" });
 
-    // @ts-ignore
     type cases = [
       Expect<Test<typeof wide, "equals",  DictionaryWithValueFilter<string>>>,
       Expect<Test<typeof narrow, "equals",  DictionaryWithValueFilter<"hi" | "hello">>>,

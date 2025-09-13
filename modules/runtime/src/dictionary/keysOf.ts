@@ -4,7 +4,7 @@ import type {
     Keys,
     ObjectKey,
 } from "inferred-types/types";
-import { isArray, isVueRef } from "inferred-types/runtime";
+import { isArray } from "inferred-types/runtime";
 
 /**
  * **keysOf**(container)
@@ -21,9 +21,7 @@ export function keysOf<
     container: TObj,
 ) {
     const keys: unknown = (
-        isVueRef(container)
-            ? ["value"]
-            : isArray(container)
+        isArray(container)
                 ? Object.keys(container).map(i => Number(i))
                 : Object.keys(container)
     );
