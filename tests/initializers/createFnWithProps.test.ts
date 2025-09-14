@@ -121,8 +121,8 @@ describe("createFnWithProps()", () => {
         ];
     });
 
-    it("key/values in original function are retained", () => {
-        const original = createFnWithProps(() => "hi", { foo: 42 });
+    it("key/values in original function are retained, return type declared as const", () => {
+        const original = createFnWithProps(() => "hi" as const, { foo: 42 });
 
         expect(fnProps(original)).toEqual({ foo: 42 });
 
@@ -143,6 +143,24 @@ describe("createFnWithProps()", () => {
             >>
         ];
     });
+
+
+    it("return type not expressed as const", () => {
+        const fn = createFnWithProps(() => "hi", { foo: 42 });
+
+        const rtn = fn();
+
+        expect(rtn).toBe("hi");
+        expect(fn.foo).toBe(42);
+
+        type cases = [
+            Expect<Test<typeof fn, "equals", (
+                    () => "hi"
+                ) & { foo: 42 }
+            >>
+        ];
+    });
+
 
     it("key/values in original function are retained but new values are retained", () => {
         const original = createFnWithProps(() => "hi", { foo: 42, bar: 50 });
