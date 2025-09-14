@@ -158,9 +158,9 @@ type Iterate<
         ? Iterate<Success["rest"], Success>
 
 // Intersection
-: Process<IT_TakeIntersection<TRemaining, TToken>> extends infer E extends Error
+: Process<IT_TakeIntersection<TToken, TRemaining>> extends infer E extends Error
     ? E
-    : Process<IT_TakeIntersection<TRemaining, TToken>> extends (infer Success extends IT_Token<"intersection">)
+    : Process<IT_TakeIntersection<TToken, TRemaining>> extends (infer Success extends IT_Token<"intersection">)
         ? Iterate<Success["rest"], Success>
 
 // Incomplete Parse
@@ -175,10 +175,10 @@ type Iterate<
             combinator: "none";
         }
     >
-    : Err<
-        "unparsed",
-        `The token string -- ${TRemaining} -- was unable to be parsed!`
-    >;
+: Err<
+    "unparsed",
+    `The token string -- ${TRemaining} -- was unable to be parsed!`
+>;
 
 /**
  * **GetInputToken**`<T>`

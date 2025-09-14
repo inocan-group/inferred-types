@@ -116,6 +116,9 @@ describe("FromInputToken<Token>", () => {
         type FN = FromInputToken<
             "function foo(name: string, age: number, color: 'red' | 'blue'): string"
         >;
+        type FnWithDict = FromInputToken<
+            "(function foo(name: string, age: number, color: 'red' | 'blue'): string) & { foo: 1 }"
+        >
 
         type cases = [
             Expect<Extends<F, TypedFunction>>,
@@ -147,6 +150,15 @@ describe("FromInputToken<Token>", () => {
                     name: "foo";
                 }
             >>,
+            Expect<Test<
+                FnWithDict,
+                "equals",
+                (<T extends readonly [string, number, "red" | "blue"]>(...args: T) => string) & {
+                    name: "foo";
+                    foo: 1;
+                }
+            >>,
+
         ];
     });
 
@@ -434,11 +446,11 @@ describe("FromInputToken<Token>", () => {
         type cases = [
             Expect<Test<M1, "equals", WeakMap<object, object>>>,
             Expect<Test<M2, "equals", WeakMap<object, string>>>,
-            Expect<Equal<M3, WeakMap<
+            Expect<Test<M3, "equals", WeakMap<
                 {id: number, data: string[]},
                 string
             >>>,
-            Expect<Equal<M4, WeakMap<
+            Expect<Test<M4, "equals", WeakMap<
                 Set<string>,
                 string
             >>>,

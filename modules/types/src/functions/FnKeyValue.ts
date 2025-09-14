@@ -8,11 +8,10 @@ import type {
 /**
  * Built-in function property keys which should NOT be treated as user props.
  */
-type BuiltinFnKeys
-    = | "arguments"
+type BuiltinFnKeys =
+    | "arguments"
     | "caller"
     | "length"
-    | "name"
     | "prototype"
     | "apply"
     | "call"

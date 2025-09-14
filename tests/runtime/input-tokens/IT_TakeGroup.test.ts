@@ -6,12 +6,12 @@ describe("IT_TakeGroup<T>", () => {
     it("happy path", () => {
         type Num = IT_TakeGroup<"(123)">;
         type Str = IT_TakeGroup<"('foo')">;
-        type Union = IT_TakeGroup<"('foo' | 'bar')">;
+        type Union = IT_TakeGroup<"('foo' | 'bar' | 'bax')">;
 
         type cases = [
             Expect<Test<Num["type"], "equals", 123>>,
             Expect<Test<Str["type"], "equals", "foo">>,
-            Expect<Test<Union["type"], "equals", "foo" | "bar">>,
+            Expect<Test<Union["type"], "equals", "foo" | "bar" | "bax">>,
             Expect<Test<Num["type"], "equals", 123>>,
         ];
     });

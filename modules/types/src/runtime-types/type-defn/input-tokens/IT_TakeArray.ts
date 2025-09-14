@@ -95,8 +95,13 @@ type IT_TakeArray_Bracket<T extends string> = T extends `Array<${infer Rest exte
         infer Block extends string,
         ...infer Rest extends readonly string[]
     ]
-        ?
-            GetInputToken<Block> extends infer Token extends IT_Token
+        ? Rest extends []
+            ? Err<
+                "malformed-token/array",
+                `The Array< signature indicates a bracketed array syntax but no terminating '>' character was found!`,
+                { token: T; block: Block; rest: Rest }
+            >
+            : GetInputToken<Block> extends infer Token extends IT_Token
             ? {
                 __kind: "IT_Token";
                 kind: "array";

@@ -18,6 +18,25 @@ import type {
 type X = NestedSplit<"'foo", "'">;
 type X2 = NestedSplit<"''", "'">;
 
+/**
+ * Join all parts with the separator, including between a non-empty
+ * part and a trailing empty string. This preserves a trailing separator
+ * when the split produced a final empty string.
+ */
+type JoinAll<
+    T extends readonly string[],
+    S extends string,
+    R extends string = ""
+> = [] extends T
+    ? R
+    : T extends [infer H extends string, ...infer Rest extends readonly string[]]
+        ? Rest["length"] extends 0
+            ? R extends ""
+                ? H
+                : `${R}${S}${H}`
+            : JoinAll<Rest, S, R extends "" ? H : `${R}${S}${H}`>
+        : R;
+
 type EmptyString<T extends string> = T extends `''${infer Rest}`
 ? {
     __kind: "IT_Token";
@@ -59,7 +78,7 @@ type Quoted<T extends string> = T extends `${infer Head}${infer Rest}`
                         kind: "literal";
                         token: `${Quote}${Block}${Quote}`;
                         type: AsLiteralTemplate<Block>;
-                        rest: Trim<Join<Rest, Quote>>;
+                        rest: Trim<JoinAll<Rest, Quote>>;
                 }
             : Err<
                 `malformed-token/string-literal`,

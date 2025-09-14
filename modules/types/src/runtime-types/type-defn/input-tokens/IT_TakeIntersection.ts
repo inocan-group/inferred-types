@@ -23,8 +23,8 @@ import type {
  * remaining parse string and converts it into an intersection type.
  */
 export type IT_TakeIntersection<
-    P extends string,
-    T extends IT_Token | undefined
+    T extends IT_Token | undefined,
+    P extends string
 > = undefined extends T
 ? Err<
     `malformed-token/intersection`,
