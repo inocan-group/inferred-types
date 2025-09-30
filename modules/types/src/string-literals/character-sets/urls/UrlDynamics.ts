@@ -8,18 +8,19 @@ import type {
     EmptyObject,
     ErrMsg,
     ExpandDictionary,
+    ExpandRecursively,
     First,
     FromSimpleToken,
     GetUrlPath,
     GetUrlQueryParams,
-    IsVariable,
     Keys,
     MergeObjects,
     SimpleToken,
     Some,
     Split,
     StringKeys,
-    Variable,
+    StripAfter,
+    StripLeading,
 } from "inferred-types/types";
 
 type SegmentType = (
@@ -78,35 +79,39 @@ export type FromNamedDynamicSegment<T extends string> = T extends `<string::${st
                                 ? string
                                 : never;
 
-type PathDynamics<
-    T extends readonly string[],
-    Kv extends Dictionary = EmptyObject,
-> = [] extends T
-    ? ExpandDictionary<Kv>
-    : PathDynamics<
-        AfterFirst<T>,
-        First<T> extends `${string}<${infer Candidate}>${string}`
-            ? Candidate extends `${infer Name extends Variable} as string(${infer Params})`
-                ? Kv & Record<Name, CsvToUnion<Params>>
-                : Candidate extends `${infer Name extends Variable} as ${infer Type extends SegmentType}`
-                    ? Kv & Record<Name, FromSimpleToken<Type>>
-                    : IsVariable<Candidate> extends true
-                        ? Kv & Record<Candidate, string>
-                        : never
-            : Kv
-    >;
+type ParseUrlPath<
+    TParts extends readonly string[],
+    TResult extends Record<string,string> = {}
+> = TParts extends [infer Head extends string, ...infer Rest extends readonly string[]]
+    ? Head extends `${infer Name}>${infer Remaining}`
+        ? Name extends `${infer Name} as number`
+            ? ParseUrlPath<Rest,TResult & Record<Name,number>>
+        : Name extends `${infer Name} as enum(${infer Enum})`
+            ? ParseUrlPath<Rest,TResult & Record<Name,Split<Enum, ",">  >>
+            : ParseUrlPath<Rest,TResult & Record<Name,string>>
+        : ParseUrlPath<Rest,TResult>
+: ExpandDictionary<
+    TResult
+>;
 
 /**
  * **GetUrlPathDynamics**`<T>`
  *
- * Extracts a key/value pairing of `NamedDynamicSegment`'s
- * found within the Url string.
+ * A URL's path can include dynamic segments in the path. If the string `T` has a
+ * `<name>` segment inside the path part of a URL then this will be consider a dynamic
+ * segment and assume the "name" given. All dynamic segments in the URL are of the
+ * the type `string`.
+ *
+ * **Related:** `GetQueryParameterDynamics`, `GetUrlDynamics`
  */
 export type GetUrlPathDynamics<
     T extends string,
-> = As<PathDynamics<
-    Split<T, "<", "after">
->, Record<string, unknown>>;
+    TPath extends string = StripLeading<StripAfter<T,"?">, "http://" | "https://">
+> = Split<TPath, "<", "omit"> extends infer Parts extends readonly string[]
+? ParseUrlPath<Parts>
+: never;
+
+;
 
 type QueryParameterDynamics<
     T extends readonly string[],
@@ -160,3 +165,11 @@ export interface GetUrlDynamics<T extends string> {
     /** A key/value of both path and query parameter variables */
     allVars: PathAndQueryDynamics<T>;
 }
+
+type X = "https://foo.com/<d1>/<d2>/path?foo=<number>";
+type Focus = StripLeading<StripAfter<X,"?">, "http://" | "https://">;
+type S = Split<Focus, "<", "omit">
+type P = ParseUrlPath<S>;
+type X1 = GetUrlPathDynamics<X>;
+type X2 = GetQueryParameterDynamics<X>;
+type X3 = PathAndQueryDynamics<X>;

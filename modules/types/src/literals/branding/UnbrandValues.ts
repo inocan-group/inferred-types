@@ -10,7 +10,7 @@ import type { Brand, Container, Dictionary, Expand, FromKv, KeyValue, ToKv } fro
 // Helper to map Unbrand over tuple/array elements without touching array prototype keys.
 type UnbrandOne<V> = V extends Brand<infer B, any> ? B : V;
 
-// Helper to map shallow unbranding over tuple/array elements.
+// Helper to map shallow un-branding over tuple/array elements.
 type UnbrandTuple<
     T extends readonly unknown[]
 > = { [K in keyof T]: UnbrandOne<T[K]> };

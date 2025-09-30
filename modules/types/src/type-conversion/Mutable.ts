@@ -4,11 +4,11 @@ type MutableObject<T> = [T] extends [boolean]
     ? T
     : {
         -readonly [K in keyof T]: T[K] extends Dictionary
-            ? MutableObject<T[K]>
+            ? Mutable<MutableObject<T[K]>>
             : IsTuple<T[K]> extends true
                 ? T[K]
                 : T[K] extends readonly (infer R)[]
-                    ? R[]
+                    ? [...R[]]
                     : T[K];
     };
 

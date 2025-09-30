@@ -147,14 +147,23 @@ describe("createFnWithProps()", () => {
 
     it("return type not expressed as const", () => {
         const fn = createFnWithProps(() => "hi", { foo: 42 });
+        // no `const` but explicit return type
+        const fn2 = createFnWithProps((): "hi" => "hi", { foo: 42 });
 
         const rtn = fn();
+        const rtn2 = fn2();
 
         expect(rtn).toBe("hi");
+        expect(rtn2).toBe("hi");
         expect(fn.foo).toBe(42);
+        expect(fn2.foo).toBe(42);
 
         type cases = [
             Expect<Test<typeof fn, "equals", (
+                    () => string
+                ) & { foo: 42 }
+            >>,
+            Expect<Test<typeof fn2, "equals", (
                     () => "hi"
                 ) & { foo: 42 }
             >>

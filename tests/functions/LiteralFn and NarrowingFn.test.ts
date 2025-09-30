@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import type { AsFnMeta, AsNarrowingFn, AsStaticFn, Expect, IsNarrowingFn, NarrowingFn, StaticFn, Test } from "inferred-types/types";
+import type { AsFnMeta, AsNarrowingFn, AsStaticFn, Expect, FnMeta, IsNarrowingFn, NarrowingFn, StaticFn, Test } from "inferred-types/types";
 
 describe("IsNarrowingFn<T>", () => {
 
@@ -36,9 +36,9 @@ describe("NarrowingFn<T>", () => {
 
     type NoParams = NarrowingFn<() => string>;
 
-    type Meta = AsFnMeta<Fn2>;
+    type Meta = FnMeta<Fn2>;
 
-    type PropsMeta = AsFnMeta<(() => string) & {foo: 1}>;
+    type PropsMeta = FnMeta<(() => string) & {foo: 1}>;
 
     type cases = [
         Expect<Test<
@@ -56,8 +56,8 @@ describe("NarrowingFn<T>", () => {
         Expect<Test<NoParams, "equals", () => string>>,
 
         Expect<Test<Meta["hasProps"], "equals", false>>,
-        Expect<Test<Meta["hasArgs"], "equals", true>>,
-        Expect<Test<Meta["isNarrowingFn"], "equals", true>>,
+        Expect<Test<Meta["hasParams"], "equals", true>>,
+        Expect<Test<Meta["kind"], "equals", "narrowing">>,
 
         Expect<Test<PropsMeta["hasProps"], "equals", true>>,
         Expect<Test<PropsMeta["props"], "equals", { foo: 1 }>>,
@@ -67,7 +67,7 @@ describe("NarrowingFn<T>", () => {
 
 });
 
-describe("LiteralFn<T>", () => {
+describe("StaticFn<T>", () => {
 
   it("happy path", () => {
     type Base = (name: string) => string;
@@ -76,7 +76,7 @@ describe("LiteralFn<T>", () => {
     type FromNarrowing = StaticFn<NarrowingFn<Base>>;
     type MyNarrow = StaticFn<<TName extends string, TAge extends number>(name: TName, age: TAge) => `${TName} is ${TAge} years old`>;
 
-    type Meta = AsFnMeta<MyNarrow>;
+    type Meta = FnMeta<MyNarrow>;
 
     type cases = [
         Expect<Test<Fn1, "equals",  Base>>,

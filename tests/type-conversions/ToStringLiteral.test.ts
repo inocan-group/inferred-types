@@ -228,16 +228,12 @@ describe("toStringLiteral(val)", () => {
             "foo",
             { id: 1 }
         ]);
-        const parts = split.omit(
-            stripChars(tup, "[", "(",")", "]"),
-            " | "
-        );
 
         expect(tup).toBe(`[ 1, 2, "foo", { id: 1 } ]`)
 
         type cases = [
             Expect<Test<
-                typeof parts, "hasSameValues",
+                typeof tup, "containsAll",
                 [ "1", "2", "\"foo\"", "{ id: 1 }" ]
             >>
         ];

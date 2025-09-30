@@ -1,10 +1,12 @@
 import type {
-    First,
-    IsUnion,
+    As,
+    Flatten,
     Length,
+    Mutable,
     Narrowable,
-    UnionToTuple,
 } from "inferred-types/types";
+
+
 
 /**
  * **narrow**(value)
@@ -32,12 +34,7 @@ export function narrow<
             : values
     ) as unknown as Length<T> extends 1
         ? T[0] extends readonly unknown[]
-            ? T[0] extends infer Arr
-                ? [IsUnion<First<Arr & readonly unknown[]>>] extends [true]
-                    ? UnionToTuple<First<T[0]>>
-                    : T[0]
-
-                : T[0]
-            : T[0]
-        : T;
+            ? [...As<Flatten<T[0]>, readonly unknown[]>]
+            : Mutable<T[0]>
+        : [...T];
 }

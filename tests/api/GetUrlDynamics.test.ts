@@ -10,7 +10,7 @@ describe("GetUrlPathDynamics<T>", () => {
       "/base/<type as string(foo,bar)>/<id as number>/<user>/"
     >;
     type TypedDynPath2 = GetUrlPathDynamics<
-      "/base/<id as number>/<user>/<type as string(foo,bar)>"
+      "/base/<id as number>/<user>/<type>"
     >;
     type TypedDynPath3 = GetUrlPathDynamics<
       "/base/<id>/<user>/<type as string(foo,bar)>"

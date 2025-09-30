@@ -75,7 +75,7 @@ describe("ToNumber<T>", () => {
             Expect<Test<typeof str, "equals", 42>>,
             Expect<Test<typeof passthrough, "equals", 42>>,
             Expect<Test<typeof emptyArr, "equals", readonly number[]>>,
-            Expect<Test<GoodArr, "equals", readonly [1, 2, 3]>>,
+            Expect<Test<GoodArr, "equals", [1, 2, 3]>>,
             Expect<Test<typeof mixedArr, "equals", readonly [1, never, 2]>>,
         ];
     });
