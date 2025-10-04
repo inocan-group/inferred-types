@@ -41,7 +41,9 @@ export type Equals<
                 ? [Y] extends [X]
                     ? [X] extends [Container]
                         ? [Keys<X>] extends [Keys<As<Y, Container>>]
-                            ? TTrue
+                            ? [Keys<As<Y, Container>>] extends [Keys<X>]
+                                ? TTrue
+                                : TFalse
                             : TFalse
                         : TTrue
                     : TFalse

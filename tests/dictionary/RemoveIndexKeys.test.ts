@@ -1,6 +1,11 @@
 
 import { describe, it } from "vitest";
-import type { Expect, Narrowable, ObjectKeys, RemoveIndexKeys, Test, WithKeys } from "inferred-types/types";
+import type {
+    Expect,
+    Narrowable,
+    RemoveIndexKeys,
+    Test,
+} from "inferred-types/types";
 
 describe("RemoveIndexKeys<T>", () => {
 
@@ -93,11 +98,11 @@ describe("RemoveIndexKeys<T>", () => {
 
     it("arrays - limitations noted", () => {
         // Note: Array handling in RemoveIndexKeys has limitations
-        // Arrays have complex type structures with both explicit indices 
+        // Arrays have complex type structures with both explicit indices
         // and numeric index signatures that are difficult to separate
-        
+
         type Tuple = RemoveIndexKeys<["a", "b", "c"]>;
-        
+
         // For now, we just test that the operation doesn't error
         // and produces some result
         type cases = [
@@ -109,7 +114,7 @@ describe("RemoveIndexKeys<T>", () => {
         type Empty = RemoveIndexKeys<{}>;
         type OnlyIndexes = RemoveIndexKeys<{ [key: string]: any }>;
         type OnlyTemplateIndexes = RemoveIndexKeys<{ [key: `_${string}`]: number }>;
-        
+
         type cases = [
             Expect<Test<Empty, "equals", {}>>,
             Expect<Test<OnlyIndexes, "equals", {}>>,

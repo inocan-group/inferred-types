@@ -96,7 +96,7 @@ describe("ObjectKeys<T>", () => {
 
         type cases = [
             Expect<Test<T1, "equals", string[]>>,
-            Expect<Test<T2, "equals", ["foo", "bar", "baz"]>>,
+            Expect<Test<T2, "hasSameValues", ["foo", "bar", "baz"]>>,
         ];
     });
 

@@ -28,6 +28,7 @@ export * from "./MutableProps";
 export * from "./NonNumericKeys";
 export * from "./NonStringKeys";
 export * from "./ObjectKeys";
+export * from './OnlyIndexKeys';
 export * from "./OptionalKeys";
 export * from "./OptionalProps";
 export * from "./OptRecord";
@@ -56,3 +57,4 @@ export * from "./WithoutKeys";
 export * from "./WithoutValue";
 export * from "./WithStringKeys";
 export * from "./WithValue";
+

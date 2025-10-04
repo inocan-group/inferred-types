@@ -1,4 +1,10 @@
-import type { Dictionary, HasIndexKeys, IsTemplateLiteral, ObjectKeys, WithKeys } from "inferred-types/types";
+import type {
+    Dictionary,
+    HasIndexKeys,
+    IsTemplateLiteral,
+    ObjectKeys,
+    WithKeys
+} from "inferred-types/types";
 
 // For arrays, preserve the structure but remove index signatures
 // Note: Array handling is complex due to TypeScript's array type structure

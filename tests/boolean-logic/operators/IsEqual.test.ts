@@ -5,7 +5,7 @@ import {
     AssertNotEqual,
     AssertTrue,
     Dictionary,
-    DictionaryWithIndexKeys,
+    OnlyIndexKeys,
     Empty,
     EmptyObject,
     Expect,
@@ -90,16 +90,11 @@ describe("IsEqual<A,B>", () => {
     });
 
 
-    it("dictionary -> edge cases", () => {
-        type R1 = DictionaryWithIndexKeys<
-            {foo: 1; bar: 2; [x: `_${string}`]: string; [y: symbol]: number}
-        >
-        // this is the "actual" result of the R1
-        type Actual = { [x: symbol]: number };
-        // this is what R1 was expected to be
-        type Expected = { [x: `_${string}`]: string; [y: symbol]: number };
+    it("dictionary -> edge case -> multiple index keys", () => {
+        type A = { [x: symbol]: number };
+        type B = { [x: `_${string}`]: string; [y: symbol]: number };
 
-        type TestOnEquality = IsEqual<Actual,Expected>;
+        type TestOnEquality = IsEqual<A,B>;
 
         type cases = [
             Expect<AssertFalse<TestOnEquality>>

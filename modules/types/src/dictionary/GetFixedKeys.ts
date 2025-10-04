@@ -1,18 +1,23 @@
 import type {
     As,
     Dictionary,
-    IsTemplateLiteral,
-    IsWideObject,
-    IsWideType,
+    IsEqual,
     ObjectKey,
-    ObjectKeys,
-    RemoveNever,
+    RemoveIndexKeys,
     WithKeys
 } from "inferred-types/types";
 
 /* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
 
-export type DictionaryWithFixedKeys<
+/**
+ * **OnlyFixedKeys**`<T>`
+ *
+ * Removes all index index keys to leave a dictionary with only the
+ * _fixed_ keys defined in `T`.
+ *
+ * **Related:** `GetFixedKeys`, `OnlyIndexKeys`, `GetIndexKeys`
+ */
+export type OnlyFixedKeys<
     T,
 > = T extends Dictionary
     ? WithKeys<T, As<GetFixedKeys<T>, PropertyKey>>
@@ -23,20 +28,11 @@ export type DictionaryWithFixedKeys<
  *
  * Returns a union type for all _fixed_ keys found in `T` (aka, not indexed keys).
  *
- * **Related:** `GetIndexKeys`, `DictionaryWithFixedKeys`
+ * **Related:** `GetIndexKeys`, `OnlyFixedKeys`, `RemoveIndexKeys`
  */
-export type GetFixedKeys<T> = IsWideObject<T> extends true
-    ? Dictionary
+export type GetFixedKeys<T> = IsEqual<T, Dictionary> extends true
+    ? ObjectKey[]
     : T extends Dictionary
-        ? Required<ObjectKeys<T>> extends infer Keys extends readonly ObjectKey[]
-            ? RemoveNever<{
-                [K in keyof Keys]: IsTemplateLiteral<Keys[K]> extends true
-                    ? never
-                    : IsWideType<Keys[K]> extends true
-                        ? never
-                        : Keys[K]
-            }> extends infer Keys extends readonly ObjectKey[]
-                ? Keys[number]
-                : never
-            : never
+        ? keyof RemoveIndexKeys<T>
         : never;
+
