@@ -50,6 +50,7 @@
         "test:ci": "vitest run",
         "test:watch": "vitest",
         "test:ui": "vitest --ui",
+        "test:types": "npx typed test",
         "typed": "npx typed test",
         "typed:input-tokens": "npx typed test IT_Take GetInputToken FromInputToken",
         "typed:datetime": "npx typed test datetime",

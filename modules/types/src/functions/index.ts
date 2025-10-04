@@ -12,6 +12,8 @@ export * from "./HandleDoneFn";
 export * from "./IdentityFn";
 export * from "./LogicFunction";
 export * from "./NarrowingFn";
+export * from "./OnlyFn";
+export * from "./OnlyFnProps";
 export * from "./PromiseAll";
 export * from "./Promisify";
 export * from "./RemoveFnProps";
@@ -21,3 +23,4 @@ export * from "./ToFn";
 export * from "./TypedParameter";
 export * from "./TypeGuard";
 export * from "./WrapperFn";
+

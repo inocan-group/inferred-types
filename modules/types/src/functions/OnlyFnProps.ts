@@ -1,4 +1,4 @@
-import type { AnyFunction, AsFnMeta } from "inferred-types/types";
+import type { AnyFunction,  EmptyObject,  FnMeta, TypedFunction } from "inferred-types/types";
 
 /**
  * **OnlyFnProps**`<T>`
@@ -8,4 +8,6 @@ import type { AnyFunction, AsFnMeta } from "inferred-types/types";
  */
 export type OnlyFnProps<
     T extends AnyFunction,
-> = AsFnMeta<T>["props"];
+> = T extends TypedFunction
+    ? FnMeta<T>["props"]
+    : EmptyObject;

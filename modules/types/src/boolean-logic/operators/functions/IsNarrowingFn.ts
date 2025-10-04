@@ -1,4 +1,4 @@
-import type { IsStaticFn, Not, TypedFunction } from "inferred-types/types";
+import type { AnyFunction, FnMeta, IsStaticFn, Not, TypedFunction } from "inferred-types/types";
 
 /**
  * **IsNarrowingFn**`<TFn>`
@@ -12,5 +12,11 @@ import type { IsStaticFn, Not, TypedFunction } from "inferred-types/types";
  * - `NarrowingFn`, `StaticFn`
  */
 export type IsNarrowingFn<TFn> = TFn extends TypedFunction
-    ? Not<IsStaticFn<TFn>>
+    ? Not<IsStaticFn<TFn>> extends true
+        ? FnMeta<TFn>["params"]["length"] extends 0
+            ? false
+            : true
+    : false
+: TFn extends AnyFunction
+    ? boolean
     : false;

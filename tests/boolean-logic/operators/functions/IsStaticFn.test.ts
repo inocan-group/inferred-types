@@ -3,24 +3,35 @@ import type { Expect, IsStaticFn, Test } from "inferred-types/types";
 
 describe("IsStaticFn<T>", () => {
   it("should return true for functions that do not use generics to narrow input parameters", () => {
-    // Regular function with fixed types
     type T1 = IsStaticFn<(x: string) => string>;
-
-    // Function with no parameters
-    type T2 = IsStaticFn<() => void>;
+    type T2 = IsStaticFn<(x: string, y: number) => void & { foo: 1 }>;
+    type T3 = IsStaticFn<((name: string) => `hi ${string}`) & {foo:1}>;
+    type T4 = IsStaticFn<((name: string) => `hi ${string}`)>;
 
     type cases = [
       Expect<Test<T1, "equals", true>>,
       Expect<Test<T2, "equals", true>>,
+      Expect<Test<T3, "equals", true>>,
+      Expect<Test<T4, "equals", true>>,
     ];
   });
 
-  it("should return false for functions that use generics to narrow input parameters", () => {
-    // Function that uses generics to narrow input parameters
-    type T1 = IsStaticFn<<T extends string>(x: T) => T>;
+
+  it("functions with NO parameters return false", () => {
+    type F1 = IsStaticFn<() => "nope">;
 
     type cases = [
-      Expect<Test<T1, "equals", false>>,
+        Expect<Test<F1, "equals", false>>,
+    ];
+  });
+
+
+  it("should return false for functions that use generics to narrow input parameters", () => {
+    // Function that uses generics to narrow input parameters
+    type F1 = IsStaticFn<<T extends string>(x: T) => T>;
+
+    type cases = [
+      Expect<Test<F1, "equals", false>>,
     ];
   });
 
@@ -31,11 +42,13 @@ describe("IsStaticFn<T>", () => {
     // non-function types
     type T2 = IsStaticFn<string>;
     type T3 = IsStaticFn<number>;
+    type T4 = IsStaticFn<never>;
 
     type cases = [
-      Expect<Test<T1, "equals", false>>,
+      Expect<Test<T1, "equals", boolean>>,
       Expect<Test<T2, "equals", false>>,
       Expect<Test<T3, "equals", false>>,
+      Expect<Test<T4, "equals", false>>,
     ];
   });
 });
