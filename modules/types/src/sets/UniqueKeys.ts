@@ -1,4 +1,9 @@
-import type { AsNumberWhenPossible, Container, LeftRight, UnionToTuple } from "inferred-types/types";
+import type {
+    AsNumberWhenPossible,
+    Container,
+    LeftRight,
+    UnionToTuple
+} from "inferred-types/types";
 
 /**
  * **UniqueKeys**`<L,R>`

@@ -1,4 +1,5 @@
 import type {
+    AnyFunction,
     AsFnMeta,
     Dictionary,
     EmptyObject,
@@ -13,17 +14,19 @@ import type {
  * Receives any function `TFn` and makes sure that it is not using
  * generics to narrow the inputs coming into the function.
  *
+ * Converts generic/narrowing functions to their static equivalents:
+ * - `<T extends string>(x: T) => T` becomes `(x: string) => string`
+ * - Preserves intersection properties if present
+ *
  * **Related:** `IsStaticFn`, `NarrowingFn`
  */
 export type StaticFn<
-    TFn extends TypedFunction,
-> = AsFnMeta<TFn>["hasProps"] extends true
-    ? AsFnMeta<TFn>["hasArgs"] extends true
-        ? ((...args: AsFnMeta<TFn>["params"]) => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
-        : (() => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
-    : AsFnMeta<TFn>["hasArgs"] extends true
-        ? (...args: AsFnMeta<TFn>["params"]) => AsFnMeta<TFn>["returns"]
-        : () => AsFnMeta<TFn>["returns"];
+    TFn extends AnyFunction,
+> = TFn extends (...args: infer P) => infer R
+    ? P["length"] extends 0
+        ? () => R
+        : (...args: P) => R
+    : never;
 
 /**
  * **AsStaticFn**`<TParams,TReturns,TProps>`

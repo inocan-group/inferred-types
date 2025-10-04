@@ -1,4 +1,12 @@
-import type { Concat, Contains, Defined, Err, IfEqual, NarrowlyContains, Tuple } from "inferred-types/types";
+import type {
+    Concat,
+    Contains,
+    Defined,
+    Err,
+    IfEqual,
+    NarrowlyContains,
+    Tuple
+} from "inferred-types/types";
 
 type left = 1;
 type right = 2;

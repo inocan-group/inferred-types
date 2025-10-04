@@ -1,5 +1,16 @@
 import { describe, it, expect } from "vitest";
-import type { Dictionary, EmptyObject, Expect, HasSameValues, Keys, NumericKeys, ObjectKey, ObjectKeys, RemoveIndexKeys, Test } from "inferred-types/types";
+import type {
+    Dictionary,
+    EmptyObject,
+    Expect,
+    HasSameValues,
+    Keys,
+    NumericKeys,
+    ObjectKey,
+    ObjectKeys,
+    RemoveIndexKeys,
+    Test
+} from "inferred-types/types";
 
 import { keysOf } from "inferred-types/runtime";
 

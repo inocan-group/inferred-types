@@ -84,10 +84,10 @@ type ParseUrlPath<
     TResult extends Record<string,string> = {}
 > = TParts extends [infer Head extends string, ...infer Rest extends readonly string[]]
     ? Head extends `${infer Name}>${infer Remaining}`
-        ? Name extends `${infer Name} as number`
-            ? ParseUrlPath<Rest,TResult & Record<Name,number>>
-        : Name extends `${infer Name} as enum(${infer Enum})`
-            ? ParseUrlPath<Rest,TResult & Record<Name,Split<Enum, ",">  >>
+        ? Name extends `${infer VarName} as number`
+            ? ParseUrlPath<Rest,TResult & Record<VarName,number>>
+        : Name extends `${infer VarName} as string(${infer Enum})`
+            ? ParseUrlPath<Rest,TResult & Record<VarName, CsvToUnion<Enum>>>
             : ParseUrlPath<Rest,TResult & Record<Name,string>>
         : ParseUrlPath<Rest,TResult>
 : ExpandDictionary<
@@ -142,7 +142,7 @@ type PathAndQueryDynamics<T extends string> = GetUrlPathDynamics<GetUrlPath<T>> 
         ? Some<
             StringKeys<GetUrlPathDynamics<GetUrlPath<T>>>,
             "extends",
-            GetQueryParameterDynamics<GetUrlQueryParams<T>>
+            StringKeys<GetQueryParameterDynamics<GetUrlQueryParams<T>>>
         > extends true
             ? ErrMsg<"overlapping-keys", { path: Keys<GetUrlPathDynamics<GetUrlPath<T>>>; qp: Keys<GetQueryParameterDynamics<GetUrlQueryParams<T>>> }>
             : MergeObjects<

@@ -24,7 +24,7 @@ describe("GetUrlPathDynamics<T>", () => {
       Expect<Test<Nothing, "equals",  {}>>,
       Expect<Test<DynPath, "equals",  { action: string; id: string }>>,
       Expect<Test<TypedDynPath, "equals",  { id: number; user: string; type: "foo" | "bar" }>>,
-      Expect<Test<TypedDynPath2, "equals",  { id: number; user: string; type: "foo" | "bar" }>>,
+      Expect<Test<TypedDynPath2, "equals",  { id: number; user: string; type: string }>>,
       Expect<Test<TypedDynPath3, "equals",  { id: string; user: string; type: "foo" | "bar" }>>,
       Expect<Test<TypedDynPath4, "equals",  { id: string; user: string; type: "foo" | "bar" }>>,
     ];

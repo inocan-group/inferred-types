@@ -12,7 +12,6 @@ import {
     isSpecificConstant,
     isNumericString,
     asType,
-
 } from "inferred-types/runtime";
 import {
     Constant,
@@ -147,7 +146,7 @@ describe("isArray / isReadonlyArray", () => {
                 Expect<Test<
                     Foobar,
                     "equals",
-                    { foo: number; bar: number }[]
+                    [{ readonly foo: 1; readonly bar: 2 }]
                 >>
             ];
             const cases: cases = [true];
@@ -162,7 +161,7 @@ describe("isArray / isReadonlyArray", () => {
                 Expect<Test<
                     Foobar,
                     "equals",
-                    { foo: number; bar: number }[]
+                    [{ readonly foo: 1; readonly bar: 2 }]
                 >>
             ];
         } else {
@@ -179,7 +178,7 @@ describe("isArray / isReadonlyArray", () => {
                 Expect<Test<
                     Foobar,
                     "equals",
-                    { foo: number; bar: number }[]
+                    [{ readonly foo: 1; readonly bar: 2 }]
                 >>
             ];
         } else {

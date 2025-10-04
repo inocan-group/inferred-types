@@ -1,4 +1,4 @@
-import type { AnyFunction, FnMeta, IsStaticFn, Not, TypedFunction } from "inferred-types/types";
+import type { AnyFunction, FnMeta, IsAny, IsStaticFn, Not, TypedFunction } from "inferred-types/types";
 
 /**
  * **IsNarrowingFn**`<TFn>`
@@ -11,12 +11,16 @@ import type { AnyFunction, FnMeta, IsStaticFn, Not, TypedFunction } from "inferr
  * - `IsStaticFn`
  * - `NarrowingFn`, `StaticFn`
  */
-export type IsNarrowingFn<TFn> = TFn extends TypedFunction
-    ? Not<IsStaticFn<TFn>> extends true
-        ? FnMeta<TFn>["params"]["length"] extends 0
-            ? false
-            : true
-    : false
-: TFn extends AnyFunction
+export type IsNarrowingFn<TFn> = [IsAny<TFn>] extends [true]
     ? boolean
-    : false;
+    : TFn extends AnyFunction
+        ? TFn extends TypedFunction
+            ? Not<IsStaticFn<TFn>> extends true
+                ? FnMeta<TFn>["params"]["length"] extends 0
+                    ? false
+                    : true
+                : false
+            : Not<IsStaticFn<TFn>> extends true
+                ? true  // Generic function (not TypedFunction) that's not static → narrowing
+                : false
+        : false;

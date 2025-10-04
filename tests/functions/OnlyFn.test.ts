@@ -17,7 +17,10 @@ describe("OnlyFn<T>", () => {
         type Result = OnlyFn<FnWithParams>;
 
         type cases = [
-            Expect<Test<Result, "equals", (name: string, age: number) => `Hi ${string}, you are ${number} years old`>>
+            Expect<Test<
+                Result, "equals",
+                (name: string, age: number) => `Hi ${string}, you are ${number} years old`
+            >>
         ];
     });
 
@@ -49,9 +52,9 @@ describe("OnlyFn<T>", () => {
     });
 
     it("function with properties (TypedFunction)", () => {
-        type FnWithProps = TypedFunction<[string, number], string> & { 
-            version: 1; 
-            metadata: { author: string }; 
+        type FnWithProps = TypedFunction<[string, number], string> & {
+            version: 1;
+            metadata: { author: string };
         };
         type Result = OnlyFn<FnWithProps>;
 
@@ -143,7 +146,7 @@ describe("OnlyFn<T>", () => {
             Expect<Test<Result, "equals", <T extends { id: string }, U extends number[]>(obj: T, ...values: U) => {
                 id: T["id"];
                 sum: U[number];
-            }>>>
+            }>>
         ];
     });
 

@@ -88,8 +88,8 @@ describe("StaticFn<T>", () => {
             (name: string, age: number) => `${string} is ${number} years old`
         >>,
         Expect<Test<Meta["hasProps"], "equals", false>>,
-        Expect<Test<Meta["isNarrowingFn"], "equals", false>>,
-        Expect<Test<Meta["hasArgs"], "equals", true >>
+        Expect<Test<Meta["kind"], "equals", "static">>,
+        Expect<Test<Meta["hasParams"], "equals", true >>
     ];
   });
 

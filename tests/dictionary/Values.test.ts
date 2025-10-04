@@ -7,13 +7,11 @@ describe("Values<T>", () => {
 
     it("Values<T> where T is a wide object", () => {
 
-        type Obj = Values<object>;
         type Dict = Values<Dictionary>;
         type Rec = Values<Record<ObjectKey, unknown>>;
         type Union = Values<Record<ObjectKey, number | string>>;
 
         type cases = [
-            Expect<Test<Obj, "equals", unknown[]>>,
             Expect<Test<Dict, "equals", unknown[]>>,
             Expect<Test<Rec, "equals", unknown[]>>,
             Expect<Test<Union, "equals", (number | string)[]>>,

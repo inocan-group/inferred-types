@@ -19,14 +19,19 @@ type HasExtraProperties<T> = T extends (...args: any[]) => any
         : true
     : false;
 
+// Extract properties from a function intersection
+type ExtractProps<T> = T extends (...args: any[]) => any
+    ? Omit<T, keyof ((...args: any[]) => any)>
+    : never;
+
 type IsStaticCheck<T> =
     [IsEqual<RegularFn<T>, T>] extends [true]
         ? true
-    : HasExtraProperties<T> extends true
-        ? [T] extends [RegularFn<T>]
-            ? true  // Has extra properties and extends the regular function: intersection type with static function
-            : false // Has extra properties but doesn't extend regular function: shouldn't happen
-        : false;  // No extra properties and not equal to RegularFn: must be generic
+    : HasExtraProperties<T> extends false
+        ? false  // No extra properties and not equal to RegularFn: must be generic
+        : [IsEqual<RegularFn<T> & ExtractProps<T>, T>] extends [true]
+            ? true  // RegularFn + props = T, so it's a static function with properties
+            : false; // Generic function with properties
 
 /**
  * **IsStaticFn**`<TFn>`
@@ -52,5 +57,7 @@ export type IsStaticFn<T> = [IsAny<T>] extends [true]
                     ? false
                     : true
                 : false
-            : boolean
+            : IsStaticCheck<T> extends true
+                ? true
+                : false
         : false;

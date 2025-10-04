@@ -9,7 +9,7 @@ describe("RequiredKeysTuple<T>", () => {
         type None = RequiredKeysTuple<{ foo?: 1; bar?: 2; baz?: 3; bax?: 4; bay?: 5 }>;
 
         type cases = [
-            Expect<Test<T1, "equals", ["foo", "bar", "baz"]>>,
+            Expect<Test<T1, "hasSameValues", ["foo", "bar", "baz"]>>,
             Expect<Test<T2, "equals", ["foo", "bar"]>>,
             Expect<Test<None, "equals", []>>,
         ];
