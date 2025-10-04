@@ -19,10 +19,18 @@ import type {
  */
 export type GetPhoneCountryCode<T> = T extends string
     ? [IsStringLiteral<T>] extends [true]
-        ? StartsWith<Trim<T>, "+" | "00"> extends true
-            ? [Trim<T>] extends [`${"+" | "00"}${infer CC}${PhoneNumberDelimiter}${string}`]
-                ? RetainUntil<CC, " ">
+        ? StartsWith<Trim<T>, "+"> extends true
+            ? Trim<T> extends `+${infer CC}${PhoneNumberDelimiter}${string}`
+                ? RetainUntil<CC, " " | "-" | ".">
+                : Trim<T> extends `+${infer CC}`
+                    ? CC
+                    : ""
+            : StartsWith<Trim<T>, "00"> extends true
+                ? Trim<T> extends `00${infer CC}${PhoneNumberDelimiter}${string}`
+                    ? RetainUntil<CC, " " | "-" | ".">
+                    : Trim<T> extends `00${infer CC}`
+                        ? CC
+                        : ""
                 : ""
-            : ""
         : string
     : never;

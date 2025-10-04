@@ -68,7 +68,6 @@ describe("Keys<T>", () => {
         it("narrow with optional", () => {
             type Uno = Keys<{ baz?: 3 }>;
             type FooBar = Keys<{ foo: 1; bar?: 2 }>;
-            type A_Foobar = ObjectKeys<{ foo: 1; bar?: 2 }>;
 
             type cases = [
                 Expect<Test<Uno, "equals", [("baz" | undefined)?]>>,
@@ -94,6 +93,8 @@ describe("Keys<T>", () => {
             //    ^?
 
             // this is a different nomenclature for the same type as above
+            // but both are non-overlapping with the discrete literal keys
+            // which are defined
             type FooBarIndex = Keys<{ foo: 1; bar: 2; [x: `_${string}`]: unknown }>;
             //   ^?
 
@@ -101,20 +102,22 @@ describe("Keys<T>", () => {
             // which overlaps with them
             type FooBarOverlap = Keys<{ foo: 1; bar: 2; [x: string]: unknown }>;
             //   ^?
-            type X = RemoveIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
+
+            type X = (`_${string}` | undefined);
+            type Y = X & string;
 
             type cases = [
                 Expect<Test<
                     Optional, "equals",
-                    ["foo", "bar", (`_${string}` | undefined)?]
+                    ["foo", "bar", ...`_${string}`[]]
                 >>,
                 Expect<Test<
                     FooBarIndex, "equals",
-                    ["foo", "bar", (`_${string}` | undefined)?]
+                    ["foo", "bar", ...`_${string}`[]]
                 >>,
                 Expect<Test<
                     FooBarOverlap, "equals",
-                    (string|number)[]
+                    ["foo","bar", ...string[]]
                 >>
             ];
         });

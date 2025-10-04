@@ -283,4 +283,47 @@ export type Test<
                     `The test evaluated to NEVER! This indicates a problem in the test assertion!`,
                     { test: TTest; expected: TExpected; assertion: TOp }
                 >
-                : Assert<TTest, TOp, TExpected>;
+: Assert<TTest, TOp, TExpected>;
+
+type Validate<
+    TTest,
+    TOp extends AssertionType,
+    TExpected
+> = [IsAny<TTest>] extends [true]
+    ? TypeError<
+        `invalid-test/any-type`,
+        `A type test passed in "any" as the test value! This is not allowed.`,
+        { test: TTest; expected: TExpected; assertion: TOp }
+    >
+: [IsAny<TExpected>] extends [true]
+    ? TypeError<
+        `invalid-test/any-type`,
+        `A type test passed in "any" as the expected type! This is not allowed.`,
+        { test: TTest; expected: TExpected; assertion: TOp }
+    >
+: [IsAny<Assert<TTest, TOp, TExpected>>] extends [true]
+    ? TypeError<
+        `invalid-test/any`,
+        `The test evaluated to ANY! This indicates a problem in the test assertion!`,
+        { test: TTest; expected: TExpected; assertion: TOp }
+    >
+: [IsNever<Assert<TTest, TOp, TExpected>>] extends [true]
+    ? TypeError<
+        `invalid-test/never`,
+        `The test evaluated to NEVER! This indicates a problem in the test assertion!`,
+        { test: TTest; expected: TExpected; assertion: TOp }
+    >
+: undefined;
+
+
+/**
+ * **AssertEqual**`<TTest, TExpected>`
+ *
+ * Type test assertion that `TTest` _equals_ `TExpected`.
+ */
+export type AssertEqual<
+    TTest,
+    TExpected
+> = Validate<TTest, "equals", TExpected> extends Error
+? Validate<TTest, "equals", TExpected>
+: IsEqual<TTest, TExpected>;

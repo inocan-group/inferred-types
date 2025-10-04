@@ -56,28 +56,37 @@ describe("ObjectKeys<T>", () => {
         //    ^?
 
         // this is a different nomenclature for the same type as above
+        // in both cases however, the discrete key literals ("foo","bar") to not
+        // overlap with the template literal `_${string}`
         type FooBarIndex = ObjectKeys<{ foo: 1; bar: 2; [x: `_${string}`]: unknown }>;
         //   ^?
 
         // here we discretely define `foo` and `bar` but then provide an index
         // which overlaps with them
-        // TODO: bring this back in as a test
-        type FooBarOverlap = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>;
+        type FooBarOverlap = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown; }>;
         //   ^?
+
+        // we go a step further here by having one index signature overlap and the other
+        // is non-overlapping
+        type MultiIndex = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>;
+        //   ^?
+        type K = ObjectKeys<RemoveIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>>;
+        type X = GetIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>;
+
 
         type cases = [
             Expect<Test<
                 Optional, "equals",
-                ["foo", "bar", (`_${string}` | undefined)?]
+                ["foo", "bar", (`_${string}` | undefined)[]]
             >>,
             Expect<Test<
                 FooBarIndex, "equals",
-                ["foo", "bar", (`_${string}` | undefined)?]
+                ["foo", "bar", (`_${string}` | undefined)[]]
             >>,
-            // Expect<Test<
-            //     FooBarOverlap, "equals",
-            //     ["foo", "bar", ...string[]]
-            // >>
+            Expect<Test<
+                FooBarOverlap, "equals",
+                ["foo", "bar", ...string[]]
+            >>
         ];
     });
 

@@ -15,6 +15,7 @@ import type {
     IsWideUnion,
     ObjectKey,
     OptionalKeysTuple,
+    RemoveIndexKeys,
     Scalar,
     UnionToTuple
 } from "inferred-types/types";
@@ -28,7 +29,15 @@ type Shaped<
 > = [] extends TKeys
     ? [...L, ...Partial<O>, ...Partial<V>]
     : IsTemplateLiteral<First<TKeys>> extends true
-        ? Shaped<AfterFirst<TKeys>, TOpt, L, O, [...V, First<TKeys>]>
+        ? First<TKeys> & string extends infer Pattern extends string
+            ? Shaped<
+                AfterFirst<TKeys>,
+                TOpt,
+                L,
+                O,
+                [...V, ...Pattern[]]
+            >
+            : never
         : Contains<TOpt, First<TKeys>> extends true
             ? Shaped<AfterFirst<TKeys>, TOpt, L, [...O, First<TKeys>], V>
             : Shaped<AfterFirst<TKeys>, TOpt, [...L, First<TKeys>], O, V>;
@@ -54,7 +63,7 @@ type HandleDict<
                             As<UnionToTuple<K>, readonly PropertyKey[]>,
                             OptionalKeysTuple<TObj>
                         >
-                    // wide type
+                        // wide type
                         : K[]
     : never;
 
@@ -91,33 +100,44 @@ export type ObjectKeys<
                             ? UnionToTuple<K>[]
                             : "mixed"
                     : K[]
-            // Set
-                : TObj extends Set<any>
-                    ? Err<
-                        `invalid-type/object-keys`,
-                        `The type passed into ObjectKeys<T> was a Set. Set's do not have keys`
-                    >
-                // WeakMap
-                    : TObj extends WeakMap<infer K, any>
-                        ? IsUnion<K> extends true
-                            ? K
-                            : K extends Scalar | object | readonly unknown[]
-                                ? K[]
-                                : unknown
-                    // Dictionary
-                        : Required<TObj> extends Record<infer K, any>
-                            ? IsNever<K> extends true
-                                ? TObj extends Dictionary
-                                    ? []
-                                    : PropertyKey[]
-                                : IsEqual<K, string | symbol> extends true
-                                    ? ObjectKey[]
-                                    : IsNever<K> extends true
-                                        ? PropertyKey[]
-                                        : TObj extends Dictionary
-                                            ? HandleDict<TObj>
-                                        // wide type
-                                            : K[]
-                        // object options exhausted
-                            : never
-            : Err<`invalid-type/object-keys`, `The type passed into ObjectKeys<T> was not an object!`, { value: TObj }>;
+        // Set
+            : TObj extends Set<any>
+                ? Err<
+                    `invalid-type/object-keys`,
+                    `The type passed into ObjectKeys<T> was a Set. Set's do not have keys`
+                >
+        // WeakMap
+            : TObj extends WeakMap<infer K, any>
+                ? IsUnion<K> extends true
+                    ? K
+                    : K extends Scalar | object | readonly unknown[]
+                        ? K[]
+                        : unknown
+        // Dictionary
+        : Required<TObj> extends Record<infer K, any>
+            ? IsNever<K> extends true
+                ? TObj extends Dictionary
+                    ? []
+                    : PropertyKey[]
+            : IsEqual<K, string | symbol> extends true
+                ? ObjectKey[]
+                : IsEqual<K, string | number> extends true
+                    ? RemoveIndexKeys<Required<TObj>> extends Record<infer K, any>
+                        ? [
+                            ...(As<ObjectKeys<RemoveIndexKeys<Required<TObj>>>, readonly PropertyKey[]>),
+                            ...string[]
+                        ]
+                        : PropertyKey[]
+                : IsNever<K> extends true
+                    ? PropertyKey[]
+                    : TObj extends Dictionary
+                        ? HandleDict<TObj>
+                    // wide type
+                        : K[]
+            // object options exhausted
+            : never
+: Err<
+    `invalid-type/object-keys`,
+    `The type passed into ObjectKeys<T> was not an object!`,
+    { value: TObj }
+>;

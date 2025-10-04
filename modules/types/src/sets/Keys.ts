@@ -34,7 +34,7 @@ import type {
  * **Related:** `ValidKey`, `PublicKeys`, `PrivateKeys`
  */
 export type Keys<
-    TContainer extends readonly unknown[] | object,
+    TContainer extends (readonly unknown[]) | object,
 > = As<
     TContainer extends readonly unknown[]
         ? NumericKeys<TContainer>
@@ -71,7 +71,9 @@ type _Public<
  * Provides a tuple of _keys_ for `TContainer` but unlike `Keys<T>` it removes any
  * keys which start with an underscore character.
  */
-export type PublicKeys<TContainer extends Container> = _Public<Keys<TContainer>>;
+export type PublicKeys<TContainer extends Container> = Keys<TContainer> extends readonly PropertyKey[]
+    ? _Public<Keys<TContainer>>
+    : never;
 
 /**
  * **PrivateKey**
@@ -134,7 +136,7 @@ export type PublicKeyOf<TContainer extends Container> = TupleToUnion<PublicKeys<
  *
  * **Related:** `Keys`,`PrivateKeys`,`KeyOf`
  */
-export type PrivateKeyOf<TContainer extends Container> = TupleToUnion<PrivateKeys<TContainer>> extends PropertyKey
+export type PrivateKeyOf<TContainer extends Dictionary> = TupleToUnion<PrivateKeys<TContainer>> extends PropertyKey
     ? TupleToUnion<PublicKeys<TContainer>> extends keyof TContainer
         ? TupleToUnion<PublicKeys<TContainer>>
         : never
