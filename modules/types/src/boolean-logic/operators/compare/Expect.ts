@@ -13,7 +13,8 @@ import type {
     IsNever,
     IsString,
     Join,
-    Keys
+    Keys,
+    Not
 } from "inferred-types/types";
 
 export type AssertionType = "equals" | "extends" | "hasSameKeys" | "hasSameValues" | "isError" | "containsAll" | "doesNotExtend";
@@ -327,3 +328,37 @@ export type AssertEqual<
 > = Validate<TTest, "equals", TExpected> extends Error
 ? Validate<TTest, "equals", TExpected>
 : IsEqual<TTest, TExpected>;
+
+/**
+ * **AssertNotEqual**`<TTest, TExpected>`
+ *
+ * Type test assertion that `TTest` _does not equal_ `TExpected`.
+ */
+export type AssertNotEqual<
+    TTest,
+    TExpected
+> = Validate<TTest, "equals", TExpected> extends Error
+? Validate<TTest, "equals", TExpected>
+: Not<IsEqual<TTest, TExpected>>;
+
+/**
+ * **AssertTrue**`<TTest>`
+ *
+ * Type test assertion that `TTest` is `true`.
+ */
+export type AssertTrue<
+    TTest
+> = Validate<TTest, "equals", true> extends Error
+? Validate<TTest, "equals", true>
+: IsEqual<TTest, true>;
+
+/**
+ * **AssertFalse**`<TTest>`
+ *
+ * Type test assertion that `TTest` is `false`.
+ */
+export type AssertFalse<
+    TTest
+> = Validate<TTest, "equals", false> extends Error
+? Validate<TTest, "equals", false>
+: IsEqual<TTest, false>;

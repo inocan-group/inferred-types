@@ -65,11 +65,17 @@ describe("DictionaryWithIndexKeys", () => {
             {foo: 1; bar: 2; [x: `_${string}`]: string; [y: symbol]: number}
         >
 
-
-        type X2 = IsEqual<
+        /** a raw equality test using IsEqual */
+        type Debug = IsEqual<
             T1,
-            {foo: 1; bar: 2; [x: `_${string}`]: string; [y: symbol]: number}
+            {[x: `_${string}`]: string; [y: symbol]: number}
         >
+
+        type Debug2 = T1 extends {[x: `_${string}`]: string; [y: symbol]: number}
+            ? {[x: `_${string}`]: string; [y: symbol]: number} extends T1
+                ? true
+                : false
+            :false;
 
         type cases = [
             // TODO: this is NOT equal so should be reporting an error!
@@ -77,7 +83,7 @@ describe("DictionaryWithIndexKeys", () => {
             // TODO: this test is just for debugging above; it shows that the `IsEqual`
             // operator correctly states the T1 and the expected type are NOT EQUAL
             // even though the test above we have it reporting that they are equal!
-            Expect<AssertEqual<X2, false>>,
+            Expect<AssertEqual<Debug, false>>,
 
         ];
     });
