@@ -1,9 +1,7 @@
 import type {
-    AfterFirst,
     Container,
     Dictionary,
     EmptyObject,
-    First,
     IsUndefined,
     NumericKeys,
     ObjectKey,
@@ -21,23 +19,24 @@ type Process<
     T extends Container,
     TKeys extends readonly PropertyKey[],
     TResults extends Container = T extends readonly unknown[] ? [] : EmptyObject,
-> = [] extends TKeys
-    ? TResults
-    : First<TKeys> extends keyof T
-        ? IsUndefined<T[First<TKeys>]> extends true
-            ? Process<T, AfterFirst<TKeys>, TResults>
+> = TKeys extends [infer Head extends PropertyKey, ...infer Rest extends readonly PropertyKey[]]
+
+    ? Head extends keyof T
+        ? IsUndefined<T[Head]> extends true
+            ? Process<T, Rest, TResults>
             : Process<
                 T,
-                AfterFirst<TKeys>,
-                First<TKeys> extends keyof T
+                Rest,
+                Head extends keyof T
                     ? TResults extends readonly unknown[]
-                        ? [...TResults, T[First<TKeys>]]
+                        ? [...TResults, T[Head]]
                         : TResults extends Dictionary
-                            ? TResults & Record<First<TKeys>, T[First<TKeys>]>
+                            ? TResults & Record<Head, T[Head]>
                             : never
                     : never
             >
-        : never;
+        : never
+: TResults;
 
 /**
  * **RemoveUndefined**`<T>`
