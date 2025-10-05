@@ -1,7 +1,6 @@
 
 import { describe, it } from "vitest";
-import type { AssertFalse, Err, Expect, HasSameValues, Test } from "inferred-types/types";
-import { AssertTrue } from "../../modules/inferred-types/dist";
+import type { AssertFalse, Err, Expect, HasSameValues, Test, AssertTrue } from "inferred-types/types";
 
 describe("HasSameValues<TContainer,TComparator", () => {
 
