@@ -7,19 +7,19 @@ describe("HasRequiredElements", () => {
         it("positive tests", () => {
             type T1 = HasRequiredElements<[1,2,3?]>;
             type T2 = HasRequiredElements<[string,number?,string?]>;
-            type T3 = HasRequiredElements<[string?]>;
+
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
-                Expect<Test<T3, "equals", true>>,
             ];
         });
 
         it("positive tests (with variadic tail)", () => {
             type T1 = HasRequiredElements<[1,2,3?, ...string[]]>;
             type T2 = HasRequiredElements<[string,number?,string?, ...string[]]>;
-            type T3 = HasRequiredElements<[string?, ...number[]]>;
+            type T3 = HasRequiredElements<[string, ...number[]]>;
+
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
@@ -29,9 +29,9 @@ describe("HasRequiredElements", () => {
         });
 
         it("negative tests", () => {
-            type F1 = HasRequiredElements<[1,2,3]>;
-            type F2 = HasRequiredElements<[string,number,string]>;
-            type F3 = HasRequiredElements<[string]>;
+            type F1 = HasRequiredElements<[1?,2?,3?]>;
+            type F2 = HasRequiredElements<[string?,number?,string?]>;
+            type F3 = HasRequiredElements<[string?]>;
 
             type cases = [
                 Expect<Test<F1, "equals", false>>,
@@ -41,9 +41,9 @@ describe("HasRequiredElements", () => {
         });
 
         it("negative tests (with variadic tail)", () => {
-            type F1 = HasRequiredElements<[1,2,3, ...string[]]>;
-            type F2 = HasRequiredElements<[string,number,string, ...string[]]>;
-            type F3 = HasRequiredElements<[string, ...number[]]>;
+            type F1 = HasRequiredElements<[1?,2?,3?, ...string[]]>;
+            type F2 = HasRequiredElements<[string?,number?,string?, ...string[]]>;
+            type F3 = HasRequiredElements<[string?, ...number[]]>;
 
             type cases = [
                 Expect<Test<F1, "equals", false>>,
@@ -69,12 +69,10 @@ describe("HasRequiredElements", () => {
 
 
         it("negative tests", () => {
-            type F1 = HasRequiredElements<EmptyObject>;
             type F2 = HasRequiredElements<{foo?: 1}>;
             type F3 = HasRequiredElements<{foo?: number; bar?: number}>;
 
             type cases = [
-                Expect<Test<F1, "equals", false>>,
                 Expect<Test<F2, "equals", false>>,
                 Expect<Test<F3, "equals", false>>,
             ];

@@ -192,7 +192,6 @@ This runs: lint → install latest → test CI → audit fix → version bump
 
 This codebase has experienced TypeScript limitations where complex types behave differently when evaluated across module boundaries:
 
-- **Cross-module type resolution**: Some type utilities (like `Slice<T, Delta>`) may resolve to empty string when called from external modules but work correctly within the same file
 - **Workaround strategy**: When encountering cross-module type resolution issues, implement local versions of problematic utilities within the same file
 - **This is a TypeScript limitation**, not a logic error in the code
 - **Testing approach**: Both `pnpm test` (runtime) and `pnpm test:types` (type-level) should pass for all utilities
@@ -208,6 +207,7 @@ typed test datetime  # Test filtered files
 ```
 
 The type testing framework uses `Test` and `Expect` utilities with these comparison operators:
+
 - `equals` - exact type equality (most common)
 - `extends` - type extension relationship
 - `hasSameKeys` - dictionary key comparison
@@ -215,6 +215,7 @@ The type testing framework uses `Test` and `Expect` utilities with these compari
 - `isError<T>` - error type testing
 
 # important-instruction-reminders
+
 Do what has been asked; nothing more, nothing less.
 NEVER create files unless they're absolutely necessary for achieving your goal.
 ALWAYS prefer editing an existing file to creating a new one.

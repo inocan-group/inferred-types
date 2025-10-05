@@ -1,7 +1,11 @@
+import { GetOptionalElementCount } from '../../../lists/Variadic';
 import type {
     And,
     Container,
+    Dictionary,
+    GetOptionalElementCount,
     IsAny,
+    IsEqual,
     IsNever,
     NarrowlyContains,
     Values
@@ -30,7 +34,7 @@ type Test<
                 : A["length"] extends B["length"]
                     ? CheckAllExist<A, B> extends true
                         ? CheckAllExist<B, A> extends true
-                            ? true // Bidirectional check passes
+                            ? true
                             : false // A elements exist in B, but B elements don't exist in A
                         : false // A elements don't all exist in B
                     : false
@@ -62,14 +66,20 @@ export type HasSameValues<
     TException = false
 > = [IsAny<TContainer>] extends [true]
     ? TException
-    : [IsNever<TContainer>] extends [true]
+: [IsNever<TContainer>] extends [true]
     ? TException
-    : [IsAny<TComparator>] extends [true]
-        ? TException
-    : [IsNever<TComparator>] extends [true]
-        ? TException
-    : Test<Values<Required<TContainer>>, Values<Required<TComparator>>> extends true
-        ? Test<Values<TContainer>, Values<TComparator>> extends true
-            ? true
+: [IsAny<TComparator>] extends [true]
+    ? TException
+: [IsNever<TComparator>] extends [true]
+    ? TException
+: Test<Values<Required<TContainer>>, Values<Required<TComparator>>> extends true
+    ? TContainer extends readonly unknown[]
+        ? TComparator extends readonly unknown[]
+            ? IsEqual<GetOptionalElementCount<TContainer>, GetOptionalElementCount<TComparator>>
             : false
-        : TException;
+    : TContainer extends Dictionary
+        ? TComparator extends Dictionary
+            ? IsEqual<GetOptionalElementCount<Values<TContainer>>, GetOptionalElementCount<Values<TComparator>>>
+            : false
+    : never
+: TException;

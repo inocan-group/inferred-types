@@ -1,6 +1,7 @@
 
 import { describe, it } from "vitest";
-import type { Err, Expect, HasSameValues, Test } from "inferred-types/types";
+import type { AssertFalse, Err, Expect, HasSameValues, Test } from "inferred-types/types";
+import { AssertTrue } from "../../modules/inferred-types/dist";
 
 describe("HasSameValues<TContainer,TComparator", () => {
 
@@ -29,13 +30,37 @@ describe("HasSameValues<TContainer,TComparator", () => {
 
     });
 
-    it("same values with different type structures", () => {
+
+    it("testing with arrays having optional elements", () => {
+        type T1 = HasSameValues<
+            [1,2,3?],
+            [2,1,3?]
+        >
+        type T2 = HasSameValues<
+            [1,2,3?],
+            [1,2,3?]
+        >
+        type F1 = HasSameValues<
+            [1,2,3?],
+            [2,1,3]
+        >
+
+
+        type cases = [
+            Expect<AssertTrue<T1>>,
+            Expect<AssertTrue<T2>>,
+            Expect<AssertFalse<F1>>,
+        ];
+    });
+
+
+    it("same values with different type structures do NOT match", () => {
         type T1 = HasSameValues<{foo: 1; bar: 2}, [1,2]>;
         type T2 = HasSameValues<{foo: 1; bar: 2}, [2,1]>;
 
         type cases = [
-            Expect<Test<T1, "equals", true>>,
-            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T1, "equals", false>>,
+            Expect<Test<T2, "equals", false>>,
         ];
     });
 

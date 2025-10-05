@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import type { Expect, HasOptionalElements, Test } from "inferred-types/types";
+import type { Expect, HasOptionalElements, HasOptionalElements__Tuple, NotEqual, Test } from "inferred-types/types";
 
 describe("HasOptionalElements", () => {
 
@@ -41,6 +41,8 @@ describe("HasOptionalElements", () => {
 
     it("negative tests (with variadic tail)", () => {
         type F1 = HasOptionalElements<[1,2,3, ...string[]]>;
+        type FA1 = NotEqual<[1,2,3, ...string[]], Readonly<[1,2,3, ...string[]]>>
+        type FA2 = HasOptionalElements__Tuple<[1,2,3, ...string[]]>;
         type F2 = HasOptionalElements<[string,number,string, ...string[]]>;
         type F3 = HasOptionalElements<[string, ...number[]]>;
 

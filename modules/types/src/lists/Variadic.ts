@@ -8,7 +8,7 @@ import type {
     Not,
     NumericRange,
     Or,
-    Slice,
+    SliceArray,
     Subtract
 } from "inferred-types/types";
 
@@ -90,15 +90,15 @@ export type HasVariadicHead<
     R extends readonly unknown[] = [...T]
 > = [IsAny<T>] extends [true]
     ? false
-    : [IsNever<T>] extends [true]
+: [IsNever<T>] extends [true]
+    ? false
+: IsVariadicArray<R> extends true
+    ? HasFixedHead<R> extends true
         ? false
-        : IsVariadicArray<R> extends true
-            ? HasFixedHead<R> extends true
-                ? false
-                : SplitAtVariadic<R> extends [...unknown[], []]
-                    ? false
-                    : true
-            : false;
+        : SplitAtVariadic<R> extends [...unknown[], []]
+            ? false
+            : true
+    : false;
 
 /**
  * **HasVariadicInterior**`<T>`
@@ -175,7 +175,13 @@ export type GetNonVariadicLength<
             >
             : F["length"];
 
-// gets non-variadic length but ignores optional props
+
+/**
+ * **NonVariadicRequired**`<T>`
+ *
+ * Get's the elements which have a fixed value (aka, are not
+ * _variadic_) as well as are "required" (aka, no `?` modifier used)
+ */
 type NonVariadicRequired<
     T extends readonly unknown[],
     F extends readonly unknown[] = [],
@@ -275,7 +281,9 @@ export type ExtractRequiredElements<
 export type DropVariadicTail<
     T extends readonly unknown[]
 > = HasVariadicTail<T> extends true
-    ? Slice<T, 0, GetNonVariadicLength<T>>
+    ? GetNonVariadicLength<T> extends infer Len extends number
+        ? SliceArray<T, 0, Len>
+        : T
     : T;
 
 /**
@@ -364,13 +372,13 @@ export type VariadicType<
 > = IsVariadicArray<R> extends true
     ? HasVariadicHead<R> extends true
         ? DropVariadicHead<R> extends infer DroppedHead extends readonly unknown[]
-            ? R extends [...infer Head, ...DroppedHead]
+            ? R extends readonly [...infer Head, ...DroppedHead]
                 ? Head
                 : never
             : never
         : HasVariadicTail<R> extends true
             ? DropVariadicTail<R> extends infer DroppedTail extends readonly unknown[]
-                ? R extends [...DroppedTail, ...infer Tail]
+                ? R extends readonly [...DroppedTail, ...infer Tail]
                     ? Tail
                     : never
                 : never
