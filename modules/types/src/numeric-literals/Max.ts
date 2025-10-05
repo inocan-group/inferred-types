@@ -1,4 +1,12 @@
-import type { AfterFirst, As, First, IsGreaterThan, Unset } from "inferred-types/types";
+import type {
+    AfterFirst,
+    As,
+    First,
+    IsGreaterThan,
+    IsUnion,
+    UnionToTuple,
+    Unset
+} from "inferred-types/types";
 
 type Process<
     T extends readonly number[],
@@ -22,5 +30,13 @@ type Process<
  * Provides the _maximum_ value provided in a numeric tuple.
  */
 export type Max<
-    T extends readonly number[],
-> = Process<T>;
+    T extends number | (readonly number[]),
+> = [T] extends [number]
+    ? [IsUnion<T>] extends [true]
+        ? [UnionToTuple<T>] extends [readonly number[]]
+            ? Max<UnionToTuple<T>>
+            : never
+        : T
+: T extends readonly number[]
+    ? Process<T>
+    : never;

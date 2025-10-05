@@ -1,4 +1,12 @@
-import type { AfterFirst, As, First, IsLessThan, Unset } from "inferred-types/types";
+import type {
+    AfterFirst,
+    As,
+    First,
+    IsLessThan,
+    IsUnion,
+    UnionToTuple,
+    Unset
+} from "inferred-types/types";
 
 type Process<
     T extends readonly number[],
@@ -19,8 +27,28 @@ type Process<
 /**
  * **Min**`<T>`
  *
- * Provides the _maximum_ value provided in a numeric tuple.
+ * Provides the _maximum_ value provided in a numeric array
+ * or union.
+ *
+ * ```ts
+ * // 1
+ * type Arr = Min<[1,2,3]>;
+ * // 1
+ * type Arr = Min<1|2|3>;
+ * ```
+ *
+ * **Related:** `Max`, `Sum`
  */
 export type Min<
-    T extends readonly number[],
-> = Process<T>;
+    T extends number | (readonly number[]),
+> = [T] extends [number]
+    ? [IsUnion<T>] extends [true]
+        ? [UnionToTuple<T>] extends [readonly number[]]
+            ? Min<UnionToTuple<T>>
+            : never
+        : T
+: T extends readonly number[]
+    ? Process<T>
+    : never;
+
+
