@@ -80,9 +80,9 @@ export type FromNamedDynamicSegment<T extends string> = T extends `<string::${st
 
 type ParseUrlPath<
     TParts extends readonly string[],
-    TResult extends Record<string, string> = {}
+    TResult extends Record<string, string> = EmptyObject
 > = TParts extends [infer Head extends string, ...infer Rest extends readonly string[]]
-    ? Head extends `${infer Name}>${infer Remaining}`
+    ? Head extends `${infer Name}>${infer _Remaining}`
         ? Name extends `${infer VarName} as number`
             ? ParseUrlPath<Rest, TResult & Record<VarName, number>>
             : Name extends `${infer VarName} as string(${infer Enum})`
@@ -164,11 +164,3 @@ export interface GetUrlDynamics<T extends string> {
     /** A key/value of both path and query parameter variables */
     allVars: PathAndQueryDynamics<T>;
 }
-
-type X = "https://foo.com/<d1>/<d2>/path?foo=<number>";
-type Focus = StripLeading<StripAfter<X, "?">, "http://" | "https://">;
-type S = Split<Focus, "<", "omit">;
-type P = ParseUrlPath<S>;
-type X1 = GetUrlPathDynamics<X>;
-type X2 = GetQueryParameterDynamics<X>;
-type X3 = PathAndQueryDynamics<X>;

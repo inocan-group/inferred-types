@@ -127,21 +127,6 @@ export type HasVariadicInterior<
             : false;
 
 /**
- * **HasOptionalElementsInArray**`<T>`
- *
- * Boolean operator which detects whether `T` has optional elements (e.g., marked with the
- * `?` modifier) within it's set of elements.
- *
- * **Related:** `AllOptionalElements`
- * **Note:** This is an array-specific version. Use `HasOptionalElements` from `inferred-types/types` for containers.
- */
-type HasOptionalElementsInArray<T extends readonly unknown[]> = GetOptionalElementCount<T> extends 0
-    ? false
-    : number extends GetOptionalElementCount<T>
-        ? boolean
-        : true;
-
-/**
  * **AllOptionalElements**
  *
  * Boolean operator which detects whether `T`'s elements are ALL designed as optional (e.g., marked with the

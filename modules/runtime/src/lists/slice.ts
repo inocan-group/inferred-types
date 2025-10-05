@@ -1,4 +1,4 @@
-import type { Narrowable, Slice, SliceArray } from "inferred-types/types";
+import type { Narrowable, SliceArray } from "inferred-types/types";
 import { isNumber } from "inferred-types/runtime";
 
 /**
@@ -23,10 +23,8 @@ export function slice<
     length: TLen = undefined as TLen,
 ) {
     const sliced: readonly unknown[] = isNumber(length)
-        ? list.slice(start, start+length)
-        : list.slice(start)
+        ? list.slice(start, start + length)
+        : list.slice(start);
 
-    return sliced as unknown as TLen extends number ? SliceArray<TList,TStart,TLen> : SliceArray<TList,TStart>
+    return sliced as unknown as TLen extends number ? SliceArray<TList, TStart, TLen> : SliceArray<TList, TStart>;
 }
-
-

@@ -1,9 +1,6 @@
+import type { AsTakeState, TakeState } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
 import { isString, isTakeState } from "inferred-types/runtime";
-import type { AsTakeState, TakeState } from "inferred-types/types";
-
-
-
 
 /**
  * **asTakeState**`(take)`
@@ -20,5 +17,5 @@ export function asTakeState<T extends string | TakeState>(take: T): AsTakeState<
                 parseString: take,
                 tokens: []
             } as AsTakeState<T>
-        : Never
+            : Never;
 }

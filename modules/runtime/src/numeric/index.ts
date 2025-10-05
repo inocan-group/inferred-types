@@ -1,3 +1,4 @@
+export * from "./abs";
 export * from "./add";
 export * from "./asNumber";
 export * from "./between";
@@ -9,4 +10,3 @@ export * from "./isNegativeNumber";
 export * from "./lessThan";
 export * from "./lessThanOrEqual";
 export * from "./toInteger";
-export * from "./abs"

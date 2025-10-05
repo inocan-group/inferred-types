@@ -53,7 +53,7 @@ type FillAllTemplateHoles<
  */
 export type FnReturn<
     TFn extends TypedFunction,
-    TArgs extends Parameters<TFn> | null = null
+    _TArgs extends Parameters<TFn> | null = null
 > = [IsAny<ReturnType<TFn>>] extends [true]
     ? string // Fallback for functions with any return type that resolve to 'any'
     : ReturnType<TFn> extends string

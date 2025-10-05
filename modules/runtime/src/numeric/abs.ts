@@ -1,4 +1,4 @@
-import type { Abs } from "inferred-types/types"
+import type { Abs } from "inferred-types/types";
 
 /**
  * **abs**`(num) -> number`

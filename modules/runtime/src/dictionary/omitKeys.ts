@@ -1,11 +1,4 @@
-import type { Dictionary, StringKeys } from "inferred-types/types";
-import type {
-    Expand,
-    Mutable,
-    Narrowable,
-    NarrowObject,
-    Suggest,
-} from "inferred-types/types";
+import type { Dictionary, Expand, Mutable, Narrowable, NarrowObject, StringKeys, Suggest } from "inferred-types/types";
 
 /**
  * **omitKeys**(obj, excluding)

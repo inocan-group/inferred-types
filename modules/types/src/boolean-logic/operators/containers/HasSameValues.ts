@@ -9,7 +9,6 @@ import type {
     NarrowlyContains,
     Values
 } from "inferred-types/types";
-import type { GetOptionalElementCount } from "../../../lists/Variadic";
 
 type CheckAllExist<
     A extends readonly unknown[],

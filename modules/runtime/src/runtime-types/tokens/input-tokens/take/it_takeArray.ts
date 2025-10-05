@@ -1,6 +1,5 @@
-import type { Err, IT_TakeOutcome, IT_TakeArray, IT_Token } from 'inferred-types/types';
-import { isErr, err, createTemplateRegExp, isError, retainAfter, nestedSplit, getInputToken } from 'inferred-types/runtime';
-import { isOk } from 'runtime/type-guards';
+import type { Err, IT_TakeArray, IT_TakeOutcome } from "inferred-types/types";
+import { err, getInputToken, isErr, isError, nestedSplit, retainAfter } from "inferred-types/runtime";
 
 function it_takeArray_Postfix_Grouped<T extends string>(parse: T): IT_TakeOutcome<"array"> {
     // Pattern: `(string | number)[]` or `(string)[][]`
@@ -25,7 +24,7 @@ function it_takeArray_Postfix_Grouped<T extends string>(parse: T): IT_TakeOutcom
 
 export function it_takeArray__Postfix<T extends string>(parse: T): IT_TakeOutcome<"array"> {
     // Pattern: `string[]` or `string[][]`
-    const postfixRegex = /^([^\[\]]+)(\[\]+)(.*)$/;
+    const postfixRegex = /^([^[\]]+)(\[\]+)(.*)$/;
     const match = parse.match(postfixRegex);
 
     if (!match || !match[2]) {
@@ -44,13 +43,13 @@ export function it_takeArray__Postfix<T extends string>(parse: T): IT_TakeOutcom
 }
 
 export function it_takeArray__Bracket<T extends string>(parse: T): T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed"> {
-    if(parse.startsWith("Array<")) {
+    if (parse.startsWith("Array<")) {
         // pattern matches
         const start = retainAfter(parse, "Array<");
         const [block, ...rest] = nestedSplit(start, ">") as readonly string[];
         const parsed = getInputToken(block.trim()); // try to parse the array's type
-        if(isError(parsed)) {
-            return parsed as T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed">
+        if (isError(parsed)) {
+            return parsed as T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed">;
         }
 
         return {
@@ -59,7 +58,7 @@ export function it_takeArray__Bracket<T extends string>(parse: T): T extends `Ar
             token: `Array<${block.trim()}>`,
             type: parsed.type,
             rest: rest.join(">").trim()
-        } as T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed">
+        } as T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed">;
     }
 
     return err(`wrong-handler/array-bracketed`) as unknown as T extends `Array<${string}` ? IT_TakeArray<T> : Err<"wrong-handler/array-bracketed">;
@@ -71,12 +70,13 @@ function select<TParse extends string>(parseStr: TParse) {
             const result = v(parseStr);
             if (isErr(result, "malformed-token")) {
                 return result;
-            } else if (!isErr(result, "wrong-handler")) {
+            }
+            else if (!isErr(result, "wrong-handler")) {
                 return result;
             }
         }
         return err("wrong-handler/array");
-    }
+    };
 }
 
 /**

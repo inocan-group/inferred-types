@@ -10,9 +10,6 @@ import type {
     Trim
 } from "inferred-types/types";
 
-type X = NestedSplit<"'foo", "'">;
-type X2 = NestedSplit<"''", "'">;
-
 /**
  * Join all parts with the separator, including between a non-empty
  * part and a trailing empty string. This preserves a trailing separator

@@ -1,12 +1,12 @@
 import type {
+    Dictionary,
     ExpandRecursively,
+    FnKeyValue,
     FnWithProps,
+    IsStaticFn,
     ObjectKey,
     TypedFunction,
-    FnKeyValue,
     WithoutKeys,
-    Dictionary,
-    IsStaticFn,
 } from "inferred-types/types";
 import { fnProps } from "runtime/functions";
 

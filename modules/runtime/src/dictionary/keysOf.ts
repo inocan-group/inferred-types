@@ -22,8 +22,8 @@ export function keysOf<
 ) {
     const keys: unknown = (
         isArray(container)
-                ? Object.keys(container).map(i => Number(i))
-                : Object.keys(container)
+            ? Object.keys(container).map(i => Number(i))
+            : Object.keys(container)
     );
 
     return keys as As<Keys<TObj>, Array<keyof TObj & ObjectKey>>;

@@ -1,5 +1,5 @@
 import type { InputTokenSuggestions } from "inferred-types/types";
-import {  isString } from "inferred-types/runtime";
+import { isString } from "inferred-types/runtime";
 
 /**
  * **isInputToken__String**`(val)`

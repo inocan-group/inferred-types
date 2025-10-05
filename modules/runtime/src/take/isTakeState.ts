@@ -1,5 +1,5 @@
-import type { InputToken, TakeState } from "inferred-types/types";
-import { isArray, isDefined, isObject } from "runtime/type-guards";
+import type { TakeState } from "inferred-types/types";
+import { isArray, isObject } from "runtime/type-guards";
 
 /**
  * **isTakeState**(val)
@@ -8,5 +8,5 @@ import { isArray, isDefined, isObject } from "runtime/type-guards";
  * object.
  */
 export function isTakeState(val: unknown): val is TakeState {
-    return isObject(val) && "kind" in val && val.kind === "TakeState" && "tokens" in val && isArray(val.tokens)
+    return isObject(val) && "kind" in val && val.kind === "TakeState" && "tokens" in val && isArray(val.tokens);
 }

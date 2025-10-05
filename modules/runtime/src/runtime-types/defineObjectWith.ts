@@ -1,4 +1,4 @@
-import type { DefineObject, StringKeys, DefineObjectWith, FromInputToken__Object } from "inferred-types/types";
+import type { DefineObject, DefineObjectWith, FromInputToken__Object, StringKeys } from "inferred-types/types";
 
 export function defineObjectWith<
     TMapper extends DefineObject

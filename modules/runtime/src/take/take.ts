@@ -1,15 +1,12 @@
+import type { AsTakeState, TakeParser, TakeState, UpdateTake } from "inferred-types/types";
 import { asTakeState, isError, isNull, stripLeading } from "inferred-types/runtime";
-import type { AsTakeState, TakeState, TakeParser, UpdateTake } from "inferred-types/types";
-
-
 
 export function append<
     TList extends readonly unknown[],
     TItem
 >(list: TList, add: TItem): [...TList, TItem] {
-    return [...list, add] as [...TList, TItem]
+    return [...list, add] as [...TList, TItem];
 }
-
 
 /**
  * **takeStart**`(...start) -> (parser) -> (val) -> result`
@@ -28,10 +25,9 @@ export function append<
  * this to whatever type you like (however, some sort of Error is typically a good idea).
  */
 export function take<TParse extends TakeParser>(parser: TParse) {
-
     return <TVal extends string | TakeState | Error>(val: TVal): UpdateTake<AsTakeState<TVal>, ReturnType<TParse>> => {
         const state = asTakeState(val);
-        if(isError(state)) {
+        if (isError(state)) {
             return state as unknown as UpdateTake<AsTakeState<TVal>, ReturnType<TParse>>;
         }
 
@@ -41,12 +37,9 @@ export function take<TParse extends TakeParser>(parser: TParse) {
             ? token as unknown as UpdateTake<AsTakeState<TVal>, ReturnType<TParse>>
             : {
                 ...state,
-                parsed: [...state["parsed"], taken],
-                parseString: stripLeading(state["parseString"],  taken),
-                tokens: append(state["tokens"], token)
-            } as UpdateTake<AsTakeState<TVal>, ReturnType<TParse>>
-    }
-
+                parsed: [...state.parsed, taken],
+                parseString: stripLeading(state.parseString, taken),
+                tokens: append(state.tokens, token)
+            } as UpdateTake<AsTakeState<TVal>, ReturnType<TParse>>;
+    };
 }
-
-

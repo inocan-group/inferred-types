@@ -19,5 +19,5 @@ export function isErr<TType extends string>(val: unknown, type?: TType): val is 
                 ? "subType" in val && val.subType === stripUntil(type, "/")
                 : true
         )
-        : isError(val)
+        : isError(val);
 }

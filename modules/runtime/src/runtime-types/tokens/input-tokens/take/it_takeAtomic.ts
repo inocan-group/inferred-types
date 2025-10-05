@@ -1,26 +1,34 @@
-import {  last, takeStart, trim } from 'inferred-types/runtime';
+// type AtomicMap = {
+//     string: string;
+//     number: number;
+//     bigint: bigint;
+//     boolean: boolean;
+//     true: true;
+//     false: false;
+//     null: null;
+//     undefined: undefined;
+//     void: void;
+//     unknown: unknown;
+//     any: any;
+//     object: object;
+//     Object: object;
+// };
 
-
-type AtomicMap = {
-    string: string;
-    number: number;
-    bigint: bigint;
-    boolean: boolean;
-    true: true;
-    false: false;
-    null: null;
-    undefined: undefined;
-    void: void;
-    unknown: unknown;
-    any: any;
-    object: object;
-    Object: object;
-};
-
-const ATOMIC_TYPES = [
-    'string', 'number', 'boolean', 'unknown', 'any', 'void', 'never',
-    'undefined', 'null', 'object', 'Object', 'symbol', 'bigint'
-] as const;
+// const ATOMIC_TYPES = [
+//     "string",
+//     "number",
+//     "boolean",
+//     "unknown",
+//     "any",
+//     "void",
+//     "never",
+//     "undefined",
+//     "null",
+//     "object",
+//     "Object",
+//     "symbol",
+//     "bigint"
+// ] as const;
 
 /**
  * **it_takeAtomic**`(parseStr)`
@@ -30,7 +38,7 @@ const ATOMIC_TYPES = [
  * Handles: `string`, `number`, `boolean`, `true`, `false` `unknown`, `any`,
  * `void`, `never`, `undefined`, `null`, `object`, `Object`, `symbol`, and `bigint`
  */
-export function it_takeAtomic<T extends string>(parseStr: T) {
+export function it_takeAtomic<T extends string>(_parseStr: T) {
     // const parse = trim(parseStr);
     // const take = takeStart(...ATOMIC_TYPES);
 
@@ -38,5 +46,3 @@ export function it_takeAtomic<T extends string>(parseStr: T) {
 
     // return last(state.parsed)
 }
-
-

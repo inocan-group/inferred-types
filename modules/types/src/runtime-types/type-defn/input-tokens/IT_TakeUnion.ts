@@ -45,12 +45,6 @@ type ParseParts<
 readonly IT_Token[] | Error
 >;
 
-type ParsePartTypes<
-    T extends readonly string[]
-> = As<{
-    [K in keyof T]: FromInputToken__String<Trim<T[K]>>
-}, readonly unknown[]>;
-
 type Parse<
     TParts extends readonly string[]
 > = As<

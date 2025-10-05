@@ -135,7 +135,7 @@ export type ObjectKeys<
                                 : IsEqual<K, string | symbol> extends true
                                     ? ObjectKey[]
                                     : IsEqual<K, string | number> extends true
-                                        ? RemoveIndexKeys<Required<TObj>> extends Record<infer K, any>
+                                        ? RemoveIndexKeys<Required<TObj>> extends Record<infer _K, any>
                                             ? [
                                                 ...(As<ObjectKeys<RemoveIndexKeys<Required<TObj>>>, readonly PropertyKey[]>),
                                                 ...string[]

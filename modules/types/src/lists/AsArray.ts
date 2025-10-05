@@ -3,10 +3,7 @@ import type { IsAny, IsNever, IsUndefined, IsUnknown, UnionToTuple } from "infer
 // Helper to check if undefined is part of a union
 type HasUndefined<T> = undefined extends T ? true : false;
 
-// Helper to exclude undefined from a union
-type ExcludeUndefined<T> = Exclude<T, undefined>;
-
-// Distributive conditional type to handle each union member
+/** Distributive conditional type to handle each union member */
 type AsArrayDistributive<T> = T extends unknown
     ? [IsUndefined<T>] extends [true]
         ? []

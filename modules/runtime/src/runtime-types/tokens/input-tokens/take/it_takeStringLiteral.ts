@@ -1,19 +1,19 @@
-import { err } from 'inferred-types/runtime';
+import { err } from "inferred-types/runtime";
 
 /**
  * **it_takeStringLiteral**`(parseStr)`
  *
  * Tries to take string literals off the head of the string token.
- * 
+ *
  * Handles:
  * - `"foo"` - double quoted strings
- * - `'foo'` - single quoted strings  
+ * - `'foo'` - single quoted strings
  * - `\`foo\`` - template literals
  * - `String(foo)` - String constructor calls
  */
 export function it_takeStringLiteral<T extends string>(parseStr: T) {
     const parse = parseStr.trim();
-    
+
     // Pattern 1: Double quoted strings: "foo"
     const doubleQuoteMatch = parse.match(/^"([^"]*)"(.*)$/);
     if (doubleQuoteMatch) {
@@ -26,7 +26,7 @@ export function it_takeStringLiteral<T extends string>(parseStr: T) {
             rest: rest.trim()
         };
     }
-    
+
     // Pattern 2: Single quoted strings: 'foo'
     const singleQuoteMatch = parse.match(/^'([^']*)'(.*)$/);
     if (singleQuoteMatch) {
@@ -39,7 +39,7 @@ export function it_takeStringLiteral<T extends string>(parseStr: T) {
             rest: rest.trim()
         };
     }
-    
+
     // Pattern 3: Template literals: `foo`
     const templateMatch = parse.match(/^`([^`]*)`(.*)$/);
     if (templateMatch) {
@@ -52,7 +52,7 @@ export function it_takeStringLiteral<T extends string>(parseStr: T) {
             rest: rest.trim()
         };
     }
-    
+
     // Pattern 4: String constructor: String(foo)
     const stringConstructorMatch = parse.match(/^String\(([^)]*)\)(.*)$/);
     if (stringConstructorMatch) {
@@ -65,6 +65,6 @@ export function it_takeStringLiteral<T extends string>(parseStr: T) {
             rest: rest.trim()
         };
     }
-    
+
     return err("wrong-handler/string-literal");
 }

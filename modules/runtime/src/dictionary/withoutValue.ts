@@ -1,10 +1,8 @@
 import type {
     Dictionary,
-    FromSimpleToken,
+    InputToken,
     Narrowable,
     ObjectKey,
-    SimpleToken,
-    InputToken,
     WithoutValue
 } from "inferred-types/types";
 import { doesExtend, keysOf } from "inferred-types/runtime";

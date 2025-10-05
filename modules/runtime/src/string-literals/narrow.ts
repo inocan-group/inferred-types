@@ -6,8 +6,6 @@ import type {
     Narrowable,
 } from "inferred-types/types";
 
-
-
 /**
  * **narrow**(value)
  *

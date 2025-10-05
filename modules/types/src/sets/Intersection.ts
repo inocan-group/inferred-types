@@ -14,50 +14,12 @@ import type {
     IsLiteralLike,
     IsNever,
     IsSameContainerType,
-    IsUnion,
     IsWideContainer,
     MixObjects,
     Or,
     UnionFrom,
     Values
 } from "inferred-types/types";
-
-/** Check if value already exists in result to prevent duplicates */
-type AlreadyInResult<
-    Value,
-    Result extends readonly unknown[]
-> = Contains<Result, Value>;
-
-type UnionComparison<
-    TUnionType,
-    TComparator extends readonly unknown[],
-    TResult extends readonly unknown[] = []
-> = TComparator extends [infer Head, ...infer Rest]
-    ? IsEqual<TUnionType, Head> extends true
-        ? UnionComparison<TUnionType, Rest, [...TResult, Head]>
-        : IsUnion<Head> extends true
-            ? UnionComparison<TUnionType, Rest, TResult>
-            : Head extends TUnionType
-                ? UnionComparison<TUnionType, Rest, [...TResult, Head?]>
-                : UnionComparison<TUnionType, Rest, TResult>
-    : TResult
-                ;
-
-/** Main comparison function for comparisons without an offset */
-type Compare<
-    A extends readonly unknown[],
-    B extends readonly unknown[],
-    Result extends readonly unknown[] = []
-> = A extends readonly [infer Head, ...infer Tail]
-    ? IsUnion<Head> extends true
-        ? UnionComparison<Head, B>
-        : Contains<[...B], Head> extends true
-            ? Compare<Tail, B, [
-                ...Result,
-                Head
-            ]>
-            : Compare<Tail, B, Result>
-    : Result;
 
 /** compare objects with offset property */
 type CompareWithOffset<
@@ -66,7 +28,7 @@ type CompareWithOffset<
     O extends string,
     Result extends readonly unknown[] = [],
 > = A extends [infer AType, ...infer Rest]
-    ? GetEach<B, O> extends infer BOffset extends readonly unknown[]
+    ? GetEach<B, O> extends infer _BOffset extends readonly unknown[]
         ? O extends keyof AType
             ? Find<B, "objectKeyEquals", [O, AType[O]]> extends infer Found extends Dictionary
                 ? CompareWithOffset<

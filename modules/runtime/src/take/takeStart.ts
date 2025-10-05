@@ -1,29 +1,27 @@
 import type {
-    TakeStart,
-    TakeState,
-    StartsWith,
-    TakeStartMatches,
-    StringKeys,
-    Slice,
     Err,
-    TakeStartFn
-} from 'inferred-types/types';
+    Slice,
+    StartsWith,
+    StringKeys,
+    TakeStart,
+    TakeStartFn,
+    TakeStartMatches,
+    TakeState
+} from "inferred-types/types";
 
 import {
-    stripLeading,
     asTakeState,
-    slice,
-    keysOf,
+    createFnWithProps,
     isErr,
-    createFnWithProps
-} from 'inferred-types/runtime';
-import { Never } from 'inferred-types/constants';
+    keysOf,
+    slice,
+    stripLeading
+} from "inferred-types/runtime";
 import {
     isArray,
-    isStringArray,
-    isNarrowableDictionary
-} from 'runtime/type-guards';
-import type { TypedFunction } from 'inferred-types/types';
+    isNarrowableDictionary,
+    isStringArray
+} from "runtime/type-guards";
 
 type Which<
     T extends TakeState,
@@ -34,8 +32,8 @@ type Which<
 ]
     ? StartsWith<T["parseString"], Head> extends true
         ? Head
-        : Which<T,Rest>
-: undefined;
+        : Which<T, Rest>
+    : undefined;
 
 function findMatch<
     T extends TakeState,
@@ -44,11 +42,11 @@ function findMatch<
     state: T,
     matches: M
 ) {
-    return matches.find(i => state.parseString.startsWith(i)) as Which<T,M>
+    return matches.find(i => state.parseString.startsWith(i)) as Which<T, M>;
 }
 
 function isCallback(val: unknown): val is TakeStartMatches<"callback"> {
-    return isArray(val) && val.length > 2 && typeof val[0] === "function" && typeof val[1] === "string"
+    return isArray(val) && val.length > 2 && typeof val[0] === "function" && typeof val[1] === "string";
 }
 
 function isMapper(val: unknown): val is TakeStartMatches<"mapper"> {
@@ -56,62 +54,59 @@ function isMapper(val: unknown): val is TakeStartMatches<"mapper"> {
         && isNarrowableDictionary(val[0]) && isStringArray(keysOf(val[0]));
 }
 
-
-
 type GetVariant<T extends TakeStartMatches> = T extends TakeStartMatches<"callback">
-? {
-    variant: "callback";
-    callback: T[0];
-    matches: Slice<T,1>;
-    lookup: undefined;
-}
-: T extends TakeStartMatches<"mapper">
-? {
-    variant: "mapper";
-    callback: undefined;
-    matches: StringKeys<T>;
-    lookup: T[0];
-}
-: T extends TakeStartMatches<"default">
-? {
-    variant: "default";
-    callback: undefined;
-    matches: T;
-    lookup: undefined
-}
-: never;
-
-
+    ? {
+        variant: "callback";
+        callback: T[0];
+        matches: Slice<T, 1>;
+        lookup: undefined;
+    }
+    : T extends TakeStartMatches<"mapper">
+        ? {
+            variant: "mapper";
+            callback: undefined;
+            matches: StringKeys<T>;
+            lookup: T[0];
+        }
+        : T extends TakeStartMatches<"default">
+            ? {
+                variant: "default";
+                callback: undefined;
+                matches: T;
+                lookup: undefined;
+            }
+            : never;
 
 function getVariant<const T extends TakeStartMatches>(matches: T): GetVariant<T> {
-    if(isCallback(matches)) {
+    if (isCallback(matches)) {
         return {
             variant: "callback",
             callback: matches[0],
-            matches: slice(matches,1),
+            matches: slice(matches, 1),
             lookup: undefined
-        } as unknown as GetVariant<T>
-    } else if (isMapper(matches)) {
+        } as unknown as GetVariant<T>;
+    }
+    else if (isMapper(matches)) {
         return {
             variant: "mapper",
             callback: undefined,
             matches: keysOf(matches[0]),
             lookup: matches[0]
-        } as unknown as GetVariant<T>
-    } else {
+        } as unknown as GetVariant<T>;
+    }
+    else {
         return {
             variant: "default",
             callback: undefined,
             matches,
             lookup: undefined
-        } as unknown as GetVariant<T>
+        } as unknown as GetVariant<T>;
     }
 }
 
 function handleCallback<T extends TakeState | Err<"skip"> | Err<"no-token"> | Err<"invalid-token">>(result: T) {
     return result;
 }
-
 
 /**
  * **takeStart**`(...matches) -> (value) -> TakeState | Err<"invalid-token">`
@@ -182,7 +177,7 @@ function handleCallback<T extends TakeState | Err<"skip"> | Err<"no-token"> | Er
 export function takeStart<T extends TakeStartMatches>(...config: T): TakeStartFn<T> {
     const { variant, matches, callback, lookup } = getVariant(config);
 
-    const fn = <const U extends string | TakeState>(value: U): TakeStart<T,U> => {
+    const fn = <const U extends string | TakeState>(value: U): TakeStart<T, U> => {
         const state = asTakeState(value);
 
         const match = findMatch(state, matches);
@@ -233,12 +228,12 @@ export function takeStart<T extends TakeStartMatches>(...config: T): TakeStartFn
 
         // assume callback returned a valid TakeState
         return cbResult as unknown as TakeStart<T, U>;
-    }
+    };
 
     const result = createFnWithProps(fn, {
         variant,
         matches
-    })
+    });
 
     return result;
 }

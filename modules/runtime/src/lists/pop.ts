@@ -1,6 +1,5 @@
 import type { BeforeLast, Last } from "inferred-types/types";
 
-
 /**
  * **pop**`(list) -> [ remaining, popped ]`
  *
@@ -15,5 +14,5 @@ export function pop<T extends readonly unknown[]>(list: T): [ BeforeLast<T>, Las
     const before = [...list];
     const last = before.pop();
 
-    return [before, last] as [ BeforeLast<T>, Last<T> ]
+    return [before, last] as [ BeforeLast<T>, Last<T> ];
 }

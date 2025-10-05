@@ -28,7 +28,6 @@ type AdjustVariadic<
     TOrigin extends readonly unknown[],
     /** the element which was just removed */
     TRemoved,
-    TLast = TList extends [...readonly unknown[], infer Last] ? Last : undefined,
     TType = VariadicType<TOrigin> extends (infer Base)[]
         ? Base
         : never

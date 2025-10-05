@@ -13,15 +13,15 @@ import {
     isString,
 } from "inferred-types/runtime";
 import {
-    boolean,
-    nullType,
-    undefinedType,
-    unknown,
-    fn,
     array,
+    boolean,
+    fn,
     map,
+    nullType,
     record,
     set,
+    undefinedType,
+    unknown,
     weakMap
 } from "runtime/runtime-types";
 
