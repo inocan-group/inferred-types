@@ -1,18 +1,19 @@
 import type { AfterFirst, AsString, First, Replace, StripLeading, Tuple } from "inferred-types/types";
 
 type Process<
-    T extends Tuple,
+    T extends readonly unknown[],
     TReplace extends string,
     TResult extends string = "",
-> = [] extends T
-    ? StripLeading<TResult, ",">
-    : Process<
-        AfterFirst<T>,
+> = T extends [infer Head, ...infer Rest]
+    ? Process<
+        Rest,
         TReplace,
-        First<T> extends string
-            ? `${TResult},${Replace<First<T>, ",", TReplace>}`
-            : `${TResult},${AsString<First<T>>}`
-    >;
+        Head extends string
+            ? `${TResult},${Replace<Head, ",", TReplace>}`
+            : `${TResult},${AsString<Head>}`
+    >
+: StripLeading<TResult, ",">
+;
 
 /**
  * **ToCSV**`<TTuple,[TReplace]>`
@@ -23,6 +24,6 @@ type Process<
  * to `<comma>`).
  */
 export type ToCSV<
-    TTuple extends Tuple,
+    TTuple extends readonly unknown[],
     TReplace extends string = "<comma>",
 > = Process<TTuple, TReplace>;
