@@ -1,4 +1,4 @@
-import type { As, ErrContext, StripLeading, TakeState } from "inferred-types/types";
+import type { As, StripLeading, TakeState } from "inferred-types/types";
 
 /**
  * **UpdateTake**`<TState, TParsed, [TToken]>`
@@ -19,4 +19,4 @@ export type UpdateTake<
     parsed: [...TState["parsed"], TParsed];
     parseString: StripLeading<TState["parseString"], TParsed>;
     tokens: [...TState["tokens"], TToken];
-}, TakeState>
+}, TakeState>;

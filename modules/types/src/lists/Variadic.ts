@@ -90,15 +90,15 @@ export type HasVariadicHead<
     R extends readonly unknown[] = [...T]
 > = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: IsVariadicArray<R> extends true
-    ? HasFixedHead<R> extends true
+    : [IsNever<T>] extends [true]
         ? false
-        : SplitAtVariadic<R> extends [...unknown[], []]
-            ? false
-            : true
-    : false;
+        : IsVariadicArray<R> extends true
+            ? HasFixedHead<R> extends true
+                ? false
+                : SplitAtVariadic<R> extends [...unknown[], []]
+                    ? false
+                    : true
+            : false;
 
 /**
  * **HasVariadicInterior**`<T>`
@@ -174,7 +174,6 @@ export type GetNonVariadicLength<
                 [...Depth, unknown]
             >
             : F["length"];
-
 
 /**
  * **NonVariadicRequired**`<T>`

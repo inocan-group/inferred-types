@@ -1,9 +1,4 @@
-import type { Opt } from "inferred-types/types";
-import type {
-    CssGlobal,
-    CssRotation,
-    CssSizingLight
-} from "inferred-types/types";
+import type { CssGlobal, CssRotation, CssSizingLight, Opt } from "inferred-types/types";
 
 export type CssTransform
     = | `matrix(${number}${Opt<`, ${number}${string}`>})`

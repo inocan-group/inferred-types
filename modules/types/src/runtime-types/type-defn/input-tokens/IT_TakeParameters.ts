@@ -44,190 +44,190 @@ type DetermineType<
             >
 
     // Handle postfix arrays: T[][] and T[]
-    : Trim<T> extends `${infer InnerA extends string}[][]`
-        ? DetermineType<Trim<InnerA>, U> extends infer AInfo extends { type: unknown }
-            ? {
-                token: Trim<T>;
-                type: AInfo["type"][][];
-                fromGeneric: false;
-            }
-            : Err<
-                `malformed-token`,
-                `While parsing a two-dimensional array parameter, the interior token '${Trim<InnerA>}' was not parsable to a type!`,
-                { parameter: Trim<T>; generics: U }
-            >
-        : Trim<T> extends `${infer InnerB extends string}[]`
-            ? DetermineType<Trim<InnerB>, U> extends infer BInfo extends { type: unknown }
+        : Trim<T> extends `${infer InnerA extends string}[][]`
+            ? DetermineType<Trim<InnerA>, U> extends infer AInfo extends { type: unknown }
                 ? {
                     token: Trim<T>;
-                    type: BInfo["type"][];
+                    type: AInfo["type"][][];
                     fromGeneric: false;
                 }
                 : Err<
                     `malformed-token`,
+                `While parsing a two-dimensional array parameter, the interior token '${Trim<InnerA>}' was not parsable to a type!`,
+                { parameter: Trim<T>; generics: U }
+                >
+            : Trim<T> extends `${infer InnerB extends string}[]`
+                ? DetermineType<Trim<InnerB>, U> extends infer BInfo extends { type: unknown }
+                    ? {
+                        token: Trim<T>;
+                        type: BInfo["type"][];
+                        fromGeneric: false;
+                    }
+                    : Err<
+                        `malformed-token`,
                     `While parsing an array parameter, the interior token '${Trim<InnerB>}' was not parsable to a type!`,
                     { parameter: Trim<T>; generics: U }
-                >
+                    >
 
-    // Handle Set<...>
-    : Trim<T> extends `Set<${infer InnerS extends string}`
-        ? NestedSplit<InnerS, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
-            ? DetermineType<Trim<Block>, U> extends infer SInfo extends { type: unknown }
-                ? {
-                    token: `Set<${Trim<Block>}>`;
-                    type: Set<SInfo["type"]>;
-                    fromGeneric: false;
-                }
-                : Err<
-                    `malformed-token`,
+            // Handle Set<...>
+                : Trim<T> extends `Set<${infer InnerS extends string}`
+                    ? NestedSplit<InnerS, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
+                        ? DetermineType<Trim<Block>, U> extends infer SInfo extends { type: unknown }
+                            ? {
+                                token: `Set<${Trim<Block>}>`;
+                                type: Set<SInfo["type"]>;
+                                fromGeneric: false;
+                            }
+                            : Err<
+                                `malformed-token`,
                     `While parsing a Set parameter, the interior token '${Trim<Block>}' was not parsable to a type!`,
                     { parameter: Trim<T>; generics: U }
-                >
-            : Err<
-                `malformed-token`,
+                            >
+                        : Err<
+                            `malformed-token`,
                 `The Set<...> token '${Trim<T>}' is missing a terminating '>' character!`,
                 { parameter: Trim<T>; generics: U }
-            >
+                        >
 
-    // Handle Promise<...>
-    : Trim<T> extends `Promise<${infer InnerP extends string}`
-        ? NestedSplit<InnerP, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
-            ? DetermineType<Trim<Block>, U> extends infer PInfo extends { type: unknown }
-                ? {
-                    token: `Promise<${Trim<Block>}>`;
-                    type: Promise<PInfo["type"]>;
-                    fromGeneric: false;
-                }
-                : Err<
-                    `malformed-token`,
+                // Handle Promise<...>
+                    : Trim<T> extends `Promise<${infer InnerP extends string}`
+                        ? NestedSplit<InnerP, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
+                            ? DetermineType<Trim<Block>, U> extends infer PInfo extends { type: unknown }
+                                ? {
+                                    token: `Promise<${Trim<Block>}>`;
+                                    type: Promise<PInfo["type"]>;
+                                    fromGeneric: false;
+                                }
+                                : Err<
+                                    `malformed-token`,
                     `While parsing a Promise parameter, the interior token '${Trim<Block>}' was not parsable to a type!`,
                     { parameter: Trim<T>; generics: U }
-                >
-            : Err<
-                `malformed-token`,
+                                >
+                            : Err<
+                                `malformed-token`,
                 `The Promise<...> token '${Trim<T>}' is missing a terminating '>' character!`,
                 { parameter: Trim<T>; generics: U }
-            >
+                            >
 
-    // Handle Map<K,V>
-    : Trim<T> extends `Map<${infer RestM extends string}`
-        ? NestedSplit<RestM, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
-            ? TrimEach<As<NestedSplit<Block, ",">, readonly string[]>> extends [
-                infer KTok extends string,
-                infer VTok extends string,
-                ...infer _Extra extends readonly string[]
-            ]
-                ? DetermineType<KTok, U> extends infer KInfo extends { type: unknown }
-                    ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
-                        ? {
-                            token: `Map<${KTok}, ${VTok}>`;
-                            type: Map<KInfo["type"], VInfo["type"]>;
-                            fromGeneric: false;
-                        }
-                        : Err<
-                            `malformed-token`,
+                    // Handle Map<K,V>
+                        : Trim<T> extends `Map<${infer RestM extends string}`
+                            ? NestedSplit<RestM, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
+                                ? TrimEach<As<NestedSplit<Block, ",">, readonly string[]>> extends [
+                                    infer KTok extends string,
+                                    infer VTok extends string,
+                                    ...infer _Extra extends readonly string[]
+                                ]
+                                    ? DetermineType<KTok, U> extends infer KInfo extends { type: unknown }
+                                        ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
+                                            ? {
+                                                token: `Map<${KTok}, ${VTok}>`;
+                                                type: Map<KInfo["type"], VInfo["type"]>;
+                                                fromGeneric: false;
+                                            }
+                                            : Err<
+                                                `malformed-token`,
                             `While parsing a Map parameter, the value token '${VTok}' was not parsable to a type!`,
                             { parameter: Trim<T>; generics: U }
-                        >
-                    : Err<
-                        `malformed-token`,
+                                            >
+                                        : Err<
+                                            `malformed-token`,
                         `While parsing a Map parameter, the key token '${KTok}' was not parsable to a type!`,
                         { parameter: Trim<T>; generics: U }
-                    >
-                : Err<
-                    `malformed-token`,
+                                        >
+                                    : Err<
+                                        `malformed-token`,
                     `The Map<...> parameter interior '${Block}' did not contain a valid 'key, value' pair!`,
                     { parameter: Trim<T>; generics: U }
-                >
-            : Err<
-                `malformed-token`,
+                                    >
+                                : Err<
+                                    `malformed-token`,
                 `The Map<...> token '${Trim<T>}' is missing a terminating '>' character!`,
                 { parameter: Trim<T>; generics: U }
-            >
+                                >
 
-    // Handle WeakMap<K,V>
-    : Trim<T> extends `WeakMap<${infer RestW extends string}`
-        ? NestedSplit<RestW, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
-            ? TrimEach<As<NestedSplit<Block, ",">, readonly string[]>> extends [
-                infer KTok extends string,
-                infer VTok extends string,
-                ...infer _Extra extends readonly string[]
-            ]
-                ? DetermineType<KTok, U> extends infer KInfo extends { type: unknown }
-                    ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
-                        ? {
-                            token: `WeakMap<${KTok}, ${VTok}>`;
-                            type: WeakMap<KInfo["type"], VInfo["type"]>;
-                            fromGeneric: false;
-                        }
-                        : Err<
-                            `malformed-token`,
+                        // Handle WeakMap<K,V>
+                            : Trim<T> extends `WeakMap<${infer RestW extends string}`
+                                ? NestedSplit<RestW, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
+                                    ? TrimEach<As<NestedSplit<Block, ",">, readonly string[]>> extends [
+                                        infer KTok extends string,
+                                        infer VTok extends string,
+                                        ...infer _Extra extends readonly string[]
+                                    ]
+                                        ? DetermineType<KTok, U> extends infer KInfo extends { type: unknown }
+                                            ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
+                                                ? {
+                                                    token: `WeakMap<${KTok}, ${VTok}>`;
+                                                    type: WeakMap<KInfo["type"], VInfo["type"]>;
+                                                    fromGeneric: false;
+                                                }
+                                                : Err<
+                                                    `malformed-token`,
                             `While parsing a WeakMap parameter, the value token '${VTok}' was not parsable to a type!`,
                             { parameter: Trim<T>; generics: U }
-                        >
-                    : Err<
-                        `malformed-token`,
+                                                >
+                                            : Err<
+                                                `malformed-token`,
                         `While parsing a WeakMap parameter, the key token '${KTok}' was not parsable to a type!`,
                         { parameter: Trim<T>; generics: U }
-                    >
-                : Err<
-                    `malformed-token`,
+                                            >
+                                        : Err<
+                                            `malformed-token`,
                     `The WeakMap<...> parameter interior '${Block}' did not contain a valid 'key, value' pair!`,
                     { parameter: Trim<T>; generics: U }
-                >
-            : Err<
-                `malformed-token`,
+                                        >
+                                    : Err<
+                                        `malformed-token`,
                 `The WeakMap<...> token '${Trim<T>}' is missing a terminating '>' character!`,
                 { parameter: Trim<T>; generics: U }
-            >
+                                    >
 
-    // Handle Record<K,V>
-    : Trim<T> extends `Record<${infer RestR extends string}`
-        ? NestedSplit<RestR, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
-            ? TrimEach<As<NestedSplit<Block, ",">, readonly string[]>> extends [
-                infer KTok extends string,
-                infer VTok extends string,
-                ...infer _Extra extends readonly string[]
-            ]
-                ? DetermineType<KTok, U> extends infer KInfo extends { type: unknown }
-                    ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
-                        ? {
-                            token: `Record<${KTok}, ${VTok}>`;
-                            type: Record<KInfo["type"], VInfo["type"]>;
-                            fromGeneric: false;
-                        }
-                        : Err<
-                            `malformed-token`,
+                            // Handle Record<K,V>
+                                : Trim<T> extends `Record<${infer RestR extends string}`
+                                    ? NestedSplit<RestR, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
+                                        ? TrimEach<As<NestedSplit<Block, ",">, readonly string[]>> extends [
+                                            infer KTok extends string,
+                                            infer VTok extends string,
+                                            ...infer _Extra extends readonly string[]
+                                        ]
+                                            ? DetermineType<KTok, U> extends infer KInfo extends { type: unknown }
+                                                ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
+                                                    ? {
+                                                        token: `Record<${KTok}, ${VTok}>`;
+                                                        type: Record<KInfo["type"], VInfo["type"]>;
+                                                        fromGeneric: false;
+                                                    }
+                                                    : Err<
+                                                        `malformed-token`,
                             `While parsing a Record parameter, the value token '${VTok}' was not parsable to a type!`,
                             { parameter: Trim<T>; generics: U }
-                        >
-                    : Err<
-                        `malformed-token`,
+                                                    >
+                                                : Err<
+                                                    `malformed-token`,
                         `While parsing a Record parameter, the key token '${KTok}' was not parsable to a type!`,
                         { parameter: Trim<T>; generics: U }
-                    >
-                : Err<
-                    `malformed-token`,
+                                                >
+                                            : Err<
+                                                `malformed-token`,
                     `The Record<...> parameter interior '${Block}' did not contain a valid 'key, value' pair!`,
                     { parameter: Trim<T>; generics: U }
-                >
-            : Err<
-                `malformed-token`,
+                                            >
+                                        : Err<
+                                            `malformed-token`,
                 `The Record<...> token '${Trim<T>}' is missing a terminating '>' character!`,
                 { parameter: Trim<T>; generics: U }
-            >
+                                        >
 
-    : FromInputToken__String<Trim<T>> extends Error
-        ? Err<
-            `malformed-token`,
+                                    : FromInputToken__String<Trim<T>> extends Error
+                                        ? Err<
+                                            `malformed-token`,
             `The parameter token's boundaries were established but while iterating over the parameter definitions we found the parameter token: '${Trim<T>}'`,
-        { parameter: Trim<T>; generics: U }
-        >
-        : {
-            token: Trim<T>;
-            type: FromInputToken__String<Trim<T>>;
-            fromGeneric: false;
-        };
+            { parameter: Trim<T>; generics: U }
+                                        >
+                                        : {
+                                            token: Trim<T>;
+                                            type: FromInputToken__String<Trim<T>>;
+                                            fromGeneric: false;
+                                        };
 
 type AsParameters<
     TParams extends readonly string[],

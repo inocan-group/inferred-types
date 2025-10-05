@@ -1,13 +1,12 @@
-import {
+import type {
     Container,
-    GetRequiredElementCount,
-    IsWideContainer,
     Dictionary,
-    RequiredKeysTuple,
     EmptyObject,
-    IsEqual
+    GetRequiredElementCount,
+    IsEqual,
+    IsWideContainer,
+    RequiredKeysTuple
 } from "inferred-types/types";
-
 
 /**
  * **HasRequiredElements**`<T>`
@@ -17,14 +16,14 @@ import {
  */
 export type HasRequiredElements<T extends Container> = IsEqual<T, EmptyObject> extends true
     ? false
-: IsWideContainer<T> extends true
-    ? boolean
-: T extends readonly unknown[]
-    ?  GetRequiredElementCount<T> extends 0
-        ? false
-        : true
-: T extends Dictionary
-    ? RequiredKeysTuple<T>["length"] extends 0
-        ? false
-        : true
-: never;
+    : IsWideContainer<T> extends true
+        ? boolean
+        : T extends readonly unknown[]
+            ? GetRequiredElementCount<T> extends 0
+                ? false
+                : true
+            : T extends Dictionary
+                ? RequiredKeysTuple<T>["length"] extends 0
+                    ? false
+                    : true
+                : never;

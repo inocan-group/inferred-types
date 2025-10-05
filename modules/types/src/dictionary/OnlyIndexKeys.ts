@@ -2,13 +2,10 @@ import type {
     Dictionary,
     EmptyObject,
     ExpandDictionary,
-    IsNever,
     IsTemplateLiteral,
-    IsUnion,
     ObjectKey,
     UnionToTuple
 } from "inferred-types/types";
-
 
 type ExtractIndexKeysFromObj<T> = {
     [K in keyof T as string extends K
@@ -19,7 +16,6 @@ type ExtractIndexKeysFromObj<T> = {
                 ? K
                 : never]: T[K]
 };
-
 
 type GetTemplateLiteralIndexes<
     TObj extends Dictionary,
@@ -45,5 +41,3 @@ type GetTemplateLiteralIndexes<
 export type OnlyIndexKeys<T extends Dictionary> = ExpandDictionary<
     ExtractIndexKeysFromObj<T> & GetTemplateLiteralIndexes<T, UnionToTuple<keyof T>>
 >;
-
-

@@ -1,8 +1,5 @@
 import type {
     As,
-    FnFrom,
-    FnMeta,
-    FnMetaShape,
     FromLiteralTemplate,
     IsAny,
     IsTemplateLiteral,
@@ -35,8 +32,6 @@ type FillAllTemplateHoles<
         "{{number}}",
         "${number}"
     >;
-
-
 
 /**
  * **FnReturn**`<TFn>`

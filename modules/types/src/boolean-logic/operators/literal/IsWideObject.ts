@@ -28,18 +28,18 @@ export type IsWideObject<
     ? false
     : [IsNever<T>] extends [true]
         ? false
-    : [T] extends [AnyFunction]
-        ? false
-    : [T] extends [Dictionary]
-        ? [number] extends [Keys<T>["length"]]
-            ? true
-        : number extends TupleMeta<Keys<T>>["nonVariadicLength"]
-            ? true
-            : HasNonTemplateLiteral<Keys<T>> extends true
-                ? false
-                : Keys<T>["length"] extends 0
-                    ? false
-                    : true
+        : [T] extends [AnyFunction]
+            ? false
+            : [T] extends [Dictionary]
+                ? [number] extends [Keys<T>["length"]]
+                    ? true
+                    : number extends TupleMeta<Keys<T>>["nonVariadicLength"]
+                        ? true
+                        : HasNonTemplateLiteral<Keys<T>> extends true
+                            ? false
+                            : Keys<T>["length"] extends 0
+                                ? false
+                                : true
                 : [T] extends [object]
                     ? [IsEqual<T, object>] extends [true]
                         ? true

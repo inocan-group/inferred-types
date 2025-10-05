@@ -56,46 +56,46 @@ type Parse<
 > = As<
     ValidateStructure<TParts> extends Err<"malformed-token">
         ? ValidateStructure<TParts>
-    : ValidateStructure<TParts> extends readonly string[]
-        ? (
+        : ValidateStructure<TParts> extends readonly string[]
+            ? (
             // separate head and rest to keep rest parsing precise and shallow
-            ValidateStructure<TParts> extends [
-                infer HeadTokenStr extends string,
-                ...infer RestParts extends readonly string[]
-            ]
-                ? (
+                ValidateStructure<TParts> extends [
+                    infer HeadTokenStr extends string,
+                    ...infer RestParts extends readonly string[]
+                ]
+                    ? (
                     // parse rest parts only; head token is already an IT_Token
-                    ParseParts<ValidateStructure<RestParts>> extends infer TokensOrErr
-                        ? TokensOrErr extends Error
-                            ? Err<
-                                "malformed-token/union",
+                        ParseParts<ValidateStructure<RestParts>> extends infer TokensOrErr
+                            ? TokensOrErr extends Error
+                                ? Err<
+                                    "malformed-token/union",
                                 `Attempt to parse members of a union type failed because one or more were unable to be parsed into a valid type. ${TokensOrErr["message"]}`,
                                 { parts: RestParts }
-                            >
-                            : TokensOrErr extends infer RestTokens extends readonly IT_Token[]
-                                ? {
-                                    __kind: "IT_Token";
-                                    kind: "union";
-                                    token: Trim<Join<[
-                                        HeadTokenStr,
-                                        ...GetEach<RestTokens, "token">
-                                    ], " | ">>;
-                                    type: TupleToUnion<[
-                                        FromInputToken__String<Trim<HeadTokenStr>>,
-                                        ...FromInputToken__Tuple<ValidateStructure<RestParts>>
-                                    ]>;
-                                    rest: As<Last<RestTokens>["rest"], string>;
-                                    members: [
-                                        FromInputToken__String<Trim<HeadTokenStr>>,
-                                        ...FromInputToken__Tuple<ValidateStructure<RestParts>>
-                                    ];
-                                }
-                                : never
-                        : never
-                )
-                : never
-        )
-        : Err<`malformed-token/union`>,
+                                >
+                                : TokensOrErr extends infer RestTokens extends readonly IT_Token[]
+                                    ? {
+                                        __kind: "IT_Token";
+                                        kind: "union";
+                                        token: Trim<Join<[
+                                            HeadTokenStr,
+                                            ...GetEach<RestTokens, "token">
+                                        ], " | ">>;
+                                        type: TupleToUnion<[
+                                            FromInputToken__String<Trim<HeadTokenStr>>,
+                                            ...FromInputToken__Tuple<ValidateStructure<RestParts>>
+                                        ]>;
+                                        rest: As<Last<RestTokens>["rest"], string>;
+                                        members: [
+                                            FromInputToken__String<Trim<HeadTokenStr>>,
+                                            ...FromInputToken__Tuple<ValidateStructure<RestParts>>
+                                        ];
+                                    }
+                                    : never
+                            : never
+                    )
+                    : never
+            )
+            : Err<`malformed-token/union`>,
     IT_TakeOutcome<"union">
 >;
 
@@ -110,8 +110,8 @@ type Parse<
  */
 type ValidateStructure<
     T extends readonly string[]
-> =
-    Trim<Last<T>> extends ""
+>
+    = Trim<Last<T>> extends ""
         ? Err<
             `malformed-token/union`,
             `The union operator '|' was found at the end of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!`,
@@ -123,7 +123,7 @@ type ValidateStructure<
                 `The union operator '|' was found next to another '|' operator. This is not allowed as the union operator is an inline operator and must have types on both sides of it!`,
                 { parseString: T }
             >
-        : TrimEach<T>;
+            : TrimEach<T>;
 
 /**
  * **IT_TakeUnion**`<TParse,TToken>`
@@ -143,11 +143,11 @@ export type IT_TakeUnion<
             ? Err<
                 `malformed-token/union`,
                 `The union operator '|' was found at the beginning of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!`,
-                { parseString: TToken,  previousToken: TToken }
+                { parseString: TToken; previousToken: TToken }
             >
             : NestedSplit<Rest, "|"> extends infer Parts extends readonly string[]
                 ? Parse<[`${As<TToken, IT_Token>["token"]}`, ...Parts]>
                 : never
-    : Err<"wrong-handler/union", `The union handler only takes parse strings which start with '|'`, { parse: TParse; token: TToken }>,
+        : Err<"wrong-handler/union", `The union handler only takes parse strings which start with '|'`, { parse: TParse; token: TToken }>,
     IT_TakeOutcome<"union">
 >;

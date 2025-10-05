@@ -25,5 +25,4 @@ export type OnlyFn<T extends AnyFunction> = HasExtraProperties<T> extends true
         : T extends (...args: infer P) => infer R
             ? (...args: P) => R
             : Function
-    : T;  // No extra properties: return the function as-is (preserves generics)
-
+    : T; // No extra properties: return the function as-is (preserves generics)

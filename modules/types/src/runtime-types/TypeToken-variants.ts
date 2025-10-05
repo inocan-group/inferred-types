@@ -12,7 +12,6 @@ import type {
     TypeTokenKind
 } from "inferred-types/types";
 
-
 type MakeDynamic<T extends readonly string[]> = {
     [K in keyof T]: ReplaceAll<
         ReplaceAll<T[K], "${string}", `${string}`>,

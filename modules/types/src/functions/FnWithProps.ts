@@ -1,13 +1,12 @@
 import type {
     Dictionary,
+    ExpandRecursively,
     FnKeyValue,
     FnReturn,
     IsNonEmptyObject,
     TypedFunction,
-    WithoutKeys,
-    ExpandRecursively
+    WithoutKeys
 } from "inferred-types/types";
-
 
 /**
  * **FnWithProps**`<TFn,TProps,[TClone]>`

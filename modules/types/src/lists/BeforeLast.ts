@@ -1,5 +1,4 @@
-import type { Chars, Concat, Handle, IsEqual, Pop, As } from "inferred-types/types";
-
+import type { As, Chars, Concat, Handle, IsEqual, Pop } from "inferred-types/types";
 
 /**
  * **BeforeLast**`<T>`

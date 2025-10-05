@@ -24,14 +24,14 @@ type ExtractProps<T> = T extends (...args: any[]) => any
     ? Omit<T, keyof ((...args: any[]) => any)>
     : never;
 
-type IsStaticCheck<T> =
-    [IsEqual<RegularFn<T>, T>] extends [true]
+type IsStaticCheck<T>
+    = [IsEqual<RegularFn<T>, T>] extends [true]
         ? true
-    : HasExtraProperties<T> extends false
-        ? false  // No extra properties and not equal to RegularFn: must be generic
-        : [IsEqual<RegularFn<T> & ExtractProps<T>, T>] extends [true]
-            ? true  // RegularFn + props = T, so it's a static function with properties
-            : false; // Generic function with properties
+        : HasExtraProperties<T> extends false
+            ? false // No extra properties and not equal to RegularFn: must be generic
+            : [IsEqual<RegularFn<T> & ExtractProps<T>, T>] extends [true]
+                ? true // RegularFn + props = T, so it's a static function with properties
+                : false; // Generic function with properties
 
 /**
  * **IsStaticFn**`<TFn>`
@@ -47,17 +47,17 @@ export type IsStaticFn<T> = [IsAny<T>] extends [true]
     ? boolean
     : [IsNever<T>] extends [true]
         ? false
-    : [IsUnknown<T>] extends [true]
-        ? boolean
+        : [IsUnknown<T>] extends [true]
+            ? boolean
 
-    : T extends AnyFunction
-        ? T extends TypedFunction
-            ? IsStaticCheck<T> extends true
-                ? FnMeta<T>["params"]["length"] extends 0
-                    ? false
-                    : true
-                : false
-            : IsStaticCheck<T> extends true
-                ? true
-                : false
-        : false;
+            : T extends AnyFunction
+                ? T extends TypedFunction
+                    ? IsStaticCheck<T> extends true
+                        ? FnMeta<T>["params"]["length"] extends 0
+                            ? false
+                            : true
+                        : false
+                    : IsStaticCheck<T> extends true
+                        ? true
+                        : false
+                : false;

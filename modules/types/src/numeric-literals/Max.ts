@@ -13,8 +13,8 @@ type Process<
         ? IsGreaterThan<Head, M> extends true
             ? Process<Rest, Head>
             : Process<Rest, M>
-    : Process<Rest,Head>
-: M extends number ? M : undefined;
+        : Process<Rest, Head>
+    : M extends number ? M : undefined;
 /**
  * **Max**`<T>`
  *
@@ -28,6 +28,6 @@ export type Max<
             ? Max<UnionToTuple<T>>
             : never
         : T
-: T extends readonly number[]
-    ? Process<T>
-    : never;
+    : T extends readonly number[]
+        ? Process<T>
+        : never;

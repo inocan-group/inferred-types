@@ -1,4 +1,4 @@
-import type { TakeState, ExpandDictionary, As } from "inferred-types/types";
+import type { As, TakeState } from "inferred-types/types";
 
 /**
  * **AsTakeState**`<T>`
@@ -7,15 +7,14 @@ import type { TakeState, ExpandDictionary, As } from "inferred-types/types";
  * `TakeState`.
  */
 export type AsTakeState<T extends string | TakeState | Error> = As<
-T extends string
-    ?  { kind: "TakeState";  parseString: T; parsed: []; tokens: [] }
-    : T extends TakeState
-        ? T
-    : T extends Error
-        ? Error & T
-    : never,
+    T extends string
+        ? { kind: "TakeState"; parseString: T; parsed: []; tokens: [] }
+        : T extends TakeState
+            ? T
+            : T extends Error
+                ? Error & T
+                : never,
     T extends Error
-    ? Error | TakeState
-    : TakeState
+        ? Error | TakeState
+        : TakeState
 >;
-

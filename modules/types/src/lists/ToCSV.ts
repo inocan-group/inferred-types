@@ -1,4 +1,4 @@
-import type { AfterFirst, AsString, First, Replace, StripLeading, Tuple } from "inferred-types/types";
+import type { AsString, Replace, StripLeading } from "inferred-types/types";
 
 type Process<
     T extends readonly unknown[],
@@ -12,7 +12,7 @@ type Process<
             ? `${TResult},${Replace<Head, ",", TReplace>}`
             : `${TResult},${AsString<Head>}`
     >
-: StripLeading<TResult, ",">
+    : StripLeading<TResult, ",">
 ;
 
 /**

@@ -22,7 +22,6 @@ import type {
     Values
 } from "inferred-types/types";
 
-
 /** Check if value already exists in result to prevent duplicates */
 type AlreadyInResult<
     Value,
@@ -34,14 +33,14 @@ type UnionComparison<
     TComparator extends readonly unknown[],
     TResult extends readonly unknown[] = []
 > = TComparator extends [infer Head, ...infer Rest]
-    ? IsEqual<TUnionType,Head> extends true
-        ? UnionComparison<TUnionType,Rest,[...TResult,Head]>
+    ? IsEqual<TUnionType, Head> extends true
+        ? UnionComparison<TUnionType, Rest, [...TResult, Head]>
         : IsUnion<Head> extends true
-            ? UnionComparison<TUnionType,Rest,TResult>
+            ? UnionComparison<TUnionType, Rest, TResult>
             : Head extends TUnionType
-                ? UnionComparison<TUnionType,Rest,[...TResult, Head?]>
-                : UnionComparison<TUnionType,Rest,TResult>
-: TResult
+                ? UnionComparison<TUnionType, Rest, [...TResult, Head?]>
+                : UnionComparison<TUnionType, Rest, TResult>
+    : TResult
                 ;
 
 /** Main comparison function for comparisons without an offset */
@@ -57,8 +56,8 @@ type Compare<
                 ...Result,
                 Head
             ]>
-            : Compare<Tail, B,  Result>
-: Result;
+            : Compare<Tail, B, Result>
+    : Result;
 
 /** compare objects with offset property */
 type CompareWithOffset<
@@ -69,20 +68,20 @@ type CompareWithOffset<
 > = A extends [infer AType, ...infer Rest]
     ? GetEach<B, O> extends infer BOffset extends readonly unknown[]
         ? O extends keyof AType
-            ? Find<B, "objectKeyEquals", [O,AType[O]]> extends infer Found extends Dictionary
+            ? Find<B, "objectKeyEquals", [O, AType[O]]> extends infer Found extends Dictionary
                 ? CompareWithOffset<
-                    Rest, B, O,
+                    Rest,
+                    B,
+                    O,
                     [
                         ...Result,
                         MixObjects<Found, As<AType, Dictionary>>
                     ]
                 >
                 : CompareWithOffset<Rest, B, O, Result>
-        : CompareWithOffset<Rest, B, O, Result>
-    : never
-: ExpandDictionary<Result>;
-
-
+            : CompareWithOffset<Rest, B, O, Result>
+        : never
+    : ExpandDictionary<Result>;
 
 /** Improved detection for wide container values */
 type DetectValues<
@@ -168,15 +167,15 @@ export type Intersection<
             ? B extends readonly unknown[]
                 ? O extends null
                     ? Compare<
-                            [...A],
-                            As<B, readonly unknown[]>
-                        >
-                    : CompareWithOffset<A,B, As<O, string>>
-            : never
-        : CompareObjectValues<
-            Values<A>,
-            Values<B>
-        >
+                        [...A],
+                        As<B, readonly unknown[]>
+                    >
+                    : CompareWithOffset<A, B, As<O, string>>
+                : never
+            : CompareObjectValues<
+                Values<A>,
+                Values<B>
+            >
     : Err<
         `invalid-comparison/keys`,
         `The Intersection<A,B> utility works when both A and B are the same type of container but that was not the case!`,

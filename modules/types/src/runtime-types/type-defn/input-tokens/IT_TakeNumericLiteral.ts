@@ -17,16 +17,14 @@ type Break = Whitespace | "|" | "&";
 
 type TakeNumber<
     T extends string,
-    R extends string = ''
+    R extends string = ""
 > = T extends `${infer Head}${infer Rest}`
     ? Head extends Break
         ? R
-    : TakeNumber<Rest, `${R}${Head}`>
-: R;
+        : TakeNumber<Rest, `${R}${Head}`>
+    : R;
 
-
-
-type Bare<T extends string> = StartsWith<T, NumericChar|"-"> extends true
+type Bare<T extends string> = StartsWith<T, NumericChar | "-"> extends true
     ? TakeNumber<T> extends `${number}`
         ? {
             __kind: "IT_Token";
@@ -46,9 +44,8 @@ type Bare<T extends string> = StartsWith<T, NumericChar|"-"> extends true
         { token: T }
     >;
 
-
-type NumberConstructor<T extends string> =
-T extends `Number(${infer Num extends number})${infer Rest extends string}`
+type NumberConstructor<T extends string>
+    = T extends `Number(${infer Num extends number})${infer Rest extends string}`
         ? {
             __kind: "IT_Token";
             kind: "literal";
@@ -56,20 +53,19 @@ T extends `Number(${infer Num extends number})${infer Rest extends string}`
             type: Num;
             rest: Trim<Rest>;
         }
-: T extends `Number(${infer Rest extends string}`
-    ? Contains<Rest, ")"> extends true
-        ? Err<
-            `malformed-token/numeric-literal`,
-            `A numeric literal with the 'Number(defn)' syntax provided an invalid numeric value of '${RetainUntil<Rest,")">}'!`,
+        : T extends `Number(${infer Rest extends string}`
+            ? Contains<Rest, ")"> extends true
+                ? Err<
+                    `malformed-token/numeric-literal`,
+            `A numeric literal with the 'Number(defn)' syntax provided an invalid numeric value of '${RetainUntil<Rest, ")">}'!`,
             { token: T }
-        >
-        : Err<
-            `malformed-token/numeric-literal`,
-            `A numeric literal definition was detected by the 'Numeric(' but no terminating ')' character found!`,
-            { token: T }
-        >
-: Err<"wrong-handler/numeric-literal">;
-
+                >
+                : Err<
+                    `malformed-token/numeric-literal`,
+                    `A numeric literal definition was detected by the 'Numeric(' but no terminating ')' character found!`,
+                    { token: T }
+                >
+            : Err<"wrong-handler/numeric-literal">;
 
 /**
  * **IT_TakeNumericLiteral**`<T>`
@@ -79,14 +75,12 @@ T extends `Number(${infer Num extends number})${infer Rest extends string}`
 export type IT_TakeNumericLiteral<T extends string> = As<
     Bare<T> extends IT_Token<"literal">
         ? Bare<T>
-    : NumberConstructor<T> extends IT_Token<"literal">
-        ? NumberConstructor<T>
-    : Bare<T> extends Err<"malformed-token">
-        ? Bare<T>
-    : NumberConstructor<T> extends Err<"malformed-token">
-        ? NumberConstructor<T>
-    : Err<"wrong-handler/numeric-literal">
-    ,
+        : NumberConstructor<T> extends IT_Token<"literal">
+            ? NumberConstructor<T>
+            : Bare<T> extends Err<"malformed-token">
+                ? Bare<T>
+                : NumberConstructor<T> extends Err<"malformed-token">
+                    ? NumberConstructor<T>
+                    : Err<"wrong-handler/numeric-literal">,
     IT_TakeOutcome<"literal">
 >;
-

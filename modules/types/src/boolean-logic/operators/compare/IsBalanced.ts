@@ -1,9 +1,7 @@
 import type {
-    AfterFirst,
     And,
     Chars,
     Err,
-    First,
     FromNamedNestingConfig,
     IsNestingEnd,
     IsNestingMatchEnd,
@@ -11,7 +9,6 @@ import type {
     Join,
     Nesting,
     NestingConfig__Named,
-    Pop,
     ToStringLiteral__Array,
 } from "inferred-types/types";
 
@@ -21,8 +18,8 @@ type Check<
     TErr extends boolean = false,
     TStack extends readonly string[] = [],
 > = TInput extends [
-        infer Head extends string,
-        ...infer Rest extends readonly string[]
+    infer Head extends string,
+    ...infer Rest extends readonly string[]
 ]
     ? [IsNestingStart<Head, TNesting>] extends [true]
         ? Check<
@@ -69,14 +66,14 @@ type Check<
                         TErr,
                         TStack
                     >
-: [TStack["length"]] extends [0]
-    ? true
-    : TErr extends true
-        ? Err<
-            `unbalanced/is-balanced`,
+    : [TStack["length"]] extends [0]
+        ? true
+        : TErr extends true
+            ? Err<
+                `unbalanced/is-balanced`,
             `The characters passed to 'IsBalanced<T,U>' are not balanced for the given nesting configuration. On completing a full pass the stack still has items on it: ${Join<TStack, ", ">}`
-        >
-        : false;
+            >
+            : false;
 
 type EvalString<
     T extends string,

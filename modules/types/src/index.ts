@@ -24,8 +24,8 @@ export * from "./regex/index";
 export * from "./runtime-types/index";
 export * from "./sets/index";
 export * from "./string-literals/index";
+export * from "./take/index";
 export * from "./tuples/index";
 export * from "./type-conversion/index";
 export * from "./unions/index";
 export * from "./validation/index";
-export * from "./take/index"

@@ -16,7 +16,6 @@ import type {
     IsUnion,
     IsWideUnion,
     ObjectKey,
-    OnlyFixedKeys,
     OptionalKeysTuple,
     RemoveIndexKeys,
     Scalar,
@@ -63,22 +62,22 @@ type HandleDict<
                         : IsNever<K> extends true
                             ? PropertyKey[]
                             : IsNever<GetIndexKeys<TObj>> extends true
-                    ? IsLiteralString<K> extends true
-                        ? Shaped<
-                            As<UnionToTuple<K>, readonly PropertyKey[]>,
-                            OptionalKeysTuple<TObj>
-                        >
-                        : IsUnion<K> extends true
-                            ? Shaped<
-                                As<UnionToTuple<K>, readonly PropertyKey[]>,
-                                OptionalKeysTuple<TObj>
-                            >
-                            // wide type
-                            : K[]
-                    : [
-                        ...UnionToTuple<GetFixedKeys<TObj>>,
-                        ...(GetIndexKeys<TObj>)[]
-                    ]
+                                ? IsLiteralString<K> extends true
+                                    ? Shaped<
+                                        As<UnionToTuple<K>, readonly PropertyKey[]>,
+                                        OptionalKeysTuple<TObj>
+                                    >
+                                    : IsUnion<K> extends true
+                                        ? Shaped<
+                                            As<UnionToTuple<K>, readonly PropertyKey[]>,
+                                            OptionalKeysTuple<TObj>
+                                        >
+                                    // wide type
+                                        : K[]
+                                : [
+                                    ...UnionToTuple<GetFixedKeys<TObj>>,
+                                    ...(GetIndexKeys<TObj>)[]
+                                ]
     : never;
 
 /**
@@ -114,44 +113,44 @@ export type ObjectKeys<
                             ? UnionToTuple<K>[]
                             : "mixed"
                     : K[]
-        // Set
-            : TObj extends Set<any>
-                ? Err<
-                    `invalid-type/object-keys`,
-                    `The type passed into ObjectKeys<T> was a Set. Set's do not have keys`
-                >
-        // WeakMap
-            : TObj extends WeakMap<infer K, any>
-                ? IsUnion<K> extends true
-                    ? K
-                    : K extends Scalar | object | readonly unknown[]
-                        ? K[]
-                        : unknown
-        // Dictionary
-        : Required<TObj> extends Record<infer K, any>
-            ? IsNever<K> extends true
-                ? TObj extends Dictionary
-                    ? []
-                    : PropertyKey[]
-            : IsEqual<K, string | symbol> extends true
-                ? ObjectKey[]
-                : IsEqual<K, string | number> extends true
-                    ? RemoveIndexKeys<Required<TObj>> extends Record<infer K, any>
-                        ? [
-                            ...(As<ObjectKeys<RemoveIndexKeys<Required<TObj>>>, readonly PropertyKey[]>),
-                            ...string[]
-                        ]
-                        : PropertyKey[]
-                : IsNever<K> extends true
-                    ? PropertyKey[]
-                    : TObj extends Dictionary
-                        ? HandleDict<TObj>
-                    // wide type
-                        : K[]
-            // object options exhausted
-            : ObjectKey[]
-: Err<
-    `invalid-type/object-keys`,
-    `The type passed into ObjectKeys<T> was not an object!`,
-    { value: TObj }
->;
+            // Set
+                : TObj extends Set<any>
+                    ? Err<
+                        `invalid-type/object-keys`,
+                        `The type passed into ObjectKeys<T> was a Set. Set's do not have keys`
+                    >
+                // WeakMap
+                    : TObj extends WeakMap<infer K, any>
+                        ? IsUnion<K> extends true
+                            ? K
+                            : K extends Scalar | object | readonly unknown[]
+                                ? K[]
+                                : unknown
+                    // Dictionary
+                        : Required<TObj> extends Record<infer K, any>
+                            ? IsNever<K> extends true
+                                ? TObj extends Dictionary
+                                    ? []
+                                    : PropertyKey[]
+                                : IsEqual<K, string | symbol> extends true
+                                    ? ObjectKey[]
+                                    : IsEqual<K, string | number> extends true
+                                        ? RemoveIndexKeys<Required<TObj>> extends Record<infer K, any>
+                                            ? [
+                                                ...(As<ObjectKeys<RemoveIndexKeys<Required<TObj>>>, readonly PropertyKey[]>),
+                                                ...string[]
+                                            ]
+                                            : PropertyKey[]
+                                        : IsNever<K> extends true
+                                            ? PropertyKey[]
+                                            : TObj extends Dictionary
+                                                ? HandleDict<TObj>
+                                            // wide type
+                                                : K[]
+                        // object options exhausted
+                            : ObjectKey[]
+            : Err<
+                `invalid-type/object-keys`,
+                `The type passed into ObjectKeys<T> was not an object!`,
+                { value: TObj }
+            >;

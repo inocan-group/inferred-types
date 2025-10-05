@@ -1,4 +1,4 @@
-import type { And, IsUnion, UnionToTuple, IsWideType } from "inferred-types/types";
+import type { And, IsUnion, IsWideType, UnionToTuple } from "inferred-types/types";
 
 type Check<
     T extends readonly unknown[]

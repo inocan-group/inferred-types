@@ -2,18 +2,17 @@ import type {
     Chars,
     Concat,
     Decrement,
-    HasOptionalElements,
-    MakeOptional,
-    IsStringLiteral,
-    IsWideType,
-    Tuple,
-    IsGreaterThan,
-    TupleMeta,
-    IsWideArray,
     DropVariadic,
+    HasOptionalElements,
+    IsGreaterThan,
+    IsStringLiteral,
     IsVariadicArray,
-    VariadicType,
-    As
+    IsWideArray,
+    IsWideType,
+    MakeOptional,
+    Tuple,
+    TupleMeta,
+    VariadicType
 } from "inferred-types/types";
 
 type _Pop<
@@ -34,11 +33,10 @@ type AdjustVariadic<
         ? Base
         : never
 > = IsVariadicArray<TOrigin> extends true
-? TRemoved extends TType
-    ? [...TList, ...TType[]]
-    : [...TList, ...TType[]] | [...TList, TRemoved, ...TType[]]
-: TList;
-
+    ? TRemoved extends TType
+        ? [...TList, ...TType[]]
+        : [...TList, ...TType[]] | [...TList, TRemoved, ...TType[]]
+    : TList;
 
 /**
  * **Pop**`<TList>`
@@ -59,17 +57,17 @@ export type Pop<
 > = TList extends readonly unknown[]
     ? IsWideArray<TList> extends true
         ? TList
-    : DropVariadic<Required<TList>> extends [...infer NewList extends readonly [unknown, ...unknown[]], infer Removed]
-        ? HasOptionalElements<TList> extends true
-            ? TupleMeta<TList>["optionalElementCount"] extends infer Optional extends number
-                ? IsGreaterThan<Decrement<Optional>, 0> extends true
-                    ? MakeOptional<NewList, Decrement<Optional>> extends infer Next extends readonly unknown[]
-                        ? AdjustVariadic<NewList | Pop<Next>, TList, Removed>
-                        : never
+        : DropVariadic<Required<TList>> extends [...infer NewList extends readonly [unknown, ...unknown[]], infer Removed]
+            ? HasOptionalElements<TList> extends true
+                ? TupleMeta<TList>["optionalElementCount"] extends infer Optional extends number
+                    ? IsGreaterThan<Decrement<Optional>, 0> extends true
+                        ? MakeOptional<NewList, Decrement<Optional>> extends infer Next extends readonly unknown[]
+                            ? AdjustVariadic<NewList | Pop<Next>, TList, Removed>
+                            : never
+                        : NewList | Pop<NewList>
                     : NewList | Pop<NewList>
-                : NewList | Pop<NewList>
-            : AdjustVariadic<NewList,TList,Removed>
-        : []
+                : AdjustVariadic<NewList, TList, Removed>
+            : []
 
     : TList extends string
         ? IsWideType<TList> extends true
@@ -84,5 +82,3 @@ export type Pop<
                     : never
                 : string
         : _Pop<Exclude<TList, string>>;
-
-

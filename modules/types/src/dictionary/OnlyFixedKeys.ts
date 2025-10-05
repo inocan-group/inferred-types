@@ -5,8 +5,6 @@ import type {
     WithKeys
 } from "inferred-types/types";
 
-/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
-
 /**
  * **OnlyFixedKeys**`<T>`
  *

@@ -36,7 +36,7 @@ type Process<
                     : never
             >
         : never
-: TResults;
+    : TResults;
 
 /**
  * **RemoveUndefined**`<T>`

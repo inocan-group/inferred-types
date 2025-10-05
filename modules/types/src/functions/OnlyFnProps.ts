@@ -1,4 +1,4 @@
-import type { AnyFunction,  EmptyObject,  FnMeta, TypedFunction } from "inferred-types/types";
+import type { AnyFunction, EmptyObject, FnMeta, TypedFunction } from "inferred-types/types";
 
 /**
  * **OnlyFnProps**`<T>`

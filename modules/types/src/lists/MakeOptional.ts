@@ -1,20 +1,18 @@
-import type { FixedLengthArray, Increment, IsGreaterThan, Slice, Subtract, TupleMeta } from "inferred-types/types";
+import type { Increment, IsGreaterThan, Subtract } from "inferred-types/types";
 
 type Process<
     TInput extends readonly unknown[],
     TReq extends number,
     TIndex extends number = 1,
-    TOutput extends {required: readonly unknown[]; optional: readonly unknown[]} = {required: []; optional: []}
+    TOutput extends { required: readonly unknown[]; optional: readonly unknown[] } = { required: []; optional: [] }
 > = TInput extends readonly [infer Head extends unknown, ...infer Rest extends readonly unknown[]]
-    ? IsGreaterThan<TIndex,TReq> extends true
-        ? Process<Rest, TReq, Increment<TIndex>, { required: TOutput["required"]; optional: [...TOutput["optional"], Head]}>
-        : Process<Rest, TReq, Increment<TIndex>, { required: [...TOutput["required"], Head]; optional: TOutput["optional"]}>
-: [
-    ...TOutput["required"],
-    ...Partial<TOutput["optional"]>
-];
-
-
+    ? IsGreaterThan<TIndex, TReq> extends true
+        ? Process<Rest, TReq, Increment<TIndex>, { required: TOutput["required"]; optional: [...TOutput["optional"], Head] }>
+        : Process<Rest, TReq, Increment<TIndex>, { required: [...TOutput["required"], Head]; optional: TOutput["optional"] }>
+    : [
+        ...TOutput["required"],
+        ...Partial<TOutput["optional"]>
+    ];
 
 /**
  * **MakeOptional**`<T>`
@@ -39,7 +37,6 @@ export type MakeOptional<
         ? never
         : Process<Required<T>, Req>
     : never;
-
 
 export type MakeRequired<
     T extends readonly unknown[],

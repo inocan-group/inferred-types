@@ -1,6 +1,4 @@
 import type {
-    AfterFirst,
-    First,
     IsGreaterThan,
     IsStringLiteral,
     Length,
@@ -24,7 +22,7 @@ type Process<
                 : TResult
             : TResult
     >
-: TResult extends Unset
+    : TResult extends Unset
         ? string
         : TResult;
 

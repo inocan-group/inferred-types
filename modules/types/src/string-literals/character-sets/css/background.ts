@@ -1,4 +1,4 @@
-import type { Suggest, CssColor, CssSizing } from "inferred-types/types";
+import type { CssColor, CssSizing, Suggest } from "inferred-types/types";
 
 export interface CssBackgroundProperties {
     "background"?: string;

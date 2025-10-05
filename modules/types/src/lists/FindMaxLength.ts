@@ -1,4 +1,4 @@
-import type { If, IsGreaterThan, StrLen, AfterFirst, First } from "inferred-types/types";
+import type { AfterFirst, First, If, IsGreaterThan, StrLen } from "inferred-types/types";
 
 type Reduce<
     T extends readonly ([string, number])[],

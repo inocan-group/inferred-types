@@ -1,5 +1,4 @@
-import { Container, HasOptionalElements, HasVariadicTail, IsWideContainer, Min } from "inferred-types/types";
-
+import type { Container, HasOptionalElements, HasVariadicTail, IsWideContainer } from "inferred-types/types";
 
 /**
  * **OnlyRequired**`<T>`
@@ -17,20 +16,19 @@ import { Container, HasOptionalElements, HasVariadicTail, IsWideContainer, Min }
  * **Related:** `OnlyOptional`
  */
 export type OnlyRequired<T extends Container> = [IsWideContainer<T>] extends [true]
-? T
-: [T] extends [readonly unknown[]]
-    ? [HasOptionalElements<T>] extends [false]
-        ? []
-        : HasVariadicTail<T> extends false
-            ? GetOptionalElementCount<T> extends number
-                ? SliceArray<T, Negative<GetOptionalElementCount<T>>>
-                : never
-            : GetOptionalElementCount<T> extends infer Count extends number
-                ? SliceArray<T, Negative<Count>>
-                : never
-: T extends Dictionary
-    ? HasOptionalElements<T> extends false
-        ? EmptyObject
-    : WithKeys<T, OptionalKeys<T>>
-: never;
-
+    ? T
+    : [T] extends [readonly unknown[]]
+        ? [HasOptionalElements<T>] extends [false]
+            ? []
+            : HasVariadicTail<T> extends false
+                ? GetOptionalElementCount<T> extends number
+                    ? SliceArray<T, Negative<GetOptionalElementCount<T>>>
+                    : never
+                : GetOptionalElementCount<T> extends infer Count extends number
+                    ? SliceArray<T, Negative<Count>>
+                    : never
+        : T extends Dictionary
+            ? HasOptionalElements<T> extends false
+                ? EmptyObject
+                : WithKeys<T, OptionalKeys<T>>
+            : never;

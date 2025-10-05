@@ -1,4 +1,4 @@
-import type { Err, ErrType, GetInputToken, Join, NestedSplit, Trim, IT_Token } from "inferred-types/types";
+import type { Err, ErrType, GetInputToken, IT_Token, Join, NestedSplit, Trim } from "inferred-types/types";
 
 /**
  * matches on tokens like `string[]`, `number[]`, etc.
@@ -102,18 +102,18 @@ type IT_TakeArray_Bracket<T extends string> = T extends `Array<${infer Rest exte
                 { token: T; block: Block; rest: Rest }
             >
             : GetInputToken<Block> extends infer Token extends IT_Token
-            ? {
-                __kind: "IT_Token";
-                kind: "array";
-                token: `Array<${Token["token"]}>`;
-                type: Array<Token["type"]>;
-                rest: Trim<Join<Rest, ">">>;
-            }
-            : Err<
-                "malformed-token/array",
+                ? {
+                    __kind: "IT_Token";
+                    kind: "array";
+                    token: `Array<${Token["token"]}>`;
+                    type: Array<Token["type"]>;
+                    rest: Trim<Join<Rest, ">">>;
+                }
+                : Err<
+                    "malformed-token/array",
                 `The token '${T}' appeared to be a bracketed array (e.g., Array<...>) but the interior block '${Block}' could not be parsed as a valid type!`,
                 { token: T; block: Block; rest: Rest }
-            >
+                >
         : Err<
             "malformed-token/array",
         `The token '${T}' appears to be a bracketed array type (e.g., Array<...>) but the terminal '>' character was not found!`,

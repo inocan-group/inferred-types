@@ -48,5 +48,5 @@ export type FnMetaShape = {
     props: Dictionary;
     hasProps: boolean;
     hasParams: boolean;
-    kind: "narrowing" | "identity" | "static"
-}
+    kind: "narrowing" | "identity" | "static";
+};

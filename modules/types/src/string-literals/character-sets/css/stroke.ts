@@ -1,8 +1,8 @@
 import type {
-    Opt,
     CssColorLight,
     CssGlobal,
-    CssSizingLight
+    CssSizingLight,
+    Opt
 } from "inferred-types/types";
 
 export type CssStroke = CssColorLight | CssGlobal;

@@ -3,12 +3,11 @@ import type {
     Chars,
     Concat,
     FixedLengthArray,
+    IsGreaterThan,
     IsNegativeNumber,
     TakeFirst,
-    TakeLast,
-    IsGreaterThan
+    TakeLast
 } from "inferred-types/types";
-
 
 export type DropLeading<
     TList extends readonly unknown[],
@@ -79,11 +78,10 @@ export type Slice<
     TStart extends number,
     TLen extends number | undefined = undefined,
 > = [TList] extends [string]
-? SliceString<TList,TStart,TLen>
-: [TList] extends [readonly unknown[]]
-? SliceArray<TList,TStart,TLen>
-: never;
-
+    ? SliceString<TList, TStart, TLen>
+    : [TList] extends [readonly unknown[]]
+        ? SliceArray<TList, TStart, TLen>
+        : never;
 
 /**
  * **SliceArray**<TList, TStart, [TLen]>
@@ -103,11 +101,10 @@ export type SliceString<
     TStart extends number,
     TLen extends number | undefined = undefined
 > = Chars<TStr> extends readonly string[]
-        ? IsGreaterThan<TStart, Chars<TStr>["length"]> extends true
-            ? ""
-            : ProcessChars<Chars<TStr>, TStart, TLen>
-        : never
-
+    ? IsGreaterThan<TStart, Chars<TStr>["length"]> extends true
+        ? ""
+        : ProcessChars<Chars<TStr>, TStart, TLen>
+    : never;
 
 /**
  * **SliceArray**<TList, TStart, [TLen]>

@@ -1,4 +1,4 @@
-import type { FullWidthQuotation, RightDoubleMark, RightHeavyDoubleTurned, RightHeavySingleTurned, RightReversedDoublePrime, RightSingleMark, DoubleQuote, SingleQuote } from "inferred-types/types";
+import type { DoubleQuote, FullWidthQuotation, RightDoubleMark, RightHeavyDoubleTurned, RightHeavySingleTurned, RightReversedDoublePrime, RightSingleMark, SingleQuote } from "inferred-types/types";
 
 /**
  * **ClosingMark**

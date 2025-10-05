@@ -1,6 +1,6 @@
+import type { StripLeading } from "inferred-types/types";
 import type { StartsWith } from "types/boolean-logic";
 import type { AfterFirst, First } from "types/lists";
-import type { StripLeading } from "inferred-types/types";
 
 /**
  * **StripFirst**`<T,U>`

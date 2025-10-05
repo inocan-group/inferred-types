@@ -1,4 +1,4 @@
-import type { AfterFirst, Chars, First, Join } from "inferred-types/types";
+import type { Chars, Join } from "inferred-types/types";
 
 type RevAcc<
     TInput extends readonly unknown[],
@@ -8,7 +8,7 @@ type RevAcc<
         Rest,
         [Head, ...TResults]
     >
-: TResults;
+    : TResults;
 
 /**
  * **Reverse**`<T>`

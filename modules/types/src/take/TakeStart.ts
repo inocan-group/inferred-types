@@ -1,29 +1,28 @@
-import {
-    AsTakeState,
-    StripLeading,
-    TakeState,
-    Err,
+import type {
     As,
-    StartsWith,
+    AsTakeState,
+    Dictionary,
+    EmptyObject,
+    Err,
+    FnReturn,
+    FromInputToken,
     InputToken,
     IsUnion,
     Slice,
+    StartsWith,
     StringKeys,
-    FnReturn,
-    Dictionary,
-    EmptyObject,
-    FromInputToken,
-    UpdateTake
+    StripLeading,
+    TakeState
 } from "inferred-types/types";
 
 type GetMatch<
     TMatch extends readonly string[],
     TContent extends string
 > = TMatch extends [infer Head extends string, ...infer Rest extends readonly string[]]
-? StartsWith<TContent, Head> extends true
-    ? Head
-    : GetMatch<Rest, TContent>
-: null;
+    ? StartsWith<TContent, Head> extends true
+        ? Head
+        : GetMatch<Rest, TContent>
+    : null;
 
 /**
  * **TakeStartCallback**
@@ -48,25 +47,24 @@ export type TakeStartMatchesKind = "callback" | "mapper" | "default";
 export type TakeStartMatches<
     T extends TakeStartMatchesKind = TakeStartMatchesKind
 > = IsUnion<T> extends true
-? TakeStartMatches__Callback
+    ? TakeStartMatches__Callback
 | TakeStartMatches__Mapper
 | TakeStartMatches__Default
-: T extends "callback" ? TakeStartMatches__Callback
-: T extends "mapper" ? TakeStartMatches__Mapper
-: T extends "default" ? TakeStartMatches__Default
-: never;
+    : T extends "callback" ? TakeStartMatches__Callback
+        : T extends "mapper" ? TakeStartMatches__Mapper
+            : T extends "default" ? TakeStartMatches__Default
+                : never;
 
 /**
  * get the list of string literals which we are trying to match on
  */
 type GetMatches<T extends TakeStartMatches> = T extends TakeStartMatches<"callback">
-? Slice<T,1>
-: T extends TakeStartMatches<"mapper">
-? StringKeys<T[0]>
-: T extends TakeStartMatches<"default">
-? T
-: never;
-
+    ? Slice<T, 1>
+    : T extends TakeStartMatches<"mapper">
+        ? StringKeys<T[0]>
+        : T extends TakeStartMatches<"default">
+            ? T
+            : never;
 
 /**
  * get's a lookup dictionary for when a "mapper" style is being used
@@ -74,30 +72,29 @@ type GetMatches<T extends TakeStartMatches> = T extends TakeStartMatches<"callba
 type GetLookup<
     T extends TakeStartMatches
 > = T extends TakeStartMatches<"mapper">
-? T[0]
-: EmptyObject;
+    ? T[0]
+    : EmptyObject;
 
 /**
  * get's a callback function
  */
 type GetCallback<T extends TakeStartMatches> = T extends TakeStartMatches<"callback">
-? T[0] extends infer Callback extends TakeStartCallback
-    ? Callback
-    : Err<
-        "invalid-callback",
-        `The callback provided to the takeStart() utility was invalid. It must extend the type TakeStartCallback!`,
-        { callback: T[0] }
-    >
-: <S extends TakeState>(val: string, state: S) => S;
+    ? T[0] extends infer Callback extends TakeStartCallback
+        ? Callback
+        : Err<
+            "invalid-callback",
+            `The callback provided to the takeStart() utility was invalid. It must extend the type TakeStartCallback!`,
+            { callback: T[0] }
+        >
+    : <S extends TakeState>(val: string, state: S) => S;
 
 type GetVariant<T extends TakeStartMatches> = T extends TakeStartMatches<"callback">
-? "callback"
-: T extends TakeStartMatches<"mapper">
-? "mapper"
-: T extends TakeStartMatches<"default">
-? "default"
-: "invalid";
-
+    ? "callback"
+    : T extends TakeStartMatches<"mapper">
+        ? "mapper"
+        : T extends TakeStartMatches<"default">
+            ? "default"
+            : "invalid";
 
 type GetToken<
     T extends string,
@@ -105,34 +102,34 @@ type GetToken<
 > = GetMatches<M> extends infer Matches extends readonly string[]
     ? GetMatch<Matches, T> extends infer Match extends string
         ? M extends TakeStartMatches<"callback">
-        ? FnReturn<GetCallback<M>> extends TakeState
-            ? FnReturn<GetCallback<M>>["tokens"]
-            : "shit"
-        : M extends TakeStartMatches<"mapper">
-            ? GetLookup<M> extends infer Lookup extends Dictionary
-                ? Lookup[Match] extends [unknown, infer IT extends InputToken]
-                    ? FromInputToken<IT> extends Error
-                        ? Err<
-                            "invalid-token",
+            ? FnReturn<GetCallback<M>> extends TakeState
+                ? FnReturn<GetCallback<M>>["tokens"]
+                : "shit"
+            : M extends TakeStartMatches<"mapper">
+                ? GetLookup<M> extends infer Lookup extends Dictionary
+                    ? Lookup[Match] extends [unknown, infer IT extends InputToken]
+                        ? FromInputToken<IT> extends Error
+                            ? Err<
+                                "invalid-token",
                             `a takeStart() based function which used a token mapper had a problem with the key '${Match}'. When a user maps to a tuple, the second parameter is an InputToken but in this case the input token could not be parsed!`,
                             { mapper: Lookup }
-                        >
-                        : ["result",FromInputToken<IT>]
-                : Lookup[Match]
-            : never
-        : M extends TakeStartMatches<"default">
-            ? Match
-        : Err<"invalid-token/bad-match-type">
+                            >
+                            : ["result", FromInputToken<IT>]
+                        : Lookup[Match]
+                    : never
+                : M extends TakeStartMatches<"default">
+                    ? Match
+                    : Err<"invalid-token/bad-match-type">
+        : Err<
+            "no-match",
+            `The variant type for the match types could not be matched to 'default', 'mapper', or 'callback'!`,
+            { config: M; content: T; matches: Matches }
+        >
     : Err<
-        "no-match",
-        `The variant type for the match types could not be matched to 'default', 'mapper', or 'callback'!`,
-        { config: M; content: T; matches: Matches; }
-    >
-: Err<
-    `invalid-config`,
-    `The match configuration used in the takeStart() utility is not valid!`,
-    { config: M }
->;
+        `invalid-config`,
+        `The match configuration used in the takeStart() utility is not valid!`,
+        { config: M }
+    >;
 
 /**
  * **TakeStartFn**`(value) => TakeState | Error`
@@ -143,9 +140,8 @@ type GetToken<
  * - ready for passing in values to start parsing
  */
 export type TakeStartFn<T extends TakeStartMatches> = (
-    <U extends string | TakeState>(value: U) => TakeStart<T,U>
-) & { variant: GetVariant<T>; matches: GetMatches<T> }
-
+    <U extends string | TakeState>(value: U) => TakeStart<T, U>
+) & { variant: GetVariant<T>; matches: GetMatches<T> };
 
 /**
  * **TakeStart**`<TMatch, TContent>`
@@ -164,25 +160,22 @@ export type TakeStart<
                 ? GetMatch<Matches, State["parseString"]> extends infer Match extends Matches[number]
                     ? GetToken<Match, TMatch> extends Error
                         ? GetToken<Match, TMatch> // exit with error
-                    : {
-                        kind: "TakeState";
-                        parsed: [
-                            ...State["parsed"],
-                            Match
-                        ];
-                        parseString: StripLeading<State["parseString"], Match>;
-                        tokens: [
-                            ...State["tokens"],
-                            GetToken<Match, TMatch>
-                        ]
-                    }
+                        : {
+                            kind: "TakeState";
+                            parsed: [
+                                ...State["parsed"],
+                                Match
+                            ];
+                            parseString: StripLeading<State["parseString"], Match>;
+                            tokens: [
+                                ...State["tokens"],
+                                GetToken<Match, TMatch>
+                            ];
+                        }
                 // no matches
-                : State // no change in state
+                    : State // no change in state
+                : never
             : never
-        : never
-    : never,
+        : never,
     TakeState | Error
->
-
-
-
+>;

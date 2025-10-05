@@ -17,5 +17,3 @@ export type HasRequiredProps<
     : [RequiredKeysTuple<T>["length"]] extends [0]
         ? false
         : true;
-
-

@@ -1,6 +1,5 @@
 import type {
     AnyFunction,
-    AsFnMeta,
     Dictionary,
     EmptyObject,
     IsEqual,

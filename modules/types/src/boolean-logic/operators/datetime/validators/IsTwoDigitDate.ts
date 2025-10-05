@@ -1,10 +1,8 @@
 import type {
     IsDoubleLeap,
-    IsLeapYear
-} from "inferred-types/types";
-import type {
+    IsLeapYear,
     IsoDate30,
-    IsoDate31,
+    IsoDate31
 } from "inferred-types/types";
 
 type TestFeb<

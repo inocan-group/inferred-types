@@ -6,10 +6,10 @@ import type {
     Err,
     Expand,
     First,
+    IsDictionary,
     IsWideObject,
     Keys,
-    ObjectKey,
-    IsDictionary
+    ObjectKey
 } from "inferred-types/types";
 
 type BuildObj<

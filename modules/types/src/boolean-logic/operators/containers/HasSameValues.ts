@@ -1,4 +1,3 @@
-import { GetOptionalElementCount } from '../../../lists/Variadic';
 import type {
     And,
     Container,
@@ -10,6 +9,7 @@ import type {
     NarrowlyContains,
     Values
 } from "inferred-types/types";
+import type { GetOptionalElementCount } from "../../../lists/Variadic";
 
 type CheckAllExist<
     A extends readonly unknown[],
@@ -66,20 +66,20 @@ export type HasSameValues<
     TException = false
 > = [IsAny<TContainer>] extends [true]
     ? TException
-: [IsNever<TContainer>] extends [true]
-    ? TException
-: [IsAny<TComparator>] extends [true]
-    ? TException
-: [IsNever<TComparator>] extends [true]
-    ? TException
-: Test<Values<Required<TContainer>>, Values<Required<TComparator>>> extends true
-    ? TContainer extends readonly unknown[]
-        ? TComparator extends readonly unknown[]
-            ? IsEqual<GetOptionalElementCount<TContainer>, GetOptionalElementCount<TComparator>>
-            : false
-    : TContainer extends Dictionary
-        ? TComparator extends Dictionary
-            ? IsEqual<GetOptionalElementCount<Values<TContainer>>, GetOptionalElementCount<Values<TComparator>>>
-            : false
-    : never
-: TException;
+    : [IsNever<TContainer>] extends [true]
+        ? TException
+        : [IsAny<TComparator>] extends [true]
+            ? TException
+            : [IsNever<TComparator>] extends [true]
+                ? TException
+                : Test<Values<Required<TContainer>>, Values<Required<TComparator>>> extends true
+                    ? TContainer extends readonly unknown[]
+                        ? TComparator extends readonly unknown[]
+                            ? IsEqual<GetOptionalElementCount<TContainer>, GetOptionalElementCount<TComparator>>
+                            : false
+                        : TContainer extends Dictionary
+                            ? TComparator extends Dictionary
+                                ? IsEqual<GetOptionalElementCount<Values<TContainer>>, GetOptionalElementCount<Values<TComparator>>>
+                                : false
+                            : never
+                    : TException;

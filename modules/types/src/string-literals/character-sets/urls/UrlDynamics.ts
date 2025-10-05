@@ -8,7 +8,6 @@ import type {
     EmptyObject,
     ErrMsg,
     ExpandDictionary,
-    ExpandRecursively,
     First,
     FromSimpleToken,
     GetUrlPath,
@@ -81,18 +80,18 @@ export type FromNamedDynamicSegment<T extends string> = T extends `<string::${st
 
 type ParseUrlPath<
     TParts extends readonly string[],
-    TResult extends Record<string,string> = {}
+    TResult extends Record<string, string> = {}
 > = TParts extends [infer Head extends string, ...infer Rest extends readonly string[]]
     ? Head extends `${infer Name}>${infer Remaining}`
         ? Name extends `${infer VarName} as number`
-            ? ParseUrlPath<Rest,TResult & Record<VarName,number>>
-        : Name extends `${infer VarName} as string(${infer Enum})`
-            ? ParseUrlPath<Rest,TResult & Record<VarName, CsvToUnion<Enum>>>
-            : ParseUrlPath<Rest,TResult & Record<Name,string>>
-        : ParseUrlPath<Rest,TResult>
-: ExpandDictionary<
-    TResult
->;
+            ? ParseUrlPath<Rest, TResult & Record<VarName, number>>
+            : Name extends `${infer VarName} as string(${infer Enum})`
+                ? ParseUrlPath<Rest, TResult & Record<VarName, CsvToUnion<Enum>>>
+                : ParseUrlPath<Rest, TResult & Record<Name, string>>
+        : ParseUrlPath<Rest, TResult>
+    : ExpandDictionary<
+        TResult
+    >;
 
 /**
  * **GetUrlPathDynamics**`<T>`
@@ -106,10 +105,10 @@ type ParseUrlPath<
  */
 export type GetUrlPathDynamics<
     T extends string,
-    TPath extends string = StripLeading<StripAfter<T,"?">, "http://" | "https://">
+    TPath extends string = StripLeading<StripAfter<T, "?">, "http://" | "https://">
 > = Split<TPath, "<", "omit"> extends infer Parts extends readonly string[]
-? ParseUrlPath<Parts>
-: never;
+    ? ParseUrlPath<Parts>
+    : never;
 
 ;
 
@@ -167,8 +166,8 @@ export interface GetUrlDynamics<T extends string> {
 }
 
 type X = "https://foo.com/<d1>/<d2>/path?foo=<number>";
-type Focus = StripLeading<StripAfter<X,"?">, "http://" | "https://">;
-type S = Split<Focus, "<", "omit">
+type Focus = StripLeading<StripAfter<X, "?">, "http://" | "https://">;
+type S = Split<Focus, "<", "omit">;
 type P = ParseUrlPath<S>;
 type X1 = GetUrlPathDynamics<X>;
 type X2 = GetQueryParameterDynamics<X>;

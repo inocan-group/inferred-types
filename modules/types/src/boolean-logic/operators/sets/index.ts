@@ -6,7 +6,7 @@ export * from "./HasFalse";
 export * from "./HasNever";
 export * from "./HasNonTemplateLiteral";
 export * from "./HasOptionalElements";
+export * from "./HasRequiredElements";
 export * from "./HasTemplateLiteral";
 export * from "./HasTrue";
 export * from "./HasWideBoolean";
-export * from "./HasRequiredElements";

@@ -1,5 +1,4 @@
-import { As, Contains, GetEach, IsNull, Dictionary, ObjectKeys, EmptyObject, ExpandDictionary } from "inferred-types/types";
-
+import type { As, Contains, Dictionary, ExpandDictionary, GetEach, IsNull, ObjectKeys } from "inferred-types/types";
 
 type Merge<
     A extends Dictionary,
@@ -10,9 +9,9 @@ type Merge<
     ...infer Rest extends readonly (PropertyKey & keyof B)[]
 ]
     ? Head extends keyof A
-        ? Merge<Omit<A,Head> & Record<Head, A[Head] | B[Head]>,B,Rest>
+        ? Merge<Omit<A, Head> & Record<Head, A[Head] | B[Head]>, B, Rest>
         : Merge<A & Record<Head, B[Head]>, B, Rest>
-: ExpandDictionary<A>;
+    : ExpandDictionary<A>;
 
 /**
  * **AddIfUnique**`<TItem, TList, [TOffset]>`
@@ -45,4 +44,4 @@ export type AddIfUnique<
                     : TList[K]
             }
             : [...TList, TItem]
-    : TList;
+        : TList;

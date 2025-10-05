@@ -21,6 +21,6 @@ export type IsNarrowingFn<TFn> = [IsAny<TFn>] extends [true]
                     : true
                 : false
             : Not<IsStaticFn<TFn>> extends true
-                ? true  // Generic function (not TypedFunction) that's not static → narrowing
+                ? true // Generic function (not TypedFunction) that's not static → narrowing
                 : false
         : false;

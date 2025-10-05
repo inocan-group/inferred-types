@@ -34,5 +34,5 @@ export type RetainUntil<
     TComparator extends string,
     TInclude extends boolean = false,
 > = string extends TContent
-? string
-: As<ProcessDirect<TContent, TComparator, TInclude>, string>;
+    ? string
+    : As<ProcessDirect<TContent, TComparator, TInclude>, string>;

@@ -23,9 +23,9 @@ type Process<
                 : TResult
             : TResult
     >
-: TResult extends Unset
-    ? string
-    : TResult;
+    : TResult extends Unset
+        ? string
+        : TResult;
 
 /**
  * **Shortest**`<T>`

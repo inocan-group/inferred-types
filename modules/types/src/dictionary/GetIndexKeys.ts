@@ -1,5 +1,4 @@
-import { Dictionary, OnlyIndexKeys } from "inferred-types/types";
-
+import type { Dictionary, OnlyIndexKeys } from "inferred-types/types";
 
 /**
  * **GetIndexKeys`<T>`

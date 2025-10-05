@@ -1,13 +1,9 @@
 import type {
-    As,
     Dictionary,
     IsEqual,
     ObjectKey,
     RemoveIndexKeys,
 } from "inferred-types/types";
-
-/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
-
 
 /**
  * **GetFixedKeys**`<T>`
@@ -21,4 +17,3 @@ export type GetFixedKeys<T> = IsEqual<T, Dictionary> extends true
     : T extends Dictionary
         ? keyof RemoveIndexKeys<T>
         : never;
-

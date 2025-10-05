@@ -1,4 +1,3 @@
-
 export type TakeState<T = unknown> = {
     kind: "TakeState";
     /** the segments of the parse string that were previously parsed */
@@ -7,4 +6,4 @@ export type TakeState<T = unknown> = {
     parseString: string;
     /** the tokens which have been parsed from the string so far */
     tokens: T[];
-}
+};
