@@ -1,16 +1,16 @@
 import type {
     And,
-    As,
+    AnyFunction,
     DefineModifiers,
     HasModifier,
     HasVariadicHead,
     HasVariadicInterior,
     HasVariadicTail,
-    IsFunction,
+    IsAny,
+    IsNever,
     IsNull,
+    IsUnknown,
     IsVariadicArray,
-    IsWideArray,
-    Or,
     TypedFunction
 } from "inferred-types/types";
 
@@ -18,15 +18,6 @@ export type VariadicParameterModifiers = DefineModifiers<[
     "match-variadic-tail",
     "match-variadic-head",
     "match-variadic-interior"
-]>;
-
-type ProcessModified<
-    T extends TypedFunction,
-    U extends VariadicParameterModifiers
-> = Or<[
-    And<[HasModifier<"match-variadic-tail", U, VariadicParameterModifiers>, HasVariadicTail<Parameters<T>>]>,
-    And<[HasModifier<"match-variadic-head", U, VariadicParameterModifiers>, HasVariadicHead<Parameters<T>>]>,
-    And<[HasModifier<"match-variadic-interior", U, VariadicParameterModifiers>, HasVariadicInterior<Parameters<T>>]>
 ]>;
 
 /**
@@ -46,12 +37,39 @@ type ProcessModified<
  * You can include one or more and these modifiers determine which _kinds_ of
  * variadic patterns you want to match on.
  */
-export type HasVariadicParameters<T, U extends VariadicParameterModifiers = null> = IsFunction<T> extends true
-    ? IsNull<U> extends true
-        ? IsVariadicArray<Parameters<As<T, TypedFunction>>> extends true
-            ? IsWideArray<Parameters<As<T, TypedFunction>>> extends true
-                ? false
-                : true
-            : false
-        : ProcessModified<As<T, TypedFunction>, U>
-    : false;
+export type HasVariadicParameters<
+    T,
+    U extends VariadicParameterModifiers = null
+> = [IsNever<T>] extends [true]
+? false
+: [IsAny<T>] extends [true]
+? boolean
+: [IsUnknown<T>] extends [true]
+? boolean
+: T extends AnyFunction
+    ? T extends TypedFunction
+        ? Parameters<T> extends infer Params extends readonly unknown[]
+            ? IsVariadicArray<Params> extends true
+                ? IsNull<U> extends true
+                    ? true
+                    : And<[
+                        HasModifier<"match-variadic-tail", U, VariadicParameterModifiers>,
+                        HasVariadicTail<Parameters<T>>
+                    ]> extends true
+                        ? true
+                    : And<[
+                        HasModifier<"match-variadic-head", U, VariadicParameterModifiers>,
+                        HasVariadicHead<Parameters<T>>
+                    ]> extends true
+                        ? true
+                    : And<[
+                        HasModifier<"match-variadic-interior", U, VariadicParameterModifiers>,
+                        HasVariadicInterior<Parameters<T>>
+                    ]> extends true
+                        ? true
+                    : false
+                : false
+        : false
+
+    : false
+: false;
