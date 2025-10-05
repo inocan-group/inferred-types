@@ -20,55 +20,63 @@ type Check<
     TNesting extends Nesting,
     TErr extends boolean = false,
     TStack extends readonly string[] = [],
-> = [] extends TInput
-    ? [TStack["length"]] extends [0]
-        ? true
-        : TErr extends true
-            ? Err<
-                `unbalanced/is-balanced`,
-                `The characters passed to 'IsBalanced<T,U>' are not balanced for the given nesting configuration. On completing a full pass the stack still has items on it: ${Join<TStack, ", ">}`
-            >
-            : false
-    : [IsNestingStart<First<TInput>, TNesting>] extends [true]
+> = TInput extends [
+        infer Head extends string,
+        ...infer Rest extends readonly string[]
+]
+    ? [IsNestingStart<Head, TNesting>] extends [true]
         ? Check<
-            AfterFirst<TInput>,
+            Rest,
             TNesting,
             TErr,
-            [...TStack, First<TInput>]
+            [...TStack, Head]
         >
-        : [IsNestingMatchEnd<First<TInput>, TStack, TNesting>] extends [true]
+        : [IsNestingMatchEnd<Head, TStack, TNesting>] extends [true]
             ? Check<
-                AfterFirst<TInput>,
+                Rest,
                 TNesting,
                 TErr,
-                Pop<TStack>
+                TStack extends [
+                    ...infer Leading extends readonly string[],
+                    string
+                ]
+                    ? Leading
+                    : never
             >
             : And<[
-                IsNestingEnd<First<TInput>, TNesting>,
+                IsNestingEnd<Head, TNesting>,
                 TStack["length"] extends 0 ? true : false
             ]
             > extends true
                 ? TErr extends true
                     ? Err<
                         "unbalanced/is-balanced",
-                        `The stack moved into negative territory when the character '${First<TInput>}' -- an END character -- while the stack was already empty!`,
-                        { char: First<TInput>; stack: ToStringLiteral__Array<TStack> }
+                        `The stack moved into negative territory when the character '${Head}' -- an END character -- while the stack was already empty!`,
+                        { char: Head; stack: ToStringLiteral__Array<TStack> }
                     >
                     : false
-                : [IsNestingEnd<First<TInput>, TNesting>] extends [true]
+                : [IsNestingEnd<Head, TNesting>] extends [true]
                     ? TErr extends true
                         ? Err<
                             "unbalanced/is-balanced",
-                            `Found an end character '${First<TInput>}' that doesn't match the expected end character for the top of the stack`,
-                            { char: First<TInput>; stack: ToStringLiteral__Array<TStack> }
+                            `Found an end character '${Head}' that doesn't match the expected end character for the top of the stack`,
+                            { char: Head; stack: ToStringLiteral__Array<TStack> }
                         >
                         : false
                     : Check<
-                        AfterFirst<TInput>,
+                        Rest,
                         TNesting,
                         TErr,
                         TStack
-                    >;
+                    >
+: [TStack["length"]] extends [0]
+    ? true
+    : TErr extends true
+        ? Err<
+            `unbalanced/is-balanced`,
+            `The characters passed to 'IsBalanced<T,U>' are not balanced for the given nesting configuration. On completing a full pass the stack still has items on it: ${Join<TStack, ", ">}`
+        >
+        : false;
 
 type EvalString<
     T extends string,
