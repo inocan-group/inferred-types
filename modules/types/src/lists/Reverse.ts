@@ -3,12 +3,12 @@ import type { AfterFirst, Chars, First, Join } from "inferred-types/types";
 type RevAcc<
     TInput extends readonly unknown[],
     TResults extends readonly unknown[] = [],
-> = [] extends TInput
-    ? TResults
-    : RevAcc<
-        AfterFirst<TInput>,
-        [First<TInput>, ...TResults]
-    >;
+> = TInput extends [infer Head, ...infer Rest]
+    ? RevAcc<
+        Rest,
+        [Head, ...TResults]
+    >
+: TResults;
 
 /**
  * **Reverse**`<T>`
