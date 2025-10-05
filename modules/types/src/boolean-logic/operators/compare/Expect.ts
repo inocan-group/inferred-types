@@ -362,3 +362,16 @@ export type AssertFalse<
 > = Validate<TTest, "equals", false> extends Error
 ? Validate<TTest, "equals", false>
 : IsEqual<TTest, false>;
+
+
+/**
+ * **AssertSameValues**`<TTest>`
+ *
+ * Type test assertion that `TTest` is `false`.
+ */
+export type AssertSameValues<
+    TTest extends Container,
+    TExpected extends Container
+> = Validate<TTest, "hasSameValues", TExpected> extends Error
+? Validate<TTest, "hasSameValues", TExpected>
+: HasSameValues<TTest, TExpected>;

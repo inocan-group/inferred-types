@@ -76,7 +76,9 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
      *
      * - if there is no variadic tail on `T` then this number will match `length`
      */
-    nonVariadicLength: DropVariadic<T>["length"];
+    nonVariadicLength: DropVariadic<T> extends readonly unknown[]
+        ? DropVariadic<T>["length"]
+        : number;
     /**
      * whether or not `T` has a _variadic_ signature (but is NOT
      * a wide type)
@@ -133,6 +135,10 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
 
     hasNonTemplateLiterals: HasNonTemplateLiteral<T>;
 
+    /**
+     * The _type_ of the variadic elements in the array; `never`
+     * if there is no variadic type.
+     */
     variadicType: VariadicType<T>;
     /**
      * has one or more _optional_ elements defined (e.g., defined with

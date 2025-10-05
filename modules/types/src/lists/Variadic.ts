@@ -1,4 +1,5 @@
 import type {
+    As,
     FixedLengthArray,
     IsAny,
     IsEqual,
@@ -126,19 +127,19 @@ export type HasVariadicInterior<
             : false;
 
 /**
- * **HasOptionalElements**
+ * **HasOptionalElementsInArray**`<T>`
  *
  * Boolean operator which detects whether `T` has optional elements (e.g., marked with the
  * `?` modifier) within it's set of elements.
  *
  * **Related:** `AllOptionalElements`
+ * **Note:** This is an array-specific version. Use `HasOptionalElements` from `inferred-types/types` for containers.
  */
-export type HasOptionalElements<T extends readonly unknown[]> = GetOptionalElementCount<T> extends 0
+type HasOptionalElementsInArray<T extends readonly unknown[]> = GetOptionalElementCount<T> extends 0
     ? false
     : number extends GetOptionalElementCount<T>
         ? boolean
         : true;
-// IsNotEqual<Required<T>, T>;
 
 /**
  * **AllOptionalElements**
@@ -232,7 +233,7 @@ export type GetOptionalElementCount<T extends readonly unknown[]>
  */
 export type ExtractOptionalElements<
     T extends readonly unknown[],
-    R extends readonly unknown[] = Required<DropVariadicTail<T>>
+    R extends readonly unknown[] = As<Required<DropVariadicTail<T>>, readonly unknown[]>
 > = R extends readonly [
     ...FixedLengthArray<unknown, GetRequiredElementCount<T>>,
     ...infer Rest
@@ -242,7 +243,7 @@ export type ExtractOptionalElements<
 
 export type ExtractOptionalKeys<
     T extends readonly unknown[],
-    R extends readonly unknown[] = Required<DropVariadicTail<T>>
+    R extends readonly unknown[] = As<Required<DropVariadicTail<T>>, readonly unknown[]>
 > = NumericRange<
     Subtract<R["length"], GetOptionalElementCount<R>>,
     R["length"]
@@ -250,7 +251,7 @@ export type ExtractOptionalKeys<
 
 export type ExtractRequiredElements<
     T extends readonly unknown[],
-    R extends readonly unknown[] = Required<DropVariadicTail<T>>
+    R extends readonly unknown[] = As<Required<DropVariadicTail<T>>, readonly unknown[]>
 > = R extends readonly [
     ...infer Leading,
     ...FixedLengthArray<unknown, GetOptionalElementCount<T>>,

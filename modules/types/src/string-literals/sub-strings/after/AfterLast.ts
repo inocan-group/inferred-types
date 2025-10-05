@@ -25,6 +25,23 @@ type After<
     : never;
 
 /**
+ * Helper type to handle the break character logic without excessive type depth.
+ * Extracts the portion before the break and the portion after the break.
+ */
+type WithBreak<
+    TText extends string,
+    TFind extends string,
+    TBreak extends string,
+    TTrim extends boolean
+> = RetainUntil<TText, TBreak> extends infer BeforeBreak extends string
+    ? Replace<TText, BeforeBreak, ""> extends infer AfterBreak extends string
+        ? TTrim extends true
+            ? Trim<Join<[After<BeforeBreak, TFind>, AfterBreak]>>
+            : Join<[After<BeforeBreak, TFind>, AfterBreak]>
+        : never
+    : never;
+
+/**
  * ***AfterLast**`<TText,TFind,[TBreak],[TTrim]>`
  *
  * Provides the text in `TText` _after_ the last instance of the `TFind`
@@ -50,15 +67,7 @@ export type AfterLast<
 > = Contains<TText, TFind> extends true
     ? IsUnset<TBreak> extends true
         ? After<TText, TFind>
-        : TTrim extends true
-            ? Trim<Join<[
-                After<RetainUntil<TText, As<TBreak, string>>, TFind>,
-                Replace<TText, RetainUntil<TText, As<TBreak, string>>, "">
-            ]>>
-            : Join<[
-                After<RetainUntil<TText, As<TBreak, string>>, TFind>,
-                Replace<TText, RetainUntil<TText, As<TBreak, string>>, "">
-            ]>
+        : WithBreak<TText, TFind, As<TBreak, string>, TTrim>
     : IsSet<TBreak> extends true
         ? TTrim extends true
             ? Trim<RetainAfter<TText, TFind, true>>

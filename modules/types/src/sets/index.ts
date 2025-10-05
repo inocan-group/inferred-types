@@ -1,3 +1,4 @@
+export * from "./AddIfUnique";
 export * from "./DefineModifiers";
 export * from "./HasModifier";
 export * from "./IntersectingKeys";
@@ -8,3 +9,4 @@ export * from "./Unique";
 export * from "./UniqueKeys";
 export * from "./UniqueKeysUnion";
 export * from "./UniqueKv";
+

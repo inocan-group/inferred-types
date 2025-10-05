@@ -1,6 +1,6 @@
 
 import { describe, it } from "vitest";
-import type { EmptyObject, Expect, HasRequiredProps, Keys, ObjectKeys, RequiredKeysTuple, Test } from "inferred-types/types";
+import type { EmptyObject, Expect, HasRequiredProps, Test } from "inferred-types/types";
 
 describe("HasRequiredProps<T>", () => {
 

@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import type { Dictionary, DropVariadic, EmptyObject, Expect, GetIndexKeys, HasIndex, HasIndexKeys, ObjectKey, ObjectKeys, Test } from "inferred-types/types";
+import type { AssertEqual, AssertSameValues, Dictionary, DropVariadic, EmptyObject, Expect, GetIndexKeys, HasIndex, HasIndexKeys, ObjectKey, ObjectKeys, Test } from "inferred-types/types";
 
 import { RemoveIndexKeys } from "inferred-types";
 
@@ -22,6 +22,24 @@ describe("ObjectKeys<T>", () => {
             Expect<Test<W4, "equals", symbol[]>>,
         ];
     });
+
+
+    it("Record types", () => {
+        type R1 = ObjectKeys<Record<string,string>>;
+        type R2 = ObjectKeys<Record<string | symbol, string>>;
+        type R3 = ObjectKeys<Record<symbol, string>>;
+        type R4 = ObjectKeys<Record<string,unknown>>;
+        type R5 = ObjectKeys<Record<string,any>>;
+
+        type cases = [
+            Expect<AssertEqual<R1, string[]>>,
+            Expect<AssertEqual<R2, ObjectKey[]>>,
+            Expect<AssertEqual<R3, symbol[]>>,
+            Expect<AssertEqual<R4, string[]>>,
+            Expect<AssertEqual<R5, string[]>>,
+        ];
+    });
+
 
     it("narrow types", () => {
         type Foo = ObjectKeys<{ foo: 1 }>;
@@ -46,7 +64,7 @@ describe("ObjectKeys<T>", () => {
         //   ^?
 
         type cases = [
-            Expect<Test<BarOpt, "equals", ["foo", "baz", ("bar" | undefined)?]>>
+            Expect<AssertSameValues<BarOpt, ["foo", "baz", ("bar" | undefined)?]>>
         ];
     });
 
@@ -70,22 +88,31 @@ describe("ObjectKeys<T>", () => {
         // is non-overlapping
         type MultiIndex = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>;
         //   ^?
-        type K = ObjectKeys<RemoveIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>>;
-        type X = GetIndexKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>;
 
+        type MultiTemplateSymbol = ObjectKeys<
+            { foo: 1; bar: 2; [x: `_${string}`]: number; [y: symbol]: string }
+        >;
 
         type cases = [
             Expect<Test<
                 Optional, "equals",
-                ["foo", "bar", (`_${string}` | undefined)[]]
+                ["foo", "bar", ...(`_${string}`)[]]
             >>,
             Expect<Test<
                 FooBarIndex, "equals",
-                ["foo", "bar", (`_${string}` | undefined)[]]
+                ["foo", "bar", ...(`_${string}`)[]]
             >>,
             Expect<Test<
                 FooBarOverlap, "equals",
                 ["foo", "bar", ...string[]]
+            >>,
+            Expect<AssertEqual<
+                MultiIndex,
+                ["foo","bar", ...(symbol | string)[]]
+            >>,
+            Expect<AssertEqual<
+                MultiTemplateSymbol,
+                ["foo","bar", ...(`_${string}` | symbol)[]]
             >>
         ];
     });
@@ -171,6 +198,7 @@ describe("ObjectKeys<T>", () => {
         type cases = [
             // NumberLike keys along with a string key
             Expect<Test<NumberLike, "hasSameValues", ["foo", "1","2"]>>,
+            Expect<Test<MixedKeys, "equals", ["foo", 1, ...symbol[]]>>
 
         ];
     });

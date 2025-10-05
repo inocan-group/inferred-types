@@ -3,6 +3,7 @@ import type {
     AsString,
     Dictionary,
     ExplicitlyEmptyObject,
+    IsEqual,
     IsWideObject,
     Join,
     Keys,
@@ -37,7 +38,9 @@ export type ObjectToCssString<
 > = Keys<TObj>["length"] extends 0
     ? "{}"
     : IsWideObject<TObj> extends true
-        ? string
+        ? IsEqual<TObj, ExplicitlyEmptyObject> extends true
+            ? "{}"
+            : `{${string}}`
         : TObj extends ExplicitlyEmptyObject
             ? "{}"
             : Process<ToKv<As<TObj, Dictionary>>, false> extends infer P extends string

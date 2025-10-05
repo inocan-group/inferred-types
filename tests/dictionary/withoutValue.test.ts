@@ -8,26 +8,26 @@ import {
 import { describe, expect, it } from "vitest";
 
 describe("withoutValue(wo) => (obj) => obj", () => {
-  const obj = defineObj({ foo: "hi", bar: 42, baz: 99, bax: "bye" })();
+    const obj = defineObj({ foo: "hi", bar: 42, baz: 99, bax: "bye" })();
 
-  it("strings", () => {
+    it("strings", () => {
 
-    const wide = withoutValue("string");
-    const narrow = withoutValue(`"hi" | "hello"`);
+        const wide = withoutValue("string");
+        const narrow = withoutValue(`"hi" | "hello"`);
 
-    const wideObj = wide(obj);
-    const narrowObj = narrow(obj);
+        const wideObj = wide(obj);
+        const narrowObj = narrow(obj);
 
-    expect(wideObj).toEqual({ bar: 42, baz: 99 });
-    expect(narrowObj).toEqual({ bar: 42, baz: 99, bax: "bye" });
+        expect(wideObj).toEqual({ bar: 42, baz: 99 });
+        expect(narrowObj).toEqual({ bar: 42, baz: 99, bax: "bye" });
 
-    type cases = [
-      Expect<Test<typeof wide, "equals",  DictionaryWithoutValueFilter<string>>>,
-      Expect<Test<typeof narrow, "equals",  DictionaryWithoutValueFilter<"hi" | "hello">>>,
+        type cases = [
+            Expect<Test<typeof wide, "equals", DictionaryWithoutValueFilter<string>>>,
+            Expect<Test<typeof narrow, "equals", DictionaryWithoutValueFilter<"hi" | "hello">>>,
 
-      Expect<Test<typeof wideObj, "equals",  { bar: 42; baz: 99 }>>,
-      Expect<Test<typeof narrowObj, "equals",  { bar: 42; baz: 99; bax: "bye" }>>,
-    ];
-  });
+            Expect<Test<typeof wideObj, "equals", { bar: 42; baz: 99 }>>,
+            Expect<Test<typeof narrowObj, "equals", { bar: 42; baz: 99; bax: "bye" }>>,
+        ];
+    });
 
 });

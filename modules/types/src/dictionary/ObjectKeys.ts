@@ -5,6 +5,8 @@ import type {
     Dictionary,
     Err,
     First,
+    GetFixedKeys,
+    GetIndexKeys,
     IsAny,
     IsEqual,
     IsLiteralString,
@@ -14,6 +16,7 @@ import type {
     IsUnion,
     IsWideUnion,
     ObjectKey,
+    OnlyFixedKeys,
     OptionalKeysTuple,
     RemoveIndexKeys,
     Scalar,
@@ -51,20 +54,31 @@ type HandleDict<
             : PropertyKey[]
         : IsEqual<K, string | symbol> extends true
             ? ObjectKey[]
-            : IsNever<K> extends true
-                ? PropertyKey[]
-                : IsLiteralString<K> extends true
-                    ? Shaped<
-                        As<UnionToTuple<K>, readonly PropertyKey[]>,
-                        OptionalKeysTuple<TObj>
-                    >
-                    : IsUnion<K> extends true
+            : IsEqual<K, string> extends true
+                ? string[]
+                : IsEqual<K, symbol> extends true
+                    ? symbol[]
+                    : IsEqual<K, number> extends true
+                        ? number[]
+                        : IsNever<K> extends true
+                            ? PropertyKey[]
+                            : IsNever<GetIndexKeys<TObj>> extends true
+                    ? IsLiteralString<K> extends true
                         ? Shaped<
                             As<UnionToTuple<K>, readonly PropertyKey[]>,
                             OptionalKeysTuple<TObj>
                         >
-                        // wide type
-                        : K[]
+                        : IsUnion<K> extends true
+                            ? Shaped<
+                                As<UnionToTuple<K>, readonly PropertyKey[]>,
+                                OptionalKeysTuple<TObj>
+                            >
+                            // wide type
+                            : K[]
+                    : [
+                        ...UnionToTuple<GetFixedKeys<TObj>>,
+                        ...(GetIndexKeys<TObj>)[]
+                    ]
     : never;
 
 /**
@@ -135,7 +149,7 @@ export type ObjectKeys<
                     // wide type
                         : K[]
             // object options exhausted
-            : never
+            : ObjectKey[]
 : Err<
     `invalid-type/object-keys`,
     `The type passed into ObjectKeys<T> was not an object!`,

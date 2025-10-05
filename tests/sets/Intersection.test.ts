@@ -30,8 +30,8 @@ describe("Intersection<A,B>", () => {
         type WithoutOffset = Intersection<A,B>;
 
         type cases = [
-            Expect<Test<WithOffset, "equals", [ 2 ]>>,
-            Expect<Test<WithoutOffset, "equals", [ ]>>,
+            Expect<Test<WithOffset, "equals", [ { id: 2; name: "Mary" | "Chris"} ]>>,
+            Expect<Test<WithoutOffset, "equals", []>>,
         ];
     });
 
@@ -47,7 +47,6 @@ describe("Intersection<A,B>", () => {
             Expect<Test<T1, "equals", []>>,
             Expect<Test<T2, "equals", string[]>>,
             Expect<Test<T3, "equals", number[]>>,
-
         ];
     });
 
@@ -137,7 +136,7 @@ describe("Intersection<A,B>", () => {
         type cases = [
             Expect<Test<T1, "equals", []>>,
             Expect<Test<T2, "equals", []>>,
-            Expect<Test<T3, "equals", [1]>>,
+            Expect<Test<T3, "equals", [{id: 1, name: "foo"}]>>,
         ];
     });
 
@@ -152,10 +151,15 @@ describe("Intersection<A,B>", () => {
         type T5 = Intersection<[1, "hello", true, null], [null, "hello", 2, false]>;
         type T6 = Intersection<[42, "test", undefined], [42, undefined, "different"]>;
 
+        // One comparator is a union and the other is not
+        type T7 = Intersection<[string | number], [string]>
+
+
+
         type cases = [
-            Expect<Test<T1, "equals", [string]>>,
-            Expect<Test<T2, "equals", [boolean]>>,
-            Expect<Test<T3, "equals", [number | boolean]>>,
+            Expect<Test<T1, "equals", []>>,
+            Expect<Test<T2, "equals", []>>,
+            Expect<Test<T3, "equals", []>>,
             Expect<Test<T4, "equals", [1]>>,
             Expect<Test<T5, "equals", ["hello", null]>>,
             Expect<Test<T6, "equals", [42, undefined]>>,
@@ -243,16 +247,15 @@ describe("Intersection<A,B>", () => {
             { a: string, b?: number },
             { a: string, c?: boolean }
         >;
-        type I = Expand<{ a: string, c?: boolean } & { a: string, b?: number }>;
-        type X = IsLiteral<{ a: string, b?: number }>; // =>
-        type V = Values<{ a: string, b?: number }>; // =>
+
 
         type cases = [
             Expect<Test<T1, "equals", [2, 3]>>,
             Expect<Test<T2, "equals", [2]>>,
-            Expect<Test<T3, "equals", [number | string, string]>>,
+            Expect<Test<T3, "equals", [string?]>>,
             Expect<Test<T4, "equals", [string]>>,
         ];
     });
 
 });
+

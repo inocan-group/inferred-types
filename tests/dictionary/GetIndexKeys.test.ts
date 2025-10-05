@@ -134,9 +134,10 @@ describe("OnlyIndexKeys", () => {
         >
 
         type cases = [
-            // TODO: this is NOT equal so should be reporting an error!
-            Expect<AssertEqual<T1, { [x: `_${string}`]: string, [y: symbol]: number }>>,
-
+            Expect<AssertEqual<
+                T1,
+                { [x: `_${string}`]: string, [y: symbol]: number }
+            >>,
         ];
     });
 
@@ -157,16 +158,27 @@ describe("OnlyIndexKeys", () => {
         ];
     });
 
-
-
-
     it("multiple indexes", () => {
         type T1 = OnlyIndexKeys<{ foo: 1; [x: `_${string}`]: string; [y: `${UpperAlphaChar}${string}`]: number }>;
 
 
         type cases = [
-            Expect<Test<T1, "equals", { [x: `_${string}`]: string; [x: `${UpperAlphaChar}${string}`]: number }>>
+            Expect<AssertEqual<
+                T1,
+                { [x: `_${string}`]: string; [x: `${UpperAlphaChar}${string}`]: number }
+            >>
         ];
     });
+
+
+
+    it("Record with template index", () => {
+        type T1 = GetIndexKeys<Record<"foo" | "bar" | `_${string}`, number>>
+
+        type cases = [
+            Expect<AssertEqual<T1, `_${string}`>>
+        ];
+    });
+
 
 });

@@ -1,5 +1,5 @@
 import { Length } from "inferred-types";
-import type { DropVariadic, DropVariadicTail, Expect, MaxSafeInteger, Test, TupleMeta } from "inferred-types/types";
+import type { DropVariadicTail, Expect,  MaxSafeInteger, ObjectKeys, Test, TupleMeta } from "inferred-types/types";
 
 import { describe, it } from "vitest";
 
@@ -30,6 +30,16 @@ describe("TupleMeta<T>", () => {
         ];
     });
 
+
+    it("test", () => {
+        type K = TupleMeta<string[]>;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
+
     it("[T] handled correctly", () => {
         type Undef = TupleMeta<[undefined]>;
         type Unknown = TupleMeta<[unknown]>;
@@ -56,6 +66,7 @@ describe("TupleMeta<T>", () => {
         type Num = TupleMeta<[number, ...unknown[]]>;
 
         type cases = [
+            Expect<Test<Len, "equals", number>>,
             Expect<Test<Undef["minLength"], "equals", 1>>,
             Expect<Test<Unknown["minLength"], "equals", 1>>,
             Expect<Test<Num["minLength"], "equals", 1>>,

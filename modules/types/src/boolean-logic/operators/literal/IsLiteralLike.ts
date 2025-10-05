@@ -2,9 +2,11 @@ import type {
     As,
     DefineModifiers,
     EmptyObject,
+    ExplicitlyEmptyObject,
     HasModifier,
     IsAny,
     IsBoolean,
+    IsEqual,
     IsLiteralLikeObject,
     IsLiteralTuple,
     IsLiteralUnion,
@@ -55,7 +57,9 @@ export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null>
             ? false
             : [EmptyObject] extends [T]
                 ? number extends As<ObjectKeys<T>, readonly unknown[]>["length"]
-                    ? false
+                    ? [IsEqual<ExplicitlyEmptyObject, T>] extends [true]
+                        ? true
+                        : false
                     : true
                 : [string] extends [T]
                     ? false

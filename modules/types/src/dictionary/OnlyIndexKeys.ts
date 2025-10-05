@@ -42,7 +42,8 @@ type GetTemplateLiteralIndexes<
  *
  * **Related: `GetIndexKeys`
  */
-export type OnlyIndexKeys<T extends Dictionary> =
-    ExtractIndexKeysFromObj<T> & GetTemplateLiteralIndexes<T, UnionToTuple<keyof T>>;
+export type OnlyIndexKeys<T extends Dictionary> = ExpandDictionary<
+    ExtractIndexKeysFromObj<T> & GetTemplateLiteralIndexes<T, UnionToTuple<keyof T>>
+>;
 
 

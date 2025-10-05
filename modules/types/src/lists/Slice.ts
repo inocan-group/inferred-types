@@ -1,5 +1,4 @@
 import type {
-    As,
     Abs,
     Chars,
     Concat,

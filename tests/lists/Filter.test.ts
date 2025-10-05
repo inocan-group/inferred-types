@@ -383,6 +383,21 @@ describe("Filter", () => {
         ];
     });
 
+    it("objectKeyEquals", () => {
+        type Objects = [
+            { id: 1, name: "Alice" },
+            { id: "test", name: "Bob" },
+            { id: 2, name: "Charlie" }
+        ];
+        type T1 = Filter<Objects, "objectKeyEquals", ["id", 1]>;
+        type T2 = Filter<Objects, "objectKeyExtends", ["name", "Bob"]>;
+
+        type cases = [
+            Expect<Equal<T1, [{ id: 1, name: "Alice" }]>>,
+            Expect<Equal<T2, [{ id: "test", name: "Bob" }]>>
+        ];
+    });
+
     it("errors", () => {
         type T1 = Filter<[Error, "string", 42, Error], "errors", []>;
         type T2 = Filter<["no", "errors", "here"], "errors", []>;

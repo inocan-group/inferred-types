@@ -44,6 +44,8 @@ type Test<
  * `TContainer` and `TComparator` are the same (even if the order
  * is different).
  *
+ * #### Wide Types
+ *
  * - if _either_ `TContainer` or `TComparator` are wide types then
  * this utility will evaluate to `boolean` rather than the typical `true`
  * or `false` literals
@@ -51,7 +53,7 @@ type Test<
  * #### `any` and `never`
  *
  * - if _either_ `TContainer` or `TComparator` or _both_ are equal to
- * `never` or `any` then this utility will resolve in `TException` (which
+ * `never` or `any` then this utility will resolve to `TException` (which
  * defaults to being `false`)!
  */
 export type HasSameValues<
@@ -61,11 +63,13 @@ export type HasSameValues<
 > = [IsAny<TContainer>] extends [true]
     ? TException
     : [IsNever<TContainer>] extends [true]
+    ? TException
+    : [IsAny<TComparator>] extends [true]
         ? TException
-        : [IsAny<TComparator>] extends [true]
-            ? TException
-            : [IsNever<TComparator>] extends [true]
-                ? TException
-                : Test<Values<TContainer>, Values<TComparator>> extends true
-                    ? true
-                    : TException;
+    : [IsNever<TComparator>] extends [true]
+        ? TException
+    : Test<Values<Required<TContainer>>, Values<Required<TComparator>>> extends true
+        ? Test<Values<TContainer>, Values<TComparator>> extends true
+            ? true
+            : false
+        : TException;

@@ -28,13 +28,12 @@ type MakeNumericIndex<
 export type WithKeys<
     T extends AnyObject | Tuple,
     K extends PropertyKey | readonly PropertyKey[],
->
-    = ExpandRecursively<
-        UnionToIntersection<
-            MakeIntoUnion<K> extends keyof T
-                ? T extends Tuple
-                    ? MakeNumericIndex<Pick<T, MakeIntoUnion<K>>>
-                    : Pick<T, MakeIntoUnion<K>>
-                : never
-        >
-    >;
+> = ExpandRecursively<
+    UnionToIntersection<
+        MakeIntoUnion<K> extends keyof T
+            ? T extends Tuple
+                ? MakeNumericIndex<Pick<T, MakeIntoUnion<K>>>
+                : Pick<T, MakeIntoUnion<K>>
+            : never
+    >
+>;

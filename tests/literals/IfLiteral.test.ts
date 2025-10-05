@@ -1,7 +1,12 @@
 import { describe, it } from "vitest";
-import type { Dictionary, EmptyObject, Expect, ExplicitlyEmptyObject, IsLiteralLike, Test } from "inferred-types/types";
-
-import { IsWideType, Keys } from "inferred-types";
+import type {
+    Dictionary,
+    EmptyObject,
+    Expect,
+    ExplicitlyEmptyObject,
+    IsLiteralLike,
+    Test
+} from "inferred-types/types";
 
 describe("IsLiteral<T>", () => {
 
@@ -43,8 +48,6 @@ describe("IsLiteral<T>", () => {
         type Empty = IsLiteralLike<EmptyObject>;
         type Explicit = IsLiteralLike<ExplicitlyEmptyObject>;
         type BaseDictionary = IsLiteralLike<Dictionary>;
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        type Curly = IsLiteralLike<{}>;
 
         type cases = [
             // an empty object still allows key/value pairs to be added after it
