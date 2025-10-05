@@ -1,7 +1,4 @@
 import type {
-    AfterFirst,
-    As,
-    First,
     IsGreaterThan,
     IsUnion,
     UnionToTuple,
@@ -11,19 +8,13 @@ import type {
 type Process<
     T extends readonly number[],
     M extends number | Unset = Unset
-> = [] extends T
-    ? M extends Unset
-        ? undefined
-        : M
-    : Process<
-        AfterFirst<T>,
-        M extends Unset
-            ? First<T>
-            : IsGreaterThan<First<T>, As<M, number>> extends true
-                ? First<T>
-                : M
-    >;
-
+> = T extends [ infer Head extends number, ...infer Rest extends readonly number[]]
+    ? M extends number
+        ? IsGreaterThan<Head, M> extends true
+            ? Process<Rest, Head>
+            : Process<Rest, M>
+    : Process<Rest,Head>
+: M extends number ? M : undefined;
 /**
  * **Max**`<T>`
  *
