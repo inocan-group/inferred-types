@@ -1,5 +1,4 @@
 import type {
-    AfterFirst,
     Compare,
     ComparisonAccept,
     ComparisonOperation,
@@ -11,26 +10,26 @@ import type {
 } from "inferred-types/types";
 
 type Process<
-    TElements,
+    TElements extends readonly unknown[],
     TOp extends ComparisonOperation,
     TComparator extends GetComparisonParams<TOp>,
-> = [] extends TElements
-    ? true
-    : TElements extends readonly unknown[]
-        ? First<TElements> extends ComparisonAccept<TOp>
-            ? [Compare<First<TElements>, TOp, TComparator>] extends [true]
-                ? Process<
-                    AfterFirst<TElements>,
-                    TOp,
-                    TComparator
-                >
-                : false
-            : Process<
-                AfterFirst<TElements>,
+> = TElements extends [infer Head, ...infer Rest]
+? TElements extends readonly unknown[]
+    ? Head extends ComparisonAccept<TOp>
+        ? [Compare<Head, TOp, TComparator>] extends [true]
+            ? Process<
+                Rest,
                 TOp,
                 TComparator
             >
-        : false;
+            : false
+        : Process<
+            Rest,
+            TOp,
+            TComparator
+        >
+    : false
+: true;
 
 /**
  * **Every**`<TContainer, TOp, TComparator>`
