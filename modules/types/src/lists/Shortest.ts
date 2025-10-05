@@ -1,6 +1,4 @@
 import type {
-    AfterFirst,
-    First,
     IsLessThan,
     IsStringLiteral,
     Length,
@@ -13,21 +11,21 @@ type Process<
     T extends readonly string[],
     TShortest extends number = MaxSafeInteger,
     TResult extends string | Unset = Unset
-> = [] extends T
-    ? TResult extends Unset
-        ? string
-        : TResult
-    : Process<
-        AfterFirst<T>,
-        IsStringLiteral<First<T>> extends true
-            ? Min<[TShortest, Length<First<T>>]>
+> = T extends [ infer Head extends string, ...infer Rest extends readonly string[]]
+    ? Process<
+        Rest,
+        IsStringLiteral<Head> extends true
+            ? Min<[TShortest, Length<Head>]>
             : TShortest,
-        IsStringLiteral<First<T>> extends true
-            ? IsLessThan<Length<First<T>>, TShortest> extends true
-                ? First<T>
+        IsStringLiteral<Head> extends true
+            ? IsLessThan<Length<Head>, TShortest> extends true
+                ? Head
                 : TResult
             : TResult
-    >;
+    >
+: TResult extends Unset
+    ? string
+    : TResult;
 
 /**
  * **Shortest**`<T>`

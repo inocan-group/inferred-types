@@ -12,21 +12,21 @@ type Process<
     T extends readonly string[],
     TShortest extends number = 0,
     TResult extends string | Unset = Unset
-> = [] extends T
-    ? TResult extends Unset
-        ? string
-        : TResult
-    : Process<
-        AfterFirst<T>,
-        IsStringLiteral<First<T>> extends true
-            ? Max<[TShortest, Length<First<T>>]>
+> = T extends [ infer Head extends string, ...infer Rest extends readonly string[]]
+    ? Process<
+        Rest,
+        IsStringLiteral<Head> extends true
+            ? Max<[TShortest, Length<Head>]>
             : TShortest,
-        IsStringLiteral<First<T>> extends true
-            ? IsGreaterThan<Length<First<T>>, TShortest> extends true
-                ? First<T>
+        IsStringLiteral<Head> extends true
+            ? IsGreaterThan<Length<Head>, TShortest> extends true
+                ? Head
                 : TResult
             : TResult
-    >;
+    >
+: TResult extends Unset
+        ? string
+        : TResult;
 
 /**
  * **Longest**`<T>`
