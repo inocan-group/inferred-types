@@ -1,8 +1,6 @@
 import type {
-    As,
     Dictionary,
-    Keys,
-    ObjectKey,
+    ObjectKeys,
 } from "inferred-types/types";
 import { isArray } from "inferred-types/runtime";
 
@@ -26,5 +24,7 @@ export function keysOf<
             : Object.keys(container)
     );
 
-    return keys as As<Keys<TObj>, Array<keyof TObj & ObjectKey>>;
+    return keys as ObjectKeys<TObj> extends PropertyKey[] & (keyof TObj)[]
+        ? ObjectKeys<TObj>
+        : never;
 }

@@ -1,86 +1,159 @@
 import { describe, expect, it } from "vitest";
-import type { Expect, Equal } from "@type-challenges/utils";
-import { createFnWithProps } from "inferred-types/runtime";
+import type { Expect } from "@type-challenges/utils";
+import { createFnWithProps, narrow } from "inferred-types/runtime";
 import type { Dictionary, EmptyObject, Test, WithValue } from "inferred-types/types";
 
 import {
-    DictionaryWithValueFilter,
     withValue,
     defineObj
 } from "inferred-types/runtime";
+import { AssertEqual } from "../../modules/inferred-types/dist";
 
 const obj = defineObj({
-  id: "foobar",
-  foo2: 2,
-  foo3: 3,
-  success: true,
-  fail: false
+    id: "foobar",
+    foo2: 2,
+    foo3: 3,
+    success: true,
+    fail: false
 })({
-  foo: 1,
-  bar: true,
-  message: "hi there",
-  numericArr: [1, 2, 3],
-  strArr: ["foo", "bar"],
-  fn: () => "hi",
-  fnWithProp: createFnWithProps(() => "hi", { foo: "there" }),
-  baz: { foo: 1, bar: 2 },
-  emptyBaz: {}
+    foo: 1,
+    bar: true,
+    message: "hi there",
+    numericArr: [1, 2, 3],
+    strArr: ["foo", "bar"],
+    fn: () => "hi",
+    fnWithProp: createFnWithProps(() => "hi", { foo: "there" }),
+    baz: { foo: 1, bar: 2 },
+    emptyBaz: {}
 });
 
 describe("WithValue<TObj,TVal> type util", () => {
 
-  it("using the default 'extends' comparison", () => {
-    type Str = WithValue<typeof obj, string>;
-    type Num = WithValue<typeof obj, number>;
-    type Bool = WithValue<typeof obj, boolean>;
-    type Wide = WithValue<Dictionary, string>;
+    it("using the default 'extends' comparison", () => {
+        type Str = WithValue<typeof obj, string>;
+        type Num = WithValue<typeof obj, number>;
+        type Bool = WithValue<typeof obj, boolean>;
+        type Wide = WithValue<Dictionary, string>;
 
-    type cases = [
-      Expect<Test<Str, "equals",  { id: "foobar"; message: string }>>,
-      Expect<Test<Num, "equals",  { foo: number; foo2: 2; foo3: 3 }>>,
-      Expect<Test<Bool, "equals",  { success: true; fail: false; bar: boolean }>>,
-      Expect<Test<Wide, "equals",  EmptyObject>>
-    ];
-    const cases: cases = [true, true, true, true];
-  });
+        type cases = [
+            Expect<Test<Str, "equals", { id: "foobar"; message: string }>>,
+            Expect<Test<Num, "equals", { foo: number; foo2: 2; foo3: 3 }>>,
+            Expect<Test<Bool, "equals", { success: true; fail: false; bar: boolean }>>,
+            Expect<Test<Wide, "equals", EmptyObject>>
+        ];
+        const cases: cases = [true, true, true, true];
+    });
 
-  it("using the 'equals' comparison", () => {
-    type Str = WithValue<typeof obj, string>;
-    type Num = WithValue<typeof obj, number>;
-    type Bool = WithValue<typeof obj, boolean, "equals">;
+    it("using the 'equals' comparison", () => {
+        type Str = WithValue<typeof obj, string>;
+        type Num = WithValue<typeof obj, number>;
+        type Bool = WithValue<typeof obj, boolean, "equals">;
 
-    type cases = [
-      //
-      Expect<Test<Str, "equals",  { id: "foobar"; message: string }>>,
-      Expect<Test<Num, "equals",  { foo: number; foo2: 2; foo3: 3 }>>,
-      Expect<Test<Bool, "equals",  { bar: boolean }>>,
-    ];
-    const cases: cases = [true, true, true];
-  });
+        type cases = [
+            //
+            Expect<Test<Str, "equals", { id: "foobar"; message: string }>>,
+            Expect<Test<Num, "equals", { foo: number; foo2: 2; foo3: 3 }>>,
+            Expect<Test<Bool, "equals", { bar: boolean }>>,
+        ];
+        const cases: cases = [true, true, true];
+    });
 
 });
 
 describe("withValue(wo) => (obj) => obj", () => {
-  const obj = defineObj({ foo: "hi", bar: 42, baz: 99, bax: "bye" })();
+    const obj = defineObj({
+        foo: "hi",
+        bar: 42, baz: 99,
+        bax: "bye",
+        logical: true, illogical: false
+    })();
 
-  it("strings", () => {
+    it("strings", () => {
 
-    const wide = withValue("string");
-    const narrow = withValue(`"hi" | "hello"`);
+        const wide = withValue("string")(obj);
+        const narrow = withValue("hi")(obj);
 
-    const wideObj = wide(obj);
-    const narrowObj = narrow(obj);
+        expect(wide).toEqual({ foo: "hi", baz: "bye" });
+        expect(narrow).toEqual({ foo: "hi" });
 
-    expect(wideObj).toEqual({ foo: "hi", bax: "bye" });
-    expect(narrowObj).toEqual({ foo: "hi" });
+        type cases = [
+            Expect<AssertEqual<typeof wide, { foo: "hi", bax: "bye"}>>,
+            Expect<AssertEqual<typeof narrow, { foo: "hi"}>>,
+        ];
+    });
 
-    type cases = [
-      Expect<Test<typeof wide, "equals",  DictionaryWithValueFilter<string>>>,
-      Expect<Test<typeof narrow, "equals",  DictionaryWithValueFilter<"hi" | "hello">>>,
+    it("numbers", () => {
+        const wide = withValue("number")({ foo: "text", bar: 42, baz: 99, qux: true });
+        const narrow = withValue(42)({ foo: "text", bar: 42, baz: 99, qux: 42 });
 
-      Expect<Test<typeof wideObj, "equals", { foo: "hi",  bax: "bye" }>>,
-      Expect<Test<typeof narrowObj, "equals",  { foo: "hi" }>>,
-    ];
-  });
+        expect(wide).toEqual({ bar: 42, baz: 99 });
+        expect(narrow).toEqual({ bar: 42, qux: 42 });
+
+        type cases = [
+            Expect<AssertEqual<typeof wide, { bar: 42, baz: 99 }>>,
+            Expect<AssertEqual<typeof narrow, { bar: 42, qux: 42 }>>,
+        ];
+    });
+
+    it("booleans", () => {
+        const wide = withValue("boolean")(obj);
+        const narrowTrue = withValue(true)(obj);
+        const narrowFalse = withValue(false)(obj);
+
+        expect(wide).toEqual({ bar: true, baz: false });
+        expect(narrowTrue).toEqual({ bar: true, qux: true });
+        expect(narrowFalse).toEqual({ baz: false, qux: false });
+
+        type cases = [
+            Expect<AssertEqual<typeof wide, { logical: true, illogical: false }>>,
+            Expect<AssertEqual<typeof narrowTrue, {logical: true }>>,
+            Expect<AssertEqual<typeof narrowFalse, { illogical: false }>>,
+        ];
+    });
+
+    it("arrays", () => {
+        const obj = narrow({
+            foo: ["foo"],
+            bar: "nope",
+            baz: [1,2,3],
+            sometimes: ["foo",undefined,"bar"],
+            mixed: ["foo", 1]
+
+        })
+
+        const stringArray = withValue("string[]")(obj);
+        const numberArray = withValue("number[]")(obj);
+
+        expect(stringArray).toEqual({ foo: ["foo"] });
+        expect(numberArray).toEqual({ baz: [1, 2, 3] });
+
+        type cases = [
+            Expect<AssertEqual<typeof stringArray, { foo: ["foo"] }>>,
+            Expect<AssertEqual<typeof numberArray, { baz: [1, 2, 3] }>>,
+        ];
+    });
+
+    it("dictionaries", () => {
+        const obj = narrow({
+            foo: 123,
+            bar: { a: "hello", b: "world" },
+            baz: "hi",
+            qux: { m: "test", n: "data" }
+        })
+
+        const dictWithStringValues = withValue("Record<ObjectKey,string>")(obj);
+        const dictWithAny = withValue("Record<ObjectKey,unknown>")(obj);
+
+        expect(dictWithStringValues).toEqual(obj);
+        expect(dictWithAny).toEqual(obj);
+
+        type cases = [
+            Expect<AssertEqual<typeof dictWithStringValues, {baz: "hi"}>>,
+            Expect<AssertEqual<typeof dictWithAny, {
+                bar: { a: "hello", b: "world" },
+                baz: { x: 1, y: 2 }
+            }>>,
+        ];
+    });
 
 });

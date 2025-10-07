@@ -1,6 +1,13 @@
 
 import { describe, it } from "vitest";
-import type { AssertFalse, Err, Expect, HasSameValues, Test, AssertTrue } from "inferred-types/types";
+import type {
+    AssertFalse,
+    Err,
+    Expect,
+    HasSameValues,
+    Test,
+    AssertTrue
+} from "inferred-types/types";
 
 describe("HasSameValues<TContainer,TComparator", () => {
 
@@ -26,7 +33,6 @@ describe("HasSameValues<TContainer,TComparator", () => {
             Expect<Test<F4, "equals",  false>>,
             Expect<Test<F5, "equals",  false>>,
         ];
-
     });
 
 
@@ -43,7 +49,6 @@ describe("HasSameValues<TContainer,TComparator", () => {
             [1,2,3?],
             [2,1,3]
         >
-
 
         type cases = [
             Expect<AssertTrue<T1>>,

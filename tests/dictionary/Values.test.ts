@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { Dictionary, EmptyObject, Expect, ObjectKey, Test, Values } from "inferred-types/types";
 
 import { valuesOf } from "inferred-types/runtime";
+import { AssertEqual } from "../../modules/inferred-types/dist";
 
 describe("Values<T>", () => {
 
@@ -56,13 +57,15 @@ describe("Values<T>", () => {
 });
 
 describe("valuesOf()", () => {
-    const obj = {
-        foo: 1,
-        bar: "bar",
-        baz: true
-    } as const;
 
-    it("Happy Path", () => {
+
+    it("with object input", () => {
+        const obj = {
+            foo: 1,
+            bar: "bar",
+            baz: true
+        } as const;
+
         const v_obj = valuesOf(obj);
         const v_empty = valuesOf({} as EmptyObject);
         const v_infer = valuesOf({ foo: 1, bar: "bar", baz: true });
@@ -76,7 +79,17 @@ describe("valuesOf()", () => {
             Expect<Test<typeof v_infer, "hasSameValues", [1, "bar", true]>>,
             Expect<Test<typeof v_empty, "equals", []>>,
         ];
-
     });
+
+
+    it("with array input", () => {
+        const arr = [1,2,"foo",true];
+        const v = valuesOf([1,2,"foo",true]);
+
+        type cases = [
+            Expect<AssertEqual<typeof v, [1,2,"foo",true]>>
+        ];
+    });
+
 
 });

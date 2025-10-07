@@ -55,7 +55,7 @@ import {
     isFunction,
     isInputToken,
     isNarrowable,
-    isNarrowableTuple,
+    isNarrowableArray,
     isNumber,
     isNumberLike,
     isObjectKey,
@@ -204,14 +204,14 @@ function handle_general<
                 : false;
 
         case "containsSome":
-            return (isString(val) || isNumber(val) || isNarrowableTuple(val)) && isArray(params)
+            return (isString(val) || isNumber(val) || isNarrowableArray(val)) && isArray(params)
                 ? params.some(
                     i => contains(val, i as Narrowable)
                 )
                 : false;
 
         case "containsAll":
-            return (isString(val) || isNumber(val) || isNarrowableTuple(val)) && isArray(params)
+            return (isString(val) || isNumber(val) || isNarrowableArray(val)) && isArray(params)
                 ? params.every(
                     i => contains(val, i as Narrowable)
                 )

@@ -1,20 +1,32 @@
-import type { AsRecord, Narrowable, ObjectKey, Values } from "inferred-types/types";
+import type { Mutable, Narrowable, ObjectKey, Values } from "inferred-types/types";
+import { isArray, isDictionary } from "inferred-types/runtime";
+import { Dictionary } from "@inferred-types/types";
 
 /**
- * **valuesOf**(obj) -> readonly values[]
+ * **valuesOf**(container) -> values[]
  *
- * Runtime utility to convert an object into a tuple of
+ * Runtime utility to convert an object or an array into a tuple of
  * values while preserving as much type information as
  * possible.
+ *
+ * **Note:** an _array_ is simply proxied through "as is"
  */
 export function valuesOf<
-    TObj extends Record<ObjectKey, N>,
-    N extends Narrowable,
->(obj: TObj): Values<AsRecord<TObj>> {
-    const values = [];
-    for (const k of Object.keys(obj)) {
-        values.push(obj[k as keyof typeof obj]);
+    const TContainer extends Record<ObjectKey, N> | readonly N[],
+    const N extends Narrowable,
+>(val: TContainer) {
+    let values: any[] = [];
+    if (isArray(val)) {
+        values = val;
+    } else if (isDictionary(val)) {
+        for (const k of Object.keys(val)) {
+            values.push(val[k as keyof typeof val]);
+        }
     }
 
-    return values as Values<AsRecord<TObj>>;
+    return values as TContainer extends readonly unknown[]
+        ? Mutable<TContainer>
+        : TContainer extends Dictionary
+            ? Values<TContainer>
+            : never;
 }
