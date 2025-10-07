@@ -71,7 +71,7 @@ describe("withValue(wo) => (obj) => obj", () => {
         const wide = withValue("string")(obj);
         const narrow = withValue("hi")(obj);
 
-        expect(wide).toEqual({ foo: "hi", baz: "bye" });
+        expect(wide).toEqual({ foo: "hi", bax: "bye" });
         expect(narrow).toEqual({ foo: "hi" });
 
         type cases = [
@@ -124,9 +124,9 @@ describe("withValue(wo) => (obj) => obj", () => {
         const narrowTrue = withValue(true)(obj);
         const narrowFalse = withValue(false)(obj);
 
-        expect(wide).toEqual({ bar: true, baz: false });
-        expect(narrowTrue).toEqual({ bar: true, qux: true });
-        expect(narrowFalse).toEqual({ baz: false, qux: false });
+        expect(wide).toEqual({ logical: true, illogical: false });
+        expect(narrowTrue).toEqual({ logical: true });
+        expect(narrowFalse).toEqual({ illogical: false });
 
         type cases = [
             Expect<AssertEqual<typeof wide, { logical: true, illogical: false }>>,
@@ -168,8 +168,8 @@ describe("withValue(wo) => (obj) => obj", () => {
         const dictWithStringValues = withValue("Record<ObjectKey,string>")(obj);
         const dictWithAny = withValue("Record<ObjectKey,unknown>")(obj);
 
-        expect(dictWithStringValues).toEqual(obj);
-        expect(dictWithAny).toEqual(obj);
+        expect(dictWithStringValues).toEqual({ bar: { a: "hello", b: "world" } });
+        expect(dictWithAny).toEqual({ bar: { a: "hello", b: "world" }, qux: { m: 42, n: 99 } });
 
         type cases = [
             Expect<AssertEqual<

@@ -54,7 +54,7 @@ type TypeSuggestion = ObjectKeys<typeof lookup>;
  * validates whether the value _extends_ the baseType
  */
 function testExtends<T extends Narrowable, U extends AllowableType>(value: T, baseType: U): boolean {
-    if (isString(baseType) && hasIndexOf(keysOf(lookup), baseType)) {
+    if (isString(baseType) && keysOf(lookup).includes(baseType as any)) {
         switch(baseType) {
             case "string":
                 return isString(value);
@@ -196,7 +196,7 @@ export function withValue<
 ) {
     return <const TObj extends Record<string,N>, N extends Narrowable>(obj: TObj) => {
         const result: Record<string,unknown> = {};
-        for (const key in Object.keys(obj)) {
+        for (const key of Object.keys(obj)) {
             if (testExtends(obj[key], withValue)) {
                 result[key] = obj[key];
             }
