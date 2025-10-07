@@ -1,13 +1,12 @@
 import { describe, expect, it } from "vitest";
 import type { Expect } from "@type-challenges/utils";
 import { createFnWithProps, narrow } from "inferred-types/runtime";
-import type { Dictionary, EmptyObject, Test, WithValue } from "inferred-types/types";
+import type { Dictionary, EmptyObject, Test, WithValue, AssertEqual} from "inferred-types/types";
 
 import {
     withValue,
     defineObj
 } from "inferred-types/runtime";
-import { AssertEqual } from "../../modules/inferred-types/dist";
 
 const obj = defineObj({
     id: "foobar",
@@ -57,7 +56,6 @@ describe("WithValue<TObj,TVal> type util", () => {
         ];
         const cases: cases = [true, true, true];
     });
-
 });
 
 describe("withValue(wo) => (obj) => obj", () => {
@@ -82,6 +80,31 @@ describe("withValue(wo) => (obj) => obj", () => {
         ];
     });
 
+
+
+    it("optional strings", () => {
+        const obj = defineObj({
+            foo: "hi",
+            bar: 42, baz: 99,
+            bax: "bye",
+            nada: undefined
+        })();
+
+        const optStr = withValue("string|undefined")(obj);
+
+        type cases = [
+            Expect<AssertEqual<
+                typeof optStr,
+                {
+                    foo: "hi",
+                    bax: "bye",
+                    nada: undefined
+                }
+            >>
+        ];
+    });
+
+
     it("numbers", () => {
         const wide = withValue("number")({ foo: "text", bar: 42, baz: 99, qux: true });
         const narrow = withValue(42)({ foo: "text", bar: 42, baz: 99, qux: 42 });
@@ -97,6 +120,7 @@ describe("withValue(wo) => (obj) => obj", () => {
 
     it("booleans", () => {
         const wide = withValue("boolean")(obj);
+        type NoteThatTypeUtilityWorks = WithValue<typeof obj, boolean>;
         const narrowTrue = withValue(true)(obj);
         const narrowFalse = withValue(false)(obj);
 
@@ -138,7 +162,7 @@ describe("withValue(wo) => (obj) => obj", () => {
             foo: 123,
             bar: { a: "hello", b: "world" },
             baz: "hi",
-            qux: { m: "test", n: "data" }
+            qux: { m: 42, n: 99 }
         })
 
         const dictWithStringValues = withValue("Record<ObjectKey,string>")(obj);
@@ -148,11 +172,28 @@ describe("withValue(wo) => (obj) => obj", () => {
         expect(dictWithAny).toEqual(obj);
 
         type cases = [
-            Expect<AssertEqual<typeof dictWithStringValues, {baz: "hi"}>>,
-            Expect<AssertEqual<typeof dictWithAny, {
-                bar: { a: "hello", b: "world" },
-                baz: { x: 1, y: 2 }
-            }>>,
+            Expect<AssertEqual<
+                typeof dictWithStringValues,
+                {
+                    bar: {
+                        a: "hello";
+                        b: "world";
+                    };
+                }
+            >>,
+            Expect<AssertEqual<
+                typeof dictWithAny,
+                {
+                    bar: {
+                        a: "hello";
+                        b: "world";
+                    };
+                    qux: {
+                        m: 42;
+                        n: 99;
+                    };
+                }
+            >>,
         ];
     });
 

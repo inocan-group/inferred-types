@@ -13,6 +13,16 @@ describe("Mutable<T>", () => {
     });
 
 
+    it("object with unions", () => {
+        type T1 = Mutable<{readonly foo: 1|2; readonly bar: "one"|"two"}>
+
+        type cases = [
+            Expect<AssertEqual<T1, { foo: 1|2, bar: "one"|"two"}>>
+        ];
+    });
+
+
+
     it("object with readonly scalar values", () => {
         type T1 = Mutable<{ readonly foo: 1; readonly bar: 2 }>;
         type T2 = Mutable<{ foo: 1; readonly bar: 2 }>;

@@ -24,7 +24,7 @@ type MutableArray<T extends readonly unknown[]> = [...{
  */
 export type Mutable<T>
     = [IsUnion<T>] extends [true]
-        ? [T]
+        ? T
         : [T] extends [infer Arr extends readonly unknown[]]
             ? MutableArray<Arr>
         : [T] extends [infer Dict extends Dictionary]

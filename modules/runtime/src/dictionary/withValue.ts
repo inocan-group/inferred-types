@@ -1,19 +1,29 @@
 import type {
     As,
     Dictionary,
-    FromInputToken,
-    ExpandDictionary,
     Mutable,
     Narrowable,
-    ObjectKey,
     ObjectKeys,
     StringKeys,
     Suggest,
     WithValue,
     ExpandRecursively,
 } from "inferred-types/types";
-import { doesExtend, every, hasIndexOf, indexOf, isArray, isBoolean, isDictionary, isFalse, isNumber, isObject, isScalar, isString, isTrue, isUndefined, keysOf } from "inferred-types/runtime";
-import { isNarrowableArray } from "../type-guards";
+import {
+    hasIndexOf,
+    isArray,
+    isBoolean,
+    isDictionary,
+    isFalse,
+    isNumber,
+    isObject,
+    isScalar,
+    isString,
+    isTrue,
+    isUndefined,
+    keysOf,
+    isNarrowableArray
+} from "inferred-types/runtime";
 
 
 const lookup = {
@@ -24,7 +34,7 @@ const lookup = {
     "string|number": "string|number" as unknown as string | number,
     boolean: "boolean" as unknown as boolean,
     true: "true" as unknown as true,
-    false: "false" as unknown as "false",
+    false: "false" as unknown as false,
     object: "object" as unknown as object,
     Object: "object" as unknown as object,
     "Record<ObjectKey,unknown>": "Record<ObjectKey,unknown>" as unknown as Dictionary,
@@ -118,6 +128,12 @@ function testExtends<T extends Narrowable, U extends AllowableType>(value: T, ba
     return false;
 }
 
+/** types allowed as input to withValue() */
+type AllowableType =
+    | number | boolean | Suggest<TypeSuggestion>
+    | readonly (number | boolean | Suggest<TypeSuggestion>)[]
+    | Record<string,string|number|boolean>;
+
 type ConvertObjType<
     TObj extends Record<string, unknown>,
     TKeys extends readonly (PropertyKey & keyof TObj)[] = As<StringKeys<TObj>, readonly (PropertyKey & keyof TObj)[]>,
@@ -135,27 +151,24 @@ type ConvertObjType<
         : never
 : ExpandRecursively<TResult>;
 
-type AllowableType =
-    | number | boolean | string
-    | readonly (number | boolean | Suggest<TypeSuggestion>)[]
-    | Record<string,string|number|boolean>;
+
 
 type ConvertType<T extends AllowableType> =
-T extends string
-    ? T extends keyof Lookup
+[T] extends [string]
+    ? [T] extends [keyof Lookup]
         ? Lookup[T]
         : T
-: T extends number
+: [T] extends [number]
     ? T
-: T extends boolean
+: [T] extends [boolean]
     ? T
-: T extends readonly (number | boolean | Suggest<TypeSuggestion>)[]
+: [T] extends [readonly (number | boolean | Suggest<TypeSuggestion>)[]]
     ? {
         [K in keyof T]: T[K] extends AllowableType
             ? ConvertType<T[K]>
             : never
     }
-: T extends Record<string,string|number|boolean>
+: [T] extends [Record<string,string|number|boolean>]
     ? ConvertObjType<T>
 : never;
 
@@ -183,12 +196,12 @@ export function withValue<
 ) {
     return <const TObj extends Record<string,N>, N extends Narrowable>(obj: TObj) => {
         const result: Record<string,unknown> = {};
-        for (const k in keysOf(obj)) {
-            if (testExtends(obj[k], withValue)) {
-                result[k] = obj[k];
+        for (const key in Object.keys(obj)) {
+            if (testExtends(obj[key], withValue)) {
+                result[key] = obj[key];
             }
         }
 
-        return result as Mutable<WithValue<TObj, ConvertType<TWith>>>
+        return result as WithValue<TObj, ConvertType<TWith>>
     }
 }
