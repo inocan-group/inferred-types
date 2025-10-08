@@ -1,4 +1,4 @@
-import type { AnyObject, ExpandRecursively, KeysWithoutValue, Narrowable } from "inferred-types/types";
+import type {  Dictionary, ExpandRecursively, KeysWithoutValue, Mutable } from "inferred-types/types";
 
 /**
  * **WithoutValue**
@@ -15,6 +15,8 @@ import type { AnyObject, ExpandRecursively, KeysWithoutValue, Narrowable } from 
  * You manually exclude keys as well by setting the optional `E` generic.
  */
 export type WithoutValue<
-    TObj extends AnyObject,
-    TValue extends Narrowable,
-> = ExpandRecursively<Pick<TObj, KeysWithoutValue<TObj, TValue>>>;
+    TObj extends Dictionary,
+    TValue,
+> = Mutable<ExpandRecursively<
+    Pick<TObj, KeysWithoutValue<TObj, TValue>>
+>>;
