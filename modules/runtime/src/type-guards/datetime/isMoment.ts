@@ -2,6 +2,8 @@ import type { MomentLike } from "inferred-types/types";
 import { isDictionary } from "inferred-types/runtime";
 
 /**
+ * **isMoment**`(val)`
+ *
  * Type guard which validates that the passed in `val` is a
  * [MomentJS](https://momentjs.com/docs/) object.
  */

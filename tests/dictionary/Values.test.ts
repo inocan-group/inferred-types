@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import type { Dictionary, EmptyObject, Expect, ObjectKey, Test, Values } from "inferred-types/types";
+import type { Dictionary, EmptyObject, Expect, ObjectKey, Test, Values, AssertEqual } from "inferred-types/types";
 
 import { valuesOf } from "inferred-types/runtime";
-import { AssertEqual } from "../../modules/inferred-types/dist";
 
 describe("Values<T>", () => {
 

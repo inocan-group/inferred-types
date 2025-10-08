@@ -33,8 +33,8 @@ function encode<
 }
 
 function decode<
-    TDefn extends NarrowObject<N> & Dictionary,
-    N extends string,
+    const TDefn extends Dictionary<string|symbol, N>,
+    const N extends string,
 >(defn: TDefn) {
     return <D extends string>(encoded: D) => {
         let text: string = encoded;

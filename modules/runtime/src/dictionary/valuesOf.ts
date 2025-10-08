@@ -1,6 +1,5 @@
-import type { Mutable, Narrowable, ObjectKey, Values } from "inferred-types/types";
+import type { Mutable, Narrowable, ObjectKey, Values, Dictionary } from "inferred-types/types";
 import { isArray, isDictionary } from "inferred-types/runtime";
-import { Dictionary } from "@inferred-types/types";
 
 /**
  * **valuesOf**(container) -> values[]

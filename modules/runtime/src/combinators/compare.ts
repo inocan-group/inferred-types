@@ -132,16 +132,6 @@ function handle_string<
                 ? asChars(val).every(c => isNumberLike(c) || isAlpha(c))
                 : false;
         }
-
-        case "isTemplateLiteral": {
-            return isStaticTemplate(val) === "maybe"
-                ? err(
-                    `unknown-at-runtime`,
-                    `isTemplateLiteral(val) can not know at runtime whether the passed in string value was a TemplateLiteral at design time!`,
-                    { value: val }
-                )
-                : false;
-        }
     }
 
     return unset;
