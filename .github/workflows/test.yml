@@ -30,5 +30,4 @@ jobs:
       github_packages_scope: '@inocan-group'
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
