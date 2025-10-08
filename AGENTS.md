@@ -1,31 +1,247 @@
-# AGENTS.md - Guidelines for Agentic Coding in inferred-types
+# CLAUDE.md
 
-## Build & Test Commands
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-- `pnpm build`: Build all modules
-- `pnpm test`: Run all tests
-- `pnpm test <file>`: Run specific test file (e.g., `pnpm test datetime/asDate.test.ts`)
-- `pnpm test FILTER_PATTERN`: Run tests matching a pattern
-- `pnpm lint`: Lint all modules
-- `typed test`: Run type tests
-- `typed test <pattern>`: Run type tests matching pattern
+## Project Overview
 
-## Code Style Guidelines
+**inferred-types** is a TypeScript monorepo library providing advanced type utilities that maintain strong, narrow typing with runtime functions that mirror type-level operations. The library bridges TypeScript's type system and runtime behavior, focusing on "self-documenting" code with comprehensive type-level documentation.
 
-- **Imports**: Group imports by type (external, internal, types). Use non-relative imports.
-- **Formatting**: 4-space indentation, double quotes, semicolons, max line length 100.
-- **Types**: Prefer narrow types. Use `type` over `interface`. Avoid `any`/`unknown`.
-- **Naming**: PascalCase for types, camelCase for runtime. Prefix unused vars with `_`.
-- **Error Handling**: Use `Err<T>` for errors.
-- **Testing**: Type utilities need type tests. Runtime functions need both. Use `Expect` and `Test` for type tests.
+## Architecture
 
-## Monorepo Structure (PNPM Workspace)
+### Monorepo Structure (PNPM Workspace)
 
 - **`modules/constants/`** - Runtime constants and enumerated types
 - **`modules/types/`** - Core type utilities (heart of the project)
 - **`modules/runtime/`** - Runtime functions with strong type information
 - **`modules/inferred-types/`** - Main package that exports everything
 
-Check `README.md` files in module `src` subdirectories for additional context.
+Any directory inside any of the modules's `src` subdirectories which has a `README.md` file provides additional context about the source code which resides in that subdirectory (and below).
+
+### Key Design Principle
+
+Many runtime functions have corresponding types (e.g., `ensureLeading()` ↔ `EnsureLeading<T>`). This synchronization between design-time types and runtime values is fundamental to the library's architecture.
+
+## Common Development Commands
+
+### Building
+
+```bash
+# Build all modules
+pnpm build
+
+# Watch mode (parallel build + test watching)
+pnpm watch
+```
+
+### Testing
+
+```bash
+# Run all tests
+pnpm test
+
+# Watch mode testing
+pnpm test:watch
+
+# Test UI
+pnpm test:ui
+
+# Type-only testing (custom CLI tool)
+pnpm test:types
+```
+
+### Linting & Quality
+
+```bash
+# Lint all modules
+pnpm lint
+
+# Type audits for specific modules
+pnpm audit:types
+pnpm audit:runtime
+pnpm audit:constants
+```
+
+### Single Test Execution
+
+Use Vitest's filtering for specific tests:
+
+```bash
+# Run specific test file
+pnpm test datetime/asDate.test.ts
+
+# Run tests matching pattern
+pnpm test --grep "EnsureLeading"
+
+# Run tests from current working directory
+pnpm test
+```
+
+## Module-Level Development
+
+Each module (`constants`, `types`, `runtime`, `inferred-types`) has consistent scripts:
+
+- `pnpm -C modules/[module-name] build` - Build specific module
+- `pnpm -C modules/[module-name] test` - Test specific module
+- `pnpm -C modules/[module-name] lint` - Lint specific module
+- `pnpm -C modules/[module-name] watch` - Watch mode for specific module
+
+### Importing Rules
+
+- you should NEVER import from `@inferred-types/types`, `@inferred-types/runtime`, or `@inferred-types/constants`!
+- relative imports should also be avoided
+- in 99% of the cases you should import from one of the following sources:
+  - `inferred-types/constants`
+  - `inferred-types/types`
+  - `inferred-types/runtime`
+- if you need to resolve a circular dependency or reference a symbol then you can consider importing more deeply into the different modules with:
+  - `runtime/path/to/dep`
+  - `types/path/to/dep`
+  - `constants/path/to/dep`
+- typically this deeper import should only be done for deps within the same modules
+
+## Build System
+
+- **Primary tool**: `tsdown` for TypeScript compilation
+
+    ```bash
+    pnpm build # will run tsdown with correct configuration
+    ```
+
+- **Output formats**: ESM, CJS, and TypeScript declarations
+- **Custom type testing**: `type-test.mjs` CLI tool for TypeScript type behavior validation
+- **Dependencies**: Modules have workspace dependencies allowing cross-module imports
+
+## Testing Framework
+
+- **Runtime tests**: Vitest with configuration in `vitest.config.ts`
+
+    ```sh
+    # test all
+    pnpm test
+    # test matching
+    pnpm test datetime
+    ```
+
+- **Type tests**: Use `pnpm test:types` or `typed test` to test type files
+
+    ```sh
+    # type test all test files
+    pnpm test:types
+    # type test a filtered down set of files
+    pnpm test:types datetime
+    ```
+
+- **Test organization**: `/tests/` directory with subdirectories by feature area
+- **Module aliases**: Configured in Vitest for clean imports during testing
+
+### Type Testing Philosophy
+
+Type testing is crucial in this repo focused on narrow, high-quality types:
+
+- **All type utilities** must be thoroughly tested to ensure intended function and avoid "complex and possibly infinite" type errors
+- **Runtime functions** should be tested for both runtime output AND types - these must always be aligned
+- **Type tests are valued equally** with runtime tests
+
+### Type Test Structure
+
+Type tests use the `Expect` and `Test` utilities:
+
+```ts
+import { Expect, Test } from "inferred-types/types";
+
+type cases = [
+    Expect<Test<ActualType, "equals", ExpectedType>>,
+    // More test cases...
+];
+```
+
+**Test comparison types:**
+
+- `equals` - exact type equality
+- `extends` - type extension relationship
+- `hasSameKeys` - dictionary key comparison
+- `hasSameValues` - container value comparison (order-independent)
+- `isError<T>` - error type testing (supports Error types, string error types, or generic error checking)
+
+## Release Process
+
+```bash
+# Full release workflow
+pnpm release
+```
+
+This runs: lint → install latest → test CI → audit fix → version bump
+
+### Release Workflow
+
+1. the release uses the popular [`bumpp`](https://github.com/antfu-collective/bumpp) npm package (e.g., `pnpm release`) to interactively ask the user for:
+
+  - the release number
+  - get confirmation on the desire to commit
+  - tag the commit locally
+  - push to Github
+
+2. a release based commit to the `main` branch uses the `.github/workflows/release.yml` workflow for Github Actions
+
+  - while the `.github/workflows/test.yml` workflow _will_ be triggered too (as is any commit to `main`) the logic of this workflow will detect that this is a release and avoid running duplicative testing.
+
+3. the bulk of the release work is done in the `yankeeinlondon/gha` repo's "publish.yml" workflow
+
+    - this repo is separate from this repo but owned by the same people so changes to `yankeeinlondon/gha` can be made if appropriate.
+    - this workflow will attempt to publish to [npm](https://www.npmjs.com/package/inferred-types) as a root package (aka, not namespaced), and to [JSR](https://jsr.io/@yankeeinlondon/inferred-types), and [Github Packages](https://github.com/inocan-group/inferred-types) under the workspace `inocan-group`
+    - the workflow is considered successful only when ALL of the targets are published to
+    - at the end of a successful publish workflow we call `npx changelogithub` to build a changelog into the release notes on Github
+
+4. the [`changelogithub`](https://github.com/antfu/changelogithub) used in our release process is a variant of the popular [Conventional Commits](https://github.com/conventional-changelog/releaser-tools/tree/master/packages/conventional-github-releaser) library but with some additional features.
+   - one of the underlying resources that **changelogithub** uses is the CLI from [chanelogen](https://github.com/unjs/changelogen)
 
 
+## Important File Patterns
+
+- **Type utilities**: Located in `modules/types/src/` with extensive sub-categorization
+- **Runtime functions**: Located in `modules/runtime/src/` mirroring type structure
+- **Constants**: Located in `modules/constants/src/` for shared enums and values
+- **Tests**: Organized in `/tests/` with same structure as source modules
+- **Benchmarks**: Type performance tests in `/benches/` directory
+
+## Development Workflow Notes
+
+- The library maintains strong typing discipline - preserve narrow types wherever possible
+- Runtime functions should mirror their corresponding type utilities when applicable
+- All new utilities require both runtime and type tests
+- Type performance benchmarks should be added for new type utilities when feasible
+- The project uses ESLint with `@antfu/eslint-config` and custom overrides
+
+## TypeScript Limitations and Cross-Module Issues
+
+This codebase has experienced TypeScript limitations where complex types behave differently when evaluated across module boundaries:
+
+- **Workaround strategy**: When encountering cross-module type resolution issues, implement local versions of problematic utilities within the same file
+- **This is a TypeScript limitation**, not a logic error in the code
+- **Testing approach**: Both `pnpm test` (runtime) and `pnpm test:types` (type-level) should pass for all utilities
+
+## Type Testing Execution Details
+
+Type tests use a custom CLI tool separate from npm scripts:
+
+```bash
+# NOT npm commands - use directly:
+typed test                    # Test all type files
+typed test datetime  # Test filtered files
+```
+
+The type testing framework uses `Test` and `Expect` utilities with these comparison operators:
+
+- `equals` - exact type equality (most common)
+- `extends` - type extension relationship
+- `hasSameKeys` - dictionary key comparison
+- `hasSameValues` - container value comparison (order-independent)
+- `isError<T>` - error type testing
+
+# important-instruction-reminders
+
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+ALWAYS create a stashed version of a function before changing it if the file has changes which are have not been committed
