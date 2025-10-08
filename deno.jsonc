@@ -1,6 +1,6 @@
 {
     "name": "@yankeeinlondon/inferred-types",
-    "version": "1.0.0-beta.2",
+    "version": "1.0.0-beta.3",
     "license": "MIT",
     "exports": "./modules/inferred-types/src/index.ts",
     "tasks": {
