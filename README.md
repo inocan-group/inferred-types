@@ -92,6 +92,7 @@ const fooBar = matcher("infer is a fancy utility, that thinks it's better than y
 - ensure an _integer_ value with `Integer<T>`; ensure a _float_ value with `Float<T>`
 - compare numeric literals with `LessThan<A,B>`, `LessThanOrEqual<A,B>`, and `GreaterThan<A,B>`
 - ensure a _positive_ number with `Abs<T>`
+- [details on numeric types](./docs/numeric-types.md)
 
 ### Lists
 

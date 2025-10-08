@@ -76,7 +76,7 @@ type CustomExample = Nest<"array[index]", { "[": "]" }>;
 // Only recognizes square brackets as nesting
 ```
 
-### FromNesting<TNest>
+### FromNesting`<TNest>`
 
 Reconstructs the original string from a nested structure (inverse of `Nest`).
 
