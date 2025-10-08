@@ -21,7 +21,7 @@ type RevAcc<
  * we convert all elements to **required** rather than risk losing elements.
  */
 export type Reverse<T> = T extends readonly unknown[]
-    ? RevAcc<Required<T>>
+    ? RevAcc<Required<[...T]>>
     : T extends string
         ? Join<RevAcc<Chars<T>>>
         : never;

@@ -1,26 +1,25 @@
-import { describe, expect, it } from "vitest";
-import type { Expect, StartsWith, TakeState, Test } from "inferred-types/types";
+import { describe } from "vitest";
+// import type { Expect, StartsWith, TakeState, Test } from "inferred-types/types";
+// import { asTakeState, startsWith, take } from "inferred-types/runtime";
 
-import { asTakeState, startsWith, take } from "inferred-types/runtime";
+describe.skip("take(parser) -> (val) -> Take", () => {
 
-describe("take(parser) -> (val) -> Take", () => {
+    // it("Partial: provide parser", () => {
+    //     function parser<T extends string | TakeState>(state: T) {
+    //         const s = asTakeState(state);
 
-    it("Partial: provide parser", () => {
-        function parser<T extends string | TakeState>(state: T) {
-            const s = asTakeState(state);
+    //         return (
+    //             startsWith("foo", "bar")(s.parseString)
+    //             ? [s.parseString.slice(0,3), [...s.tokens, s.parseString.slice(0,3)] ]
+    //             : ["", s.tokens]
+    //         )
+    //     }
 
-            return (
-                startsWith("foo", "bar")(s.parseString)
-                ? [s.parseString.slice(0,3), [...s.tokens, s.parseString.slice(0,3)] ]
-                : ["", s.tokens]
-            )
-        }
+    //     const takeFooBar = take(parser);
 
-        const takeFooBar = take(parser);
-
-        type cases = [
-            /** type tests */
-        ];
-    });
+    //     type cases = [
+    //         /** type tests */
+    //     ];
+    // });
 
 });

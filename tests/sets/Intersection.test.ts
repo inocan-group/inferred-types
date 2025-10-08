@@ -236,6 +236,7 @@ describe("Intersection<A,B>", () => {
         type T2 = Intersection<readonly [1, 2], [2, 3]>;
 
         // Arrays with complex union intersections
+        // Union types are treated as opaque values, not expanded
         type T3 = Intersection<
             [(string | number), (boolean | string)],
             [(number | boolean), string]
@@ -251,7 +252,7 @@ describe("Intersection<A,B>", () => {
         type cases = [
             Expect<Test<T1, "equals", [2, 3]>>,
             Expect<Test<T2, "equals", [2]>>,
-            Expect<Test<T3, "equals", [string?]>>,
+            Expect<Test<T3, "equals", []>>,
             Expect<Test<T4, "equals", [string]>>,
         ];
     });

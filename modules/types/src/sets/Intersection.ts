@@ -69,6 +69,19 @@ type DetectValues<
         : unknown[]
     : unknown[];
 
+// Compare values for arrays/tuples - find exact matches
+type CompareArrayValues<
+    AValues extends readonly unknown[],
+    BValues extends readonly unknown[],
+    Result extends readonly unknown[] = []
+> = AValues extends readonly [infer AHead, ...infer ATail]
+    ? ExistsInArrayExact<AHead, BValues> extends true
+        ? Contains<Result, AHead> extends true
+            ? CompareArrayValues<ATail, BValues, Result>
+            : CompareArrayValues<ATail, BValues, [...Result, AHead]>
+        : CompareArrayValues<ATail, BValues, Result>
+    : Result;
+
 // Compare values for dictionaries/objects - only check for exact matches
 type CompareObjectValues<
     AValues extends readonly unknown[],
@@ -97,33 +110,40 @@ type Process<
     B extends Container,
     O extends null | string
 > = IsSameContainerType<A, B> extends true
-    ? Or<[IsWideContainer<A>, IsWideContainer<B>]> extends true
-        ? IsDictionary<A> extends true
-            ? IsDictionary<B> extends true
-                ? DetectValues<
+    ? IsWideContainer<A> extends true
+        ? IsWideContainer<B> extends true
+            // Both are wide
+            ? IsDictionary<A> extends true
+                ? IsDictionary<B> extends true
+                    ? DetectValues<
+                        Values<A>,
+                        Values<B>
+                    >
+                    : never
+                : DetectValues<
                     Values<A>,
                     Values<B>
                 >
+            // A is wide, B is narrow - return narrow values as array
+            : B extends readonly unknown[]
+                ? UnionFrom<B>[]
                 : never
-            : DetectValues<
-                Values<A>,
-                Values<B>
-            >
-        // Narrow Containers
-        : A extends readonly unknown[]
-            ? B extends readonly unknown[]
-                ? O extends null
-                    ? Compare<
-                        [...A],
-                        "equals",
-                        [...B]
-                    >
-                    : CompareWithOffset<A, B, As<O, string>>
+        : IsWideContainer<B> extends true
+            // A is narrow, B is wide - return narrow values as array
+            ? A extends readonly unknown[]
+                ? UnionFrom<A>[]
                 : never
-            : CompareObjectValues<
-                Values<A>,
-                Values<B>
-            >
+            // Both are narrow
+            : A extends readonly unknown[]
+                ? B extends readonly unknown[]
+                    ? O extends null
+                        ? CompareArrayValues<A, B>
+                        : CompareWithOffset<A, B, As<O, string>>
+                    : never
+                : CompareObjectValues<
+                    Values<A>,
+                    Values<B>
+                >
     : Err<
         `invalid-comparison/keys`,
         `The Intersection<A,B> utility works when both A and B are the same type of container but that was not the case!`,
@@ -150,5 +170,5 @@ type Process<
 export type Intersection<
     A extends Container,
     B extends Container,
-    O extends null | ComparisonOperation = null
-> = Process<A,B,O>;
+    TOffset extends null | string = null
+> = Process<A,B,TOffset>;
