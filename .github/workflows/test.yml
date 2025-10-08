@@ -1,33 +1,20 @@
 name: Testing
 on:
   push:
-    branches: [main]
-
+    branches:
+      - main
 jobs:
   test:
     name: testing
-    if: |
-      !startsWith(github.ref, 'refs/tags/v') &&
-      !contains(github.event.head_commit.message, 'chore: release')
     uses: yankeeinlondon/gha/.github/workflows/test.yml@main
-    with:
-      os: '["ubuntu-latest", "windows-latest", "macos-latest"]'
-      nodeVersion: '["22.x"]'
 
-  notify:
-    name: notify
-    if: |
-      startsWith(github.ref, 'refs/tags/v') ||
-      contains(github.event.head_commit.message, 'chore: release')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Reason
-        run: |
-          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            echo "::notice title=Testing Skipped::📦 Testing job skipped for version tag. The publish workflow will run its own tests before publishing."
-          else
-            echo "::notice title=Testing Skipped::🚀 Testing job skipped for release commit. The publish workflow will handle testing."
-          fi
-      - name: cancellation
-        uses: andymckay/cancel-action@0.4
-
+  publish:
+    name: publish
+    if: contains(github.event.head_commit.message, 'release v')
+    needs: test  # This ensures tests pass before publishing
+    uses: yankeeinlondon/gha/.github/workflows/publish.yml@main
+    # with:
+    #   jsr_scope: '@org'              # Optional: scope for JSR if package.json has root-level name
+    #   github_packages_scope: '@org'   # Optional: scope for GitHub Packages if package.json has root-level name
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
