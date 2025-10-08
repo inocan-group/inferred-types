@@ -28,5 +28,6 @@ jobs:
     with:
       jsr_scope: '@inocan-group'
       github_packages_scope: '@inocan-group'
-    secrets: inherit
+    secrets:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
