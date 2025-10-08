@@ -1,4 +1,4 @@
-import type { Mutable, Narrowable, ObjectKey, Values, Dictionary } from "inferred-types/types";
+import type { Dictionary, Mutable, Narrowable, ObjectKey, Values } from "inferred-types/types";
 import { isArray, isDictionary } from "inferred-types/runtime";
 
 /**
@@ -17,7 +17,8 @@ export function valuesOf<
     let values: any[] = [];
     if (isArray(val)) {
         values = val;
-    } else if (isDictionary(val)) {
+    }
+    else if (isDictionary(val)) {
         for (const k of Object.keys(val)) {
             values.push(val[k as keyof typeof val]);
         }

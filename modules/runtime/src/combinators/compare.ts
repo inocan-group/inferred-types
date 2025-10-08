@@ -64,7 +64,7 @@ import {
     isStringOrNumericArray,
     isTrue,
     isValidComparisonParams,
-    startsWith
+    startsWith,
 } from "runtime/type-guards";
 
 function handle_string<
@@ -131,6 +131,10 @@ function handle_string<
             return isString(val)
                 ? asChars(val).every(c => isNumberLike(c) || isAlpha(c))
                 : false;
+        }
+
+        case "isTemplateLiteral": {
+            return isStaticTemplate(val as any) as IsTemplateLiteral<typeof val>;
         }
     }
 

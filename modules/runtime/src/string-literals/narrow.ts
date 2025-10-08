@@ -2,16 +2,14 @@ import type {
     Mutable,
     Narrowable,
 } from "inferred-types/types";
-import { isArray, isDictionary } from "inferred-types/runtime";
-
 
 type Returns<
-    T extends (readonly N[]) | [Record<K,N>] | [readonly N[]],
+    T extends (readonly N[]) | [Record<K, N>] | [readonly N[]],
     K extends PropertyKey,
     N extends Narrowable
 > = T["length"] extends 1
-? Mutable<T[0]>
-: Mutable<T>;
+    ? Mutable<T[0]>
+    : Mutable<T>;
 
 /**
  * **narrow**(value)
@@ -42,12 +40,12 @@ type Returns<
 export function narrow<
     const N extends Narrowable,
     const K extends PropertyKey,
-    const T extends (readonly N[]) | [Record<K,N>] | [readonly N[]],
->(...values: T): Returns<T,K,N> {
+    const T extends (readonly N[]) | [Record<K, N>] | [readonly N[]],
+>(...values: T): Returns<T, K, N> {
     // we evaluate lengths of 1 differently
     if (values.length === 1) {
-        return values[0] as Returns<T,K,N>
+        return values[0] as Returns<T, K, N>;
     }
 
-    return values as Returns<T,K,N>;
+    return values as Returns<T, K, N>;
 }

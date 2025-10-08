@@ -33,7 +33,7 @@ function encode<
 }
 
 function decode<
-    const TDefn extends Dictionary<string|symbol, N>,
+    const TDefn extends Dictionary<string | symbol, N>,
     const N extends string,
 >(defn: TDefn) {
     return <D extends string>(encoded: D) => {

@@ -1,4 +1,4 @@
-import type { Dictionary, IsDictionary, IsLiteralLikeObject, IsTuple, IsUnion, Narrowable, Scalar } from "inferred-types/types";
+import type { Dictionary, IsTuple, IsUnion } from "inferred-types/types";
 
 type MutableObject<T> = [T] extends [boolean]
     ? T
@@ -27,6 +27,6 @@ export type Mutable<T>
         ? T
         : [T] extends [infer Arr extends readonly unknown[]]
             ? MutableArray<Arr>
-        : [T] extends [infer Dict extends Dictionary]
-            ? MutableObject<Dict>
-            : T;
+            : [T] extends [infer Dict extends Dictionary]
+                ? MutableObject<Dict>
+                : T;

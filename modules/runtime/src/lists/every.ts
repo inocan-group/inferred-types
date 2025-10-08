@@ -1,12 +1,12 @@
-import {
+import type {
     ComparisonOperation,
     Every,
     GetComparisonParams,
     Narrowable,
     ObjectKey,
     Values
-} from 'inferred-types/types';
-import { valuesOf, filter } from 'inferred-types/runtime';
+} from "inferred-types/types";
+import { filter, valuesOf } from "inferred-types/runtime";
 
 export function every<
     const TOp extends ComparisonOperation,
@@ -21,6 +21,6 @@ export function every<
     >(value: TContainer) => {
         const list = valuesOf(value);
 
-        return list.every(i => filter(i, op, comparator)) as Every<Values<TContainer>, TOp, TComparator>
-    }
+        return list.every(i => filter(i, op, comparator)) as Every<Values<TContainer>, TOp, TComparator>;
+    };
 }

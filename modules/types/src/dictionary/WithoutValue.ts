@@ -1,4 +1,4 @@
-import type {  Dictionary, ExpandRecursively, KeysWithoutValue, Mutable } from "inferred-types/types";
+import type { Dictionary, ExpandRecursively, KeysWithoutValue, Mutable } from "inferred-types/types";
 
 /**
  * **WithoutValue**

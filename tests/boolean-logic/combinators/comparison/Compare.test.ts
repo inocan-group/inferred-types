@@ -572,7 +572,7 @@ describe("compare() runtime function", () => {
             const t2 = compare("isTemplateLiteral")(str);
 
             expect(t1).toBe("maybe");
-            expect((t2 as any) instanceof Error).toBe(true);
+            expect((t2 as any) instanceof Error).toBe(false);
 
             // in these case both runtime and type system know it's false
             // @ts-expect-error
@@ -586,7 +586,7 @@ describe("compare() runtime function", () => {
             expect(f1).toBe(false);
             expect(f2).toBe(false);
             expect(f3).toBe("maybe");
-            expect((f4 as any) instanceof Error).toBe(true);
+            expect((f4 as any) instanceof Error).toBe(false);
 
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,

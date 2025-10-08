@@ -10,6 +10,8 @@ import { isString } from "inferred-types/runtime";
  */
 export function isStaticTemplate<T extends string>(val: T): IsTemplateLiteral<T> {
     return isString(val)
-        ? "maybe" as unknown as IsTemplateLiteral<T>
+        ? val.includes("{{string}}") || val.includes("{{number}}") || val.includes("{{boolean}}")
+            ? true as IsTemplateLiteral<T>
+            : "maybe" as unknown as IsTemplateLiteral<T>
         : false as IsTemplateLiteral<T>;
 }

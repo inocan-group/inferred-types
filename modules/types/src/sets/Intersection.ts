@@ -1,7 +1,5 @@
 import type {
     As,
-    Compare,
-    ComparisonOperation,
     Container,
     Contains,
     Dictionary,
@@ -18,7 +16,6 @@ import type {
     IsSameContainerType,
     IsWideContainer,
     MixObjects,
-    Or,
     UnionFrom,
     Values
 } from "inferred-types/types";
@@ -171,4 +168,4 @@ export type Intersection<
     A extends Container,
     B extends Container,
     TOffset extends null | string = null
-> = Process<A,B,TOffset>;
+> = Process<A, B, TOffset>;
