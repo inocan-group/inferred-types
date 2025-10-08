@@ -77,7 +77,9 @@ const people = pluralize("person");
   - `Iso8601DateTime`, `Iso8601Date`, `Iso8601Time`, ...
   - `isIsoDateTime()`, `isIsoDate()`, `isIsoTime()`, ...
 
-#### String Literal Matching at design time and run time
+For more info see [URLs](), [Date and Time](), and
+
+#### String Interpolation
 
 ```ts
 const matcher = infer("{{ string }} is a {{ infer foo }} utility, that {{ infer bar }}");
