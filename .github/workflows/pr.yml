@@ -1,0 +1,14 @@
+name: Pull Request
+on:
+    pull_request:
+        branches:
+            - main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test:
+    name: testing
+    uses: yankeeinlondon/gha/.github/workflows/test.yml@main
