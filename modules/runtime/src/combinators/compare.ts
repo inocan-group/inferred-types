@@ -191,7 +191,7 @@ function handle_general<
         case "contains":
             return (
                 isString(val) || isNumber(val) || isStringOrNumericArray(val)
-                    ? contains(val, params)
+                    ? contains(val as any, params) as any
                     : false
             ) as TVal extends string | number | readonly (string | number)[]
                 ? Contains<TVal, TParams>
@@ -200,14 +200,14 @@ function handle_general<
         case "containsSome":
             return (isString(val) || isNumber(val) || isNarrowableArray(val)) && isArray(params)
                 ? params.some(
-                    i => contains(val, i as Narrowable)
+                    i => contains(val as any, i as Narrowable) as any
                 )
                 : false;
 
         case "containsAll":
             return (isString(val) || isNumber(val) || isNarrowableArray(val)) && isArray(params)
                 ? params.every(
-                    i => contains(val, i as Narrowable)
+                    i => contains(val as any, i as Narrowable) as any
                 )
                 : false;
     }

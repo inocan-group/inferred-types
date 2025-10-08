@@ -1,20 +1,12 @@
 name: Testing
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 jobs:
-  test:
-    name: testing
-    uses: yankeeinlondon/gha/.github/workflows/test.yml@main
-
-  publish:
-    name: publish
-    if: contains(github.event.head_commit.message, 'release v')
-    needs: test  # This ensures tests pass before publishing
-    uses: yankeeinlondon/gha/.github/workflows/publish.yml@main
-    # with:
-    #   jsr_scope: '@org'              # Optional: scope for JSR if package.json has root-level name
-    #   github_packages_scope: '@org'   # Optional: scope for GitHub Packages if package.json has root-level name
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    test:
+        name: testing
+        uses: yankeeinlondon/gha/.github/workflows/test.yml@main
+        permissions:
+            contents: read
+            id-token: write

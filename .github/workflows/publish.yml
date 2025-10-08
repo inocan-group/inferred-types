@@ -6,11 +6,24 @@ on:
 
 jobs:
 
+  test:
+    name: testing
+    uses: yankeeinlondon/gha/.github/workflows/test.yml@main
+    permissions:
+      contents: read
+      id-token: write
+
   publish:
+    name: publish
+    needs: test  # This ensures tests pass before publishing
     uses: yankeeinlondon/gha/.github/workflows/publish.yml@main
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
     with:
-      jsr_scope: '@yankeeinlondon'
-      github_packages_scope: '@yankeeinlondon'
+        jsr_scope: '@yankeeinlondon'
+        github_packages_scope: '@yankeeinlondon'
     secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      JSR_TOKEN: ${{ secrets.JSR_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
