@@ -6,10 +6,6 @@ on:
     tags:
       - 'v*'
 
-permissions:
-  contents: read
-  id-token: write
-  packages: write
 
 jobs:
   test:
