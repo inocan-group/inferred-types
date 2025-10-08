@@ -1,6 +1,6 @@
 {
     "name": "inferred-types",
-    "version": "1.0.0-beta.1",
+    "version": "1.0.0-beta.2",
     "description": "Functions which provide useful type inference on Typescript projects",
     "repository": {
         "url": "https://github.com/inocan-group/inferred-types"
