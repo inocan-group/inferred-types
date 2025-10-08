@@ -1,0 +1,29 @@
+name: Test
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+
+jobs:
+  check:
+    name: workflow check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if release
+        run: |
+          if [[ "${{ github.event.head_commit.message }}" == *"release v"* ]]; then
+            echo "::notice::This is a Release so skipping redundant testing step"
+          else
+            echo "::notice::Regular commit (not release)"
+          fi
+
+  test:
+    name: testing
+    if: ! contains(github.event.head_commit.message, 'release v')
+    uses: yankeeinlondon/gha/.github/workflows/test.yml@main
+
