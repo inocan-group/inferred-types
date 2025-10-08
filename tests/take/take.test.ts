@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Expect, TakeState, Test } from "inferred-types/types";
+import type { Expect, StartsWith, TakeState, Test } from "inferred-types/types";
 
 import { asTakeState, startsWith, take } from "inferred-types/runtime";
 
@@ -13,7 +13,7 @@ describe("take(parser) -> (val) -> Take", () => {
                 startsWith("foo", "bar")(s.parseString)
                 ? [s.parseString.slice(0,3), [...s.tokens, s.parseString.slice(0,3)] ]
                 : ["", s.tokens]
-            ) as StartsWith
+            )
         }
 
         const takeFooBar = take(parser);

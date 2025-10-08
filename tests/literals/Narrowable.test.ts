@@ -41,7 +41,7 @@ describe("Narrowable", () => {
             Expect<Test<typeof stringLiteral, "equals", "foo">>,
             Expect<Test<typeof numericLiteral, "equals", 42>>,
 
-            Expect<Test<typeof obj, "equals", { foo: 1; bar: 2; baz: readonly [1,2,3] }>>,
+            Expect<Test<typeof obj, "equals", { foo: 1; bar: 2; baz: [1,2,3] }>>,
 
             Expect<Test<typeof stringTuple1, "equals", ["foo", "bar"]>>,
             Expect<Test<typeof stringTuple2, "equals", ["foo", "bar"]>>,

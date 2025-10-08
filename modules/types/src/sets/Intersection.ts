@@ -1,5 +1,7 @@
 import type {
     As,
+    Compare,
+    ComparisonOperation,
     Container,
     Contains,
     Dictionary,
@@ -90,6 +92,44 @@ type ExistsInArrayExact<
         : ExistsInArrayExact<Value, BTail>
     : false;
 
+type Process<
+    A extends Container,
+    B extends Container,
+    O extends null | string
+> = IsSameContainerType<A, B> extends true
+    ? Or<[IsWideContainer<A>, IsWideContainer<B>]> extends true
+        ? IsDictionary<A> extends true
+            ? IsDictionary<B> extends true
+                ? DetectValues<
+                    Values<A>,
+                    Values<B>
+                >
+                : never
+            : DetectValues<
+                Values<A>,
+                Values<B>
+            >
+        // Narrow Containers
+        : A extends readonly unknown[]
+            ? B extends readonly unknown[]
+                ? O extends null
+                    ? Compare<
+                        [...A],
+                        "equals",
+                        [...B]
+                    >
+                    : CompareWithOffset<A, B, As<O, string>>
+                : never
+            : CompareObjectValues<
+                Values<A>,
+                Values<B>
+            >
+    : Err<
+        `invalid-comparison/keys`,
+        `The Intersection<A,B> utility works when both A and B are the same type of container but that was not the case!`,
+        { a: A; b: B }
+    >;
+
 /**
  * **Intersection**`<A,B,[O]>`
  *
@@ -110,36 +150,5 @@ type ExistsInArrayExact<
 export type Intersection<
     A extends Container,
     B extends Container,
-    O extends null | string = null
-> = IsSameContainerType<A, B> extends true
-    ? Or<[IsWideContainer<A>, IsWideContainer<B>]> extends true
-        ? IsDictionary<A> extends true
-            ? IsDictionary<B> extends true
-                ? DetectValues<
-                    Values<A>,
-                    Values<B>
-                >
-                : never
-            : DetectValues<
-                [...As<A, readonly unknown[]>],
-                [...As<B, readonly unknown[]>]
-            >
-        // Narrow Containers
-        : A extends readonly unknown[]
-            ? B extends readonly unknown[]
-                ? O extends null
-                    ? Compare<
-                        [...A],
-                        As<B, readonly unknown[]>
-                    >
-                    : CompareWithOffset<A, B, As<O, string>>
-                : never
-            : CompareObjectValues<
-                Values<A>,
-                Values<B>
-            >
-    : Err<
-        `invalid-comparison/keys`,
-        `The Intersection<A,B> utility works when both A and B are the same type of container but that was not the case!`,
-        { a: A; b: B }
-    >;
+    O extends null | ComparisonOperation = null
+> = Process<A,B,O>;

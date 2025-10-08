@@ -83,7 +83,7 @@ describe("Mutable<T>", () => {
                         one: number;
                         fooBar: ["foo", "bar"];
                         two: number;
-                        union: [["foo" | "bar"]];
+                        union: "foo" | "bar";
                         nested: {
                             one: number;
                             two: 2;

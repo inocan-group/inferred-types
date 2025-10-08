@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { Expect } from "@type-challenges/utils";
 import { createFnWithProps, narrow } from "inferred-types/runtime";
-import type { Dictionary, EmptyObject, Test, WithoutValue, AssertEqual, AssertFalse} from "inferred-types/types";
+import type { Expect, WithoutValue, AssertEqual} from "inferred-types/types";
 
 import {
     withoutValue,

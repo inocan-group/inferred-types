@@ -1,7 +1,6 @@
 import { describe, it } from "vitest";
-import type { Expand, Expect, Intersection, Test, Values } from "inferred-types/types";
+import type {  Expect, Intersection, Test, IsLiteral } from "inferred-types/types";
 
-import { IsLiteral } from "inferred-types";
 
 describe("Intersection<A,B>", () => {
 

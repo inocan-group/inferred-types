@@ -123,6 +123,6 @@ export type SliceArray<
     TList extends readonly unknown[],
     TStart extends number,
     TLen extends number | undefined = undefined
-> = ProcessList<TList, TStart, TLen> extends readonly (TList[number])[]
-    ? ProcessList<TList, TStart, TLen>
+> = ProcessList<[...TList], TStart, TLen> extends readonly (TList[number])[]
+    ? ProcessList<[...TList], TStart, TLen>
     : never;
