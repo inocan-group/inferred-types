@@ -1,21 +1,29 @@
-name: Test and Publish
+name: Testing
 on:
   push:
+    branches:
+      - main
+    tags:
+      - 'v*'
 
+permissions:
+  contents: read
+  id-token: write
+  packages: write
 
 jobs:
-
   test:
     name: testing
     uses: yankeeinlondon/gha/.github/workflows/test.yml@main
 
   publish:
     name: publish
-    needs: test  # This ensures tests pass before publishing
+    if: contains(github.event.head_commit.message, 'release v')
+    needs: test
     uses: yankeeinlondon/gha/.github/workflows/publish.yml@main
     with:
-        jsr_scope: '@yankeeinlondon'
-        github_packages_scope: '@yankeeinlondon'
+      jsr_scope: '@inocan-group'
+      github_packages_scope: '@inocan-group'
     secrets:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
