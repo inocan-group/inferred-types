@@ -1,6 +1,7 @@
 {
     "name": "@inferred-types/types",
     "private": true,
+    "type":"module",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "exports": {
