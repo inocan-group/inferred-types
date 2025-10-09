@@ -29,9 +29,11 @@ export function parseDateObject<T extends DateLike>(d: T): AsDateMeta<T> {
         const sourceParsed = parseIsoDate(sourceIso);
         if (isDateMeta(sourceParsed) && sourceParsed.timezone) {
             // Use UTC time components but preserve original timezone
+            // Normalize '+00:00' to 'Z' (canonical UTC representation)
+            const timezone = (sourceParsed.timezone as any) === "+00:00" ? "Z" : sourceParsed.timezone;
             return {
                 ...utcParsed,
-                timezone: sourceParsed.timezone
+                timezone
             } as AsDateMeta<T>;
         }
     }
