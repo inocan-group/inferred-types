@@ -1,16 +1,10 @@
 import type {
     AsFromTo,
     Dictionary,
-    FromTo,
-    IsGreaterThan,
     NarrowObject,
     ReplaceAllFromTo,
-    TakeFirst,
 } from "inferred-types/types";
 import { reverseLookup } from "inferred-types/runtime";
-import { Reverse } from "@inferred-types/types";
-
-type MAX = 35;
 
 function encode<
     TDefn extends NarrowObject<N> & Dictionary,

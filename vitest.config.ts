@@ -40,9 +40,6 @@ export default defineConfig({
         },
         // Clear module cache between test runs
         clearMocks: true,
-        // typecheck: {
-        //   include: ["tests/**/*.{test,spec}.ts"]
-        // },
         benchmark: {
             include: ['**/*.{bench,benchmark}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
             exclude: ['node_modules/**', 'dist/**'],

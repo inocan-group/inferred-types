@@ -104,12 +104,12 @@ type SetParsed<T extends ParsedDate> = As<{
  * has already been done.
  */
 export type AsDateMeta<T> = As<
-T extends ParsedDate
-    ? SetParsed<T>
-    : ParseDate<T> extends Error
-        ? As<ParseDate<T>, Error>
-    : ParseDate<T> extends ParsedDate
-        ? SetParsed<ParseDate<T>>
-        : never,
+    T extends ParsedDate
+        ? SetParsed<T>
+        : ParseDate<T> extends Error
+            ? As<ParseDate<T>, Error>
+            : ParseDate<T> extends ParsedDate
+                ? SetParsed<ParseDate<T>>
+                : never,
     DateMeta | Error
 >;

@@ -1,6 +1,5 @@
-import type { AsDateMeta, DateLike, DatePlus } from "inferred-types/types";
+import type { AsDateMeta, DateLike, DatePlus, IsoDateTime } from "inferred-types/types";
 import { asDateTime, isDateMeta, isError, parseIsoDate } from "inferred-types/runtime";
-import { IsoDateTime } from "@inferred-types/types";
 
 /**
  * Parses an object-based Date container into a `ParsedDate` tuple.
@@ -9,7 +8,7 @@ import { IsoDateTime } from "@inferred-types/types";
 export function parseDateObject<T extends DateLike>(d: T): AsDateMeta<T> {
     const date: Date | Error = d instanceof Date ? d : asDateTime(d);
 
-    if(isError(date)) {
+    if (isError(date)) {
         return date as unknown as AsDateMeta<T>;
     }
 
@@ -19,11 +18,11 @@ export function parseDateObject<T extends DateLike>(d: T): AsDateMeta<T> {
 
     // exit if unable parse ISO string
     if (isError(utcParsed)) {
-        throw utcParsed as unknown as AsDateMeta<T>;
+        return utcParsed as unknown as AsDateMeta<T>;
     }
 
     // If sourceIso exists, extract timezone from it to preserve original offset
-    const datePlus = (date as DatePlus);
+    const datePlus = date as DatePlus;
     const sourceIso = datePlus.sourceIso;
 
     if (sourceIso) {
