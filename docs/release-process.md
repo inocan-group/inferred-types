@@ -27,7 +27,7 @@
 
 The CLI which `changelogithub` uses is shown here:
 
-- https://github.com/antfu/changelogithub/blob/main/src/cli.ts
+- [CLI source code](https://github.com/antfu/changelogithub/blob/main/src/cli.ts)
 
 and looks something like this:
 

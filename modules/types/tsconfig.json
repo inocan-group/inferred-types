@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
         "composite": true,
+        "module": "ES2022",
         "target": "ES2022",
         "baseUrl": ".",
         "rootDir": "..",
-        "module": "ES2022",
         "moduleResolution": "Bundler",
         "paths": {
             "inferred-types/types": [

@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "noEmit": true,
+    "module": "ES2022",
+    "target": "ES2022",
     "incremental": true,
     "noUnusedLocals": false,
     "composite": true,
@@ -10,7 +12,6 @@
     "strictNullChecks": true,
     "esModuleInterop": true,
     "rootDir": "..",
-    "baseUrl": ".",
     "outDir": "../../dist/none",
     "paths": {
       "inferred-types/types": [

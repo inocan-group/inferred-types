@@ -1,8 +1,14 @@
 import { describe, it, expect } from "vitest";
-import { parseDateObject, keysOf, asDateTime, isError } from 'inferred-types/runtime';
+import {
+    parseDateObject,
+    keysOf,
+    asDateTime,
+    isError
+} from 'inferred-types/runtime';
 import moment from "moment";
 import { DateTime } from "luxon";
 import { parseISO } from "date-fns";
+import { Temporal } from "@js-temporal/polyfill"
 
 describe("parseDateObject()", () => {
 
@@ -71,7 +77,7 @@ describe("parseDateObject()", () => {
 
     it("parses ISO date string (UTC)", () => {
         const isoString = "2024-01-15T12:34:56.789Z";
-        const result = parseDateObject(isoString as any);
+        const result = parseDateObject(isoString);
         const expected = {
             dateType: "datetime",
             hasTime: true,
@@ -113,12 +119,12 @@ describe("parseDateObject()", () => {
     it("parses Luxon DateTime object in UTC", () => {
         const l = DateTime.fromISO("2024-01-15T12:34:56.789Z");
         const result = parseDateObject(l);
-        
+
         // Luxon converts UTC to local timezone, so we need to check what that is
         // In UTC environments (like CI/CD), it stays as "Z"
         // In local environments, it becomes the local offset (e.g., "-08:00" for PST)
         const expectedTimezone = l.zone.name === 'UTC' ? 'Z' : l.toFormat('ZZ');
-        
+
         const expected = {
             dateType: "datetime",
             hasTime: true,
@@ -157,7 +163,6 @@ describe("parseDateObject()", () => {
     });
 
     it("parses Temporal.PlainDateTime object", () => {
-        const Temporal = (globalThis as any).Temporal;
         if (Temporal && Temporal.PlainDateTime) {
             const t = Temporal.PlainDateTime.from("2024-01-15T12:34:56.789");
             const result = parseDateObject(t);
@@ -179,8 +184,9 @@ describe("parseDateObject()", () => {
     });
 
     it("throws on invalid input", () => {
-        expect(() => parseDateObject("not-a-date" as any)).toThrow();
-        expect(() => parseDateObject({} as any)).toThrow();
+        // @ts-expect-error
+        expect(() => parseDateObject("not-a-date")).toThrow();
+        expect(() => parseDateObject({})).toThrow();
     });
 
     it("parses non-UTC Moment.js date object", () => {

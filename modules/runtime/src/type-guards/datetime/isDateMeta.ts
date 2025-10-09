@@ -6,5 +6,5 @@ import { isDictionary } from "runtime/type-guards";
  * type guard which validates that `val` is the type `DateMeta`.
  */
 export function isDateMeta(val: unknown): val is DateMeta {
-    return isDictionary(val) && "dateType" in val && DATE_TYPE.includes(val as any);
+    return isDictionary(val) && "dateType" in val && DATE_TYPE.includes((val as any).dateType);
 }

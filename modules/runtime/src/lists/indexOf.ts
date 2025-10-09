@@ -1,8 +1,10 @@
 import type {
+    Container,
     Dictionary,
+    Err,
     IndexOf,
     Narrowable,
-    Tuple,
+    NarrowObject,
 } from "inferred-types/types";
 import {
     err,
@@ -21,8 +23,9 @@ import {
  * off the back of the array.
  */
 export function indexOf<
-    TContainer extends Narrowable | Tuple,
-    TIdx extends PropertyKey | null,
+    const TContainer extends N | NarrowObject<N> | readonly N[],
+    const N extends Narrowable,
+    const TIdx extends PropertyKey | null,
 >(val: TContainer, index: TIdx) {
     const isNegative = isNumber(index) && index < 0;
     if (isNegative && !Array.isArray(val)) {
@@ -51,5 +54,5 @@ export function indexOf<
                             ? (val as Dictionary)[String(idx)]
                             : err("invalid-index", `attempt to index a dictionary object with an invalid index: ${String(idx)}`)
                         : err("invalid-container-type", `Attempt to use indexOf() on an invalid container type: ${typeof val}`)
-    ) as unknown as IndexOf<TContainer, TIdx>;
+    ) as TContainer extends Container ? IndexOf<TContainer, TIdx> : Err<"invalid-index">;
 }

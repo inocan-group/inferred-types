@@ -94,6 +94,8 @@ type SetParsed<T extends ParsedDate> = As<{
  *
  * Tests to see if `T` can be parsed into a `DateMeta` type.
  *
+ * - a valid ISO string _or_ a `ParsedData` array should be
+ * able to be parsed.
  * - if it can then `DateMeta` is returned
  * - if not then an `Error` will be returned
  *
@@ -101,67 +103,13 @@ type SetParsed<T extends ParsedDate> = As<{
  * then this utility will never return an error as the validation
  * has already been done.
  */
-export type AsDateMeta<
-    T
-> = T extends ParsedDate
+export type AsDateMeta<T> = As<
+T extends ParsedDate
     ? SetParsed<T>
     : ParseDate<T> extends Error
         ? As<ParseDate<T>, Error>
-        : ParseDate<T> extends ParsedDate
-            ? SetParsed<ParseDate<T>>
-            : never;
-
-// {
-//     dateType: ParsedDateType<T>,
-//     hasTime: HasTime<T>,
-//     year: T[0],
-//     month: T[1],
-//     date: T[2],
-//     hour: Hour<T[3]>,
-//     minute: Minute<T[3]>,
-//     second: Second<T[3]>,
-//     ms: Millisecond<T[3]>,
-//     timezone: Offset<T[3]>,
-//     toString(): ToIsoString<
-//         "auto",
-//         ParsedDateType<T>, HasTime<T>,
-//         T[0], T[1], T[2],
-//         Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
-//         Offset<T[3]>
-//     >;
-//     asYear(): ToIsoString<
-//         "year",
-//         ParsedDateType<T>, HasTime<T>,
-//         T[0], T[1], T[2],
-//         Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
-//         Offset<T[3]>
-//     >;
-//     asYearIndependent(): ToIsoString<
-//         "year-independent",
-//         ParsedDateType<T>, HasTime<T>,
-//         T[0], T[1], T[2],
-//         Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
-//         Offset<T[3]>
-//     >;
-//     asYearMonth(): ToIsoString<
-//         "year-month",
-//         ParsedDateType<T>, HasTime<T>,
-//         T[0], T[1], T[2],
-//         Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
-//         Offset<T[3]>
-//     >;
-//     asDate(): ToIsoString<
-//         "date",
-//         ParsedDateType<T>, HasTime<T>,
-//         T[0], T[1], T[2],
-//         Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
-//         Offset<T[3]>
-//     >;
-//     asDateTime(): ToIsoString<
-//         "datetime",
-//         ParsedDateType<T>, HasTime<T>,
-//         T[0], T[1], T[2],
-//         Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
-//         Offset<T[3]>
-//     >;
-// };
+    : ParseDate<T> extends ParsedDate
+        ? SetParsed<ParseDate<T>>
+        : never,
+    DateMeta | Error
+>;

@@ -1,12 +1,14 @@
 import type {
     AsFromTo,
     Dictionary,
+    FromTo,
     IsGreaterThan,
     NarrowObject,
     ReplaceAllFromTo,
     TakeFirst,
 } from "inferred-types/types";
 import { reverseLookup } from "inferred-types/runtime";
+import { Reverse } from "@inferred-types/types";
 
 type MAX = 35;
 
@@ -48,9 +50,7 @@ function decode<
         }
 
         type FT = AsFromTo<TDefn>;
-        type Rtn = IsGreaterThan<FT["length"], MAX> extends true
-            ? ReplaceAllFromTo<D, TakeFirst<FT, MAX>>
-            : ReplaceAllFromTo<D, FT>;
+        type Rtn = ReplaceAllFromTo<D, FT>;
 
         return text as unknown as Rtn;
     };
@@ -78,6 +78,6 @@ export function createEncoder<
 ) {
     return {
         encoder: encode(defn),
-        decoder: decode(reverseLookup(defn)),
+        decoder: decode(reverseLookup(defn) as any),
     };
 }

@@ -61,7 +61,7 @@ export function setupSafeStringEncoding<
             results = results.replaceAll(find, replace);
         }
 
-        return results as ReturnType<SafeStringEncoder<Grp<G>>>;
+        return results as unknown as ReturnType<SafeStringEncoder<Grp<G>>>;
     };
 
     /** SafeString decoder */

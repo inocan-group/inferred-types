@@ -105,9 +105,13 @@ type Returns<T extends DateLike> = T extends IsoYear
 export function asDateTime<T extends DateLike>(input: T) {
     // ——— Moment ————————————————————————————————————————————————
     if (isMoment(input)) {
-        const d = new Date(input.toISOString()) as DatePlus;
-        const tz: TimezoneOffset<"branded"> | null = isTimezoneOffset(offsetMinutesToString(input.parseZone().utcOffset()))
-            ? offsetMinutesToString(input.parseZone().utcOffset()) as TimezoneOffset<"branded">
+        // parseZone() preserves the original timezone offset from the input string
+        const parsed = input.parseZone();
+        const d = new Date(parsed.toISOString()) as DatePlus;
+
+        const offsetMins = parsed.utcOffset();
+        const tz: TimezoneOffset<"branded"> | null = isTimezoneOffset(offsetMinutesToString(offsetMins))
+            ? offsetMinutesToString(offsetMins) as TimezoneOffset<"branded">
             : null;
 
         d.offset = tz;
@@ -116,7 +120,7 @@ export function asDateTime<T extends DateLike>(input: T) {
         d.source = "moment";
         // Use parseZone().toISOString(true) to preserve the original timezone from input
         // But if it's UTC, use the standard Z format
-        const sourceIso = input.parseZone().toISOString(true);
+        const sourceIso = parsed.toISOString(true);
         d.sourceIso = sourceIso.endsWith("+00:00")
             ? sourceIso.replace("+00:00", "Z") as IsoDateTime
             : sourceIso as IsoDateTime;
@@ -127,31 +131,47 @@ export function asDateTime<T extends DateLike>(input: T) {
     if (isLuxonDate(input)) {
         const d = input.toJSDate() as DatePlus;
 
-        // Luxon gives offset (minutes) + zone name
-        d.offset = input.isOffsetFixed ? offsetMinutesToString((input as any).offset) : null;
+        // Luxon always has an offset (in minutes)
+        d.offset = offsetMinutesToString((input as any).offset) as TimezoneOffset<"branded">;
         d.tz = isIanaTimezone(input.zoneName) ? input.zoneName : null;
 
         d.source = "luxon";
-        // For UTC Luxon objects, preserve the Z format
-        d.sourceIso = input.zoneName === "UTC"
-            ? (input as any).toUTC().toISO() as IsoDateTime
-            : input.toISO() as IsoDateTime;
+        // Always use toISO() which includes the offset
+        d.sourceIso = input.toISO() as IsoDateTime;
         return d as Returns<T>;
     }
 
     // ——— Temporal ————————————————————————————————————————————————
     if (isTemporalDate(input)) {
-        // Accept both Temporal.ZonedDateTime and Temporal.Instant
-        const zdt = "epochNanoseconds" in input
-            ? (input as any).toZonedDateTimeISO(getLocalIanaZone())
-            : (input as any);
+        // Accept both Temporal.ZonedDateTime, Temporal.Instant, and Temporal.PlainDateTime
+        let d: DatePlus<"temporal">;
 
-        const d = new Date(zdt.epochMilliseconds) as DatePlus<"temporal">;
+        if ("epochNanoseconds" in input) {
+            // Instant - convert to ZonedDateTime
+            const zdt = (input as any).toZonedDateTimeISO(getLocalIanaZone());
+            d = new Date(zdt.epochMilliseconds) as DatePlus<"temporal">;
+            d.offset = isTimezoneOffset(zdt.offset) ? zdt.offset : null;
+            d.tz = (zdt.timeZone && isIanaTimezone(zdt.timeZone.id)) ? zdt.timeZone.id : null;
+            d.sourceIso = zdt.toString() as IsoDateTime;
+        }
+        else if ("timeZone" in input) {
+            // ZonedDateTime - use as is
+            const zdt = input as any;
+            d = new Date(zdt.epochMilliseconds) as DatePlus<"temporal">;
+            d.offset = isTimezoneOffset(zdt.offset) ? zdt.offset : null;
+            d.tz = (zdt.timeZone && isIanaTimezone(zdt.timeZone.id)) ? zdt.timeZone.id : null;
+            d.sourceIso = zdt.toString() as IsoDateTime;
+        }
+        else {
+            // PlainDateTime - no timezone info, treat as UTC
+            const instant = (input as any).toZonedDateTime("UTC").toInstant();
+            d = new Date(instant.epochMilliseconds) as DatePlus<"temporal">;
+            d.offset = null;
+            d.tz = null;
+            d.sourceIso = null;
+        }
 
-        d.offset = isTimezoneOffset(zdt.offset) ? zdt.offset : null;
-        d.tz = isIanaTimezone(zdt.timeZone.id) ? zdt.timeZone.id : null;
         d.source = "temporal";
-        d.sourceIso = zdt.toString() as IsoDateTime; // keeps both offset + tz
         return d as Returns<T>;
     }
 
