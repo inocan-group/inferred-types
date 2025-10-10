@@ -38,5 +38,6 @@ export const COMPARISON_OPERATIONS = [
     "false",
     "returnEquals",
     "returnExtends",
-    "isTemplateLiteral"
+    "isTemplateLiteral",
+    "hasLength"
 ] as const;

@@ -5,6 +5,7 @@ import type {
     AreIncompatible,
     As,
     AsString,
+    Chars,
     ComparisonAccept,
     ComparisonOperation,
     Contains,
@@ -539,6 +540,15 @@ type Process__Other<
     TParams extends readonly unknown[],
 > = TOp extends "errors"
     ? IsError<TVal>
+
+    : TOp extends "hasLength"
+        ? TVal extends string
+            ? Contains<TParams, Chars<TVal>["length"]>
+        : TVal extends readonly unknown[]
+            ? Contains<TParams, TVal["length"]>
+        : TVal extends number
+            ? Contains<TParams, Chars<`${TVal}`>["length"]>
+        : false
 
     : TOp extends "errorsOfType"
         ? TVal extends Error

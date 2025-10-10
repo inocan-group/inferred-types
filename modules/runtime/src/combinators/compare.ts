@@ -515,7 +515,7 @@ function handle_other<
                     : val === undefined
                         ? false
                         : val instanceof Error
-            ) as IsError<TVal>;
+            ) as unknown as IsError<TVal>;
         }
 
         case "errorsOfType":
@@ -529,6 +529,17 @@ function handle_other<
                 );
             }
             return "type" in val && val.type === params[0];
+
+        case "hasLength":
+            if (isString(val)) {
+                return isNarrowableArray(params) && contains(params, val.length)
+            } else if (isNumber(val)) {
+                return isNarrowableArray(params) && contains(params, `${val}`.length)
+            } else if (isArray(val)) {
+                return isNarrowableArray(params) && contains(params, val.length)
+            } else {
+                return false
+            }
 
         case "returnEquals":
             if (!isFunction(val))
