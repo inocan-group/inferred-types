@@ -22,8 +22,24 @@ type Process<
  * in the tuple which are strings the `,` character will
  * be replaced with the value of `TReplace` (which defaults
  * to `<comma>`).
+ *
+ * @deprecated use `ToCsv` instead
  */
 export type ToCSV<
+    TTuple extends readonly unknown[],
+    TReplace extends string = "<comma>",
+> = Process<TTuple, TReplace>;
+
+
+/**
+ * **ToCsv**`<TTuple,[TReplace]>`
+ *
+ * Converts a tuple into a CSV string. For any elements
+ * in the tuple which are strings the `,` character will
+ * be replaced with the value of `TReplace` (which defaults
+ * to `<comma>`).
+ */
+export type ToCsv<
     TTuple extends readonly unknown[],
     TReplace extends string = "<comma>",
 > = Process<TTuple, TReplace>;
