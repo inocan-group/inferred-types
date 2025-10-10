@@ -30,7 +30,6 @@ export type ToCSV<
     TReplace extends string = "<comma>",
 > = Process<TTuple, TReplace>;
 
-
 /**
  * **ToCsv**`<TTuple,[TReplace]>`
  *

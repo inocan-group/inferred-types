@@ -532,13 +532,16 @@ function handle_other<
 
         case "hasLength":
             if (isString(val)) {
-                return isNarrowableArray(params) && contains(params, val.length)
-            } else if (isNumber(val)) {
-                return isNarrowableArray(params) && contains(params, `${val}`.length)
-            } else if (isArray(val)) {
-                return isNarrowableArray(params) && contains(params, val.length)
-            } else {
-                return false
+                return isNarrowableArray(params) && contains(params, val.length);
+            }
+            else if (isNumber(val)) {
+                return isNarrowableArray(params) && contains(params, `${val}`.length);
+            }
+            else if (isArray(val)) {
+                return isNarrowableArray(params) && contains(params, val.length);
+            }
+            else {
+                return false;
             }
 
         case "returnEquals":

@@ -544,33 +544,33 @@ type Process__Other<
     : TOp extends "hasLength"
         ? TVal extends string
             ? Contains<TParams, Chars<TVal>["length"]>
-        : TVal extends readonly unknown[]
-            ? Contains<TParams, TVal["length"]>
-        : TVal extends number
-            ? Contains<TParams, Chars<`${TVal}`>["length"]>
-        : false
+            : TVal extends readonly unknown[]
+                ? Contains<TParams, TVal["length"]>
+                : TVal extends number
+                    ? Contains<TParams, Chars<`${TVal}`>["length"]>
+                    : false
 
-    : TOp extends "errorsOfType"
-        ? TVal extends Error
-            ? "type" extends keyof TVal
-                ? First<TParams> extends TVal["type"]
-                    ? true
+        : TOp extends "errorsOfType"
+            ? TVal extends Error
+                ? "type" extends keyof TVal
+                    ? First<TParams> extends TVal["type"]
+                        ? true
+                        : false
                     : false
                 : false
-            : false
 
-        : TOp extends "returnEquals"
-            ? TVal extends TypedFunction
-                ? IsEqual<ReturnType<TVal>, TParams[0]>
-                : TVal extends AnyFunction
-                    ? boolean
-                    : false
+            : TOp extends "returnEquals"
+                ? TVal extends TypedFunction
+                    ? IsEqual<ReturnType<TVal>, TParams[0]>
+                    : TVal extends AnyFunction
+                        ? boolean
+                        : false
 
-            : TOp extends "returnExtends"
-                ? TVal extends ((...args: any[]) => any)
-                    ? Extends<ReturnType<TVal>, TParams[0]>
-                    : false
-                : Unset;
+                : TOp extends "returnExtends"
+                    ? TVal extends ((...args: any[]) => any)
+                        ? Extends<ReturnType<TVal>, TParams[0]>
+                        : false
+                    : Unset;
 
 /**
  * process the type for the comparison

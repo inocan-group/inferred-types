@@ -1,13 +1,12 @@
-import {
+import type {
     AfterFirst,
     As,
     EmptyObject,
+    ExpandRecursively,
     First,
     Push,
     Split,
-    TrimEach,
-    Dictionary,
-    ExpandRecursively
+    TrimEach
 } from "inferred-types/types";
 
 type DropEmptyRows<
@@ -20,11 +19,11 @@ type DropEmptyRows<
     ? Head extends [""]
         ? DropEmptyRows<Rest, R>
         : DropEmptyRows<Rest, As<Push<R, Head>, readonly string[][]>>
-: R;
+    : R;
 
 type Multi<
     TCsv extends string,
-    TRows extends readonly string[] = Split<TCsv,"\n">,
+    TRows extends readonly string[] = Split<TCsv, "\n">,
     TResult extends readonly string[][] = []
 > = TRows extends readonly [
     infer Head extends string,
@@ -37,10 +36,9 @@ type Multi<
             As<Push<TResult, TrimEach<Cols>>, readonly string[][]>
         >
         : never
-: DropEmptyRows<
-    TResult
->;
-
+    : DropEmptyRows<
+        TResult
+    >;
 
 type BuildKv<
     TCols extends readonly string[],
@@ -53,33 +51,34 @@ type BuildKv<
     ? BuildKv<
         Rest,
         AfterFirst<TData>,
-        TResult & Record<Head,First<TData>>
+        TResult & Record<Head, First<TData>>
     >
-: As<ExpandRecursively<TResult>, Record<string,string>>;
-
+    : As<ExpandRecursively<TResult>, Record<string, string>>;
 
 type Kv<
     THead extends string,
     TRows extends readonly string[],
-    TColNames extends readonly string[] = TrimEach<Split<THead,",">>,
+    TColNames extends readonly string[] = TrimEach<Split<THead, ",">>,
     TResult extends Record<string, string>[] = []
-> = TRows extends [
+> = TRows extends readonly [
     infer Row extends string,
     ...infer Rest extends readonly string[]
 ]
-    ? TrimEach<Split<Row,",">> extends infer ColData extends readonly string[]
-        ? Kv<
-            THead,
-            Rest,
-            TColNames,
-            [
-                ...TResult,
-                BuildKv<TColNames, ColData>
-            ]
-        >
+    ? TrimEach<Split<Row, ",">> extends infer ColData extends readonly string[]
+        // Skip empty rows (rows that become [""] after trimming)
+        ? ColData extends readonly [""]
+            ? Kv<THead, Rest, TColNames, TResult>
+            : Kv<
+                THead,
+                Rest,
+                TColNames,
+                [
+                    ...TResult,
+                    BuildKv<TColNames, ColData>
+                ]
+            >
         : never
-: TResult;
-
+    : TResult;
 
 /**
  * **FromCsv**`<T, [F]>`
@@ -97,11 +96,15 @@ type Kv<
 export type FromCsv<
     TCsv extends string,
     TFormat extends "[][]" | "KV[]" = "[][]"
-> =
-TFormat extends "[][]"
-    ? Multi<TCsv>
-: TFormat extends "KV[]"
-    ? Split<TCsv,"\n"> extends infer Rows extends readonly string[]
-        ? Kv<First<Rows>, AfterFirst<Rows>>
-        : never
-: never;
+>
+    = TFormat extends "[][]"
+        ? As<
+            Multi<TCsv>,
+            string[][]
+        >
+
+        : TFormat extends "KV[]"
+            ? Split<TCsv, "\n"> extends infer Rows extends readonly string[]
+                ? Kv<First<Rows>, AfterFirst<Rows>>
+                : never
+            : never;
