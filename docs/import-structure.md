@@ -84,7 +84,11 @@ Running the `pnpm test:imports` script will send XML data to STDOUT enumerating 
 
 4. `relative-path`
 
-    Detects relative imports.
+    Detects both `import` and `export` statements that use parent directory relative paths (`../`). This includes:
+    - Direct imports: `import { Foo } from "../some-directory"`
+    - Re-export statements: `export * from "../../constants/dist/index.js"`
+
+    **Note:** Same-directory references (`./`) are allowed, but parent directory references are not. This prevents issues with JSR publishing when re-exports point to excluded directories (like `dist/`).
 
 5. `forbidden-@-import`
 
@@ -208,7 +212,7 @@ In the prior section we discussed using the `pnpm test:imports` command to _find
 2. If there are any problems in the `missing-type-modifier`, `relative-path`, `forbidden-@-import`, `multiple-imports-same-source`, `invalid-runtime-alias-depth` or `invalid-type-alias-depth` then immediately fix these as these types of errors always need to be fixed and the approach to fixing them is pretty straight forward:
 
     - `missing-type-modifier` - add the "type" keyword to the import for all of the items in this section
-    - `relative-path` - replace a relative path import with a `inferred-types/*` based import
+    - `relative-path` - replace relative path imports/exports with `inferred-types/*` based imports (or `@inferred-types/*` if in the inferred-types module)
     - `forbidden-@-import` - replace all `@inferred-types/*` with `inferred-types/*` imports
     - `multiple-imports-same-source` - reduce all raised examples to a single import; the one exception to this rule would be if one import imports _types_ and the other imports _runtime_ symbols but this would only happen in the runtime module if at all.
     - `invalid-runtime-alias-depth` - reduce the depth to `runtime` and one directory (e.g., `runtime/datetime`, `runtime/lists`, etc.)

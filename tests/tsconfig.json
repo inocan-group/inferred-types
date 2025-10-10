@@ -1,38 +1,66 @@
 {
-  "compilerOptions": {
-    "noEmit": true,
-    "incremental": true,
-    "noUnusedLocals": false,
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "tsBuildInfoFile": ".tsbuildinfo",
-    "strictNullChecks": true,
-    "esModuleInterop": true,
-    "rootDir": "..",
-    "baseUrl": ".",
-    "outDir": "../../dist/none",
-    "paths": {
-      "inferred-types/types": [
-        "../modules/types/src/index.ts"
-      ],
-      "inferred-types/runtime": [
-        "../modules/runtime/src/index.ts"
-      ],
-      "inferred-types/constants": [
-        "../modules/constants/src/index.ts"
-      ],
-      "runtime/*": [ "../modules/runtime/src/*"],
-      "constants/*": [ "../modules/constants/src/*"],
-      "types/*": [ "../modules/types/src/*"],
-    }
-  },
-  "include": [
-    ".",
-    "../modules",
-  ],
-  "exclude": [
-    "dist",
-    "node_modules"
-  ]
+    "compilerOptions": {
+        "noEmit": true,
+        "incremental": true,
+        "noUnusedLocals": false,
+        "composite": true,
+        "declaration": true,
+        "declarationMap": true,
+        "tsBuildInfoFile": ".tsbuildinfo",
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "rootDir": "..",
+        "outDir": "../../dist/none",
+        "paths": {
+            "inferred-types/types": [
+                "../modules/types/src/index.ts"
+            ],
+            "inferred-types/runtime": [
+                "../modules/runtime/src/index.ts"
+            ],
+            "inferred-types/constants": [
+                "../modules/constants/src/index.ts"
+            ],
+            "runtime/*": [
+                "../modules/runtime/src/*"
+            ],
+            "constants/*": [
+                "../modules/constants/src/*"
+            ],
+            "types/*": [
+                "../modules/types/src/*"
+            ],
+            // not intended to be used except for explicit "global tests"
+            // importing from this path will test against a shallow layer
+            // of Typescript code (in the `inferred-types` module which
+            // in turn derives all of it's implementation by importing
+            // the transpiled
+            "inferred-types/inferred-types": [
+                "../modules/inferred-types/src/index.ts"
+            ],
+            // similar to the `inferred-types/inferred-types` this path alias
+            // and it's children should not be used unless you're creating a
+            // test specifically testing the validity of transpiled code.
+            "transpiled": [
+                "../modules/inferred-types/dist"
+            ],
+            "transpiled/constants": [
+                "../modules/constants/dist"
+            ],
+            "transpiled/types": [
+                "../modules/types/dist"
+            ],
+            "transpiled/runtime": [
+                "../modules/runtime/dist"
+            ]
+        }
+    },
+    "include": [
+        ".",
+        "../modules",
+    ],
+    "exclude": [
+        "dist",
+        "node_modules"
+    ]
 }

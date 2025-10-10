@@ -155,7 +155,7 @@ forbidden_at_import() {
   if has_command "rg"; then
     rg -n --no-heading \
       --glob '!modules/inferred-types/**' \
-      --glob '*.ts' --glob '*.tsx' \
+      --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
       'import\s+.*\s+from\s+["'\''"]@inferred-types[^"'\''"]*["'\''"]' \
       | emit_xml_from_matches
     status=${PIPESTATUS[0]}
@@ -186,7 +186,8 @@ invalid_runtime_alias_depth() {
   log '<section name="invalid-runtime-alias-depth">'
 
   if has_command "rg"; then
-    rg -n --no-heading --glob '*.ts' --glob '*.tsx' \
+    rg -n --no-heading \
+       --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
        '^\s*import[^;]*from\s+["'\'']runtime/[^/"'\'']+/[^"'\'']+["'\'']' \
     | rg -v '^[^:]+:[0-9]+:\s*//' \
     | emit_xml_from_matches
@@ -208,7 +209,7 @@ invalid_type_alias_depth() {
   log '<section name="invalid-type-alias-depth">'
 
   if has_command "rg"; then
-    rg -n --no-heading --glob '*.ts' --glob '*.tsx' \
+    rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
        '^\s*import[^;]*from\s+["'\'']types/[^/"'\'']+/[^"'\'']+["'\'']' \
     | rg -v '^[^:]+:[0-9]+:\s*//' \
     | emit_xml_from_matches
@@ -233,7 +234,7 @@ invalid_type_alias_depth() {
 #     # Ripgrep: catch both import-from and export-from forms
 #     rg -n --no-heading \
 #        --glob '!node_modules/**' --glob '!dist/**' --glob '!build/**' --glob '!**/*.map' \
-#        --glob '*.ts' --glob '*.tsx' \
+#        --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
 #        -e '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*\sfrom\s+["'\''"]types/[^"'\''"]+["'\''"]' \
 #     | rg -v '^[^:]+:[0-9]+:\s*//' \
 #     | emit_xml_from_matches
@@ -264,7 +265,7 @@ forbidden_const_aliases() {
     # Ripgrep: catch both import-from and export-from forms
     rg -n --no-heading \
        --glob '!node_modules/**' --glob '!dist/**' --glob '!build/**' --glob '!**/*.map' \
-       --glob '*.ts' --glob '*.tsx' \
+       --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
        -e '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*\sfrom\s+["'\''"]constants/[^"'\''"]+["'\''"]' \
     | rg -v '^[^:]+:[0-9]+:\s*//' \
     | emit_xml_from_matches
@@ -293,14 +294,14 @@ invalid_relative_path() {
   log '<section name="relative-path">'
 
   if has_command "rg"; then
-    rg -n --no-heading --glob '*.ts' --glob '*.tsx' \
-       '^\s*import[^;]*from\s+["'\'']\.\.?/[^"'\'']+["'\'']' \
+    rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
+       '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*from\s+["'\'']\.\./' \
     | rg -v '^[^:]+:[0-9]+:\s*//' \
     | emit_xml_from_matches
     status=${PIPESTATUS[0]}
   else
     find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
-      grep -nE '^[[:space:]]*import[^;]*from[[:space:]]+["'"'"']\.\.?/[^"'"'"']+["'"'"']' {} + \
+      grep -nE '^[[:space:]]*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*from[[:space:]]+["'"'"']\.\./' {} + \
     | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
     | emit_xml_from_matches
     status=${PIPESTATUS[0]}
@@ -318,7 +319,7 @@ forbidden_runtime_import() {
     rg -n --no-heading \
       --glob '!modules/runtime/src/**' \
       --glob '!node_modules/**' \
-      --glob '*.ts' --glob '*.tsx' \
+      --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
       -e '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*\sfrom\s+["'\''"]runtime/[^/"'\''"]+["'\''"]' \
       | rg -v '^[^:]+:\d+:\s*//' \
       | emit_xml_from_matches
@@ -342,27 +343,29 @@ forbidden_runtime_import() {
 missing_type_modifier() {
   log '<section name="missing-type-modifier">'
 
+  local tmpfile
+  tmpfile=$(mktemp)
   if has_command "rg"; then
     # Pull imports from inferred-types/types …
-    rg -n --no-heading --glob '*.ts' --glob '*.tsx' \
+    rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
        '^\s*import[^;]*from\s+["'\'']inferred-types/types["'\'']' \
     | rg -v '^[^:]+:[0-9]+:\s*//' \
     | rg -v ':\d+:\s*import\s+type\b' \
-    | rg -v ':\d+:.*\{[^}]*\btype\b[^}]*\}' \
-    | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+    | rg -v ':\d+:.*\{[^}]*\btype\b[^}]*\}' > "$tmpfile" || true
   else
     # grep branch
     find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
       grep -nE '^[[:space:]]*import[^;]*from[[:space:]]+["'"'"']inferred-types/types["'"'"']' {} + \
     | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
     | grep -Ev ':[0-9]+:[[:space:]]*import[[:space:]]+type\b' \
-    | grep -Ev ':[0-9]+:.*\{[^}]*\btype\b[^}]*\}' \
-    | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+    | grep -Ev ':[0-9]+:.*\{[^}]*\btype\b[^}]*\}' > "$tmpfile" || true
   fi
 
-  if [ "$status" -eq 0 ] || [ "$status" -gt 1 ]; then FOUND_ISSUES=1; fi
+  if [ -s "$tmpfile" ]; then
+    cat "$tmpfile" | emit_xml_from_matches
+    FOUND_ISSUES=1
+  fi
+  rm -f "$tmpfile"
   log '</section>'; log ""
 }
 
@@ -407,33 +410,35 @@ unspecified_path_alias() {
     }
   '
 
+  local tmpfile
+  tmpfile=$(mktemp)
   if has_command "rg"; then
-  {
-    # One pattern for runtime/* (one-level only)
-    rg -n --no-heading --glob '*.ts' --glob '*.tsx' \
-      -e "^[[:space:]]*import[^;]*from[[:space:]]+['\"]runtime/[^/'\"]+['\"]"
-    # A separate pattern for types/* (one-level only)
-    rg -n --no-heading --glob '*.ts' --glob '*.tsx' \
-      -e "^[[:space:]]*import[^;]*from[[:space:]]+['\"]types/[^/'\"]+['\"]"
-  } \
-  | rg -v '^[^:]+:[0-9]+:[[:space:]]*//' \
-  | awk -v runtime_set="$RUNTIME_SET" -v types_set="$TYPES_SET" "$awk_filter" \
-  | emit_xml_from_matches
-  status=${PIPESTATUS[0]}
-else
-  {
-    find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
-      grep -nE "^[[:space:]]*import[^;]*from[[:space:]]+['\"]runtime/[^/'\"]+['\"]" {} +
-    find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
-      grep -nE "^[[:space:]]*import[^;]*from[[:space:]]+['\"]types/[^/'\"]+['\"]" {} +
-  } \
-  | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
-  | awk -v runtime_set="$RUNTIME_SET" -v types_set="$TYPES_SET" "$awk_filter" \
-  | emit_xml_from_matches
-  status=${PIPESTATUS[0]}
-fi
+    {
+      # One pattern for runtime/* (one-level only)
+      rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
+        -e "^[[:space:]]*import[^;]*from[[:space:]]+['\"]runtime/[^/'\"]+['\"]" || true
+      # A separate pattern for types/* (one-level only)
+      rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
+        -e "^[[:space:]]*import[^;]*from[[:space:]]+['\"]types/[^/'\"]+['\"]" || true
+    } \
+    | rg -v '^[^:]+:[0-9]+:[[:space:]]*//' \
+    | awk -v runtime_set="$RUNTIME_SET" -v types_set="$TYPES_SET" "$awk_filter" > "$tmpfile" || true
+  else
+    {
+      find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
+        grep -nE "^[[:space:]]*import[^;]*from[[:space:]]+['\"]runtime/[^/'\"]+['\"]" {} + || true
+      find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
+        grep -nE "^[[:space:]]*import[^;]*from[[:space:]]+['\"]types/[^/'\"]+['\"]" {} + || true
+    } \
+    | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
+    | awk -v runtime_set="$RUNTIME_SET" -v types_set="$TYPES_SET" "$awk_filter" > "$tmpfile" || true
+  fi
 
-  if [ "$status" -eq 0 ] || [ "$status" -gt 1 ]; then FOUND_ISSUES=1; fi
+  if [ -s "$tmpfile" ]; then
+    cat "$tmpfile" | emit_xml_from_matches
+    FOUND_ISSUES=1
+  fi
+  rm -f "$tmpfile"
   log '</section>'; log ""
 }
 
@@ -465,23 +470,25 @@ multiple_imports_same_source() {
     }
   '
 
+  local tmpfile
+  tmpfile=$(mktemp)
   if has_command "rg"; then
-    rg -n --no-heading --glob '*.ts' --glob '*.tsx' \
+    rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
        '^\s*import[^;]*from\s+["'\''"][^"'\''"]+["'\''"]' \
     | rg -v '^[^:]+:[0-9]+:\s*//' \
-    | awk "$all_dupes_awk" \
-    | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+    | awk "$all_dupes_awk" > "$tmpfile" || true
   else
     find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
       grep -nE '^[[:space:]]*import[^;]*from[[:space:]]+["'"'"'][^"'"'"']+["'"'"']' {} + \
     | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
-    | awk "$all_dupes_awk" \
-    | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+    | awk "$all_dupes_awk" > "$tmpfile" || true
   fi
 
-  if [ "$status" -eq 0 ] || [ "$status" -gt 1 ]; then FOUND_ISSUES=1; fi
+  if [ -s "$tmpfile" ]; then
+    cat "$tmpfile" | emit_xml_from_matches
+    FOUND_ISSUES=1
+  fi
+  rm -f "$tmpfile"
   log '</section>'; log ""
 }
 

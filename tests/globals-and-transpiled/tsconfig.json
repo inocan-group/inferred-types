@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "inferred-types/types": [
+        "../../modules/types/src/index.ts"
+      ],
+      "inferred-types/runtime": [
+        "../../modules/runtime/src/index.ts"
+      ],
+      "inferred-types/constants": [
+        "../../modules/constants/src/index.ts"
+      ],
+      "inferred-types/inferred-types": [
+        "../../modules/inferred-types/src/index.ts"
+      ],
+      "transpiled": [
+        "../../modules/inferred-types/dist"
+      ],
+      "transpiled/constants": [
+        "../../modules/constants/dist"
+      ],
+      "transpiled/types": [
+        "../../modules/types/dist"
+      ],
+      "transpiled/runtime": [
+        "../../modules/runtime/dist"
+      ],
+      "@inferred-types/constants": [
+        "../../modules/constants/dist"
+      ],
+      "@inferred-types/types": [
+        "../../modules/types/dist"
+      ],
+      "@inferred-types/runtime": [
+        "../../modules/runtime/dist"
+      ]
+    }
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
