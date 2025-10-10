@@ -3,25 +3,17 @@ import { execSync } from "node:child_process";
 import { join } from "node:path";
 
 /**
- * Tests that the scripts/invalid-imports.sh script works correctly.
- *
- * Fixture files with known problematic patterns are available in
- * `tests/fixtures/import-problems/` for manual testing and reference.
- *
- * To manually test pattern detection:
- * ```bash
- * cd tests/fixtures/import-problems
- * bash ../../../scripts/invalid-imports.sh
- * ```
+ * Tests that the scripts/invalid-imports.sh script correctly detects
+ * problematic import patterns using test fixtures.
  */
-describe("invalid-imports.sh script validation", () => {
-    const rootDir = process.cwd();
-    const scriptPath = join(rootDir, "scripts/invalid-imports.sh");
+describe("invalid-imports.sh pattern detection", () => {
+    const problemsDir = join(process.cwd(), "tests/fixtures/import-problems/problems");
+    const validDir = join(process.cwd(), "tests/fixtures/import-problems/valid");
+    const scriptPath = join(process.cwd(), "scripts/invalid-imports.sh");
 
-    const runScript = (): { exitCode: number; stdout: string } => {
+    const runScript = (directory: string): { exitCode: number; stdout: string } => {
         try {
-            const stdout = execSync(`bash "${scriptPath}"`, {
-                cwd: rootDir,
+            const stdout = execSync(`bash "${scriptPath}" "${directory}"`, {
                 encoding: "utf-8",
                 stdio: ["pipe", "pipe", "pipe"],
             });
@@ -34,45 +26,137 @@ describe("invalid-imports.sh script validation", () => {
         }
     };
 
-    it("validates the codebase has no import problems", () => {
-        const result = runScript();
+    const countOccurrences = (xml: string, sectionName: string): number => {
+        const regex = new RegExp(`<section name="${sectionName}">([\\s\\S]*?)</section>`, "g");
+        const match = xml.match(regex);
+        if (!match) return 0;
 
-        // The main codebase should pass all checks (exit code 0)
-        if (result.exitCode !== 0) {
-            console.log("\nCodebase has import problems:");
-            console.log(result.stdout);
-        }
+        const sectionContent = match[0];
+        const instanceMatches = sectionContent.match(/<instance/g);
+        return instanceMatches ? instanceMatches.length : 0;
+    };
 
-        expect(result.exitCode).toBe(0);
+    describe("with problematic imports", () => {
+        it("debug: shows script output", () => {
+            const result = runScript(problemsDir);
+            console.log("Exit code:", result.exitCode);
+            console.log("STDOUT length:", result.stdout.length);
+            console.log("STDOUT:", result.stdout);
+        });
+
+        it("detects invalid-runtime-alias-depth pattern", () => {
+            const result = runScript(problemsDir);
+            const count = countOccurrences(result.stdout, "invalid-runtime-alias-depth");
+
+            expect(count).toBe(1);
+            expect(result.stdout).toContain("invalid-runtime-depth.ts");
+        });
+
+        it("detects invalid-type-alias-depth pattern", () => {
+            const result = runScript(problemsDir);
+            const count = countOccurrences(result.stdout, "invalid-type-alias-depth");
+
+            expect(count).toBe(1);
+            expect(result.stdout).toContain("invalid-type-depth.ts");
+        });
+
+        it("detects relative-path imports and exports", () => {
+            const result = runScript(problemsDir);
+            const count = countOccurrences(result.stdout, "relative-path");
+
+            expect(count).toBe(2);
+            expect(result.stdout).toContain("relative-import.ts");
+            expect(result.stdout).toContain("relative-export.ts");
+        });
+
+        it("detects forbidden-const-aliases pattern", () => {
+            const result = runScript(problemsDir);
+            const count = countOccurrences(result.stdout, "forbidden-const-aliases");
+
+            expect(count).toBe(1);
+            expect(result.stdout).toContain("forbidden-const-alias.ts");
+        });
+
+        it("detects missing-type-modifier pattern", () => {
+            const result = runScript(problemsDir);
+            const count = countOccurrences(result.stdout, "missing-type-modifier");
+
+            expect(count).toBe(1);
+            expect(result.stdout).toContain("missing-type-modifier.ts");
+        });
+
+        it("detects multiple-imports-same-source pattern", () => {
+            const result = runScript(problemsDir);
+            const count = countOccurrences(result.stdout, "multiple-imports-same-source");
+
+            expect(count).toBe(2);
+            expect(result.stdout).toContain("multiple-imports.ts");
+        });
+
+        it("exits with code 1 when problems are detected", () => {
+            const result = runScript(problemsDir);
+            expect(result.exitCode).toBe(1);
+        });
+
+        it("produces valid XML structure", () => {
+            const result = runScript(problemsDir);
+
+            expect(result.stdout).toContain("<invalid-imports>");
+            expect(result.stdout).toContain("</invalid-imports>");
+            expect(result.stdout).toMatch(/<section name="[^"]+"/);
+            expect(result.stdout).toContain("</section>");
+        });
+
+        it("includes all expected sections", () => {
+            const result = runScript(problemsDir);
+
+            const expectedSections = [
+                "invalid-runtime-alias-depth",
+                "invalid-type-alias-depth",
+                "unspecified-path-alias",
+                "relative-path",
+                "forbidden-@-import",
+                "forbidden-runtime-import",
+                "forbidden-const-aliases",
+                "missing-type-modifier",
+                "multiple-imports-same-source",
+            ];
+
+            for (const section of expectedSections) {
+                expect(result.stdout).toContain(`<section name="${section}">`);
+            }
+        });
     });
 
-    it("produces valid XML structure", () => {
-        const result = runScript();
+    describe("with valid imports", () => {
+        it("finds no problems in valid imports", () => {
+            const result = runScript(validDir);
 
-        // Check XML structure
-        expect(result.stdout).toContain("<invalid-imports>");
-        expect(result.stdout).toContain("</invalid-imports>");
-        expect(result.stdout).toMatch(/<section name="[^"]+"/);
-        expect(result.stdout).toContain("</section>");
-    });
+            const problemSections = [
+                "invalid-runtime-alias-depth",
+                "invalid-type-alias-depth",
+                "relative-path",
+                "forbidden-const-aliases",
+                "missing-type-modifier",
+                "multiple-imports-same-source",
+            ];
 
-    it("includes all expected sections", () => {
-        const result = runScript();
+            for (const section of problemSections) {
+                const count = countOccurrences(result.stdout, section);
+                expect(count).toBe(0);
+            }
+        });
 
-        const expectedSections = [
-            "invalid-runtime-alias-depth",
-            "invalid-type-alias-depth",
-            "unspecified-path-alias",
-            "relative-path",
-            "forbidden-@-import",
-            "forbidden-runtime-import",
-            "forbidden-const-aliases",
-            "missing-type-modifier",
-            "multiple-imports-same-source",
-        ];
+        it("exits with code 0 when no problems are detected", () => {
+            const result = runScript(validDir);
+            expect(result.exitCode).toBe(0);
+        });
 
-        for (const section of expectedSections) {
-            expect(result.stdout).toContain(`<section name="${section}">`);
-        }
+        it("still produces valid XML structure", () => {
+            const result = runScript(validDir);
+
+            expect(result.stdout).toContain("<invalid-imports>");
+            expect(result.stdout).toContain("</invalid-imports>");
+        });
     });
 });

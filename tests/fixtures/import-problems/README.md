@@ -1,20 +1,8 @@
 # Import Problems Test Fixtures
 
-This directory contains TypeScript files with intentionally problematic import patterns. These files serve as:
+This directory contains TypeScript files with intentionally problematic import patterns. These files serve as **reference examples** for each type of import problem detected by `scripts/invalid-imports.sh`.
 
-1. **Reference examples** for each type of import problem detected by `scripts/invalid-imports.sh`
-2. **Manual testing** of the import validation script
-
-## Testing Manually
-
-To test the script's pattern detection manually:
-
-```bash
-cd tests/fixtures/import-problems
-bash ../../../scripts/invalid-imports.sh
-```
-
-The script should detect problems in each fixture file and exit with code 1.
+**Note:** These fixtures are automatically excluded when running the validation script from the repository root to prevent false positives. The exclusion is defined in the `RG_EXCLUDE_GLOBS` array in the script.
 
 ## Fixture Files
 
@@ -27,18 +15,7 @@ The script should detect problems in each fixture file and exit with code 1.
 - `multiple-imports.ts` - Multiple imports from the same source
 - `valid-imports.ts` - Examples of correct import patterns
 
-## Expected Detections
-
-When running the script from this directory, you should see:
-
-- `invalid-runtime-alias-depth`: 1 instance
-- `invalid-type-alias-depth`: 1 instance
-- `relative-path`: 2 instances (import + export)
-- `forbidden-const-aliases`: 1 instance
-- `missing-type-modifier`: 1 instance
-- `multiple-imports-same-source`: 1 instance
-
-## Integration with Tests
+## How Tests Work
 
 The automated test suite (`tests/globals-and-transpiled/import-problems.test.ts`) validates that:
 
@@ -46,4 +23,14 @@ The automated test suite (`tests/globals-and-transpiled/import-problems.test.ts`
 2. The script produces valid XML output
 3. All expected validation sections are present
 
-The fixtures are documented for manual testing and reference purposes.
+## Exclusions
+
+The validation script automatically excludes:
+- `node_modules/**` - Third-party dependencies
+- `.claude/**` - Claude Code hooks and configuration
+- `tests/fixtures/**` - Test fixtures (including this directory)
+- `dist/**` - Build output
+- `build/**` - Build artifacts
+- `**/*.map` - Source maps
+
+These exclusions prevent false positives from dependencies and test files while ensuring the actual project code follows import rules.

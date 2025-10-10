@@ -96,6 +96,27 @@ function has_command() {
 
 FOUND_ISSUES=0  # flipped to 1 if any section finds matches
 
+# Determine scan directory
+# If argument provided, scan that directory (used by tests)
+# Otherwise scan modules/**/src/* (project code only)
+SCAN_DIR="${1:-.}"
+if [ "$SCAN_DIR" = "." ]; then
+  # No argument: scan project code only
+  RG_GLOBS=(--glob 'modules/**/src/**/*.ts' --glob 'modules/**/src/**/*.tsx')
+else
+  # Argument provided: scan specified directory
+  RG_GLOBS=(--glob '*.ts' --glob '*.tsx')
+fi
+
+# Standard exclusions for dependencies and build artifacts
+RG_EXCLUDE_GLOBS=(
+  --glob '!node_modules/**'
+  --glob '!.claude/**'
+  --glob '!dist/**'
+  --glob '!build/**'
+  --glob '!**/*.map'
+)
+
 # Group "file:line:content" matches into XML blocks, escaping XML-sensitive chars.
 emit_xml_from_matches() {
   awk -F: '
@@ -153,12 +174,37 @@ forbidden_at_import() {
   log '<section name="forbidden-@-import">'
 
   if has_command "rg"; then
-    rg -n --no-heading \
-      --glob '!modules/inferred-types/**' \
-      --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-      'import\s+.*\s+from\s+["'\''"]@inferred-types[^"'\''"]*["'\''"]' \
-      | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+    # Only exclude modules/inferred-types when scanning project code
+    if [ "$SCAN_DIR" = "." ]; then
+      output=$((
+        cd "$SCAN_DIR" || exit 1
+        rg -n --no-heading \
+          --glob '!modules/inferred-types/**' \
+          "${RG_GLOBS[@]}" \
+          "${RG_EXCLUDE_GLOBS[@]}" \
+          'import\s+.*\s+from\s+["'\''"]@inferred-types[^"'\''"]*["'\''"]'
+      ) 2>&1)
+      if [ -n "$output" ]; then
+        echo "$output" | emit_xml_from_matches
+        status=0
+      else
+        status=1
+      fi
+    else
+      output=$((
+        cd "$SCAN_DIR" || exit 1
+        rg -n --no-heading \
+          "${RG_GLOBS[@]}" \
+          "${RG_EXCLUDE_GLOBS[@]}" \
+          'import\s+.*\s+from\s+["'\''"]@inferred-types[^"'\''"]*["'\''"]'
+      ) 2>&1)
+      if [ -n "$output" ]; then
+        echo "$output" | emit_xml_from_matches
+        status=0
+      else
+        status=1
+      fi
+    fi
   else
     find . \
       -type d -path './modules/inferred-types' -prune -o \
@@ -185,13 +231,30 @@ invalid_runtime_alias_depth() {
 
   log '<section name="invalid-runtime-alias-depth">'
 
-  if has_command "rg"; then
-    rg -n --no-heading \
-       --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-       '^\s*import[^;]*from\s+["'\'']runtime/[^/"'\'']+/[^"'\'']+["'\'']' \
-    | rg -v '^[^:]+:[0-9]+:\s*//' \
-    | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+  if has_command "grep"; then
+    local tmpfile
+    tmpfile=$(mktemp)
+    local olddir
+    olddir=$(pwd)
+
+    cd "$SCAN_DIR" || exit 1
+
+    # Use grep with extended regex
+    grep -rEn --include='*.ts' --include='*.tsx' \
+       '^[[:space:]]*import[^;]*from[[:space:]]+["'\'']runtime/[^/"'\'']+/[^"'\'']+["'\'']' . > "$tmpfile" 2>&1 || true
+
+    # Filter out comment lines and fix paths
+    grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' "$tmpfile" | sed 's|^\./||' > "$tmpfile.filtered" 2>&1 || true
+    mv "$tmpfile.filtered" "$tmpfile"
+    cd "$olddir" || exit 1
+
+    if [ -s "$tmpfile" ]; then
+      cat "$tmpfile" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
+    rm -f "$tmpfile"
   else
     find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
       grep -nE '^[[:space:]]*import[^;]*from[[:space:]]+["'"'"']runtime/[^/"'"'"']+/[^"'"'"']+["'"'"']' {} + \
@@ -208,12 +271,30 @@ invalid_runtime_alias_depth() {
 invalid_type_alias_depth() {
   log '<section name="invalid-type-alias-depth">'
 
-  if has_command "rg"; then
-    rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-       '^\s*import[^;]*from\s+["'\'']types/[^/"'\'']+/[^"'\'']+["'\'']' \
-    | rg -v '^[^:]+:[0-9]+:\s*//' \
-    | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+  if has_command "grep"; then
+    local tmpfile
+    tmpfile=$(mktemp)
+    local olddir
+    olddir=$(pwd)
+
+    cd "$SCAN_DIR" || exit 1
+
+    # Use grep with extended regex
+    grep -rEn --include='*.ts' --include='*.tsx' \
+       '^[[:space:]]*import[^;]*from[[:space:]]+["'\'']types/[^/"'\'']+/[^"'\'']+["'\'']' . > "$tmpfile" 2>&1 || true
+
+    # Filter out comment lines and fix paths
+    grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' "$tmpfile" | sed 's|^\./||' > "$tmpfile.filtered" 2>&1 || true
+    mv "$tmpfile.filtered" "$tmpfile"
+    cd "$olddir" || exit 1
+
+    if [ -s "$tmpfile" ]; then
+      cat "$tmpfile" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
+    rm -f "$tmpfile"
   else
     find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
       grep -nE '^[[:space:]]*import[^;]*from[[:space:]]+["'"'"']types/[^/"'"'"']+/[^"'"'"']+["'"'"']' {} + \
@@ -233,8 +314,7 @@ invalid_type_alias_depth() {
 #   if has_command "rg"; then
 #     # Ripgrep: catch both import-from and export-from forms
 #     rg -n --no-heading \
-#        --glob '!node_modules/**' --glob '!dist/**' --glob '!build/**' --glob '!**/*.map' \
-#        --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
+#        #        "${RG_EXCLUDE_GLOBS[@]}" --glob '*.ts' --glob '*.tsx' \
 #        -e '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*\sfrom\s+["'\''"]types/[^"'\''"]+["'\''"]' \
 #     | rg -v '^[^:]+:[0-9]+:\s*//' \
 #     | emit_xml_from_matches
@@ -261,22 +341,37 @@ invalid_type_alias_depth() {
 forbidden_const_aliases() {
   log '<section name="forbidden-const-aliases">'
 
-  if has_command "rg"; then
-    # Ripgrep: catch both import-from and export-from forms
-    rg -n --no-heading \
-       --glob '!node_modules/**' --glob '!dist/**' --glob '!build/**' --glob '!**/*.map' \
-       --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-       -e '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*\sfrom\s+["'\''"]constants/[^"'\''"]+["'\''"]' \
-    | rg -v '^[^:]+:[0-9]+:\s*//' \
-    | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+  if has_command "grep"; then
+    local tmpfile
+    tmpfile=$(mktemp)
+    local olddir
+    olddir=$(pwd)
+
+    cd "$SCAN_DIR" || exit 1
+
+    # Use grep with extended regex
+    grep -rEn --include='*.ts' --include='*.tsx' \
+       '^[[:space:]]*(import|export)([[:space:]]+\*|[[:space:]]+type|[[:space:]]+\{)?[^;]*[[:space:]]+from[[:space:]]+["'\''"](constants)/[^"'\''"]+["'\''""]' . > "$tmpfile" 2>&1 || true
+
+    # Filter out comment lines and fix paths
+    grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' "$tmpfile" | sed 's|^\./||' > "$tmpfile.filtered" 2>&1 || true
+    mv "$tmpfile.filtered" "$tmpfile"
+    cd "$olddir" || exit 1
+
+    if [ -s "$tmpfile" ]; then
+      cat "$tmpfile" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
+    rm -f "$tmpfile"
   else
     # find + grep: same logic, portable on BSD/GNU
     find . \
       -type d \( -name node_modules -o -name dist -o -name build -o -name .git \) -prune -o \
       -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
-        grep -nE '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*\sfrom\s+["'"'"'](constants)/[^"'"'"']+["'"'"']' {} + \
-    | grep -Ev '^[^:]+:[0-9]+:\s*//' \
+        grep -nE '^[[:space:]]*(import|export)([[:space:]]+\*|[[:space:]]+type|[[:space:]]+\{)?[^;]*[[:space:]]+from[[:space:]]+["'"'"'](constants)/[^"'"'"']+["'"'"']' {} + \
+    | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
     | emit_xml_from_matches
     status=${PIPESTATUS[0]}
   fi
@@ -293,15 +388,33 @@ forbidden_const_aliases() {
 invalid_relative_path() {
   log '<section name="relative-path">'
 
-  if has_command "rg"; then
-    rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-       '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*from\s+["'\'']\.\./' \
-    | rg -v '^[^:]+:[0-9]+:\s*//' \
-    | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+  if has_command "grep"; then
+    local tmpfile
+    tmpfile=$(mktemp)
+    local olddir
+    olddir=$(pwd)
+
+    cd "$SCAN_DIR" || exit 1
+
+    # Use grep with extended regex
+    grep -rEn --include='*.ts' --include='*.tsx' \
+       '^[[:space:]]*(import|export)([[:space:]]+\*|[[:space:]]+type|[[:space:]]+\{)?[^;]*from[[:space:]]+["'\'']\.\./' . > "$tmpfile" 2>&1 || true
+
+    # Filter out comment lines and fix paths
+    grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' "$tmpfile" | sed 's|^\./||' > "$tmpfile.filtered" 2>&1 || true
+    mv "$tmpfile.filtered" "$tmpfile"
+    cd "$olddir" || exit 1
+
+    if [ -s "$tmpfile" ]; then
+      cat "$tmpfile" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
+    rm -f "$tmpfile"
   else
     find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
-      grep -nE '^[[:space:]]*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*from[[:space:]]+["'"'"']\.\./' {} + \
+      grep -nE '^[[:space:]]*(import|export)([[:space:]]+\*|[[:space:]]+type|[[:space:]]+\{)?[^;]*from[[:space:]]+["'"'"']\.\./' {} + \
     | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
     | emit_xml_from_matches
     status=${PIPESTATUS[0]}
@@ -315,15 +428,37 @@ forbidden_runtime_import() {
   log '<section name="forbidden-runtime-import">'
 
   if has_command "rg"; then
-    # Find import/export-from lines that reference runtime/* outside modules/runtime/src/**
-    rg -n --no-heading \
-      --glob '!modules/runtime/src/**' \
-      --glob '!node_modules/**' \
-      --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-      -e '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*\sfrom\s+["'\''"]runtime/[^/"'\''"]+["'\''"]' \
-      | rg -v '^[^:]+:\d+:\s*//' \
-      | emit_xml_from_matches
-    status=${PIPESTATUS[0]}
+    # Only exclude modules/runtime/src when scanning project code
+    if [ "$SCAN_DIR" = "." ]; then
+      output=$((
+        cd "$SCAN_DIR" || exit 1
+        rg -n --no-heading \
+          --glob '!modules/runtime/src/**' \
+          "${RG_GLOBS[@]}" \
+          "${RG_EXCLUDE_GLOBS[@]}" \
+          -e '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*\sfrom\s+["'\''"]runtime/[^/"'\''"]+["'\''"]'
+      ) | rg -v '^[^:]+:\d+:\s*//' 2>&1)
+      if [ -n "$output" ]; then
+        echo "$output" | emit_xml_from_matches
+        status=0
+      else
+        status=1
+      fi
+    else
+      output=$((
+        cd "$SCAN_DIR" || exit 1
+        rg -n --no-heading \
+          "${RG_GLOBS[@]}" \
+          "${RG_EXCLUDE_GLOBS[@]}" \
+          -e '^\s*(import|export)(\s+\*|\s+type|\s+\{)?[^;]*\sfrom\s+["'\''"]runtime/[^/"'\''"]+["'\''"]'
+      ) | rg -v '^[^:]+:\d+:\s*//' 2>&1)
+      if [ -n "$output" ]; then
+        echo "$output" | emit_xml_from_matches
+        status=0
+      else
+        status=1
+      fi
+    fi
   else
     # find + grep alternative (no look-around); then drop //-commented lines
     find . \
@@ -343,29 +478,54 @@ forbidden_runtime_import() {
 missing_type_modifier() {
   log '<section name="missing-type-modifier">'
 
-  local tmpfile
-  tmpfile=$(mktemp)
-  if has_command "rg"; then
-    # Pull imports from inferred-types/types …
-    rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-       '^\s*import[^;]*from\s+["'\'']inferred-types/types["'\'']' \
-    | rg -v '^[^:]+:[0-9]+:\s*//' \
-    | rg -v ':\d+:\s*import\s+type\b' \
-    | rg -v ':\d+:.*\{[^}]*\btype\b[^}]*\}' > "$tmpfile" || true
+  if has_command "grep"; then
+    local tmpfile tmpfile2
+    tmpfile=$(mktemp)
+    tmpfile2=$(mktemp)
+    local olddir
+    olddir=$(pwd)
+
+    cd "$SCAN_DIR" || exit 1
+
+    # Use grep with extended regex
+    grep -rEn --include='*.ts' --include='*.tsx' \
+       '^[[:space:]]*import[^;]*from[[:space:]]+["'\'']inferred-types/types["'\'']' . > "$tmpfile" 2>&1 || true
+
+    # Filter out comment lines, then filter out lines with 'import type' or '{...type...}'
+    grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' "$tmpfile" | \
+    grep -Ev ':[0-9]+:[[:space:]]*import[[:space:]]+type\b' | \
+    grep -Ev ':[0-9]+:.*\{[^}]*\btype\b[^}]*\}' | \
+    sed 's|^\./||' > "$tmpfile2" 2>&1 || true
+
+    cd "$olddir" || exit 1
+
+    if [ -s "$tmpfile2" ]; then
+      cat "$tmpfile2" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
+    rm -f "$tmpfile" "$tmpfile2"
   else
     # grep branch
+    local tmpfile
+    tmpfile=$(mktemp)
     find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
       grep -nE '^[[:space:]]*import[^;]*from[[:space:]]+["'"'"']inferred-types/types["'"'"']' {} + \
     | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
     | grep -Ev ':[0-9]+:[[:space:]]*import[[:space:]]+type\b' \
     | grep -Ev ':[0-9]+:.*\{[^}]*\btype\b[^}]*\}' > "$tmpfile" || true
+
+    if [ -s "$tmpfile" ]; then
+      cat "$tmpfile" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
+    rm -f "$tmpfile"
   fi
 
-  if [ -s "$tmpfile" ]; then
-    cat "$tmpfile" | emit_xml_from_matches
-    FOUND_ISSUES=1
-  fi
-  rm -f "$tmpfile"
+  if [ "$status" -eq 0 ] || [ "$status" -gt 1 ]; then FOUND_ISSUES=1; fi
   log '</section>'; log ""
 }
 
@@ -410,20 +570,32 @@ unspecified_path_alias() {
     }
   '
 
-  local tmpfile
-  tmpfile=$(mktemp)
   if has_command "rg"; then
-    {
-      # One pattern for runtime/* (one-level only)
-      rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-        -e "^[[:space:]]*import[^;]*from[[:space:]]+['\"]runtime/[^/'\"]+['\"]" || true
-      # A separate pattern for types/* (one-level only)
-      rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-        -e "^[[:space:]]*import[^;]*from[[:space:]]+['\"]types/[^/'\"]+['\"]" || true
-    } \
-    | rg -v '^[^:]+:[0-9]+:[[:space:]]*//' \
-    | awk -v runtime_set="$RUNTIME_SET" -v types_set="$TYPES_SET" "$awk_filter" > "$tmpfile" || true
+    output=$((
+      cd "$SCAN_DIR" || exit 1
+      {
+        # One pattern for runtime/* (one-level only)
+        rg -n --no-heading \
+          "${RG_GLOBS[@]}" \
+          "${RG_EXCLUDE_GLOBS[@]}" \
+          -e "^[[:space:]]*import[^;]*from[[:space:]]+['\"]runtime/[^/'\"]+['\"]" || true
+        # A separate pattern for types/* (one-level only)
+        rg -n --no-heading \
+          "${RG_GLOBS[@]}" \
+          "${RG_EXCLUDE_GLOBS[@]}" \
+          -e "^[[:space:]]*import[^;]*from[[:space:]]+['\"]types/[^/'\"]+['\"]" || true
+      }
+    ) | rg -v '^[^:]+:[0-9]+:[[:space:]]*//' \
+      | awk -v runtime_set="$RUNTIME_SET" -v types_set="$TYPES_SET" "$awk_filter" 2>&1)
+    if [ -n "$output" ]; then
+      echo "$output" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
   else
+    local tmpfile
+    tmpfile=$(mktemp)
     {
       find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
         grep -nE "^[[:space:]]*import[^;]*from[[:space:]]+['\"]runtime/[^/'\"]+['\"]" {} + || true
@@ -432,13 +604,17 @@ unspecified_path_alias() {
     } \
     | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
     | awk -v runtime_set="$RUNTIME_SET" -v types_set="$TYPES_SET" "$awk_filter" > "$tmpfile" || true
+
+    if [ -s "$tmpfile" ]; then
+      cat "$tmpfile" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
+    rm -f "$tmpfile"
   fi
 
-  if [ -s "$tmpfile" ]; then
-    cat "$tmpfile" | emit_xml_from_matches
-    FOUND_ISSUES=1
-  fi
-  rm -f "$tmpfile"
+  if [ "$status" -eq 0 ] || [ "$status" -gt 1 ]; then FOUND_ISSUES=1; fi
   log '</section>'; log ""
 }
 
@@ -470,25 +646,51 @@ multiple_imports_same_source() {
     }
   '
 
-  local tmpfile
-  tmpfile=$(mktemp)
-  if has_command "rg"; then
-    rg -n --no-heading --glob '!tests/fixtures/**' --glob '*.ts' --glob '*.tsx' \
-       '^\s*import[^;]*from\s+["'\''"][^"'\''"]+["'\''"]' \
-    | rg -v '^[^:]+:[0-9]+:\s*//' \
-    | awk "$all_dupes_awk" > "$tmpfile" || true
+  if has_command "grep"; then
+    local tmpfile tmpfile2
+    tmpfile=$(mktemp)
+    tmpfile2=$(mktemp)
+    local olddir
+    olddir=$(pwd)
+
+    cd "$SCAN_DIR" || exit 1
+
+    # Use grep with extended regex
+    grep -rEn --include='*.ts' --include='*.tsx' \
+       '^[[:space:]]*import[^;]*from[[:space:]]+["'\''"][^"'\''"]+["'\''"]' . > "$tmpfile" 2>&1 || true
+
+    # Filter out comment lines, fix paths, and find duplicates
+    grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' "$tmpfile" | \
+    sed 's|^\./||' | \
+    awk "$all_dupes_awk" > "$tmpfile2" 2>&1 || true
+
+    cd "$olddir" || exit 1
+
+    if [ -s "$tmpfile2" ]; then
+      cat "$tmpfile2" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
+    rm -f "$tmpfile" "$tmpfile2"
   else
+    local tmpfile
+    tmpfile=$(mktemp)
     find . -type f \( -name '*.ts' -o -name '*.tsx' \) -exec \
       grep -nE '^[[:space:]]*import[^;]*from[[:space:]]+["'"'"'][^"'"'"']+["'"'"']' {} + \
     | grep -Ev '^[^:]+:[0-9]+:[[:space:]]*//' \
     | awk "$all_dupes_awk" > "$tmpfile" || true
+
+    if [ -s "$tmpfile" ]; then
+      cat "$tmpfile" | emit_xml_from_matches
+      status=0
+    else
+      status=1
+    fi
+    rm -f "$tmpfile"
   fi
 
-  if [ -s "$tmpfile" ]; then
-    cat "$tmpfile" | emit_xml_from_matches
-    FOUND_ISSUES=1
-  fi
-  rm -f "$tmpfile"
+  if [ "$status" -eq 0 ] || [ "$status" -gt 1 ]; then FOUND_ISSUES=1; fi
   log '</section>'; log ""
 }
 
