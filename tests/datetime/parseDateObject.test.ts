@@ -12,7 +12,6 @@ import { Temporal } from "@js-temporal/polyfill"
 
 describe("parseDateObject()", () => {
 
-
     it("parses JS Date instance (UTC)", () => {
         const date = new Date("2024-01-15T12:34:56.789Z");
         const result = parseDateObject(date);

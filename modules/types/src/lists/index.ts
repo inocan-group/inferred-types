@@ -13,6 +13,7 @@ export * from "./FindMaxLength";
 export * from "./First";
 export * from "./FirstString";
 export * from "./Flatten";
+export * from "./FromCsv";
 export * from "./GetEach";
 export * from "./IndexOf";
 export * from "./Last";
@@ -42,3 +43,4 @@ export * from "./TruthyReturns";
 export * from "./TypeOfArray";
 export * from "./UnionFromProp";
 export * from "./Variadic";
+

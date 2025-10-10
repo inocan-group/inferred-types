@@ -3,7 +3,6 @@
         "composite": true,
         "module": "ES2022",
         "target": "ES2022",
-        "baseUrl": ".",
         "rootDir": "..",
         "moduleResolution": "Bundler",
         "paths": {
