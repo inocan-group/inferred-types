@@ -5,7 +5,7 @@
  */
 
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
-import { join, relative, sep, resolve } from "node:path";
+import { join, relative, sep, resolve, isAbsolute } from "node:path";
 import { hostname } from "node:os";
 
 // ============================================================================
@@ -485,8 +485,8 @@ function main() {
     }
   } else {
     // Test mode: scan specified directory
-    // Check if the path is already absolute
-    const fullScanPath = scanDir.startsWith("/") ? scanDir : join(process.cwd(), scanDir);
+    // Check if the path is already absolute (works on both Unix and Windows)
+    const fullScanPath = isAbsolute(scanDir) ? scanDir : join(process.cwd(), scanDir);
     filesToScan = findTypeScriptFiles(fullScanPath);
   }
 
