@@ -47,6 +47,7 @@
         "nuke": "pnpm -r nuke",
         "test": "vitest run",
         "test:imports": "bun run scripts/invalid-imports.ts",
+        "test:bundle": "node scripts/test-bundle.mjs",
         "test:ci": "vitest run",
         "test:watch": "vitest",
         "test:ui": "vitest --ui",

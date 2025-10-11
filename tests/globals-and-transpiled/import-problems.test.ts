@@ -56,13 +56,6 @@ describe.skipIf(!hasBun)("invalid-imports.ts pattern detection", () => {
     };
 
     describe("with problematic imports", () => {
-        it("debug: shows script output", () => {
-            const result = runScript(problemsDir);
-            console.log("Exit code:", result.exitCode);
-            console.log("STDOUT length:", result.stdout.length);
-            console.log("STDOUT:", result.stdout);
-        });
-
         it("detects invalid-runtime-alias-depth pattern", () => {
             const result = runScript(problemsDir);
             const count = countOccurrences(result.stdout, "invalid-runtime-alias-depth");

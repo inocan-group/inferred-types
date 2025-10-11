@@ -6,10 +6,19 @@
  * as a normal module. The issue is specific to how Vitest loads and initializes
  * the bundled code.
  *
- * The actual validation of the transpiled code happens in:
- * 1. The build process (which succeeds)
- * 2. External package testing (using `pnpm pack`)
- * 3. The `transpiled.test.ts` file which tests both types and runtime together
+ * ## Better Testing Approach
+ *
+ * Instead of using Vitest to test the bundled output, use:
+ * ```bash
+ * pnpm test:bundle
+ * ```
+ *
+ * This integration test (`scripts/test-bundle.mjs`):
+ * - Tests the actual bundled dist files as consumers would use them
+ * - Runs outside Vitest to avoid module resolution issues
+ * - Verifies runtime functions work correctly in the bundle
+ * - Tests ESM imports and exports
+ * - Validates the bundle doesn't contain workspace references
  */
 
 import { describe, it } from "vitest";
@@ -17,6 +26,7 @@ import { describe, it } from "vitest";
 describe.skip("import runtime symbols from transpiled/runtime", () => {
     it("placeholder test", () => {
         // Skipped - see comment above
+        // Use `pnpm test:bundle` instead
     });
 });
 

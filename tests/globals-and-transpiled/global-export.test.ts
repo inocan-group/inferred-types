@@ -1,23 +1,32 @@
 import { describe, it } from "vitest";
-import {
+import type {
     AssertEqual,
     Expect,
 } from "inferred-types/types";
 
-import {
+import type {
     MergeObjects,
-} from "inferred-types/inferred-types";
+} from "inferred-types/types";
 
 
 
 /**
- * This tests Typescript source but source which the underlying
- * module uses relative imports to the dist folders.
+ * This tests TypeScript types from the source code, ensuring type utilities
+ * work correctly during development.
  *
- * Note: Runtime tests are skipped here due to circular dependency issues
- * when importing from source. The transpiled tests validate runtime behavior.
+ * Note: This tests the SOURCE code, not the bundled output. To test how
+ * consumers will use the package, run:
+ * ```bash
+ * pnpm test:bundle
+ * ```
+ *
+ * The bundle test validates:
+ * - Actual bundled dist files work correctly
+ * - No workspace reference leaks
+ * - ESM imports function properly
+ * - Runtime functions work in the bundle
  */
-describe("import of Typescript from inferred-types module", () => {
+describe("import of TypeScript types from inferred-types source", () => {
 
     it("type symbols", () => {
         type T1 = MergeObjects<{foo:1},{bar:2}>;

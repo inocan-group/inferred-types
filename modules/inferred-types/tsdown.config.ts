@@ -9,6 +9,16 @@ export default defineConfig({
     clean: false,
 
     tsconfig: "./tsconfig.tsdown.json",
+
+    // Don't mark workspace dependencies as external - bundle them
+    external: [],
+
+    // Ensure workspace dependencies are bundled, not left as imports
+    noExternal: [
+        "@inferred-types/constants",
+        "@inferred-types/runtime",
+        "@inferred-types/types"
+    ]
 });
 
 
