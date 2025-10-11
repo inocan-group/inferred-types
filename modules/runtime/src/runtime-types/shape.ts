@@ -7,19 +7,10 @@ import type {
 } from "inferred-types/types";
 import { SHAPE_PREFIXES } from "inferred-types/constants";
 import { handleDoneFn } from "runtime/api";
-import {
-    array,
-    boolean,
-    fn,
-    map,
-    nullType,
-    record,
-    set,
-    undefinedType,
-    unknown,
-    weakMap
-} from "runtime/runtime-types";
 import { hasKeys, isDictionary, isString } from "runtime/type-guards";
+import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
+import { fn } from "./shape-helpers/functions";
+import { array, map, record, set, weakMap } from "./shape-helpers/wide-containers";
 
 function isAddOrDone<T>(val: T): val is ShapeTupleOrUnion & T {
     return isDictionary(val) && hasKeys("add", "done") && typeof val.done === "function" && typeof val.add === "function";

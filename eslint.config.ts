@@ -1,6 +1,7 @@
 import antfu from "@antfu/eslint-config";
 
-const config = antfu(
+// Type assertion to bypass TypeScript's need to resolve transitive dependencies
+export default antfu(
     {
         type: "lib",
         unocss: false,
@@ -43,8 +44,22 @@ const config = antfu(
                 "ts/method-signature-style": ["off"]
             },
         }
+    },
+    // Add rule to prevent circular dependencies in runtime-types
+    {
+        files: ["**/modules/runtime/src/runtime-types/**/*.ts"],
+        rules: {
+            "no-restricted-imports": [
+                "error",
+                {
+                    paths: [
+                        {
+                            name: "runtime/runtime-types",
+                            message: "Files within runtime-types should not import from the runtime-types barrel. Import directly from source files instead to avoid circular dependencies."
+                        }
+                    ]
+                }
+            ]
+        }
     }
-);
-
-// Type assertion to bypass TypeScript's need to resolve transitive dependencies
-export default config as any;
+) as any;
