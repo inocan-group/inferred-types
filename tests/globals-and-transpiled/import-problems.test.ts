@@ -3,17 +3,17 @@ import { execSync } from "node:child_process";
 import { join } from "node:path";
 
 /**
- * Tests that the scripts/invalid-imports.sh script correctly detects
+ * Tests that the scripts/invalid-imports.ts script correctly detects
  * problematic import patterns using test fixtures.
  */
-describe("invalid-imports.sh pattern detection", () => {
+describe("invalid-imports.ts pattern detection", () => {
     const problemsDir = join(process.cwd(), "tests/fixtures/import-problems/problems");
     const validDir = join(process.cwd(), "tests/fixtures/import-problems/valid");
-    const scriptPath = join(process.cwd(), "scripts/invalid-imports.sh");
+    const scriptPath = join(process.cwd(), "scripts/invalid-imports.ts");
 
     const runScript = (directory: string): { exitCode: number; stdout: string } => {
         try {
-            const stdout = execSync(`bash "${scriptPath}" "${directory}"`, {
+            const stdout = execSync(`"${scriptPath}" "${directory}"`, {
                 encoding: "utf-8",
                 stdio: ["pipe", "pipe", "pipe"],
             });

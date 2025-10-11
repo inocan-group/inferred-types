@@ -18,7 +18,6 @@ export * from "./keyframe";
 export * from "./margin";
 export * from "./object";
 export * from "./offset";
-export * from "./offset";
 export * from "./outline";
 export * from "./overflow";
 export * from "./padding";
@@ -30,5 +29,4 @@ export * from "./selector";
 export * from "./sizing";
 export * from "./stroke";
 export * from "./text";
-
 export * from "./transform";
