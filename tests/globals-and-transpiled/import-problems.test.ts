@@ -13,7 +13,8 @@ describe("invalid-imports.ts pattern detection", () => {
 
     const runScript = (directory: string): { exitCode: number; stdout: string } => {
         try {
-            const stdout = execSync(`"${scriptPath}" "${directory}"`, {
+            // Use bun run explicitly for cross-platform compatibility
+            const stdout = execSync(`bun run "${scriptPath}" "${directory}"`, {
                 encoding: "utf-8",
                 stdio: ["pipe", "pipe", "pipe"],
             });
