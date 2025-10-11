@@ -13,8 +13,6 @@ jobs:
   test:
     name: testing
     uses: yankeeinlondon/gha/.github/workflows/test.yml@main
-    with:
-        bun: true
 
   publish:
     name: publish
@@ -23,7 +21,6 @@ jobs:
     with:
       jsr_scope: '@inocan-group'
       github_packages_scope: '@inocan-group'
-      bun: true
     secrets:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 

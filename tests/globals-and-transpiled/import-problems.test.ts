@@ -3,17 +3,35 @@ import { execSync } from "node:child_process";
 import { join } from "node:path";
 
 /**
+ * Check if Bun is available in the PATH
+ */
+function isBunAvailable(): boolean {
+    try {
+        execSync("bun --version", { stdio: "pipe" });
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+const hasBun = isBunAvailable();
+
+if (!hasBun) {
+    console.log("⚠️  Bun is not available in PATH - skipping import validation tests");
+}
+
+/**
  * Tests that the scripts/invalid-imports.ts script correctly detects
  * problematic import patterns using test fixtures.
  */
-describe("invalid-imports.ts pattern detection", () => {
+describe.skipIf(!hasBun)("invalid-imports.ts pattern detection", () => {
     const problemsDir = join(process.cwd(), "tests/fixtures/import-problems/problems");
     const validDir = join(process.cwd(), "tests/fixtures/import-problems/valid");
     const scriptPath = join(process.cwd(), "scripts/invalid-imports.ts");
 
     const runScript = (directory: string): { exitCode: number; stdout: string } => {
         try {
-            // Use bun run explicitly for cross-platform compatibility
+            // Use bun run for cross-platform execution
             const stdout = execSync(`bun run "${scriptPath}" "${directory}"`, {
                 encoding: "utf-8",
                 stdio: ["pipe", "pipe", "pipe"],
