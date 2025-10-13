@@ -12,9 +12,30 @@ import type {
  * Converts the passed in value to a strongly typed string
  * literal representation of the JSON type for `val`.
  *
- * **Related:** `toStringLiteral()`
+ * **Related:** `toStringLiteral()`, `toJson()`
+ *
+ * @deprecated use `toJson()` instead
  */
 export function toJSON<
+    T extends Exclude<Scalar, symbol> | NarrowObject<N> | readonly N[],
+    N extends Narrowable,
+    O extends ToJsonOptions = { quote: "\""; encode: false }
+>(
+    val: T,
+    _options: O = { quote: "\"", encode: false } as O
+): ToJson<T, O> {
+    return JSON.stringify(val) as unknown as ToJson<T, O>;
+}
+
+/**
+ * **toJson**`(val)`
+ *
+ * Converts the passed in value to a strongly typed string
+ * literal representation of the JSON type for `val`.
+ *
+ * **Related:** `toStringLiteral()`
+ */
+export function toJson<
     T extends Exclude<Scalar, symbol> | NarrowObject<N> | readonly N[],
     N extends Narrowable,
     O extends ToJsonOptions = { quote: "\""; encode: false }

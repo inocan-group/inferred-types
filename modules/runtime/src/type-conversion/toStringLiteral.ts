@@ -1,4 +1,5 @@
 import type {
+    DefineObject,
     IsObjectKeyRequiringQuotes,
     IsString,
     Narrowable,
@@ -57,13 +58,20 @@ function property(prop: ObjectKey): string {
     return String(prop);
 }
 
-function toStringLiteral__Object<
-    T extends Record<ObjectKey, string>
+/**
+ * **toStringLiteral__Object**`(obj) -> token`
+ *
+ * Converts a `DefineObject` shaped type definition into a string based
+ * `InputToken` while converting the _type_ to the type which the token
+ * represents.
+ */
+export function toStringLiteral__Object<
+    T extends DefineObject
 >(obj: T): string {
     const inner: string[] = [];
 
     for (const k of keysOf(obj)) {
-        inner.push(`${property(k)}: ${obj[k]}`);
+        inner.push(`${property(k as string)}: ${obj[k as string]}`);
     }
 
     return `{ ${inner.join(", ")} }`;

@@ -8,6 +8,7 @@ import type {
     InputTokenSuggestions,
     IT_Token,
     MakeKeysOptional,
+    Mutable,
     ObjectKey,
     OptionalKeys,
     UnionToTuple,
@@ -93,9 +94,9 @@ type _FromInputToken__Object<
  */
 export type FromInputToken__Object<
     T extends DefineObject
-> = MakeKeysOptional<
+> = Mutable<MakeKeysOptional<
     _FromInputToken__Object<Required<T>>,
     UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
         ? UnionToTuple<OptionalKeys<T>>
         : never
->;
+>>;
