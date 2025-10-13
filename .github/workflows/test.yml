@@ -27,4 +27,6 @@ jobs:
     if: ${{ !contains(github.event.head_commit.message, 'release v') }}
     needs: check
     uses: yankeeinlondon/gha/.github/workflows/test.yml@main
+    with:
+        transpile: true
 
