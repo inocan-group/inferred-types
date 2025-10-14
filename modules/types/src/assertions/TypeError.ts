@@ -1,5 +1,4 @@
-import type { AssertionOp } from "types/assertions/AssertionOp";
-import type { WithoutKeys } from "types/dictionary";
+import type { AssertionOp, WithoutKeys } from "inferred-types/types";
 
 type Invalid = `invalid-test/${"any-type" | "never-type"}`;
 type Failed = `failed/${AssertionOp}`;

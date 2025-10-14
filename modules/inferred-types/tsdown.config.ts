@@ -4,7 +4,14 @@ import { defineConfig } from "tsdown";
 export default defineConfig({
     entry: ["src/index.ts"],
     format: ["esm", "cjs"],
-    dts: true,
+    dts: {
+        // Resolve and bundle type definitions from workspace dependencies
+        resolve: [
+            "@inferred-types/constants",
+            "@inferred-types/runtime",
+            "@inferred-types/types"
+        ]
+    },
     sourcemap: true,
     clean: false,
 
