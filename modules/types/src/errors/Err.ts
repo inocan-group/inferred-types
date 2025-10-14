@@ -1,4 +1,4 @@
-import type { Dictionary, EmptyObject, Expand, KebabCase, PascalCase, RetainUntil } from "inferred-types/types";
+import type { Dictionary, EmptyObject, Expand, IsEqual, KebabCase, PascalCase, RetainUntil } from "inferred-types/types";
 
 /**
  * **TypedError**
@@ -19,7 +19,7 @@ export type TypedError<
     }
 >;
 
-export type Err<
+type _Err<
     TType extends string = string,
     TMsg extends string = string,
     TCtx extends Record<string, any> = EmptyObject
@@ -48,7 +48,28 @@ export type Err<
             cause?: unknown;
             stack?: string;
         } & TCtx
-    > & Error;
+    > & Error; ;
+
+/**
+ * **Err**`<TType, TMsg, TCtx>`
+ *
+ * Create a strongly typed error with type and subType information.
+ *
+ * - TType assigns the type to the errors `type` property until a `/` character is found
+ * - the `subType` property is the string literal portion of `TType` after the `/` character
+ * - any key/value pairs on `TCtx` will be available on the error too
+ */
+export type Err<
+    TType extends string = string,
+    TMsg extends string = string,
+    TCtx extends Record<string, any> = EmptyObject
+> = string extends TType
+    ? string extends TMsg
+        ? IsEqual<TCtx, EmptyObject> extends true
+            ? Error
+            : _Err<TType, TMsg, TCtx>
+        : _Err<TType, TMsg, TCtx>
+    : _Err<TType, TMsg, TCtx>;
 
 /**
  * Adds "context" to an existing `Error`.

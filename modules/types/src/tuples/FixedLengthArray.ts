@@ -26,6 +26,8 @@ type Process<
  *
  * - if `TOpt` is set to true then it will add an optional
  * continuation of the type to unlimited length
+ *
+ * **Related:** `NumericSequence`
  */
 export type FixedLengthArray<
     TType,
