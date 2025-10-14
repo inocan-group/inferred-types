@@ -2,9 +2,9 @@ import { describe, it } from "vitest";
 import {
     AssertError,
     AssertFalse,
+    AssertAssertionError,
     Err,
     Expect,
-    Test,
 } from "inferred-types/types";
 import { AssertTrue } from "transpiled";
 
@@ -73,9 +73,9 @@ describe("AssertError<Test,Type,SubType>", () => {
 
 
         type cases = [
-            Expect<AssertError>,
-            Expect<AssertError<F2>>,
-            Expect<AssertError<F3>>,
+            Expect<AssertAssertionError<F1>>,
+            Expect<AssertAssertionError<F2>>,
+            Expect<AssertAssertionError<F3>>,
         ];
     });
 

@@ -1,10 +1,4 @@
-import type {
-    And,
-    As,
-    AssertionError,
-    AssertionMapper,
-    AssertValidation
-} from "inferred-types/types";
+import type { As, AssertionError, AssertionMapper, AssertValidation } from "inferred-types/types";
 
 type Mapper<
     TType extends string | undefined,
@@ -28,26 +22,23 @@ type Mapper<
 }, AssertionMapper>;
 
 /**
- * **AssertError**`<TTest, [TType], [TSubType]>`
+ * **AssertAssertionError**`<TTest, [TType], [TSubType]>`
  *
- * Tests whether `TTest` is an Error.
+ * Tests whether `TTest` is an `AssertionError`.
  *
  * - optionally also tests that the error `type` or `subType` is correct
  */
-export type AssertError<
+export type AssertAssertionError<
     TTest,
-    TType extends string | undefined = undefined,
+    TType extends `invalid-test` | `failed` | undefined = undefined,
     TSubType extends string | undefined = undefined
-> = AssertValidation<TTest, Mapper<TType, TSubType>, Error> extends { kind: "AssertionError" }
+> = AssertValidation<TTest, Mapper<TType, TSubType>, Error> extends Error
     ? AssertValidation<TTest, Mapper<TType, TSubType>, Error>
-    : TTest extends Error
+    : TTest extends AssertionError<any, any, any>
         ? TType extends string
             ? TSubType extends string
-                ? And<[
-                    TTest extends { type: TType } ? true : false,
-                    TTest extends { subType: TSubType } ? true : false,
-                ]>
-                : TTest extends { type: TType }
+                ? TTest extends { classification: `${TType}/${TSubType}` } ? true : false
+                : TTest extends { classification: `${TType}/${string}` }
                     ? true
                     : false
             : true

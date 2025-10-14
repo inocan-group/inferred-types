@@ -1,4 +1,4 @@
-import { AssertValidation, Extends } from "inferred-types/types";
+import type { AssertValidation, Extends } from "inferred-types/types";
 
 /**
  * **AssertExtends**`<TTest, TBase>`

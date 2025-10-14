@@ -1,4 +1,4 @@
-import { AssertValidation, IsEqual } from "inferred-types/types";
+import type { AssertValidation, IsEqual } from "inferred-types/types";
 
 /**
  * **AssertEqual**`<TTest, TExpected>`

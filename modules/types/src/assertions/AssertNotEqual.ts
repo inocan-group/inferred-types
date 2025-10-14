@@ -1,4 +1,4 @@
-import { AssertValidation, IsEqual, Not } from "inferred-types/types";
+import type { AssertValidation, IsEqual, Not } from "inferred-types/types";
 
 /**
  * **AssertNotEqual**`<TTest, TExpected>`
@@ -11,4 +11,3 @@ export type AssertNotEqual<
 > = AssertValidation<TTest, "equals", TExpected> extends Error
     ? AssertValidation<TTest, "equals", TExpected>
     : Not<IsEqual<TTest, TExpected>>;
-

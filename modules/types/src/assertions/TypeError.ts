@@ -1,3 +1,9 @@
+import type { AssertionOp } from "types/assertions/AssertionOp";
+import type { WithoutKeys } from "types/dictionary";
+
+type Invalid = `invalid-test/${"any-type" | "never-type"}`;
+type Failed = `failed/${AssertionOp}`;
+
 /**
  * **TypeError**
  *
@@ -5,13 +11,15 @@
  *
  * **Related:** `AssertEquals`, `AssertExtends`, `AssertTrue`, `AssertFalse`
  */
-export type TypeError<
-    TType extends string,
+export type AssertionError<
+    TType extends Invalid | Failed,
     TMsg extends string,
     TContext extends { test: unknown; expected: unknown; [key: string]: unknown }
 > = {
+    kind: "AssertionError";
     classification: TType;
     message: TMsg;
     testType: TContext["test"];
     expectedType: TContext["expected"];
+    ctx: WithoutKeys<TContext, "test" | "expected">;
 };

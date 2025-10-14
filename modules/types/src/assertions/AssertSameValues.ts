@@ -1,5 +1,4 @@
-import { AssertValidation, Container, HasSameValues } from "inferred-types/types";
-
+import type { AssertValidation, Container, HasSameValues } from "inferred-types/types";
 
 /**
  * **AssertSameValues**`<TTest>`
