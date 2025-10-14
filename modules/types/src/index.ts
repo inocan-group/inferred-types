@@ -1,4 +1,5 @@
 export * from "./api/index";
+export * from "./assertions/index";
 export * from "./base-types/index";
 export * from "./boolean-logic/index";
 export * from "./brands/index";

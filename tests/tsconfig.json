@@ -57,7 +57,11 @@
         }
     },
     "include": [
-        "."
+        ".",
+        "../modules/types/src",
+        "../modules/runtime/src",
+        "../modules/constants/src",
+        "../modules/inferred-types/src"
     ],
     "exclude": [
         "dist",

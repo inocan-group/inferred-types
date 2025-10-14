@@ -4,6 +4,7 @@ import type {
     Container,
     ContainsAll,
     DoesNotExtend,
+    TypeError,
     Err,
     Extends,
     HasSameKeys,
@@ -14,21 +15,11 @@ import type {
     IsString,
     Join,
     Keys,
-    Not
 } from "inferred-types/types";
 
-export type AssertionType = "equals" | "extends" | "hasSameKeys" | "hasSameValues" | "isError" | "containsAll" | "doesNotExtend";
 
-export type TypeError<
-    TType extends string,
-    TMsg extends string,
-    TContext extends { test: unknown; expected: unknown }
-> = {
-    classification: TType;
-    message: TMsg;
-    testType: TContext["test"];
-    expectedType: TContext["expected"];
-};
+
+
 
 /** ensure the expected type for error checking is valid */
 type IsValidExpectedError<T> = T extends Error | null | true | undefined | string
@@ -95,19 +86,7 @@ type ValidateErrorType<
         { test: TTest; expected: TExpected }
     >;
 
-/**
- * **Expect**`<T>`
- *
- * A type testing assertion which is expected to evaluate to `true`.
- *
- * - often used with the `Test` type utility (also from **inferred-types**
- * library)
- * - use with `Test` is preferred as it eliminates silent errors such when
- * tests evaluate to `never` or `any` and provides a meaningful error report
- * - but any assertion which is expected to result in `true` is a valid test
- * here
- */
-export type Expect<T extends true> = T;
+
 
 type Assert<
     TTest,
@@ -286,90 +265,3 @@ export type Test<
                 >
                 : Assert<TTest, TOp, TExpected>;
 
-type Validate<
-    TTest,
-    TOp extends AssertionType,
-    TExpected
-> = [IsAny<TTest>] extends [true]
-    ? TypeError<
-        `invalid-test/any-type`,
-        `A type test passed in "any" as the test value! This is not allowed.`,
-        { test: TTest; expected: TExpected; assertion: TOp }
-    >
-    : [IsAny<TExpected>] extends [true]
-        ? TypeError<
-            `invalid-test/any-type`,
-            `A type test passed in "any" as the expected type! This is not allowed.`,
-            { test: TTest; expected: TExpected; assertion: TOp }
-        >
-        : [IsAny<Assert<TTest, TOp, TExpected>>] extends [true]
-            ? TypeError<
-                `invalid-test/any`,
-                `The test evaluated to ANY! This indicates a problem in the test assertion!`,
-                { test: TTest; expected: TExpected; assertion: TOp }
-            >
-            : [IsNever<Assert<TTest, TOp, TExpected>>] extends [true]
-                ? TypeError<
-                    `invalid-test/never`,
-                    `The test evaluated to NEVER! This indicates a problem in the test assertion!`,
-                    { test: TTest; expected: TExpected; assertion: TOp }
-                >
-                : undefined;
-
-/**
- * **AssertEqual**`<TTest, TExpected>`
- *
- * Type test assertion that `TTest` _equals_ `TExpected`.
- */
-export type AssertEqual<
-    TTest,
-    TExpected
-> = Validate<TTest, "equals", TExpected> extends Error
-    ? Validate<TTest, "equals", TExpected>
-    : IsEqual<TTest, TExpected>;
-
-/**
- * **AssertNotEqual**`<TTest, TExpected>`
- *
- * Type test assertion that `TTest` _does not equal_ `TExpected`.
- */
-export type AssertNotEqual<
-    TTest,
-    TExpected
-> = Validate<TTest, "equals", TExpected> extends Error
-    ? Validate<TTest, "equals", TExpected>
-    : Not<IsEqual<TTest, TExpected>>;
-
-/**
- * **AssertTrue**`<TTest>`
- *
- * Type test assertion that `TTest` is `true`.
- */
-export type AssertTrue<
-    TTest
-> = Validate<TTest, "equals", true> extends Error
-    ? Validate<TTest, "equals", true>
-    : IsEqual<TTest, true>;
-
-/**
- * **AssertFalse**`<TTest>`
- *
- * Type test assertion that `TTest` is `false`.
- */
-export type AssertFalse<
-    TTest
-> = Validate<TTest, "equals", false> extends Error
-    ? Validate<TTest, "equals", false>
-    : IsEqual<TTest, false>;
-
-/**
- * **AssertSameValues**`<TTest>`
- *
- * Type test assertion that `TTest` is `false`.
- */
-export type AssertSameValues<
-    TTest extends Container,
-    TExpected extends Container
-> = Validate<TTest, "hasSameValues", TExpected> extends Error
-    ? Validate<TTest, "hasSameValues", TExpected>
-    : HasSameValues<TTest, TExpected>;

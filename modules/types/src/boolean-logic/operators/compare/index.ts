@@ -6,7 +6,6 @@ export * from "./AreSameType";
 export * from "./DoesExtend";
 export * from "./DoesNotExtend";
 export * from "./EveryLength";
-export * from "./Expect";
 export * from "./Extends";
 export * from "./ExtendsAll";
 export * from "./ExtendsEvery";

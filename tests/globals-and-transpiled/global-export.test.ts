@@ -5,7 +5,7 @@ import type {
 } from "inferred-types/types";
 
 import type {
-    MergeObjects,
+    MergeObjects
 } from "inferred-types/inferred-types";
 
 
