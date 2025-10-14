@@ -2,6 +2,7 @@ import type {
     And,
     As,
     AssertionError,
+    AssertionOp,
     Container,
     ContainsAll,
     DoesNotExtend,
@@ -77,14 +78,14 @@ type ValidateErrorType<
                 { test: TTest; expected: TExpected }
             >
     : AssertionError<
-        `invalid-test/isError`,
+        `failed/isError`,
         `The test appears to be an attempt to test if a type is particular type/subtype of an Error but must be a valid string literal and wasn't!`,
         { test: TTest; expected: TExpected }
     >;
 
 type Assert<
     TTest,
-    TOp extends AssertionType,
+    TOp extends AssertionOp,
     TExpected
 > = TOp extends "equals"
     ? [IsEqual<TTest, TExpected>] extends [true]
@@ -116,17 +117,17 @@ type Assert<
                         ? HasSameKeys<TTest, TExpected> extends true
                             ? true
                             : AssertionError<
-                                `failed/has-same-keys`,
+                                `failed/hasSameKeys`,
                 `The test type had the keys of [ ${Join<Keys<TTest>, ", ">} ] which did not match the expected keys of [ ${Join<Keys<TExpected>, ", ">} ]`,
                 { test: TTest; expected: TExpected }
                             >
                         : AssertionError<
-                            `invalid-test/non-container`,
+                            `failed/hasSameKeys`,
                             `While using the test assertion of 'hasSameKeys' the expected value was NOT a container type!`,
                             { test: TTest; expected: TExpected }
                         >
                     : AssertionError<
-                        `failed/has-same-keys`,
+                        `failed/hasSameKeys`,
                         `While using the test assertion of 'hasSameKeys' the test type was found NOT to be a container which by extension makes this test fail!`,
                         { test: TTest; expected: TExpected }
                     >
@@ -136,17 +137,17 @@ type Assert<
                             ? HasSameValues<TTest, TExpected> extends true
                                 ? true
                                 : AssertionError<
-                                    `failed/has-same-values`,
+                                    `failed/hasSameValues`,
                                     `The 'has-same-values' test assertion failed because the tuple elements had different types!`,
                                     { test: TTest; expected: TExpected }
                                 >
                             : AssertionError<
-                                `invalid-test/has-same-values`,
+                                `failed/hasSameValues`,
                                 `The expected type for this test was NOT a 'Container' type and it must be when using the 'has-same-values' test assertion!`,
                                 { test: TTest; expected: TExpected }
                             >
                         : AssertionError<
-                            `failed/has-same-values`,
+                            `failed/hasSameValues`,
                             `The 'has-same-values' test assertion failed because the test value was NOT a tuple type!`,
                             { test: TTest; expected: TExpected }
                         >
@@ -185,7 +186,7 @@ type Assert<
                                                 { test: TTest; expected: TExpected }
                                             >
                             : AssertionError<
-                                `invalid-test/isError`,
+                                `failed/isError`,
                                 `The expected error type is not a valid type! Using a string value is allowed to indicate the error's "type", Using 'null', 'undefined', or 'true' are also valid to allow matching on any error type, and of course any type which extends Error is also valid!`,
                                 { test: TTest; expected: TExpected }
                             >
@@ -206,7 +207,7 @@ type Assert<
                                         { test: TTest; expected: TExpected }
                                     >
                                 : AssertionError<
-                                    `invalid-test/containsAll`,
+                                    `failed/containsAll`,
                                     `The expected type for a 'containsAll' assertion must be a tuple of strings!`,
                                     { test: TTest; expected: TExpected }
                                 >
@@ -231,7 +232,7 @@ type Assert<
  */
 export type Test<
     TTest,
-    TOp extends AssertionType,
+    TOp extends AssertionOp,
     TExpected
 > = [IsAny<TTest>] extends [true]
     ? AssertionError<
@@ -247,13 +248,13 @@ export type Test<
         >
         : [IsAny<Assert<TTest, TOp, TExpected>>] extends [true]
             ? AssertionError<
-                `invalid-test/any`,
+                `invalid-test/any-type`,
                 `The test evaluated to ANY! This indicates a problem in the test assertion!`,
                 { test: TTest; expected: TExpected; assertion: TOp }
             >
             : [IsNever<Assert<TTest, TOp, TExpected>>] extends [true]
                 ? AssertionError<
-                    `invalid-test/never`,
+                    `invalid-test/never-type`,
                     `The test evaluated to NEVER! This indicates a problem in the test assertion!`,
                     { test: TTest; expected: TExpected; assertion: TOp }
                 >

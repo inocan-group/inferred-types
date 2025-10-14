@@ -1,4 +1,4 @@
-import type { AssertValidation, IsEqual } from "inferred-types/types";
+import type { AssertionError, AssertValidation, IsEqual } from "inferred-types/types";
 
 /**
  * **AssertEqual**`<TTest, TExpected>`
@@ -8,7 +8,7 @@ import type { AssertValidation, IsEqual } from "inferred-types/types";
 export type AssertEqual<
     TTest,
     TExpected
-> = AssertValidation<TTest, "equals", TExpected> extends Error
+> = AssertValidation<TTest, "equals", TExpected> extends AssertionError
     ? AssertValidation<TTest, "equals", TExpected>
     : IsEqual<TTest, TExpected>;
 

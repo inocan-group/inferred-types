@@ -12,9 +12,9 @@ type Failed = `failed/${AssertionOp}`;
  * **Related:** `AssertEquals`, `AssertExtends`, `AssertTrue`, `AssertFalse`
  */
 export type AssertionError<
-    TType extends Invalid | Failed,
-    TMsg extends string,
-    TContext extends { test: unknown; expected: unknown; [key: string]: unknown }
+    TType extends Invalid | Failed = Invalid | Failed,
+    TMsg extends string = string,
+    TContext extends { test: unknown; expected: unknown; [key: string]: unknown } = { test: unknown; expected: unknown; [key: string]: unknown }
 > = {
     kind: "AssertionError";
     classification: TType;
