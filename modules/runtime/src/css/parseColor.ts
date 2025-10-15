@@ -5,6 +5,7 @@ import type {
     CssNamedColorLookup,
     Err,
     NumberLike,
+    RGB,
     RgbColor,
     Split,
     StripLeading,
@@ -12,8 +13,8 @@ import type {
     TrimEach,
     Whitespace
 } from "inferred-types/types";
-import type { RGB } from "runtime/dictionary";
-import { CSS_COLOR_LOOKUP } from "constants/colors";
+
+import { CSS_COLOR_LOOKUP } from "inferred-types/constants";
 import { err } from "runtime/errors";
 import { asNumber } from "runtime/numeric";
 import { stripLeading, stripTrailing } from "runtime/string-literals";

@@ -1,5 +1,3 @@
-import type { CssRgb } from "../../types/src/string-literals/character-sets/css/color";
-
 export const CSS_NAMED_COLORS = [
     "aliceblue",
     "antiquewhite",
@@ -300,4 +298,4 @@ export const CSS_COLOR_LOOKUP = {
     whitesmoke: "rgb(245,245,245)",
     yellow: "rgb(255,255,0)",
     yellowgreen: "rgb(154,205,50)"
-} as const satisfies Record<typeof CSS_NAMED_COLORS[number], CssRgb>;
+} as const satisfies Record<typeof CSS_NAMED_COLORS[number], `rgb(${string})`>;
