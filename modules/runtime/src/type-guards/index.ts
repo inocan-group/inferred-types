@@ -1,6 +1,7 @@
 export * from "./api-tg";
 export * from "./arrays/index";
 export * from "./comparison/index";
+export * from "./css/index";
 export * from "./datetime/index";
 export * from "./dictionary/index";
 export * from "./finance/index";
@@ -53,8 +54,8 @@ export * from "./isRegExp";
 export * from "./isScalar";
 export * from "./isSet";
 export * from "./isSetContainer";
-export * from "./isSpecificConstant";
 
+export * from "./isSpecificConstant";
 export * from "./isString";
 export * from "./isSymbol";
 export * from "./isThenable";
@@ -76,4 +77,3 @@ export * from "./protocol";
 export * from "./tokens/index";
 export * from "./tw/index";
 export * from "./urls/index";
-export * from "./css/index";

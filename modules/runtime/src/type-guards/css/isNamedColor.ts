@@ -1,7 +1,6 @@
-import { isString } from "runtime/type-guards";
-import { CssNamedColor } from "inferred-types/types";
+import type { CssNamedColor } from "inferred-types/types";
 import { CSS_NAMED_COLORS } from "constants/colors";
-
+import { isString } from "runtime/type-guards";
 
 /**
  * **isNamedColor**`(val) -> is CssNamedColor`

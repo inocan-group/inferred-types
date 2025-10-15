@@ -1,4 +1,3 @@
-
 /**
  * **RGB**
  *
@@ -11,7 +10,7 @@ export type RGB = {
     g: number;
     /** blue */
     b: number;
-}
+};
 
 export type RGBA = {
     /** red  */
@@ -22,4 +21,4 @@ export type RGBA = {
     b: number;
     /** alpha value; should have value between 0 and 1 */
     a: number;
-}
+};

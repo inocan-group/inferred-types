@@ -1,4 +1,4 @@
-import { RgbColor } from "inferred-types/types";
+import type { RgbColor } from "inferred-types/types";
 import { isString } from "runtime/type-guards";
 
 /**

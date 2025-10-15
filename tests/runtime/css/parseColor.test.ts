@@ -1,5 +1,5 @@
 import { parseColor, parseRgbColor, parseNamedColor } from "inferred-types/runtime";
-import { Expect } from "inferred-types/types";
+import { AssertError, Expect } from "inferred-types/types";
 import { AssertEqual } from "transpiled";
 import { describe, expect, it } from "vitest";
 
@@ -17,6 +17,13 @@ describe("parseRgbColor(color)", () => {
 
         const red = parseRgbColor("rgb(255,0,0)");
         expect(red).toEqual({ r: 255, g: 0, b: 0 });
+
+        type cases = [
+            Expect<AssertEqual<typeof black, { r: 0; g: 0; b: 0 }>>,
+            Expect<AssertEqual<typeof white, { r: 255; g: 255; b: 255 }>>,
+            Expect<AssertEqual<typeof custom, { r: 127; g: 128; b: 129 }>>,
+            Expect<AssertEqual<typeof red, { r: 255; g: 0; b: 0 }>>,
+        ]
     });
 
     it("handles RGB strings with spaces", () => {
@@ -25,46 +32,51 @@ describe("parseRgbColor(color)", () => {
 
         const moreSpaces = parseRgbColor("rgb(  10  ,  20  ,  30  )");
         expect(moreSpaces).toEqual({ r: 10, g: 20, b: 30 });
+
+        type cases = [
+            Expect<AssertEqual<typeof withSpaces, { r: 127; g: 128; b: 129 }>>,
+            Expect<AssertEqual<typeof moreSpaces, { r: 10; g: 20; b: 30 }>>,
+        ]
     });
 
     it("returns error for invalid RGB format", () => {
-        const notRgb = parseRgbColor("not-an-rgb-color" as any);
+        const notRgb = parseRgbColor("not-an-rgb-color");
         expect(notRgb).toBeInstanceOf(Error);
         if (notRgb instanceof Error) {
-            expect((notRgb as any).type).toBe("invalid-color");
+            expect(notRgb.type).toBe("invalid-color");
             expect((notRgb as any).subType).toBe("rgb");
         }
     });
 
     it("returns error for RGB with non-numeric values", () => {
-        const invalid = parseRgbColor("rgb(abc,def,ghi)" as any);
+        const invalid = parseRgbColor("rgb(abc,def,ghi)");
         expect(invalid).toBeInstanceOf(Error);
         if (invalid instanceof Error) {
-            expect((invalid as any).type).toBe("invalid-color");
+            expect(invalid.type).toBe("invalid-color");
             expect((invalid as any).subType).toBe("rgb");
             expect(invalid.message).toContain("unable to be parsed");
         }
     });
 
     it("returns error for RGB with incomplete values", () => {
-        const incomplete = parseRgbColor("rgb(127,128)" as any);
+        const incomplete = parseRgbColor("rgb(127,128)");
         expect(incomplete).toBeInstanceOf(Error);
     });
 
     it("returns correct types at runtime", () => {
         const successResult = parseRgbColor("rgb(127,0,0)");
-        const errorResult = parseRgbColor("invalid" as any);
+        const errorResult = parseRgbColor("invalid");
 
-        // Success case should return RGB object
+        // Success case should return RGB object with exact values
         if (!(errorResult instanceof Error)) {
             throw new Error("Expected error for invalid input");
         }
 
         // Error case should return Error
         if (errorResult instanceof Error) {
-            expect((successResult as any).r).toBeDefined();
-            expect((successResult as any).g).toBeDefined();
-            expect((successResult as any).b).toBeDefined();
+            expect(successResult.r).toBe(127);
+            expect(successResult.g).toBe(0);
+            expect(successResult.b).toBe(0);
         }
     });
 
@@ -104,35 +116,50 @@ describe("parseNamedColor(color)", () => {
 
         const rebeccapurple = parseNamedColor("rebeccapurple");
         expect(rebeccapurple).toEqual({ r: 102, g: 51, b: 153 });
+
+        type cases = [
+            Expect<AssertEqual<typeof aliceblue, { r: 240; g: 248; b: 255 }>>,
+            Expect<AssertEqual<typeof cornflowerblue, { r: 100; g: 149; b: 237 }>>,
+            Expect<AssertEqual<typeof rebeccapurple, { r: 102; g: 51; b: 153 }>>,
+        ]
     });
 
     it("returns error for invalid named colors", () => {
-        const invalid = parseNamedColor("notacolor" as any);
+        const invalid = parseNamedColor("notacolor");
         expect(invalid).toBeInstanceOf(Error);
+
         if (invalid instanceof Error) {
-            expect((invalid as any).type).toBe("invalid-color");
+            expect(invalid.type).toBe("invalid-color");
             expect((invalid as any).subType).toBe("named");
             expect(invalid.message).toContain("not a valid \"named color\"");
         }
+
+        type cases = [
+            Expect<AssertError<typeof invalid, "invalid-color">>
+        ]
     });
 
     it("returns error for uppercase named colors", () => {
-        const uppercase = parseNamedColor("Red" as any);
+        const uppercase = parseNamedColor("Red");
         expect(uppercase).toBeInstanceOf(Error);
         if (uppercase instanceof Error) {
-            expect((uppercase as any).type).toBe("invalid-color");
+            expect(uppercase.type).toBe("invalid-color");
             expect((uppercase as any).subType).toBe("named");
         }
+
+        type cases = [
+            Expect<AssertError<typeof uppercase, "invalid-color">>
+        ]
     });
 
     it("returns correct types at runtime", () => {
         const successResult = parseNamedColor("red");
-        const errorResult = parseNamedColor("invalid" as any);
+        const errorResult = parseNamedColor("invalid");
 
-        // Success case should return RGB object
-        expect((successResult as any).r).toBeDefined();
-        expect((successResult as any).g).toBeDefined();
-        expect((successResult as any).b).toBeDefined();
+        // Success case should return RGB object with exact values
+        expect(successResult.r).toBe(255);
+        expect(successResult.g).toBe(0);
+        expect(successResult.b).toBe(0);
 
         // Error case should return Error
         expect(errorResult).toBeInstanceOf(Error);
@@ -148,6 +175,11 @@ describe("parseColor(color)", () => {
 
         const blue = parseColor("rgb(0,0,255)");
         expect(blue).toEqual({ r: 0, g: 0, b: 255 });
+
+        type cases = [
+            Expect<AssertEqual<typeof red, { r: 255; g: 0; b: 0 }>>,
+            Expect<AssertEqual<typeof blue, { r: 0; g: 0; b: 255 }>>,
+        ]
     });
 
     it("parses named color strings", () => {
@@ -159,45 +191,51 @@ describe("parseColor(color)", () => {
 
         const aliceblue = parseColor("aliceblue");
         expect(aliceblue).toEqual({ r: 240, g: 248, b: 255 });
+
+        type cases = [
+            Expect<AssertEqual<typeof red, { r: 255; g: 0; b: 0 }>>,
+            Expect<AssertEqual<typeof blue, { r: 0; g: 0; b: 255 }>>,
+            Expect<AssertEqual<typeof aliceblue, { r: 240; g: 248; b: 255 }>>,
+        ]
     });
 
     it("returns error for invalid color formats", () => {
-        const hex = parseColor("#ff0000" as any);
+        const hex = parseColor("#ff0000");
         expect(hex).toBeInstanceOf(Error);
         if (hex instanceof Error) {
-            expect((hex as any).type).toBe("invalid-color");
+            expect(hex.type).toBe("invalid-color");
             expect(hex.message).toContain("could not be parsed");
         }
 
-        const invalid = parseColor("notacolor" as any);
+        const invalid = parseColor("notacolor");
         expect(invalid).toBeInstanceOf(Error);
         if (invalid instanceof Error) {
-            expect((invalid as any).type).toBe("invalid-color");
+            expect(invalid.type).toBe("invalid-color");
         }
     });
 
     it("handles edge cases", () => {
-        const empty = parseColor("" as any);
+        const empty = parseColor("");
         expect(empty).toBeInstanceOf(Error);
 
-        const rgba = parseColor("rgba(255,0,0,1)" as any);
+        const rgba = parseColor("rgba(255,0,0,1)");
         expect(rgba).toBeInstanceOf(Error);
     });
 
     it("returns correct types at runtime", () => {
         const rgbResult = parseColor("rgb(127,0,0)");
         const namedResult = parseColor("red");
-        const errorResult = parseColor("invalid" as any);
+        const errorResult = parseColor("invalid");
 
-        // RGB success case should return RGB object
-        expect((rgbResult as any).r).toBeDefined();
-        expect((rgbResult as any).g).toBeDefined();
-        expect((rgbResult as any).b).toBeDefined();
+        // RGB success case should return RGB object with exact values
+        expect(rgbResult.r).toBe(127);
+        expect(rgbResult.g).toBe(0);
+        expect(rgbResult.b).toBe(0);
 
-        // Named color success case should return RGB object
-        expect((namedResult as any).r).toBeDefined();
-        expect((namedResult as any).g).toBeDefined();
-        expect((namedResult as any).b).toBeDefined();
+        // Named color success case should return RGB object with exact values
+        expect(namedResult.r).toBe(255);
+        expect(namedResult.g).toBe(0);
+        expect(namedResult.b).toBe(0);
 
         // Error case should return Error
         expect(errorResult).toBeInstanceOf(Error);

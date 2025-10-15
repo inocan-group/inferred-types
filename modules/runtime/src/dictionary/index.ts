@@ -6,6 +6,7 @@ export * from "./objectValues";
 export * from "./omitKeys";
 export * from "./retainKeys";
 export * from "./reverseLookup";
+export * from "./RGB";
 export * from "./sharedKeys";
 export * from "./usingLookup";
 export * from "./valuesOf";
@@ -14,4 +15,3 @@ export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./withoutValue";
 export * from "./withValue";
-export * from "./RGB"
