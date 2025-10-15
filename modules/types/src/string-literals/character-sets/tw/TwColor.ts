@@ -145,7 +145,7 @@ type _TwModifiers<
 /**
  * **TwModifiers**
  *
- * Given a string, this type utility will find `TwMondifer` substrings at the
+ * Given a string, this type utility will find `TwModifier` substrings at the
  * the start of the string and return them as a string with the remaining string
  * removed.
  */

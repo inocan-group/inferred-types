@@ -14,3 +14,4 @@ export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./withoutValue";
 export * from "./withValue";
+export * from "./RGB"

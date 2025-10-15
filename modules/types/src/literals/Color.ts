@@ -1,6 +1,6 @@
 // https://www.w3schools.com/colors/colors_groups.asp
 
-import type { HexadecimalChar } from "inferred-types/types";
+import type { CssRgb, HexadecimalChar } from "inferred-types/types";
 
 export type NamedColor_Pink = "Pink" | "LightPink" | "HotPink" | "DeepPink" | "PaleVioletRed" | "MediumVioletRed";
 export type NamedColor_Purple = "Lavender" | "Thistle" | "Plum" | "Orchid" | "Violet" | "Fuchsia" | "Magenta" | "MediumOrchid" | "DarkOrchid" | "DarkViolet" | "BlueViolet" | "DarkMagenta" | "Purple" | "MediumPurple" | "MediumSlateBlue" | "SlateBlue" | "DarkSlateBlue" | "RebeccaPurple" | "Indigo";
@@ -40,7 +40,7 @@ export type HexColor = `#${HexadecimalChar}${HexadecimalChar}${string}`;
  *
  * Type to enforce an `rgb()` color definition
  */
-export type RgbColor = `rgb(${string},${string},${string})`;
+export type RgbColor = CssRgb;
 
 /**
  * **RgbaColor**

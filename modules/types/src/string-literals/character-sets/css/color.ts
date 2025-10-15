@@ -1,7 +1,13 @@
-import type { CSS_NAMED_COLORS } from "inferred-types/constants";
+import type { CSS_COLOR_LOOKUP, CSS_NAMED_COLORS } from "inferred-types/constants";
 import type { HexadecimalChar, OptionalSpace, TwColorWithLuminosity } from "inferred-types/types";
 
-export type CssNamedColors = typeof CSS_NAMED_COLORS[number];
+export type CssNamedColor = typeof CSS_NAMED_COLORS[number];
+
+/**
+ * Type lookup table with _keys_ of CSS Named Colors and _values_
+ * being the string `RgbColor` definition.
+ */
+export type CssNamedColorLookup = typeof CSS_COLOR_LOOKUP;
 
 export type CssColorModel
     = | "rgb"
@@ -34,9 +40,14 @@ export type CssColorSpacePrimary
     | "lch"
     | "oklch";
 
+/**
+ * **CssRgb**
+ *
+ * CSS RGB colors (e.g., `rgb(123,86,255)`)
+ */
 export type CssRgb
-    = | `rgb(${number} ${number} ${number})`
-    | `rgb(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
+    = | `rgb(${OptionalSpace}${number} ${number} ${number}${OptionalSpace})`
+    | `rgb(${OptionalSpace}${number},${OptionalSpace}${number},${OptionalSpace}${number}${OptionalSpace})`;
 
 export type CssRgba
     = | `rgba(${number} ${number} ${number} ${number})`
@@ -82,7 +93,7 @@ export type ColorFnOptOpacity = "" | ` / ${number}`;
  * Intended to represent _any_ CSS color value.
  */
 export type CssColor
-    = | CssNamedColors
+    = | CssNamedColor
     | CssHexColor
     | CssRgb
     | CssRgba
@@ -93,7 +104,7 @@ export type CssColor
     | `color(${string})`;
 
 export type CssColorLight
-    = | CssNamedColors
+    = | CssNamedColor
     | `#${number}`
     | "currentcolor"
     | `${"rgb" | "rgba" | "hsb" | "hsl"}(${string})`
@@ -128,4 +139,4 @@ export type CssColorMixLight = `color-mix(in ${CssColorSpacePrimary}, ${string})
  * - any Tailwind Color/Luminosity pairing
  * - a `color-mix(...)` color
  */
-export type ColorParam = CssNamedColors | CssHexColor | TwColorWithLuminosity | CssColorMixLight;
+export type ColorParam = CssNamedColor | CssHexColor | TwColorWithLuminosity | CssColorMixLight;
