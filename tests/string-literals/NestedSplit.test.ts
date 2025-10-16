@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { UPPER_ALPHA_CHARS } from "inferred-types/constants";
-import type { AssertEqual, DefaultNesting, NestedSplit, Test } from "inferred-types/types";
+import type { AssertEqual, AssertError, DefaultNesting, NestedSplit, Test } from "inferred-types/types";
 
 import { narrow, nestedSplit, nesting } from "inferred-types/runtime";
 import { describe, it, expect } from "vitest";
@@ -156,6 +156,87 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         type cases = [
             Expect<Test<N, "equals", ["foo: 1", ""]>>,
             Expect<Test<N2, "equals", ["foo: 1"]>>,
+        ];
+    });
+
+    it("shallow-quotes avoids splitting on delimiter inside quote", () => {
+        type Text = `1234, 4567, "Bob, the quintessential idiot, did not care"`;
+        type T1 = NestedSplit<Text, ", ", "shallow-quotes">;
+
+        type cases = [
+            Expect<Test<
+                T1, "equals",
+                ["1234", "4567", `"Bob, the quintessential idiot, did not care"`]
+            >>
+        ];
+    });
+
+    it("quotes also avoids splitting on delimiter (as splitting is only done on root level)", () => {
+        type Text = `1234, 4567, "Bob, the quintessential idiot, did not care"`;
+        type T1 = NestedSplit<Text, ", ", "quotes">;
+
+        type cases = [
+            Expect<Test<
+                T1, "equals",
+                ["1234", "4567", `"Bob, the quintessential idiot, did not care"`]
+            >>
+        ];
+    });
+
+    it("shallow-quotes avoids splitting on delimiter inside quote AND avoids unbalanced quotes in level 1 when single quote is encountered", () => {
+        type Text = `1234, 4567, "Bob, the quintessential idiot, didn't care"`;
+        type T1 = NestedSplit<Text, ", ", "shallow-quotes">;
+
+        type cases = [
+            Expect<Test<
+                T1, "equals",
+                ["1234", "4567", `"Bob, the quintessential idiot, didn't care"`]
+            >>
+        ];
+    });
+
+    it("quotes produces an unbalanced error when it finds the single quote inside the double quotes because it is still using quote marks as entry/exit tokens", () => {
+        type Text = `1234, 4567, "Bob, the quintessential idiot, didn't care"`;
+        type T1 = NestedSplit<Text, ", ", "quotes">;
+
+        type cases = [
+            Expect<AssertError<T1, "unbalanced">>
+        ];
+    });
+
+    it("shallow-brackets treats content inside brackets as literal", () => {
+        type Text = `foo, bar(a, b, c), baz`;
+        type T1 = NestedSplit<Text, ", ", "shallow-brackets">;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["foo", "bar(a, b, c)", "baz"]>>
+        ];
+    });
+
+    it("shallow-brackets-and-quotes combined", () => {
+        type Text = `x, y(a, b), z, "test, value"`;
+        type T1 = NestedSplit<Text, ", ", "shallow-brackets-and-quotes">;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["x", "y(a, b)", "z", `"test, value"`]>>
+        ];
+    });
+
+    it("hierarchical config with explicit shallow behavior", () => {
+        type Text = `data: {a, b, c}, result`;
+        type T1 = NestedSplit<Text, ", ", { "{": ["}", {}] }>;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["data: {a, b, c}", "result"]>>
+        ];
+    });
+
+    it("hierarchical config with nested levels having different tokens", () => {
+        type Text = `outer, {inner, [nested, items]}, final`;
+        type T1 = NestedSplit<Text, ", ", { "{": ["}", { "[": "]" }] }>;
+
+        type cases = [
+            Expect<Test<T1, "equals", ["outer", "{inner, [nested, items]}", "final"]>>
         ];
     });
 
@@ -338,24 +419,130 @@ describe("nestedSplit()", () => {
     });
 
 
-    it("quotes based bracketing", () => {
-        const text = `1234, 4567, "Bob, the quintessential idiot, did not care"`;
-        const altText = `1234, 4567, "Bob, the quintessential idiot, didn't care"`;
+    it("shallow-quotes: treats content inside quotes as literal", () => {
+        const text = `1234, 4567, "Bob, the quintessential idiot, did not care"` as const;
 
-        const t1 = nestedSplit(text, ", ", "quotes");
-        const t2 = nestedSplit(altText, ", ", "quotes");
+        // Using shallow-quotes: quotes recognized at level 0, but inside quotes no nesting
+        const t1 = nestedSplit(text, ", ", "shallow-quotes");
 
-        const expected = <T extends string>(variant: T) => `"Bob, the quintessential idiot, ${variant} care"` as `"Bob, the quintessential idiot, ${T} care"`
-
-        const e1 = narrow(["1234", "4567", expected("did not")]);
-        const e2 = narrow(["1234", "4567", expected("didn't")]);
-
-        expect(t1).toEqual(e1);
-        expect(t2).toEqual(e2);
+        expect(t1).toEqual(["1234", "4567", `"Bob, the quintessential idiot, did not care"`]);
 
         type cases = [
-            Expect<AssertEqual<typeof t1, typeof e1>>,
-            Expect<AssertEqual<typeof t2, typeof e2>>,
+            Expect<Test<typeof t1, "equals", ["1234", "4567", `"Bob, the quintessential idiot, did not care"`]>>
+        ];
+    });
+
+    it("shallow-brackets: treats content inside brackets as literal", () => {
+        const text = `foo, bar(a, b, c), baz` as const;
+
+        // Using shallow-brackets: brackets recognized at level 0, but inside brackets no nesting
+        const t1 = nestedSplit(text, ", ", "shallow-brackets");
+
+        expect(t1).toEqual(["foo", "bar(a, b, c)", "baz"]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", ["foo", "bar(a, b, c)", "baz"]>>
+        ];
+    });
+
+    it("shallow-brackets-and-quotes: combined shallow nesting", () => {
+        const text = `x, y(a, b), z, "test, value"` as const;
+
+        // Both brackets and quotes at level 0 only, no nesting inside
+        const t1 = nestedSplit(text, ", ", "shallow-brackets-and-quotes");
+
+        expect(t1).toEqual(["x", "y(a, b)", "z", `"test, value"`]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", ["x", "y(a, b)", "z", `"test, value"`]>>
+        ];
+    });
+
+    it("hierarchical config: explicit shallow behavior", () => {
+        // Explicitly show hierarchical config where level 1 has empty config
+        const text = `data: {a, b, c}, result` as const;
+
+        const t1 = nestedSplit(text, ", ", { "{": ["}", {}] });
+
+        expect(t1).toEqual(["data: {a, b, c}", "result"]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", ["data: {a, b, c}", "result"]>>
+        ];
+    });
+
+    it("hierarchical config: nested levels with different tokens", () => {
+        // Level 0: recognize {}, inside {} recognize []
+        const text = `outer, {inner, [nested, items]}, final` as const;
+
+        const t1 = nestedSplit(text, ", ", {
+            "{": ["}", { "[": "]" }]
+        });
+
+        // At level 0: split on ", "
+        // Inside {}: recognize [] and split on ", "
+        // Inside []: split on ", "
+        expect(t1).toEqual(["outer", "{inner, [nested, items]}", "final"]);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", ["outer", "{inner, [nested, items]}", "final"]>>
+        ];
+    });
+
+    it("default behavior: no config, 'brackets', and 'default' behave identically (type level)", () => {
+        // Test content with nested brackets
+        type Text = `func<param>, result<value>`;
+
+        // No config specified (uses default)
+        type NoConfig = NestedSplit<Text, ", ">;
+
+        // Explicit "brackets"
+        type WithBrackets = NestedSplit<Text, ", ", "brackets">;
+
+        // Explicit "default"
+        type WithDefault = NestedSplit<Text, ", ", "default">;
+
+        type cases = [
+            // All three should produce the same result
+            Expect<Test<NoConfig, "equals", ["func<param>", "result<value>"]>>,
+            Expect<Test<WithBrackets, "equals", ["func<param>", "result<value>"]>>,
+            Expect<Test<WithDefault, "equals", ["func<param>", "result<value>"]>>,
+            // Verify they're all actually equal to each other
+            Expect<Test<NoConfig, "equals", WithBrackets>>,
+            Expect<Test<NoConfig, "equals", WithDefault>>,
+            Expect<Test<WithBrackets, "equals", WithDefault>>
+        ];
+    });
+
+    it("default behavior: no config, 'brackets', and 'default' behave identically (runtime)", () => {
+        const text = `data(nested, values), result{key, value}`;
+
+        // No config specified (uses default)
+        const noConfig = nestedSplit(text, ", ");
+
+        // Explicit "brackets"
+        const withBrackets = nestedSplit(text, ", ", "brackets");
+
+        // Explicit "default"
+        const withDefault = nestedSplit(text, ", ", "default");
+
+        // All three should produce identical results
+        expect(noConfig).toEqual(["data(nested, values)", "result{key, value}"]);
+        expect(withBrackets).toEqual(["data(nested, values)", "result{key, value}"]);
+        expect(withDefault).toEqual(["data(nested, values)", "result{key, value}"]);
+
+        // Verify they're actually equal
+        expect(noConfig).toEqual(withBrackets);
+        expect(noConfig).toEqual(withDefault);
+        expect(withBrackets).toEqual(withDefault);
+
+        type cases = [
+            Expect<Test<typeof noConfig, "equals", ["data(nested, values)", "result{key, value}"]>>,
+            Expect<Test<typeof withBrackets, "equals", ["data(nested, values)", "result{key, value}"]>>,
+            Expect<Test<typeof withDefault, "equals", ["data(nested, values)", "result{key, value}"]>>,
+            // Type-level equality checks
+            Expect<Test<typeof noConfig, "equals", typeof withBrackets>>,
+            Expect<Test<typeof noConfig, "equals", typeof withDefault>>
         ];
     });
 });

@@ -21,14 +21,26 @@ export function isNestingEndMatch<
         return false;
     }
     else if (isNestingKeyValue(nesting)) {
-        // const match = valuesOf(nesting) as string[];
-        const lookup = reverseLookup(nesting);
-        if (last(stack) === lookup[char]) {
-            return true;
-        }
-        else {
+        const stackTop = last(stack);
+        if (!stackTop) {
             return false;
         }
+
+        // Get the value for the stack top (entry character)
+        const nestingValue = (nesting as Record<string, unknown>)[stackTop];
+
+        // Handle hierarchical form: [exit, nextLevel]
+        if (Array.isArray(nestingValue) && nestingValue.length === 2) {
+            const exitToken = nestingValue[0] as string;
+            return char === exitToken;
+        }
+
+        // Handle simple form: string
+        if (typeof nestingValue === "string") {
+            return char === nestingValue;
+        }
+
+        return false;
     }
     else if (isNestingTuple(nesting)) {
         const [start, end] = nesting;
@@ -39,4 +51,6 @@ export function isNestingEndMatch<
             return !!end.includes(char);
         }
     }
+
+    return false;
 }

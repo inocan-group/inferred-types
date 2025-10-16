@@ -22,9 +22,9 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     });
 
     it("single nesting level", () => {
-        type T1 = RetainUntil__Nested<Fn, "}">;
-        type T2 = RetainUntil__Nested<Fn, "}", true>;
-        type T3 = RetainUntil__Nested<Fn, "}", false>;
+        type T1 = RetainUntil__Nested<Fn, "}", true, "brackets">;
+        type T2 = RetainUntil__Nested<Fn, "}", true, "brackets">;
+        type T3 = RetainUntil__Nested<Fn, "}", false, "brackets">;
 
         type cases = [
             Expect<Test<
@@ -51,8 +51,8 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
                 "{": "}"
             }
         >;
-        type T2 = RetainUntil__Nested<ObjTup, "]">;
-        type T3 = RetainUntil__Nested<Obj, "}">;
+        type T2 = RetainUntil__Nested<ObjTup, "]", true, "brackets">;
+        type T3 = RetainUntil__Nested<Obj, "}", true, "brackets">;
 
         type cases = [
             Expect<Test<
@@ -79,7 +79,7 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     });
 
     it("error when nesting stack is unbalanced", () => {
-        type E1 = RetainUntil__Nested<`{ foo {}`, "}">;
+        type E1 = RetainUntil__Nested<`{ foo {}`, "}", true, "brackets">;
 
         type cases = [
             Expect<Test<E1, "isError", "unbalanced">>,
@@ -91,6 +91,55 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
 
         type cases = [
             Expect<Test<E1, "isError", "invalid-type">>,
+        ];
+    });
+
+    it("shallow-quotes: treats content inside quotes as literal", () => {
+        type Text = `"Hello, world!", he said.`;
+        type T1 = RetainUntil__Nested<Text, ".", true, "shallow-quotes">;
+
+        type cases = [
+            Expect<Test<T1, "equals", `"Hello, world!", he said.`>>
+        ];
+    });
+
+    it("shallow-brackets: treats content inside brackets as literal", () => {
+        type Text = `Array(1, 2, 3). More text`;
+        type T1 = RetainUntil__Nested<Text, ".", true, "shallow-brackets">;
+
+        type cases = [
+            Expect<Test<T1, "equals", `Array(1, 2, 3).`>>
+        ];
+    });
+
+    it("shallow-brackets-and-quotes: combined shallow nesting", () => {
+        type Text1 = `func(a, b). "test.value". end`;
+        type T1 = RetainUntil__Nested<Text1, ".", true, "shallow-brackets-and-quotes">;
+
+        type Text2 = `data(x, y). More`;
+        type T2 = RetainUntil__Nested<Text2, ".", true, "shallow-brackets-and-quotes">;
+
+        type cases = [
+            Expect<Test<T1, "equals", `func(a, b).`>>,
+            Expect<Test<T2, "equals", `data(x, y).`>>
+        ];
+    });
+
+    it("hierarchical config: explicit shallow behavior", () => {
+        type Text = `{a, b, c}. result`;
+        type T1 = RetainUntil__Nested<Text, ".", true, { "{": ["}", {}] }>;
+
+        type cases = [
+            Expect<Test<T1, "equals", `{a, b, c}.`>>
+        ];
+    });
+
+    it("hierarchical config: nested levels with different tokens", () => {
+        type Text = `{inner, [nested. items]}. final`;
+        type T1 = RetainUntil__Nested<Text, ".", true, { "{": ["}", { "[": "]" }] }>;
+
+        type cases = [
+            Expect<Test<T1, "equals", `{inner, [nested. items]}.`>>
         ];
     });
 
@@ -236,6 +285,66 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
         type cases = [
             Expect<Test<typeof t1, "equals", "Once tested.">>,
             Expect<Test<typeof t2, "equals", "Once tested (a bit).">>,
+        ];
+    });
+
+    it("shallow-quotes: treats content inside quotes as literal", () => {
+        const text = `"Hello, world!", he said.` as const;
+        const t1 = retainUntil__Nested(text, ".", true, "shallow-quotes");
+
+        expect(t1).toBe(`"Hello, world!", he said.`);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", `"Hello, world!", he said.`>>
+        ];
+    });
+
+    it("shallow-brackets: treats content inside brackets as literal", () => {
+        const text = `Array(1, 2, 3). More text` as const;
+        const t1 = retainUntil__Nested(text, ".", true, "shallow-brackets");
+
+        expect(t1).toBe(`Array(1, 2, 3).`);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", `Array(1, 2, 3).`>>
+        ];
+    });
+
+    it("shallow-brackets-and-quotes: combined shallow nesting", () => {
+        const text1 = `func(a, b). "test.value". end` as const;
+        const t1 = retainUntil__Nested(text1, ".", true, "shallow-brackets-and-quotes");
+
+        const text2 = `data(x, y). More` as const;
+        const t2 = retainUntil__Nested(text2, ".", true, "shallow-brackets-and-quotes");
+
+        expect(t1).toBe(`func(a, b).`);
+        expect(t2).toBe(`data(x, y).`);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", `func(a, b).`>>,
+            Expect<Test<typeof t2, "equals", `data(x, y).`>>
+        ];
+    });
+
+    it("hierarchical config: explicit shallow behavior", () => {
+        const text = `{a, b, c}. result` as const;
+        const t1 = retainUntil__Nested(text, ".", true, { "{": ["}", {}] });
+
+        expect(t1).toBe(`{a, b, c}.`);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", `{a, b, c}.`>>
+        ];
+    });
+
+    it("hierarchical config: nested levels with different tokens", () => {
+        const text = `{inner, [nested. items]}. final` as const;
+        const t1 = retainUntil__Nested(text, ".", true, { "{": ["}", { "[": "]" }] });
+
+        expect(t1).toBe(`{inner, [nested. items]}.`);
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", `{inner, [nested. items]}.`>>
         ];
     });
 

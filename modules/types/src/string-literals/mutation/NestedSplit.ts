@@ -7,12 +7,16 @@ import type {
     Err,
     First,
     FromNamedNestingConfig,
+    GetNextLevelConfig,
+    GetParentConfig,
     IsNestingMatchEnd,
     IsNestingStart,
+    Last,
     Nesting,
     NestingConfig__Named,
     Or,
     Pop,
+    ShallowBracketAndQuoteNesting,
     StrLen,
     ToStringLiteral,
     ToStringLiteral__Array
@@ -20,17 +24,7 @@ import type {
 
 export type NestedSplitPolicy = "omit" | "before" | "inline" | "after";
 
-/**
- * Helper type to determine if we're using quotes nesting mode.
- * In quotes mode, when already inside a quote, other quote types are treated as literals.
- */
-type IsQuotesMode<TNesting extends Nesting> = TNesting extends Record<string, string>
-    ? {
-        [K in keyof TNesting]: K extends TNesting[K] ? (K extends '"' | "'" | "`" ? true : false) : false
-    }[keyof TNesting] extends false
-        ? false
-        : true
-    : false;
+// IsQuotesMode removed - hierarchical nesting now handles this case properly
 
 /** when a split character is found and there is no stack depth */
 type SplitWithNoStack<
@@ -57,6 +51,7 @@ type AfterSplit<TContent extends string, TSplit extends string>
 
 /**
  * Multi-character conversion using direct string processing
+ * Now supports hierarchical nesting by switching configs at each level
  */
 type MultiConvertDirect<
     TContent extends string,
@@ -67,7 +62,7 @@ type MultiConvertDirect<
     TWaiting extends string = "",
     TResult extends string[] = [],
     TLastWasSplit extends boolean = false,
-    TQuotesMode extends boolean = false
+    TRootNesting extends Nesting = TNesting
 > = TContent extends `${infer Head}${infer Rest}`
     ? TStack["length"] extends 0
         ? StartsWith<TContent, TSplit> extends true
@@ -94,18 +89,63 @@ type MultiConvertDirect<
                                 ? [...TResult, `${TWaiting}${TSplit}`]
                                 : never,
                 true,
-                TQuotesMode
+                TRootNesting
             >
             : IsNestingStart<Head, TNesting> extends true
-                ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, [...TStack, Head], `${TWaiting}${Head}`, TResult, false, TQuotesMode>
-                : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false, TQuotesMode>
-        : IsNestingMatchEnd<Head, TStack, TNesting> extends true
-            ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, Pop<TStack>, `${TWaiting}${Head}`, TResult, false, TQuotesMode>
-            : TQuotesMode extends false
-                ? IsNestingStart<Head, TNesting> extends true
-                    ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, [...TStack, Head], `${TWaiting}${Head}`, TResult, false, TQuotesMode>
-                    : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false, TQuotesMode>
-                : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false, TQuotesMode>
+                // Entering nesting - switch to next-level config
+                ? MultiConvertDirect<
+                    Rest,
+                    TSplit,
+                    GetNextLevelConfig<Head, TNesting>,
+                    TPolicy,
+                    [...TStack, Head],
+                    `${TWaiting}${Head}`,
+                    TResult,
+                    false,
+                    TRootNesting
+                >
+                : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false, TRootNesting>
+        : IsNestingMatchEnd<Head, TStack, GetParentConfig<TStack, TRootNesting>> extends true
+            ? Pop<TStack>["length"] extends 0
+                // Exiting to root level - restore root config
+                ? MultiConvertDirect<
+                    Rest,
+                    TSplit,
+                    TRootNesting,
+                    TPolicy,
+                    Pop<TStack>,
+                    `${TWaiting}${Head}`,
+                    TResult,
+                    false,
+                    TRootNesting
+                >
+                // Exiting to parent level - restore parent's next-level config
+                : MultiConvertDirect<
+                    Rest,
+                    TSplit,
+                    GetNextLevelConfig<Last<Pop<TStack>>, TRootNesting>,
+                    TPolicy,
+                    Pop<TStack>,
+                    `${TWaiting}${Head}`,
+                    TResult,
+                    false,
+                    TRootNesting
+                >
+            : IsNestingStart<Head, TNesting> extends true
+                // Entering nesting while already nested - switch to next-level config
+                ? MultiConvertDirect<
+                    Rest,
+                    TSplit,
+                    GetNextLevelConfig<Head, TNesting>,
+                    TPolicy,
+                    [...TStack, Head],
+                    `${TWaiting}${Head}`,
+                    TResult,
+                    false,
+                    TRootNesting
+                >
+                // Regular character inside nesting
+                : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false, TRootNesting>
     : TStack["length"] extends 0
         ? TLastWasSplit extends true
             ? TWaiting extends ""
@@ -127,12 +167,12 @@ type MultiConvert<
     TContent extends string,
     TSplit extends string,
     TNesting extends Nesting,
-    TPolicy extends NestedSplitPolicy,
-    TQuotesMode extends boolean = false
-> = MultiConvertDirect<TContent, TSplit, TNesting, TPolicy, [], "", [], false, TQuotesMode>;
+    TPolicy extends NestedSplitPolicy
+> = MultiConvertDirect<TContent, TSplit, TNesting, TPolicy, [], "", [], false, TNesting>;
 
 /**
  * convert when split characters are only 1 character in length
+ * Now supports hierarchical nesting by switching configs at each level
  */
 type Convert<
     TChars extends readonly string[],
@@ -142,7 +182,7 @@ type Convert<
     TStack extends readonly string[] = [],
     TWaiting extends string = "",
     TResult extends string[] = [],
-    TQuotesMode extends boolean = false
+    TRootNesting extends Nesting = TNesting
 > = [] extends TChars
     ? TStack["length"] extends 0
         ? [...TResult, TWaiting]
@@ -175,44 +215,45 @@ type Convert<
                         : TPolicy extends "after"
                             ? [...TResult, `${TWaiting}${First<TChars>}`]
                             : never,
-            TQuotesMode
+            TRootNesting
         >
-        : IsNestingMatchEnd<First<TChars>, TStack, TNesting> extends true
-            ? Convert<
-                AfterFirst<TChars>,
-                TSplit,
-                TNesting,
-                TPolicy,
-                Pop<TStack>,
-                `${TWaiting}${First<TChars>}`,
-                TResult,
-                TQuotesMode
-            >
-            : Or<[
-                TStack["length"] extends 0 ? true : false,
-                TQuotesMode extends false ? true : false
-            ]> extends true
-                ? IsNestingStart<First<TChars>, TNesting> extends true
-                    ? Convert<
-                        AfterFirst<TChars>,
-                        TSplit,
-                        TNesting,
-                        TPolicy,
-                        [...TStack, First<TChars>],
-                        `${TWaiting}${First<TChars>}`,
-                        TResult,
-                        TQuotesMode
-                    >
-                    : Convert<
-                        AfterFirst<TChars>,
-                        TSplit,
-                        TNesting,
-                        TPolicy,
-                        TStack,
-                        `${TWaiting}${First<TChars>}`,
-                        TResult,
-                        TQuotesMode
-                    >
+        : IsNestingMatchEnd<First<TChars>, TStack, GetParentConfig<TStack, TRootNesting>> extends true
+            ? Pop<TStack>["length"] extends 0
+                // Exiting to root level - restore root config
+                ? Convert<
+                    AfterFirst<TChars>,
+                    TSplit,
+                    TRootNesting,
+                    TPolicy,
+                    Pop<TStack>,
+                    `${TWaiting}${First<TChars>}`,
+                    TResult,
+                    TRootNesting
+                >
+                // Exiting to parent level - restore parent's next-level config
+                : Convert<
+                    AfterFirst<TChars>,
+                    TSplit,
+                    GetNextLevelConfig<Last<Pop<TStack>>, TRootNesting>,
+                    TPolicy,
+                    Pop<TStack>,
+                    `${TWaiting}${First<TChars>}`,
+                    TResult,
+                    TRootNesting
+                >
+            : IsNestingStart<First<TChars>, TNesting> extends true
+                // Entering nesting - switch to next-level config
+                ? Convert<
+                    AfterFirst<TChars>,
+                    TSplit,
+                    GetNextLevelConfig<First<TChars>, TNesting>,
+                    TPolicy,
+                    [...TStack, First<TChars>],
+                    `${TWaiting}${First<TChars>}`,
+                    TResult,
+                    TRootNesting
+                >
+                // Regular character - continue with current config
                 : Convert<
                     AfterFirst<TChars>,
                     TSplit,
@@ -221,7 +262,7 @@ type Convert<
                     TStack,
                     `${TWaiting}${First<TChars>}`,
                     TResult,
-                    TQuotesMode
+                    TRootNesting
                 >;
 
 /**
@@ -234,16 +275,18 @@ type Convert<
  * - The `TNesting` generic defines the various "entry" and
  * "exit" characters involved the split.
  *      - the _keys_ are the entry conditions
- *      - the _values_ are the exit conditions
+ *      - the _values_ can be either:
+ *        - simple string (exit token) for uniform nesting
+ *        - `[exit, nextLevel]` tuple for hierarchical nesting
  * - Splits only take place when the nesting level is at
  * zero
  * - An error of the type `unbalanced/nested-split` will
  * occur when the nesting does not resolve back to zero
  * before completion
- * - The `TPolicy` settings defaults to "omit" which means
- * that
- * - If no nesting policy is provided then the default policy
- * is to use all bracket characters: `{ "{":"}", "[": "]", "<":">", "(":")" }`
+ * - The `TPolicy` setting defaults to "omit" which removes
+ * split characters from the result
+ * - If no nesting config is provided, the default is bracket
+ * nesting (parens, square brackets, angle brackets, curlies)
  */
 export type NestedSplit<
     TContent extends string,
@@ -266,7 +309,7 @@ export type NestedSplit<
                         [],
                         "",
                         [],
-                        IsQuotesMode<FromNamedNestingConfig<TNesting>>
+                        FromNamedNestingConfig<TNesting>
                     >
                     : Err<
                         `invalid-nesting/nested-split`,
@@ -283,14 +326,13 @@ export type NestedSplit<
                             [],
                             "",
                             [],
-                            IsQuotesMode<FromNamedNestingConfig<TNesting>>
+                            FromNamedNestingConfig<TNesting>
                         >
                         : MultiConvert<
                             TContent,
                             TSplit,
                             FromNamedNestingConfig<TNesting>,
-                            TPolicy,
-                            IsQuotesMode<FromNamedNestingConfig<TNesting>>
+                            TPolicy
                         >
                     : never;
 

@@ -19,12 +19,23 @@ export function isNestingEnd<
         }
     }
     else if (isNestingKeyValue(nesting)) {
-        return Object.values(nesting).includes(char);
+        // Extract exit tokens from values (handles both simple and hierarchical forms)
+        const exitTokens: string[] = [];
+        for (const value of Object.values(nesting)) {
+            if (Array.isArray(value) && value.length === 2) {
+                // Hierarchical form: [exit, nextLevel]
+                exitTokens.push(value[0] as string);
+            } else if (typeof value === "string") {
+                // Simple form: string
+                exitTokens.push(value);
+            }
+        }
+        return exitTokens.includes(char);
     }
     else {
         return err(
             `invalid-type/nesting`,
-            `The isNestingStart('${char}', nesting) function received an invalid nesting type. Remember that start and end characters MUST be single length characters`,
+            `The isNestingEnd('${char}', nesting) function received an invalid nesting type. Remember that start and end characters MUST be single length characters`,
             { nesting, char }
         );
     }

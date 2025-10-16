@@ -4,9 +4,17 @@ import type {
     NestedSplit,
     NestedSplitPolicy,
     Nesting,
-    NestingConfig__Named
+    NestingConfig__Named,
+    NestingKeyValue
 } from "inferred-types/types";
-import { BRACKET_NESTING, Never, QUOTE_NESTING } from "inferred-types/constants";
+import {
+    BRACKET_NESTING,
+    Never,
+    QUOTE_NESTING,
+    SHALLOW_BRACKET_NESTING,
+    SHALLOW_QUOTE_NESTING,
+    SHALLOW_BRACKET_AND_QUOTE_NESTING
+} from "inferred-types/constants";
 import {
     afterFirst,
     asArray,
@@ -23,21 +31,57 @@ import {
 } from "inferred-types/runtime";
 
 /**
- * Helper to determine if we're using quotes nesting mode.
- * In quotes mode, when already inside a quote, other quote types are treated as literals.
+ * **getNextLevelConfig** - Runtime helper for hierarchical nesting
+ *
+ * Extracts the nesting configuration to use inside a nesting level that
+ * starts with `startChar`.
+ *
+ * - For simple configs (string values): Returns the same config
+ * - For hierarchical configs ([exit, nextLevel]): Extracts nextLevel
+ * - If character is not in config: Returns the same config
  */
-function isQuotesMode(nesting: Nesting): boolean {
-    // Check if nesting matches QUOTE_NESTING structure
-    // QUOTE_NESTING has double quotes, single quotes, and backticks
+function getNextLevelConfig(startChar: string, nesting: Nesting): Nesting {
     if (isNestingKeyValue(nesting)) {
-        const entries = Object.entries(nesting);
-        // Check if all entries are self-closing quote characters
-        const allSelfClosing = entries.every(([k, v]) => k === v);
-        const hasQuotes = entries.some(([k]) => k === '"' || k === "'" || k === '`');
-        const result = allSelfClosing && hasQuotes;
-        return result;
+        const value = (nesting as Record<string, unknown>)[startChar];
+
+        // Check if it's a hierarchical tuple [exit, nextLevel]
+        if (Array.isArray(value) && value.length === 2) {
+            return value[1] as Nesting;
+        }
+
+        // Simple form or character not in config - return same config
+        return nesting;
     }
-    return false;
+
+    // NestingTuple - check for optional third element
+    if (Array.isArray(nesting) && nesting.length === 3) {
+        return nesting[2] as Nesting;
+    }
+
+    // Simple tuple - return same config
+    return nesting;
+}
+
+/**
+ * **getParentConfig** - Reconstructs the config that was active at the parent level
+ *
+ * Given a stack of entry characters and the root nesting config, this reconstructs
+ * the nesting config that was active when the last entry character was seen.
+ *
+ * This is needed for `isNestingEndMatch` to look up the correct exit token.
+ */
+function getParentConfig(stack: readonly string[], rootNesting: Nesting): Nesting {
+    if (stack.length <= 1) {
+        // Parent is root level
+        return rootNesting;
+    }
+
+    // Reconstruct parent config by applying getNextLevelConfig for each level
+    let config = rootNesting;
+    for (let i = 0; i < stack.length - 1; i++) {
+        config = getNextLevelConfig(stack[i], config);
+    }
+    return config;
 }
 
 function splitProcessorMultiChar<
@@ -48,13 +92,13 @@ function splitProcessorMultiChar<
 >(
     content: TContent,
     split: TSplit,
-    nesting: TNesting,
+    currentNesting: TNesting,
     policy: TPolicy,
     stack: readonly string[] = [],
     waiting: string = "",
     result: string[] = [],
     lastWasSplit: boolean = false,
-    quotesMode: boolean = false
+    rootNesting: Nesting = currentNesting
 ): string[] | Error {
     // Base case: no more characters
     if (content === "") {
@@ -108,28 +152,30 @@ function splitProcessorMultiChar<
             return splitProcessorMultiChar(
                 afterSplit,
                 split,
-                nesting,
+                currentNesting,
                 policy,
                 stack,
                 newWaiting,
                 newResult,
                 true,
-                quotesMode
+                rootNesting
             );
         }
 
         // Check if current character starts nesting
-        if (isNestingStart(currentChar, nesting)) {
+        if (isNestingStart(currentChar, currentNesting)) {
+            const nextLevelConfig = getNextLevelConfig(currentChar, currentNesting);
+
             return splitProcessorMultiChar(
                 remainingContent,
                 split,
-                nesting,
+                nextLevelConfig as TNesting,
                 policy,
                 [...stack, currentChar],
                 `${waiting}${currentChar}`,
                 result,
                 false,
-                quotesMode
+                rootNesting
             );
         }
 
@@ -137,46 +183,53 @@ function splitProcessorMultiChar<
         return splitProcessorMultiChar(
             remainingContent,
             split,
-            nesting,
+            currentNesting,
             policy,
             stack,
             `${waiting}${currentChar}`,
             result,
             false,
-            quotesMode
+            rootNesting
         );
     }
 
     // We're inside nesting
     // Check if current character ends nesting
-    if (isNestingEndMatch(currentChar, stack, nesting)) {
+    if (isNestingEndMatch(currentChar, stack, getParentConfig(stack, rootNesting))) {
         const newStack = [...stack].slice(0, -1);
+
+        // Determine parent config
+        const parentConfig = newStack.length === 0
+            ? rootNesting // Back to root level
+            : getNextLevelConfig(newStack[newStack.length - 1], rootNesting); // Parent's next-level config
+
         return splitProcessorMultiChar(
             remainingContent,
             split,
-            nesting,
+            parentConfig as TNesting,
             policy,
             newStack,
             `${waiting}${currentChar}`,
             result,
             false,
-            quotesMode
+            rootNesting
         );
     }
 
     // Check if current character starts new nesting
-    // In quotes mode, when already nested, don't start new nesting
-    if (!quotesMode && isNestingStart(currentChar, nesting)) {
+    if (isNestingStart(currentChar, currentNesting)) {
+        const nextLevelConfig = getNextLevelConfig(currentChar, currentNesting);
+
         return splitProcessorMultiChar(
             remainingContent,
             split,
-            nesting,
+            nextLevelConfig as TNesting,
             policy,
             [...stack, currentChar],
             `${waiting}${currentChar}`,
             result,
             false,
-            quotesMode
+            rootNesting
         );
     }
 
@@ -184,13 +237,13 @@ function splitProcessorMultiChar<
     return splitProcessorMultiChar(
         remainingContent,
         split,
-        nesting,
+        currentNesting,
         policy,
         stack,
         `${waiting}${currentChar}`,
         result,
         false,
-        quotesMode
+        rootNesting
     );
 }
 
@@ -202,12 +255,12 @@ function splitProcessorMultiple<
 >(
     chars: TChars,
     split: TSplit,
-    nesting: TNesting,
+    currentNesting: TNesting,
     policy: TPolicy,
     stack: readonly string[] = [],
     waiting: string = "",
     result: string[] = [],
-    quotesMode: boolean = false
+    rootNesting: Nesting = currentNesting
 ): string[] | Error {
     // Base case: no more characters
     if (chars.length === 0) {
@@ -253,43 +306,50 @@ function splitProcessorMultiple<
         return splitProcessorMultiple(
             remainingChars,
             split,
-            nesting,
+            currentNesting,
             policy,
             stack,
             newWaiting,
             newResult,
-            quotesMode
+            rootNesting
         );
     }
 
     // Check if current character is nesting end match
-    if (isNestingEndMatch(currentChar, stack, nesting)) {
+    if (isNestingEndMatch(currentChar, stack, getParentConfig(stack, rootNesting))) {
         const newStack = [...stack].slice(0, -1);
+
+        // Determine parent config
+        const parentConfig = newStack.length === 0
+            ? rootNesting // Back to root level
+            : getNextLevelConfig(newStack[newStack.length - 1], rootNesting); // Parent's next-level config
+
         return splitProcessorMultiple(
             remainingChars,
             split,
-            nesting,
+            parentConfig as TNesting,
             policy,
             newStack,
             `${waiting}${currentChar}`,
             result,
-            quotesMode
+            rootNesting
         );
     }
 
     // Check if current character is nesting start
-    // In quotes mode, don't start new nesting when already inside a quote
-    if ((stack.length === 0 || !quotesMode) && isNestingStart(currentChar, nesting)) {
+    if (isNestingStart(currentChar, currentNesting)) {
         const newStack = [...stack, currentChar];
+        const nextLevelConfig = getNextLevelConfig(currentChar, currentNesting);
+
         return splitProcessorMultiple(
             remainingChars,
             split,
-            nesting,
+            nextLevelConfig as TNesting,
             policy,
             newStack,
             `${waiting}${currentChar}`,
             result,
-            quotesMode
+            rootNesting
         );
     }
 
@@ -297,12 +357,12 @@ function splitProcessorMultiple<
     return splitProcessorMultiple(
         remainingChars,
         split,
-        nesting,
+        currentNesting,
         policy,
         stack,
         `${waiting}${currentChar}`,
         result,
-        quotesMode
+        rootNesting
     );
 }
 
@@ -314,12 +374,12 @@ function splitProcessor<
 >(
     chars: TChars,
     split: TSplit,
-    nesting: TNesting,
+    currentNesting: TNesting,
     policy: TPolicy,
     stack: readonly string[] = [],
     waiting: string = "",
     result: string[] = [],
-    quotesMode: boolean = false
+    rootNesting: Nesting = currentNesting
 ): string[] | Error {
     // Base case: no more characters
     if (chars.length === 0) {
@@ -365,43 +425,50 @@ function splitProcessor<
         return splitProcessor(
             remainingChars,
             split,
-            nesting,
+            currentNesting,
             policy,
             stack,
             newWaiting,
             newResult,
-            quotesMode
+            rootNesting
         );
     }
 
     // Check if current character is nesting end match
-    if (isNestingEndMatch(currentChar, stack, nesting)) {
+    if (isNestingEndMatch(currentChar, stack, getParentConfig(stack, rootNesting))) {
         const newStack = [...stack].slice(0, -1);
+
+        // Determine parent config
+        const parentConfig = newStack.length === 0
+            ? rootNesting // Back to root level
+            : getNextLevelConfig(newStack[newStack.length - 1], rootNesting); // Parent's next-level config
+
         return splitProcessor(
             remainingChars,
             split,
-            nesting,
+            parentConfig as TNesting,
             policy,
             newStack,
             `${waiting}${currentChar}`,
             result,
-            quotesMode
+            rootNesting
         );
     }
 
     // Check if current character is nesting start
-    // In quotes mode, don't start new nesting when already inside a quote
-    if ((stack.length === 0 || !quotesMode) && isNestingStart(currentChar, nesting)) {
+    if (isNestingStart(currentChar, currentNesting)) {
         const newStack = [...stack, currentChar];
+        const nextLevelConfig = getNextLevelConfig(currentChar, currentNesting);
+
         return splitProcessor(
             remainingChars,
             split,
-            nesting,
+            nextLevelConfig as TNesting,
             policy,
             newStack,
             `${waiting}${currentChar}`,
             result,
-            quotesMode
+            rootNesting
         );
     }
 
@@ -409,12 +476,12 @@ function splitProcessor<
     return splitProcessor(
         remainingChars,
         split,
-        nesting,
+        currentNesting,
         policy,
         stack,
         `${waiting}${currentChar}`,
         result,
-        quotesMode
+        rootNesting
     );
 }
 
@@ -423,12 +490,15 @@ function splitProcessor<
  *
  * A run-time utility to split string's in a nested-aware manner.
  *
+ * Now supports hierarchical nesting configurations where each level
+ * can specify different tokens for the next level.
+ *
  * **Related:** `NestedSplit<..>`, `split()`, `nested()`
  */
 export function nestedSplit<
     const TContent extends string,
     const TSplit extends string | readonly string[],
-    const TNesting extends Nesting | NestingConfig__Named = DefaultNesting,
+    const TNesting extends Nesting | NestingConfig__Named = typeof BRACKET_NESTING,
     const TPolicy extends NestedSplitPolicy = "omit"
 >(
     content: TContent,
@@ -441,10 +511,18 @@ export function nestedSplit<
             ? BRACKET_NESTING
             : nesting === "quotes"
                 ? QUOTE_NESTING
-                : Never
+                : nesting === "brackets-and-quotes"
+                    ? mutable({ ...BRACKET_NESTING, ...QUOTE_NESTING })
+                    : nesting === "shallow-brackets"
+                        ? mutable(SHALLOW_BRACKET_NESTING)
+                        : nesting === "shallow-quotes"
+                            ? mutable(SHALLOW_QUOTE_NESTING)
+                            : nesting === "shallow-brackets-and-quotes"
+                                ? mutable(SHALLOW_BRACKET_AND_QUOTE_NESTING)
+                                : Never
         : nesting as Nesting;
 
-    if (isNestingKeyValue(config) !== true && isNestingTuple(config)) {
+    if (isNestingKeyValue(config) !== true && !isNestingTuple(config)) {
         return err(`invalid-nesting/nested-split`) as NestedSplit<
             TContent,
             TSplit,
@@ -453,31 +531,13 @@ export function nestedSplit<
         >;
     }
 
-    // Detect if we're using quotes mode
-    const quotesMode = isQuotesMode(config);
-
     if (isArray(split)) {
-        // Validate all split characters are single characters
-        // for (const s of split) {
-        //     if (typeof s !== 'string' || s.length !== 1) {
-        //         return err(
-        //             `invalid-nesting/nested-split`,
-        //             `A tuple of strings were passed in to form a union type of characters which would provide the 'split', however, at least one of these were longer than a single character!`,
-        //             { split: toStringLiteral(split), content }
-        //         );
-        //     }
-        // }
-
-        // Create a modified splitProcessor that handles multiple split characters
+        // Handle array of split characters
         const result = splitProcessorMultiple(
             asChars(content),
             asArray(split) as string[],
             config,
-            policy,
-            [],
-            "",
-            [],
-            quotesMode
+            policy
         );
         return result as NestedSplit<
             TContent,
@@ -503,8 +563,8 @@ export function nestedSplit<
 
     // Use appropriate processor based on split length
     const result = split.length === 1
-        ? splitProcessor(asChars(content), split, config, policy, [], "", [], quotesMode)
-        : splitProcessorMultiChar(content, split, config, policy, [], "", [], false, quotesMode);
+        ? splitProcessor(asChars(content), split, config, policy)
+        : splitProcessorMultiChar(content, split, config, policy);
 
     return result as NestedSplit<
         TContent,

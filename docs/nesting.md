@@ -19,34 +19,186 @@ The library supports two primary nesting configuration approaches:
 
 #### 1. NestingKeyValue
 
-A key-value mapping where keys are opening characters and values are closing characters:
+A key-value mapping where keys are opening characters and values are either:
+- **Simple**: closing characters (string)
+- **Hierarchical**: tuple of `[exit, nextLevel]` where `nextLevel` is the nesting config for inside
 
 ```typescript
-type ExampleNesting = {
+// Simple form
+type SimpleNesting = {
   "{": "}",
   "(": ")",
   "[": "]",
   "<": ">"
 }
+
+// Hierarchical form
+type HierarchicalNesting = {
+  '"': ['"', {}],              // quotes - no nesting inside
+  "(": [")", { "[": "]" }]     // parens - only brackets nest inside
+}
 ```
 
 #### 2. NestingTuple
 
-A two-element tuple `[start, end]` for more complex scenarios:
+A tuple `[start, end]` or `[start, end, nextLevel]` for more complex scenarios:
 
 ```typescript
-type ExampleTuple = [
+// Simple tuple (backward compatible)
+type SimpleTuple = [
   readonly string[], // start characters
   readonly string[] | undefined // end characters (undefined means same as start)
+]
+
+// Hierarchical tuple (new)
+type HierarchicalTuple = [
+  readonly string[], // start characters
+  readonly string[] | undefined, // end characters
+  Nesting // next-level nesting config (optional)
 ]
 ```
 
 ### Named Configurations
 
-Three built-in configurations are available:
+Six built-in configurations are available:
 
-- **`"default"` / `"brackets"`**: Includes `{}`, `[]`, `()`, `<>`
-- **`"quotes"`**: Includes `"`, `'`, `` ` ``
+**Deep Nesting (Recursive):**
+- **`"default"` / `"brackets"`**: Includes `{}`, `[]`, `()`, `<>` - nesting applies at all levels
+- **`"quotes"`**: Includes `"`, `'`, `` ` `` - quotes nest at all levels
+- **`"brackets-and-quotes"`**: Combines brackets and quotes - both nest at all levels
+
+**Shallow Nesting (Non-Recursive):**
+- **`"shallow-brackets"`**: Brackets recognized at level 0 only - no nesting inside brackets
+- **`"shallow-quotes"`**: Quotes recognized at level 0 only - no nesting inside quotes
+- **`"shallow-brackets-and-quotes"`**: Both recognized at level 0 only - no nesting inside either
+
+### Hierarchical Nesting Configuration (NEW)
+
+The library now supports **hierarchical nesting** where each nesting level can specify different token configurations for the next level. This enables sophisticated parsing scenarios and eliminates special-case handling.
+
+#### Hierarchical NestingKeyValue
+
+Values can be either simple strings or tuples `[exit, nextLevel]`:
+
+```typescript
+// Simple form (backward compatible)
+type Simple = { "(": ")" }
+
+// Hierarchical form - empty config inside quotes (shallow nesting)
+type ShallowQuotes = {
+  '"': ['"', {}]  // Inside quotes, no further nesting
+}
+
+// Hierarchical form - different tokens at different levels
+type MultiLevel = {
+  "(": [")", { "[": "]" }]  // Inside parens, only brackets nest
+}
+```
+
+#### Hierarchical NestingTuple
+
+Tuples can include an optional third element for next-level configuration:
+
+```typescript
+// Simple tuple (backward compatible)
+type SimpleTuple = [["(", "["], [")", "]"]]
+
+// Hierarchical tuple - specify next level config
+type HierarchicalTuple = [
+  ["(", "["],           // start tokens
+  [")", "]"],           // end tokens
+  { "{": "}" }          // next level config (only braces inside parens/brackets)
+]
+```
+
+#### Shallow Nesting Configurations
+
+The library provides three pre-configured shallow nesting strategies that are perfect for common use cases:
+
+**SHALLOW_BRACKET_NESTING**
+```typescript
+import { SHALLOW_BRACKET_NESTING } from "inferred-types/constants";
+// Equivalent to:
+{
+  "(": [")", {}],
+  "[": ["]", {}],
+  "{": ["}", {}],
+  "<": [">", {}]
+}
+```
+
+**SHALLOW_QUOTE_NESTING**
+```typescript
+import { SHALLOW_QUOTE_NESTING } from "inferred-types/constants";
+// Equivalent to:
+{
+  '"': ['"', {}],
+  "'": ["'", {}],
+  "`": ["`", {}]
+}
+```
+
+**SHALLOW_BRACKET_AND_QUOTE_NESTING**
+```typescript
+import { SHALLOW_BRACKET_AND_QUOTE_NESTING } from "inferred-types/constants";
+// Combines both shallow bracket and shallow quote nesting
+```
+
+**When to Use Shallow vs. Deep Nesting:**
+
+Use **shallow nesting** when:
+- You only care about the root level (e.g., splitting CSV with quoted values)
+- You want to treat nested content as opaque/literal
+- You want to avoid "unbalanced" errors from content inside delimiters
+- Performance is critical (shallow configs are slightly faster)
+
+Use **deep nesting** when:
+- You need to parse multiple levels of structure
+- You're building AST-like representations
+- You need to validate balanced delimiters at all levels
+
+**Examples:**
+
+```typescript
+// Shallow: Split CSV with quoted commas
+type CSV = NestedSplit<'name,"last, first",age', ",", "shallow-quotes">;
+// Result: ["name", '"last, first"', "age"]
+// The comma inside quotes is NOT a split point
+
+// Deep: Same with regular quotes (would fail or split incorrectly)
+type CSVDeep = NestedSplit<'name,"last, first",age', ",", "quotes">;
+// Less predictable - quotes nest inside quotes, causing issues
+
+// Shallow: Split function calls at root level only
+type Calls = NestedSplit<"foo(bar(baz)),qux()", ",", "shallow-brackets">;
+// Result: ["foo(bar(baz))", "qux()"]
+// Inner parentheses don't affect split
+```
+
+#### Use Cases for Hierarchical Nesting
+
+**Shallow Nesting**: Parse quotes without nesting inside them
+```typescript
+// Split on commas, but not inside quotes
+type Result = NestedSplit<'a,"b,c",d', ",", { '"': ['"', {}] }>;
+// Result: ["a", '"b,c"', "d"] - comma inside quotes is preserved
+```
+
+**Multi-Level Parsing**: Different tokens at different levels
+```typescript
+type Config = {
+  "(": [")", { "[": ["]", {}] }]  // parens -> brackets -> nothing
+}
+type Result = NestedSplit<"fn(arr[a,b])", ",", Config>;
+// Splits respect both parentheses and brackets hierarchy
+```
+
+**Language Parsing**: Model actual language nesting rules
+```typescript
+type JSXLike = {
+  "<": [">", { "{": "}" }]  // JSX tags can contain expressions in braces
+}
+```
 
 ### Core Data Structure
 
@@ -180,23 +332,54 @@ const simple = retainUntil("hello world", " ");
 // Result: "hello"
 ```
 
-### createNestingConfig(config)
+### nesting(config)
 
-Higher-order function for creating nesting configurations.
+Higher-order function that creates an API surface for working with nesting. Returns an object with `split()` and `retainUntil()` methods that use your specified nesting configuration.
 
 ```typescript
-import { createNestingConfig } from "inferred-types/runtime";
+import { nesting } from "inferred-types/runtime";
 
 // Using named configurations
-const brackets = createNestingConfig("brackets");
-// Returns: { "{": "}", "[": "]", "(": ")", "<": ">" }
+const api = nesting("shallow-quotes");
 
-const quotes = createNestingConfig("quotes");
-// Returns: { "\"": "\"", "'": "'", "`": "`" }
+// Use the returned API
+const result1 = api.split('a,"b,c",d', ",");
+// Result: ["a", '"b,c"', "d"] - comma inside quotes is protected
 
-// Pass-through for custom configurations
-const custom = createNestingConfig({ "[": "]", "<": ">" });
-// Returns: { "[": "]", "<": ">" }
+const result2 = api.retainUntil("foo'bar'baz", "z");
+// Result: "foo'bar'baz" - finds 'z' at root level
+
+// With custom hierarchical config
+const customApi = nesting({
+  "(": [")", {}],  // Shallow parens
+  "[": "]"         // Deep brackets
+});
+
+customApi.split("a,(b,c),d", ",");
+// Result: ["a", "(b,c)", "d"]
+```
+
+**Supported Named Configurations:**
+- `"default"` / `"brackets"` - All bracket types with deep nesting
+- `"quotes"` - All quote types with deep nesting
+- `"brackets-and-quotes"` - Combined brackets and quotes with deep nesting
+- `"shallow-brackets"` - Brackets with shallow nesting (NEW)
+- `"shallow-quotes"` - Quotes with shallow nesting (NEW)
+- `"shallow-brackets-and-quotes"` - Combined with shallow nesting (NEW)
+
+**When to use `nesting()` vs direct functions:**
+- Use `nesting()` when you need to reuse the same configuration multiple times
+- Use `nesting()` for cleaner code when working with custom hierarchical configs
+- Use direct functions (`nestedSplit`, `retainUntil__Nested`) for one-off operations
+
+```typescript
+// Reusable API - better when used multiple times
+const csv = nesting("shallow-quotes");
+const data1 = csv.split('name,"last, first",age', ",");
+const data2 = csv.split('title,"description, long",price', ",");
+
+// Direct call - better for one-off operations
+const data3 = nestedSplit('one,two,three', ",", "shallow-quotes");
 ```
 
 ## Practical Examples

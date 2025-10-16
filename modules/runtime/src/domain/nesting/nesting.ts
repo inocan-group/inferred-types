@@ -8,6 +8,11 @@ import type {
     RetainUntil__Nested
 } from "inferred-types/types";
 import {
+    SHALLOW_BRACKET_NESTING,
+    SHALLOW_QUOTE_NESTING,
+    SHALLOW_BRACKET_AND_QUOTE_NESTING
+} from "inferred-types/constants";
+import {
     err,
     isError,
     isNestingKeyValue,
@@ -98,6 +103,26 @@ export function nesting<
                 "'": "'",
                 "`": "`"
             };
+        }
+        else if (config === "brackets-and-quotes") {
+            nesting = {
+                "{": "}",
+                "[": "]",
+                "<": ">",
+                "(": ")",
+                "\"": "\"",
+                "'": "'",
+                "`": "`"
+            };
+        }
+        else if (config === "shallow-brackets") {
+            nesting = SHALLOW_BRACKET_NESTING;
+        }
+        else if (config === "shallow-quotes") {
+            nesting = SHALLOW_QUOTE_NESTING;
+        }
+        else if (config === "shallow-brackets-and-quotes") {
+            nesting = SHALLOW_BRACKET_AND_QUOTE_NESTING;
         }
         else {
             throw err("invalid/named-nesting", `An unknown named nesting type of "${config}" was passed into createNestingConfig()!`);
