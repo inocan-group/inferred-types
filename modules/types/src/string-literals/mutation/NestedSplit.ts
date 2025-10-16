@@ -11,6 +11,7 @@ import type {
     IsNestingStart,
     Nesting,
     NestingConfig__Named,
+    Or,
     Pop,
     StrLen,
     ToStringLiteral,
@@ -18,6 +19,18 @@ import type {
 } from "inferred-types/types";
 
 export type NestedSplitPolicy = "omit" | "before" | "inline" | "after";
+
+/**
+ * Helper type to determine if we're using quotes nesting mode.
+ * In quotes mode, when already inside a quote, other quote types are treated as literals.
+ */
+type IsQuotesMode<TNesting extends Nesting> = TNesting extends Record<string, string>
+    ? {
+        [K in keyof TNesting]: K extends TNesting[K] ? (K extends '"' | "'" | "`" ? true : false) : false
+    }[keyof TNesting] extends false
+        ? false
+        : true
+    : false;
 
 /** when a split character is found and there is no stack depth */
 type SplitWithNoStack<
@@ -53,7 +66,8 @@ type MultiConvertDirect<
     TStack extends readonly string[] = [],
     TWaiting extends string = "",
     TResult extends string[] = [],
-    TLastWasSplit extends boolean = false
+    TLastWasSplit extends boolean = false,
+    TQuotesMode extends boolean = false
 > = TContent extends `${infer Head}${infer Rest}`
     ? TStack["length"] extends 0
         ? StartsWith<TContent, TSplit> extends true
@@ -79,16 +93,19 @@ type MultiConvertDirect<
                             : TPolicy extends "after"
                                 ? [...TResult, `${TWaiting}${TSplit}`]
                                 : never,
-                true
+                true,
+                TQuotesMode
             >
             : IsNestingStart<Head, TNesting> extends true
-                ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, [...TStack, Head], `${TWaiting}${Head}`, TResult, false>
-                : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false>
+                ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, [...TStack, Head], `${TWaiting}${Head}`, TResult, false, TQuotesMode>
+                : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false, TQuotesMode>
         : IsNestingMatchEnd<Head, TStack, TNesting> extends true
-            ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, Pop<TStack>, `${TWaiting}${Head}`, TResult, false>
-            : IsNestingStart<Head, TNesting> extends true
-                ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, [...TStack, Head], `${TWaiting}${Head}`, TResult, false>
-                : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false>
+            ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, Pop<TStack>, `${TWaiting}${Head}`, TResult, false, TQuotesMode>
+            : TQuotesMode extends false
+                ? IsNestingStart<Head, TNesting> extends true
+                    ? MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, [...TStack, Head], `${TWaiting}${Head}`, TResult, false, TQuotesMode>
+                    : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false, TQuotesMode>
+                : MultiConvertDirect<Rest, TSplit, TNesting, TPolicy, TStack, `${TWaiting}${Head}`, TResult, false, TQuotesMode>
     : TStack["length"] extends 0
         ? TLastWasSplit extends true
             ? TWaiting extends ""
@@ -110,8 +127,9 @@ type MultiConvert<
     TContent extends string,
     TSplit extends string,
     TNesting extends Nesting,
-    TPolicy extends NestedSplitPolicy
-> = MultiConvertDirect<TContent, TSplit, TNesting, TPolicy>;
+    TPolicy extends NestedSplitPolicy,
+    TQuotesMode extends boolean = false
+> = MultiConvertDirect<TContent, TSplit, TNesting, TPolicy, [], "", [], false, TQuotesMode>;
 
 /**
  * convert when split characters are only 1 character in length
@@ -124,6 +142,7 @@ type Convert<
     TStack extends readonly string[] = [],
     TWaiting extends string = "",
     TResult extends string[] = [],
+    TQuotesMode extends boolean = false
 > = [] extends TChars
     ? TStack["length"] extends 0
         ? [...TResult, TWaiting]
@@ -155,7 +174,8 @@ type Convert<
                             : [...TResult, TWaiting]
                         : TPolicy extends "after"
                             ? [...TResult, `${TWaiting}${First<TChars>}`]
-                            : never
+                            : never,
+            TQuotesMode
         >
         : IsNestingMatchEnd<First<TChars>, TStack, TNesting> extends true
             ? Convert<
@@ -164,28 +184,44 @@ type Convert<
                 TNesting,
                 TPolicy,
                 Pop<TStack>,
-        `${TWaiting}${First<TChars>}`,
-        TResult
+                `${TWaiting}${First<TChars>}`,
+                TResult,
+                TQuotesMode
             >
-            : IsNestingStart<First<TChars>, TNesting> extends true
-                ? Convert<
-                    AfterFirst<TChars>,
-                    TSplit,
-                    TNesting,
-                    TPolicy,
-                    [...TStack, First<TChars>],
-        `${TWaiting}${First<TChars>}`,
-        TResult
-                >
-
+            : Or<[
+                TStack["length"] extends 0 ? true : false,
+                TQuotesMode extends false ? true : false
+            ]> extends true
+                ? IsNestingStart<First<TChars>, TNesting> extends true
+                    ? Convert<
+                        AfterFirst<TChars>,
+                        TSplit,
+                        TNesting,
+                        TPolicy,
+                        [...TStack, First<TChars>],
+                        `${TWaiting}${First<TChars>}`,
+                        TResult,
+                        TQuotesMode
+                    >
+                    : Convert<
+                        AfterFirst<TChars>,
+                        TSplit,
+                        TNesting,
+                        TPolicy,
+                        TStack,
+                        `${TWaiting}${First<TChars>}`,
+                        TResult,
+                        TQuotesMode
+                    >
                 : Convert<
                     AfterFirst<TChars>,
                     TSplit,
                     TNesting,
                     TPolicy,
                     TStack,
-    `${TWaiting}${First<TChars>}`,
-    TResult
+                    `${TWaiting}${First<TChars>}`,
+                    TResult,
+                    TQuotesMode
                 >;
 
 /**
@@ -222,7 +258,16 @@ export type NestedSplit<
             ? string[]
             : TSplit extends readonly string[]
                 ? AllLengthOf<TSplit, 1> extends true
-                    ? Convert<Chars<TContent>, TSplit[number], FromNamedNestingConfig<TNesting>, TPolicy>
+                    ? Convert<
+                        Chars<TContent>,
+                        TSplit[number],
+                        FromNamedNestingConfig<TNesting>,
+                        TPolicy,
+                        [],
+                        "",
+                        [],
+                        IsQuotesMode<FromNamedNestingConfig<TNesting>>
+                    >
                     : Err<
                         `invalid-nesting/nested-split`,
                         `A tuple of strings were passed into to form a union type of characters which would provide the 'split', however, at least one of these were longer than a single character!`,
@@ -230,8 +275,23 @@ export type NestedSplit<
                     >
                 : TSplit extends string
                     ? StrLen<TSplit> extends 1
-                        ? Convert<Chars<TContent>, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
-                        : MultiConvert<TContent, TSplit, FromNamedNestingConfig<TNesting>, TPolicy>
+                        ? Convert<
+                            Chars<TContent>,
+                            TSplit,
+                            FromNamedNestingConfig<TNesting>,
+                            TPolicy,
+                            [],
+                            "",
+                            [],
+                            IsQuotesMode<FromNamedNestingConfig<TNesting>>
+                        >
+                        : MultiConvert<
+                            TContent,
+                            TSplit,
+                            FromNamedNestingConfig<TNesting>,
+                            TPolicy,
+                            IsQuotesMode<FromNamedNestingConfig<TNesting>>
+                        >
                     : never;
 
 // DEBUGGING

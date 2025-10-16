@@ -22,6 +22,24 @@ import {
     toStringLiteral
 } from "inferred-types/runtime";
 
+/**
+ * Helper to determine if we're using quotes nesting mode.
+ * In quotes mode, when already inside a quote, other quote types are treated as literals.
+ */
+function isQuotesMode(nesting: Nesting): boolean {
+    // Check if nesting matches QUOTE_NESTING structure
+    // QUOTE_NESTING has double quotes, single quotes, and backticks
+    if (isNestingKeyValue(nesting)) {
+        const entries = Object.entries(nesting);
+        // Check if all entries are self-closing quote characters
+        const allSelfClosing = entries.every(([k, v]) => k === v);
+        const hasQuotes = entries.some(([k]) => k === '"' || k === "'" || k === '`');
+        const result = allSelfClosing && hasQuotes;
+        return result;
+    }
+    return false;
+}
+
 function splitProcessorMultiChar<
     TContent extends string,
     TSplit extends string,
@@ -35,7 +53,8 @@ function splitProcessorMultiChar<
     stack: readonly string[] = [],
     waiting: string = "",
     result: string[] = [],
-    lastWasSplit: boolean = false
+    lastWasSplit: boolean = false,
+    quotesMode: boolean = false
 ): string[] | Error {
     // Base case: no more characters
     if (content === "") {
@@ -94,7 +113,8 @@ function splitProcessorMultiChar<
                 stack,
                 newWaiting,
                 newResult,
-                true
+                true,
+                quotesMode
             );
         }
 
@@ -108,7 +128,8 @@ function splitProcessorMultiChar<
                 [...stack, currentChar],
                 `${waiting}${currentChar}`,
                 result,
-                false
+                false,
+                quotesMode
             );
         }
 
@@ -121,7 +142,8 @@ function splitProcessorMultiChar<
             stack,
             `${waiting}${currentChar}`,
             result,
-            false
+            false,
+            quotesMode
         );
     }
 
@@ -137,12 +159,14 @@ function splitProcessorMultiChar<
             newStack,
             `${waiting}${currentChar}`,
             result,
-            false
+            false,
+            quotesMode
         );
     }
 
     // Check if current character starts new nesting
-    if (isNestingStart(currentChar, nesting)) {
+    // In quotes mode, when already nested, don't start new nesting
+    if (!quotesMode && isNestingStart(currentChar, nesting)) {
         return splitProcessorMultiChar(
             remainingContent,
             split,
@@ -151,7 +175,8 @@ function splitProcessorMultiChar<
             [...stack, currentChar],
             `${waiting}${currentChar}`,
             result,
-            false
+            false,
+            quotesMode
         );
     }
 
@@ -164,7 +189,8 @@ function splitProcessorMultiChar<
         stack,
         `${waiting}${currentChar}`,
         result,
-        false
+        false,
+        quotesMode
     );
 }
 
@@ -180,7 +206,8 @@ function splitProcessorMultiple<
     policy: TPolicy,
     stack: readonly string[] = [],
     waiting: string = "",
-    result: string[] = []
+    result: string[] = [],
+    quotesMode: boolean = false
 ): string[] | Error {
     // Base case: no more characters
     if (chars.length === 0) {
@@ -230,7 +257,8 @@ function splitProcessorMultiple<
             policy,
             stack,
             newWaiting,
-            newResult
+            newResult,
+            quotesMode
         );
     }
 
@@ -244,12 +272,14 @@ function splitProcessorMultiple<
             policy,
             newStack,
             `${waiting}${currentChar}`,
-            result
+            result,
+            quotesMode
         );
     }
 
     // Check if current character is nesting start
-    if (isNestingStart(currentChar, nesting)) {
+    // In quotes mode, don't start new nesting when already inside a quote
+    if ((stack.length === 0 || !quotesMode) && isNestingStart(currentChar, nesting)) {
         const newStack = [...stack, currentChar];
         return splitProcessorMultiple(
             remainingChars,
@@ -258,7 +288,8 @@ function splitProcessorMultiple<
             policy,
             newStack,
             `${waiting}${currentChar}`,
-            result
+            result,
+            quotesMode
         );
     }
 
@@ -270,7 +301,8 @@ function splitProcessorMultiple<
         policy,
         stack,
         `${waiting}${currentChar}`,
-        result
+        result,
+        quotesMode
     );
 }
 
@@ -286,7 +318,8 @@ function splitProcessor<
     policy: TPolicy,
     stack: readonly string[] = [],
     waiting: string = "",
-    result: string[] = []
+    result: string[] = [],
+    quotesMode: boolean = false
 ): string[] | Error {
     // Base case: no more characters
     if (chars.length === 0) {
@@ -336,7 +369,8 @@ function splitProcessor<
             policy,
             stack,
             newWaiting,
-            newResult
+            newResult,
+            quotesMode
         );
     }
 
@@ -350,12 +384,14 @@ function splitProcessor<
             policy,
             newStack,
             `${waiting}${currentChar}`,
-            result
+            result,
+            quotesMode
         );
     }
 
     // Check if current character is nesting start
-    if (isNestingStart(currentChar, nesting)) {
+    // In quotes mode, don't start new nesting when already inside a quote
+    if ((stack.length === 0 || !quotesMode) && isNestingStart(currentChar, nesting)) {
         const newStack = [...stack, currentChar];
         return splitProcessor(
             remainingChars,
@@ -364,7 +400,8 @@ function splitProcessor<
             policy,
             newStack,
             `${waiting}${currentChar}`,
-            result
+            result,
+            quotesMode
         );
     }
 
@@ -376,7 +413,8 @@ function splitProcessor<
         policy,
         stack,
         `${waiting}${currentChar}`,
-        result
+        result,
+        quotesMode
     );
 }
 
@@ -415,6 +453,9 @@ export function nestedSplit<
         >;
     }
 
+    // Detect if we're using quotes mode
+    const quotesMode = isQuotesMode(config);
+
     if (isArray(split)) {
         // Validate all split characters are single characters
         // for (const s of split) {
@@ -432,7 +473,11 @@ export function nestedSplit<
             asChars(content),
             asArray(split) as string[],
             config,
-            policy
+            policy,
+            [],
+            "",
+            [],
+            quotesMode
         );
         return result as NestedSplit<
             TContent,
@@ -458,8 +503,8 @@ export function nestedSplit<
 
     // Use appropriate processor based on split length
     const result = split.length === 1
-        ? splitProcessor(asChars(content), split, config, policy)
-        : splitProcessorMultiChar(content, split, config, policy);
+        ? splitProcessor(asChars(content), split, config, policy, [], "", [], quotesMode)
+        : splitProcessorMultiChar(content, split, config, policy, [], "", [], false, quotesMode);
 
     return result as NestedSplit<
         TContent,
