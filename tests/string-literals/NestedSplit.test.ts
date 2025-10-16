@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { UPPER_ALPHA_CHARS } from "inferred-types/constants";
-import type { DefaultNesting, NestedSplit, Test } from "inferred-types/types";
+import type { AssertEqual, DefaultNesting, NestedSplit, Test } from "inferred-types/types";
 
-import { nestedSplit, nesting } from "inferred-types/runtime";
+import { narrow, nestedSplit, nesting } from "inferred-types/runtime";
 import { describe, it, expect } from "vitest";
 
 describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
@@ -337,6 +337,27 @@ describe("nestedSplit()", () => {
         ];
     });
 
+
+    it("quotes based bracketing", () => {
+        const text = `1234, 4567, "Bob, the quintessential idiot, did not care"`;
+        const altText = `1234, 4567, "Bob, the quintessential idiot, didn't care"`;
+
+        const t1 = nestedSplit(text, ", ", "quotes");
+        const t2 = nestedSplit(altText, ", ", "quotes");
+
+        const expected = <T extends string>(variant: T) => `"Bob, the quintessential idiot, ${variant} care"` as `"Bob, the quintessential idiot, ${T} care"`
+
+        const e1 = narrow(["1234", "4567", expected("did not")]);
+        const e2 = narrow(["1234", "4567", expected("didn't")]);
+
+        expect(t1).toEqual(e1);
+        expect(t2).toEqual(e2);
+
+        type cases = [
+            Expect<AssertEqual<typeof t1, typeof e1>>,
+            Expect<AssertEqual<typeof t2, typeof e2>>,
+        ];
+    });
 });
 
 describe("via the nesting(config) HOF", () => {
@@ -352,4 +373,22 @@ describe("via the nesting(config) HOF", () => {
             Expect<Test<typeof fooBarBaz, "equals", ["foo", " (bar,) baz"]>>
         ]
     });
+
+
+
+    it("quotes", () => {
+        const api = nesting("quotes");
+
+        const text = `1234, 4567, "Bob, the quintessential idiot, did not care"`
+        const split = api.split(text, ",");
+
+        type cases = [
+            Expect<AssertEqual<typeof split, [
+                "1234",
+                " 4567",
+                " \"Bob, the quintessential idiot, did not care\""
+            ]>>
+        ];
+    });
+
 })

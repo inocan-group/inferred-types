@@ -18,6 +18,7 @@ describe("FromCsv<T>", () => {
     Wendy,44,General Manager
     Todd,22,Muppet
     `;
+
     it("as multidimensional array", () => {
         type T1 = FromCsv<Data>;
 
@@ -27,6 +28,16 @@ describe("FromCsv<T>", () => {
         ];
     });
 
+
+    it("with wide string", () => {
+        type T1 = FromCsv<string>;
+        type T2 = FromCsv<string, "KV[]">;
+
+        type cases = [
+            Expect<AssertEqual<T1, string[][]>>,
+            Expect<AssertEqual<T2, Record<string,string>[]>>
+        ];
+    });
 
     it("as Key/Value array", () => {
         type T1 = FromCsv<Data, "KV[]">;

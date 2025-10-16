@@ -1,14 +1,31 @@
 import type {
     AfterFirst,
     As,
+    AsBoolean,
+    AsNumber,
     EmptyObject,
     ExpandRecursively,
     First,
+    IsBooleanLike,
+    IsNumberLike,
     Push,
     Split,
     TrimEach
 } from "inferred-types/types";
 
+/**
+ * renders numeric or boolean types when `R` is true and the value `T`
+ * is either a `NumberLike` or `BooleanLike` string literal.
+ */
+type Render<T extends string, R extends boolean> = [R] extends [false]
+? T
+: IsNumberLike<T> extends true
+    ? AsNumber<T>
+: IsBooleanLike<T> extends true
+    ? AsBoolean<T>
+    : T;
+
+/** drops/skips empty rows */
 type DropEmptyRows<
     T extends readonly string[][],
     R extends readonly string[][] = []
@@ -21,6 +38,9 @@ type DropEmptyRows<
         : DropEmptyRows<Rest, As<Push<R, Head>, readonly string[][]>>
     : R;
 
+/**
+ * handles the parsing for a `string [][]` output
+ */
 type Multi<
     TCsv extends string,
     TRows extends readonly string[] = Split<TCsv, "\n">,
@@ -40,6 +60,8 @@ type Multi<
         TResult
     >;
 
+
+
 type BuildKv<
     TCols extends readonly string[],
     TData extends readonly string[],
@@ -51,7 +73,10 @@ type BuildKv<
     ? BuildKv<
         Rest,
         AfterFirst<TData>,
-        TResult & Record<Head, First<TData>>
+        TResult & Record<
+            Head,
+            First<TData>
+        >
     >
     : As<ExpandRecursively<TResult>, Record<string, string>>;
 
@@ -81,7 +106,7 @@ type Kv<
     : TResult;
 
 /**
- * **FromCsv**`<T, [F]>`
+ * **FromCsv**`<TCsv, [TFormat], [TResolve]>`
  *
  * Takes a string containing CSV data and converts it into
  * either:
@@ -91,20 +116,29 @@ type Kv<
  * column names for a given row
  *
  * The second output type will only work if the first row of data
- * has
+ * has column names in it.
+ *
+ * - the optional `TResolve` parameter can be set to `true` (the
+ * default is `false`) and when it is then `NumberLike` values
+ * will be converted to numbers and `BooleanLike` values will
+ * be converted to their boolean counterparts.
  */
 export type FromCsv<
     TCsv extends string,
-    TFormat extends "[][]" | "KV[]" = "[][]"
->
-    = TFormat extends "[][]"
-        ? As<
-            Multi<TCsv>,
-            string[][]
-        >
+    TFormat extends "[][]" | "KV[]" = "[][]",
+    TResolve extends boolean = false
+> = string extends TCsv
+? TFormat extends "[][]"
+    ? string[][]
+    : Record<string,string>[]
+: TFormat extends "[][]"
+    ? As<
+        Multi<TCsv>,
+        string[][]
+    >
 
-        : TFormat extends "KV[]"
-            ? Split<TCsv, "\n"> extends infer Rows extends readonly string[]
-                ? Kv<First<Rows>, AfterFirst<Rows>>
-                : never
-            : never;
+    : TFormat extends "KV[]"
+        ? Split<TCsv, "\n"> extends infer Rows extends readonly string[]
+            ? Kv<First<Rows>, AfterFirst<Rows>>
+            : never
+        : never;
