@@ -3,7 +3,7 @@
         "allow": [
             "Bash(node:*)",
             "Bash(pnpm test:*)",
-            "Bash(typed test *)",
+            "Bash(typed :*)",
             "Bash(pnpm audit:*)",
             "Bash(npx eslint:*)",
             "Bash(mkdir:*)",
