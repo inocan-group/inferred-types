@@ -10,7 +10,7 @@ import type {
     IsNumberLike,
     Push,
     Split,
-    TrimEach
+    TrimEach,
 } from "inferred-types/types";
 
 /**
