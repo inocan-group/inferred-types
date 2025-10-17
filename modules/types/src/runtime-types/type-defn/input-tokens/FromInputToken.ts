@@ -1,6 +1,7 @@
 import type {
     DefineObject,
     DefineTuple,
+    Err,
     FromDefineObject,
     FromDefineTuple,
     GetInputToken,
@@ -77,7 +78,7 @@ export type FromInputToken__Tuple<
                 : never
 };
 
-type _FromInputToken__Object<
+type _FromInputToken__Object_Props<
     T extends DefineObject,
 > = {
     [K in keyof T]: T[K] extends string
@@ -89,14 +90,56 @@ type _FromInputToken__Object<
                 : never
 };
 
+// Helper to check if any property value is an Error
+type _HasErrorProp<T> = {
+    [K in keyof T]: T[K] extends Error ? K : never
+}[keyof T];
+
+// Extract and enhance the error with property and token context
+type _ExtractErrorFromProps<T, TOriginal extends DefineObject> = _HasErrorProp<T> extends never
+    ? T
+    : _HasErrorProp<T> extends infer PropKey extends keyof T
+        ? T[PropKey] extends infer OrigErr extends Error
+            ? OrigErr extends { type: infer EType extends string; subType?: infer ESubType }
+                ? ESubType extends string
+                    ? Err<
+                        `${EType}/${ESubType}`,
+                        `Property "${PropKey & string}" has a malformed token`,
+                        {
+                            property: PropKey;
+                            token: TOriginal;
+                            originalError: OrigErr;
+                        }
+                    >
+                    : Err<
+                        EType,
+                        `Property "${PropKey & string}" has a malformed token`,
+                        {
+                            property: PropKey;
+                            token: TOriginal;
+                            originalError: OrigErr;
+                        }
+                    >
+                : OrigErr
+            : T[PropKey]
+        : never;
+
+type _FromInputToken__Object<
+    T extends DefineObject,
+> = _ExtractErrorFromProps<_FromInputToken__Object_Props<T>, T>;
+
 /**
  * Takes a tuple of `InputTokens` to create a **Tuple** type.
  */
 export type FromInputToken__Object<
     T extends DefineObject
-> = Mutable<MakeKeysOptional<
-    _FromInputToken__Object<Required<T>>,
-    UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
-        ? UnionToTuple<OptionalKeys<T>>
-        : never
->>;
+> = _FromInputToken__Object<Required<T>> extends infer Result
+    ? Result extends Error
+        ? Result
+        : Mutable<MakeKeysOptional<
+            Result,
+            UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
+                ? UnionToTuple<OptionalKeys<T>>
+                : never
+        >>
+    : never;

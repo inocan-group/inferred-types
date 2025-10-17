@@ -12,9 +12,11 @@ import type {
 } from "inferred-types/types";
 import { ALPHA_CHARS, Never } from "inferred-types/constants";
 import {
+    err,
     indexOf,
     isArray,
     isDictionary,
+    isError,
     isFalse,
     isInputToken__String,
     isNull,
@@ -83,10 +85,31 @@ function mutateObjectKeys<T extends Record<ObjectKey, unknown>>(
 ) {
     const result: Record<ObjectKey, string> = {};
     for (const k of Object.keys(obj)) {
-        result[k] = toStringLiteral(
+        const value = toStringLiteral(
             indexOf(obj, k) as any,
             opt
-        ) as unknown as string;
+        );
+
+        // If any property value is an error, propagate it with enhanced context
+        if (isError(value)) {
+            const originalError = value as any;
+            // Preserve both type and subType from original error
+            const errorType = originalError.subType
+                ? `${originalError.type}/${originalError.subType}`
+                : originalError.type || "malformed-token";
+
+            return err(
+                errorType,
+                `Property "${k}" has a malformed token: ${originalError.message || "invalid token"}`,
+                {
+                    property: k,
+                    token: obj,
+                    originalError
+                }
+            ) as any;
+        }
+
+        result[k] = value as unknown as string;
     }
 
     return result;
@@ -161,17 +184,31 @@ export function toStringLiteral<
         ...(options || {})
     } as ToLiteralOptions;
 
+    // Check for Error first - errors should be returned as-is, not stringified
+    if (isError(val)) {
+        return val as any;
+    }
+
+    if (isArray(val)) {
+        return toStringLiteral__Tuple(val as any, o) as unknown as ToStringLiteral<T>;
+    }
+
+    if (isDictionary(val)) {
+        const mutated = mutateObjectKeys(val, o);
+        // If mutateObjectKeys returned an error, propagate it
+        if (isError(mutated)) {
+            return mutated as any;
+        }
+        return toStringLiteral__Object(mutated) as unknown as ToStringLiteral<T>;
+    }
+
     return (
-        isArray(val)
-            ? toStringLiteral__Tuple(val as any, o)
-            : isDictionary(val)
-                ? toStringLiteral__Object(mutateObjectKeys(val, o))
-                : isTrue(val)
-                    ? "true"
-                    : isFalse(val)
-                        ? "false"
-                        : isScalar(val)
-                            ? scalarValue(val, o)
-                            : Never
+        isTrue(val)
+            ? "true"
+            : isFalse(val)
+                ? "false"
+                : isScalar(val)
+                    ? scalarValue(val, o)
+                    : Never
     ) as unknown as ToStringLiteral<T>;
 }

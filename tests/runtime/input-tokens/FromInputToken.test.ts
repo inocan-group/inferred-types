@@ -537,7 +537,6 @@ describe("FromInputToken<Token>", () => {
             >>
         ];
     });
-
 })
 
 
@@ -650,7 +649,6 @@ it("atomic types", () => {
             bar: "Array<boolean> | false"
         });
 
-        // TODO: Error is at property level rather than root level
         const propError = fromInputToken({
             foo: "number",
             bar: "Array<number"

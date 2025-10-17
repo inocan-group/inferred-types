@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import type { Expect, ObjectKeys, Test, ToStringLiteral, TupleMeta } from "inferred-types/types";
+import type { AssertError, Expect, ObjectKeys, Test, ToStringLiteral, TupleMeta } from "inferred-types/types";
 
-import { toStringLiteral, split, stripChars } from "inferred-types/runtime";
+import { err, toStringLiteral, split, stripChars } from "inferred-types/runtime";
 
 describe("ToStringLiteral<T>", () => {
 
@@ -237,5 +237,82 @@ describe("toStringLiteral(val)", () => {
                 [ "1", "2", "\"foo\"", "{ id: 1 }" ]
             >>
         ];
+    });
+
+    it("error propagation from object properties", () => {
+        // Create an object with a property that is an error
+        const objWithError = {
+            foo: "valid",
+            bar: err("malformed-token", "Invalid token")
+        };
+
+        const result = toStringLiteral(objWithError, { tokensAllowed: true });
+
+        type cases = [
+            Expect<AssertError<typeof result, "malformed-token">>
+        ]
+        // The result should be an error
+        expect(result).toBeInstanceOf(Error);
+
+        if (result instanceof Error) {
+            const typedErr = result as any;
+            // Should preserve the error type
+            expect(typedErr.type).toBe("malformed-token");
+            // Should mention which property failed
+            expect(typedErr.message).toContain("bar");
+            expect(typedErr.message).toContain("malformed token");
+            // Should include context
+            expect(typedErr.property).toBe("bar");
+            expect(typedErr.token).toEqual(objWithError);
+            expect(typedErr.originalError).toBeInstanceOf(Error);
+        }
+    });
+
+    it("error with subType is preserved", () => {
+        // Create an error with both type and subType
+        const objWithError = {
+            foo: "valid",
+            bar: err("malformed-token/array", "Invalid array token")
+        };
+
+        const result = toStringLiteral(objWithError, { tokensAllowed: true });
+
+        expect(result).toBeInstanceOf(Error);
+
+        type cases = [
+            Expect<AssertError<typeof result, "malformed-token", "array">>
+        ]
+
+        if (result instanceof Error) {
+            const typedErr = result as any;
+            // Should preserve both type and subType
+            expect(typedErr.type).toBe("malformed-token");
+            expect(typedErr.subType).toBe("array");
+        }
+    });
+
+    it("nested errors are caught at first level", () => {
+        // Create nested object with error at inner level
+        const nestedError = {
+            outer: "valid",
+            inner: {
+                nested: err("malformed-token/literal", "Bad literal")
+            }
+        };
+
+        const result = toStringLiteral(nestedError, { tokensAllowed: true });
+
+        type cases = [
+            Expect<AssertError<typeof result, "malformed-token", "literal">>
+        ]
+
+        // Should catch the nested error when processing the inner object
+        expect(result).toBeInstanceOf(Error);
+
+        if (result instanceof Error) {
+            const typedErr = result as any;
+            // The outer level should report the 'inner' property as problematic
+            expect(typedErr.property).toBe("inner");
+        }
     });
 });
