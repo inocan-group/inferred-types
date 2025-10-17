@@ -11,12 +11,19 @@ import {
 } from "inferred-types/runtime";
 
 /**
- * **asInputToken**`(token)`
+ * **fromInputToken**`(token)`
  *
- * takes both string and _non-string_ representations of an input token
+ * takes both string and _non-string_ representations of an `InputToken`
  * and ensures that they are converted to their _string-literal_ form
- * while the _type_ is converted to the _type_ which the token
+ * and the _type_ is converted to the _type_ which the token
  * represents.
+ *
+ * - if you'd prefer the _type_ to remain as the string literal representing
+ * the token then use `asInputToken()` instead.
+ * - Note: like `asInputToken()`, a string token passed in will have the string
+ * literal trimmed to remove unnecessary whitespace. From a token standpoint the
+ * whitespace doesn't matter but to move toward a more tidy and uniform set of
+ * tokens we take this measure mainly for aesthetics.
  */
 export function fromInputToken<
     T extends InputToken
@@ -25,7 +32,7 @@ export function fromInputToken<
 ) {
     return (
         isInputToken__String(token)
-            ? token
+            ? token.trim()
             : isDefineObject(token)
                 ? toStringToken(token) // convert to string based definition of an object
                 : isDefineTuple(token)

@@ -1,24 +1,37 @@
-import type { InputToken } from "inferred-types/types";
+import type { As, Dictionary, InputToken, ToStringLiteral__Array, ToStringLiteral__Object, Trim } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
-import { fromInputToken, isArray, isDictionary, isString, toStringLiteral__Object } from "inferred-types/runtime";
+
+import {
+    isArray,
+    isDictionary,
+    isString,
+    toStringLiteral__Object,
+    toStringLiteral__Tuple
+} from "inferred-types/runtime";
 
 /**
  * **asInputToken**`(token) -> string`
  *
  * Takes an input token(string or otherwise) and returns it as a string token.
  *
- * **Note:** until the runtime type parser is finished this will not produce
- * a runtime errors when an invalid token is passed in but the _type_ will
- * be set because it benefits from type utilities which are already in place.
+ * - the "type" is just the string literal token value
+ * - if you'd prefer the _type_ to be transformed to what the type the token is
+ * referencing then use `fromInputToken()` instead.
  */
 export function asInputToken<const T extends InputToken>(token: T) {
     return (
         isString(token)
-            ? token
+            ? token.trim() as Trim<As<T,string>>
             : isDictionary(token)
                 ? toStringLiteral__Object(token)
                 : isArray(token)
-                    ? fromInputToken(token)
+                    ? toStringLiteral__Tuple(token as any[])
                     : Never
-    );
+    ) as T extends string
+        ? Trim<T>
+        : T extends Dictionary
+            ? ToStringLiteral__Object<T>
+        : T extends any[]
+            ? ToStringLiteral__Array<T>
+        : never;
 }

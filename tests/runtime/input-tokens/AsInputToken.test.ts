@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import type { AsInputToken, Expect, FromInputToken, Test, ToStringLiteral } from "inferred-types/types";
+import type { AsInputToken, Expect, FromInputToken, Test } from "inferred-types/types";
 import { asInputToken } from "inferred-types/runtime";
 
 describe("AsInputToken<T>", () => {
@@ -107,7 +107,7 @@ describe("asInputToken(token)", () => {
 
     it("objects", () => {
         const a = asInputToken({foo: "1"});
-        
+
 
         type cases = [
             /** type tests */
