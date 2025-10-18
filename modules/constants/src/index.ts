@@ -8,6 +8,7 @@ export * from "./CommonObjProps";
 export * from "./Comparisons";
 export * from "./Consonants";
 export * from "./Constant";
+export * from "./Currencies";
 export * from "./DateTime";
 export * from "./DoubleLeap_Exotic";
 export * from "./DoubleLeap_Typical";
@@ -52,3 +53,4 @@ export * from "./Types";
 export * from "./TypeTokens";
 export * from "./TypeTokenVariants";
 export * from "./TypeTransforms";
+
