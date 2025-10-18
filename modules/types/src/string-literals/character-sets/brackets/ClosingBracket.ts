@@ -1,4 +1,4 @@
 /**
  * **ClosingBracket**
  */
-export type ClosingBracket = ")" | "]" | "}";
+export type ClosingBracket = ")" | "]" | "}" | ">";

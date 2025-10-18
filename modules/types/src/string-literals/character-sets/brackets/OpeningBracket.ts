@@ -1,4 +1,4 @@
 /**
  * **OpeningBracket**
  */
-export type OpeningBracket = "(" | "[" | "{";
+export type OpeningBracket = "(" | "[" | "{" | "<";

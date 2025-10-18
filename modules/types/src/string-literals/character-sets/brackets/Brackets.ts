@@ -1,6 +1,9 @@
-import type { ClosingBracket, OpeningBracket } from "inferred-types/types";
 
 /**
  * Opening and closing brackets. Where brackets are parenthesis, square brackets, and curly brackets.
+ *
+ * **Related:** `OpeningBracket`, `ClosingBracket`
  */
-export type Bracket = OpeningBracket | ClosingBracket;
+export type Bracket =
+| "(" | "[" | "{" | "<"
+| ")" | "]" | "}" | ">";
