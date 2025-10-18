@@ -1,10 +1,10 @@
 import { Nesting, NestingKeyValue } from "inferred-types/types";
 
 /**
- * **GetNextLevelConfig**`<TStartChar, TNesting>`
+ * **GetNextLevelConfig**`<TEntry, TNesting>`
  *
  * Extracts the nesting configuration to use inside a nesting level that
- * starts with `TStartChar`.
+ * starts with `TEntry`.
  *
  * - For **simple configs** (string values): Returns the same config (no hierarchy)
  * - For **hierarchical key-value** configs: Extracts `nextLevel` from `[exit, nextLevel]` tuple
@@ -25,14 +25,14 @@ import { Nesting, NestingKeyValue } from "inferred-types/types";
  * ```
  */
 export type GetNextLevelConfig<
-    TStartChar extends string,
+    TEntry extends string,
     TNesting extends Nesting
 > = [TNesting] extends [NestingKeyValue]
-    ? TStartChar extends keyof TNesting
-        ? TNesting[TStartChar] extends readonly [infer _Exit extends string, infer NextLevel]
+    ? TEntry extends keyof TNesting
+        ? TNesting[TEntry] extends readonly [infer _Exit extends string, infer NextLevel]
             // Hierarchical form (readonly tuple) - extract nextLevel
             ? NextLevel
-            : TNesting[TStartChar] extends [infer _Exit extends string, infer NextLevel]
+            : TNesting[TEntry] extends [infer _Exit extends string, infer NextLevel]
                 // Hierarchical form (mutable tuple) - extract nextLevel
                 ? NextLevel
                 // Simple form - return same config

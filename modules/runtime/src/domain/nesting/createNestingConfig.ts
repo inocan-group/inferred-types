@@ -1,4 +1,9 @@
-import type { BracketNesting, DefaultNesting, Nesting, QuoteNesting } from "inferred-types/types";
+import type {
+    BracketNesting,
+    DefaultNesting,
+    Nesting,
+    QuoteNesting
+} from "inferred-types/types";
 import { err, isString } from "inferred-types/runtime";
 
 type NamedNestingConfig = "default" | "brackets" | "quotes";

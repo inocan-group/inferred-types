@@ -3,9 +3,9 @@ import type {
     Chars,
     Err,
     FromNamedNestingConfig,
-    IsNestingEnd,
+    IsExitToken,
     IsNestingMatchEnd,
-    IsNestingStart,
+    IsEntryToken,
     Join,
     Nesting,
     NestingConfig__Named,
@@ -21,7 +21,7 @@ type Check<
     infer Head extends string,
     ...infer Rest extends readonly string[]
 ]
-    ? [IsNestingStart<Head, TNesting>] extends [true]
+    ? [IsEntryToken<Head, TNesting>] extends [true]
         ? Check<
             Rest,
             TNesting,
@@ -41,7 +41,7 @@ type Check<
                     : never
             >
             : And<[
-                IsNestingEnd<Head, TNesting>,
+                IsExitToken<Head, TNesting>,
                 TStack["length"] extends 0 ? true : false
             ]
             > extends true
@@ -52,7 +52,7 @@ type Check<
                         { char: Head; stack: ToStringLiteral__Array<TStack> }
                     >
                     : false
-                : [IsNestingEnd<Head, TNesting>] extends [true]
+                : [IsExitToken<Head, TNesting>] extends [true]
                     ? TErr extends true
                         ? Err<
                             "unbalanced/is-balanced",

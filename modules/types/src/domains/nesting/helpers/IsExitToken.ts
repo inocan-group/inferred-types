@@ -5,11 +5,8 @@ import { ExtractExitTokens } from "./ExtractExitTokens"
 /**
  * Tests the character `T` to see if it is a
  * terminal character in the Nesting configuration.
- *
- * **NEW**: Now properly handles hierarchical configs by extracting exit tokens
- * from [exit, nextLevel] tuples
  */
-export type IsNestingEnd<
+export type IsExitToken<
     TChar extends string,
     TNesting extends Nesting
 > = [string] extends [TChar]

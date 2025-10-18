@@ -1,5 +1,21 @@
 import { Nesting } from "./Nesting";
-import { ExceptionRules } from "types/domains"
+import { NestedException } from "types/domains"
+
+
+export type NestingKeyValueConfig = {
+    /** the exit token */
+    exit: string,
+
+    /**
+     * optionally specify a new nesting configuration for child nodes
+     */
+    children?: Nesting;
+
+    /**
+     * optionally add exceptions to _entry_ or _exit_ tokens.
+     */
+    exception?: NestedException;
+}
 
 /**
  * **NestingKeyValue**
@@ -40,8 +56,5 @@ import { ExceptionRules } from "types/domains"
 export type NestingKeyValue = Record<
     string,
     | string
-    | readonly [exit: string, nextLevel: Nesting]
-    | readonly [exit: string, nextLevel: Nesting, currentLevelExceptions: ExceptionRules]
-    | [exit: string, nextLevel: Nesting]
-    | [exit: string, nextLevel: Nesting, currentLevelExceptions: ExceptionRules]
+    | NestingKeyValueConfig
 >;

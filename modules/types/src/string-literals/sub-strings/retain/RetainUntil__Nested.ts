@@ -9,9 +9,9 @@ import type {
     GetNextLevelConfig,
     GetParentConfig,
     IsGreaterThan,
-    IsNestingEnd,
+    IsExitToken,
     IsNestingMatchEnd,
-    IsNestingStart,
+    IsEntryToken,
     IsNestingTuple,
     Join,
     Last,
@@ -53,7 +53,7 @@ type FindLast<
             ? `${TRtn}${First<TChars>}`
             : TRtn
         : And<[
-            IsNestingEnd<First<TChars>, TNesting>,
+            IsExitToken<First<TChars>, TNesting>,
             TStack["length"] extends 1 ? true : false,
             IsNestingMatchEnd<
                 First<TChars>,
@@ -87,7 +87,7 @@ type FindLast<
                         Pop<TStack>,
                         TRootNesting
                     >
-                : IsNestingStart<First<TChars>, TNesting> extends true
+                : IsEntryToken<First<TChars>, TNesting> extends true
                     // Entering nesting - switch to next-level config
                     ? FindLast<
                         AfterFirst<TChars>,

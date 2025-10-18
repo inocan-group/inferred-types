@@ -1,38 +1,51 @@
 import { Nesting } from "./Nesting";
-import { ExceptionRules } from "types/domains";
+import { NestedException } from "types/domains";
+
+export type NestingTupleConfig = {
+    /** the exit token */
+    exit: string[],
+
+    /**
+     * optionally specify a new nesting configuration for child nodes
+     */
+    children?: Nesting;
+
+    /**
+     * optionally add exceptions to _entry_ or _exit_ tokens.
+     */
+    exception?: NestedException;
+}
+
 
 /**
  * **NestingTuple**
  *
  * A tuple which represents a nesting configuration:
  *
- * - **Simple (backward compatible)**: `[start, end]`
+ * - **Simple**: `[start, end]`
  *   - `start` is a tuple of strings representing all characters allowed to start the nesting
  *   - `end` is either a tuple of characters which terminate the nesting, or if `end` is _undefined_
  *     then the nesting terminates when the characters in `start` end.
  *
- * - **Hierarchical (new)**: `[start, end, nextLevel]`
- *   - Same as simple form, but with an optional third element
- *   - `nextLevel` is the `Nesting` configuration to use inside this nesting level
- *
- * - **Hierarchical with exceptions**: `[start, end, nextLevel, exceptions]`
- *   - Same as hierarchical form, but with an optional fourth element
- *   - `exceptions` defines when the entry/exit delimiters should be ignored
+ * - **Detailed**: `[start, { exit: [ a,b,c ]; children: {}, ...  } ]`
+     - `start`
+ *   - `config` - `exit`, `children` and/or `exception` props
  *
  * **Examples:**
  *
  * ```ts
- * // Simple (backward compatible)
- * type Simple = [["(", "["], [")", "]"]]
+ * // Simple Recursive Ruleset
+ * type Simple = [
+ *      [ "(", "[" ], // entry
+ *      [ ")", "]"]   // exit
+ * ]
  *
- * // Hierarchical - different tokens at next level
- * type Multi = [["(", "["], [")", "]"], { "{": "}" }]
- *
- * // Hierarchical with exceptions - ignore `>` when preceded by `=`
- * type ArrowSafe = [["<"], [">"], {}, { exit: { ignorePrecededBy: ["="] } }]
- * ```
+ * // Detailed Config
+ * type Multi = [
+ *      ["(", "["],   // entry
+ *      { exit: "]", ")", children: {}, exclude: { exit: { ignoreFollowedBy: "!" } } }
+ * ]
  */
 export type NestingTuple =
-    | [start: readonly string[], end: readonly string[] | undefined]
-    | [start: readonly string[], end: readonly string[] | undefined, nextLevel: Nesting]
-    | [start: readonly string[], end: readonly string[] | undefined, nextLevel: Nesting, exceptions: ExceptionRules];
+    | [entry: readonly string[], exit?: string[]]
+    | [entry: readonly string[], config: NestingTupleConfig];

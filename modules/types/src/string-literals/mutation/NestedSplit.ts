@@ -10,7 +10,7 @@ import type {
     GetNextLevelConfig,
     GetParentConfig,
     IsNestingMatchEnd,
-    IsNestingStart,
+    IsEntryToken,
     Last,
     Nesting,
     NestingConfig__Named,
@@ -23,8 +23,6 @@ import type {
 } from "inferred-types/types";
 
 export type NestedSplitPolicy = "omit" | "before" | "inline" | "after";
-
-// IsQuotesMode removed - hierarchical nesting now handles this case properly
 
 /** when a split character is found and there is no stack depth */
 type SplitWithNoStack<
@@ -91,7 +89,7 @@ type MultiConvertDirect<
                 true,
                 TRootNesting
             >
-            : IsNestingStart<Head, TNesting> extends true
+            : IsEntryToken<Head, TNesting> extends true
                 // Entering nesting - switch to next-level config
                 ? MultiConvertDirect<
                     Rest,
@@ -131,7 +129,7 @@ type MultiConvertDirect<
                     false,
                     TRootNesting
                 >
-            : IsNestingStart<Head, TNesting> extends true
+            : IsEntryToken<Head, TNesting> extends true
                 // Entering nesting while already nested - switch to next-level config
                 ? MultiConvertDirect<
                     Rest,
@@ -241,7 +239,7 @@ type Convert<
                     TResult,
                     TRootNesting
                 >
-            : IsNestingStart<First<TChars>, TNesting> extends true
+            : IsEntryToken<First<TChars>, TNesting> extends true
                 // Entering nesting - switch to next-level config
                 ? Convert<
                     AfterFirst<TChars>,

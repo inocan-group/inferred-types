@@ -3,9 +3,9 @@ import type {
     BracketNesting,
     Err,
     ErrContext,
-    GetNestingEnd,
+    GetExitToken,
     Increment,
-    IsNestingStart,
+    IsEntryToken,
     NestedString,
     Nesting
 } from "inferred-types/types";
@@ -24,7 +24,7 @@ export type TakeNestedString<
     TLevel extends number,
     TContent extends string = "",
     TChildren extends readonly NestedString[] = []
-> = GetNestingEnd<TEnter, TNesting> extends infer ExitChar extends string | null
+> = GetExitToken<TEnter, TNesting> extends infer ExitChar extends string | null
     ? TParse extends `${infer Head extends string}${infer Rest extends string}`
     // #region Exiting
         ? Head extends ExitChar
@@ -40,7 +40,7 @@ export type TakeNestedString<
             }
         // #endregion
         // #region Entering
-            : IsNestingStart<Head, TNesting> extends true // Recurse to get new level
+            : IsEntryToken<Head, TNesting> extends true // Recurse to get new level
                 ? TakeNestedString<Rest, TNesting, Head, Increment<TLevel>> extends infer Child extends {
                     node: NestedString;
                     rest: string;

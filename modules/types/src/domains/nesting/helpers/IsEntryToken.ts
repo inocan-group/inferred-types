@@ -4,7 +4,7 @@ import { Keys, Nesting, NestingKeyValue, NestingTuple } from "inferred-types/typ
  * Tests the character `T` to see if it is a
  * starting character in the Nesting configuration.
  */
-export type IsNestingStart<
+export type IsEntryToken<
     TChar extends string,
     TNesting extends Nesting
 > = [string] extends [TChar]

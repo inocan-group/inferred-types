@@ -1,5 +1,5 @@
 import {
-    IsNestingEnd,
+    IsExitToken,
     Last,
     Nesting,
     NestingKeyValue
@@ -20,7 +20,7 @@ export type IsNestingMatchEnd<
     TChar extends string,
     TStack extends readonly string[],
     TNesting extends Nesting
-> = [IsNestingEnd<TChar, TNesting>] extends [true]
+> = [IsExitToken<TChar, TNesting>] extends [true]
     ? [TNesting] extends [NestingKeyValue]
         ? [Last<TStack>] extends [string]
             ? TNesting[Last<TStack>] extends infer Value
