@@ -1,4 +1,4 @@
-# Nesting Functionality
+# Nesting and Parsing
 
 The **inferred-types** library provides comprehensive support for parsing and working with nested string structures through a collection of type utilities and runtime functions. This functionality is essential for handling strings that contain hierarchical structures like code, markup, or any text with paired delimiters.
 
@@ -11,462 +11,221 @@ Nesting functionality allows you to:
 - Extract substrings up to specific delimiters while maintaining nesting context
 - Convert between flat strings and nested data structures
 
-## Core Types and Configuration
+We also use nesting directly in utilities such as:
 
-### Nesting Configuration Types
+- `NestedSplit` / `nestedSplit()`
+- `RetainUntil__Nested` / `retainUntil__Nested()`
+- and the higher order function `nesting()`
 
-The library supports two primary nesting configuration approaches:
+Indirectly we rely on nesting/parsing to be able to parse `InputTokens` and many other features. So while we are own _consumer_ of nesting it is also a power set of tools that users of this library can use directly.
 
-#### 1. NestingKeyValue
+## Configuration
 
-A key-value mapping where keys are opening characters and values are either:
-- **Simple**: closing characters (string)
-- **Hierarchical**: tuple of `[exit, nextLevel]` where `nextLevel` is the nesting config for inside
+### Base Token Configuration
 
-```typescript
-// Simple form
-type SimpleNesting = {
-  "{": "}",
-  "(": ")",
-  "[": "]",
-  "<": ">"
-}
+The configuration of nested parsing trees is largely done with two primitives:
 
-// Hierarchical form
-type HierarchicalNesting = {
-  '"': ['"', {}],              // quotes - no nesting inside
-  "(": [")", { "[": "]" }]     // parens - only brackets nest inside
+1. [`NestingKeyValue`](../modules/types/src/domains/nesting/primitives/NestingKeyValue.ts)
+
+    This configuration primitive is used to define **entry** and **exit** tokens which are mapped together. They are defined as a key-value dictionary where the _keys_ are the **entry** tokens and the _values_ are the **exit** tokens.
+
+    **Example:**
+
+    ```ts
+    type Config = As<{
+        '(': ')',
+        '{': '}',
+        '<': '>'
+    }, NestingKeyValue>
+    ```
+
+2. [`NestingTuple`](../modules/types/src/domains/nesting/primitives/NestingTuple.ts)
+
+    The `NestingTuple` type is also responsible for defining **entry and **exit** tokens but unlike the `NestingKeyValue` the entry and exit tokens are unrelated.
+
+    **Example:**
+
+    ```ts
+    type Config = As<{
+
+    }, NestingTuple>
+    ```
+
+**Note:** the `Nesting` type is a union of `NestingKeyValue` and `NestingTuple` and represents the two core ways of defining a nesting configuration.
+
+### Understanding what a Entry and Exit token is
+
+A nested tree (or a parsing tree) is a multi-level tree which a string is moved into.
+
+- we start from a ROOT level and parse a string, character by character
+- we stay on the ROOT level _until_ we hit an ENTRY token
+- once an ENTRY token has been found, we move _up_ a level and keep on parsing character by character looking for either an EXIT token (to go down a level) or another ENTRY token to go up another level
+    - as a rudimentary example imagine we're parsing the string `Hello (world)!` and we're using the example configuration provided in the `NestingKeyValue` section
+    - we will process characters at the ROOT level until we hit the `(` character
+        - at this point we move to Level 1 and we continue processing characters until we hit the `)` character
+        - this character is the sole EXIT token for this level and since we've found it we will move back down to the ROOT level
+        - now back at the ROOT level we parse the final character (the `!` character) and we're done
+    - jobs which are able to end on the ROOT level are considered to have successfully parsed the string
+    - in contrast if we end up in a positive (or negative) level we will raise an "unbalanced" error.
+
+### Beyond the Basics
+
+Now that we have an understanding for the basics of configuring a nested parse tree, let's get into two more levels of features that are going to be important for a full featured implementation:
+
+1. Token Recursion versus Diversion
+
+    - the idea here is that as we move up levels in the parse tree, do we keep the same Entry and Exit tokens for each level?
+    - the examples we've seen so far, the answer is yes ... each new level takes the configuration of it's parent level
+    - however, we will find situations where we need to diverge from the ROOT level configuration
+
+2. Token Exceptions
+
+   - while parsing/lexing through the target string we move character by character
+   - all of our decisions so far have been based on the _current character_ and this is generally the pattern we want to follow
+   - however, there are times where being able to _look-ahead_ at the next token or _look_behind_ and prior character to make decisions will be helpful
+   - the ability to ignore certain entry or exit tokens based on what immediately precedes or follows the current character is what we call exceptions.
+
+The following diagram shows at a high level the basics of entry/exit tokens, diversion, and exceptions:
+
+![nesting-parsing-tree](nesting-parsing-tree.png)
+
+### Recursion vs Diversion
+
+By default we configure our entry/exit tokens at the ROOT level and each level upward we go we continue to have the same configuration.
+
+Probably the first time this perpetual recursion of configuration became a problem was when we were using a **quotes** based set of rules that looked something like this:
+
+```ts
+type Config = {
+    `'`: `'`,
+    `"`: `"`
 }
 ```
 
-#### 2. NestingTuple
+- When using a configuration like this you're trying to isolate quoted text -- both single quoted and double quoted -- as a separate layer in order to isolate it.
+- Imagine though we were parsing the following string:
+    - `the "person" who had entered "wasn't" the person who left`
+- If we were to use fully recursive tokens this would fail to parse with an "unbalanced" error.
+- Why?
+    - When we hit the first double quote we will move to level 1
+    - When we hit the next double quote we will move back to the ROOT level
+    - When we hit the next double quote (right before the word `wasn't`) we again move to level 1
+    - However, when we hit the apostrophe (aka, a single quote mark) we move to level 3 where the exit token is another single quote
+    - There are no more single quotes so we do not finish the parsing back the ROOT level!
 
-A tuple `[start, end]` or `[start, end, nextLevel]` for more complex scenarios:
+We can solve this problem quite easily by expressing that we want to remove all entry/exit tokens when going into the double quote character:
 
-```typescript
-// Simple tuple (backward compatible)
-type SimpleTuple = [
-  readonly string[], // start characters
-  readonly string[] | undefined // end characters (undefined means same as start)
-]
-
-// Hierarchical tuple (new)
-type HierarchicalTuple = [
-  readonly string[], // start characters
-  readonly string[] | undefined, // end characters
-  Nesting // next-level nesting config (optional)
-]
+```ts
+type Config = {
+    `'`: `'`,
+    `"`: { exit: `"`, children: {} }
+}
 ```
+
+In this example we see the following:
+
+- the simple key/value structure afforded to us by the `NestingKeyValue` can have a _value_ which is a key/value dictionary itself.
+- when we use a dictionary to define the value we _can_ define three things (and must define at least one):
+    - `exit`(_required_) - specifies the exit token
+    - `children`(_optional_) - allows us to add another `Nesting` configuration for the children of a parent node to take on as their entry/exit tokens.
+        - In the example we've used an empty object which means that there are no more entry/exit pairings!
+        - That means when we move into Level 1 with the `"` character we will have the exit token of `"` (from ROOT) but there will be no more entry tokens so the tree can not go any deeper.
+    - `exceptions`(_optional_) - we didn't set this here and this will be covered in the next section
+
+**Note:** while we didn't explore going down the single quote path, we are still using the default recursive configuration so if we run into a single quote while on the ROOT level we will still have both quote characters as entry tokens and the ability to move deeper into the nested parse tree.
+
+The diagram below tries to show this in a more visual format:
+
+![Recursion vs Diversion](recursion-vs-diversion.png)
+
+
+### Exceptions
+
+Now that we've covered Recursion/Diversion let's move onto the third and final part of configuring a nested parse tree: Exceptions.
+
+In this section the example we'll use is in parsing a string that looks like:
+
+- `Array<() => "foo" | "bar">`
+
+Imagine our real needs are to parse any Typescript type. In many cases we might get away with a simple configuration like:
+
+```ts
+type Config = {
+    `(`: `)`,
+    `<`: `>`,
+    `'`: `'`,
+    `"`: `"`
+}
+```
+
+The problem we'll run into is that JS/TS arrow functions use the `>` character but are likely NOT the exit token we want to switch on. This is where exceptions come in to save the day.
+
+Let's adjust the configuration only slightly:
+
+```ts
+type Config = {
+    `(`: `)`,
+    `<`: { exit:`>`, exception: { exit: { ignorePrecededBy: "=" } } },
+    `'`: `'`,
+    `"`: `"`
+}
+```
+
+Now when we hit the character `>` it will be seen as the _exit_ token but based on the exception and the previous character being `=` it will be passed by and just left as a literal in the level it was in.
+
+#### Exception Syntax
+
+The type [`NestedException`](../modules/types/src/domains/nesting/exceptions/exception-rules.ts) exposes the structure you can configure when using the `exception` property on either a `NestingKeyValue` or `NestingTuple`
 
 ### Named Configurations
 
-Six built-in configurations are available:
-
-**Deep Nesting (Recursive):**
-- **`"default"` / `"brackets"`**: Includes `{}`, `[]`, `()`, `<>` - nesting applies at all levels
-- **`"quotes"`**: Includes `"`, `'`, `` ` `` - quotes nest at all levels
-- **`"brackets-and-quotes"`**: Combines brackets and quotes - both nest at all levels
-
-**Shallow Nesting (Non-Recursive):**
-- **`"shallow-brackets"`**: Brackets recognized at level 0 only - no nesting inside brackets
-- **`"shallow-quotes"`**: Quotes recognized at level 0 only - no nesting inside quotes
-- **`"shallow-brackets-and-quotes"`**: Both recognized at level 0 only - no nesting inside either
-
-### Hierarchical Nesting Configuration (NEW)
-
-The library now supports **hierarchical nesting** where each nesting level can specify different token configurations for the next level. This enables sophisticated parsing scenarios and eliminates special-case handling.
-
-#### Hierarchical NestingKeyValue
-
-Values can be either simple strings or tuples `[exit, nextLevel]`:
-
-```typescript
-// Simple form (backward compatible)
-type Simple = { "(": ")" }
-
-// Hierarchical form - empty config inside quotes (shallow nesting)
-type ShallowQuotes = {
-  '"': ['"', {}]  // Inside quotes, no further nesting
-}
-
-// Hierarchical form - different tokens at different levels
-type MultiLevel = {
-  "(": [")", { "[": "]" }]  // Inside parens, only brackets nest
-}
-```
-
-#### Hierarchical NestingTuple
-
-Tuples can include an optional third element for next-level configuration:
-
-```typescript
-// Simple tuple (backward compatible)
-type SimpleTuple = [["(", "["], [")", "]"]]
-
-// Hierarchical tuple - specify next level config
-type HierarchicalTuple = [
-  ["(", "["],           // start tokens
-  [")", "]"],           // end tokens
-  { "{": "}" }          // next level config (only braces inside parens/brackets)
-]
-```
-
-#### Shallow Nesting Configurations
-
-The library provides three pre-configured shallow nesting strategies that are perfect for common use cases:
-
-**SHALLOW_BRACKET_NESTING**
-```typescript
-import { SHALLOW_BRACKET_NESTING } from "inferred-types/constants";
-// Equivalent to:
-{
-  "(": [")", {}],
-  "[": ["]", {}],
-  "{": ["}", {}],
-  "<": [">", {}]
-}
-```
-
-**SHALLOW_QUOTE_NESTING**
-```typescript
-import { SHALLOW_QUOTE_NESTING } from "inferred-types/constants";
-// Equivalent to:
-{
-  '"': ['"', {}],
-  "'": ["'", {}],
-  "`": ["`", {}]
-}
-```
-
-**SHALLOW_BRACKET_AND_QUOTE_NESTING**
-```typescript
-import { SHALLOW_BRACKET_AND_QUOTE_NESTING } from "inferred-types/constants";
-// Combines both shallow bracket and shallow quote nesting
-```
-
-**When to Use Shallow vs. Deep Nesting:**
-
-Use **shallow nesting** when:
-- You only care about the root level (e.g., splitting CSV with quoted values)
-- You want to treat nested content as opaque/literal
-- You want to avoid "unbalanced" errors from content inside delimiters
-- Performance is critical (shallow configs are slightly faster)
-
-Use **deep nesting** when:
-- You need to parse multiple levels of structure
-- You're building AST-like representations
-- You need to validate balanced delimiters at all levels
-
-**Examples:**
-
-```typescript
-// Shallow: Split CSV with quoted commas
-type CSV = NestedSplit<'name,"last, first",age', ",", "shallow-quotes">;
-// Result: ["name", '"last, first"', "age"]
-// The comma inside quotes is NOT a split point
-
-// Deep: Same with regular quotes (would fail or split incorrectly)
-type CSVDeep = NestedSplit<'name,"last, first",age', ",", "quotes">;
-// Less predictable - quotes nest inside quotes, causing issues
-
-// Shallow: Split function calls at root level only
-type Calls = NestedSplit<"foo(bar(baz)),qux()", ",", "shallow-brackets">;
-// Result: ["foo(bar(baz))", "qux()"]
-// Inner parentheses don't affect split
-```
-
-#### Use Cases for Hierarchical Nesting
+While it's important that we can define our nesting configurations for our specific needs, there are some configurations which tend to meet the 80/20 rule. We export them as types but also all utilities which use nested configurations allow these named configurations to be used in addition to a custom configuration.
 
-**Shallow Nesting**: Parse quotes without nesting inside them
-```typescript
-// Split on commas, but not inside quotes
-type Result = NestedSplit<'a,"b,c",d', ",", { '"': ['"', {}] }>;
-// Result: ["a", '"b,c"', "d"] - comma inside quotes is preserved
-```
+| Type                            | Nickname              | Desc          |
+| ---                             | ---                   | ---           |
+| [`QuoteNesting`]("../modules/types/src/domains/nesting/named/recursive.ts")                  | `quotes`              | _Recursive_ rule for single and double quotes, and grave markers     |
+| [`BracketNesting`]("../modules/types/src/domains/nesting/named/recursive.ts")                | `brackets`            | _Recursive_ rule for square, squiggly brackets and parenthesis      |
+| [`BracketAndQuoteNesting`]("../modules/types/src/domains/nesting/named/recursive.ts")        | `brackets-and-quotes` | _Recursive_ rule for both quotes and brackets |
+| [`ShallowQuoteNesting`]("../modules/types/src/domains/nesting/named/shallow.ts")           | `shallow-quotes`      | _Root only_ rule for single and double quotes, and grave markers  |
+| [`ShallowBracketNesting`]("../modules/types/src/domains/nesting/named/shallow.ts")         | `shallow-brackets`    | _Root only_ rule for square, squiggly brackets and parenthesis |
+| [`ShallowBracketAndQuoteNesting`]("../modules/types/src/domains/nesting/named/shallow.ts") | `shallow-brackets-and-quotes` | _Root only_ rule for quotes and brackets |
 
-**Multi-Level Parsing**: Different tokens at different levels
-```typescript
-type Config = {
-  "(": [")", { "[": ["]", {}] }]  // parens -> brackets -> nothing
-}
-type Result = NestedSplit<"fn(arr[a,b])", ",", Config>;
-// Splits respect both parentheses and brackets hierarchy
-```
 
-**Language Parsing**: Model actual language nesting rules
-```typescript
-type JSXLike = {
-  "<": [">", { "{": "}" }]  // JSX tags can contain expressions in braces
-}
-```
+### Configuring With Runtime
 
-### Core Data Structure
+The `createNestingConfig()` function is a simple builder pattern that helps you build valid nesting configurations with type guard rails that ensure you can't really make any mistakes.
 
-The `NestedString` type represents parsed nested content:
 
-```typescript
-type NestedString = {
-  content: string;        // Text content at this level
-  enterChar: string | null; // Opening character (null for root level)
-  exitChar: string | null;  // Closing character (null for root level)
-  children: NestedString[]; // Nested structures within this level
-  level: number;           // Nesting depth (0 = root)
-}
-```
+## Nesting / Parsing Utilities
 
-## Type System Utilities
+To help making utilities like `NestedSplit` / `nestedSplit()` as well as provide uniformity across all the utilities built this repo exposes a number of utilities to make your life better.
 
-### Nest<TContent, TNesting>
+| Utility                  | Description               |
+| --------                 | ------------              |
+| [IsNestingConfig](../modules/types/src/domains/nesting/helpers/IsNestingConfig.ts)`<T>`        | A boolean operator that returns true/false on whether `T` is a valid nesting configuration |
+| [IsNestingKeyValue](../modules/types/src/domains/nesting/helpers/IsNestingKeyValue.ts)`<T>`    | A boolean operator that returns true/false based on whether `T` is a valid `NestingKeyValue` config  |
+| [IsNestingTuple](../modules/types/src/domains/nesting/helpers/IsNestingTuple.ts)`<T>`    | A boolean operator that returns true/false based on whether `T` is a valid `NestingTuple` config     |
+| [IsEntryToken](../modules/types/src/domains/nesting/helpers/IsEntryToken.ts)`<T>`      | Tests the character `T` to see if it is an **entry** token the Nesting configuration. |
+| [IsExitToken](../modules/types/src/domains/nesting/helpers/IsExitToken.ts)`<T>`        | Tests the character `T` to see if it is an **exit** token under the Nesting configuration. |
+| [GetExitToken](../modules/types/src/domains/nesting/helpers/GetExitToken.ts)`<TEntry, TNesting>`  | Provides the exit token based on the entry token and configuration |
+| [GetParentConfig](../modules/types/src/domains/nesting/helpers/GetParentConfig.ts)`<TStack, TNesting>`  | Reconstructs the nesting config that was active when the last entry character (top of stack) was seen |
+| [GetNextLevelConfig](../modules/types/src/domains/nesting/helpers/GetNextLevelConfig.ts)`<TEntry, TNesting>`  | Extracts the nesting configuration to use inside a nesting level that starts with `TEntry`|
 
-Parses a string into a nested structure based on nesting configuration.
+## Utilities Leveraging Nesting
 
-```typescript
-type Example = Nest<"function(param) { body }">;
-// Result: Array of NestedString objects representing the parsed structure
+The following utilities are **direct** beneficiaries of the nesting/parsing features we've discussed in this document:
 
-type CustomExample = Nest<"array[index]", { "[": "]" }>;
-// Only recognizes square brackets as nesting
-```
+- `NestedSplit` [ [source](../modules/types/src/string-literals/mutation/NestedSplit.ts), [test](../tests/string-literals/NestedSplit.test.ts) ] _and_  `nestedSplit()` [ [source](../modules/runtime/src/string-literals/split-and-join/nestedSplit.ts), [test](../tests/string-literals/NestedSplit.test.ts) ]
+- `RetainUntil__Nested` [ [source](../modules/types/src/string-literals/sub-strings/retain/RetainUntil__Nested.ts), [test](../tests/string-literals/NestedSplit.test.ts) ] _and_ `retainUntil__Nested()` [ [source](../modules/runtime/src/string-literals/sub-string/retain/retainUntil__Nested.ts), [test](../tests/string-literals/NestedSplit.test.ts) ]
 
-### FromNesting`<TNest>`
+### Indirect Beneficiaries
 
-Reconstructs the original string from a nested structure (inverse of `Nest`).
+Beyond the utilities above which are _directly built_ with the core nesting/parsing utilities, we also have a long list of utilities which _indirectly_ benefit from these utilities by relying heavily on the utilities above to parse strings:
 
-```typescript
-type Original = "function(param) { body }";
-type Nested = Nest<Original>;
-type Reconstructed = FromNesting<Nested>;
-// Reconstructed === Original (roundtrip compatibility)
-```
+- **InputTokens**
+    - all of the `IT_Take*` parsing utilities found in the [input-tokens](../modules/types/src/runtime-types/type-defn/input-tokens) directory
+    - the [`GetInputToken`](../modules/types/src/runtime-types/type-defn/input-tokens/GetInputToken.ts), [`FromInputToken`](../modules/types/src/runtime-types/type-defn/input-tokens/FromInputToken.ts), utilities and more.
 
-### NestedSplit<TContent, TSplit, TNesting, TPolicy>
+**Note:** if you're doing work on the core _nesting_ functionality you MUST test the direct utilities using them (listed in prior section) and before you finish you should also test these indirect dependencies. The command `pnpm typed nesting NestedSplit RetainUntil__Nested input-tokens` will test all of the type tests which are most likely to be impacted.
 
-Splits a string by delimiters while respecting nesting boundaries. Only splits at nesting level 0.
 
-```typescript
-// Basic usage
-type Result1 = NestedSplit<"foo,bar,baz", ",">;
-// Result: ["foo", "bar", "baz"]
-
-// With nesting protection
-type Result2 = NestedSplit<"func(a,b), other", ",", { "(": ")" }>;
-// Result: ["func(a,b)", " other"] - comma inside parentheses ignored
-
-// Multi-character splits (enhanced feature)
-type Result3 = NestedSplit<"foo and bar and baz", "and">;
-// Result: ["foo ", " bar ", " baz"]
-```
-
-#### Split Policies
-
-The `TPolicy` parameter controls how split characters are handled:
-
-- **`"omit"`** (default): Removes split characters entirely
-- **`"inline"`**: Includes split characters as separate array elements
-- **`"before"`**: Prepends split character to following segment
-- **`"after"`**: Appends split character to preceding segment
-
-```typescript
-type Omit = NestedSplit<"a,b,c", ",", DefaultNesting, "omit">;
-// Result: ["a", "b", "c"]
-
-type Inline = NestedSplit<"a,b,c", ",", DefaultNesting, "inline">;
-// Result: ["a", ",", "b", ",", "c"]
-
-type Before = NestedSplit<"a,b,c", ",", DefaultNesting, "before">;
-// Result: ["a", ",b", ",c"]
-
-type After = NestedSplit<"a,b,c", ",", DefaultNesting, "after">;
-// Result: ["a,", "b,", "c"]
-```
-
-## Runtime Functions
-
-### nestedSplit(content, split, nesting?, policy?)
-
-Runtime implementation of `NestedSplit` with full type inference.
-
-```typescript
-import { nestedSplit } from "inferred-types/runtime";
-
-// Basic splitting
-const result1 = nestedSplit("foo,bar,baz", ",");
-// Runtime: ["foo", "bar", "baz"]
-// Type: ["foo", "bar", "baz"]
-
-// With nesting protection
-const result2 = nestedSplit("func(a,b), other", ",", { "(": ")" });
-// Runtime: ["func(a,b)", " other"]
-// Type: ["func(a,b)", " other"]
-
-// Using named configurations
-const result3 = nestedSplit("text 'with, comma' and more", ",", "quotes");
-// Protects content within quotes
-```
-
-### retainUntil__Nested(str, find, include?, nesting?)
-
-Extracts substring up to a specified character, but only when that character appears at nesting level 0.
-
-```typescript
-import { retainUntil__Nested } from "inferred-types/runtime";
-
-const result = retainUntil__Nested(
-  "function(param, other) { body }",
-  "{",
-  false, // exclude the found character
-  { "(": ")", "{": "}" }
-);
-// Result: "function(param, other) "
-// The comma inside parentheses is ignored
-```
-
-### retainUntil(content, ...find)
-
-Simple substring extraction without nesting awareness (for comparison).
-
-```typescript
-import { retainUntil } from "inferred-types/runtime";
-
-const simple = retainUntil("hello world", " ");
-// Result: "hello"
-```
-
-### nesting(config)
-
-Higher-order function that creates an API surface for working with nesting. Returns an object with `split()` and `retainUntil()` methods that use your specified nesting configuration.
-
-```typescript
-import { nesting } from "inferred-types/runtime";
-
-// Using named configurations
-const api = nesting("shallow-quotes");
-
-// Use the returned API
-const result1 = api.split('a,"b,c",d', ",");
-// Result: ["a", '"b,c"', "d"] - comma inside quotes is protected
-
-const result2 = api.retainUntil("foo'bar'baz", "z");
-// Result: "foo'bar'baz" - finds 'z' at root level
-
-// With custom hierarchical config
-const customApi = nesting({
-  "(": [")", {}],  // Shallow parens
-  "[": "]"         // Deep brackets
-});
-
-customApi.split("a,(b,c),d", ",");
-// Result: ["a", "(b,c)", "d"]
-```
-
-**Supported Named Configurations:**
-- `"default"` / `"brackets"` - All bracket types with deep nesting
-- `"quotes"` - All quote types with deep nesting
-- `"brackets-and-quotes"` - Combined brackets and quotes with deep nesting
-- `"shallow-brackets"` - Brackets with shallow nesting (NEW)
-- `"shallow-quotes"` - Quotes with shallow nesting (NEW)
-- `"shallow-brackets-and-quotes"` - Combined with shallow nesting (NEW)
-
-**When to use `nesting()` vs direct functions:**
-- Use `nesting()` when you need to reuse the same configuration multiple times
-- Use `nesting()` for cleaner code when working with custom hierarchical configs
-- Use direct functions (`nestedSplit`, `retainUntil__Nested`) for one-off operations
-
-```typescript
-// Reusable API - better when used multiple times
-const csv = nesting("shallow-quotes");
-const data1 = csv.split('name,"last, first",age', ",");
-const data2 = csv.split('title,"description, long",price', ",");
-
-// Direct call - better for one-off operations
-const data3 = nestedSplit('one,two,three', ",", "shallow-quotes");
-```
-
-## Practical Examples
-
-### Parsing Code-like Structures
-
-```typescript
-// TypeScript function signature
-type FuncSig = "function doSomething(name: string, options: {debug: boolean}) { ... }";
-type Parsed = Nest<FuncSig>;
-// Creates structured representation understanding parameter lists and body blocks
-
-// Splitting method calls
-type MethodChain = "obj.method(a, b).other(c).final()";
-type Methods = NestedSplit<MethodChain, ".", { "(": ")" }>;
-// Result: ["obj", "method(a, b)", "other(c)", "final()"]
-```
-
-### Template Processing
-
-```typescript
-// HTML-like content
-type Template = "<div class='container'>Hello <span>world</span></div>";
-type Segments = NestedSplit<Template, " ", { "<": ">", "'": "'" }>;
-// Splits on spaces but protects content within tags and quotes
-```
-
-### Configuration Parsing
-
-```typescript
-// CSS-like syntax
-type Styles = "color: red; background: rgba(255, 0, 0, 0.5); margin: 10px;";
-type Properties = NestedSplit<Styles, ";", { "(": ")" }>;
-// Splits on semicolons but protects function calls like rgba()
-```
-
-## Error Handling
-
-The nesting system includes comprehensive error handling:
-
-### Unbalanced Nesting
-
-```typescript
-type Error1 = NestedSplit<"unbalanced(content", ",", { "(": ")" }>;
-// Returns: Error<"unbalanced/nested-split", ...>
-```
-
-### Invalid Configurations
-
-```typescript
-type Error2 = NestedSplit<"content", ",", { "invalid": "too-long" }>;
-// Returns: Error<"invalid-nesting/key-value", ...>
-```
-
-## Performance Considerations
-
-- **Single vs Multi-character splits**: Single-character splits use optimized character-by-character processing
-- **Multi-character splits**: Use pattern matching for splits longer than 1 character
-- **Nesting depth**: Performance scales linearly with content length and nesting depth
-- **Type complexity**: Deep nesting may approach TypeScript's recursion limits
-
-## Integration with Other Utilities
-
-Nesting functionality integrates seamlessly with other inferred-types utilities:
-
-```typescript
-// Combine with string manipulation
-type ProcessedContent = EnsureLeading<
-  NestedSplit<"path/to/file", "/", DefaultNesting>[0],
-  "/"
->;
-
-// Use with conditional types
-type HasNesting<T extends string> = Nest<T> extends [NestedString]
-  ? Nest<T>[0]["children"] extends []
-    ? false
-    : true
-  : true;
-```
-
-## Testing and Validation
-
-The nesting system includes comprehensive test coverage:
-
-- **Roundtrip tests**: Ensure `FromNesting<Nest<T>>` equals `T`
-- **Edge cases**: Empty strings, unbalanced input, complex nesting
-- **Policy validation**: All split policies work correctly
-- **Multi-character support**: Full compatibility with complex split patterns
-
-This nesting functionality provides a robust foundation for parsing and manipulating structured text content while maintaining strong TypeScript typing throughout the process.

@@ -1,4 +1,4 @@
-import type { FromNamedNestingConfig, Nesting, NestingConfig__Named, RetainUntil__Nested, ShallowBracketAndQuoteNesting } from "inferred-types/types";
+import type { FromNamedNestingConfig, Nesting, NestingConfig__Named, RetainUntil__Nested } from "inferred-types/types";
 import {
     BRACKET_NESTING,
     Never,

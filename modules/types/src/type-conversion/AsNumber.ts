@@ -1,4 +1,16 @@
-import type { As, Contains, IsBranded, RetainAfter, StartsWith, StripAfter, StripChars, StripLeading, StripWhile, TrimCharEnd, Unbrand } from "inferred-types/types";
+import type {
+    As,
+    Contains,
+    IsBranded,
+    RetainAfter,
+    StartsWith,
+    StripAfter,
+    StripChars,
+    StripLeading,
+    StripWhile,
+    TrimCharEnd,
+    Unbrand
+} from "inferred-types/types";
 
 /**
  * **ParseInt**`<T>`
@@ -62,7 +74,7 @@ export type AsNumber<T> = IsBranded<T> extends true
         : T extends `${number}`
             ? StartsWith<T, "-"> extends true
                 ? ParseInt<
-                `-${Handler<StripLeading<T, "-">>}`
+                    `-${Handler<As<StripLeading<T, "-">, `${number}`>>}`
                 >
                 : ParseInt<
                     Handler<T>

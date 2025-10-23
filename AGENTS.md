@@ -230,13 +230,62 @@ typed test                    # Test all type files
 typed test datetime  # Test filtered files
 ```
 
-The type testing framework uses `Test` and `Expect` utilities with these comparison operators:
+The type testing framework uses `Expect` and `Assert*` utilities with these assertion types:
 
-- `equals` - exact type equality (most common)
-- `extends` - type extension relationship
-- `hasSameKeys` - dictionary key comparison
-- `hasSameValues` - container value comparison (order-independent)
-- `isError<T>` - error type testing
+- `AssertEqual<T, E>` - exact type equality (most common)
+- `AssertExtends<T, E>` - type extension relationship
+- `AssertTrue<T>` - tests whether T is the type `true`
+- `AssertFalse<T>` - tests whether T is the type `false`
+- `AssertSameValues<T, E>` - array elements match (order-independent)
+- `AssertContains<T, E>` - substring/array element containment
+
+Example structure:
+```ts
+import { Expect, AssertEqual } from "inferred-types/types";
+
+describe("MyUtility", () => {
+    it("should transform types correctly", () => {
+        type Result = MyUtility<"input">;
+
+        type cases = [
+            Expect<AssertEqual<Result, "expected">>
+        ];
+    });
+});
+```
+
+## Code Quality Standards
+
+### TODO Markers Are Forbidden
+
+**TODO/FIXME/XXX/HACK markers in committed code are unacceptable.** When encountering a TODO:
+
+1. **STOP** - Do not proceed with other work
+2. **DESIGN** - Write technical design notes first
+3. **IMPLEMENT** - Complete the implementation fully
+4. **TEST** - Add comprehensive tests
+5. **VERIFY** - Confirm no TODOs remain
+
+Search for TODOs before committing:
+```bash
+rg -i "TODO|FIXME|XXX|HACK" modules/
+```
+
+### Type Utility Quality
+
+Red flags for incomplete type utilities:
+- Pass-through types: `export type MyUtility<T> = T;` (unless intentional)
+- Using `any` as a cop-out
+- Always returning the same type regardless of input
+- TODO markers
+
+### Function Implementation Quality
+
+Red flags for incomplete functions:
+- Returning mock/fake data
+- Empty implementations with TODO comments
+- Catching and hiding errors without proper handling
+- Type assertions masking incomplete code: `return {} as Type;`
 
 # important-instruction-reminders
 

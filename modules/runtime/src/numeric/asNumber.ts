@@ -8,8 +8,8 @@ import { isString } from "inferred-types/runtime";
  *
  * - also handles numeric strings which have leading zeros
  */
-export function asNumber<T extends NumberLike>(val: T): AsNumber<T> {
+export function asNumber<T extends NumberLike>(val: T): T extends number ? T : AsNumber<T> {
     return isString(val)
-        ? Number(val) as AsNumber<T>
-        : val as AsNumber<T>;
+        ? Number(val) as T extends number ? T : AsNumber<T>
+        : val as T extends number ? T : AsNumber<T>;
 }

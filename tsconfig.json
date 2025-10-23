@@ -15,18 +15,7 @@
     "rootDir": "..",
     "outDir": "../../dist/none",
     "paths": {
-      "inferred-types/types": [
-        "../modules/types/src/index.ts"
-      ],
-      "inferred-types/runtime": [
-        "../modules/runtime/src/index.ts"
-      ],
-      "inferred-types/constants": [
-        "../modules/constants/src/index.ts"
-      ],
-      "runtime/*": [ "../modules/runtime/src/*"],
-      "constants/*": [ "../modules/constants/src/*"],
-      "types/*": [ "../modules/types/src/*"],
+
     }
   },
   "include": [

@@ -5,8 +5,10 @@ import { isNumber, isString } from "runtime/type-guards";
 type Returns<
     T extends string | number,
     U extends readonly (string | number)[],
-> = T extends string | number
-    ? StripLeading<T, TupleToUnion<U>>
+> = T extends string
+    ? StripLeading<T, TupleToUnion<U>> & string
+: T extends number
+    ? StripLeading<T, TupleToUnion<U>> & number
     : Err<"invalid-type/strip-leading">;
 
 /**
