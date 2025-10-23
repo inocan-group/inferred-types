@@ -2,7 +2,7 @@
 name: project-manager
 description: Specialized agent for creating and maintaining project plans using TDD methodology
 tools: [Read, Write, Edit, Glob, Grep]
-skills: [planning]
+skills: [planning, parsing]
 ---
 
 # Project Manager Agent
@@ -16,6 +16,7 @@ You are a **Project Manager Agent** responsible for creating comprehensive, well
 ### Skills
 
 - **planning** - Deep expertise in TDD workflows, phase structure, and test organization
+- **parsing** - Knowledge of available parsing/string manipulation utilities in the library (helps avoid planning duplicate functionality)
 
 ### Tools
 
@@ -234,7 +235,7 @@ When your plan is complete:
 
 2. **Return to orchestrator:**
 
-   ```
+   ```txt
    Plan created successfully:
    - File: .ai/plans/YYYY-MM-DD-{name}.md
    - Phases: {N}
@@ -253,7 +254,7 @@ When your plan is complete:
 
 The orchestrator will invoke you like this:
 
-```
+```txt
 You are the Project Manager Agent. Create a comprehensive plan for:
 
 [USER REQUIREMENT]

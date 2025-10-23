@@ -105,7 +105,7 @@ Execute the COMPLETE TDD cycle for Phase ${phaseNumber}:
 7. CLOSEOUT - Migrate tests, verify no regressions
 
 **BLOCKING REQUIREMENTS:**
-- Review ALL THREE skills before starting (.claude/skills/)
+- Review ALL skills before starting (.claude/skills/) - planning, testing, development, parsing when applicable
 - Do NOT skip any TDD step
 - Do NOT leave ANY TODO/FIXME markers
 - Do NOT skip type tests
@@ -342,6 +342,7 @@ Phase 3 FAILED
    - Planning skill for TDD workflow
    - Testing skill for test syntax
    - Development skill for quality standards
+   - Parsing skill for available string manipulation utilities (when applicable)
 
 3. **Document as you work**
    - Update phase logs frequently
@@ -416,7 +417,7 @@ const phase2b = await phaseExecutor(updatedPlan.file, "2b");
 
 **Phase Executor Agent:**
 - Executes ONE complete phase
-- Has all three skills
+- Has all skills (planning, testing, development, parsing)
 - Returns phase log + status
 - Enforces quality standards
 

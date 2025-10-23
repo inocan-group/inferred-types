@@ -40,7 +40,7 @@ type Process<
         // push new value into TResults if unique
         Push<
             TResults,
-            First<TResults>,
+            First<TValues>,
             IsScalar<First<TValues>> extends true
             // a scalar value should/can ignore the deref setting
                 ? Not<Contains<TResults, First<TValues>>>

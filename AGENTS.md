@@ -267,6 +267,7 @@ describe("MyUtility", () => {
 5. **VERIFY** - Confirm no TODOs remain
 
 Search for TODOs before committing:
+
 ```bash
 rg -i "TODO|FIXME|XXX|HACK" modules/
 ```
@@ -274,6 +275,7 @@ rg -i "TODO|FIXME|XXX|HACK" modules/
 ### Type Utility Quality
 
 Red flags for incomplete type utilities:
+
 - Pass-through types: `export type MyUtility<T> = T;` (unless intentional)
 - Using `any` as a cop-out
 - Always returning the same type regardless of input
@@ -294,3 +296,194 @@ NEVER create files unless they're absolutely necessary for achieving your goal.
 ALWAYS prefer editing an existing file to creating a new one.
 NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
 ALWAYS create a stashed version of a function before changing it if the file has changes which are have not been committed
+
+## Orchestration: Skills and Sub-agents
+
+This section defines how to effectively use skills and sub-agents to manage context and deliver quality work.
+
+### Overview: Skills vs Sub-agents
+
+**Skills** (invoked via `Skill` tool):
+- Lightweight consultations that load domain-specific guidance
+- Minimal context window cost
+- Use for quick reference, syntax checks, standards review
+- Available: `planning`, `testing`, `development`, `parsing`
+
+**Sub-agents** (invoked via `Task` tool):
+- Autonomous agents that execute in separate contexts
+- Heavy lifting that preserves main orchestrator context
+- Use for complex, multi-step work
+- **Custom:** `project-manager`, `phase-executor`
+- **Built-in:** `Explore`, `general-purpose`
+
+### Context Management Strategy
+
+**Main Orchestrator** (Claude Code - you):
+- High-level coordination
+- User interaction and questions
+- Simple, focused tasks
+- Monitoring sub-agent progress
+
+**Skills** (< 1k tokens each):
+- Quick consultations before direct work
+- Understanding syntax and patterns
+- Reviewing quality standards
+
+**Sub-agents** (isolated context):
+- Codebase research and exploration
+- Plan creation and maintenance
+- Complete TDD cycle execution
+- Complex multi-phase implementations
+
+**Key principle:** Sub-agents preserve your main context window for coordination. Use them proactively for any substantial work.
+
+### When to Use Skills Directly
+
+Invoke skills when you need quick guidance before direct implementation:
+
+**planning skill**:
+- Before creating inline mini-plans
+- Understanding TDD workflow structure
+- Quick consultation on phase breakdown
+- Triggers: "how should I approach...", "what's the TDD process..."
+
+**testing skill** (MANDATORY BEFORE WRITING TESTS):
+- Before writing ANY test file
+- Understanding type test syntax (`type cases = [...]`)
+- Reviewing canonical test examples
+- Understanding runtime vs type test distinction
+- Triggers: "write tests", "add test coverage", "TDD approach"
+
+**development skill**:
+- Before implementing features with uncommitted changes
+- Understanding TODO prevention requirements
+- Reviewing quality standards
+- Understanding completion criteria
+- Triggers: "implement feature", "build functionality", "add capability"
+
+**parsing skill**:
+- Understanding parsing utilities in this library
+- Working with template literal types
+- Text transformation patterns
+
+**CRITICAL RULES:**
+1. **ALWAYS invoke `testing` skill** before writing tests (prevents runtime/type test confusion)
+2. **ALWAYS invoke `development` skill** before implementing with uncommitted changes
+3. Skills are consultations, not substitutes for sub-agents
+
+### When to Use Sub-agents
+
+Use sub-agents to preserve context and leverage specialized capabilities:
+
+#### Custom Project Sub-agents
+
+**project-manager** (`.claude/agents/project-manager.md`):
+- Creating comprehensive project plans
+- Breaking down features into TDD phases
+- Updating existing plans
+- Output: Plan file in `.ai/plans/YYYY-MM-DD-{name}.md`
+- Triggers: "plan this feature", "create a roadmap", "break this down into phases"
+
+**phase-executor** (`.claude/agents/phase-executor.md`):
+- Executing complete TDD cycle for ONE phase
+- Has all three skills (planning, testing, development)
+- Follows: SNAPSHOT → CREATE LOG → WRITE TESTS → IMPLEMENT → TODO SCAN → CLOSEOUT
+- Output: Phase log in `.ai/logs/` + implemented code
+- Triggers: "execute phase N", "implement phase", "TDD cycle for..."
+
+**See `.claude/agents/README.md` for detailed workflow patterns and examples.**
+
+#### Built-in Sub-agents
+
+**Explore**:
+- Broad codebase research
+- Finding patterns across multiple files
+- Understanding architecture
+- Triggers: "how does X work?", "where is Y handled?", "what's the structure of..."
+- **IMPORTANT:** Use instead of direct Grep/Glob for open-ended searches
+
+**general-purpose**:
+- Complex multi-step research
+- Tasks requiring multiple tool combinations
+- When other sub-agents don't fit
+
+### Decision Tree
+
+```
+┌─ Task Request
+│
+├─ Is this a quick consultation? (< 5 min)
+│  └─ YES → Invoke appropriate Skill, then proceed
+│
+├─ Is this codebase research/exploration?
+│  └─ YES → Use Explore sub-agent
+│
+├─ Does this need a comprehensive plan?
+│  └─ YES → Use project-manager sub-agent
+│
+├─ Is this executing a complete phase from a plan?
+│  └─ YES → Use phase-executor sub-agent
+│
+├─ Is this direct implementation work?
+│  ├─ Are you about to write tests?
+│  │  └─ YES → MANDATORY: Invoke testing skill first
+│  ├─ Are there uncommitted changes?
+│  │  └─ YES → MANDATORY: Invoke development skill first
+│  └─ Proceed with implementation
+│
+└─ Is this complex, multi-step, context-heavy?
+   └─ YES → Use general-purpose sub-agent
+```
+
+### Workflow Examples
+
+**Example 1: User asks to add new feature**
+```
+1. Use project-manager sub-agent → creates plan
+2. Review plan with user
+3. For each phase: Use phase-executor sub-agent
+4. Monitor via logs, coordinate, handle blockers
+```
+
+**Example 2: User asks "how does error handling work?"**
+```
+1. Use Explore sub-agent → researches codebase
+2. Agent returns findings
+3. Summarize for user
+```
+
+**Example 3: User asks to add tests**
+```
+1. Invoke testing skill → review type test syntax
+2. Write tests directly in main context
+3. Simple, focused task
+```
+
+**Example 4: User asks to implement function**
+```
+1. Check git status for uncommitted changes
+2. If uncommitted: Invoke development skill
+3. Implement function directly
+4. Simple, focused task
+```
+
+### Mandatory Requirements Summary
+
+**Before ANY test writing:**
+- [ ] MUST invoke `testing` skill
+- [ ] Review type test syntax examples
+- [ ] Understand `type cases = [...]` pattern
+
+**Before implementing with uncommitted changes:**
+- [ ] MUST invoke `development` skill
+- [ ] Review TODO prevention requirements
+- [ ] Understand quality standards
+
+**For codebase exploration:**
+- [ ] PREFER Explore sub-agent over direct Grep/Glob
+- [ ] Preserves context for open-ended searches
+
+**For complex work:**
+- [ ] PREFER appropriate sub-agent
+- [ ] Preserves main context window
+- [ ] Leverages specialized capabilities
