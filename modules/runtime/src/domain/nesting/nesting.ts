@@ -115,15 +115,15 @@ export function nesting<
                 "`": "`"
             };
         }
-        else if (config === "shallow-brackets") {
-            nesting = SHALLOW_BRACKET_NESTING;
-        }
-        else if (config === "shallow-quotes") {
-            nesting = SHALLOW_QUOTE_NESTING;
-        }
-        else if (config === "shallow-brackets-and-quotes") {
-            nesting = SHALLOW_BRACKET_AND_QUOTE_NESTING;
-        }
+        // else if (config === "shallow-brackets") {
+        //     nesting = SHALLOW_BRACKET_NESTING;
+        // }
+        // else if (config === "shallow-quotes") {
+        //     nesting = SHALLOW_QUOTE_NESTING;
+        // }
+        // else if (config === "shallow-brackets-and-quotes") {
+        //     nesting = SHALLOW_BRACKET_AND_QUOTE_NESTING;
+        // }
         else {
             throw err("invalid/named-nesting", `An unknown named nesting type of "${config}" was passed into createNestingConfig()!`);
         }

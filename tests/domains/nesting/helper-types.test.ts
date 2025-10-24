@@ -1,11 +1,11 @@
 import { describe, it } from "vitest";
 import type { Expect, Test } from "inferred-types/types";
 import type {
-  GetNestingEnd,
+  GetExitToken,
   GetNextLevelConfig,
-  IsNestingEnd,
+  IsExitToken,
   IsNestingMatchEnd,
-  IsNestingStart,
+  IsEntryToken,
   Nesting,
   NestingKeyValue
 } from "inferred-types/types";
@@ -72,27 +72,27 @@ describe("GetNextLevelConfig<TChar, TNesting>", () => {
 });
 
 /**
- * GetNestingEnd Tests
+ * GetExitToken Tests
  *
  * This helper type should:
  * - Extract exit token from simple string value
  * - Extract first element from hierarchical tuple [exit, nextLevel]
  * - Handle typeof constant configs correctly
  */
-describe("GetNestingEnd<TChar, TNesting>", () => {
+describe("GetExitToken<TChar, TNesting>", () => {
   it("simple config extracts exit token", () => {
     type cases = [
       // Simple key-value config
-      Expect<Test<GetNestingEnd<"(", SimpleConfig>, "equals", ")">>,
-      Expect<Test<GetNestingEnd<"[", SimpleConfig>, "equals", "]">>,
+      Expect<Test<GetExitToken<"(", SimpleConfig>, "equals", ")">>,
+      Expect<Test<GetExitToken<"[", SimpleConfig>, "equals", "]">>,
     ];
   });
 
   it("hierarchical key-value extracts first element of tuple", () => {
     type cases = [
       // Hierarchical key-value - extract exit token (first element)
-      Expect<Test<GetNestingEnd<"(", HierarchicalKeyValue>, "equals", ")">>,
-      Expect<Test<GetNestingEnd<"[", HierarchicalKeyValue>, "equals", "]">>,
+      Expect<Test<GetExitToken<"(", HierarchicalKeyValue>, "equals", ")">>,
+      Expect<Test<GetExitToken<"[", HierarchicalKeyValue>, "equals", "]">>,
     ];
   });
 
@@ -101,24 +101,24 @@ describe("GetNestingEnd<TChar, TNesting>", () => {
 
     type cases = [
       // Extract matching bracket
-      Expect<Test<GetNestingEnd<"(", BracketConfig>, "equals", ")">>,
-      Expect<Test<GetNestingEnd<"[", BracketConfig>, "equals", "]">>,
-      Expect<Test<GetNestingEnd<"{", BracketConfig>, "equals", "}">>,
-      Expect<Test<GetNestingEnd<"<", BracketConfig>, "equals", ">">>,
+      Expect<Test<GetExitToken<"(", BracketConfig>, "equals", ")">>,
+      Expect<Test<GetExitToken<"[", BracketConfig>, "equals", "]">>,
+      Expect<Test<GetExitToken<"{", BracketConfig>, "equals", "}">>,
+      Expect<Test<GetExitToken<"<", BracketConfig>, "equals", ">">>,
     ];
   });
 
   it("handles tuple configs", () => {
     type cases = [
       // Simple tuple - exit is union of end tokens
-      Expect<Test<GetNestingEnd<"(", SimpleTuple>, "extends", ")" | "]">>,
-      Expect<Test<GetNestingEnd<"[", SimpleTuple>, "extends", ")" | "]">>,
+      Expect<Test<GetExitToken<"(", SimpleTuple>, "extends", ")" | "]">>,
+      Expect<Test<GetExitToken<"[", SimpleTuple>, "extends", ")" | "]">>,
     ];
   });
 });
 
 /**
- * IsNestingStart Tests
+ * IsEntryToken Tests
  *
  * This helper type should:
  * - Return true for valid start characters
@@ -126,51 +126,51 @@ describe("GetNestingEnd<TChar, TNesting>", () => {
  * - Work with both simple and hierarchical configs
  * - Handle empty configs correctly (all return false)
  */
-describe("IsNestingStart<TChar, TNesting>", () => {
+describe("IsEntryToken<TChar, TNesting>", () => {
   it("validates start chars in simple config", () => {
     type cases = [
       // Valid start chars
-      Expect<Test<IsNestingStart<"(", SimpleConfig>, "equals", true>>,
-      Expect<Test<IsNestingStart<"[", SimpleConfig>, "equals", true>>,
+      Expect<Test<IsEntryToken<"(", SimpleConfig>, "equals", true>>,
+      Expect<Test<IsEntryToken<"[", SimpleConfig>, "equals", true>>,
 
       // Non-start chars
-      Expect<Test<IsNestingStart<")", SimpleConfig>, "equals", false>>,
-      Expect<Test<IsNestingStart<"{", SimpleConfig>, "equals", false>>,
+      Expect<Test<IsEntryToken<")", SimpleConfig>, "equals", false>>,
+      Expect<Test<IsEntryToken<"{", SimpleConfig>, "equals", false>>,
     ];
   });
 
   it("validates start chars in hierarchical config", () => {
     type cases = [
       // Valid start chars in hierarchical config
-      Expect<Test<IsNestingStart<"(", HierarchicalKeyValue>, "equals", true>>,
-      Expect<Test<IsNestingStart<"[", HierarchicalKeyValue>, "equals", true>>,
+      Expect<Test<IsEntryToken<"(", HierarchicalKeyValue>, "equals", true>>,
+      Expect<Test<IsEntryToken<"[", HierarchicalKeyValue>, "equals", true>>,
 
       // Non-start chars
-      Expect<Test<IsNestingStart<")", HierarchicalKeyValue>, "equals", false>>,
-      Expect<Test<IsNestingStart<"{", HierarchicalKeyValue>, "equals", false>>,
+      Expect<Test<IsEntryToken<")", HierarchicalKeyValue>, "equals", false>>,
+      Expect<Test<IsEntryToken<"{", HierarchicalKeyValue>, "equals", false>>,
     ];
   });
 
   it("handles empty config", () => {
     type cases = [
       // Empty config has no start tokens
-      Expect<Test<IsNestingStart<'"', EmptyConfig>, "equals", false>>,
-      Expect<Test<IsNestingStart<"(", EmptyConfig>, "equals", false>>,
+      Expect<Test<IsEntryToken<'"', EmptyConfig>, "equals", false>>,
+      Expect<Test<IsEntryToken<"(", EmptyConfig>, "equals", false>>,
     ];
   });
 
   it("handles tuple configs", () => {
     type cases = [
       // Tuple config - start chars are in first element
-      Expect<Test<IsNestingStart<"(", SimpleTuple>, "equals", true>>,
-      Expect<Test<IsNestingStart<"[", SimpleTuple>, "equals", true>>,
-      Expect<Test<IsNestingStart<"{", SimpleTuple>, "equals", false>>,
+      Expect<Test<IsEntryToken<"(", SimpleTuple>, "equals", true>>,
+      Expect<Test<IsEntryToken<"[", SimpleTuple>, "equals", true>>,
+      Expect<Test<IsEntryToken<"{", SimpleTuple>, "equals", false>>,
     ];
   });
 });
 
 /**
- * IsNestingEnd Tests
+ * IsExitToken Tests
  *
  * This helper type should:
  * - Return true for valid end characters
@@ -178,45 +178,45 @@ describe("IsNestingStart<TChar, TNesting>", () => {
  * - Work with both simple and hierarchical configs
  * - Handle empty configs correctly (all return false)
  */
-describe("IsNestingEnd<TChar, TNesting>", () => {
+describe("IsExitToken<TChar, TNesting>", () => {
   it("validates end chars in simple config", () => {
     type cases = [
       // Valid end chars
-      Expect<Test<IsNestingEnd<")", SimpleConfig>, "equals", true>>,
-      Expect<Test<IsNestingEnd<"]", SimpleConfig>, "equals", true>>,
+      Expect<Test<IsExitToken<")", SimpleConfig>, "equals", true>>,
+      Expect<Test<IsExitToken<"]", SimpleConfig>, "equals", true>>,
 
       // Non-end chars
-      Expect<Test<IsNestingEnd<"(", SimpleConfig>, "equals", false>>,
-      Expect<Test<IsNestingEnd<"{", SimpleConfig>, "equals", false>>,
+      Expect<Test<IsExitToken<"(", SimpleConfig>, "equals", false>>,
+      Expect<Test<IsExitToken<"{", SimpleConfig>, "equals", false>>,
     ];
   });
 
   it("validates end chars in hierarchical config", () => {
     type cases = [
       // Valid end chars in hierarchical config (first element of tuple)
-      Expect<Test<IsNestingEnd<")", HierarchicalKeyValue>, "equals", true>>,
-      Expect<Test<IsNestingEnd<"]", HierarchicalKeyValue>, "equals", true>>,
+      Expect<Test<IsExitToken<")", HierarchicalKeyValue>, "equals", true>>,
+      Expect<Test<IsExitToken<"]", HierarchicalKeyValue>, "equals", true>>,
 
       // Non-end chars
-      Expect<Test<IsNestingEnd<"(", HierarchicalKeyValue>, "equals", false>>,
-      Expect<Test<IsNestingEnd<"{", HierarchicalKeyValue>, "equals", false>>,
+      Expect<Test<IsExitToken<"(", HierarchicalKeyValue>, "equals", false>>,
+      Expect<Test<IsExitToken<"{", HierarchicalKeyValue>, "equals", false>>,
     ];
   });
 
   it("handles empty config", () => {
     type cases = [
       // Empty config has no end tokens
-      Expect<Test<IsNestingEnd<'"', EmptyConfig>, "equals", false>>,
-      Expect<Test<IsNestingEnd<")", EmptyConfig>, "equals", false>>,
+      Expect<Test<IsExitToken<'"', EmptyConfig>, "equals", false>>,
+      Expect<Test<IsExitToken<")", EmptyConfig>, "equals", false>>,
     ];
   });
 
   it("handles tuple configs", () => {
     type cases = [
       // Tuple config - end chars are in second element
-      Expect<Test<IsNestingEnd<")", SimpleTuple>, "equals", true>>,
-      Expect<Test<IsNestingEnd<"]", SimpleTuple>, "equals", true>>,
-      Expect<Test<IsNestingEnd<"(", SimpleTuple>, "equals", false>>,
+      Expect<Test<IsExitToken<")", SimpleTuple>, "equals", true>>,
+      Expect<Test<IsExitToken<"]", SimpleTuple>, "equals", true>>,
+      Expect<Test<IsExitToken<"(", SimpleTuple>, "equals", false>>,
     ];
   });
 });

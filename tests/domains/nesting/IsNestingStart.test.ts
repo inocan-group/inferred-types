@@ -1,16 +1,16 @@
 import { describe, it } from "vitest";
-import type { DefaultNesting, Expect, IsNestingStart, Test } from "inferred-types/types";
+import type { DefaultNesting, Expect, IsEntryToken, Test } from "inferred-types/types";
 
-describe("IsNestingStart<TChar,TNesting>", () => {
+describe("IsEntryToken<TChar,TNesting>", () => {
 
     it("happy path", () => {
-        type T1 = IsNestingStart<"{", DefaultNesting>;
-        type T2 = IsNestingStart<"(", DefaultNesting>;
-        type T3 = IsNestingStart<"<", DefaultNesting>;
+        type T1 = IsEntryToken<"{", DefaultNesting>;
+        type T2 = IsEntryToken<"(", DefaultNesting>;
+        type T3 = IsEntryToken<"<", DefaultNesting>;
 
-        type F1 = IsNestingStart<"}", DefaultNesting>;
-        type F2 = IsNestingStart<"g", DefaultNesting>;
-        type F3 = IsNestingStart<">", DefaultNesting>;
+        type F1 = IsEntryToken<"}", DefaultNesting>;
+        type F2 = IsEntryToken<"g", DefaultNesting>;
+        type F3 = IsEntryToken<">", DefaultNesting>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
