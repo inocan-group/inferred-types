@@ -2,6 +2,74 @@
 
 This directory contains specialized sub-agent configurations for managing complex, phased development work.
 
+## Orchestrator Validation Protocol
+
+**IMPORTANT:** Before invoking ANY sub-agent, the main orchestrator (Claude Code) MUST follow the validation protocol:
+
+### Validation Steps
+
+1. **Announce interpretation:**
+   - Identify trigger keywords from user request
+   - State recognized task type (planning/testing/implementation/research)
+
+2. **State intended approach:**
+   - Which skill/sub-agent will be used
+   - Why this approach is appropriate
+   - Reference Decision Checklist from CLAUDE.md
+
+3. **Provide alternative if uncertain:**
+   - Alternative approaches if applicable
+   - Let user course-correct before execution
+
+### Example Validations
+
+**Planning Request:**
+```
+User: "think harder and build a plan for the API refactor"
+
+Orchestrator Response:
+"I recognize this as a planning request (keywords: 'think harder', 'build a plan').
+
+I will:
+1. Invoke the `planning` skill to understand TDD workflow approach
+2. Use the `project-manager` sub-agent to create a formal plan in `.ai/plans/`
+3. Present the plan for your approval before execution
+
+This ensures we have a comprehensive, phase-based approach. Proceeding now..."
+```
+
+**Feature Implementation:**
+```
+User: "implement a new authentication feature"
+
+Orchestrator Response:
+"I recognize this as a new feature request (keyword: 'new...feature').
+
+I will:
+1. Use the `project-manager` sub-agent to create a comprehensive plan
+2. Present the plan for approval
+3. For each phase: Use the `phase-executor` sub-agent for TDD cycle
+4. Monitor via phase logs and coordinate handoffs
+
+This is a new feature (not refactoring), so phase-executor is appropriate. Proceeding with project-manager first..."
+```
+
+**Infrastructure Change:**
+```
+User: "migrate to pnpm catalogs"
+
+Orchestrator Response:
+"I recognize this as a planning request for infrastructure migration (keyword: 'migrate').
+
+I will:
+1. Invoke the `planning` skill for consultation
+2. Use the `project-manager` sub-agent to create migration plan in `.ai/plans/`
+3. Present plan for approval
+4. Execute directly (infrastructure work, not a new feature - no phase-executor)
+
+Proceeding with planning skill..."
+```
+
 ## Architecture Overview
 
 ```
@@ -23,6 +91,7 @@ Main Orchestrator (Claude Code)
 ### 1. Project Manager Agent
 
 **When to Use:**
+
 - User requests a new feature or major work
 - Existing plan needs updating or expanding
 - Need to break down complex requirements into phases
@@ -59,6 +128,7 @@ Return: plan file path + summary
 ```
 
 **Expected Output:**
+
 ```
 Plan created successfully:
 - File: .ai/plans/2025-10-23-feature-name.md
@@ -74,6 +144,7 @@ Ready for user review.
 ### 2. Phase Executor Agent
 
 **When to Use:**
+
 - Executing a single phase from an approved plan
 - Need complete TDD cycle: tests → implementation → verification
 - Want to ensure quality standards (no TODOs, complete type tests)
@@ -125,6 +196,7 @@ Return when complete with phase status and summary.
 ```
 
 **Expected Output:**
+
 ```markdown
 # Phase N Execution Complete
 
@@ -210,11 +282,13 @@ ls .ai/logs/*-phase*-log.md
 ### Plan File as Contract
 
 The plan file (`.ai/plans/YYYY-MM-DD-name.md`) serves as the **contract** between:
+
 - Main orchestrator
 - Project Manager Agent
 - Phase Executor Agent(s)
 
 **Plan file contains:**
+
 - Overall goal and scope
 - Phase breakdown with clear goals
 - Deliverables per phase
@@ -227,6 +301,7 @@ The plan file (`.ai/plans/YYYY-MM-DD-name.md`) serves as the **contract** betwee
 Each phase execution creates a log (`.ai/logs/YYYY-MM-DD-name-phaseN-log.md`):
 
 **Phase log contains:**
+
 - Starting test snapshot
 - Implementation progress checklist
 - Tests written
@@ -240,24 +315,28 @@ Each phase execution creates a log (`.ai/logs/YYYY-MM-DD-name-phaseN-log.md`):
 All agents enforce these standards:
 
 ### Type Tests are MANDATORY
+
 - Every phase requires type tests
 - Use `type cases = [...]` syntax
 - Use `Expect<Assert...>` from inferred-types
 - Test type inference, narrowing, constraints
 
 ### TODO Markers are FORBIDDEN
+
 - No TODO/FIXME/XXX/HACK in committed code
 - TODOs are blocking issues, not reminders
 - Must be resolved before phase completion
 - Scan for TODOs is a mandatory step
 
 ### Complete Implementations Only
+
 - No stub type utilities (`type Foo<T> = T`)
 - No fake/mock data in implementations
 - No type assertions hiding incomplete code
 - All edge cases handled
 
 ### Test-Driven Development
+
 - Tests written FIRST (RED phase)
 - Implementation makes tests pass (GREEN phase)
 - Refactor with test safety net
@@ -279,6 +358,7 @@ Phase 3 BLOCKED
 ```
 
 **Orchestrator options:**
+
 1. Provide clarification and retry
 2. Break phase into smaller sub-phases
 3. Pause for user input
@@ -302,6 +382,7 @@ Phase 3 FAILED
 ```
 
 **Orchestrator options:**
+
 1. Review phase log to understand issue
 2. Provide specific fix guidance
 3. Retry phase with updated approach
@@ -411,23 +492,27 @@ const phase2b = await phaseExecutor(updatedPlan.file, "2b");
 ## Summary
 
 **Project Manager Agent:**
+
 - Creates detailed, phased plans
 - Returns plan file path
 - Does NOT execute work
 
 **Phase Executor Agent:**
+
 - Executes ONE complete phase
 - Has all skills (planning, testing, development, parsing)
 - Returns phase log + status
 - Enforces quality standards
 
 **Main Orchestrator:**
+
 - Coordinates agents
 - Monitors progress via logs
 - Handles errors and retries
 - Maintains overall project state
 
 This architecture provides:
+
 - ✅ Clear separation of concerns
 - ✅ Specialized expertise per role
 - ✅ Maintainable complexity

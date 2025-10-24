@@ -26,8 +26,8 @@
         "@inferred-types/runtime": "workspace:*"
     },
     "devDependencies": {
-        "@type-challenges/utils": "~0.1.1",
-        "npm-run-all": "~4.1.5",
-        "tsdown": "^0.12.7"
+        "@type-challenges/utils": "catalog:",
+        "npm-run-all": "catalog:",
+        "tsdown": "catalog:"
     }
 }
