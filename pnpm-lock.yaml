@@ -103,8 +103,8 @@ catalogs:
       specifier: ^0.1.2
       version: 0.1.2
     typed-tester:
-      specifier: ~0.12.0
-      version: 0.12.0
+      specifier: ~0.13.1
+      version: 0.13.0
     typescript:
       specifier: ^5.9.3
       version: 5.9.3
@@ -233,7 +233,7 @@ importers:
         version: 0.1.2
       typed-tester:
         specifier: 'catalog:'
-        version: 0.12.0(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3)
+        version: 0.13.1(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -287,7 +287,7 @@ importers:
         version: 0.1.2
       typed-tester:
         specifier: 'catalog:'
-        version: 0.12.0(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3)
+        version: 0.13.0(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -355,7 +355,7 @@ importers:
         version: 0.1.2
       typed-tester:
         specifier: 'catalog:'
-        version: 0.12.0(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3)
+        version: 0.13.0(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -404,7 +404,7 @@ importers:
         version: 0.1.2
       typed-tester:
         specifier: 'catalog:'
-        version: 0.12.0(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3)
+        version: 0.13.0(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2580,6 +2580,9 @@ packages:
   magic-string@0.30.19:
     resolution: {integrity: sha512-2N21sPY9Ws53PZvsEpVtNuSW+ScYbQdp4b9qUaL+9QkHUrGFKo56Lg9Emg5s9V/qrtNBmiR01sYhUOwu3H+VOw==}
 
+  magic-string@0.30.21:
+    resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
+
   markdown-table@3.0.4:
     resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
 
@@ -3425,8 +3428,15 @@ packages:
     resolution: {integrity: sha512-3KS2b+kL7fsuk/eJZ7EQdnEmQoaho/r6KUef7hxvltNA5DR8NAUM+8wJMbJyZ4G9/7i3v5zPBIMN5aybAh2/Jg==}
     engines: {node: '>= 0.4'}
 
-  typed-tester@0.12.0:
-    resolution: {integrity: sha512-hCF7mtYgRECBE/h2W4kGT/yxo+y5V7mJqy74c14IXuQXQohW5f/3BG54Aox6Ig06obCm61SFJhYDd53LzobrkQ==}
+  typed-tester@0.13.0:
+    resolution: {integrity: sha512-R42ZX05Begg+q1cADHDSwH/8Jd/G0FYIHUOcmXApRROtyu2VfZI7FGMqRh1PV5oY530fgvaipCaepOkag1vtag==}
+    hasBin: true
+    peerDependencies:
+      inferred-types: ^1.2.3
+      typescript: ~5.9.2
+
+  typed-tester@0.13.1:
+    resolution: {integrity: sha512-O4VluIjBH9aCOB1YGQ6moq9d8cHjfklqqv8pWLbQmztwFNxnCVD4VQg+MFfwvG8lUzCS9gkU1QTmphIw2Q17Vg==}
     hasBin: true
     peerDependencies:
       inferred-types: ^1.2.3
@@ -5893,6 +5903,10 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  magic-string@0.30.21:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.5
+
   markdown-table@3.0.4: {}
 
   math-intrinsics@1.1.0: {}
@@ -6536,7 +6550,7 @@ snapshots:
       debug: 4.4.3
       dts-resolver: 2.1.2
       get-tsconfig: 4.13.0
-      magic-string: 0.30.19
+      magic-string: 0.30.21
       rolldown: 1.0.0-beta.44
     optionalDependencies:
       typescript: 5.9.3
@@ -6997,7 +7011,34 @@ snapshots:
       possible-typed-array-names: 1.1.0
       reflect.getprototypeof: 1.0.10
 
-  typed-tester@0.12.0(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3):
+  typed-tester@0.13.0(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3):
+    dependencies:
+      '@yankeeinlondon/kind-error': 1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3)
+      chalk: 5.6.2
+      command-line-args: 6.0.1
+      command-line-usage: 7.0.3
+      cytoscape: 3.33.1
+      fast-glob: 3.3.3
+      find-root: 1.1.0
+      graphology: 0.26.0(graphology-types@0.24.8)
+      inferred-types: 0.55.23
+      pathe: 2.0.3
+      play-sound: 1.1.6
+      repo-root: 1.0.0-beta.2(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)
+      sigma: 3.0.2(graphology-types@0.24.8)
+      stack-trace: 1.0.0-pre2
+      ts-morph: 27.0.2
+      tty-table: 4.2.3
+      typescript: 5.9.3
+      watcher: 2.3.1
+    transitivePeerDependencies:
+      - '@75lb/nature'
+      - '@yankeeinlondon/is-monorepo'
+      - '@yankeeinlondon/package-json'
+      - error-stack-parser-es
+      - graphology-types
+
+  typed-tester@0.13.1(@yankeeinlondon/is-monorepo@1.0.0-beta.2(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(inferred-types@0.55.23)(yaml@2.8.1))(@yankeeinlondon/package-json@1.0.0-beta.2(@yankeeinlondon/kind-error@1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3))(inferred-types@0.55.23)(simple-git@3.28.0))(error-stack-parser-es@1.0.5)(graphology-types@0.24.8)(inferred-types@0.55.23)(typescript@5.9.3):
     dependencies:
       '@yankeeinlondon/kind-error': 1.4.1(chalk@5.6.2)(error-stack-parser-es@1.0.5)(inferred-types@0.55.23)(pathe@2.0.3)
       chalk: 5.6.2

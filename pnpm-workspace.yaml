@@ -1,64 +1,46 @@
-
 packages:
-    - modules/*
-
-settings:
-    autoInstallPeers: true
+  - modules/*
 
 catalog:
-    # TypeScript Core
-    typescript: ^5.9.3
+  '@antfu/eslint-config': ^6.0.0
+  '@date-fns/tz': ^1.4.1
+  '@eslint/js': ^9.38.0
+  '@js-temporal/polyfill': ^0.5.1
+  '@type-challenges/utils': ~0.1.1
+  '@types/luxon': ^3.7.1
+  '@types/node': ^22.18.12
+  '@typescript-eslint/eslint-plugin': ^8.46.2
+  '@typescript-eslint/parser': ^8.46.2
+  '@typescript/analyze-trace': ^0.10.1
+  '@vitest/ui': ^3.2.4
+  '@yankeeinlondon/ask': ^0.4.0
+  '@yankeeinlondon/claudine': ^0.4.1
+  bumpp: ^10.3.1
+  chalk: ^5.6.2
+  cross-env: ^10.1.0
+  date-fns: ^4.1.0
+  dayjs: ^1.11.18
+  eslint: ^9.38.0
+  eslint-plugin-format: ^1.0.2
+  eslint-plugin-promise: ^7.2.1
+  fast-glob: ^3.3.3
+  husky: ^9.1.7
+  jiti: ^2.6.1
+  luxon: ^3.7.2
+  moment: ^2.30.1
+  moment-timezone: ^0.6.0
+  npm-run-all: ~4.1.5
+  pathe: ^2.0.3
+  tsdown: ^0.15.9
+  tsx: ^4.20.6
+  typecheck: ^0.1.2
+  typed-tester: ~0.13.1
+  typescript: ^5.9.3
+  typescript-eslint: ^8.46.2
+  vite: ^7.1.12
+  vite-node: ^3.2.4
+  vitest: ^3.2.4
+  vue: ^3.5.22
 
-    # Testing Framework
-    vitest: ^3.2.4
-    "@vitest/ui": ^3.2.4
-    "@type-challenges/utils": ~0.1.1
-    typecheck: ^0.1.2
-    typed-tester: ~0.12.0
-
-    # Build Tools
-    tsdown: ^0.15.9
-    tsx: ^4.20.6
-    vite: ^7.1.12
-    vite-node: ^3.2.4
-
-    # Linting & Code Quality
-    eslint: ^9.38.0
-    "@eslint/js": ^9.38.0
-    "@antfu/eslint-config": ^6.0.0
-    "@typescript-eslint/eslint-plugin": ^8.46.2
-    "@typescript-eslint/parser": ^8.46.2
-    typescript-eslint: ^8.46.2
-    eslint-plugin-format: ^1.0.2
-    eslint-plugin-promise: ^7.2.1
-
-    # Utilities
-    npm-run-all: ~4.1.5
-    cross-env: ^10.1.0
-    husky: ^9.1.7
-    bumpp: ^10.3.1
-    pathe: ^2.0.3
-    fast-glob: ^3.3.3
-    chalk: ^5.6.2
-    jiti: ^2.6.1
-
-    # Type Definitions
-    "@types/node": ^22.18.12
-    "@types/luxon": ^3.7.1
-
-    # Date Libraries (for testing)
-    luxon: ^3.7.2
-    moment: ^2.30.1
-    moment-timezone: ^0.6.0
-    date-fns: ^4.1.0
-    "@date-fns/tz": ^1.4.1
-    dayjs: ^1.11.18
-    "@js-temporal/polyfill": ^0.5.1
-
-    # Framework (for tests)
-    vue: ^3.5.22
-
-    # Development Tools
-    "@yankeeinlondon/ask": ^0.4.0
-    "@yankeeinlondon/claudine": ^0.4.1
-    "@typescript/analyze-trace": ^0.10.1
+settings:
+  autoInstallPeers: true
