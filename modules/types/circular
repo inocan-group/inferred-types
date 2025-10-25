@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+npx madge --summary ... |
+awk '
+{
+  buf[++NR_] = $0                                  # store all lines
+  # find first pure-numeric field on the line
+  num = ""
+  for (i = 1; i <= NF; i++) if ($i ~ /^[0-9]+$/) { num = $i; break }
+  # print counts >= 2, but don’t print the Skipped header yet (we’ll print the whole block later)
+  if (num != "" && num+0 >= 2 && $0 !~ /^✖ Skipped [0-9]+ files/) print
+  # remember position of the last Skipped header
+  if ($0 ~ /^✖ Skipped [0-9]+ files/) last = NR_
+}
+END {
+  if (last) for (i = last; i <= NR_; i++) print buf[i]    # emit the final Skipped block
+}'

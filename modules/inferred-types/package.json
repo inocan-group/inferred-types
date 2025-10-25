@@ -16,6 +16,7 @@
         "build": "tsdown",
         "test": "vitest run",
         "lint": "eslint src --fix",
+        "circular": "npx madge --circular src/",
         "watch": "run-p watch:*",
         "watch:build": "tsdown --watch",
         "watch:test": "vitest"

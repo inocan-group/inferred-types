@@ -1,3 +1,17 @@
+import { narrow } from "./utils/narrow";
+
+/**
+ * the named nested configuration defined in this repo
+ */
+export const KNOWN_NESTING_CONFIGURATIONS = narrow(
+    "brackets",
+    "quotes",
+    "brackets-and-quotes",
+    "shallow-brackets",
+    "shallow-brackets-and-quotes",
+    "shallow-quotes"
+)
+
 /**
  * A paired bracketing strategy which matches on
  * bracket characters:
@@ -7,12 +21,14 @@
  * - angle brackets: `<` -> `>`
  * - and curlies: `{` -> `}`
  */
-export const BRACKET_NESTING = {
-    "{": "}",
-    "[": "]",
-    "<": ">",
-    "(": ")"
-} as const;
+export const BRACKET_NESTING = narrow(
+    {
+        "{": "}",
+        "[": "]",
+        "<": ">",
+        "(": ")"
+    }
+);
 
 /**
  * A paired bracketing strategy which includes the three
@@ -22,11 +38,11 @@ export const BRACKET_NESTING = {
  * - double quote (**"**),
  * - and backtick (**`**)
  */
-export const QUOTE_NESTING = {
+export const QUOTE_NESTING = narrow({
     "\"": "\"",
     "'": "'",
     "`": "`"
-} as const;
+});
 
 /**
  * A paired bracketing strategy which includes:
@@ -34,15 +50,10 @@ export const QUOTE_NESTING = {
  * - all bracket characters
  * - all quote characters
  */
-export const BRACKET_AND_QUOTE_NESTING = {
-    "{": "}",
-    "[": "]",
-    "<": ">",
-    "(": ")",
-    "\"": "\"",
-    "'": "'",
-    "`": "`"
-} as const;
+export const BRACKET_AND_QUOTE_NESTING = narrow({
+    ...BRACKET_NESTING,
+    ...QUOTE_NESTING
+});
 
 /**
  * **Shallow Bracket Nesting**
@@ -54,12 +65,12 @@ export const BRACKET_AND_QUOTE_NESTING = {
  * This prevents "unbalanced" errors in utilities that only
  * care about the root level.
  */
-export const SHALLOW_BRACKET_NESTING = {
-    "(": [")", {}],
-    "[": ["]", {}],
-    "{": ["}", {}],
-    "<": [">", {}]
-} as const;
+export const SHALLOW_BRACKET_NESTING = narrow({
+    "(": { exit: ")", children: {} },
+    "[": { exit: "]", children: {} },
+    "{": { exit: "}", children: {} },
+    "<": { exit: ">", children: {} }
+});
 
 /**
  * **Shallow Quote Nesting**
@@ -71,11 +82,11 @@ export const SHALLOW_BRACKET_NESTING = {
  * This allows treating quoted content as literals, preventing
  * split characters inside quotes from being recognized.
  */
-export const SHALLOW_QUOTE_NESTING = {
-    "\"": ["\"", {}],
-    "'": ["'", {}],
-    "`": ["`", {}]
-} as const;
+export const SHALLOW_QUOTE_NESTING = narrow({
+    "\"": { exit: "\"",children:  {}},
+    "'":  { exit: "'", children: {}},
+    "`":  { exit: "`", children: {}}
+});
 
 /**
  * **Shallow Bracket and Quote Nesting**
@@ -84,12 +95,7 @@ export const SHALLOW_QUOTE_NESTING = {
  * Both brackets and quotes are recognized at level 0, but
  * inside either, no further nesting is recognized.
  */
-export const SHALLOW_BRACKET_AND_QUOTE_NESTING = {
-    "(": [")", {}],
-    "[": ["]", {}],
-    "{": ["}", {}],
-    "<": [">", {}],
-    "\"": ["\"", {}],
-    "'": ["'", {}],
-    "`": ["`", {}]
-} as const;
+export const SHALLOW_BRACKET_AND_QUOTE_NESTING = narrow({
+    ...SHALLOW_BRACKET_NESTING,
+    ...SHALLOW_QUOTE_NESTING
+});

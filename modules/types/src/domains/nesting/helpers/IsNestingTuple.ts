@@ -3,6 +3,7 @@ import {
     AllStringLiterals,
     Err,
     IsNestingConfig,
+    NestingTupleConfig,
     ToStringLiteral
 } from "inferred-types/types";
 
@@ -24,7 +25,7 @@ import {
  */
 export type IsNestingTuple<T> = T extends [
     infer Start extends readonly string[],
-    infer End extends readonly string[] | undefined,
+    infer End extends readonly string[] | undefined | NestingTupleConfig,
     ...infer Rest
 ]
     ? [AllStringLiterals<Start>] extends [true]
@@ -70,11 +71,13 @@ export type IsNestingTuple<T> = T extends [
                                 `NestingTuple can have at most 3 elements: [start, end, nextLevel?]`,
                                 { tuple: ToStringLiteral<T> }
                             >
-                    : Err<
-                        `invalid-nesting/tuple`,
-                        `The END segment (aka, 2nd element) of the tuple should be either undefined or a 'readonly string[]'. It was neither!`,
-                        { end: ToStringLiteral<End>; tuple: ToStringLiteral<T> }
-                    >
+                : [End] extends [NestingTupleConfig]
+                    ? true
+                : Err<
+                    `invalid-nesting/tuple`,
+                    `The END segment (aka, 2nd element) of the tuple should be either undefined or a 'readonly string[]'. It was neither!`,
+                    { end: ToStringLiteral<End>; tuple: ToStringLiteral<T> }
+                >
             : Err<
                 `invalid-nesting/tuple`,
                 `The START segment (aka, 1st element) had character strings which were longer than a single character! This is not allowed.`,

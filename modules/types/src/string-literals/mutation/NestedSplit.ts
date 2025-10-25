@@ -6,14 +6,14 @@ import type {
     DefaultNesting,
     Err,
     First,
-    FromNamedNestingConfig,
+    AsNestingConfig,
     GetNextLevelConfig,
     GetParentConfig,
     IsNestingMatchEnd,
     IsEntryToken,
     Last,
     Nesting,
-    NestingConfig__Named,
+    KnownNestingConfig,
     Or,
     Pop,
     ShallowBracketAndQuoteNesting,
@@ -290,7 +290,7 @@ export type NestedSplit<
     TContent extends string,
     /** the split character(s) */
     TSplit extends string | readonly string[],
-    TNesting extends Nesting | NestingConfig__Named = DefaultNesting,
+    TNesting extends Nesting | KnownNestingConfig = DefaultNesting,
     TPolicy extends NestedSplitPolicy = "omit"
 >
     = string extends TContent
@@ -302,12 +302,12 @@ export type NestedSplit<
                     ? Convert<
                         Chars<TContent>,
                         TSplit[number],
-                        FromNamedNestingConfig<TNesting>,
+                        AsNestingConfig<TNesting>,
                         TPolicy,
                         [],
                         "",
                         [],
-                        FromNamedNestingConfig<TNesting>
+                        AsNestingConfig<TNesting>
                     >
                     : Err<
                         `invalid-nesting/nested-split`,
@@ -319,17 +319,17 @@ export type NestedSplit<
                         ? Convert<
                             Chars<TContent>,
                             TSplit,
-                            FromNamedNestingConfig<TNesting>,
+                            AsNestingConfig<TNesting>,
                             TPolicy,
                             [],
                             "",
                             [],
-                            FromNamedNestingConfig<TNesting>
+                            AsNestingConfig<TNesting>
                         >
                         : MultiConvert<
                             TContent,
                             TSplit,
-                            FromNamedNestingConfig<TNesting>,
+                            AsNestingConfig<TNesting>,
                             TPolicy
                         >
                     : never;

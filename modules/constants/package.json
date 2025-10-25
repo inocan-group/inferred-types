@@ -16,6 +16,8 @@
         "build": "tsdown",
         "test": "vitest run",
         "lint": "eslint src",
+        "circular": "npx madge --circular src/",
+        "circular:summary": "FORCE_COLOR=1 npx madge --circular --summary src/ | grep -vE '^\\x1b\\[[0-9;]*m\\x1b\\[[0-9;]*m[01]\\x1b'",
         "watch": "run-p watch:*",
         "watch:build": "tsdown --watch",
         "watch:test": "vitest",

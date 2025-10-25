@@ -1,39 +1,40 @@
-import { As } from "inferred-types/types";
-import { Nesting } from "types/domains";
+import { KNOWN_NESTING_CONFIGURATIONS } from 'inferred-types/constants';
+import {
+    As,
+    Err,
+    Nesting,
+    NestingTuple,
+    NestingKeyValue,
+} from "inferred-types/types";
+
 import {
     ShallowQuoteNesting,
     ShallowBracketNesting,
     ShallowBracketAndQuoteNesting
 } from "./shallow";
 import {
-    DefaultNesting,
     BracketNesting,
     QuoteNesting,
     BracketAndQuoteNesting
 } from "./recursive";
 
 /**
- * the list of named nesting configurations defined in this repo
+ * **KnownNestingConfig**
+ *
+ * the list of the known _named_ nesting configurations defined in this repo.
  */
-export type NestingConfig__Named =
-    | "default"
-    | "brackets"
-    | "quotes"
-    | "brackets-and-quotes"
-    | "shallow-brackets"
-    | "shallow-quotes"
-    | "shallow-brackets-and-quotes";
+export type KnownNestingConfig = typeof KNOWN_NESTING_CONFIGURATIONS[number];
 
 
 /**
- * maps the named nesting configuration
+ * **AsNestingConfig**`<T>`
+ *
+ * convert a "named" nesting configuration to the actual shape
+ * of that named configuration points to.
  */
-export type FromNamedNestingConfig<T extends Nesting | NestingConfig__Named> = As<
-    T extends Nesting
-        ? T
-        : T extends "default"
-            ? DefaultNesting
-        : T extends "brackets"
+export type AsNestingConfig<T extends Nesting> = As<
+    [T] extends [string]
+        ? T extends "brackets"
             ? BracketNesting
         : T extends "quotes"
             ? QuoteNesting
@@ -45,6 +46,20 @@ export type FromNamedNestingConfig<T extends Nesting | NestingConfig__Named> = A
             ? ShallowQuoteNesting
         : T extends "shallow-brackets-and-quotes"
             ? ShallowBracketAndQuoteNesting
-            : never,
-    Nesting
->;
+
+        : Err<
+            `invalid-nesting-config/name`,
+            `The nesting config "${T}" is not a known named configuration!`,
+            { config: T }
+        >
+    : [T] extends [NestingKeyValue]
+        ? T
+    : [T] extends [NestingTuple]
+        ? T
+    : Err<
+        `invalid-nesting-config/structured`,
+        `The nesting configuration passed in was invalid! You must use either a known "named configuration" like "quotes" or "brackets" or `
+    >,
+    Error | NestingKeyValue | NestingTuple
+>
+

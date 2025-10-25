@@ -1,4 +1,4 @@
-import { IsNestingKeyValue, IsNestingTuple } from "inferred-types/types";
+import type { IsNestingKeyValue, IsNestingTuple } from "inferred-types/types";
 
 /**
  * boolean operator which tests whether `T` is a valid nesting configuration.

@@ -1,29 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { nesting } from "inferred-types/runtime";
-import type { Expect, Test } from "inferred-types/types";
+import { isNestingKeyValue, nesting } from "inferred-types/runtime";
+import type { AsNestingConfig, Expect, Test } from "inferred-types/types";
 
 describe("nesting() HOF", () => {
 
     describe("Named Configurations", () => {
-
-        it("'default' config works correctly", () => {
-            const api = nesting("default");
-
-            // Test split method with nested brackets
-            const split1 = api.split("a,b(c,d),e", ",");
-            expect(split1).toEqual(["a", "b(c,d)", "e"]);
-
-            // Test retainUntil method
-            const retain1 = api.retainUntil("foo(bar)baz", ")");
-            expect(retain1).toBe("foo(bar)");
-
-            // Type tests
-            type Split1 = typeof split1;
-            type cases1 = [
-                Expect<Test<Split1, "equals", ["a", "b(c,d)", "e"]>>
-            ];
-        });
-
         it("'brackets' config works correctly", () => {
             const api = nesting("brackets");
 
@@ -137,6 +118,10 @@ describe("nesting() HOF", () => {
     describe("Custom Configurations", () => {
 
         it("accepts custom NestingKeyValue config", () => {
+            const valid = isNestingKeyValue({ "<": ">" });
+
+            expect(valid).toBe(true);
+
             const api = nesting({ "<": ">" });
 
             const split1 = api.split("a,b<c,d>,e", ",");
@@ -166,9 +151,8 @@ describe("nesting() HOF", () => {
         it("accepts hierarchical NestingTuple config", () => {
             const api = nesting([
                 ["(", "["],
-                [")", "]"],
-                {}  // Empty config for next level (shallow)
-            ] as const);
+                { exit: [")", "]"], children: {} }, // Empty config for next level (shallow)
+            ]);
 
             const split1 = api.split("a,(b,c),d", ",");
             expect(split1).toEqual(["a", "(b,c)", "d"]);
@@ -188,7 +172,7 @@ describe("nesting() HOF", () => {
     describe("API Surface", () => {
 
         it("split() method has correct signature", () => {
-            const api = nesting("default");
+            const api = nesting();
 
             // Basic split
             const r1 = api.split("a,b,c", ",");
@@ -207,7 +191,7 @@ describe("nesting() HOF", () => {
         });
 
         it("retainUntil() method has correct signature", () => {
-            const api = nesting("default");
+            const api = nesting();
 
             // With include (default true)
             const r1 = api.retainUntil("foo(bar)baz", ")");

@@ -10,6 +10,7 @@ The nesting system is currently in a transitional state with remnants of a faile
 ## Background Context
 
 ### The Problem Being Solved
+
 - **Goal:** Support "shallow" nesting - nest at root level but not inside nested contexts
 - **Use Case:** Quote handling - treat content inside quotes as literal (no further nesting)
 
@@ -27,11 +28,13 @@ The nesting system is currently in a transitional state with remnants of a faile
 ### Simple Nesting (Working)
 
 **NestingKeyValue - Simple Form:**
+
 ```typescript
 type Simple = { "(": ")" }  // ✅ Works
 ```
 
 **NestingTuple - Simple Form:**
+
 ```typescript
 type SimpleTuple = [["(", "["], [")", "]"]]  // ✅ Works
 ```
@@ -39,6 +42,7 @@ type SimpleTuple = [["(", "["], [")", "]"]]  // ✅ Works
 ### Hierarchical Nesting (Broken - Should Be Removed)
 
 **NestingKeyValue - Hierarchical Form:**
+
 ```typescript
 // Type definition says this is valid:
 type Hierarchical = { "(": [")", {}] }  // ❌ Broken
@@ -46,6 +50,7 @@ type HierarchicalWithNextLevel = { "(": [")", { "[": "]" }] }  // ❌ Broken
 ```
 
 **Problem:** The type definition (`NestingKeyValue`) says it accepts:
+
 - `string | NestingKeyValueConfig`
 
 But `NestingKeyValueConfig` is an **object** with `{ exit, children?, exception? }`, NOT a tuple.
@@ -55,6 +60,7 @@ The documentation and tests use **tuple syntax** `[exit, nextLevel]`, but the ty
 ### Named Configurations (Working with Caveats)
 
 **Constants like `SHALLOW_BRACKET_AND_QUOTE_NESTING`:**
+
 ```typescript
 export const SHALLOW_BRACKET_AND_QUOTE_NESTING = {
     "(": [")", {}],  // ❌ Uses hierarchical tuple syntax (broken)
@@ -71,6 +77,7 @@ export const SHALLOW_BRACKET_AND_QUOTE_NESTING = {
 ### 1. Type Definition Mismatch
 
 **In `NestingKeyValue.ts`:**
+
 ```typescript
 export type NestingKeyValue = Record<
     string,
@@ -80,6 +87,7 @@ export type NestingKeyValue = Record<
 ```
 
 **But everywhere else uses:**
+
 ```typescript
 { "(": [")", {}] }  // ← Tuple syntax [exit, nextLevel]
 ```
@@ -101,6 +109,7 @@ All these utilities have code to handle `[exit, nextLevel]` tuples:
 ### 3. Constants Use Broken Syntax
 
 **All shallow nesting constants:**
+
 - `SHALLOW_BRACKET_NESTING`
 - `SHALLOW_QUOTE_NESTING`
 - `SHALLOW_BRACKET_AND_QUOTE_NESTING`
@@ -112,6 +121,7 @@ This syntax doesn't type-check properly and relies on broken implementation logi
 ### 4. Test Files Expect Hierarchical Behavior
 
 **Tests like `RetainUntil__Nested.test.ts` (lines 128-144):**
+
 ```typescript
 it("hierarchical config: explicit shallow behavior", () => {
     type Text = `{a, b, c}. result`;
@@ -121,6 +131,7 @@ it("hierarchical config: explicit shallow behavior", () => {
 ```
 
 **These tests CANNOT pass** with current implementation because:
+
 1. Type definition doesn't accept tuple syntax
 2. Helper utilities return `never` for hierarchical configs
 3. The nextLevel logic was never fully working
@@ -133,6 +144,7 @@ it("hierarchical config: explicit shallow behavior", () => {
 **Title:** "chore: refactor of file structure for nesting/parsing functionality"
 
 **What it did:**
+
 - Renamed `IsNestingEnd` → `IsExitToken`
 - Renamed `IsNestingStart` → `IsEntryToken`
 - Renamed `GetNestingEnd` → `GetExitToken`
@@ -140,6 +152,7 @@ it("hierarchical config: explicit shallow behavior", () => {
 - Modified `NestingTuple.ts` - added exception support
 
 **What it DIDN'T do:**
+
 - Update test imports (caused 100+ test failures)
 - Fix the type definition mismatch
 - Complete the hierarchical implementation
@@ -148,6 +161,7 @@ it("hierarchical config: explicit shallow behavior", () => {
 ### Before the Refactor
 
 The system was simpler:
+
 - Simple key-value: `{ "(": ")" }`
 - Simple tuple: `[["("], [")"]]`
 - No hierarchical configs, no nextLevel logic
@@ -159,7 +173,9 @@ The system was simpler:
 This is the cleanest path forward given the context.
 
 **Type Definitions:**
+
 1. **NestingKeyValue.ts:** Keep ONLY simple form
+
    ```typescript
    export type NestingKeyValue = Record<string, string>;
    ```
@@ -175,6 +191,7 @@ This is the cleanest path forward given the context.
 
 **Constants:**
 8. **SHALLOW_* constants:** Change from `{ "(": [")", {}] }` to just `{ "(": ")" }`
+
    - **NOTE:** This removes "shallow" behavior - quotes will nest recursively
    - Alternative: Keep shallow constants but implement differently (see Phase 2)
 
@@ -187,11 +204,13 @@ This is the cleanest path forward given the context.
 If shallow nesting is still desired, implement it properly:
 
 **Option A: Exception-based (requires solid implementation)**
+
 - Define clear exception rules
 - Implement exception checking in runtime and type utilities
 - Keep nextLevel logic but FIX the type definitions
 
 **Option B: Explicit shallow mode flag**
+
 ```typescript
 type NestingKeyValue = Record<string,
     | string
@@ -200,6 +219,7 @@ type NestingKeyValue = Record<string,
 ```
 
 **Option C: Separate shallow config type**
+
 ```typescript
 type ShallowNestingKeyValue = Record<string, string>;
 type DeepNestingKeyValue = Record<string, string | [string, Nesting]>;
@@ -209,6 +229,7 @@ type NestingKeyValue = ShallowNestingKeyValue | DeepNestingKeyValue;
 ## Files Requiring Changes
 
 ### Type Definitions (modules/types/src/)
+
 - `domains/nesting/primitives/NestingKeyValue.ts` - Simplify to `Record<string, string>`
 - `domains/nesting/primitives/NestingTuple.ts` - Remove 3-element form
 - `domains/nesting/helpers/GetExitToken.ts` - Remove hierarchical logic
@@ -218,14 +239,17 @@ type NestingKeyValue = ShallowNestingKeyValue | DeepNestingKeyValue;
 - `domains/nesting/helpers/ExtractExitTokens.ts` - May no longer be needed
 
 ### Constants (modules/constants/src/)
+
 - `Nesting.ts` - Update all SHALLOW_* constants from hierarchical to simple syntax
 
 ### Runtime (modules/runtime/src/)
+
 - `string-literals/sub-string/retain/retainUntil__Nested.ts` - Remove nextLevel logic
 - `domain/nesting/isNestingEndMatch.ts` - Remove hierarchical tuple handling
 - Runtime equivalents of all type utilities above
 
 ### Tests
+
 - `tests/domains/nesting/helper-types.test.ts` - Remove hierarchical test cases
 - `tests/string-literals/sub-strings/RetainUntil__Nested.test.ts` - Remove hierarchical tests
 - `tests/string-literals/NestedSplit.test.ts` - Update expectations
@@ -236,6 +260,7 @@ type NestingKeyValue = ShallowNestingKeyValue | DeepNestingKeyValue;
 ### Breaking Changes
 
 **If we remove hierarchical/nextLevel:**
+
 1. ✅ **Type compatibility:** Simplifies types, makes them more predictable
 2. ✅ **Runtime behavior:** Removes broken code paths
 3. ❌ **Shallow nesting:** Loses "quotes mode" shallow behavior
@@ -251,6 +276,7 @@ type NestingKeyValue = ShallowNestingKeyValue | DeepNestingKeyValue;
 ## Recommendation
 
 Given that:
+
 1. The hierarchical implementation is "pretty broken"
 2. nextLevel logic should "no longer be used"
 3. Exception references should be kept but not used yet
@@ -258,12 +284,14 @@ Given that:
 **Recommended path:**
 
 ### Immediate (Fix Current Breakage)
+
 1. **Remove all hierarchical/nextLevel logic** from type and runtime implementations
 2. **Simplify type definitions** to only allow simple forms
 3. **Update constants** to use simple syntax (accept loss of shallow behavior temporarily)
 4. **Update or remove failing tests** that expect hierarchical behavior
 
 ### Future (When Ready to Re-implement)
+
 1. Design new exception-based shallow nesting system properly
 2. Add exception support with clear type definitions
 3. Implement incrementally with comprehensive tests

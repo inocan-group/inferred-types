@@ -1,4 +1,4 @@
-import { Nesting, NestingKeyValue, NestingTuple, Values } from "inferred-types/types";
+import type { Nesting, NestingKeyValue, NestingTuple, Values } from "inferred-types/types";
 import { ExtractExitTokens } from "./ExtractExitTokens"
 
 

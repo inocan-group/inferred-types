@@ -5,7 +5,7 @@ import type {
     DefaultNesting,
     Err,
     First,
-    FromNamedNestingConfig,
+    AsNestingConfig,
     GetNextLevelConfig,
     GetParentConfig,
     IsGreaterThan,
@@ -16,10 +16,11 @@ import type {
     Join,
     Last,
     Nesting,
-    NestingConfig__Named,
+    KnownNestingConfig,
     Pop,
     ShallowBracketAndQuoteNesting,
-    ToStringLiteral
+    ToStringLiteral,
+    BracketNesting
 } from "inferred-types/types";
 
 type FindLast<
@@ -116,8 +117,15 @@ type FindLast<
                         TRootNesting
                     >;
 
+
+export type RetainUntil__NestedOptions = {
+    include?: boolean;
+    config?: Nesting;
+}
+
+
 /**
- * **RetainUntil__Nested**`<TStr, TFind, [TInclude], [TNesting]>`
+ * **RetainUntil__Nested**`<TStr, TFind, [options]>`
  *
  * A _nesting aware_ variant of `RetainUntil`:
  *
@@ -134,19 +142,20 @@ type FindLast<
 export type RetainUntil__Nested<
     TStr,
     TFind extends string,
-    TInclude extends boolean = true,
-    TNesting extends Nesting | NestingConfig__Named = ShallowBracketAndQuoteNesting,
+    TOpt extends RetainUntil__NestedOptions = {},
+    TNesting extends Nesting = TOpt["config"] extends Nesting ? TOpt["config"] : BracketNesting,
+    TInclude extends boolean = TOpt["include"] extends boolean ? TOpt["include"] : true
 > = TStr extends string
     ? string extends TStr
         ? string
         : FindLast<
             Chars<TStr>,
             TFind,
-            FromNamedNestingConfig<TNesting>,
+            AsNestingConfig<TNesting>,
             TInclude,
             "",
             [],
-            FromNamedNestingConfig<TNesting>
+            AsNestingConfig<TNesting>
         >
     : TStr extends Error
         ? TStr

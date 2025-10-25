@@ -1,4 +1,4 @@
-import { Dictionary } from "inferred-types/types";
+import type { Dictionary } from "inferred-types/types";
 
 
 /**

@@ -21,6 +21,46 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         ];
     });
 
+
+    it("there are no exit tokens at the root level", () => {
+        type T = `><(foo,bar)>`;
+        // here the real test is that we're leading with the `>` character
+        // but we're at root level so it does not created an "unbalanced"
+        // condition.
+        type A = NestedSplit<T, ",", "brackets">;
+
+        type cases = [
+            Expect<AssertEqual<
+                A,
+                ["><(foo", "bar)>"]
+            >>
+        ];
+    });
+
+
+
+    it("exit only that what you enter", () => {
+        // this expression throws two curve balls
+        // 1. the `=>` where the `>` should NOT be treated as an exit token because
+        //    it is at the ROOT level which has no exit tokens
+        // 2. the _greater than_ symbol near the end
+        //    it too is at root level
+        type T = `const example = <T extends number>(foo: T) => foo + 5 > 9;`
+        // the real test is to make sure we don't generate a "unbalanced" error
+        // or somehow put the `+` operator onto a non-root level where it will
+        // not be split on.
+        type A = NestedSplit<T, '+', "brackets">;
+
+
+        type cases = [
+            Expect<AssertEqual<
+                A,
+                ['const example = <T extends number>(foo: T) => foo ', ' 5 > 9;']
+            >>
+        ];
+    });
+
+
     it("splitting on character associated with nesting exit", () => {
         type T1 = NestedSplit<
             "string | Number<4>> | string",

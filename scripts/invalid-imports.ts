@@ -42,6 +42,7 @@ type SectionName =
   | "forbidden-@-import"
   | "forbidden-runtime-import"
   | "forbidden-const-aliases"
+  | "forbidden-src-import"
   | "missing-type-modifier"
   | "multiple-imports-same-source";
 
@@ -364,6 +365,23 @@ function validateForbiddenConstAliases(statements: ImportStatement[]): Map<strin
 }
 
 /**
+ * Detects imports starting with "src/" which should use proper path aliases
+ */
+function validateForbiddenSrcImport(statements: ImportStatement[]): Map<string, FileInstance[]> {
+  const findings = new Map<string, FileInstance[]>();
+
+  for (const stmt of statements) {
+    if (stmt.source.startsWith("src/")) {
+      const instances = findings.get(stmt.file) || [];
+      instances.push({ line: stmt.line, content: stmt.content });
+      findings.set(stmt.file, instances);
+    }
+  }
+
+  return findings;
+}
+
+/**
  * Detects imports from inferred-types/types without 'type' modifier
  */
 function validateMissingTypeModifier(statements: ImportStatement[]): Map<string, FileInstance[]> {
@@ -509,6 +527,7 @@ function main() {
     { name: "forbidden-@-import", files: validateForbiddenAtImport(allStatements) },
     { name: "forbidden-runtime-import", files: validateForbiddenRuntimeImport(allStatements) },
     { name: "forbidden-const-aliases", files: validateForbiddenConstAliases(allStatements) },
+    { name: "forbidden-src-import", files: validateForbiddenSrcImport(allStatements) },
     { name: "missing-type-modifier", files: validateMissingTypeModifier(allStatements) },
     { name: "multiple-imports-same-source", files: validateMultipleImportsSameSource(allStatements) },
   ];

@@ -1,4 +1,12 @@
-import type { FromNamedNestingConfig, Nesting, NestingConfig__Named, RetainUntil__Nested } from "inferred-types/types";
+import type {
+    As,
+    BracketNesting,
+    Fallback,
+    AsNestingConfig,
+    Nesting,
+    RetainUntil__Nested,
+    RetainUntil__NestedOptions
+} from "inferred-types/types";
 import {
     BRACKET_NESTING,
     Never,
@@ -17,7 +25,6 @@ import {
     isNestingTuple,
     isNumber,
     isString,
-    mutable,
     toStringLiteral,
 } from "inferred-types/runtime";
 
@@ -155,6 +162,8 @@ function findIdx<
     }
 }
 
+
+
 /**
  * **retainUntil__Nested**(str, find, [incl], [nesting])
  *
@@ -169,45 +178,48 @@ function findIdx<
 export function retainUntil__Nested<
     const TStr extends string,
     const TFind extends string | readonly string[],
-    const TInclude extends boolean = true,
-    const TNesting extends Nesting | NestingConfig__Named = typeof SHALLOW_BRACKET_AND_QUOTE_NESTING
-
+    const TOpt extends RetainUntil__NestedOptions,
+    const TInclude extends boolean = As<Fallback<TOpt["include"], true>, boolean>,
+    const TNesting extends Nesting  = As<Fallback<TOpt["config"], BracketNesting>, Nesting>
 >(
     str: TStr,
     find: TFind,
-    incl: TInclude = true as TInclude,
-    nesting: TNesting = mutable(SHALLOW_BRACKET_AND_QUOTE_NESTING) as TNesting
+    opt: TOpt
 ) {
-    const config: Nesting = isString(nesting)
-        ? nesting === "default" || nesting === "brackets"
+
+    const config: Nesting = isString(opt.config)
+        ? opt.config === "default" || opt.config === "brackets"
             ? BRACKET_NESTING
-            : nesting === "quotes"
-                ? QUOTE_NESTING
-                : nesting === "brackets-and-quotes"
-                    ? mutable({ ...BRACKET_NESTING, ...QUOTE_NESTING })
-                    : nesting === "shallow-brackets"
-                        ? mutable(SHALLOW_BRACKET_NESTING)
-                        : nesting === "shallow-quotes"
-                            ? mutable(SHALLOW_QUOTE_NESTING)
-                            : nesting === "shallow-brackets-and-quotes"
-                                ? mutable(SHALLOW_BRACKET_AND_QUOTE_NESTING)
-                                : Never
-        : nesting as Nesting;
+        : opt.config === "quotes"
+            ? QUOTE_NESTING
+        : opt.config === "shallow-brackets"
+            ? SHALLOW_BRACKET_NESTING
+        : opt.config === "shallow-quotes"
+            ? SHALLOW_QUOTE_NESTING
+        : opt.config === "shallow-brackets-and-quotes"
+            ? SHALLOW_BRACKET_AND_QUOTE_NESTING
+        : opt.config === "brackets-and-quotes"
+            ? { ...BRACKET_NESTING, ...QUOTE_NESTING }
+        : Never
+    : opt.config as Nesting;
+
     const idx = findIdx(asChars(str), find, config);
 
     if (isNumber(idx)) {
-        const endIdx = incl ? idx + 1 : idx;
+        const endIdx = idx ? idx + 1 : idx;
         return str.slice(0, endIdx) as TFind extends readonly string[]
-            ? RetainUntil__Nested<TStr, TFind[number], TInclude, FromNamedNestingConfig<TNesting>>
+            ? RetainUntil__Nested<TStr, TFind[number], { include: TInclude, config: AsNestingConfig<TNesting> }>
             : TFind extends string
-                ? RetainUntil__Nested<TStr, TFind, TInclude, FromNamedNestingConfig<TNesting>>
+                ? RetainUntil__Nested<TStr, TFind, { include: TInclude, config: AsNestingConfig<TNesting> }>
                 : never;
     }
     else {
         return idx as TFind extends readonly string[]
-            ? RetainUntil__Nested<TStr, TFind[number], TInclude, FromNamedNestingConfig<TNesting>>
+            ? RetainUntil__Nested<TStr, TFind[number], { include: TInclude, config: AsNestingConfig<TNesting> }>
             : TFind extends string
-                ? RetainUntil__Nested<TStr, TFind, TInclude, FromNamedNestingConfig<TNesting>>
+                ? RetainUntil__Nested<TStr, TFind, { include: TInclude, config: AsNestingConfig<TNesting> }>
                 : never;
     }
 }
+
+

@@ -1,4 +1,4 @@
-import type { AsLiteralTemplate, BracketNesting, EmptyObject, Err, FromNamedNestingConfig, Nest, NestedString, Nesting, NestingConfig__Named, ReplaceAll } from "inferred-types/types";
+import type { AsLiteralTemplate, BracketNesting, EmptyObject, Err, AsNestingConfig, Nest, NestedString, Nesting, KnownNestingConfig, ReplaceAll } from "inferred-types/types";
 
 type NestingFormat = "string" | "string[]" | "template";
 
@@ -16,7 +16,7 @@ type FilterByNestingLevel__Options = {
      * - you can define your own strategy by passing in a `NestingKeyValue` or
      * `NestingTuple` configuration
      */
-    strategy?: Nesting | NestingConfig__Named;
+    strategy?: Nesting | KnownNestingConfig;
 
     /**
      * The type of output desired:
@@ -161,8 +161,8 @@ export type FilterByNestingLevel<
     TLevel extends number = TOpt["level"] extends number ? TOpt["level"] : 0
 > = Nest<
     TContent,
-    TOpt["strategy"] extends infer Strategy extends NestingConfig__Named | Nesting
-        ? FromNamedNestingConfig<Strategy>
+    TOpt["strategy"] extends infer Strategy extends KnownNestingConfig | Nesting
+        ? AsNestingConfig<Strategy>
         : BracketNesting
 > extends infer Structured
     ? Structured extends NestedString

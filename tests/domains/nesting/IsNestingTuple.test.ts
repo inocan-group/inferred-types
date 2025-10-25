@@ -3,21 +3,42 @@ import type { Expect, IsNestingTuple, Test } from "inferred-types/types";
 
 describe("IsNestingTuple<T>", () => {
 
-    it("positive tests", () => {
+    it("undefined for exit", () => {
         type T1 = IsNestingTuple<[
             ["a","b"],
             undefined
         ]>
-        type T2 = IsNestingTuple<[
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+        ];
+    });
+
+
+    it("exit is a simple array", () => {
+        type T1 = IsNestingTuple<[
             ["a","b"],
             ["c", "d"]
         ]>
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
-            Expect<Test<T2, "equals", true>>,
         ];
     });
+
+
+    it("child rule change", () => {
+        type T1 = IsNestingTuple<[
+            ["a","b"],
+            { exit: undefined, children: {} }
+        ]>
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+        ];
+    });
+
+
 
     it("negative tests", () => {
         type EStart = IsNestingTuple<[

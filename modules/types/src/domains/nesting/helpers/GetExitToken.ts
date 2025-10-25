@@ -1,4 +1,4 @@
-import { As, Err, IsNull, Nesting, NestingKeyValue } from "inferred-types/types";
+import type { As, Err, IsNull, Nesting, NestingKeyValue } from "inferred-types/types";
 
 type _GetExitToken<
     TEntry extends string,

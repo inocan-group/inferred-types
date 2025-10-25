@@ -1,4 +1,4 @@
-import type { Narrowable, Unset } from "src/literals";
+import type { Narrowable, Unset } from "types/literals";
 
 /**
  * **RuntimeTakeFunction**`<T,E>`

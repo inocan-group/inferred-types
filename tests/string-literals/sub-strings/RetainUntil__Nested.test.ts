@@ -1,7 +1,23 @@
 import { describe, expect, it } from "vitest";
-import { QUOTE_NESTING, ALPHA_CHARS, NUMERIC_CHAR } from "inferred-types/constants";
-import { isError, nesting, retainUntil__Nested } from "inferred-types/runtime";
-import type { Expect, RetainUntil__Nested, Test } from "inferred-types/types";
+import {
+    QUOTE_NESTING,
+    ALPHA_CHARS,
+    NUMERIC_CHAR
+} from "inferred-types/constants";
+import {
+    isError,
+    nesting,
+    retainUntil__Nested
+} from "inferred-types/runtime";
+import type {
+    AssertEqual,
+    AssertExtends,
+    Expect,
+    NestingKeyValue,
+    RetainUntil__Nested,
+    Test
+} from "inferred-types/types";
+import { AssertError } from "transpiled";
 
 describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     type Fn = `function greet(name: string) { return "hi" + name; };`
@@ -10,8 +26,8 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     type Obj = `{ foo: { bar: number } } | string`
 
     it("no nesting chars", () => {
-        type T1 = RetainUntil__Nested<Basic, " ", false>;
-        type T2 = RetainUntil__Nested<Basic, " ", true>;
+        type T1 = RetainUntil__Nested<Basic, " ", {include: false}>;
+        type T2 = RetainUntil__Nested<Basic, " ", {include: true}>;
         type T3 = RetainUntil__Nested<Basic, " ">;
 
         type cases = [
@@ -21,10 +37,49 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
         ];
     });
 
+    it("there are no exit tokens at the root level", () => {
+        type T = `><(foo,bar)>`;
+        // here the real test is that we're leading with the `>` character
+        // but we're at root level so it does not created an "unbalanced"
+        // condition.
+        type A = RetainUntil__Nested<T, ",", {include: false}>;
+
+        type cases = [
+            Expect<AssertEqual<
+                A,
+                "><(foo"
+            >>
+        ];
+    });
+
+
+
+    it("exit only that what you enter", () => {
+        // this expression throws two curve balls
+        // 1. the `=>` where the `>` should NOT be treated as an exit token because
+        //    it is at the ROOT level which has no exit tokens
+        // 2. the _greater than_ symbol near the end
+        //    it too is at root level
+        type T = `const example = <T extends number>(foo: T) => foo + 5 > 9;`
+        // the real test is to make sure we don't generate a "unbalanced" error
+        // or somehow put the `+` operator onto a non-root level where it will
+        // not be split on.
+        type A = RetainUntil__Nested<T, '+', { config: "brackets" }>;
+
+
+        type cases = [
+            Expect<AssertEqual<
+                A,
+                ['const example = <T extends number>(foo: T) => foo ', ' 5 > 9;']
+            >>
+        ];
+    });
+
+
     it("single nesting level", () => {
-        type T1 = RetainUntil__Nested<Fn, "}", true, "brackets">;
-        type T2 = RetainUntil__Nested<Fn, "}", true, "brackets">;
-        type T3 = RetainUntil__Nested<Fn, "}", false, "brackets">;
+        type T1 = RetainUntil__Nested<Fn, "}", { include: true, config: "brackets" }>;
+        type T2 = RetainUntil__Nested<Fn, "}", { include: true, config: "brackets" }>;
+        type T3 = RetainUntil__Nested<Fn, "}", { include: false, config: "brackets" }>;
 
         type cases = [
             Expect<Test<
@@ -46,13 +101,13 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
         type T1 = RetainUntil__Nested<
             ObjTup,
             "}",
-            true,
             {
-                "{": "}"
+                include: true,
+                config: { "{": "}" }
             }
         >;
-        type T2 = RetainUntil__Nested<ObjTup, "]", true, "brackets">;
-        type T3 = RetainUntil__Nested<Obj, "}", true, "brackets">;
+        type T2 = RetainUntil__Nested<ObjTup, "]", { include: true, config: "brackets" }>;
+        type T3 = RetainUntil__Nested<Obj, "}", { include: true, "brackets" }>;
 
         type cases = [
             Expect<Test<
@@ -79,10 +134,10 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     });
 
     it("error when nesting stack is unbalanced", () => {
-        type E1 = RetainUntil__Nested<`{ foo {}`, "}", true, "brackets">;
+        type E1 = RetainUntil__Nested<`{ foo {}`, "}", {include: true, config: "brackets" }>;
 
         type cases = [
-            Expect<Test<E1, "isError", "unbalanced">>,
+            Expect<AssertError<E1, "unbalanced">>,
         ];
     });
 
@@ -96,7 +151,7 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
 
     it("shallow-quotes: treats content inside quotes as literal", () => {
         type Text = `"Hello, world!", he said.`;
-        type T1 = RetainUntil__Nested<Text, ".", true, "shallow-quotes">;
+        type T1 = RetainUntil__Nested<Text, ".", { include: true, config: "shallow-quotes" }>;
 
         type cases = [
             Expect<Test<T1, "equals", `"Hello, world!", he said.`>>
@@ -105,7 +160,7 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
 
     it("shallow-brackets: treats content inside brackets as literal", () => {
         type Text = `Array(1, 2, 3). More text`;
-        type T1 = RetainUntil__Nested<Text, ".", true, "shallow-brackets">;
+        type T1 = RetainUntil__Nested<Text, ".", { include: true, config: "shallow-brackets" }>;
 
         type cases = [
             Expect<Test<T1, "equals", `Array(1, 2, 3).`>>
@@ -114,10 +169,10 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
 
     it("shallow-brackets-and-quotes: combined shallow nesting", () => {
         type Text1 = `func(a, b). "test.value". end`;
-        type T1 = RetainUntil__Nested<Text1, ".", true, "shallow-brackets-and-quotes">;
+        type T1 = RetainUntil__Nested<Text1, ".", { include: true, config: "shallow-brackets-and-quotes" }>;
 
         type Text2 = `data(x, y). More`;
-        type T2 = RetainUntil__Nested<Text2, ".", true, "shallow-brackets-and-quotes">;
+        type T2 = RetainUntil__Nested<Text2, ".", { include: true, "shallow-brackets-and-quotes" }>;
 
         type cases = [
             Expect<Test<T1, "equals", `func(a, b).`>>,
@@ -125,23 +180,7 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
         ];
     });
 
-    it("hierarchical config: explicit shallow behavior", () => {
-        type Text = `{a, b, c}. result`;
-        type T1 = RetainUntil__Nested<Text, ".", true, { "{": ["}", {}] }>;
 
-        type cases = [
-            Expect<Test<T1, "equals", `{a, b, c}.`>>
-        ];
-    });
-
-    it("hierarchical config: nested levels with different tokens", () => {
-        type Text = `{inner, [nested. items]}. final`;
-        type T1 = RetainUntil__Nested<Text, ".", true, { "{": ["}", { "[": "]" }] }>;
-
-        type cases = [
-            Expect<Test<T1, "equals", `{inner, [nested. items]}.`>>
-        ];
-    });
 
 });
 

@@ -14,6 +14,8 @@
     "scripts": {
         "nuke": "rm -rf node_modules",
         "build": "tsdown",
+        "circular": "npx madge --circular --warning --exclude '^\\.\\./\\.\\./' --ts-config tsconfig.tsdown.json src/**/*.ts",
+        "circular:summary": "FORCE_COLOR=1 npx madge --circular --summary --exclude '^\\.\\./\\.\\./' --ts-config tsconfig.tsdown.json src/**/*.ts | grep -vE '^\\x1b\\[[0-9;]*m\\x1b\\[[0-9;]*m[01]\\x1b'",
         "test": "vitest run",
         "lint": "eslint src",
         "deps": "npx typed deps",

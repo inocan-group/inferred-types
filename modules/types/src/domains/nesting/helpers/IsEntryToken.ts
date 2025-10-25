@@ -1,4 +1,4 @@
-import { Keys, Nesting, NestingKeyValue, NestingTuple } from "inferred-types/types";
+import type { Keys, Nesting, NestingKeyValue, NestingTuple } from "inferred-types/types";
 
 /**
  * Tests the character `T` to see if it is a

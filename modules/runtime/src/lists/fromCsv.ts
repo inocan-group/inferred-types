@@ -1,5 +1,5 @@
-import { FromCsv } from "inferred-types/types";
-import { afterFirst } from "runtime/lists/afterFirst";
+import type { FromCsv } from "inferred-types/types";
+import { afterFirst } from "runtime/lists";
 import { isArray } from "runtime/type-guards";
 
 type WithFormat<T extends "[][]" | "KV[]" | string[]> = T extends string[]

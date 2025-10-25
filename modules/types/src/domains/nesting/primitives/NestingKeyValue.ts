@@ -1,10 +1,10 @@
+import type { NestedException, Char } from "inferred-types/types";
 import { Nesting } from "./Nesting";
-import { NestedException } from "types/domains"
 
 
 export type NestingKeyValueConfig = {
     /** the exit token */
-    exit: string,
+    exit: Char,
 
     /**
      * optionally specify a new nesting configuration for child nodes
@@ -20,41 +20,43 @@ export type NestingKeyValueConfig = {
 /**
  * **NestingKeyValue**
  *
- * A key-value pair where:
+ * Used to define _entry_ tokens which have a **discrete** set of _exit_ tokens associated
+ * to each entry token.
  *
- * - the _keys_ are START tokens which indicate _entering_ a new nesting level
- * - the _values_ are either:
- *   - **Simple form**: END tokens (string) which indicate _exiting_ a nesting level
- *   - **Hierarchical form**: A tuple `[exit: string, nextLevel: Nesting]` where:
- *     - `exit` is the END token for this level
- *     - `nextLevel` is the nesting configuration to use inside this nesting level
- *   - **Hierarchical with exceptions**: A tuple `[exit: string, nextLevel: Nesting, exceptions: ExceptionRules]` where:
- *     - `exit` is the END token for this level
- *     - `nextLevel` is the nesting configuration to use inside this nesting level
- *     - `exceptions` defines when the entry/exit delimiters should be ignored at the CURRENT level
+ * - the _keys_ of this type represent the _entry tokens_ that this rule will define
+ * - the _values_ of this type define the _exit token(s)_ associated to their _key_. The
+ *   _values_ can be expressed in one of two ways:
  *
- * **CRITICAL CLARIFICATION**: The `exceptions` parameter applies to the **CURRENT LEVEL**,
- * not the next level. The key is the entry delimiter, and the exceptions define when that
- * entry delimiter (and its corresponding exit) should be ignored at the current parsing level.
+ *     1. **Simple:**
+ *         ```ts
+ *          type Example = {
+ *              '(': ')'
+ *          }
+ *         ```
+ *        - the _simple_ format is compact and very readable but does not offer advanced features
  *
- * **Examples:**
+ *     2. **Detailed:**
  *
- * ```ts
- * // Simple (backward compatible)
- * type Simple = { "(": ")" }
+ *         ```ts
+ *         type Example = {
+ *              '(': {
+ *                  exit: ')';
+ *                  children: DifferentRule;
+ *                  exception: {
+ *                      entry: {
+ *                          ignorePrecededBy: "="
+ *                      }
+ *                  }
+ *              }
+ *         }
+ *        ```
  *
- * // Hierarchical - empty config inside quotes (shallow nesting)
- * type Shallow = { '"': ['"', {}] }
+ *        - the _detailed_ format opens up the ability to configure a different rule for _children_
+ *          as well as define _exceptions_ for this level and below.
  *
- * // Hierarchical - different tokens at different levels
- * type Multi = { "(": [")", { "[": "]" }] }
- *
- * // Hierarchical with exceptions - ignore `>` when preceded by `=`
- * type ArrowSafe = { "<": [">", {}, { exit: { ignorePrecededBy: ["="] } }] }
- * ```
+ * **Related:** `NestingTuple`, `Nesting`
  */
-export type NestingKeyValue = Record<
-    string,
-    | string
-    | NestingKeyValueConfig
->;
+export type NestingKeyValue = Partial<Record<
+    Char,
+    Char | NestingKeyValueConfig
+>>;

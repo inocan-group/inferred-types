@@ -1,4 +1,4 @@
-import { GetNextLevelConfig, Nesting } from "inferred-types/types";
+import type { GetNextLevelConfig, Nesting } from "inferred-types/types";
 
 /**
  * Helper to rebuild config by applying GetNextLevelConfig for each element except the last

@@ -1,4 +1,4 @@
-import { Nesting, NestingKeyValue } from "inferred-types/types";
+import type { Nesting, NestingKeyValue } from "inferred-types/types";
 
 /**
  * **GetNextLevelConfig**`<TEntry, TNesting>`

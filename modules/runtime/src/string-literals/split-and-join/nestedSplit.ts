@@ -1,10 +1,10 @@
 import type {
     DefaultNesting,
-    FromNamedNestingConfig,
+    AsNestingConfig,
     NestedSplit,
     NestedSplitPolicy,
     Nesting,
-    NestingConfig__Named,
+    KnownNestingConfig,
     NestingKeyValue
 } from "inferred-types/types";
 import {
@@ -498,7 +498,7 @@ function splitProcessor<
 export function nestedSplit<
     const TContent extends string,
     const TSplit extends string | readonly string[],
-    const TNesting extends Nesting | NestingConfig__Named = typeof BRACKET_NESTING,
+    const TNesting extends Nesting | KnownNestingConfig = typeof BRACKET_NESTING,
     const TPolicy extends NestedSplitPolicy = "omit"
 >(
     content: TContent,
@@ -526,7 +526,7 @@ export function nestedSplit<
         return err(`invalid-nesting/nested-split`) as NestedSplit<
             TContent,
             TSplit,
-            FromNamedNestingConfig<TNesting>,
+            AsNestingConfig<TNesting>,
             TPolicy
         >;
     }
@@ -542,7 +542,7 @@ export function nestedSplit<
         return result as NestedSplit<
             TContent,
             TSplit,
-            FromNamedNestingConfig<TNesting>,
+            AsNestingConfig<TNesting>,
             TPolicy
         >;
     }
@@ -556,7 +556,7 @@ export function nestedSplit<
         ) as NestedSplit<
             TContent,
             TSplit,
-            FromNamedNestingConfig<TNesting>,
+            AsNestingConfig<TNesting>,
             TPolicy
         >;
     }
@@ -569,7 +569,7 @@ export function nestedSplit<
     return result as NestedSplit<
         TContent,
         TSplit,
-        FromNamedNestingConfig<TNesting>,
+        AsNestingConfig<TNesting>,
         TPolicy
     >;
 }

@@ -1,5 +1,4 @@
-import { AfterFirst, BeforeLast, First, Increment, Last, Reverse, Slice } from "inferred-types/types";
-import { Negative } from '../numeric-literals/Negative';
+import type {  Increment,  Reverse, Slice, Negative } from "inferred-types/types";
 
 /**
  * **FilterEmptyStrings**`<T>`

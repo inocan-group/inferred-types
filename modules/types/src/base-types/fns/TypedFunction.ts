@@ -1,5 +1,5 @@
-import type { ObjectKey } from "src/base-types/ObjectKey";
-import type { Narrowable } from "src/literals";
+import type { ObjectKey } from "types/base-types";
+import type { Narrowable } from "types/literals";
 
 /**
  * **TypedFunction**`<[P],[R]>`

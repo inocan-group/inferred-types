@@ -1,4 +1,4 @@
-import { IsAny, IsNever, IsUnknown } from "inferred-types/types";
+import type { IsAny, IsNever, IsUnknown } from "inferred-types/types";
 
 /**
  * **IsBooleanLike**`<T>`

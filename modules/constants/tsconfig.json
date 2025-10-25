@@ -10,7 +10,7 @@
             ],
             "constants/*": [
                 "./src/*"
-            ]
+            ],
         },
         "strict": true,
         "declaration": true,
@@ -23,7 +23,7 @@
         "skipLibCheck": true
     },
     "include": [
-        "src/**/*"
+        "src"
     ],
     "exclude": [
         "node_modules",

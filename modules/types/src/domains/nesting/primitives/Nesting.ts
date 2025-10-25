@@ -1,12 +1,14 @@
-import { NestingKeyValue } from "./NestingKeyValue";
-import { NestingTuple } from "./NestingTuple"
+import type { KnownNestingConfig, NestingKeyValue, NestingTuple } from "inferred-types/types";
 
 
 /**
- * A means of defining the scope nesting by:
+ * **Nesting**
  *
- * 1. providing a `NestingKeyValue` of matching START and END tokens
- * 2. providing a tuple `NestingTuple` which uses it's own heuristic
- * to defining how nesting layers are identified
+ * A _nesting_ rule configuration. Can take one of three forms:
+ *
+ * 1. `NestingKeyValue` - matching START and END tokens
+ * 2. `NestingTuple` - unmatched START and END tokens
+ * 3. `NestingConfig__Named` - a set of pre-configured rules which
+ * are seen to have high reuse potential.
  */
-export type Nesting = NestingKeyValue | NestingTuple;
+export type Nesting = NestingKeyValue | NestingTuple | KnownNestingConfig;

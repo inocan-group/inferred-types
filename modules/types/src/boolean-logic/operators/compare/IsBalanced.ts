@@ -2,13 +2,13 @@ import type {
     And,
     Chars,
     Err,
-    FromNamedNestingConfig,
+    AsNestingConfig,
     IsExitToken,
     IsNestingMatchEnd,
     IsEntryToken,
     Join,
     Nesting,
-    NestingConfig__Named,
+    KnownNestingConfig,
     ToStringLiteral__Array,
 } from "inferred-types/types";
 
@@ -99,10 +99,10 @@ type EvalString<
  */
 export type IsBalanced<
     T extends string,
-    U extends Nesting | NestingConfig__Named = "brackets",
+    U extends Nesting | KnownNestingConfig = "brackets",
     TErr extends boolean = false
 > = T extends string
     ? string extends T
         ? boolean
-        : EvalString<T, FromNamedNestingConfig<U>, TErr>
+        : EvalString<T, AsNestingConfig<U>, TErr>
     : never;

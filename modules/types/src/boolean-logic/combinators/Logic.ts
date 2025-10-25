@@ -1,5 +1,4 @@
-import type { IsBoolean, IsFalse, IsNever, IsTrue, IsTruthy } from "inferred-types/types";
-import type { LogicFunction } from "src/functions";
+import type { IsBoolean, IsFalse, IsNever, IsTrue, IsTruthy, LogicFunction } from "inferred-types/types";
 
 export type LogicHandler = "truthy" | "false" | "never";
 

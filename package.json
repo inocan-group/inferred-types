@@ -45,6 +45,8 @@
     ],
     "scripts": {
         "nuke": "pnpm -r nuke",
+        "circular": "pnpm -r --stream --color=always --workspace-concurrency=1 circular",
+        "circular:summary": "pnpm -r --stream --color=always --workspace-concurrency=1 circular:summary",
         "test": "vitest run",
         "test:imports": "bun run scripts/invalid-imports.ts",
         "test:bundle": "node scripts/test-bundle.mjs",
@@ -103,6 +105,7 @@
         "husky": "catalog:",
         "jiti": "catalog:",
         "luxon": "catalog:",
+        "madge": "catalog:",
         "moment": "catalog:",
         "moment-timezone": "catalog:",
         "npm-run-all": "catalog:",
@@ -134,5 +137,8 @@
             "unrs-resolver"
         ],
         "auditConfig": {}
+    },
+    "dependencies": {
+        "madge": "catalog:"
     }
 }

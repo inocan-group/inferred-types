@@ -1,7 +1,6 @@
 export * from "./AsSimpleType";
 export * from "./comparison/index";
 export * from "./FromLiteralTokens";
-export * from "./runtime-parser/index";
 export * from "./RuntimeTakeFunction";
 export * from "./Shape";
 export * from "./SimpleToken";
