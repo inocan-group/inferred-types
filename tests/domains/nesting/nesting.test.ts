@@ -172,7 +172,7 @@ describe("nesting() HOF", () => {
     describe("API Surface", () => {
 
         it("split() method has correct signature", () => {
-            const api = nesting();
+            const api = nesting("brackets");
 
             // Basic split
             const r1 = api.split("a,b,c", ",");
@@ -191,7 +191,7 @@ describe("nesting() HOF", () => {
         });
 
         it("retainUntil() method has correct signature", () => {
-            const api = nesting();
+            const api = nesting("brackets");
 
             // With include (default true)
             const r1 = api.retainUntil("foo(bar)baz", ")");

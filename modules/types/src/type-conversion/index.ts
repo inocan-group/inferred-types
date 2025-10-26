@@ -70,3 +70,5 @@ export * from "./ValueOrReturnValue";
 export * from "./Widen";
 export * from "./WidenValues";
 export * from "./WithDefault";
+
+export * from "./numeric/index";

@@ -1,7 +1,9 @@
+import { narrow } from "./utils/narrow"
+
 /**
  * An array of all the lower-cased alphabetic characters
  */
-export const LOWER_ALPHA_CHARS = [
+export const LOWER_ALPHA_CHARS = narrow(
     "a",
     "b",
     "c",
@@ -28,12 +30,12 @@ export const LOWER_ALPHA_CHARS = [
     "x",
     "y",
     "z",
-] as const;
+ );
 
 /**
  * An array of all the upper-cased alphabetic characters
  */
-export const UPPER_ALPHA_CHARS = [
+export const UPPER_ALPHA_CHARS = narrow(
     "A",
     "B",
     "C",
@@ -60,12 +62,12 @@ export const UPPER_ALPHA_CHARS = [
     "X",
     "Y",
     "Z",
-] as const;
+);
 
 /**
  * An array of all alphabetic characters (upper and lower)
  */
-export const ALPHA_CHARS = [
+export const ALPHA_CHARS = narrow(
     ...LOWER_ALPHA_CHARS,
     ...UPPER_ALPHA_CHARS,
-] as const;
+);

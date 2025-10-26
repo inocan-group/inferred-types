@@ -27,6 +27,7 @@ import {
     isString,
     toStringLiteral,
 } from "inferred-types/runtime";
+import { TimerOptions } from "timers";
 
 /**
  * **getNextLevelConfig** - Runtime helper for hierarchical nesting
@@ -178,13 +179,13 @@ function findIdx<
 export function retainUntil__Nested<
     const TStr extends string,
     const TFind extends string | readonly string[],
-    const TOpt extends RetainUntil__NestedOptions,
+    const TOpt extends RetainUntil__NestedOptions = {include: true, config: "brackets"},
     const TInclude extends boolean = As<Fallback<TOpt["include"], true>, boolean>,
     const TNesting extends Nesting  = As<Fallback<TOpt["config"], BracketNesting>, Nesting>
 >(
     str: TStr,
     find: TFind,
-    opt: TOpt
+    opt: TOpt = { include: true, config: "brackets"} as TOpt
 ) {
 
     const config: Nesting = isString(opt.config)
@@ -205,20 +206,30 @@ export function retainUntil__Nested<
 
     const idx = findIdx(asChars(str), find, config);
 
+    type Rtn = TFind extends readonly string[]
+        ? AsNestingConfig<TNesting> extends infer NestingConfig extends Nesting
+            ? RetainUntil__Nested<
+                TStr,
+                TFind[number],
+                { include: TInclude, config: NestingConfig}
+            >
+            : never
+        : TFind extends string
+            ? AsNestingConfig<TNesting> extends infer NestingConfig extends Nesting
+                ? RetainUntil__Nested<
+                    TStr,
+                    TFind,
+                    { include: TInclude, config: NestingConfig}
+                >
+                : never
+    : never;
+
     if (isNumber(idx)) {
         const endIdx = idx ? idx + 1 : idx;
-        return str.slice(0, endIdx) as TFind extends readonly string[]
-            ? RetainUntil__Nested<TStr, TFind[number], { include: TInclude, config: AsNestingConfig<TNesting> }>
-            : TFind extends string
-                ? RetainUntil__Nested<TStr, TFind, { include: TInclude, config: AsNestingConfig<TNesting> }>
-                : never;
+        return str.slice(0, endIdx) as Rtn
     }
     else {
-        return idx as TFind extends readonly string[]
-            ? RetainUntil__Nested<TStr, TFind[number], { include: TInclude, config: AsNestingConfig<TNesting> }>
-            : TFind extends string
-                ? RetainUntil__Nested<TStr, TFind, { include: TInclude, config: AsNestingConfig<TNesting> }>
-                : never;
+        return idx as Rtn
     }
 }
 

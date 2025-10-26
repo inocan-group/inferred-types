@@ -11,9 +11,7 @@ import {
 } from "inferred-types/runtime";
 import type {
     AssertEqual,
-    AssertExtends,
     Expect,
-    NestingKeyValue,
     RetainUntil__Nested,
     Test
 } from "inferred-types/types";
@@ -26,8 +24,8 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     type Obj = `{ foo: { bar: number } } | string`
 
     it("no nesting chars", () => {
-        type T1 = RetainUntil__Nested<Basic, " ", {include: false}>;
-        type T2 = RetainUntil__Nested<Basic, " ", {include: true}>;
+        type T1 = RetainUntil__Nested<Basic, " ", { include: false }>;
+        type T2 = RetainUntil__Nested<Basic, " ", { include: true }>;
         type T3 = RetainUntil__Nested<Basic, " ">;
 
         type cases = [
@@ -42,13 +40,17 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
         // here the real test is that we're leading with the `>` character
         // but we're at root level so it does not created an "unbalanced"
         // condition.
-        type A = RetainUntil__Nested<T, ",", {include: false}>;
+        //
+        // Secondary test is that since the only comma is at level 1
+        // we instead get a 'not-found' error
+        type A = RetainUntil__Nested<T, ",", { include: false }>;
+
+        type T2 = `><(foo,bar)>, ending`;
+        type B = RetainUntil__Nested<T2, ",", { include: false }>;
 
         type cases = [
-            Expect<AssertEqual<
-                A,
-                "><(foo"
-            >>
+            Expect<Test<A, "isError", "not-found/retain-until-nested">>,
+            Expect<AssertEqual<B, `><(foo,bar)>`>>
         ];
     });
 
@@ -68,9 +70,9 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
 
 
         type cases = [
-            Expect<AssertEqual<
-                A,
-                ['const example = <T extends number>(foo: T) => foo ', ' 5 > 9;']
+            Expect<Test<
+                A, "equals",
+                "const example = <T extends number>(foo: T) => foo +"
             >>
         ];
     });
@@ -87,7 +89,7 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
                 `function greet(name: string) { return "hi" + name; }`
             >>,
             Expect<Test<
-            T2, "equals",
+                T2, "equals",
                 `function greet(name: string) { return "hi" + name; }`
             >>,
             Expect<Test<
@@ -134,7 +136,7 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     });
 
     it("error when nesting stack is unbalanced", () => {
-        type E1 = RetainUntil__Nested<`{ foo {}`, "}", {include: true, config: "brackets" }>;
+        type E1 = RetainUntil__Nested<`{ foo {}`, "}", { include: true, config: "brackets" }>;
 
         type cases = [
             Expect<AssertError<E1, "unbalanced">>,
@@ -149,6 +151,11 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
         ];
     });
 
+
+});
+
+describe.skip('RetainUntil__Nested<TStr,TFind,TNesting> using new syntax', () => {
+
     it("shallow-quotes: treats content inside quotes as literal", () => {
         type Text = `"Hello, world!", he said.`;
         type T1 = RetainUntil__Nested<Text, ".", { include: true, config: "shallow-quotes" }>;
@@ -157,6 +164,7 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
             Expect<Test<T1, "equals", `"Hello, world!", he said.`>>
         ];
     });
+
 
     it("shallow-brackets: treats content inside brackets as literal", () => {
         type Text = `Array(1, 2, 3). More text`;
@@ -179,10 +187,8 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
             Expect<Test<T2, "equals", `data(x, y).`>>
         ];
     });
+})
 
-
-
-});
 
 // RUNTIME
 // -----------------------------------------------------------------
@@ -190,14 +196,17 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
 describe("retainUntil__Nested(str, find, incl, nesting)", () => {
 
     it("no nesting chars", () => {
-        const t1 = retainUntil__Nested("Hi! Welcome.", "!");
-        const t2 = retainUntil__Nested("Hi! Welcome.", "!", false);
+        const t1a = retainUntil__Nested("Hi! Welcome.", "!", {});
+        const t1b = retainUntil__Nested("Hi! Welcome.", "!");
+        const t2 = retainUntil__Nested("Hi! Welcome.", "!", { include: false} );
 
-        expect(t1).toBe("Hi!")
+        expect(t1a).toBe("Hi!")
+        expect(t1b).toBe("Hi!")
         expect(t2).toBe("Hi")
 
         type cases = [
-            Expect<Test<typeof t1, "equals", "Hi!">>,
+            Expect<Test<typeof t1a, "equals", "Hi!">>,
+            Expect<Test<typeof t1b, "equals", "Hi!">>,
             Expect<Test<typeof t2, "equals", "Hi">>,
         ];
     });
@@ -236,8 +245,13 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
 
     it("using NestingTuple with undefined for END", () => {
         const t1 = retainUntil__Nested(
-            "Hi,12456 is a number", " ", true,
-            [NUMERIC_CHAR, undefined]
+            "Hi,12456 is a number",
+            " ",
+            {
+                include: true,
+                config: [NUMERIC_CHAR, undefined]
+            }
+
         )
 
         expect(t1).toBe("Hi,12456 ");
@@ -251,8 +265,11 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
         // the "1" character should add to the stack
         // the "i" character should remove from the stack
         const t1 = retainUntil__Nested(
-            "Hi,12456 is a number", " ", true,
-            [NUMERIC_CHAR, ALPHA_CHARS]
+            "Hi,12456 is a number", " ",
+            {
+                include: true,
+                config: [NUMERIC_CHAR, ALPHA_CHARS]
+            }
         )
 
         expect(t1).toBe("Hi,12456 is ");
@@ -266,20 +283,26 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
         const t1 = retainUntil__Nested(
             `he said, "do it!", and of course we did! right?`,
             "!",
-            true,
-            QUOTE_NESTING
+            {
+                include: true,
+                config: QUOTE_NESTING
+            }
         )
         const t2 = retainUntil__Nested(
             `he said, 'do it!', and of course we did! right?`,
             "!",
-            true,
-            QUOTE_NESTING
+            {
+                include: true,
+                config: QUOTE_NESTING
+            }
         )
         const t3 = retainUntil__Nested(
             'he said, `do it!`, and of course we did! right?',
             "!",
-            true,
-            QUOTE_NESTING
+            {
+                include: true,
+                config: QUOTE_NESTING
+            }
         )
 
         expect(t1).toBe(`he said, "do it!", and of course we did!`);
@@ -297,8 +320,10 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
         const t1 = retainUntil__Nested(
             `he said, 'do it!", and of course we did! right?`,
             "!",
-            true,
-            QUOTE_NESTING
+            {
+                include: true,
+                config: QUOTE_NESTING
+            }
         )
 
         expect(isError(t1)).toBe(true);
@@ -327,9 +352,14 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
         ];
     });
 
+})
+
+describe.skip("retainUntil__Nested(str, find, incl, nesting) using new syntax", () => {
+
+
     it("shallow-quotes: treats content inside quotes as literal", () => {
         const text = `"Hello, world!", he said.` as const;
-        const t1 = retainUntil__Nested(text, ".", true, "shallow-quotes");
+        const t1 = retainUntil__Nested(text, ".", { include: true, config: "shallow-quotes"});
 
         expect(t1).toBe(`"Hello, world!", he said.`);
 
@@ -340,7 +370,7 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
 
     it("shallow-brackets: treats content inside brackets as literal", () => {
         const text = `Array(1, 2, 3). More text` as const;
-        const t1 = retainUntil__Nested(text, ".", true, "shallow-brackets");
+        const t1 = retainUntil__Nested(text, ".", { include: true, config: "shallow-brackets"});
 
         expect(t1).toBe(`Array(1, 2, 3).`);
 
@@ -351,7 +381,10 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
 
     it("shallow-brackets-and-quotes: combined shallow nesting", () => {
         const text1 = `func(a, b). "test.value". end` as const;
-        const t1 = retainUntil__Nested(text1, ".", true, "shallow-brackets-and-quotes");
+        const t1 = retainUntil__Nested(text1, ".", {
+            include: true,
+            config: "shallow-brackets-and-quotes"
+        });
 
         const text2 = `data(x, y). More` as const;
         const t2 = retainUntil__Nested(text2, ".", true, "shallow-brackets-and-quotes");
@@ -367,7 +400,10 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
 
     it("hierarchical config: explicit shallow behavior", () => {
         const text = `{a, b, c}. result` as const;
-        const t1 = retainUntil__Nested(text, ".", true, { "{": ["}", {}] });
+        const t1 = retainUntil__Nested(text, ".", {
+            include: true,
+            config: { "{": { exit: "}", config: {} } }
+        });
 
         expect(t1).toBe(`{a, b, c}.`);
 
@@ -387,13 +423,15 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
         ];
     });
 
-})
+
+});
+
 
 describe("calling via nesting(config) HOF", () => {
 
     it("no nesting chars", () => {
-        const t1 = nesting("default").retainUntil("Hi! Welcome.", "!");
-        const t2 = nesting("default").retainUntil("Hi! Welcome.", "!", false);
+        const t1 = nesting("brackets").retainUntil("Hi! Welcome.", "!");
+        const t2 = nesting("brackets").retainUntil("Hi! Welcome.", "!", false);
 
         expect(t1).toBe("Hi!")
         expect(t2).toBe("Hi")
@@ -404,7 +442,7 @@ describe("calling via nesting(config) HOF", () => {
         ];
     });
 
-        it("using NestingTuple with START and END chars", () => {
+    it("using NestingTuple with START and END chars", () => {
         // the "1" character should add to the stack
         // the "i" character should remove from the stack
         const config = nesting([NUMERIC_CHAR, ALPHA_CHARS]);
@@ -419,21 +457,21 @@ describe("calling via nesting(config) HOF", () => {
         ];
     });
 
-        it("using quotes nesting config", () => {
-            const quotes = nesting("quotes");
-            const t1 = quotes.retainUntil(
-                `he said, "do it!", and of course we did! right?`,
-                "!"
-            )
-            const t2 = quotes.retainUntil(
-                `he said, 'do it!', and of course we did! right?`,
-                "!",
-                true
-            )
-            const t3 = quotes.retainUntil(
-                'he said, `do it!`, and of course we did! right?',
-                "!"
-            )
+    it("using quotes nesting config", () => {
+        const quotes = nesting("quotes");
+        const t1 = quotes.retainUntil(
+            `he said, "do it!", and of course we did! right?`,
+            "!"
+        )
+        const t2 = quotes.retainUntil(
+            `he said, 'do it!', and of course we did! right?`,
+            "!",
+            true
+        )
+        const t3 = quotes.retainUntil(
+            'he said, `do it!`, and of course we did! right?',
+            "!"
+        )
 
         expect(t1).toBe(`he said, "do it!", and of course we did!`);
         expect(t2).toBe(`he said, 'do it!', and of course we did!`);

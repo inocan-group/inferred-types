@@ -11,55 +11,49 @@ import {
 
 import {
     err,
+    fallback,
     isError,
     isNestingKeyValue,
     isNestingTuple,
-    isOk,
     isString,
+    isUndefined,
     nestedSplit,
     retainUntil__Nested
 } from "inferred-types/runtime";
 import { assignNamedConfig } from "./assignNamedConfig";
-import { BRACKET_NESTING } from "inferred-types/constants";
+import { KnownNestingConfig } from "@inferred-types/types";
 
 /**
  * given a valid nesting configuration, this produces the runtime API surface
  * for the `NestingApi`.
  */
-function apiSurface<T extends Nesting | Error | undefined>(nesting: T): AsNestingApi<T> {
-    if (isOk(nesting) ) {
-        return {
-            config: nesting,
-            /**
-             * calls the `retainUntil__Nested()` function with your nesting configuration.
-             */
-            retainUntil(
+function apiSurface<T extends Nesting>(nesting: T): NestingApi<T> {
+    return {
+        config: nesting,
+        retainUntil(
+            str,
+            find,
+            incl
+        ) {
+            return retainUntil__Nested(
                 str,
                 find,
-                incl = true
-            ) {
-                return retainUntil__Nested(
-                    str,
-                    find,
-                    { include: incl, config: nesting }
-                );
-            },
-            split<
-                const TContent extends string,
-                const TSplit extends string,
-                const TPolicy extends NestedSplitPolicy = "omit"
-            >(
-                content: TContent,
-                split: TSplit,
-                policy: TPolicy = "omit" as TPolicy
-            ) {
-                return nestedSplit(content, split, nesting, policy);
-            }
+                { include: fallback(incl, true), config: nesting || "brackets" }
+            );
+        },
+        split<
+            const TContent extends string,
+            const TSplit extends string,
+            const TPolicy extends NestedSplitPolicy = "omit"
+        >(
+            content: TContent,
+            split: TSplit,
+            policy: TPolicy = "omit" as TPolicy
+        ) {
+            return nestedSplit(content, split, nesting, policy) as unknown;
+        }
 
-        } as NestingApi<T>;
-    } else {
-        return nesting as AsNestingApi<T>;
-    }
+    } as NestingApi<T>;
 }
 
 
@@ -76,26 +70,30 @@ export function nesting<
 ): AsNestingApi<T> {
 
     if (isNamedNestingConfig(config)) {
-        const c = assignNamedConfig(config);
+        const c: KnownNestingConfig = assignNamedConfig(config) as KnownNestingConfig;
         return apiSurface(c) as AsNestingApi<T>;
     }
+    if (isUndefined(config)) {
+        return apiSurface("brackets") as AsNestingApi<T>;
+    }
+
     if (isString(config)) {
-        const err = err(
+        const e = err(
             "invalid-nesting-config/named",
             `The nesting config "${config}" is not a known named configuration!`
         );
 
-        return apiSurface(err) as AsNestingApi<T>;
+        return apiSurface(e) as unknown as AsNestingApi<T>;
     }
     if (isNestingTuple(config) || isNestingKeyValue(config)) {
         return apiSurface(config) as AsNestingApi<T>;
     }
     if (isError(config)) {
-        return apiSurface(config) as AsNestingApi<T>;
+        return apiSurface(config) as unknown as AsNestingApi<T>;
     }
 
     return err(
         "invalid-nesting-config",
         `The configuration provided to the 'nesting()' function was not a valid nesting configuration`
-    ) as AsNestingApi<T>;
+    ) as unknown as AsNestingApi<T>;
 }
