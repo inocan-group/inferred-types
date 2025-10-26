@@ -42,7 +42,6 @@ export * from "./RequiredKeys";
 export * from "./RequiredProps";
 export * from "./RequireProps";
 export * from "./ReverseLookup";
-export * from "./RGB";
 export * from "./Set";
 export * from "./SetKey";
 export * from "./SetKeysTo";

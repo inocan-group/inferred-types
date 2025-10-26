@@ -12,6 +12,12 @@ export type RGB = {
     b: number;
 };
 
+/**
+ * **RGBA**
+ *
+ * An object representation of an RGB value with
+ * an alpha channel.
+ */
 export type RGBA = {
     /** red  */
     r: number;
