@@ -430,14 +430,16 @@ describe.skip("retainUntil__Nested(str, find, incl, nesting) using new syntax", 
 describe("calling via nesting(config) HOF", () => {
 
     it("no nesting chars", () => {
-        const t1 = nesting("brackets").retainUntil("Hi! Welcome.", "!");
+        const t1a = nesting("brackets").retainUntil("Hi! Welcome.", "!");
+        const t1b = nesting("brackets").retainUntil("Hi! Welcome.", "!", true);
         const t2 = nesting("brackets").retainUntil("Hi! Welcome.", "!", false);
 
-        expect(t1).toBe("Hi!")
+        expect(t1a).toBe("Hi!")
+        expect(t1b).toBe("Hi!")
         expect(t2).toBe("Hi")
 
         type cases = [
-            Expect<Test<typeof t1, "equals", "Hi!">>,
+            Expect<Test<typeof t1a, "equals", "Hi!">>,
             Expect<Test<typeof t2, "equals", "Hi">>,
         ];
     });

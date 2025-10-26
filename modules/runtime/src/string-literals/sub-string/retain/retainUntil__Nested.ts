@@ -221,7 +221,7 @@ export function retainUntil__Nested<
             : never;
 
     if (isNumber(idx)) {
-        const endIdx = idx ? idx + 1 : idx;
+        const endIdx = opt.include !== false ? idx + 1 : idx;
         return str.slice(0, endIdx) as Rtn;
     }
     else {
