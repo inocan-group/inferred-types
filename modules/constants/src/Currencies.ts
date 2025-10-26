@@ -1,4 +1,3 @@
-
 // reference: https://www.xe.com/en-us/symbols/
 
 export const CURRENCY_LOOKUP = {

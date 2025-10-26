@@ -1,14 +1,14 @@
 import type {
     And,
+    AsNestingConfig,
     Chars,
     Err,
-    AsNestingConfig,
+    IsEntryToken,
     IsExitToken,
     IsNestingMatchEnd,
-    IsEntryToken,
     Join,
-    Nesting,
     KnownNestingConfig,
+    Nesting,
     ToStringLiteral__Array,
 } from "inferred-types/types";
 

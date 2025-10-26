@@ -1,5 +1,6 @@
 export * from "./BooleanLike";
 export * from "./Box";
+export * from "./branding/index";
 export * from "./Choices";
 export * from "./Color";
 export * from "./ContainerBlockKey";
@@ -15,6 +16,5 @@ export * from "./OptRequired";
 export * from "./RuntimeUnion";
 export * from "./Unset";
 export * from "./VueComputedRef";
-export * from "./VueRef";
 
-export * from "./branding/index";
+export * from "./VueRef";

@@ -1,6 +1,6 @@
-import { KNOWN_NESTING_CONFIGURATIONS } from "inferred-types/constants"
-import { isString } from 'inferred-types/runtime';
 import type { KnownNestingConfig } from "inferred-types/types";
+import { KNOWN_NESTING_CONFIGURATIONS } from "inferred-types/constants";
+import { isString } from "inferred-types/runtime";
 
 /**
  * **isNamedNestingConfig**`(val)`

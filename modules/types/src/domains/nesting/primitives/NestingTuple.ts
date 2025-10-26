@@ -1,9 +1,9 @@
 import type { Char, NestedException } from "inferred-types/types";
-import { Nesting } from "./Nesting";
+import type { Nesting } from "./Nesting";
 
 export type NestingTupleConfig = {
     /** the exit token */
-    exit?: Char[],
+    exit?: Char[];
 
     /**
      * optionally specify a new nesting configuration for child nodes
@@ -14,8 +14,7 @@ export type NestingTupleConfig = {
      * optionally add exceptions to _entry_ or _exit_ tokens.
      */
     exception?: NestedException;
-}
-
+};
 
 /**
  * **NestingTuple**
@@ -49,4 +48,4 @@ export type NestingTupleConfig = {
 export type NestingTuple = [
     entry: readonly Char[],
     exit: undefined | string[] | NestingTupleConfig
-]
+];

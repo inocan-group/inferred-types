@@ -1,1 +1,1 @@
-export * from "./HexToDecimal"
+export * from "./HexToDecimal";

@@ -1,5 +1,3 @@
-
-
 /**
  * Helper to extract exit tokens from NestingKeyValue values
  * Handles both simple (string) and hierarchical ([exit, nextLevel]) forms

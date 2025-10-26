@@ -25,7 +25,8 @@ export function isNestingEnd<
             if (Array.isArray(value) && value.length === 2) {
                 // Hierarchical form: [exit, nextLevel]
                 exitTokens.push(value[0] as string);
-            } else if (typeof value === "string") {
+            }
+            else if (typeof value === "string") {
                 // Simple form: string
                 exitTokens.push(value);
             }

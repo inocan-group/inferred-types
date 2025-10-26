@@ -1,6 +1,5 @@
 import type { Nesting, NestingKeyValue, NestingTuple, Values } from "inferred-types/types";
-import { ExtractExitTokens } from "./ExtractExitTokens"
-
+import type { ExtractExitTokens } from "./ExtractExitTokens";
 
 /**
  * Tests the character `T` to see if it is a

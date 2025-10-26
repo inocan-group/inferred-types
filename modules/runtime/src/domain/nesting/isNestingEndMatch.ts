@@ -4,8 +4,7 @@ import {
     isNestingKeyValue,
     isNestingTuple,
     isUndefined,
-    last,
-    reverseLookup
+    last
 } from "inferred-types/runtime";
 
 export function isNestingEndMatch<

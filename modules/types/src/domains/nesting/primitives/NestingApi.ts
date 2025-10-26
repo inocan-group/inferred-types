@@ -1,13 +1,12 @@
-import {
+import type {
+    As,
+    AsArray,
     AsNestingConfig,
-    Nesting,
-    RetainUntil__Nested,
     NestedSplit,
     NestedSplitPolicy,
-    AsArray,
-    As,
+    Nesting,
+    RetainUntil__Nested,
 } from "inferred-types/types";
-
 
 /**
  * **NestingApi**
@@ -59,17 +58,17 @@ export type NestingApi<T extends Nesting> = {
         content: TContent,
         split: TSplit,
         policy?: TPolicy | undefined
-    ): NestedSplit<TContent, TSplit, T, TPolicy>
-}
+    ): NestedSplit<TContent, TSplit, T, TPolicy>;
+};
 
 /**
  * used to convert a valid nesting configuration into the `NestingApi`
  */
-export type AsNestingApi<T extends Nesting> =
-[T] extends [Error]
-    ? T
-: [AsNestingConfig<T>] extends [Error]
-    ? AsNestingConfig<T>
-: [AsNestingConfig<T>] extends [Nesting]
-    ? NestingApi<T>
-: never;
+export type AsNestingApi<T extends Nesting>
+    = [T] extends [Error]
+        ? T
+        : [AsNestingConfig<T>] extends [Error]
+            ? AsNestingConfig<T>
+            : [AsNestingConfig<T>] extends [Nesting]
+                ? NestingApi<T>
+                : never;

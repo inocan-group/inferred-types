@@ -1,8 +1,8 @@
 import type {
     As,
+    AsNestingConfig,
     BracketNesting,
     Fallback,
-    AsNestingConfig,
     Nesting,
     RetainUntil__Nested,
     RetainUntil__NestedOptions
@@ -11,9 +11,9 @@ import {
     BRACKET_NESTING,
     Never,
     QUOTE_NESTING,
+    SHALLOW_BRACKET_AND_QUOTE_NESTING,
     SHALLOW_BRACKET_NESTING,
-    SHALLOW_QUOTE_NESTING,
-    SHALLOW_BRACKET_AND_QUOTE_NESTING
+    SHALLOW_QUOTE_NESTING
 } from "inferred-types/constants";
 import {
     afterFirst,
@@ -27,7 +27,6 @@ import {
     isString,
     toStringLiteral,
 } from "inferred-types/runtime";
-import { TimerOptions } from "timers";
 
 /**
  * **getNextLevelConfig** - Runtime helper for hierarchical nesting
@@ -163,8 +162,6 @@ function findIdx<
     }
 }
 
-
-
 /**
  * **retainUntil__Nested**(str, find, [incl], [nesting])
  *
@@ -179,30 +176,29 @@ function findIdx<
 export function retainUntil__Nested<
     const TStr extends string,
     const TFind extends string | readonly string[],
-    const TOpt extends RetainUntil__NestedOptions = {include: true, config: "brackets"},
+    const TOpt extends RetainUntil__NestedOptions = { include: true; config: "brackets" },
     const TInclude extends boolean = As<Fallback<TOpt["include"], true>, boolean>,
-    const TNesting extends Nesting  = As<Fallback<TOpt["config"], BracketNesting>, Nesting>
+    const TNesting extends Nesting = As<Fallback<TOpt["config"], BracketNesting>, Nesting>
 >(
     str: TStr,
     find: TFind,
-    opt: TOpt = { include: true, config: "brackets"} as TOpt
+    opt: TOpt = { include: true, config: "brackets" } as TOpt
 ) {
-
     const config: Nesting = isString(opt.config)
         ? opt.config === "default" || opt.config === "brackets"
             ? BRACKET_NESTING
-        : opt.config === "quotes"
-            ? QUOTE_NESTING
-        : opt.config === "shallow-brackets"
-            ? SHALLOW_BRACKET_NESTING
-        : opt.config === "shallow-quotes"
-            ? SHALLOW_QUOTE_NESTING
-        : opt.config === "shallow-brackets-and-quotes"
-            ? SHALLOW_BRACKET_AND_QUOTE_NESTING
-        : opt.config === "brackets-and-quotes"
-            ? { ...BRACKET_NESTING, ...QUOTE_NESTING }
-        : Never
-    : opt.config as Nesting;
+            : opt.config === "quotes"
+                ? QUOTE_NESTING
+                : opt.config === "shallow-brackets"
+                    ? SHALLOW_BRACKET_NESTING
+                    : opt.config === "shallow-quotes"
+                        ? SHALLOW_QUOTE_NESTING
+                        : opt.config === "shallow-brackets-and-quotes"
+                            ? SHALLOW_BRACKET_AND_QUOTE_NESTING
+                            : opt.config === "brackets-and-quotes"
+                                ? { ...BRACKET_NESTING, ...QUOTE_NESTING }
+                                : Never
+        : opt.config as Nesting;
 
     const idx = findIdx(asChars(str), find, config);
 
@@ -211,7 +207,7 @@ export function retainUntil__Nested<
             ? RetainUntil__Nested<
                 TStr,
                 TFind[number],
-                { include: TInclude, config: NestingConfig}
+                { include: TInclude; config: NestingConfig }
             >
             : never
         : TFind extends string
@@ -219,18 +215,16 @@ export function retainUntil__Nested<
                 ? RetainUntil__Nested<
                     TStr,
                     TFind,
-                    { include: TInclude, config: NestingConfig}
+                    { include: TInclude; config: NestingConfig }
                 >
                 : never
-    : never;
+            : never;
 
     if (isNumber(idx)) {
         const endIdx = idx ? idx + 1 : idx;
-        return str.slice(0, endIdx) as Rtn
+        return str.slice(0, endIdx) as Rtn;
     }
     else {
-        return idx as Rtn
+        return idx as Rtn;
     }
 }
-
-

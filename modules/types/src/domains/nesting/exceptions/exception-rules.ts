@@ -1,4 +1,4 @@
-import { Char } from "types/string-literals";
+import type { Char } from "types/string-literals";
 
 export type ExitExceptionRules = {
 
@@ -17,7 +17,7 @@ export type ExitExceptionRules = {
      */
     ignorePrecededBy: Char | readonly Char[];
 
-}
+};
 
 export type EntryExceptionRules = {
 
@@ -36,8 +36,7 @@ export type EntryExceptionRules = {
      */
     ignorePrecededBy: Char | readonly Char[];
 
-}
-
+};
 
 /**
  * **NestedException**
@@ -52,4 +51,4 @@ export type NestedException = {
     exit?: ExitExceptionRules;
     /** define exceptions for the `entry` token */
     entry?: EntryExceptionRules;
-}
+};

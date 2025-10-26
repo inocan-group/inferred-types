@@ -1,10 +1,10 @@
-import {
+import type {
     IsExitToken,
     Last,
     Nesting,
     NestingKeyValue
 } from "inferred-types/types";
-import { ExtractExitTokens } from "./ExtractExitTokens"
+import type { ExtractExitTokens } from "./ExtractExitTokens";
 
 /**
  * **IsNestingMatchEnd**`<TChar, TStack, TNesting>`
@@ -32,4 +32,3 @@ export type IsNestingMatchEnd<
             : never
         : true
     : false;
-

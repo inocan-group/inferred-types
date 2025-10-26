@@ -116,6 +116,7 @@ describe("HexColorToRgb<T>", () => {
 
     describe("Error cases", () => {
         it("returns error for invalid hex characters", () => {
+            // @ts-expect-error
             type InvalidChars = HexColorToRgb<"#GGGGGG">;
             type SpecialChars = HexColorToRgb<"#FF@080">;
 
@@ -126,7 +127,7 @@ describe("HexColorToRgb<T>", () => {
         });
 
         it("propagates HexToDecimal errors", () => {
-            // If HexToDecimal returns an error, it should be propagated
+            // @ts-expect-error
             type InvalidFormat = HexColorToRgb<"#XYZ">;
 
             type cases = [

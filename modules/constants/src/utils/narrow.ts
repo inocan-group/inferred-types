@@ -1,4 +1,3 @@
-
 type Narrowable = string | number | boolean | symbol | object | undefined | void | null;
 
 type Dictionary = Record<string | symbol, any>;
@@ -21,10 +20,10 @@ type IsUnionImpl<T, C extends T = T>
 type IsUnion<T> = IsUnionImpl<T>;
 
 type IsTuple<T> = [T] extends [readonly any[]]
-                ? [number] extends [T["length"]]
-                    ? false
-                    : true
-                : false;
+    ? [number] extends [T["length"]]
+        ? false
+        : true
+    : false;
 
 type MutableObject<T> = [T] extends [boolean]
     ? T
@@ -56,7 +55,6 @@ type Mutable<T>
             : [T] extends [infer Dict extends Dictionary]
                 ? MutableObject<Dict>
                 : T;
-
 
 type Returns<
     T extends (readonly N[]) | [Record<K, N>] | [readonly N[]],

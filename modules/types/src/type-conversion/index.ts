@@ -27,6 +27,7 @@ export * from "./MapKeys";
 export * from "./Merge";
 export * from "./MergeObjects";
 export * from "./Mutable";
+export * from "./numeric/index";
 export * from "./ObjectToCssString";
 export * from "./ObjectToJsonString";
 export * from "./ObjectToJsString";
@@ -69,6 +70,5 @@ export * from "./UnionWithAll";
 export * from "./ValueOrReturnValue";
 export * from "./Widen";
 export * from "./WidenValues";
-export * from "./WithDefault";
 
-export * from "./numeric/index";
+export * from "./WithDefault";

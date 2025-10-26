@@ -1,3 +1,3 @@
-export * from "./recursive"
-export * from "./shallow"
-export * from "./mapping"
+export * from "./mapping";
+export * from "./recursive";
+export * from "./shallow";

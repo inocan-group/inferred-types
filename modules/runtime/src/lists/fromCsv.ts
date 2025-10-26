@@ -42,48 +42,46 @@ export function fromCsv<
 >(
     csv: T,
     format: F = "[][]" as F,
-    resolve: R = false as R
-): FromCsv<T,WithFormat<F>, R> {
-    if(format === "[][]") {
+    _resolve: R = false as R
+): FromCsv<T, WithFormat<F>, R> {
+    if (format === "[][]") {
         const rows = csv.split("\n");
-        return rows.map(i => {
+        return rows.map((i) => {
             return i.split(",").map(i => i.trim());
-        }) as FromCsv<T,WithFormat<F>, R>
-    } else {
+        }) as FromCsv<T, WithFormat<F>, R>;
+    }
+    else {
         const data = csv.split("\n");
         const [headers, rows] = isArray(format)
-            ? [ format, data ]
-            : [ data[0].split(","), afterFirst(data) ];
+            ? [format, data]
+            : [data[0].split(","), afterFirst(data)];
 
-        const colCount = headers.length;
         type Shape = Record<
             string,
             string
-        >
+        >;
 
-        let overflowCount = 0;
-        let result: Shape[]  = [];
+        const result: Shape[] = [];
 
         for (const row of rows) {
             const columns = row.split(",").map(i => i.trim());
-            const kv = headers.reduce(
+            const _kv = headers.reduce(
                 (acc, k) => {
-                    if(k in columns) {
+                    if (k in columns) {
                         return {
                             ...acc,
                             [k]: columns[k as any]
-                        }
+                        };
                     }
                     return {
                         ...acc,
                         [k]: ""
-                    }
-
-                }, {}
-            )
+                    };
+                },
+                {}
+            );
         }
 
-        return result as FromCsv<T,WithFormat<F>, R>;
+        return result as FromCsv<T, WithFormat<F>, R>;
     }
 }
-

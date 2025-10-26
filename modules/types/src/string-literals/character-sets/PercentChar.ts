@@ -1,4 +1,3 @@
-
 /**
  * **PercentChar**
  *
@@ -6,5 +5,4 @@
  *
  * **Related:** `MatchChar`, `PlusMinus`
  */
-export type PercentChar = "﹪" |  "％";
-
+export type PercentChar = "﹪" | "％";

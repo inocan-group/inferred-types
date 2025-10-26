@@ -1,19 +1,17 @@
 import type {
-    DefaultNesting,
     AsNestingConfig,
+    KnownNestingConfig,
     NestedSplit,
     NestedSplitPolicy,
-    Nesting,
-    KnownNestingConfig,
-    NestingKeyValue
+    Nesting
 } from "inferred-types/types";
 import {
     BRACKET_NESTING,
     Never,
     QUOTE_NESTING,
+    SHALLOW_BRACKET_AND_QUOTE_NESTING,
     SHALLOW_BRACKET_NESTING,
-    SHALLOW_QUOTE_NESTING,
-    SHALLOW_BRACKET_AND_QUOTE_NESTING
+    SHALLOW_QUOTE_NESTING
 } from "inferred-types/constants";
 import {
     afterFirst,

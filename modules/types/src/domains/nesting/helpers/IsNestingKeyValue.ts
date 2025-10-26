@@ -1,4 +1,4 @@
-import {
+import type {
     AllLengthOf,
     As,
     Err,
@@ -74,7 +74,7 @@ export type IsNestingKeyValue<T> = T extends Record<string, infer V>
                         >
                     // Mixed values (union type) - validate each member
                     : V extends string | readonly [string, Nesting] | [string, Nesting]
-                        ? true  // Accept mixed configs
+                        ? true // Accept mixed configs
                         : Err<
                             `invalid-nesting/key-value`,
                             `Values must be either strings or [exit, nextLevel] tuples`,

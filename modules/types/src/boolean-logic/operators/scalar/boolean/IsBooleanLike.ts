@@ -7,15 +7,15 @@ import type { IsAny, IsNever, IsUnknown } from "inferred-types/types";
  * either "boolean", "true", or "false".
  */
 export type IsBooleanLike<T> = [IsNever<T>] extends [true]
-? false
-: [IsAny<T>] extends [true]
-    ? boolean
-: [IsUnknown<T>] extends [true]
-    ? boolean
-: T extends string
-? string extends T
-    ? boolean
-    : T extends "boolean" | "true" | "false"
-        ? true
-        : false
-: false;
+    ? false
+    : [IsAny<T>] extends [true]
+        ? boolean
+        : [IsUnknown<T>] extends [true]
+            ? boolean
+            : T extends string
+                ? string extends T
+                    ? boolean
+                    : T extends "boolean" | "true" | "false"
+                        ? true
+                        : false
+                : false;

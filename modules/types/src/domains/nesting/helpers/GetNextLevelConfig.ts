@@ -1,4 +1,4 @@
-import type { Nesting, NestingKeyValue } from "inferred-types/types";
+import type { As, Nesting, NestingKeyValue } from "inferred-types/types";
 
 /**
  * **GetNextLevelConfig**`<TEntry, TNesting>`
@@ -27,20 +27,23 @@ import type { Nesting, NestingKeyValue } from "inferred-types/types";
 export type GetNextLevelConfig<
     TEntry extends string,
     TNesting extends Nesting
-> = [TNesting] extends [NestingKeyValue]
-    ? TEntry extends keyof TNesting
-        ? TNesting[TEntry] extends readonly [infer _Exit extends string, infer NextLevel]
+> = As<
+    [TNesting] extends [NestingKeyValue]
+        ? TEntry extends keyof TNesting
+            ? TNesting[TEntry] extends readonly [infer _Exit extends string, infer NextLevel extends Nesting]
             // Hierarchical form (readonly tuple) - extract nextLevel
-            ? NextLevel
-            : TNesting[TEntry] extends [infer _Exit extends string, infer NextLevel]
-                // Hierarchical form (mutable tuple) - extract nextLevel
                 ? NextLevel
+                : TNesting[TEntry] extends [infer _Exit extends string, infer NextLevel]
+                // Hierarchical form (mutable tuple) - extract nextLevel
+                    ? NextLevel
                 // Simple form - return same config
-                : TNesting
+                    : TNesting
         // Character not in config - return same config
-        : TNesting
-    : [TNesting] extends [[infer _Start extends readonly string[], infer _End extends readonly string[] | undefined, infer NextLevel]]
+            : TNesting
+        : [TNesting] extends [[infer _Start extends readonly string[], infer _End extends readonly string[] | undefined, infer NextLevel]]
         // Hierarchical tuple (3 elements) - extract third element
-        ? NextLevel
+            ? NextLevel
         // Simple tuple (2 elements) - return same config
-        : TNesting;
+            : TNesting,
+    Nesting
+>;

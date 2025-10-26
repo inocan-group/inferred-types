@@ -8,6 +8,7 @@ export * from "./EachAsString";
 export * from "./ElementOf";
 export * from "./ExcludeIndex";
 export * from "./Filter";
+export * from "./FilterEmptyString";
 export * from "./Find";
 export * from "./FindMaxLength";
 export * from "./First";
@@ -43,4 +44,3 @@ export * from "./TruthyReturns";
 export * from "./TypeOfArray";
 export * from "./UnionFromProp";
 export * from "./Variadic";
-export * from "./FilterEmptyString"

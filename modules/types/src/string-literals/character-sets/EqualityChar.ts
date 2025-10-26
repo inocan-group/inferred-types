@@ -1,4 +1,3 @@
-
 /**
  * **EqualityChar**
  *
@@ -9,8 +8,6 @@
  */
 export type EqualityChar = "=" | "≃" | "≈" | "≄" | "≥" | "≧" | "≤" | "≦" | "≠" | "≰" | "≱" | ">" | "<";
 
-
-
 /**
  * **EqualNotEqualChar**
  *
@@ -20,7 +17,6 @@ export type EqualityChar = "=" | "≃" | "≈" | "≄" | "≥" | "≧" | "≤" |
  */
 export type EqualNotEqualChar = "=" | "≠";
 
-
 /**
  * **EqualGreaterLessorChar**
  *
@@ -28,4 +24,4 @@ export type EqualNotEqualChar = "=" | "≠";
  *
  * **Related:** `EqualNotEqualChar`, `EqualityChar`, `MatchChar`
  */
-export type EqualGreaterLessorChar = "=" | "≠" | "≥" | ">" | "<" | "≦" | "≠"
+export type EqualGreaterLessorChar = "=" | "≠" | "≥" | ">" | "<" | "≦" | "≠";

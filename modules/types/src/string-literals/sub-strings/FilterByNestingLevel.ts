@@ -1,4 +1,4 @@
-import type { AsLiteralTemplate, BracketNesting, EmptyObject, Err, AsNestingConfig, Nest, NestedString, Nesting, KnownNestingConfig, ReplaceAll } from "inferred-types/types";
+import type { AsLiteralTemplate, AsNestingConfig, BracketNesting, EmptyObject, Err, KnownNestingConfig, Nest, NestedString, Nesting, ReplaceAll } from "inferred-types/types";
 
 type NestingFormat = "string" | "string[]" | "template";
 

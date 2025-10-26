@@ -21,7 +21,7 @@ import {
 export function asInputToken<const T extends InputToken>(token: T) {
     return (
         isString(token)
-            ? token.trim() as Trim<As<T,string>>
+            ? token.trim() as Trim<As<T, string>>
             : isDictionary(token)
                 ? toStringLiteral__Object(token)
                 : isArray(token)
@@ -31,7 +31,7 @@ export function asInputToken<const T extends InputToken>(token: T) {
         ? Trim<T>
         : T extends Dictionary
             ? ToStringLiteral__Object<T>
-        : T extends any[]
-            ? ToStringLiteral__Array<T>
-        : never;
+            : T extends any[]
+                ? ToStringLiteral__Array<T>
+                : never;
 }

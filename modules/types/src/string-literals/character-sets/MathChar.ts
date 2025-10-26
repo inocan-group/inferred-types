@@ -1,5 +1,4 @@
-import {  EqualityChar, PercentChar } from "types/string-literals";
-
+import type { EqualityChar, PercentChar } from "types/string-literals";
 
 /**
  * **MathChar**

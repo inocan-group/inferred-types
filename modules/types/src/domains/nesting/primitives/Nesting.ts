@@ -1,6 +1,5 @@
 import type { KnownNestingConfig, NestingKeyValue, NestingTuple } from "inferred-types/types";
 
-
 /**
  * **Nesting**
  *

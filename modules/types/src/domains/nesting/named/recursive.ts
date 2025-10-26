@@ -4,8 +4,6 @@ import type {
     QUOTE_NESTING,
 } from "inferred-types/constants";
 
-
-
 /**
  * **DefaultNesting**
  *

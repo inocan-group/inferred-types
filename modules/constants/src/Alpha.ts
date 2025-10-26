@@ -1,4 +1,4 @@
-import { narrow } from "./utils/narrow"
+import { narrow } from "./utils/narrow";
 
 /**
  * An array of all the lower-cased alphabetic characters
@@ -30,7 +30,7 @@ export const LOWER_ALPHA_CHARS = narrow(
     "x",
     "y",
     "z",
- );
+);
 
 /**
  * An array of all the upper-cased alphabetic characters

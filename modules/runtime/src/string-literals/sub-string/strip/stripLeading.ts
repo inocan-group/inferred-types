@@ -7,9 +7,9 @@ type Returns<
     U extends readonly (string | number)[],
 > = T extends string
     ? StripLeading<T, TupleToUnion<U>> & string
-: T extends number
-    ? StripLeading<T, TupleToUnion<U>> & number
-    : Err<"invalid-type/strip-leading">;
+    : T extends number
+        ? StripLeading<T, TupleToUnion<U>> & number
+        : Err<"invalid-type/strip-leading">;
 
 /**
  * **stripLeading**(content, ...strip)

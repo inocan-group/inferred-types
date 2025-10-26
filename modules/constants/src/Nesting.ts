@@ -10,7 +10,7 @@ export const KNOWN_NESTING_CONFIGURATIONS = narrow(
     "shallow-brackets",
     "shallow-brackets-and-quotes",
     "shallow-quotes"
-)
+);
 
 /**
  * A paired bracketing strategy which matches on
@@ -83,9 +83,9 @@ export const SHALLOW_BRACKET_NESTING = narrow({
  * split characters inside quotes from being recognized.
  */
 export const SHALLOW_QUOTE_NESTING = narrow({
-    "\"": { exit: "\"",children:  {}},
-    "'":  { exit: "'", children: {}},
-    "`":  { exit: "`", children: {}}
+    "\"": { exit: "\"", children: {} },
+    "'": { exit: "'", children: {} },
+    "`": { exit: "`", children: {} }
 });
 
 /**

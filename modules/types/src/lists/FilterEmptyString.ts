@@ -1,4 +1,4 @@
-import type {  Increment,  Reverse, Slice, Negative } from "inferred-types/types";
+import type { Increment, Negative, Reverse, Slice } from "inferred-types/types";
 
 /**
  * **FilterEmptyStrings**`<T>`
@@ -17,7 +17,7 @@ type FilterEmptyStringsImpl<
     ? Head extends ""
         ? FilterEmptyStringsImpl<Rest, R>
         : FilterEmptyStringsImpl<Rest, [...R, Head]>
-: R;
+    : R;
 
 export type FilterEmptyStrings<
     T extends readonly unknown[]
@@ -37,8 +37,8 @@ type EmptyTailCount<
             Rest,
             Increment<C>
         >
+        : C
     : C
-: C
 ;
 
 /**
@@ -56,7 +56,7 @@ type EmptyTailCount<
  */
 type FilterEmptyStringsInTerminalPositionImpl<
     T extends readonly unknown[],
-    R extends readonly unknown[] =[]
+    R extends readonly unknown[] = []
 > = T extends [
     infer Head,
     ...infer Rest extends readonly unknown[]
@@ -66,9 +66,8 @@ type FilterEmptyStringsInTerminalPositionImpl<
             ? FilterEmptyStringsInTerminalPositionImpl<Rest, R>
             : FilterEmptyStringsInTerminalPositionImpl<Rest, [...R, Head]>
         : FilterEmptyStringsInTerminalPositionImpl<Rest, [...R, Head]>
-: Slice<R, 0, Negative<EmptyTailCount<R>>>;
+    : Slice<R, 0, Negative<EmptyTailCount<R>>>;
 
 export type FilterEmptyStringsInTerminalPosition<
     T extends readonly unknown[]
 > = FilterEmptyStringsInTerminalPositionImpl<[...T]>;
-

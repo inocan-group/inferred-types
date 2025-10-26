@@ -1,6 +1,6 @@
-import { IsGreaterThanOrEqual, IsInteger, IsLessThanOrEqual } from "types/boolean-logic";
+import type { IsGreaterThanOrEqual, IsInteger, IsLessThanOrEqual } from "types/boolean-logic";
 
-type ValidValue<T extends number> = IsGreaterThanOrEqual<T,0> extends true
+type ValidValue<T extends number> = IsGreaterThanOrEqual<T, 0> extends true
     ? IsLessThanOrEqual<T, 255> extends true
         ? IsInteger<T>
         : false
@@ -16,9 +16,9 @@ type ValidValue<T extends number> = IsGreaterThanOrEqual<T,0> extends true
  * - but also validate that those number are between 0-255 and integers
  */
 export type IsRGB<T> = T extends {
-    r: number,
-    g: number,
-    b: number
+    r: number;
+    g: number;
+    b: number;
 }
     ? ValidValue<T["r"]> extends true
         ? ValidValue<T["g"]> extends true
@@ -27,4 +27,4 @@ export type IsRGB<T> = T extends {
                 : false
             : false
         : false
-: false;
+    : false;

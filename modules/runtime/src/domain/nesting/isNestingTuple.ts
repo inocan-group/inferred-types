@@ -1,5 +1,5 @@
 import type { NestingTuple } from "inferred-types/types";
-import { isArray, isString, isUndefined, isNestingKeyValue } from "inferred-types/runtime";
+import { isArray, isNestingKeyValue, isString, isUndefined } from "inferred-types/runtime";
 
 /**
  * type-guard which validates that `val` is a `NestingTuple`
@@ -33,8 +33,8 @@ export function isNestingTuple(val: unknown): val is NestingTuple {
         const nextLevel = val[2];
         // Accept object (NestingKeyValue) or array (NestingTuple) or empty object
         return (
-            (typeof nextLevel === "object" && nextLevel !== null) &&
-            (isNestingKeyValue(nextLevel) || isNestingTuple(nextLevel))
+            (typeof nextLevel === "object" && nextLevel !== null)
+            && (isNestingKeyValue(nextLevel) || isNestingTuple(nextLevel))
         );
     }
 

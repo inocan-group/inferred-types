@@ -1,3 +1,4 @@
+export * from "./boolean-logic/index";
 export * from "./equalsSome";
 export * from "./ifArray";
 export * from "./ifArrayPartial";
@@ -20,6 +21,5 @@ export * from "./ifScalar";
 export * from "./ifString";
 export * from "./ifTrue";
 export * from "./ifUndefined";
-export * from "./not";
 
-export * from "./boolean-logic/index"
+export * from "./not";

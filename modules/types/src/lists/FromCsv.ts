@@ -17,13 +17,13 @@ import type {
  * renders numeric or boolean types when `R` is true and the value `T`
  * is either a `NumberLike` or `BooleanLike` string literal.
  */
-type Render<T extends string, R extends boolean> = [R] extends [false]
-? T
-: IsNumberLike<T> extends true
-    ? AsNumber<T>
-: IsBooleanLike<T> extends true
-    ? AsBoolean<T>
-    : T;
+type _Render<T extends string, R extends boolean> = [R] extends [false]
+    ? T
+    : IsNumberLike<T> extends true
+        ? AsNumber<T>
+        : IsBooleanLike<T> extends true
+            ? AsBoolean<T>
+            : T;
 
 /** drops/skips empty rows */
 type DropEmptyRows<
@@ -59,8 +59,6 @@ type Multi<
     : DropEmptyRows<
         TResult
     >;
-
-
 
 type BuildKv<
     TCols extends readonly string[],
@@ -126,19 +124,19 @@ type Kv<
 export type FromCsv<
     TCsv extends string,
     TFormat extends "[][]" | "KV[]" = "[][]",
-    TResolve extends boolean = false
+    _TResolve extends boolean = false
 > = string extends TCsv
-? TFormat extends "[][]"
-    ? string[][]
-    : Record<string,string>[]
-: TFormat extends "[][]"
-    ? As<
-        Multi<TCsv>,
-        string[][]
-    >
+    ? TFormat extends "[][]"
+        ? string[][]
+        : Record<string, string>[]
+    : TFormat extends "[][]"
+        ? As<
+            Multi<TCsv>,
+            string[][]
+        >
 
-    : TFormat extends "KV[]"
-        ? Split<TCsv, "\n"> extends infer Rows extends readonly string[]
-            ? Kv<First<Rows>, AfterFirst<Rows>>
-            : never
-        : never;
+        : TFormat extends "KV[]"
+            ? Split<TCsv, "\n"> extends infer Rows extends readonly string[]
+                ? Kv<First<Rows>, AfterFirst<Rows>>
+                : never
+            : never;

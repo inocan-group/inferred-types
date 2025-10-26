@@ -1,16 +1,15 @@
-import {
+import type {
     AlphanumericChar,
     Bracket,
+    CurrencyChar,
+    MatchChar,
     NBSP,
     PlusMinus,
     Punctuation,
     QuoteCharacter,
     SpecialChar,
-    Whitespace,
-    CurrencyChar,
-    MatchChar
- } from "types/string-literals";
-
+    Whitespace
+} from "types/string-literals";
 
 /**
  * **Char**
@@ -26,4 +25,4 @@ import {
  * - Math characters ( +  -  *   /   ^  ✕  ÷  =  ≄  >  < )
  * - Special Chars ( @ ~ # & | \ # )
  */
-export type Char = AlphanumericChar | Punctuation | Whitespace | Bracket | SpecialChar  | QuoteCharacter | PlusMinus | NBSP | CurrencyChar | MatchChar;
+export type Char = AlphanumericChar | Punctuation | Whitespace | Bracket | SpecialChar | QuoteCharacter | PlusMinus | NBSP | CurrencyChar | MatchChar;

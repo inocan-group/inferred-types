@@ -1,6 +1,5 @@
 import type { Dictionary } from "inferred-types/types";
 
-
 /**
  * **toCsv**`(data) -> string`
  *
@@ -32,7 +31,7 @@ import type { Dictionary } from "inferred-types/types";
 export function toCsv<
     const T extends string[] | string[][] | Dictionary | Dictionary<string>[]
 >(
-    data: T
+    _data: T
 ) {
 
 }

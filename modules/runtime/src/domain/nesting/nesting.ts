@@ -1,12 +1,9 @@
-import {
+import type { KnownNestingConfig } from "@inferred-types/types";
+import type {
     AsNestingApi,
-    isNamedNestingConfig,
-    NestingApi,
-    type AsNestingConfig,
-    type NestedSplit,
-    type NestedSplitPolicy,
-    type Nesting,
-    type RetainUntil__Nested
+    NestedSplitPolicy,
+    Nesting,
+    NestingApi
 } from "inferred-types/types";
 
 import {
@@ -20,8 +17,11 @@ import {
     nestedSplit,
     retainUntil__Nested
 } from "inferred-types/runtime";
+import {
+    isNamedNestingConfig
+
+} from "inferred-types/types";
 import { assignNamedConfig } from "./assignNamedConfig";
-import { KnownNestingConfig } from "@inferred-types/types";
 
 /**
  * given a valid nesting configuration, this produces the runtime API surface
@@ -56,7 +56,6 @@ function apiSurface<T extends Nesting>(nesting: T): NestingApi<T> {
     } as NestingApi<T>;
 }
 
-
 /**
  * **Nesting** API
  *
@@ -68,7 +67,6 @@ export function nesting<
 >(
     config: T
 ): AsNestingApi<T> {
-
     if (isNamedNestingConfig(config)) {
         const c: KnownNestingConfig = assignNamedConfig(config) as KnownNestingConfig;
         return apiSurface(c) as AsNestingApi<T>;
