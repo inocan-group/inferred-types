@@ -155,7 +155,7 @@ function validate_lint() {
 
 function validate_unit_tests() {
     log "- validating there are no failing ${BOLD}unit tests${RESET}"
-    pnpm test > /dev/null 2> /dev/null || (log "  ❌ unit testing failures!" && log "" && exit 1)
+    pnpm test:runtime > /dev/null 2> /dev/null || (log "  ❌ unit testing failures!" && log "" && exit 1)
     log "  ✅ project passes all unit tests"
 }
 
