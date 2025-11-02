@@ -1,6 +1,8 @@
 import type {
     AsNumber,
     CompareNumbers,
+    GreaterThan,
+    GreaterThanOrEqual,
     IsBranded,
     IsEqual,
     NumberLike,
@@ -13,26 +15,21 @@ import type {
  * Boolean type operator which determines whether `A`
  * is _greater than_ `B`.
  *
- * **Note:** does not take negative numbers into account
+ * **Related:**
+ * - wraps `GreaterThan` and allows both _numbers_ and numeric string literals
+ * - `IsGreaterThanOrEqual`, `IsLessThan`, `IsLessThanOrEqual`
  */
 export type IsGreaterThan<
     A extends NumberLike,
     B extends NumberLike,
-> = number extends A
-    ? boolean
-    : number extends B
-        ? boolean
-        : IsBranded<A> extends true
-            ? IsGreaterThan<Unbrand<A>, B>
-            : IsBranded<B> extends true
-                ? IsGreaterThan<A, Unbrand<B>>
-                : string | number extends A
-                    ? boolean
-                    : string | number extends B
-                        ? boolean
-                        : CompareNumbers<AsNumber<A>, AsNumber<B>> extends "greater"
-                            ? true
-                            : false;
+> =
+A extends number
+? B extends number
+    ? GreaterThan<A,B>
+    : GreaterThan<A, AsNumber<B>>
+: B extends number
+    ? GreaterThan<AsNumber<A>, B>
+: GreaterThan<AsNumber<A>,AsNumber<B>>;
 
 /**
  * **IsGreaterThanOrEqual**`<A,B>`
@@ -42,20 +39,11 @@ export type IsGreaterThan<
 export type IsGreaterThanOrEqual<
     A extends NumberLike,
     B extends NumberLike,
-> = number extends A
-    ? boolean
-    : number extends B
-        ? boolean
-        : IsBranded<A> extends true
-            ? IsGreaterThan<Unbrand<A>, B>
-            : IsBranded<B> extends true
-                ? IsGreaterThan<A, Unbrand<B>>
-                : string | number extends A
-                    ? boolean
-                    : string | number extends B
-                        ? boolean
-                        : IsEqual<AsNumber<A>, AsNumber<B>> extends true
-                            ? true
-                            : CompareNumbers<AsNumber<A>, AsNumber<B>> extends "greater"
-                                ? true
-                                : false;
+> =
+A extends number
+? B extends number
+    ? GreaterThanOrEqual<A,B>
+    : GreaterThanOrEqual<A, AsNumber<B>>
+: B extends number
+    ? GreaterThanOrEqual<AsNumber<A>, B>
+: GreaterThanOrEqual<AsNumber<A>,AsNumber<B>>;

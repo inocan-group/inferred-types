@@ -48,12 +48,20 @@ export type IsBetweenInclusively<
     TVal extends NumberLike,
     TMin extends NumberLike,
     TMax extends NumberLike,
-> = Or<[
-    IsWideType<TVal>,
-    IsWideType<TMin>,
-    IsWideType<TMax>
-]> extends true
-    ? boolean
-    : IsGreaterThanOrEqual<TVal, TMin> extends true
-        ? IsLessThanOrEqual<TVal, TMax>
-        : false;
+> = string extends TVal
+? boolean
+: string extends TMin
+? boolean
+: string extends TMax
+? boolean
+: number extends TVal
+? boolean
+: number extends TMin
+? boolean
+: number extends TMax
+? boolean
+: IsGreaterThanOrEqual<TVal,TMin> extends true
+    ? IsLessThanOrEqual<TVal,TMax> extends true
+        ? true
+        : false
+: false;

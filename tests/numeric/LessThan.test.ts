@@ -296,9 +296,9 @@ describe("LessThanOrEqual<A,B> Type Utility", () => {
         type W3 = LessThanOrEqual<number, number>;
 
         type cases = [
-            Expect<Test<W1, "equals", false>>,
-            Expect<Test<W2, "equals", false>>,
-            Expect<Test<W3, "equals", false>>,
+            Expect<Test<W1, "equals", boolean>>,
+            Expect<Test<W2, "equals", boolean>>,
+            Expect<Test<W3, "equals", boolean>>,
         ];
     });
 

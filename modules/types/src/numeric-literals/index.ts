@@ -14,6 +14,8 @@ export * from "./Digitize";
 export * from "./DigitNonZero";
 export * from "./Divide";
 export * from "./Even";
+export * from "./GreaterThan";
+export * from "./GreaterThanOrEqual";
 export * from "./Increment";
 export * from "./Integer";
 export * from "./InvertNumericSign";
@@ -38,3 +40,4 @@ export * from "./Sum";
 export * from "./ToInteger";
 export * from "./ToNumericArray";
 export * from "./Zero";
+
