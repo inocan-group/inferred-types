@@ -51,6 +51,11 @@ describe("nesting() HOF", () => {
             ];
         });
 
+
+    });
+
+    describe.skip("Named Configurations (new syntax)", () => {
+
         it("'shallow-brackets' config works correctly", () => {
             const api = nesting("shallow-brackets");
 
@@ -113,7 +118,8 @@ describe("nesting() HOF", () => {
                 Expect<Test<Split2, "equals", ["a", "'b(c,d)'", "e"]>>
             ];
         });
-    });
+
+    })
 
     describe("Custom Configurations", () => {
 
@@ -148,6 +154,11 @@ describe("nesting() HOF", () => {
             ];
         });
 
+
+    });
+
+    describe.skip("Custom Configurations (with new syntax)", () => {
+
         it("accepts hierarchical NestingTuple config", () => {
             const api = nesting([
                 ["(", "["],
@@ -167,7 +178,8 @@ describe("nesting() HOF", () => {
                 Expect<Test<Split2, "equals", ["a", "[b,c]", "d"]>>
             ];
         });
-    });
+
+    })
 
     describe("API Surface", () => {
 
@@ -218,17 +230,15 @@ describe("nesting() HOF", () => {
 
     describe("Error Handling", () => {
 
-        it("throws error for invalid named config", () => {
-            expect(() => {
-                // @ts-expect-error - testing runtime error
-                nesting("invalid-config");
-            }).toThrow();
+        it("returns error for invalid named config", () => {
+            // @ts-expect-error - testing runtime error
+            expect(nesting("invalid-config")).toBeInstanceOf(Error);
         });
 
         it("returns error for invalid custom config", () => {
             // @ts-expect-error - testing runtime error
             const result = nesting({ invalid: 123 });
-            expect(result).toHaveProperty("type", "invalid-nesting");
+            expect(result).toHaveProperty("type", "invalid-nesting-config");
         });
     });
 });

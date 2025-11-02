@@ -81,13 +81,13 @@ export function nesting<
             `The nesting config "${config}" is not a known named configuration!`
         );
 
-        return apiSurface(e) as unknown as AsNestingApi<T>;
+        return e as unknown as AsNestingApi<T>;
     }
     if (isNestingTuple(config) || isNestingKeyValue(config)) {
         return apiSurface(config) as AsNestingApi<T>;
     }
     if (isError(config)) {
-        return apiSurface(config) as unknown as AsNestingApi<T>;
+        return config as unknown as AsNestingApi<T>;
     }
 
     return err(
