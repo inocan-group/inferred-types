@@ -670,8 +670,7 @@ it("atomic types", () => {
 
     it("array definition", () => {
         const strArr = fromInputToken("Array<string>");
-        // TODO: fails because the `>` character in `=>` is perceived to be ending token
-        const fnArr = fromInputToken("Array<() => string)>");
+        const fnArr = fromInputToken("Array<() => string>");
         const objArr = fromInputToken("Array<object>");
         const boolArr = fromInputToken("Array<boolean>");
         const fooArr = fromInputToken("Array<String(foo)>");

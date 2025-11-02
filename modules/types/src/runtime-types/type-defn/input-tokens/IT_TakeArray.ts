@@ -44,7 +44,7 @@ type IT_TakeArray_Postfix<T extends string>
  */
 type IT_TakeArray_Postfix_Grouped<T extends string>
     = T extends `(${infer Rest}`
-        ? NestedSplit<Rest, ")[][]"> extends [
+        ? NestedSplit<Rest, ")[][]", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
             infer Block extends string,
             ...infer Rest extends [string, ...string[]]
         ]
@@ -62,7 +62,7 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
                 { token: T; block: Block; rest: Rest }
                 >
 
-            : NestedSplit<Rest, ")[]"> extends [
+            : NestedSplit<Rest, ")[]", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
                 infer Block extends string,
                 ...infer Rest extends readonly [string, ...string[]]
             ]
@@ -91,7 +91,7 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
  */
 // eslint-disable-next-line unused-imports/no-unused-vars, ts/no-unused-vars
 type IT_TakeArray_Bracket<T extends string> = T extends `Array<${infer Rest extends string}`
-    ? NestedSplit<Rest, ">"> extends [
+    ? NestedSplit<Rest, ">", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
         infer Block extends string,
         ...infer Rest extends readonly string[]
     ]

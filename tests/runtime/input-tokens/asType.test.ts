@@ -41,7 +41,7 @@ describe("asType(token)", () => {
 
     it("array definition", () => {
         const strArr = asType("Array<string>");
-        const fnArr = asType("Array<() => string)>");
+        const fnArr = asType("Array<() => string>");
         const objArr = asType("Array<object>");
         const boolArr = asType("Array<boolean>");
         const fooArr = asType("Array<String(foo)>");
