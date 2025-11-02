@@ -3,7 +3,7 @@ import type {
     CssRgb,
     Err,
     HexColor,
-    HexColorToRgb,
+    HexColorToRgbObject,
     IsRGB,
     RGB,
     RGBA,
@@ -30,7 +30,13 @@ type ParseCssRgb<
  * **AsRgb**`<T>`
  *
  * Attempts to map various kinds of color information and convert
- * it to an `RGB` object
+ * it to an `RGB` object. Can convert:
+ *
+ * - CSS RGB color string (aka, `CssRgbColor`)
+ * - CSS RGBA color string (aka, `CssRgbaColor`)
+ * - A hex color string (e.g., `#ffee00`)
+ * - a RGBA object
+ * - and will proxy through a RGB object
  */
 export type AsRgb<
     T
@@ -71,14 +77,14 @@ export type AsRgb<
                     ? ParseCssRgb<T>
                     : never
             : T extends HexColor
-                ? HexColorToRgb<T> extends Error
+                ? HexColorToRgbObject<T> extends Error
                     ? Err<
                         `invalid-type/rgb`,
                 `A CSS Hex color string was parsed but the RGB values didn't pass as valid: { r: ${T}`,
                 { input: T; utility: "AsRgb"; library: "inferred-types" }
                     >
-                    : HexColorToRgb<T> extends RGB
-                        ? HexColorToRgb<T>
+                    : HexColorToRgbObject<T> extends RGB
+                        ? HexColorToRgbObject<T>
                         : never
                 : Err<
                     `invalid-type/rgb`,

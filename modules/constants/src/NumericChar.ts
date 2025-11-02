@@ -1,3 +1,5 @@
+import {narrow} from "./utils/narrow"
+
 /**
  * **NUMERIC_CHAR**
  *
@@ -5,7 +7,7 @@
  *
  * **Related:** `NumericChar`
  */
-export const NUMERIC_CHAR = [
+export const NUMERIC_CHAR = narrow(
     "0",
     "1",
     "2",
@@ -16,9 +18,9 @@ export const NUMERIC_CHAR = [
     "7",
     "8",
     "9",
-] as const;
+);
 
-export const NON_ZERO_NUMERIC_CHAR = [
+export const NON_ZERO_NUMERIC_CHAR = narrow(
     "1",
     "2",
     "3",
@@ -28,4 +30,21 @@ export const NON_ZERO_NUMERIC_CHAR = [
     "7",
     "8",
     "9",
-] as const;
+);
+
+
+/**
+ * **HEXADECIMAL_CHAR**
+ *
+ * All numeric and alpha (upper and lower) characters used to represent
+ * a **hexadecimal** number.
+ */
+export const HEXADECIMAL_CHAR = narrow(
+    ...NUMERIC_CHAR,
+    "a", "A",
+    "b", "B",
+    "c", "C",
+    "d", "D",
+    "e", "E",
+    "f", "F"
+);

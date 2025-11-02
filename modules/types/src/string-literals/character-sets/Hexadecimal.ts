@@ -1,5 +1,5 @@
+import { HEXADECIMAL_CHAR } from "inferred-types/constants";
 import type {
-    NumericChar,
     Suggest,
 } from "inferred-types/types";
 
@@ -8,15 +8,8 @@ import type {
  *
  * **Related:** `IsHexadecimal`, `Hexadecimal`, `SuggestHexadecimal`
  */
-export type HexadecimalChar = NumericChar | "A" | "B" | "C" | "D" | "E" | "F" | "a" | "b" | "c" | "d" | "e" | "f";
+export type HexadecimalChar = typeof HEXADECIMAL_CHAR[number]
 
-/**
- * **Hexadecimal**
- *
- * A decent approximation for typing a _hexadecimal_ number representation.
- * For stronger type checking use `IsHexadecimal<T>`
- */
-export type Hexadecimal = `#${HexadecimalChar}${HexadecimalChar}${string}`;
 
 /**
  * A string suggestion for hexadecimal types

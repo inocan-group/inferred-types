@@ -6,8 +6,6 @@ import type {
   IsExitToken,
   IsNestingMatchEnd,
   IsEntryToken,
-  Nesting,
-  NestingKeyValue
 } from "inferred-types/types";
 
 // Test configurations

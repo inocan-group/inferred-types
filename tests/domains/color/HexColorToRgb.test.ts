@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import type {
-    HexColorToRgb,
+    HexColorToRgbObject,
     Expect,
     AssertEqual,
     AssertError
@@ -10,10 +10,10 @@ describe("HexColorToRgb<T>", () => {
 
     describe("6-digit hex colors", () => {
         it("converts uppercase 6-digit hex to RGB object", () => {
-            type Red = HexColorToRgb<"#FF0000">;
-            type Green = HexColorToRgb<"#00FF00">;
-            type Blue = HexColorToRgb<"#0000FF">;
-            type Orange = HexColorToRgb<"#FF8040">;
+            type Red = HexColorToRgbObject<"#FF0000">;
+            type Green = HexColorToRgbObject<"#00FF00">;
+            type Blue = HexColorToRgbObject<"#0000FF">;
+            type Orange = HexColorToRgbObject<"#FF8040">;
 
             type cases = [
                 Expect<AssertEqual<Red, { r: 255, g: 0, b: 0 }>>,
@@ -24,9 +24,9 @@ describe("HexColorToRgb<T>", () => {
         });
 
         it("converts lowercase 6-digit hex to RGB object", () => {
-            type RedLower = HexColorToRgb<"#ff0000">;
-            type OrangeLower = HexColorToRgb<"#ff8040">;
-            type MixedCase = HexColorToRgb<"#Ff8040">;
+            type RedLower = HexColorToRgbObject<"#ff0000">;
+            type OrangeLower = HexColorToRgbObject<"#ff8040">;
+            type MixedCase = HexColorToRgbObject<"#Ff8040">;
 
             type cases = [
                 Expect<AssertEqual<RedLower, { r: 255, g: 0, b: 0 }>>,
@@ -36,9 +36,9 @@ describe("HexColorToRgb<T>", () => {
         });
 
         it("handles boundary values (black and white)", () => {
-            type Black = HexColorToRgb<"#000000">;
-            type White = HexColorToRgb<"#FFFFFF">;
-            type WhiteLower = HexColorToRgb<"#ffffff">;
+            type Black = HexColorToRgbObject<"#000000">;
+            type White = HexColorToRgbObject<"#FFFFFF">;
+            type WhiteLower = HexColorToRgbObject<"#ffffff">;
 
             type cases = [
                 Expect<AssertEqual<Black, { r: 0, g: 0, b: 0 }>>,
@@ -48,10 +48,10 @@ describe("HexColorToRgb<T>", () => {
         });
 
         it("converts various color hex values", () => {
-            type Purple = HexColorToRgb<"#800080">;
-            type Cyan = HexColorToRgb<"#00FFFF">;
-            type Magenta = HexColorToRgb<"#FF00FF">;
-            type Yellow = HexColorToRgb<"#FFFF00">;
+            type Purple = HexColorToRgbObject<"#800080">;
+            type Cyan = HexColorToRgbObject<"#00FFFF">;
+            type Magenta = HexColorToRgbObject<"#FF00FF">;
+            type Yellow = HexColorToRgbObject<"#FFFF00">;
 
             type cases = [
                 Expect<AssertEqual<Purple, { r: 128, g: 0, b: 128 }>>,
@@ -64,9 +64,9 @@ describe("HexColorToRgb<T>", () => {
 
     describe("3-digit hex colors (shorthand)", () => {
         it("converts 3-digit hex shorthand to RGB", () => {
-            type RedShort = HexColorToRgb<"#F00">;
-            type GreenShort = HexColorToRgb<"#0F0">;
-            type BlueShort = HexColorToRgb<"#00F">;
+            type RedShort = HexColorToRgbObject<"#F00">;
+            type GreenShort = HexColorToRgbObject<"#0F0">;
+            type BlueShort = HexColorToRgbObject<"#00F">;
 
             type cases = [
                 Expect<AssertEqual<RedShort, { r: 240, g: 0, b: 0 }>>,
@@ -76,8 +76,8 @@ describe("HexColorToRgb<T>", () => {
         });
 
         it("converts lowercase 3-digit hex shorthand", () => {
-            type RedLower = HexColorToRgb<"#f00">;
-            type MixedCase = HexColorToRgb<"#F0a">;
+            type RedLower = HexColorToRgbObject<"#f00">;
+            type MixedCase = HexColorToRgbObject<"#F0a">;
 
             type cases = [
                 Expect<AssertEqual<RedLower, { r: 240, g: 0, b: 0 }>>,
@@ -86,8 +86,8 @@ describe("HexColorToRgb<T>", () => {
         });
 
         it("handles boundary values in shorthand", () => {
-            type BlackShort = HexColorToRgb<"#000">;
-            type WhiteShort = HexColorToRgb<"#FFF">;
+            type BlackShort = HexColorToRgbObject<"#000">;
+            type WhiteShort = HexColorToRgbObject<"#FFF">;
 
             type cases = [
                 Expect<AssertEqual<BlackShort, { r: 0, g: 0, b: 0 }>>,
@@ -98,7 +98,7 @@ describe("HexColorToRgb<T>", () => {
 
     describe("Edge cases and partial values", () => {
         it("handles 2 hex values (defaults B to 0)", () => {
-            type TwoValues = HexColorToRgb<"#FF80">;
+            type TwoValues = HexColorToRgbObject<"#FF80">;
 
             type cases = [
                 Expect<AssertEqual<TwoValues, { r: 255, g: 128, b: 0 }>>
@@ -106,7 +106,7 @@ describe("HexColorToRgb<T>", () => {
         });
 
         it("handles 1 hex value (defaults G and B to 0)", () => {
-            type OneValue = HexColorToRgb<"#FF">;
+            type OneValue = HexColorToRgbObject<"#FF">;
 
             type cases = [
                 Expect<AssertEqual<OneValue, { r: 255, g: 0, b: 0 }>>
@@ -117,8 +117,8 @@ describe("HexColorToRgb<T>", () => {
     describe("Error cases", () => {
         it("returns error for invalid hex characters", () => {
             // @ts-expect-error
-            type InvalidChars = HexColorToRgb<"#GGGGGG">;
-            type SpecialChars = HexColorToRgb<"#FF@080">;
+            type InvalidChars = HexColorToRgbObject<"#GGGGGG">;
+            type SpecialChars = HexColorToRgbObject<"#FF@080">;
 
             type cases = [
                 Expect<AssertError<InvalidChars, "invalid-type">>,
@@ -128,7 +128,7 @@ describe("HexColorToRgb<T>", () => {
 
         it("propagates HexToDecimal errors", () => {
             // @ts-expect-error
-            type InvalidFormat = HexColorToRgb<"#XYZ">;
+            type InvalidFormat = HexColorToRgbObject<"#XYZ">;
 
             type cases = [
                 Expect<AssertError<InvalidFormat>>
@@ -138,10 +138,10 @@ describe("HexColorToRgb<T>", () => {
 
     describe("Common web colors", () => {
         it("converts standard web color hex codes", () => {
-            type Tomato = HexColorToRgb<"#FF6347">;
-            type SkyBlue = HexColorToRgb<"#87CEEB">;
-            type LimeGreen = HexColorToRgb<"#32CD32">;
-            type Gold = HexColorToRgb<"#FFD700">;
+            type Tomato = HexColorToRgbObject<"#FF6347">;
+            type SkyBlue = HexColorToRgbObject<"#87CEEB">;
+            type LimeGreen = HexColorToRgbObject<"#32CD32">;
+            type Gold = HexColorToRgbObject<"#FFD700">;
 
             type cases = [
                 Expect<AssertEqual<Tomato, { r: 255, g: 99, b: 71 }>>,
