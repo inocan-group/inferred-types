@@ -47,7 +47,7 @@
         "nuke": "pnpm -r nuke",
         "circular": "pnpm -r --stream --color=always --workspace-concurrency=1 circular || true",
         "circular:summary": "pnpm -r --stream --color=always --workspace-concurrency=1 circular:summary || true",
-        "test": "./scripts/test-with-args.sh",
+        "test": "node scripts/test-with-args.mjs",
         "test:runtime": "vitest run",
         "test:types": "node_modules/.bin/typed test",
         "test:imports": "bun run scripts/invalid-imports.ts",
