@@ -33,7 +33,7 @@ type ParseRecord<T extends string> = NestedSplit<T, ">", { "{": "}"; "[": "]"; "
                         ? {
                             __kind: "IT_Token";
                             kind: "kv";
-                            token: `${Block}`;
+                            token: `Record<${Block}>`;
                             type: Record<ParsedKey["type"], ParsedValue["type"]>;
                             container: "Record";
                             keyToken: Trim<Key>;
@@ -60,7 +60,7 @@ type ParseMap<T extends string> = NestedSplit<T, ">", { "{": "}"; "[": "]"; "<":
                 : {
                     __kind: "IT_Token";
                     kind: "kv";
-                    token: `${Block}`;
+                    token: `Map<${Block}>`;
                     type: Map<
                         FromInputToken__String<Trim<Key>>,
                         FromInputToken__String<Trim<Value>>
@@ -96,7 +96,7 @@ type ParseWeakMap<T extends string> = NestedSplit<T, ">", { "{": "}"; "[": "]"; 
                         ? {
                             __kind: "IT_Token";
                             kind: "kv";
-                            token: `${Block}`;
+                            token: `WeakMap<${Block}>`;
                             type: WeakMap<ParsedKey["type"], ParsedValue["type"]>;
                             container: "WeakMap";
                             keyToken: Trim<Key>;

@@ -139,7 +139,7 @@ export type IT_TakeUnion<
                 `The union operator '|' was found at the beginning of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!`,
                 { parseString: TToken; previousToken: TToken }
             >
-            : NestedSplit<Rest, "|"> extends infer Parts extends readonly string[]
+            : NestedSplit<Rest, "|", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends infer Parts extends readonly string[]
                 ? Parse<[`${As<TToken, IT_Token>["token"]}`, ...Parts]>
                 : never
         : Err<"wrong-handler/union", `The union handler only takes parse strings which start with '|'`, { parse: TParse; token: TToken }>,
