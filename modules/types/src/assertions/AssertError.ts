@@ -33,22 +33,62 @@ type Mapper<
  * Tests whether `TTest` is an Error.
  *
  * - optionally also tests that the error `type` or `subType` is correct
+ * - if `TType` contains a `/`, it will be split into type and subtype automatically
  */
 export type AssertError<
     TTest,
     TType extends string | undefined = undefined,
     TSubType extends string | undefined = undefined
-> = AssertValidation<TTest, Mapper<TType, TSubType>, Error> extends { kind: "AssertionError" }
-    ? AssertValidation<TTest, Mapper<TType, TSubType>, Error>
-    : TTest extends Error
-        ? TType extends string
-            ? TSubType extends string
+> = TType extends `${infer Type}/${infer SubType}`
+    ? TSubType extends string
+        ? never  // Cannot provide both composite TType and explicit TSubType
+        : AssertValidation<TTest, Mapper<TType, undefined>, Error> extends { kind: "AssertionError" }
+            ? AssertValidation<TTest, Mapper<TType, undefined>, Error>
+            : TTest extends Error
                 ? And<[
-                    TTest extends { type: TType } ? true : false,
-                    TTest extends { subType: TSubType } ? true : false,
+                    TTest extends { type: any }
+                        ? [TTest["type"]] extends [Type]
+                            ? [Type] extends [TTest["type"]]
+                                ? true
+                                : false
+                            : false
+                        : false,
+                    TTest extends { subType: any }
+                        ? [TTest["subType"]] extends [SubType]
+                            ? [SubType] extends [TTest["subType"]]
+                                ? true
+                                : false
+                            : false
+                        : false
                 ]>
-                : TTest extends { type: TType }
-                    ? true
-                    : false
-            : true
-        : false;
+                : false
+    : AssertValidation<TTest, Mapper<TType, TSubType>, Error> extends { kind: "AssertionError" }
+        ? AssertValidation<TTest, Mapper<TType, TSubType>, Error>
+        : TTest extends Error
+            ? TType extends string
+                ? TSubType extends string
+                    ? And<[
+                        TTest extends { type: any }
+                            ? [TTest["type"]] extends [TType]
+                                ? [TType] extends [TTest["type"]]
+                                    ? true
+                                    : false
+                                : false
+                            : false,
+                        TTest extends { subType: any }
+                            ? [TTest["subType"]] extends [TSubType]
+                                ? [TSubType] extends [TTest["subType"]]
+                                    ? true
+                                    : false
+                                : false
+                            : false
+                    ]>
+                    : TTest extends { type: any }
+                        ? [TTest["type"]] extends [TType]
+                            ? [TType] extends [TTest["type"]]
+                                ? true
+                                : false
+                            : false
+                        : false
+                : true
+            : false;
