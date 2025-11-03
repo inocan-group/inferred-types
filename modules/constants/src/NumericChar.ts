@@ -1,4 +1,4 @@
-import {narrow} from "./utils/narrow"
+import { narrow } from "./utils/narrow";
 
 /**
  * **NUMERIC_CHAR**
@@ -32,7 +32,6 @@ export const NON_ZERO_NUMERIC_CHAR = narrow(
     "9",
 );
 
-
 /**
  * **HEXADECIMAL_CHAR**
  *
@@ -41,10 +40,16 @@ export const NON_ZERO_NUMERIC_CHAR = narrow(
  */
 export const HEXADECIMAL_CHAR = narrow(
     ...NUMERIC_CHAR,
-    "a", "A",
-    "b", "B",
-    "c", "C",
-    "d", "D",
-    "e", "E",
-    "f", "F"
+    "a",
+    "A",
+    "b",
+    "B",
+    "c",
+    "C",
+    "d",
+    "D",
+    "e",
+    "E",
+    "f",
+    "F"
 );

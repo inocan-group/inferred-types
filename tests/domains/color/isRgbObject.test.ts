@@ -1,6 +1,6 @@
 import { isRgbObject } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
-import type { Expect, AssertEqual, RGB } from "inferred-types/types";
+import type { Expect, AssertEqual, AssertTrue, AssertFalse, RGB, IsRgbObject } from "inferred-types/types";
 
 describe("isRgbObject(val)", () => {
 
@@ -104,6 +104,160 @@ describe("isRgbObject(val)", () => {
 
     // Infinity values should return false
     expect(isRgbObject({ r: Infinity, g: 0, b: 0 })).toBe(false);
+  });
+
+});
+
+describe("IsRgbObject<T>", () => {
+
+  it("returns true for valid RGB objects with literal values 0-255", () => {
+    type ValidMin = IsRgbObject<{ r: 0; g: 0; b: 0 }>;
+    type ValidMax = IsRgbObject<{ r: 255; g: 255; b: 255 }>;
+    type ValidMid = IsRgbObject<{ r: 127; g: 128; b: 129 }>;
+    type ValidBoundary = IsRgbObject<{ r: 1; g: 254; b: 100 }>;
+
+    type cases = [
+      Expect<AssertTrue<ValidMin>>,
+      Expect<AssertTrue<ValidMax>>,
+      Expect<AssertTrue<ValidMid>>,
+      Expect<AssertTrue<ValidBoundary>>
+    ];
+  });
+
+  it("returns false for objects with values outside 0-255 range", () => {
+    type NegativeR = IsRgbObject<{ r: -1; g: 0; b: 0 }>;
+    type NegativeG = IsRgbObject<{ r: 0; g: -100; b: 0 }>;
+    type NegativeB = IsRgbObject<{ r: 0; g: 0; b: -255 }>;
+    type OverMaxR = IsRgbObject<{ r: 256; g: 0; b: 0 }>;
+    type OverMaxG = IsRgbObject<{ r: 0; g: 300; b: 0 }>;
+    type OverMaxB = IsRgbObject<{ r: 0; g: 0; b: 1000 }>;
+
+    type cases = [
+      Expect<AssertFalse<NegativeR>>,
+      Expect<AssertFalse<NegativeG>>,
+      Expect<AssertFalse<NegativeB>>,
+      Expect<AssertFalse<OverMaxR>>,
+      Expect<AssertFalse<OverMaxG>>,
+      Expect<AssertFalse<OverMaxB>>
+    ];
+  });
+
+  it("returns false for objects with decimal/float values", () => {
+    type DecimalR = IsRgbObject<{ r: 1.5; g: 0; b: 0 }>;
+    type DecimalG = IsRgbObject<{ r: 0; g: 127.5; b: 0 }>;
+    type DecimalB = IsRgbObject<{ r: 0; g: 0; b: 255.1 }>;
+    type AllDecimal = IsRgbObject<{ r: 100.5; g: 150.7; b: 200.9 }>;
+
+    type cases = [
+      Expect<AssertFalse<DecimalR>>,
+      Expect<AssertFalse<DecimalG>>,
+      Expect<AssertFalse<DecimalB>>,
+      Expect<AssertFalse<AllDecimal>>
+    ];
+  });
+
+  it("returns false for objects missing required properties", () => {
+    type MissingR = IsRgbObject<{ g: 100; b: 150 }>;
+    type MissingG = IsRgbObject<{ r: 100; b: 150 }>;
+    type MissingB = IsRgbObject<{ r: 100; g: 150 }>;
+    type EmptyObject = IsRgbObject<{}>;
+    type OnlyR = IsRgbObject<{ r: 100 }>;
+
+    type cases = [
+      Expect<AssertFalse<MissingR>>,
+      Expect<AssertFalse<MissingG>>,
+      Expect<AssertFalse<MissingB>>,
+      Expect<AssertFalse<EmptyObject>>,
+      Expect<AssertFalse<OnlyR>>
+    ];
+  });
+
+  it("returns false for objects with wrong property types", () => {
+    type StringR = IsRgbObject<{ r: "100"; g: 100; b: 100 }>;
+    type StringG = IsRgbObject<{ r: 100; g: "100"; b: 100 }>;
+    type StringB = IsRgbObject<{ r: 100; g: 100; b: "100" }>;
+    type BooleanR = IsRgbObject<{ r: true; g: 100; b: 100 }>;
+    type NullR = IsRgbObject<{ r: null; g: 100; b: 100 }>;
+    type UndefinedR = IsRgbObject<{ r: undefined; g: 100; b: 100 }>;
+
+    type cases = [
+      Expect<AssertFalse<StringR>>,
+      Expect<AssertFalse<StringG>>,
+      Expect<AssertFalse<StringB>>,
+      Expect<AssertFalse<BooleanR>>,
+      Expect<AssertFalse<NullR>>,
+      Expect<AssertFalse<UndefinedR>>
+    ];
+  });
+
+  it("returns false for RGB objects with extra properties", () => {
+    type WithExtra = IsRgbObject<{ r: 100; g: 150; b: 200; extra: string }>;
+    type WithMultipleExtra = IsRgbObject<{ r: 0; g: 0; b: 0; foo: number; bar: boolean }>;
+
+    type cases = [
+      Expect<AssertFalse<WithExtra>>,
+      Expect<AssertFalse<WithMultipleExtra>>
+    ];
+  });
+
+  it("returns false for RGBA objects (with alpha channel)", () => {
+    type WithAlpha = IsRgbObject<{ r: 100; g: 150; b: 200; a: 0.5 }>;
+    type WithAlphaInteger = IsRgbObject<{ r: 100; g: 150; b: 200; a: 1 }>;
+
+    // RGB objects must have ONLY r, g, b properties. Objects with alpha are RGBA, not RGB.
+    type cases = [
+      Expect<AssertFalse<WithAlpha>>,
+      Expect<AssertFalse<WithAlphaInteger>>
+    ];
+  });
+
+  it("returns false for non-object types", () => {
+    type Null = IsRgbObject<null>;
+    type Undefined = IsRgbObject<undefined>;
+    type String = IsRgbObject<string>;
+    type Number = IsRgbObject<number>;
+    type Boolean = IsRgbObject<boolean>;
+    type Array = IsRgbObject<[]>;
+    type Function = IsRgbObject<() => void>;
+
+    type cases = [
+      Expect<AssertFalse<Null>>,
+      Expect<AssertFalse<Undefined>>,
+      Expect<AssertFalse<String>>,
+      Expect<AssertFalse<Number>>,
+      Expect<AssertFalse<Boolean>>,
+      Expect<AssertFalse<Array>>,
+      Expect<AssertFalse<Function>>
+    ];
+  });
+
+  it("returns false for wide number types", () => {
+    type WideR = IsRgbObject<{ r: number; g: 100; b: 100 }>;
+    type WideG = IsRgbObject<{ r: 100; g: number; b: 100 }>;
+    type WideB = IsRgbObject<{ r: 100; g: 100; b: number }>;
+    type AllWide = IsRgbObject<{ r: number; g: number; b: number }>;
+
+    type cases = [
+      Expect<AssertFalse<WideR>>,
+      Expect<AssertFalse<WideG>>,
+      Expect<AssertFalse<WideB>>,
+      Expect<AssertFalse<AllWide>>
+    ];
+  });
+
+  it("handles union types with distributive conditional types", () => {
+    // Conditional types distribute over unions: IsRgbObject<A | B> = IsRgbObject<A> | IsRgbObject<B>
+    type UnionBothValid = IsRgbObject<{ r: 100; g: 150; b: 200 } | { r: 0; g: 0; b: 0 }>;
+    type UnionOneInvalid = IsRgbObject<{ r: 100; g: 150; b: 200 } | string>;
+    type UnionMixed = IsRgbObject<{ r: 100; g: 150; b: 200 } | { r: -1; g: 0; b: 0 }>;
+
+    type cases = [
+      // Both valid → true | true = true
+      Expect<AssertEqual<UnionBothValid, true>>,
+      // One valid, one invalid → true | false = boolean
+      Expect<AssertEqual<UnionOneInvalid, boolean>>,
+      Expect<AssertEqual<UnionMixed, boolean>>
+    ];
   });
 
 });

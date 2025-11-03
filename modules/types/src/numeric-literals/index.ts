@@ -40,4 +40,3 @@ export * from "./Sum";
 export * from "./ToInteger";
 export * from "./ToNumericArray";
 export * from "./Zero";
-

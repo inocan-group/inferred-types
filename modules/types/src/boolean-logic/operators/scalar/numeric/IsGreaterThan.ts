@@ -1,12 +1,8 @@
 import type {
     AsNumber,
-    CompareNumbers,
     GreaterThan,
     GreaterThanOrEqual,
-    IsBranded,
-    IsEqual,
-    NumberLike,
-    Unbrand
+    NumberLike
 } from "inferred-types/types";
 
 /**
@@ -22,14 +18,14 @@ import type {
 export type IsGreaterThan<
     A extends NumberLike,
     B extends NumberLike,
-> =
-A extends number
-? B extends number
-    ? GreaterThan<A,B>
-    : GreaterThan<A, AsNumber<B>>
-: B extends number
-    ? GreaterThan<AsNumber<A>, B>
-: GreaterThan<AsNumber<A>,AsNumber<B>>;
+>
+    = A extends number
+        ? B extends number
+            ? GreaterThan<A, B>
+            : GreaterThan<A, AsNumber<B>>
+        : B extends number
+            ? GreaterThan<AsNumber<A>, B>
+            : GreaterThan<AsNumber<A>, AsNumber<B>>;
 
 /**
  * **IsGreaterThanOrEqual**`<A,B>`
@@ -39,11 +35,11 @@ A extends number
 export type IsGreaterThanOrEqual<
     A extends NumberLike,
     B extends NumberLike,
-> =
-A extends number
-? B extends number
-    ? GreaterThanOrEqual<A,B>
-    : GreaterThanOrEqual<A, AsNumber<B>>
-: B extends number
-    ? GreaterThanOrEqual<AsNumber<A>, B>
-: GreaterThanOrEqual<AsNumber<A>,AsNumber<B>>;
+>
+    = A extends number
+        ? B extends number
+            ? GreaterThanOrEqual<A, B>
+            : GreaterThanOrEqual<A, AsNumber<B>>
+        : B extends number
+            ? GreaterThanOrEqual<AsNumber<A>, B>
+            : GreaterThanOrEqual<AsNumber<A>, AsNumber<B>>;

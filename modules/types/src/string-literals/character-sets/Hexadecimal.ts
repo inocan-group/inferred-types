@@ -1,4 +1,4 @@
-import { HEXADECIMAL_CHAR } from "inferred-types/constants";
+import type { HEXADECIMAL_CHAR } from "inferred-types/constants";
 import type {
     Suggest,
 } from "inferred-types/types";
@@ -8,8 +8,7 @@ import type {
  *
  * **Related:** `IsHexadecimal`, `Hexadecimal`, `SuggestHexadecimal`
  */
-export type HexadecimalChar = typeof HEXADECIMAL_CHAR[number]
-
+export type HexadecimalChar = typeof HEXADECIMAL_CHAR[number];
 
 /**
  * A string suggestion for hexadecimal types

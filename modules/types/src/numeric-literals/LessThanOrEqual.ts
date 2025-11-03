@@ -9,13 +9,13 @@ import type { CompareNumbers } from "inferred-types/types";
  * - Note: this solution is cheap and cheerful and doesn't
  * try to address negative numbers or other edge cases
  */
-export type LessThanOrEqual<A extends number, B extends number> =
-number extends A
-? boolean
-: number extends B
-? boolean
-: CompareNumbers<A, B> extends "less"
-    ? true
-    : CompareNumbers<A, B> extends "equal"
-        ? true
-        : false;
+export type LessThanOrEqual<A extends number, B extends number>
+    = number extends A
+        ? boolean
+        : number extends B
+            ? boolean
+            : CompareNumbers<A, B> extends "less"
+                ? true
+                : CompareNumbers<A, B> extends "equal"
+                    ? true
+                    : false;

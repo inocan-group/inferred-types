@@ -1,4 +1,4 @@
-import {
+import type {
     AsString,
     Chars,
     Concat,
@@ -29,17 +29,16 @@ type Apply<
     T extends string,
     C extends readonly string[] = Chars<T>
 > = string extends T
-? string | Error
-: IsHexadecimal<T> extends true
-    ? Length<T> extends 3
-        ? Join<{
-            [K in keyof C]: `${C[K]}${C[K]}`
-        }>
-    : Length<T> extends 6
-        ? T
-    : WrongLength<T>
-: NonHexString<T>;
-
+    ? string | Error
+    : IsHexadecimal<T> extends true
+        ? Length<T> extends 3
+            ? Join<{
+                [K in keyof C]: `${C[K]}${C[K]}`
+            }>
+            : Length<T> extends 6
+                ? T
+                : WrongLength<T>
+        : NonHexString<T>;
 
 /**
  * **ApplyCssHexShorthand**`<T>`
@@ -59,15 +58,12 @@ type Apply<
  * - any non-hex value or hex-value of the wrong length will return
  *   a `invalid-type/hexadecimal` error.
  */
-export type ApplyCssHexShorthand<T> =
-T extends string
-    ? T extends `#${infer Rest}`
-        ? Concat<[
-            "#",
-            Apply<Rest>
-        ]>
-        : Apply<T>
-: WrongType<T>;
-
-
-
+export type ApplyCssHexShorthand<T>
+    = T extends string
+        ? T extends `#${infer Rest}`
+            ? Concat<[
+                "#",
+                Apply<Rest>
+            ]>
+            : Apply<T>
+        : WrongType<T>;

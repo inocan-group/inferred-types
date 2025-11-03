@@ -1,11 +1,10 @@
-import {
+import type {
     Chars,
     Every,
     HexadecimalChar,
     Length,
     Trim
 } from "inferred-types/types";
-
 
 /**
  * **IsHexColor**`<T>`
@@ -20,16 +19,15 @@ import {
  *       digit into two digits (e.g., `#FA9` to `#FFAA99`)
  */
 export type IsHexColor<T> = T extends `#${infer Rest}`
-? Trim<Rest> extends ""
-    ? false
-    : Chars<Rest> extends infer C extends readonly string[]
-        ? Every<C, "extends", [HexadecimalChar]> extends true
-            ? Length<Rest> extends 3
-                ? true
-                : Length<Rest> extends 6
+    ? Trim<Rest> extends ""
+        ? false
+        : Chars<Rest> extends infer C extends readonly string[]
+            ? Every<C, "extends", [HexadecimalChar]> extends true
+                ? Length<Rest> extends 3
                     ? true
+                    : Length<Rest> extends 6
+                        ? true
+                        : false
                 : false
             : false
-    : false
-: false;
-
+    : false;

@@ -1,4 +1,4 @@
-import { RGB } from "inferred-types/types";
+import type { RGB } from "inferred-types/types";
 
 /**
  * **isRgbObject**`(val)`
@@ -16,15 +16,15 @@ export function isRgbObject(val: unknown): val is RGB {
     const obj = val as Record<string, unknown>;
 
     return (
-        typeof obj.r === "number" &&
-        !Number.isNaN(obj.r) &&
-        Number.isFinite(obj.r) &&
-        typeof obj.g === "number" &&
-        !Number.isNaN(obj.g) &&
-        Number.isFinite(obj.g) &&
-        typeof obj.b === "number" &&
-        !Number.isNaN(obj.b) &&
-        Number.isFinite(obj.b) &&
-        !("a" in obj)
+        typeof obj.r === "number"
+        && !Number.isNaN(obj.r)
+        && Number.isFinite(obj.r)
+        && typeof obj.g === "number"
+        && !Number.isNaN(obj.g)
+        && Number.isFinite(obj.g)
+        && typeof obj.b === "number"
+        && !Number.isNaN(obj.b)
+        && Number.isFinite(obj.b)
+        && !("a" in obj)
     );
 }

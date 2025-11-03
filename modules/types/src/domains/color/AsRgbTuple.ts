@@ -1,5 +1,4 @@
-import { AsRgbObject, RGB } from "inferred-types/types";
-
+import type { AsRgbObject, RGB } from "inferred-types/types";
 
 /**
  * **AsRgbTuple**`<T>`
@@ -15,10 +14,10 @@ import { AsRgbObject, RGB } from "inferred-types/types";
  */
 export type AsRgbTuple<T> = AsRgbObject<T> extends Error
     ? AsRgbObject<T>
-: AsRgbObject<T> extends infer O extends  RGB
-    ? [
+    : AsRgbObject<T> extends infer O extends RGB
+        ? [
         red: O["r"],
         green: O["g"],
         blue: O["b"]
-    ]
-: never;
+        ]
+        : never;

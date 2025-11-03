@@ -20,12 +20,12 @@ import type {
 export type IsLessThan<
     A extends NumberLike,
     B extends NumberLike,
-> =
-A extends number
-? B extends number
-    ? LessThan<A,B>
-: LessThan<A, AsNumber<B>>
-: LessThan<AsNumber<A>,AsNumber<B>>;
+>
+    = A extends number
+        ? B extends number
+            ? LessThan<A, B>
+            : LessThan<A, AsNumber<B>>
+        : LessThan<AsNumber<A>, AsNumber<B>>;
 
 /**
  * **IsLessThanOrEqual**`<A,B>`
@@ -34,16 +34,16 @@ A extends number
  *
  * **Related:**
  * - wraps `LessThanOrEqual` and allows not only numbers but numeric
- *   string literals to be passed in. */
+ *   string literals to be passed in.
+ */
 export type IsLessThanOrEqual<
     A extends NumberLike,
     B extends NumberLike,
-> =
-A extends number
-? B extends number
-    ? LessThanOrEqual<A,B>
-    : LessThanOrEqual<A, AsNumber<B>>
-: B extends number
-    ? LessThanOrEqual<AsNumber<A>,B>
-: LessThanOrEqual<AsNumber<A>,AsNumber<B>>;
-
+>
+    = A extends number
+        ? B extends number
+            ? LessThanOrEqual<A, B>
+            : LessThanOrEqual<A, AsNumber<B>>
+        : B extends number
+            ? LessThanOrEqual<AsNumber<A>, B>
+            : LessThanOrEqual<AsNumber<A>, AsNumber<B>>;

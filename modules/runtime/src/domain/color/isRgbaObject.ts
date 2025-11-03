@@ -1,4 +1,4 @@
-import { RGBA } from "inferred-types/types";
+import type { RGBA } from "inferred-types/types";
 
 /**
  * **isRgbaObject**`(val)`
@@ -16,17 +16,17 @@ export function isRgbaObject(val: unknown): val is RGBA {
     const obj = val as Record<string, unknown>;
 
     return (
-        typeof obj.r === "number" &&
-        !Number.isNaN(obj.r) &&
-        Number.isFinite(obj.r) &&
-        typeof obj.g === "number" &&
-        !Number.isNaN(obj.g) &&
-        Number.isFinite(obj.g) &&
-        typeof obj.b === "number" &&
-        !Number.isNaN(obj.b) &&
-        Number.isFinite(obj.b) &&
-        typeof obj.a === "number" &&
-        !Number.isNaN(obj.a) &&
-        Number.isFinite(obj.a)
+        typeof obj.r === "number"
+        && !Number.isNaN(obj.r)
+        && Number.isFinite(obj.r)
+        && typeof obj.g === "number"
+        && !Number.isNaN(obj.g)
+        && Number.isFinite(obj.g)
+        && typeof obj.b === "number"
+        && !Number.isNaN(obj.b)
+        && Number.isFinite(obj.b)
+        && typeof obj.a === "number"
+        && !Number.isNaN(obj.a)
+        && Number.isFinite(obj.a)
     );
 }

@@ -1,5 +1,5 @@
-import { RgbTuple } from "inferred-types/types";
-import {  isNumericArray } from "runtime/type-guards";
+import type { RgbTuple } from "inferred-types/types";
+import { isNumericArray } from "runtime/type-guards";
 
 /**
  * **isRgbTuple**`(val)`
@@ -14,5 +14,5 @@ import {  isNumericArray } from "runtime/type-guards";
  * - `isHexColor()`, `isRgbObject()`, `isRgbaObject()`
  */
 export function isRgbTuple(val: unknown): val is RgbTuple {
-    return isNumericArray(val) && val.length === 3 && val.every(i => i >= 0 && i <= 255 )
+    return isNumericArray(val) && val.length === 3 && val.every(i => i >= 0 && i <= 255);
 }

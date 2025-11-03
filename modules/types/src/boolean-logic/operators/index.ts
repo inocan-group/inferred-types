@@ -4,6 +4,7 @@ export * from "./datetime/index";
 export * from "./dictionary/index";
 export * from "./errors/index";
 export * from "./functions/index";
+export * from "./lists/index";
 export * from "./literal/index";
 export * from "./scalar/index";
 export * from "./sets/index";

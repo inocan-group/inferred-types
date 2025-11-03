@@ -9,8 +9,8 @@ import type {
 
 type Process<
     T extends string
-> =
-HexToDecimal<T> extends [
+>
+    = HexToDecimal<T> extends [
         infer R extends number,
         infer G extends number,
         infer B extends number
@@ -20,14 +20,13 @@ HexToDecimal<T> extends [
             g: G;
             b: B;
         }
-: HexToDecimal<T> extends Error
-        ? T
-    : Err<
-        `invalid-type/hex-color`,
-        `The Hex color passed into HexColorToRgb<T> could not be parsed into an RGB object`,
-        { input: T; utility: "HexColorToRgbObject"; library: "inferred-types" }
-    >;
-
+        : HexToDecimal<T> extends Error
+            ? T
+            : Err<
+                `invalid-type/hex-color`,
+                `The Hex color passed into HexColorToRgb<T> could not be parsed into an RGB object`,
+                { input: T; utility: "HexColorToRgbObject"; library: "inferred-types" }
+            >;
 
 /**
  * **HexColorToRgbObject**`<T>`
@@ -44,15 +43,15 @@ export type HexColorToRgbObject<T extends HexColor> = T extends `#${infer Rest}`
         ? Process<
             As<ApplyCssHexShorthand<Rest>, string>
         >
-    : Length<Rest> extends 6
-        ? Process<Rest>
+        : Length<Rest> extends 6
+            ? Process<Rest>
+            : Err<
+                `invalid-type/hex-color`,
+                `The Hex color passed into HexColorToRgbObject<T> must have 3 or 6 hexadecimal digits`,
+                { input: T; length: Length<Rest>; utility: "HexColorToRgbObject" }
+            >
     : Err<
-        `invalid-type/hex-color`,
-        `The Hex color passed into HexColorToRgbObject<T> must have 3 or 6 hexadecimal digits`,
-        { input: T; length: Length<Rest>; utility: "HexColorToRgbObject" }
-    >
-: Err<
-    `invalid-type/hexadecimal`,
-    `A hexadecimal color must be a string and start with '#' symbol!`,
-    { input: T; utility: "HexColorToRgbObject"}
->;
+        `invalid-type/hexadecimal`,
+        `A hexadecimal color must be a string and start with '#' symbol!`,
+        { input: T; utility: "HexColorToRgbObject" }
+    >;

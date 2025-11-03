@@ -1,4 +1,4 @@
-import { RgbDecimalString } from "inferred-types/types";
+import type { RgbDecimalString } from "inferred-types/types";
 import { isInteger, isNumber, isNumberLike, isString } from "inferred-types/runtime";
 
 /**
@@ -14,9 +14,9 @@ import { isInteger, isNumber, isNumberLike, isString } from "inferred-types/runt
 export function isRgbDecimal<T>(
     val: T
 ): val is T extends number ? T : T extends string ? T & RgbDecimalString : never {
-        return isString(val)
-            ? isNumberLike(val) && Number(val) >= 0 && Number(val) <= 255 && isInteger(Number(val))
-            : isNumber(val)
-                ? val >= 0 && val <= 255 && isInteger(val)
-            : false
+    return isString(val)
+        ? isNumberLike(val) && Number(val) >= 0 && Number(val) <= 255 && isInteger(Number(val))
+        : isNumber(val)
+            ? val >= 0 && val <= 255 && isInteger(val)
+            : false;
 }

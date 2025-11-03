@@ -184,12 +184,14 @@ describe("AsRgb<T>", () => {
     });
 
     describe("Edge cases", () => {
-        it("handles RGB with extra properties (should extract only r, g, b)", () => {
+        it("handles RGB-like objects with extra properties (extracts only r, g, b)", () => {
             type ExtraProps = AsRgbObject<{ r: 255, g: 128, b: 64, extra: "ignored" }>;
+            type MultipleExtra = AsRgbObject<{ r: 100, g: 150, b: 200, foo: string, bar: number }>;
 
             type cases = [
-                // Should still work if the object has the required RGB properties
-                Expect<AssertExtends<ExtraProps, { r: number, g: number, b: number }>>
+                // Should extract ONLY r, g, b properties and return pure RGB object
+                Expect<AssertEqual<ExtraProps, { r: 255, g: 128, b: 64 }>>,
+                Expect<AssertEqual<MultipleExtra, { r: 100, g: 150, b: 200 }>>
             ]
         });
 

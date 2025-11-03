@@ -1,4 +1,4 @@
-import {narrow} from "./utils/narrow"
+import { narrow } from "./utils/narrow";
 
 export const CSS_NAMED_COLORS = narrow(
     "aliceblue",

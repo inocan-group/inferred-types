@@ -1,5 +1,5 @@
+import type { CssNamedColor } from "inferred-types/types";
 import { CSS_NAMED_COLORS } from "inferred-types/constants";
-import { CssNamedColor } from "inferred-types/types";
 import { isString } from "inferred-types/runtime";
 
 /**

@@ -13,11 +13,11 @@ import type { CompareNumbers } from "inferred-types/types";
 export type GreaterThan<
     A extends number,
     B extends number,
-> =
-number extends A
-? boolean
-: number extends B
-    ? boolean
-: [CompareNumbers<A, B>] extends ["greater"]
-    ? true
-    : false;
+>
+    = number extends A
+        ? boolean
+        : number extends B
+            ? boolean
+            : [CompareNumbers<A, B>] extends ["greater"]
+                ? true
+                : false;

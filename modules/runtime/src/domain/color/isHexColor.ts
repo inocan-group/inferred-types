@@ -1,6 +1,6 @@
+import type { HexColor } from "inferred-types/types";
 import { HEXADECIMAL_CHAR } from "inferred-types/constants";
-import { HexColor } from "inferred-types/types";
-import { asChars, isString, afterFirst } from "inferred-types/runtime";
+import { afterFirst, asChars, isString } from "inferred-types/runtime";
 
 /**
  * **isHexColor**`(val)`
@@ -13,5 +13,5 @@ import { asChars, isString, afterFirst } from "inferred-types/runtime";
 export function isHexColor(val: unknown): val is HexColor {
     return isString(val)
         && val.startsWith("#")
-        && afterFirst(asChars(val)).every(i => HEXADECIMAL_CHAR.includes(i))
+        && afterFirst(asChars(val)).every(i => HEXADECIMAL_CHAR.includes(i));
 }

@@ -1,4 +1,4 @@
-import { CssRgb } from "inferred-types/types";
+import type { CssRgb } from "inferred-types/types";
 import { isString } from "runtime/type-guards";
 
 /**
@@ -8,5 +8,5 @@ import { isString } from "runtime/type-guards";
  * color value (e.g., `CssRgb`).
  */
 export function isCssRgbString(val: unknown): val is CssRgb {
-    return isString(val) && val.startsWith("rgb(")
+    return isString(val) && val.startsWith("rgb(");
 }

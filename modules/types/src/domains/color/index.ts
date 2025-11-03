@@ -3,9 +3,10 @@ export * from "./AsRgbObject";
 export * from "./AsRgbTuple";
 export * from "./HexColorToRgbObject";
 export * from "./HexColorToRgbTuple";
+export * from "./IsCssRgbString";
 export * from "./IsHexColor";
-export * from "./IsRGB";
+export * from "./IsRgbObject";
+export * from "./IsRgbTuple";
 export * from "./RGB";
 export * from "./RgbDecimal";
 export * from "./RgbTuple";
-
