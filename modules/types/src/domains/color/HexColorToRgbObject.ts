@@ -1,7 +1,16 @@
-import type { Err, HexColor, HexToDecimal, StripLeading } from "inferred-types/types";
+import type {
+    ApplyCssHexShorthand,
+    As,
+    Err,
+    HexColor,
+    HexToDecimal,
+    Length
+} from "inferred-types/types";
 
-type Process<T extends HexColor> =
-HexToDecimal<StripLeading<T, "#">> extends [
+type Process<
+    T extends string
+> =
+HexToDecimal<T> extends [
         infer R extends number,
         infer G extends number,
         infer B extends number
@@ -11,29 +20,12 @@ HexToDecimal<StripLeading<T, "#">> extends [
             g: G;
             b: B;
         }
-    : HexToDecimal<StripLeading<T, "#">> extends [
-        infer R extends number,
-        infer G extends number
-    ]
-        ? {
-            r: R;
-            g: G;
-            b: 0;
-        }
-    : HexToDecimal<StripLeading<T, "#">> extends [
-        infer R extends number
-    ]
-        ? {
-            r: R;
-            g: 0;
-            b: 0;
-        }
-    : HexToDecimal<StripLeading<T, "#">> extends Error
-        ? HexToDecimal<StripLeading<T, "#">>
+: HexToDecimal<T> extends Error
+        ? T
     : Err<
         `invalid-type/hex-color`,
         `The Hex color passed into HexColorToRgb<T> could not be parsed into an RGB object`,
-        { input: T; utility: "HexColorToRgb"; library: "inferred-types" }
+        { input: T; utility: "HexColorToRgbObject"; library: "inferred-types" }
     >;
 
 
@@ -47,4 +39,20 @@ HexToDecimal<StripLeading<T, "#">> extends [
  * - `AsRgb`, `IsRGB`, `RGB`, `RGBA`, `CssRgbColor`
  * - `cssColor()`, `twColor()`, `isRgbObject()`, `isCssRgbString()`
  */
-export type HexColorToRgbObject<T extends HexColor> = Process<T>;
+export type HexColorToRgbObject<T extends HexColor> = T extends `#${infer Rest}`
+    ? Length<Rest> extends 3
+        ? Process<
+            As<ApplyCssHexShorthand<Rest>, string>
+        >
+    : Length<Rest> extends 6
+        ? Process<Rest>
+    : Err<
+        `invalid-type/hex-color`,
+        `The Hex color passed into HexColorToRgbObject<T> must have 3 or 6 hexadecimal digits`,
+        { input: T; length: Length<Rest>; utility: "HexColorToRgbObject" }
+    >
+: Err<
+    `invalid-type/hexadecimal`,
+    `A hexadecimal color must be a string and start with '#' symbol!`,
+    { input: T; utility: "HexColorToRgbObject"}
+>;

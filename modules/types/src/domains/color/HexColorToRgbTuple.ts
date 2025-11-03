@@ -11,8 +11,9 @@ import { HexColor, HexColorToRgbObject, RGB } from "inferred-types/types";
  * - `AsRgb`, `IsRGB`, `RGB`, `RGBA`, `CssRgbColor`
  * - `cssColor()`, `twColor()`, `isRgbObject()`, `isCssRgbString()`
  */
-export type HexColorToRgbTuple<T extends HexColor> = HexColorToRgbObject<T> extends infer O extends RGB
-    ? [ red: RGB["r"], green: RGB["g"], blue: RGB["b"] ]
+export type HexColorToRgbTuple<T extends HexColor> =
+HexColorToRgbObject<T> extends infer O extends RGB
+    ? [ red: O["r"], green: O["g"], blue: O["b"] ]
     : HexColorToRgbObject<T> extends Error
         ? HexColorToRgbObject<T>
     : never;

@@ -1,5 +1,5 @@
 import { RgbDecimalString } from "inferred-types/types";
-import { isInteger, isNumber, isNumberLike, isString } from "runtime/type-guards";
+import { isInteger, isNumber, isNumberLike, isString } from "inferred-types/runtime";
 
 /**
  * **isRgbDecimal**`(val)`
@@ -9,13 +9,14 @@ import { isInteger, isNumber, isNumberLike, isString } from "runtime/type-guards
  *
  * - if passed in value is a _number_ then boolean logic applies but no type narrowing
  * - if passed in value is a `${number}` type then the type will be intersected with `RgbDecimalString`
+ *
  */
-export function isRgbDecimal<T>(val: T): val is T extends number
-    ? T
-    : T extends string ? T & RgbDecimalString : never {
+export function isRgbDecimal<T>(
+    val: T
+): val is T extends number ? T : T extends string ? T & RgbDecimalString : never {
         return isString(val)
-            ?  isNumberLike(val) && Number(val) > 0 && Number(val) < 256 && isInteger(val)
+            ? isNumberLike(val) && Number(val) >= 0 && Number(val) <= 255 && isInteger(Number(val))
             : isNumber(val)
-                ? Number(val) > 0 && Number(val) < 256 && isInteger(val)
+                ? val >= 0 && val <= 255 && isInteger(val)
             : false
 }

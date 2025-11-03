@@ -1,4 +1,6 @@
-export const CSS_NAMED_COLORS = [
+import {narrow} from "./utils/narrow"
+
+export const CSS_NAMED_COLORS = narrow(
     "aliceblue",
     "antiquewhite",
     "aqua",
@@ -147,9 +149,9 @@ export const CSS_NAMED_COLORS = [
     "whitesmoke",
     "yellow",
     "yellowgreen",
-] as const;
+);
 
-export const CSS_COLOR_LOOKUP = {
+export const CSS_COLOR_LOOKUP = narrow({
     aliceblue: "rgb(240,248,255)",
     antiquewhite: "rgb(250,235,215)",
     aqua: "rgb(0,255,255)",
@@ -298,4 +300,4 @@ export const CSS_COLOR_LOOKUP = {
     whitesmoke: "rgb(245,245,245)",
     yellow: "rgb(255,255,0)",
     yellowgreen: "rgb(154,205,50)"
-} as const satisfies Record<typeof CSS_NAMED_COLORS[number], `rgb(${string})`>;
+}) satisfies Record<typeof CSS_NAMED_COLORS[number], `rgb(${string})`>;

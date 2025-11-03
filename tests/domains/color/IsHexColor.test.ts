@@ -43,17 +43,17 @@ describe("IsHexColor<T>", () => {
         ];
     });
 
-    it("valid hex colors with varying lengths (1-6 digits)", () => {
+    it("invalid - wrong lengths (1, 2, 4, 5 digits not valid per CSS spec)", () => {
         type OneDigit = IsHexColor<"#a">;
         type TwoDigits = IsHexColor<"#ab">;
         type FourDigits = IsHexColor<"#abcd">;
         type FiveDigits = IsHexColor<"#abcde">;
 
         type cases = [
-            Expect<AssertTrue<OneDigit>>,
-            Expect<AssertTrue<TwoDigits>>,
-            Expect<AssertTrue<FourDigits>>,
-            Expect<AssertTrue<FiveDigits>>
+            Expect<AssertFalse<OneDigit>>,
+            Expect<AssertFalse<TwoDigits>>,
+            Expect<AssertFalse<FourDigits>>,
+            Expect<AssertFalse<FiveDigits>>
         ];
     });
 
@@ -93,13 +93,17 @@ describe("IsHexColor<T>", () => {
         ];
     });
 
-    it("invalid - too long (more than 6 hex digits)", () => {
-        type SevenDigits = IsHexColor<"#abcdefg">;
+    it("invalid - wrong length (7+ digits not valid for RGB)", () => {
+        type SevenDigitsInvalid = IsHexColor<"#abcdefg">; // 'g' is invalid hex char
+        type SevenDigitsValid = IsHexColor<"#abcdef0">; // 7 valid hex chars
         type EightDigits = IsHexColor<"#12345678">;
+        type NineDigits = IsHexColor<"#123456789">;
 
         type cases = [
-            Expect<AssertFalse<SevenDigits>>,
-            Expect<AssertFalse<EightDigits>>
+            Expect<AssertFalse<SevenDigitsInvalid>>,
+            Expect<AssertFalse<SevenDigitsValid>>, // Still false - only 3 or 6 allowed
+            Expect<AssertFalse<EightDigits>>,
+            Expect<AssertFalse<NineDigits>>
         ];
     });
 

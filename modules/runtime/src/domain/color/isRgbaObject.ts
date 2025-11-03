@@ -1,20 +1,32 @@
-
-
-import { indexOf } from "inferred-types/runtime";
 import { RGBA } from "inferred-types/types";
-import { endsWith, isString } from "runtime/type-guards";
 
 /**
- * **isRGBAObject**`(val)`
+ * **isRgbaObject**`(val)`
  *
- * A type guard that tests whether `val` is RGBA object.
+ * A type guard that tests whether `val` is an RGBA object with numeric r, g, b, a properties.
+ *
+ * Note: This checks for object format `{ r: number, g: number, b: number, a: number }`,
+ * not CSS string format. Use `isRgbaColor()` for CSS strings like "rgba(...)".
  */
 export function isRgbaObject(val: unknown): val is RGBA {
-    return isString(val)
-        && val.startsWith("rgba(")
-        && val.endsWith(")")
-        && typeof indexOf(val, "r") === "number"
-        && typeof indexOf(val, "g") === "number"
-        && typeof indexOf(val, "b") === "number"
-        && typeof indexOf(val, "a") === "number"
+    if (typeof val !== "object" || val === null) {
+        return false;
+    }
+
+    const obj = val as Record<string, unknown>;
+
+    return (
+        typeof obj.r === "number" &&
+        !Number.isNaN(obj.r) &&
+        Number.isFinite(obj.r) &&
+        typeof obj.g === "number" &&
+        !Number.isNaN(obj.g) &&
+        Number.isFinite(obj.g) &&
+        typeof obj.b === "number" &&
+        !Number.isNaN(obj.b) &&
+        Number.isFinite(obj.b) &&
+        typeof obj.a === "number" &&
+        !Number.isNaN(obj.a) &&
+        Number.isFinite(obj.a)
+    );
 }
