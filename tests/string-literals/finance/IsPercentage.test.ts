@@ -28,7 +28,12 @@ describe("IsPercentage<T>", () => {
             Expect<AssertFalse<F2>>,
 
             Expect<AssertError<E1>>,
-            Expect<AssertError<E2, "invalid-type/percentage">>,
+            Expect<AssertError<E1, "invalid-type/percentage">>,
+            // below we're just demonstrating how to make the
+            // `IsPercentage` be a "pure" true/false utility.
+            Expect<AssertFalse<
+                AssertTrue<E1>
+            >>
         ];
     });
 

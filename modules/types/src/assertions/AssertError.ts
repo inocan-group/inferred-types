@@ -41,7 +41,7 @@ export type AssertError<
     TSubType extends string | undefined = undefined
 > = TType extends `${infer Type}/${infer SubType}`
     ? TSubType extends string
-        ? never  // Cannot provide both composite TType and explicit TSubType
+        ? never // Cannot provide both composite TType and explicit TSubType
         : AssertValidation<TTest, Mapper<TType, undefined>, Error> extends { kind: "AssertionError" }
             ? AssertValidation<TTest, Mapper<TType, undefined>, Error>
             : TTest extends Error

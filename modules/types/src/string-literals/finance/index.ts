@@ -1,3 +1,3 @@
 export * from "./CreditCard";
+export * from "./IsPercentage";
 export * from "./Percentage";
-export * from "./IsPercentage"

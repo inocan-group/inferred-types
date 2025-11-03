@@ -8,7 +8,8 @@ import { isInteger, isNumber, isNumberLike, isString } from "inferred-types/runt
  * of a decimal value between 0-255.
  *
  * - if passed in value is a _number_ then boolean logic applies but no type narrowing
- * - if passed in value is a `${number}` type then the type will be intersected with `RgbDecimalString`
+ * - if passed in value is a `${number}` type then the type will be intersected with
+ *   `RgbDecimalString`
  *
  */
 export function isRgbDecimal<T>(

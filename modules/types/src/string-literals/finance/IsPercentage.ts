@@ -1,17 +1,15 @@
-import { Divide, Err, IsBetweenInclusively } from "inferred-types/types";
-import { Percentage } from "./Percentage";
-
+import type { Divide, Err, IsBetweenInclusively } from "inferred-types/types";
+import type { Percentage } from "./Percentage";
 
 export type Process<
     T extends number,
     TMin extends number,
     TMax extends number
-> = IsBetweenInclusively<T,TMin,TMax>;
-
+> = IsBetweenInclusively<T, TMin, TMax>;
 
 export type AdjustNumeric<T extends number> = T extends 0
-? 0
-: Divide<T,100>;
+    ? 0
+    : Divide<T, 100>;
 
 export type HandleErr<
     T,
@@ -21,14 +19,13 @@ export type HandleErr<
     ? Err<
         `invalid-type/percentage`,
         `A string literal '${T}' was passed into IsPercentage<T> but it did not match the expected pattern provided by the 'Percentage' format.`,
-        { input: T, min: TMin, max: TMax }
+        { input: T; min: TMin; max: TMax }
     >
-: Err<
-    `invalid-type/percentage`,
-    `The IsPercentage<T> boolean operator received the wrong type for T! T must be a string or number and if a number should follow the 'Percentage' shape with a trailing '%' character.`,
-    { input: T, min: TMin, max: TMax }
->;
-
+    : Err<
+        `invalid-type/percentage`,
+        `The IsPercentage<T> boolean operator received the wrong type for T! T must be a string or number and if a number should follow the 'Percentage' shape with a trailing '%' character.`,
+        { input: T; min: TMin; max: TMax }
+    >;
 
 /**
  * **IsPercentage**`<T, [TMin = 0], [TMax = 100]>`
@@ -55,6 +52,15 @@ export type HandleErr<
  * type F1 = IsPercentage<"150%">;
  * type F2 = IsPercentage<50>;
  * ```
+ *
+ * Note:
+ * - if a type other than _number_ or _string_ is passed in for `T` then this utility
+ *   will return an Error of the type `invalid-type/percentage`
+ * - likewise, if a string literal is passed in with a type that doesn't extend the
+ *   shape defined by `Percentage` then an error of `invalid-type/percentage` will
+ *   also be returned.
+ * - if you want to avoid errors and ONLY get a true/false value then wrap this
+ *   utility with `AssertTrue`
  */
 export type IsPercentage<
     T,
@@ -62,10 +68,10 @@ export type IsPercentage<
     TMax extends number = 100
 > = string extends T
     ? Percentage | Error
-: number extends T
-    ? number | Error
-: T extends `${infer Num extends number}%`
-    ? Process<Num, TMin, TMax>
-: T extends number
-    ? Process<T, AdjustNumeric<TMin>, AdjustNumeric<TMax>>
-: HandleErr<T,TMin,TMax>
+    : number extends T
+        ? number | Error
+        : T extends `${infer Num extends number}%`
+            ? Process<Num, TMin, TMax>
+            : T extends number
+                ? Process<T, AdjustNumeric<TMin>, AdjustNumeric<TMax>>
+                : HandleErr<T, TMin, TMax>;

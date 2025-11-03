@@ -1,4 +1,3 @@
-
 /**
  * **Percentage**
  *
@@ -12,4 +11,4 @@
  * - `IsPercentage<T>` validates that the numeric percentage
  *   fits withing expected bounds
  */
-export type Percentage = `${number}%`
+export type Percentage = `${number}%`;

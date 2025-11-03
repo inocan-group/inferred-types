@@ -50,19 +50,18 @@ type _Err<
         } & TCtx
     > & Error; ;
 
-
 /**
  * handles when the "type" is a wide string
  */
 type WideErrType<
     TMsg extends string,
-    TCtx extends Record<string,any> = EmptyObject
-> =
-string extends TMsg
-    ? IsEqual<TCtx,EmptyObject> extends true
-        ? Error
-    : _Err<string, string, TCtx>
-: _Err<string, TMsg, TCtx>
+    TCtx extends Record<string, any> = EmptyObject
+>
+    = string extends TMsg
+        ? IsEqual<TCtx, EmptyObject> extends true
+            ? Error
+            : _Err<string, string, TCtx>
+        : _Err<string, TMsg, TCtx>
 ;
 
 /**
@@ -87,7 +86,6 @@ export type Err<
 > = string extends TType
     ? WideErrType<TMsg, TCtx>
     : _Err<TType, TMsg, TCtx>;
-
 
 /**
  * Adds "context" to an existing `Error`.

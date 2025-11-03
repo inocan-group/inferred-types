@@ -1,4 +1,6 @@
 export * from "./asCssRgb";
+export * from "./asRgbaObject";
+export * from "./asRgbObject";
 export * from "./convertCssRgbStringToRgbObject";
 export * from "./hexColorToRgb";
 export * from "./isCssNamedColor";

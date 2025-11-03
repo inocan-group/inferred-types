@@ -1,7 +1,8 @@
-import type { AsRgbObject } from "@inferred-types/types";
-import type { RGB, RGBA } from "inferred-types/types";
+import type { AsRgbObject, RGB, RGBA } from "inferred-types/types";
 import { CSS_COLOR_LOOKUP } from "inferred-types/constants";
 import {
+    convertCssRgbStringToRgbObject,
+    err,
     hexColorToRgbObject,
     isCssNamedColor,
     isHexColor,
@@ -22,7 +23,7 @@ import { isCssRgbString } from "./isCssRgbString";
  * - Hex Color
  * - Named CSS Color
  */
-export function asRgbObject<T extends string | RGB | RGBA>(rgb: T) {
+export function asRgbObject<T extends string | RGB | RGBA>(rgb: T): AsRgbObject<T> {
     return (
         isRgbObject(rgb)
             ? rgb
@@ -33,12 +34,14 @@ export function asRgbObject<T extends string | RGB | RGBA>(rgb: T) {
                     b: rgb.b
                 }
                 : isCssNamedColor(rgb)
-                    ? asRgbObject(CSS_COLOR_LOOKUP[rgb] as string)
+                    ? asRgbObject(
+                        convertCssRgbStringToRgbObject(CSS_COLOR_LOOKUP[rgb])
+                    )
                     : isHexColor(rgb)
                         ? hexColorToRgbObject(rgb)
                         : isCssRgbString(rgb)
-                            ? convertCssRgbStringToObject(rgb)
+                            ? convertCssRgbStringToRgbObject(rgb)
                             : err("invalid-type/rgb")
 
-    ) as AsRgbObject<T>;
+    ) as unknown as AsRgbObject<T>;
 }

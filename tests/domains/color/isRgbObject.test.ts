@@ -87,23 +87,38 @@ describe("isRgbObject(val)", () => {
   });
 
   it("handles edge case numeric values", () => {
-    // Negative numbers (technically invalid for color but type guard should allow)
-    expect(isRgbObject({ r: -1, g: 0, b: 0 })).toBe(true);
+    // Negative numbers are invalid for color - should return false
+    expect(isRgbObject({ r: -1, g: 0, b: 0 })).toBe(false);
+    expect(isRgbObject({ r: 0, g: -1, b: 0 })).toBe(false);
+    expect(isRgbObject({ r: 0, g: 0, b: -1 })).toBe(false);
 
-    // Values over 255 (technically invalid for color but type guard should allow)
-    expect(isRgbObject({ r: 300, g: 400, b: 500 })).toBe(true);
+    // Values over 255 are invalid - should return false
+    expect(isRgbObject({ r: 256, g: 0, b: 0 })).toBe(false);
+    expect(isRgbObject({ r: 0, g: 256, b: 0 })).toBe(false);
+    expect(isRgbObject({ r: 0, g: 0, b: 256 })).toBe(false);
+    expect(isRgbObject({ r: 300, g: 400, b: 500 })).toBe(false);
 
-    // Zero values
+    // Zero values are valid (black)
     expect(isRgbObject({ r: 0, g: 0, b: 0 })).toBe(true);
 
-    // Decimal values
+    // Decimal values within range are valid
     expect(isRgbObject({ r: 0.5, g: 0.5, b: 0.5 })).toBe(true);
+    expect(isRgbObject({ r: 127.5, g: 128.3, b: 200.7 })).toBe(true);
+
+    // Boundary values should be valid
+    expect(isRgbObject({ r: 0, g: 0, b: 0 })).toBe(true);
+    expect(isRgbObject({ r: 255, g: 255, b: 255 })).toBe(true);
 
     // NaN values should return false
     expect(isRgbObject({ r: NaN, g: 0, b: 0 })).toBe(false);
+    expect(isRgbObject({ r: 0, g: NaN, b: 0 })).toBe(false);
+    expect(isRgbObject({ r: 0, g: 0, b: NaN })).toBe(false);
 
     // Infinity values should return false
     expect(isRgbObject({ r: Infinity, g: 0, b: 0 })).toBe(false);
+    expect(isRgbObject({ r: 0, g: Infinity, b: 0 })).toBe(false);
+    expect(isRgbObject({ r: 0, g: 0, b: Infinity })).toBe(false);
+    expect(isRgbObject({ r: -Infinity, g: 0, b: 0 })).toBe(false);
   });
 
 });
