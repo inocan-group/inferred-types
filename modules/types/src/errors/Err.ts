@@ -50,6 +50,21 @@ type _Err<
         } & TCtx
     > & Error; ;
 
+
+/**
+ * handles when the "type" is a wide string
+ */
+type WideErrType<
+    TMsg extends string,
+    TCtx extends Record<string,any> = EmptyObject
+> =
+string extends TMsg
+    ? IsEqual<TCtx,EmptyObject> extends true
+        ? Error
+    : _Err<string, string, TCtx>
+: _Err<string, TMsg, TCtx>
+;
+
 /**
  * **Err**`<TType, TMsg, TCtx>`
  *
@@ -58,18 +73,21 @@ type _Err<
  * - TType assigns the type to the errors `type` property until a `/` character is found
  * - the `subType` property is the string literal portion of `TType` after the `/` character
  * - any key/value pairs on `TCtx` will be available on the error too
+ *
+ * **Related:**
+ * - `err(type, msg, ctx)` mirrors same functionality for runtime
+ * - `ErrContext<T,C>` allows _adding_ context to an existing Error
+ * - `WhenErr<T,C>` allows conditionally adding context to an Error
+ *   when/if `T` extends Error. Otherwise proxies `T` through "as is"
  */
 export type Err<
     TType extends string = string,
     TMsg extends string = string,
     TCtx extends Record<string, any> = EmptyObject
 > = string extends TType
-    ? string extends TMsg
-        ? IsEqual<TCtx, EmptyObject> extends true
-            ? Error
-            : _Err<TType, TMsg, TCtx>
-        : _Err<TType, TMsg, TCtx>
+    ? WideErrType<TMsg, TCtx>
     : _Err<TType, TMsg, TCtx>;
+
 
 /**
  * Adds "context" to an existing `Error`.
