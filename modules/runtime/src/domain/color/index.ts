@@ -5,6 +5,6 @@ export * from "./isCssNamedColor";
 export * from "./isCssRgbString";
 export * from "./isHexColor";
 export * from "./isRgbaObject";
+export * from "./isRgbDecimal";
 export * from "./isRgbObject";
 export * from "./isRgbTuple";
-export * from "./isRgbDecimal"
