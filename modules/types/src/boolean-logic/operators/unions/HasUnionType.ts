@@ -1,16 +1,30 @@
-import type { AfterFirst, First, IsUnion } from "inferred-types/types";
+import type { IsUnion } from "inferred-types/types";
 
 type _HasUnion<
     TList extends readonly unknown[],
-> = [] extends TList
-    ? false
-    : IsUnion<First<TList>> extends true
+> = TList extends [
+    infer Head,
+    ...infer Rest
+]
+    ? IsUnion<Head> extends true
         ? true
-        : _HasUnion<AfterFirst<TList>>;
+        : _HasUnion<Rest>
+    : false;
 
 /**
  * **HasUnionType**`<TList>`
  *
- * Checks whether a list of items includes a value in it which is a _union type_.
+ * Checks whether any item within a _list_ is a **union** type.
+ *
+ * **Related:**
+ * - `UnionIncludes`, `UnionHasArray`,
+ * - `IsLiteralUnion`, `IsMixedUnion`, `IsNonLiteralUnion`
+ *
+ * ```ts
+ * // true
+ * type T = HasUnionType<["foo" | "bar", 42]>;
+ * // false
+ * type F = HasUnionType<["foo", "bar"]>;
+ * ```
  */
 export type HasUnionType<TList extends readonly unknown[]> = _HasUnion<TList>;

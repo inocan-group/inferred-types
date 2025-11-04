@@ -1,6 +1,6 @@
-import { HasOptionalElements } from "types/boolean-logic";
-import { SliceArray } from "types/lists/Slice";
-import { GetRequiredElementCount } from "types/lists/Variadic";
+import type { HasOptionalElements } from "types/boolean-logic";
+import type { SliceArray } from "types/lists/Slice";
+import type { GetRequiredElementCount } from "types/lists/Variadic";
 
 /**
  * **TakeRequiredElements**`<T>`
@@ -9,9 +9,7 @@ import { GetRequiredElementCount } from "types/lists/Variadic";
  *
  * **Related:** `TakeOptionalElements`
  */
-export type TakeRequiredElements<T extends readonly unknown[]> =
-HasOptionalElements<T> extends true
-? SliceArray<T, 0, GetRequiredElementCount<T>>
-: T;
-
-
+export type TakeRequiredElements<T extends readonly unknown[]>
+    = HasOptionalElements<T> extends true
+        ? SliceArray<T, 0, GetRequiredElementCount<T>>
+        : T;

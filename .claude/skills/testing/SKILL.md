@@ -338,9 +338,12 @@ Before submitting ANY work with type tests, verify:
 3. **Structure check**: Are type tests side-by-side with runtime tests?
 4. **Import check**: Do files import from `inferred-types/types`?
 5. **No separation**: Are there ZERO "Type Tests" describe blocks?
-6. **Tests pass**: Does `pnpm test:types` show "🎉 No errors!"?
+6. **Cardinal sin check**: Did you change ANY test assertions to make failing tests pass? If YES, STOP and revert.
+7. **Tests document correct behavior**: Do assertions reflect what SHOULD happen, not what currently happens?
 
 **If any check fails, the type tests are incorrect and must be rewritten.**
+
+Note: Tests may fail if there are bugs in the implementation. That's expected and correct. DO NOT change assertions to make them pass.
 
 ---
 
@@ -655,6 +658,125 @@ Verify completeness, check for regressions, and finalize the phase.
 - **Understand failures deeply**: Don't just read the error message - understand WHY the test is failing. Use debugging, logging, or step through the code if needed.
 
 - **Document complex test scenarios**: If a test needs explanation, add a comment describing what scenario it's covering and why it matters.
+
+### THE CARDINAL SIN: Never Change Tests to Match Buggy Code
+
+**⚠️ CRITICAL RULE: TESTS DOCUMENT CORRECT BEHAVIOR, NOT CURRENT BEHAVIOR**
+
+This is the most important testing principle and MUST be followed at all times:
+
+**NEVER change test expectations to make failing tests pass.**
+
+When tests fail, there are ONLY THREE valid responses:
+
+1. **Fix the implementation** - The implementation has a bug. Fix it.
+2. **Validate with the user** - Ask the user if your test expectation is wrong. They must explicitly approve any changes to test assertions. Say: "I expected X to be true, but it's returning false. Should the test expect false instead, or is this a bug?"
+3. **Mark as TODO (with user permission)** - If there's a known dependency that must be implemented first, ask the user for permission to use `it.todo()` or `describe.todo()`. Explain what needs to be done first and when this test can be enabled.
+
+**INVALID responses:**
+- ❌ Change `AssertTrue` to `AssertFalse` because the test is failing
+- ❌ Change expected values to match buggy output
+- ❌ Comment out failing tests "temporarily"
+- ❌ Add comments like "known limitation" to justify wrong assertions
+- ❌ Use `it.skip()` or `it.todo()` without user permission
+- ❌ Assume your test expectation is wrong without asking
+
+#### Example of the WRONG Approach
+
+```typescript
+// User says: "Arrays SHOULD match but there's a bug in Contains"
+type ArrayUnion = string[] | number[] | [1, 2, 3];
+type Test1 = UnionIncludes<ArrayUnion, [1, 2, 3]>;
+
+// ❌ WRONG: Changing test to make it pass
+type cases = [
+    Expect<AssertFalse<Test1>>  // Changed to False to make test pass!
+];
+```
+
+#### Example of the CORRECT Approach
+
+```typescript
+// User says: "Arrays SHOULD match but there's a bug in Contains"
+type ArrayUnion = string[] | number[] | [1, 2, 3];
+type Test1 = UnionIncludes<ArrayUnion, [1, 2, 3]>;
+
+// ✅ CORRECT: Test asserts what SHOULD happen, even if it currently fails
+type cases = [
+    Expect<AssertTrue<Test1>>  // This SHOULD be true, so assert true
+];
+// This test will FAIL. That's GOOD. It documents the bug that needs fixing.
+```
+
+#### Why This Matters
+
+1. **Tests are documentation** - They tell future developers what the code SHOULD do
+2. **Failing tests are bug reports** - They point out what needs to be fixed
+3. **Passing tests mean nothing if they're wrong** - Green tests that assert buggy behavior are worse than no tests
+4. **You defeat the purpose of testing** - Tests exist to catch bugs, not hide them
+
+#### When to Change Test Assertions
+
+ONLY change test assertions when:
+
+1. **User explicitly approves** - You asked the user "Should this be X or Y?" and they said "Y"
+2. **Requirements changed** - The spec now says something different (with user confirmation)
+3. **Test was factually wrong** - You misunderstood the API, made a typo, etc. (validate with user first)
+
+NEVER change test assertions when:
+
+1. **Implementation is buggy** - Fix the code, not the test
+2. **To make CI pass** - This is hiding problems
+3. **Because the test is failing** - That's the test doing its job!
+4. **Linter/formatter changed it back** - The linter was CORRECTING your mistake
+5. **Without user permission** - ALWAYS ask before changing assertions
+
+#### When to Use `it.todo()` or `describe.todo()`
+
+These modifiers mark tests that are written but cannot pass yet due to missing dependencies.
+
+**✅ Valid use (with user permission):**
+```typescript
+// User approved: "Mark this as TODO until we fix the Contains bug"
+it.todo("should match array types in unions", () => {
+    type ArrayUnion = string[] | number[] | [1, 2, 3];
+    type Test1 = UnionIncludes<ArrayUnion, [1, 2, 3]>;
+
+    type cases = [
+        Expect<AssertTrue<Test1>>  // Correct expectation, blocked by Contains bug
+    ];
+});
+```
+
+**❌ Invalid use (without permission):**
+```typescript
+// NO user permission - just trying to make tests pass
+it.todo("should match array types in unions", () => {
+    // ... hiding a failing test
+});
+```
+
+**Process for using TODO:**
+1. Write the test with correct expectations
+2. Confirm it fails
+3. Ask user: "This test documents correct behavior but fails due to [dependency]. May I mark it as `it.todo()` until [dependency] is fixed?"
+4. Only use TODO if user approves
+5. Document in test comment what needs to be done first
+
+#### Red Flags That You're Making This Mistake
+
+- You find yourself changing `true` to `false` or vice versa in assertions
+- You're adding comments like "known limitation", "currently broken", "will fix later"
+- The linter keeps changing your tests back
+- You're adjusting expected values to match what the code actually does (rather than what it should do)
+- You're thinking "I'll just make this pass for now"
+
+**IF YOU FIND YOURSELF DOING ANY OF THESE: STOP IMMEDIATELY.**
+
+The correct action is:
+1. Keep the test asserting the correct behavior
+2. Let it fail
+3. Either fix the implementation or report that you cannot fix it yet and the test will fail until the bug is fixed
 
 ### Performance
 

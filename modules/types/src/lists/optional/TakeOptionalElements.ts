@@ -1,8 +1,8 @@
-import {
-    HasOptionalElements,
-    SliceArray,
+import type {
     GetOptionalElementCount,
-    Negative
+    HasOptionalElements,
+    Negative,
+    SliceArray
 } from "inferred-types/types";
 
 /**
@@ -12,13 +12,12 @@ import {
  *
  * **Related:** `TakeOptionalElements`
  */
-export type TakeOptionalElements<T extends readonly unknown[]> =
-HasOptionalElements<T> extends true
-? SliceArray<
-    T,
-    Negative<GetOptionalElementCount<T>> extends infer Offset extends number
-        ? Offset
-        : never
-    >
-: T;
-
+export type TakeOptionalElements<T extends readonly unknown[]>
+    = HasOptionalElements<T> extends true
+        ? SliceArray<
+            T,
+            Negative<GetOptionalElementCount<T>> extends infer Offset extends number
+                ? Offset
+                : never
+        >
+        : T;

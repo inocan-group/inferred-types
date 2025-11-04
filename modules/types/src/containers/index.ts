@@ -1,6 +1,7 @@
 export * from "./IsEmptyContainer";
 export * from "./IsNonEmptyContainer";
 export * from "./OnlyOptional";
+export * from "./RemoveBoolean";
 export * from "./RemoveEmpty";
 export * from "./RemoveMarked";
 export * from "./RemoveNever";

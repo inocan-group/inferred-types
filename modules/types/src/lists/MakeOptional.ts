@@ -28,6 +28,8 @@ type Process<
  * **Note:**
  * - the mix of optional vs. required elements in `T` has no bearing on
  * the outcome.
+ *
+ * **Related:** `MakeKeysOptional`
  */
 export type MakeOptional<
     T extends readonly unknown[],
