@@ -1,5 +1,11 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import type { Contains, Expect, NarrowlyContains, Test } from "inferred-types/types";
+import type {
+    Contains,
+    Expect,
+    NarrowlyContains,
+    Test
+} from "inferred-types/types";
+import { AssertFalse, AssertTrue } from "transpiled";
 
 import { describe, it } from "vitest";
 
@@ -103,8 +109,8 @@ describe("Contains<T,A>", () => {
     });
 
     it("Comparator is a union", () => {
-        type Foo = Contains<["foo", "bar"], ["foo", 42]>;
-        type Nada = Contains<["foo", "bar"], [boolean, 42]>;
+        type Foo = Contains<["foo", "bar"], "foo"| 42>;
+        type Nada = Contains<["foo", "bar"], boolean | 42>;
 
         type cases = [
             Expect<Test<Foo, "equals", true>>,
@@ -112,6 +118,83 @@ describe("Contains<T,A>", () => {
         ];
 
     });
+
+    describe("using 'equals' operation", () => {
+
+
+        it("strict equality for wide scalars", () => {
+            type Arr = [ string, 42, number, true ];
+            type T1 = Contains<Arr, string, "equals">;
+            type T2 = Contains<Arr, number, "equals">;
+
+            type F1 = Contains<Arr, boolean, "equals">;
+
+            type cases = [
+                Expect<AssertTrue<T1>>,
+                Expect<AssertTrue<T2>>,
+                Expect<AssertFalse<F1>>,
+            ];
+        });
+
+
+        it("strict equality for literal scalars", () => {
+            type Arr = [ string, 42, true ];
+
+            type T1 = Contains<Arr, 42, "equals">;
+            type F1 = Contains<Arr, number, "equals">;
+
+            type cases = [
+                Expect<AssertTrue<T1>>,
+                Expect<AssertFalse<F1>>,
+            ];
+        });
+
+
+        it("strict equality for object literals", () => {
+            type Arr = [ { foo: 1 }, { bar: "baz" } ]
+            type T1 = Contains<Arr, { foo: 1 }, "equals">;
+            type T2 = Contains<Arr, { bar: "baz" }, "equals">;
+
+            type F1 = Contains<Arr, { foo: number }, "equals">;
+            type F2 = Contains<Arr, { bar: string }, "equals">;
+
+            type cases = [
+                Expect<AssertTrue<T1>>,
+                Expect<AssertTrue<T2>>,
+                Expect<AssertFalse<F1>>,
+                Expect<AssertFalse<F2>>,
+            ];
+        });
+
+
+        it("Strict equality works for arrays of arrays", () => {
+            type Arr = [ string[] | number[] | [1, 2, 3] ];
+            type T1 = Contains<Arr, [1,2,3], "equals">;
+            type T2 = Contains<Arr, string[], "equals">;
+            type T3 = Contains<Arr, number[], "equals">;
+
+            type cases = [
+                Expect<AssertTrue<T1>>,
+                Expect<AssertTrue<T2>>,
+                Expect<AssertTrue<T3>>,
+            ];
+        });
+
+
+        it("Boolean wide type is preserved", () => {
+            type Arr = [ boolean, 1, 2 ];
+            type T1 = Contains<Arr, boolean, "equals">;
+            type F1 = Contains<Arr, true, "equals">;
+
+            type cases = [
+                Expect<AssertTrue<T1>>,
+                Expect<AssertFalse<F1>>,
+            ];
+        });
+
+
+
+    })
 });
 
 describe("NarrowlyContains<T,A>", () => {

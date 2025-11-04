@@ -1,70 +1,86 @@
 import type {
-    AsArray,
     AsString,
     AsUnion,
+    DoesExtend,
     IsEqual,
     IsNull,
     IsSubstring,
     IsUndefined,
     IsWideType,
-    Or,
-    Some,
 } from "inferred-types/types";
 
 export type StringLiteralType = string | number | boolean;
 
-type CompareTuple<
+type Cmp<
     TContent extends readonly unknown[],
     TComparator,
-    TOp extends "auto" | "extends" | "equals"
-> = Or<{
-    [K in keyof TContent]: TOp extends "equals"
-        ? [TComparator] extends [boolean | string | number]
-            ? IsEqual<TContent[K], TComparator>
-            : Some<AsArray<TComparator>, "equals", TContent[K]>
-        : TOp extends "extends"
-            ? [TContent[K]] extends [TComparator]
+    TOp extends "auto" | "extends" | "equals",
+> = TContent extends [
+    infer Head,
+    ...infer Rest
+]
+    ? [TOp] extends[ "equals"]
+        ? [IsEqual<Head, TComparator>] extends [true]
+            ? true
+            : [IsWideType<Head>] extends [true]
+                ? Cmp<Rest, TComparator, TOp> // Skip bidirectional check for wide types
+                : [TComparator] extends [Head]
+                    ? [Head] extends [TComparator]
+                        ? false
+                        : true
+                    : Cmp<Rest, TComparator, TOp>
+        : [TOp] extends ["extends"]
+            ? [DoesExtend<Head, TComparator>] extends [true]
                 ? true
-                : false
-            : Or<[
-                IsNull<TComparator>,
-                IsNull<TContent[K]>,
-                IsUndefined<TComparator>,
-                IsUndefined<TContent[K]>
-            ]> extends true
-                ? IsEqual<TContent[K], TComparator>
-                : [TContent[K]] extends [TComparator]
-                    ? true
-                    : false
-}>;
+                : Cmp<Rest, TComparator, TOp>
+            : [TOp] extends ["auto"]
+                ? [IsNull<TComparator>] extends [true]
+                    ? [IsNull<Head>] extends [true]
+                        ? true
+                        : Cmp<Rest, TComparator, TOp>
+                    : [IsUndefined<TComparator>] extends [true]
+                        ? IsUndefined<Head> extends true
+                            ? true
+                            : Cmp<Rest, TComparator, TOp>
+                        : [DoesExtend<Head, TComparator>] extends [true]
+                            ? true
+                            : Cmp<Rest, TComparator, TOp>
+                : never
+    : false;
 
 /**
  * **Contains**`<TContent, TComparator, [TOp]>`
  *
- * Checks whether `TContent` _extends_ the type of `TComparator`:
+ * Checks whether `TContent` _extends_ (or _equals_) the type of `TComparator`:
  *
  * - when `TContent` is an array/tuple
  *      - each item is compared to `TComparator`
  *      - by default the comparison operator will "extends" except for `null` and `undefined`
  *      which we will use "equals" so that these two similar variants can be kept separate
  *      - if you would like to modify the comparison operator you can set `TOp`, values are:
- *          - `auto` - this is the default
+ *          - `auto` (_the default_) - primarily uses an _extends_ comparison but with
+ *            `null` and `undefined` it will use strict equality.
  *          - `extends` - uses _extends_ including with "null" and "undefined"
  *          - `equals` - uses the _equals_ operator for all comparisons
  * - if `TContent` is a string or numeric type then it will report on whether `TComparator`
  * has been found as a string subset
  *
- * **Related:** `NarrowlyContains`
+ * **Related:**
+ * - `NarrowlyContains`,
+ * - `ContainsSome`, `ContainsAll`
  */
 export type Contains<
     TContent extends string | number | readonly unknown[],
     TComparator,
     TOp extends "auto" | "extends" | "equals" = "auto"
-> = [TContent] extends [string | number]
-    ? Or<[IsWideType<TContent>, IsWideType<TComparator>]> extends true
+> = [string] extends [TContent]
+    ? boolean
+    : [number] extends [TContent]
         ? boolean
-        : IsSubstring<`${TContent}`, AsString<AsUnion<TComparator>>>
-
-    : [TContent] extends [readonly unknown[]]
-        ? CompareTuple<TContent, AsUnion<TComparator>, TOp>
-        : never;
+        : [TContent] extends [string | number]
+            ? [IsWideType<TComparator>] extends [true]
+                ? boolean
+                : IsSubstring<`${TContent}`, AsString<AsUnion<TComparator>>>
+            : [TContent] extends [readonly unknown[]]
+                ? Cmp<TContent, TComparator, TOp>
+                : never;
