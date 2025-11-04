@@ -19,6 +19,7 @@ export * from "./IsDefined";
 export * from "./IsEmpty";
 export * from "./IsEqual";
 export * from "./IsLength";
+export * from "./IsNot";
 export * from "./IsNotEqual";
 export * from "./IsNothing";
 export * from "./IsOptional";

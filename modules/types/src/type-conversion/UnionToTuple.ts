@@ -26,9 +26,9 @@ type LastInUnion<U> = UnionToIntersection<
  */
 type ExcludeExact<T, U> = T extends U
     ? U extends T
-        ? never  // Exact match - exclude it
-        : T      // T extends U but U doesn't extend T - keep it
-    : T;         // T doesn't extend U - keep it
+        ? never // Exact match - exclude it
+        : T // T extends U but U doesn't extend T - keep it
+    : T; // T doesn't extend U - keep it
 
 type PreserveBoolean<T extends readonly unknown[]>
     = Contains<T, true, "equals"> extends true
