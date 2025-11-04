@@ -6,6 +6,9 @@ import type { AfterFirst, First, IsEqual } from "inferred-types/types";
  * Type utility which checks whether all elements in a tuple `TList`
  * **equal** the type contained in `TContains`.s
  *
+ * @deprecated use `Contains` with "equals" operator for this
+ * functionality.
+ *
  * **Related:** `Contains`, `ContainsAll`, `ContainsSome`
  */
 export type NarrowlyContains<
