@@ -366,10 +366,7 @@ describe("UnionExtends<T, U>", () => {
     it("handles readonly modifiers", () => {
         type ReadonlyUnion = readonly [1, 2, 3] | readonly string[] | readonly number[];
 
-        // BUG: Readonly tuple matching doesn't work - readonly [1,2,3] SHOULD match
-        // but fails due to UnionToTuple__PreserveBoolean not preserving readonly modifiers correctly
         type Test1 = UnionExtends<ReadonlyUnion, readonly [1, 2, 3]>;
-
         // Readonly arrays DO match correctly
         type Test2 = UnionExtends<ReadonlyUnion, readonly string[]>;
         type Test3 = UnionExtends<ReadonlyUnion, readonly number[]>;
@@ -387,13 +384,12 @@ describe("UnionExtends<T, U>", () => {
         type Test8 = UnionExtends<RegularUnion, string[]>;
 
         type cases = [
-            // BUG: This test FAILS - documents bug in UnionToTuple__PreserveBoolean
             Expect<AssertTrue<Test1>>,
             Expect<AssertTrue<Test2>>,
             Expect<AssertTrue<Test3>>,
-            Expect<AssertFalse<Test4>>,  // mutable arrays don't extend readonly
-            Expect<AssertFalse<Test5>>,  // mutable arrays don't extend readonly
-            Expect<AssertTrue<Test6>>,   // readonly arrays extend readonly unknown[]
+            Expect<AssertFalse<Test4>>,
+            Expect<AssertFalse<Test5>>,
+            Expect<AssertTrue<Test6>>,
             Expect<AssertTrue<Test7>>,
             Expect<AssertTrue<Test8>>,
         ];

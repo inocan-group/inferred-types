@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import type { Expect, Test, TupleToUnion, UnionArrayToTuple, UnionToTuple, UnionToTuple__PreserveBoolean } from "inferred-types/types";
-import { AssertEqual } from "transpiled";
+import { AssertEqual, AssertSameValues } from "transpiled";
 
 describe("UnionToTuple<U>", () => {
 
@@ -42,7 +42,7 @@ describe("UnionToTuple<U>", () => {
         type T2 = UnionToTuple<U2>;
 
         type cases = [
-            Expect<AssertEqual<
+            Expect<AssertSameValues<
                 T2,
                 [ [1,2,3], [4,5,6] ]
             >>,
@@ -55,10 +55,8 @@ describe("UnionToTuple<U>", () => {
         type T1 = UnionToTuple<U1>;
 
         type cases = [
-            Expect<AssertEqual<
-                T1,
-                [ [1,2,3], string[], number[] ]
-            >>
+            // Use "hasSameValues" since union order is non-deterministic
+            Expect<Test<T1, "hasSameValues", [[1,2,3], string[], number[]]>>
         ];
     });
 
@@ -69,7 +67,7 @@ describe("UnionToTuple<U>", () => {
 
         type cases = [
 
-            Expect<AssertEqual<
+            Expect<AssertSameValues<
                 T1,
                 [ readonly [1,2,3], readonly [4,5,6] ]
             >>
@@ -82,7 +80,7 @@ describe("UnionToTuple<U>", () => {
         type T1 = UnionToTuple<U1>;
 
         type cases = [
-           Expect<AssertEqual<
+           Expect<AssertSameValues<
                 T1,
                 [readonly [1, 2, 3], readonly string[], readonly number[]]
             >>,
@@ -123,16 +121,16 @@ describe("UnionToTuple__PreserveBoolean<T>", () => {
         type T1 = UnionToTuple__PreserveBoolean<U1>;
 
         type U2 = readonly [1, 2, 3] | readonly string[];
-        type T2 = UnionToTuple__PreserveBoolean<U1>;
+        type T2 = UnionToTuple__PreserveBoolean<U2>;
 
         type cases = [
-            Expect<AssertEqual<
+            Expect<AssertSameValues<
                 T1,
                 [readonly [1, 2, 3], readonly string[], readonly number[]]
             >>,
-            Expect<AssertEqual<
+            Expect<AssertSameValues<
                 T2,
-                [ readonly [1,2,3], readonly number[] ]
+                [readonly [1,2,3], readonly string[]]
             >>
         ];
     });

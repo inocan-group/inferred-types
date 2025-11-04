@@ -19,6 +19,17 @@ type LastInUnion<U> = UnionToIntersection<
     ? L
     : never;
 
+/**
+ * ExcludeExact<T, U> - Excludes from T only members that are EXACTLY equal to U
+ * (not just extending U). This prevents tuples like [1,2,3] from being excluded
+ * when excluding number[], since [1,2,3] extends number[] but is not equal to it.
+ */
+type ExcludeExact<T, U> = T extends U
+    ? U extends T
+        ? never  // Exact match - exclude it
+        : T      // T extends U but U doesn't extend T - keep it
+    : T;         // T doesn't extend U - keep it
+
 type PreserveBoolean<T extends readonly unknown[]>
     = Contains<T, true, "equals"> extends true
         ? Contains<T, false, "equals"> extends true
@@ -27,9 +38,7 @@ type PreserveBoolean<T extends readonly unknown[]>
                 boolean
             ]
             : T
-        : T
-
-;
+        : T;
 
 /**
  * **UnionToTuple**`<1 | 2> => [1, 2]`
@@ -43,7 +52,7 @@ export type UnionToTuple<
     Last = LastInUnion<U>
 > = [U] extends [never]
     ? []
-    : [...UnionToTuple<Exclude<U, Last>>, Last];
+    : [...UnionToTuple<ExcludeExact<U, Last>>, Last];
 
 /**
  * **UnionToTuple__PreserveBoolean**`<1 | 2 | boolean> => [1, 2, boolean]`
