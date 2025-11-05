@@ -1,16 +1,17 @@
 import { describe, it, expect } from "vitest";
-import type { AsArray, Expect, Test, UnionToTuple } from "inferred-types/types";
+import type { AsArray, AssertEqual, Expect, Test, UnionToTuple } from "inferred-types/types";
 
 import { asArray } from "inferred-types/runtime";
 
 describe("AsArray<T>", () => {
     it("happy path", () => {
         type T1 = AsArray<4>;
-        type X = UnionToTuple<4>;
         type T2 = AsArray<[4, 5, 6]>;
         type T3 = AsArray<T2>;
         type T4 = AsArray<undefined>;
         type T5 = AsArray<null>;
+        type T6 = AsArray<unknown>;
+        type T7 = AsArray<unknown[]>;
 
         type cases = [
             //
@@ -19,41 +20,37 @@ describe("AsArray<T>", () => {
             Expect<Test<T3, "equals", [4, 5, 6]>>,
             Expect<Test<T4, "equals", []>>,
             Expect<Test<T5, "equals", [null]>>,
+            Expect<Test<T6, "equals", unknown[]>>,
+            Expect<Test<T7, "equals", unknown[]>>,
         ];
     });
 
-    it("unions are converted to tuples", () => {
-        type FooBar = AsArray<"foo" | "bar">;
+
+    it("singular or array variant", () => {
+        type T1 = AsArray<string | string[]>;
+        type T2 = AsArray<number | number[] | string[]>;
 
         type cases = [
-            Expect<Test<FooBar, "hasSameValues", ["foo", "bar"]>>
+            Expect<AssertEqual<T1, string[]>>,
+            Expect<AssertEqual<T2, string[] | number[]>>,
         ];
     });
 
-    it("using with a union tuple type", () => {
-        type X = (readonly unknown[] | [readonly unknown[]]);
-        type T1 = AsArray<X>;
-
-        type cases = [
-            Expect<Test<T1, "equals", readonly unknown[] | [unknown[]]>>
-        ];
-    });
 
 });
 
 describe("asArray() function", () => {
     it("non-array is returned as an array", () => {
-        const i = "a";
-        const o = asArray(i);
+        const o = asArray("a");
         type O = typeof o;
 
         // run-time
         expect(o).toEqual(["a"]);
         // design-time
         type cases = [
-            Expect<Test<O, "equals", ["a"]>>, //
+            Expect<AssertEqual<typeof o, ["a"]>>,
         ];
-        const cases: cases = [true];
+
     });
 
     it("array is returned as an array", () => {
@@ -84,7 +81,7 @@ describe("asArray() function", () => {
         // design-time
         type cases = [
             Expect<Test<O, "equals", []>>, //
-            Expect<Test<O2, "equals", [] | [string]>>,
+            Expect<Test<O2, "equals", (string | undefined)[]>>,
         ];
     });
 

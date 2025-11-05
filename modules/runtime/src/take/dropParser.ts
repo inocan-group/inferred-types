@@ -2,57 +2,106 @@ import type {
     AppendToLast,
     As,
     AsArray,
+    Fallback,
     LongestToStartWith,
     Mutable,
     StartsWith,
     StripLeading
 } from "inferred-types/types";
-import { createFnWithProps } from "inferred-types/runtime";
+import { asArray, createFnWithProps } from "inferred-types/runtime";
 
 
-
+/**
+ * looks through rules to find a match and if
+ * there are more than one  `enter` or `exit` token(s)
+ * provided in the match, use the _longest_ one as the
+ * "extractor"
+ *
+ * - returns `{ extract: string, rule: Rule }` when found
+ * - otherwise `false`
+ */
 type FindLongestMatch<
-    TRules extends readonly DropRule[],
+    TRules extends readonly Rule[],
     TContent extends string
 > = TRules extends [
-    infer Head extends DropRule,
-    ...infer Rest extends readonly DropRule[]
+    infer Head extends Rule,
+    ...infer Rest extends readonly Rule[]
 ]
     ? LongestToStartWith<
         TContent,
-        As<AsArray<Head["enter"]>, readonly string[]>
+        Head["enter"]
     > extends infer Found extends string
-        ? [Found, As<AsArray<Head["exit"]>, readonly string[]> ]
+        // match
+        ? {
+            extract: Found,
+            rule: Head
+        }
+        // no-match so iterate
         : FindLongestMatch<
             Rest,
             TContent
         >
+// done iterating, no match
 : false;
 
 
+type Match = {
+    /** the extracted string representing a **enter** or **exit** token */
+    extract: string;
+    /**
+     * if the new state is "drop" then store the entry `Rule` used
+     */
+    newState: "keep" | Rule;
+    policy: DropRulePolicy
+}
 
+
+/**
+ * Looks for a rule that might match the _beginning_ of the
+ * parse string.
+ *
+ * - when a match is found, returns a tuple of:
+ *    - `{ newState, extract, policy }`
+ *    - the `newState` is either:
+ *       - when moving _into_ a **drop** state the matched `DropRule`
+ *       - when moving _into_ a **keep** state the string "keep"
+ */
 type MatchRule<
     TContent extends string,
-    TRules extends readonly DropRule[],
-    TState extends "keep" | readonly string[]
+    TRules extends readonly Rule[],
+    TState extends "keep" | Rule
 > = TState extends "keep"
 // we're in a "keep" state, we need to iterate over rules
 // to see if we can get a match.
-? FindLongestMatch<TRules, TContent> extends [
-    infer Found extends string,
-    infer ExitRules extends readonly string[]
-]
-    ? [
-        newState: ExitRules,
-        extract: Found
-    ]
+? FindLongestMatch<TRules, TContent> extends {
+    extract: infer Extract extends string,
+    rule: infer RuleDefn extends Rule
+}
+    ? As<{
+        extract: Extract,
+        newState: RuleDefn,
+        policy: RuleDefn["policy"]
+    }, Match>
     : false
 
 
 // We're in a "drop" state where TState represents "exits"
-: StartsWith<TContent, TState[number]> extends true
-    ? [ newState: "keep", extract: LongestToStartWith<TContent, As<TState, readonly string[]>> ]
-    : false
+: TState extends {
+    policy: infer Policy extends DropRulePolicy,
+    enter: infer _Enter extends string[],
+    exit: infer Exit extends string[]
+}
+    ? StartsWith<
+        TContent,
+        Exit[number]
+    > extends true
+        ? As<{
+            extract: LongestToStartWith<TContent, Exit>,
+            newState: "keep",
+            policy: Policy
+        }, Match>
+        : false
+: never
 ;
 
 /**
@@ -70,6 +119,75 @@ type RemoveEmptyDrop<
         : T
 : T;
 
+type IsMovingToKeepState<T extends "keep" | Rule> = T extends "keep"
+? true
+: false;
+
+/**
+ * enforces the policy set for updating the `kept` property
+ */
+type PolicyHandlerForKept<
+    TPolicy extends DropRulePolicy,
+    // the new state
+    TState extends "keep" | Rule,
+    // the extracted token
+    TExtracted extends string,
+    TKept extends string
+> =
+TPolicy extends "inclusive"
+    ? IsMovingToKeepState<TState> extends true
+        ? `${TKept}${TExtracted}` // exit token included
+        : `${TKept}${TExtracted}` // enter token included
+: TPolicy extends "exclusive"
+    ? IsMovingToKeepState<TState> extends true
+        ? TKept // exit token excluded
+        : TKept // enter token excluded
+: TPolicy extends "drop-enter"
+    ? IsMovingToKeepState<TState> extends true
+        ? `${TKept}${TExtracted}` // exit token included
+        : TKept // enter token excluded
+: TPolicy extends "drop-exit"
+    ? IsMovingToKeepState<TState> extends true
+        ? TKept // exit token excluded
+        : `${TKept}${TExtracted}` // enter token included
+: never;
+
+
+/**
+ * enforces the policy set for updating the `dropped` property
+ */
+type PolicyHandlerForDropped<
+    TPolicy extends DropRulePolicy,
+    // the new state
+    TState extends "keep" | Rule,
+    // the extracted token
+    TExtracted extends string,
+    TDropped extends readonly string[]
+> =
+TPolicy extends "inclusive"
+    ? IsMovingToKeepState<TState> extends true
+        ? [...TDropped, ""] // exit token excluded but add empty token
+        : TDropped // enter token excluded
+: TPolicy extends "exclusive"
+    ? IsMovingToKeepState<TState> extends true
+        ? [
+            ...AppendToLast<TDropped, TExtracted>,
+            ""
+        ]  // exit token included, new empty item
+        : [...TDropped, TExtracted] // enter token included as new item
+: TPolicy extends "drop-enter"
+    ? IsMovingToKeepState<TState> extends true
+        ? [...TDropped, ""] // exit token excluded but add empty token
+        : [...TDropped, TExtracted] // enter token included as new item
+: TPolicy extends "drop-exit"
+    ? IsMovingToKeepState<TState> extends true
+        ? [
+            ...AppendToLast<TDropped, TExtracted>,
+            ""
+        ]  // exit token included, new empty item
+        : TDropped // enter token excluded
+: never;
+
 /**
  * **AsDropResult**`<TContent, TRules>`
  *
@@ -86,30 +204,28 @@ type RemoveEmptyDrop<
  */
 export type AsDropResult<
     TContent extends string,
-    TRules extends readonly DropRule[],
-    TState extends "keep" | readonly string[] = "keep",
+    TRules extends readonly Rule[],
+    TState extends "keep" | Rule = "keep",
     TKept extends string = "",
     TDropped extends readonly string[] = []
-> = MatchRule<TContent,TRules,TState> extends [
-    infer NewState extends "keep" | readonly string[],
-    infer Extracted extends string
-]
+> =
+// look for a token match
+MatchRule<TContent,TRules,TState> extends {
+    state: infer NewState extends "keep" | Rule,
+    extract: infer Extracted extends string,
+    policy: infer Policy extends DropRulePolicy
+}
+    // token match found
     ? AsDropResult<
         StripLeading<TContent,Extracted>,
         TRules,
         NewState,
         // "kept" property
-        NewState extends "keep"
-            ? `${TKept}${Extracted}` // moving to "keep",
-            : TKept, // moving out of "keep"
+        PolicyHandlerForKept<Policy, NewState, Extracted, TKept>,
         // "dropped" property
-        NewState extends "keep"
-            ? [
-                ...TDropped,
-                "" // start a new string
-            ]
-            : AppendToLast<TDropped, Extracted>
+        PolicyHandlerForDropped<Policy, NewState, Extracted, TDropped>
     >
+// no match, iterate over content by character until a match is found
 : TContent extends `${infer Head extends string}${infer Rest}`
     ? TState extends "keep"
         ? AsDropResult<
@@ -156,12 +272,12 @@ export type DropRule = {
      * the sub-strings which will push the parser _into_
      * the "drop" state.
      */
-    enter: string |  string[];
+    enter: string | string[];
     /**
      * the sub-strings which will push the parser _into_
      * the "keep" state.
      */
-    exit: string |  string[];
+    exit: string | string[];
 
     /**
      * You may optionally choose to state the _matching policy_:
@@ -169,7 +285,7 @@ export type DropRule = {
      * - `inclusive` - means that the `enter` and `exit` tokens
      *   will be added to the **kept** property.
      * - `exclusive` - means the `enter` and `exit` tokens will
-     *   will be added to the dropped segments
+     *   will be added to the **dropped** segments
      * - `drop-enter` - the `enter` tokens will be dropped
      *   but the `exit` tokens will still be added to the **kept**
      *   property
@@ -183,9 +299,21 @@ export type DropRule = {
     policy?: DropRulePolicy;
 }
 
+/**
+ * A finalized Rule
+ */
+type Rule = {
+    /** enter tokens */
+    enter: string[];
+    /** exit tokens */
+    exit: string[];
+    /** token policy */
+    policy: DropRulePolicy
+};
+
 /** KV component of `DropParser` */
 type DropParserKv<
-    T extends readonly DropRule[]
+    T extends readonly Rule[]
 > = {
     kind: "drop-parser";
     rules: T;
@@ -195,7 +323,7 @@ type DropParserKv<
 
 /** function component of `DropParser` */
 type DropParserFn<
-    T extends readonly DropRule[]
+    T extends readonly Rule[]
 > = <U extends string>(content: U) => AsDropResult<U,T>;
 
 /**
@@ -204,8 +332,44 @@ type DropParserFn<
  * A configured drop parser ready for content to be parsed.
  */
 export type DropParser<
-    T extends readonly DropRule[]
+    T extends readonly Rule[]
 > = DropParserKv<T> & DropParserFn<T>;
+
+
+
+type Finalize<T extends DropRule> =As<
+    {
+        enter: AsArray<T["enter"]>;
+        exit: AsArray<T["exit"]>;
+        policy: T["policy"] extends DropRulePolicy ? T["policy"] : "inclusive"
+    },
+    Rule
+>;
+
+/**
+ * finalizes an array of rules
+ */
+type FinalizeRules<
+    T extends readonly DropRule[]
+> = As<{
+    [K in keyof T]: Mutable<Finalize<T[K]>>
+}, readonly Rule[]>;
+
+
+/**
+ * ensures runtime has a "finalized" version of the rules
+ */
+function finalize<T extends readonly DropRule[]>(
+    rules: T
+): FinalizeRules<[...T]> {
+    return rules.map(r => {
+        return {
+            enter: asArray(r.enter),
+            exit: asArray(r.exit),
+            policy: r.policy || "inclusive"
+        } satisfies Rule
+    }) as FinalizeRules<[...T]>;
+}
 
 
 /**
@@ -236,22 +400,24 @@ export type DropParser<
  *       type safe way of getting the `kept` property too.
  *
  */
-export function dropParser<const T extends readonly DropRule[]>(...rules: T): DropParser<As<Mutable<T>, readonly DropRule[]>> {
+export function dropParser<const T extends readonly DropRule[]>(...rules: T): DropParser<
+    FinalizeRules<[...T]>
+> {
     const kv = {
         kind: "drop-parser",
-        rules: (rules as As<Mutable<T>, readonly DropRule[]>),
+        rules: finalize(rules),
         kept: "",
         dropped: []
-    } satisfies DropParserKv<As<Mutable<T>, readonly DropRule[]>>;
+    } satisfies DropParserKv<FinalizeRules<[...T]>>
 
-    const fn: DropParserFn<T> = <const U extends string>(content: U) => {
+    const fn: DropParserFn<FinalizeRules<[...T]>> = <const U extends string>(content: U) => {
         // TODO: build out runtime implementation
         // make sure to implement the `.toString()` function and
         // have it return just the `kept` property.
-        return null as unknown as AsDropResult<U,T>
+        return null as unknown as AsDropResult<U,FinalizeRules<[...T]>>
     }
 
-    return createFnWithProps(fn, kv) as DropParser<As<Mutable<T>, readonly DropRule[]>>;
+    return createFnWithProps(fn, kv) as unknown as DropParser<FinalizeRules<[...T]>>
 }
 
 
