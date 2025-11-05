@@ -10,6 +10,7 @@ import type {
     SpecialChar,
     Whitespace
 } from "types/string-literals";
+import { EscapeCodeChars } from "types/string-literals/character-sets/EscapeCodes";
 
 /**
  * **Char**
@@ -25,4 +26,4 @@ import type {
  * - Math characters ( +  -  *   /   ^  ✕  ÷  =  ≄  >  < )
  * - Special Chars ( @ ~ # & | \ # )
  */
-export type Char = AlphanumericChar | Punctuation | Whitespace | Bracket | SpecialChar | QuoteCharacter | PlusMinus | NBSP | CurrencyChar | MatchChar;
+export type Char = AlphanumericChar | Punctuation | Whitespace | Bracket | SpecialChar | QuoteCharacter | PlusMinus | NBSP | CurrencyChar | MatchChar | EscapeCodeChars;
