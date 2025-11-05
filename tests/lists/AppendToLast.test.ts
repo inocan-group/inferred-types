@@ -99,22 +99,24 @@ describe("AppendToLast<TList, TAppend>", () => {
         ];
     });
 
-    it("should return never for empty arrays", () => {
+    it("should create initial entry when appending to an empty array", () => {
         type EmptyArray = AppendToLast<[], "text">;
         type EmptyReadonly = AppendToLast<readonly [], "text">;
 
         type cases = [
-            Expect<AssertEqual<EmptyArray, never>>,
-            Expect<AssertEqual<EmptyReadonly, never>>,
+            Expect<AssertEqual<EmptyArray, ["text"]>>,
+            Expect<AssertEqual<EmptyReadonly, ["text"]>>,
         ];
     });
 
     it("should handle concatenation building patterns", () => {
+        type FromNothing = AppendToLast<[], "/example.ts">;
         type PathBuilder = AppendToLast<["src", "components"], "/Button.tsx">;
         type ExtensionAdder = AppendToLast<["myfile"], ".ts">;
         type SuffixPattern = AppendToLast<["user", "data"], "_2024">;
 
         type cases = [
+            Expect<AssertEqual<FromNothing, ["/example.ts"]>>,
             Expect<AssertEqual<PathBuilder, ["src", "components/Button.tsx"]>>,
             Expect<AssertEqual<ExtensionAdder, ["myfile.ts"]>>,
             Expect<AssertEqual<SuffixPattern, ["user", "data_2024"]>>,

@@ -15,13 +15,22 @@ type FindMatch<
 : false;
 
 /**
- * **LongestToStartWith**`<T>`
+ * **LongestToStartWith**`<T, U>`
  *
- * Given some text `T`, this utility iterates over a set of strings
- * which _may_ match the start of `T`. If there are 1 or matches where
- * `U` _starts with_ `T` then the **longest** of these will be returned.
+ * Given some text `T`, this utility iterates over a set of candidate strings `U`
+ * which _may_ match the start of `T`. If there are 1 or more matches where
+ * `T` _starts with_ any element in `U`, then the **longest** of these will be returned.
  *
  * If no matches are found then `false` is returned.
+ *
+ * @example
+ * ```ts
+ * // Returns "Foo" (longest match)
+ * type Result = LongestToStartWith<"FooBar", ["F", "Fo", "Foo"]>;
+ *
+ * // Returns never (no match)
+ * type NoMatch = LongestToStartWith<"FooBar", ["X", "Y", "Z"]>;
+ * ```
  */
 export type LongestToStartWith<
     T extends string,

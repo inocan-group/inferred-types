@@ -12,4 +12,5 @@ export type AppendToLast<
     infer Last extends string
 ]
     ? [...LeadIn, `${Last}${TAppend}`]
-    : never;
+// case where we're starting from an empty array
+: [TAppend];
