@@ -69,7 +69,7 @@ export type SortOptions = {
  * - `offset`: Container property sorting
  */
 export type Sort<
-    TList extends readonly unknown[],
+    TList extends readonly (string | number | boolean | Container)[],
     TOpt extends SortOptions = EmptyObject
 > = IsStringLiteral<TOpt["offset"]> extends true
     ? TList extends readonly Container[]
