@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import {
     AssertEqual,
     Expect,
-    Test,
+    DropParser,
+    AssertExtends
 } from "inferred-types/types";
-import { DropParser, dropParser, narrow } from "inferred-types/runtime";
-import { AssertExtends } from "transpiled";
+import {  dropParser, narrow } from "inferred-types/runtime";
 
 describe("dropParser", () => {
 
