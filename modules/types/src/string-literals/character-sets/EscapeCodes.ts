@@ -1,4 +1,4 @@
-import {ESCAPE_CODE_CHARS} from "inferred-types/constants"
+import type { ESCAPE_CODE_CHARS } from "inferred-types/constants";
 
 /**
  * Common Escape Code characters (ESC, BEL)

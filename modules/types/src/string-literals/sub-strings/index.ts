@@ -4,7 +4,7 @@ export * from "./FilterByNestingLevel";
 export * from "./FirstChar";
 export * from "./InBetween";
 export * from "./LastChar";
-export * from "./LongestToStartWith"
+export * from "./LongestToStartWith";
 
 export * from "./pad/index";
 export * from "./retain/index";

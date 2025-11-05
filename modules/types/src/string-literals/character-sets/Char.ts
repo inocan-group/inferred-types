@@ -10,7 +10,7 @@ import type {
     SpecialChar,
     Whitespace
 } from "types/string-literals";
-import { EscapeCodeChars } from "types/string-literals/character-sets/EscapeCodes";
+import type { EscapeCodeChars } from "types/string-literals/character-sets/EscapeCodes";
 
 /**
  * **Char**

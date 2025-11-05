@@ -416,7 +416,7 @@ function handle_object<
             const actual = indexOf(val, key) as string | number;
             return isDictionary(val)
                 ? startsWith(compare)(actual)
-                : false
+                : false;
         }
     }
 

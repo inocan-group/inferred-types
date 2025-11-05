@@ -1,4 +1,3 @@
-
 /**
  * **AppendToLast**`<TList,TAppend>`
  *
@@ -13,4 +12,4 @@ export type AppendToLast<
 ]
     ? [...LeadIn, `${Last}${TAppend}`]
 // case where we're starting from an empty array
-: [TAppend];
+    : [TAppend];

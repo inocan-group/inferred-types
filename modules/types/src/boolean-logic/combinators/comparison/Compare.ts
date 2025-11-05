@@ -426,23 +426,22 @@ type Process__Object<
                                 : false
                             : Err<`invalid-value`, `The operation '' expects values to be a valid container!`, { val: TVal; params: TParams }>
 
-
-                : TOp extends "objectKeyStartsWith"
-                    ? TVal extends Dictionary
-                        ? First<TParams> extends infer Key extends keyof TVal
-                            ? TVal[Key] extends string | number
-                                ? StartsWith<
-                                    TVal[Key],
-                                    As<Second<TParams>, string|number>
-                                >
-                                : false
-                        : Err<
-                            `invalid-value/wrong-type`,
+                        : TOp extends "objectKeyStartsWith"
+                            ? TVal extends Dictionary
+                                ? First<TParams> extends infer Key extends keyof TVal
+                                    ? TVal[Key] extends string | number
+                                        ? StartsWith<
+                                            TVal[Key],
+                                            As<Second<TParams>, string | number>
+                                        >
+                                        : false
+                                    : Err<
+                                        `invalid-value/wrong-type`,
                             `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
-                        >
-                    : false
+                                    >
+                                : false
 
-                : Unset;
+                            : Unset;
 
 type Process__Numeric<
     TVal,

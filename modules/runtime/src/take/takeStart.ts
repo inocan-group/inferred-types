@@ -174,7 +174,7 @@ function handleCallback<T extends TakeState | Err<"skip"> | Err<"no-token"> | Er
  * and because of this this function is able to handle non-matches by itself. If you want an
  * unconstrained set of start tokens then use the `take()` utility to create this yourself.
  */
-export function takeStart< T extends TakeStartMatches>(...config: T): TakeStartFn<T> {
+export function takeStart<T extends TakeStartMatches>(...config: T): TakeStartFn<T> {
     const { variant, matches, callback, lookup } = getVariant(config);
 
     const fn = <const U extends string | TakeState>(value: U): TakeStart<T, U> => {

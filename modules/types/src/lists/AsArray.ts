@@ -1,17 +1,15 @@
 import type { As, Expand, IsAny, IsNever, IsUndefined, IsUnion, IsUnknown, NotFilter, UnionToTuple, Widen } from "inferred-types/types";
 
-
-type NonArrayMembers<T extends readonly unknown[]> =
-NotFilter<T, "extends", [any[]]> extends infer Members extends readonly unknown[]
-? Members[number]
-: never;
+type NonArrayMembers<T extends readonly unknown[]>
+    = NotFilter<T, "extends", [any[]]> extends infer Members extends readonly unknown[]
+        ? Members[number]
+        : never;
 
 type ArrayMembers<T extends readonly unknown[]> = {
     [K in keyof T]: T[K] extends readonly (infer Kind)[]
         ? As<Kind[], Widen<Kind>[]>
         : never
-}[number]
-
+}[number];
 
 /**
  * **AsArray**`<T>`
@@ -26,22 +24,22 @@ type ArrayMembers<T extends readonly unknown[]> = {
  * - if `T` is a union then non array elements are converted to array types
  */
 export type AsArray<T> = [IsAny<T>] extends [true]
-? unknown[]
-: [IsNever<T>] extends [true]
-    ? []
-: [IsUnknown<T>] extends [true]
     ? unknown[]
-: [T] extends [readonly (infer Kind)[]]
-    ? As<T, Widen<Kind>[]>
-: [IsUndefined<T>] extends [true]
-    ? []
-: [IsUnion<T>] extends [true]
-    ? [UnionToTuple<T>] extends [infer Tuple extends readonly unknown[]]
-        ? Expand<
+    : [IsNever<T>] extends [true]
+        ? []
+        : [IsUnknown<T>] extends [true]
+            ? unknown[]
+            : [T] extends [readonly (infer Kind)[]]
+                ? As<T, Widen<Kind>[]>
+                : [IsUndefined<T>] extends [true]
+                    ? []
+                    : [IsUnion<T>] extends [true]
+                        ? [UnionToTuple<T>] extends [infer Tuple extends readonly unknown[]]
+                            ? Expand<
             Array<NonArrayMembers<Tuple>> | ArrayMembers<Tuple>
-        >
-        : never
+                            >
+                            : never
 
-: IsUndefined<T> extends true
-    ? []
-    : [T];
+                        : IsUndefined<T> extends true
+                            ? []
+                            : [T];

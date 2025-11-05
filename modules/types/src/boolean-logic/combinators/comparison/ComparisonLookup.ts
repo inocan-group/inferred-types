@@ -288,8 +288,8 @@ export type ComparisonLookup = {
     objectKeyStartsWith: {
         params: readonly [prop: ObjectKey, comparator: string | number];
         take: 2;
-        accept: Dictionary<string | symbol, Narrowable>
-    }
+        accept: Dictionary<string | symbol, Narrowable>;
+    };
 
     returnEquals: {
         params: readonly [ validReturnTypes: unknown, ...unknown[] ];

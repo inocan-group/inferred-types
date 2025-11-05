@@ -1,5 +1,4 @@
-import { SortByLength } from "inferred-types/types";
-
+import type { SortByLength } from "inferred-types/types";
 
 /**
  * sortByLength**`(arr)`
@@ -8,9 +7,9 @@ import { SortByLength } from "inferred-types/types";
  * while maintaining literal types if provided..
  */
 export function sortByLength<const T extends readonly string[]>(
-  arr: T
+    arr: T
 ): SortByLength<T> {
-  const sorted = [...arr].sort((a, b) => b.length - a.length);
+    const sorted = [...arr].sort((a, b) => b.length - a.length);
 
-  return sorted as SortByLength<T>;
+    return sorted as SortByLength<T>;
 }

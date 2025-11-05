@@ -1,6 +1,6 @@
-import { StartsWith } from "inferred-types/types";
-import { SortByLength } from "types/lists";
-import { ToStringArray } from "types/type-conversion";
+import type { StartsWith } from "inferred-types/types";
+import type { SortByLength } from "types/lists";
+import type { ToStringArray } from "types/type-conversion";
 
 type FindMatch<
     T extends string,
@@ -9,10 +9,10 @@ type FindMatch<
     infer Head extends string,
     ...infer Rest extends readonly string[]
 ]
-    ? StartsWith<T,Head> extends true
+    ? StartsWith<T, Head> extends true
         ? Head
         : FindMatch<T, Rest>
-: false;
+    : false;
 
 /**
  * **LongestToStartWith**`<T, U>`
@@ -34,7 +34,7 @@ type FindMatch<
  */
 export type LongestToStartWith<
     T extends string,
-    U extends readonly (string|number)[]
+    U extends readonly (string | number)[]
 > = ToStringArray<U> extends infer Arr extends readonly string[]
     ? SortByLength<Arr> extends infer Sorted extends readonly string[]
         ? FindMatch<T, Sorted>

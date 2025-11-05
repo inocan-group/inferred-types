@@ -5,4 +5,3 @@ export * from "./isTakeState";
 export * from "./take";
 export * from "./takeNumericLiteral";
 export * from "./takeStart";
-

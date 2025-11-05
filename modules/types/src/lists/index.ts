@@ -47,4 +47,3 @@ export * from "./TypeOfArray";
 
 export * from "./UnionFromProp";
 export * from "./Variadic";
-

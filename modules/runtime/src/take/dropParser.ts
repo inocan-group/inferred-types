@@ -13,12 +13,11 @@ import type {
 } from "inferred-types/types";
 import { asArray, createFnWithProps, isDictionary } from "inferred-types/runtime";
 
-
-type Finalize<T extends DropRule> =As<
+type Finalize<T extends DropRule> = As<
     {
         enter: AsArray<T["enter"]>;
         exit: AsArray<T["exit"]>;
-        policy: T["policy"] extends DropRulePolicy ? T["policy"] : "inclusive"
+        policy: T["policy"] extends DropRulePolicy ? T["policy"] : "inclusive";
     },
     FinalizedDropRule
 >;
@@ -32,19 +31,18 @@ type FinalizeRules<
     [K in keyof T]: Mutable<Finalize<T[K]>>
 }, readonly FinalizedDropRule[]>;
 
-
 /**
  * ensures runtime has a "finalized" version of the rules
  */
 function finalize<T extends readonly DropRule[]>(
     rules: T
 ): FinalizeRules<[...T]> {
-    return rules.map(r => {
+    return rules.map((r) => {
         return {
             enter: asArray(r.enter),
             exit: asArray(r.exit),
             policy: r.policy || "inclusive"
-        } satisfies FinalizedDropRule
+        } satisfies FinalizedDropRule;
     }) as FinalizeRules<[...T]>;
 }
 
@@ -56,9 +54,8 @@ function finalize<T extends readonly DropRule[]>(
  * `dropParser(...rules)(content)`)
  */
 export function isDropResult(val: unknown): val is DropResult {
-    return isDictionary(val)
+    return isDictionary(val);
 }
-
 
 /**
  * **dropParser**`(...rules) -> (content) -> DropResult`
@@ -96,12 +93,12 @@ export function dropParser<const T extends readonly DropRule[]>(...rules: T): Dr
         rules: finalize(rules),
         kept: "",
         dropped: []
-    } satisfies DropParserKv<FinalizeRules<[...T]>>
+    } satisfies DropParserKv<FinalizeRules<[...T]>>;
 
     const fn: DropParserFn<FinalizeRules<[...T]>> = <const U extends string>(content: U) => {
         const finalRules = kv.rules;
         let kept = "";
-        let dropped: string[] = [];
+        const dropped: string[] = [];
         let state: "keep" | FinalizedDropRule = "keep";
         let pos = 0;
 
@@ -122,7 +119,8 @@ export function dropParser<const T extends readonly DropRule[]>(...rules: T): Dr
                         break;
                     }
                 }
-            } else {
+            }
+            else {
                 // We're in drop state, look for exit tokens
                 const longestMatch = findLongestStartsWith(content.slice(pos), state.exit);
                 if (longestMatch) {
@@ -139,11 +137,13 @@ export function dropParser<const T extends readonly DropRule[]>(...rules: T): Dr
                 const char = content[pos];
                 if (state === "keep") {
                     kept += char;
-                } else {
+                }
+                else {
                     // Append to last dropped segment
                     if (dropped.length === 0) {
                         dropped.push(char);
-                    } else {
+                    }
+                    else {
                         dropped[dropped.length - 1] += char;
                     }
                 }
@@ -182,7 +182,8 @@ export function dropParser<const T extends readonly DropRule[]>(...rules: T): Dr
             if (policy === "inclusive" || policy === "drop-enter" || policy === "drop-exit") {
                 // All three policies add tokens to kept
                 kept += token;
-            } else if (policy === "exclusive") {
+            }
+            else if (policy === "exclusive") {
                 // Exclusive: neither enter nor exit tokens added to kept
             }
 
@@ -192,17 +193,20 @@ export function dropParser<const T extends readonly DropRule[]>(...rules: T): Dr
                 if (isExiting) {
                     dropped.push("");
                 }
-            } else if (policy === "exclusive") {
+            }
+            else if (policy === "exclusive") {
                 // Exclusive: both enter and exit tokens added to dropped
                 if (isExiting) {
                     // Append exit token to last segment, then start new segment
                     if (dropped.length === 0) {
                         dropped.push(token);
-                    } else {
+                    }
+                    else {
                         dropped[dropped.length - 1] += token;
                     }
                     dropped.push("");
-                } else {
+                }
+                else {
                     // Add enter token as new segment
                     dropped.push(token);
                 }
@@ -211,15 +215,13 @@ export function dropParser<const T extends readonly DropRule[]>(...rules: T): Dr
 
         return {
             kind: "drop-result",
-            kept: kept,
-            dropped: dropped,
+            kept,
+            dropped,
             toString() {
                 return kept;
             }
-        } as AsDropResult<U,FinalizeRules<[...T]>>
-    }
+        } as AsDropResult<U, FinalizeRules<[...T]>>;
+    };
 
-    return createFnWithProps(fn, kv) as unknown as DropParser<FinalizeRules<[...T]>>
+    return createFnWithProps(fn, kv) as unknown as DropParser<FinalizeRules<[...T]>>;
 }
-
-
