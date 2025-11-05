@@ -409,6 +409,15 @@ function handle_object<
         case "objectKeyExtends": {
             return err(`not-done`, `the 'objectKeyExtends' operation is not yet implemented in the runtime`);
         }
+
+        case "objectKeyStartsWith": {
+            const key = indexOf(params, 0) as ObjectKey & TParams[0];
+            const compare = indexOf(params, 1) as (string | number) & TParams[1];
+            const actual = indexOf(val, key) as string | number;
+            return isDictionary(val)
+                ? startsWith(compare)(actual)
+                : false
+        }
     }
 
     return unset;

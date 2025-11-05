@@ -20,6 +20,7 @@ export const COMPARISON_OPERATIONS = [
     "objectKeyLessThanOrEqual",
     "objectKeyEquals",
     "objectKeyExtends",
+    "objectKeyStartsWith",
     "betweenInclusively",
     "betweenExclusively",
     "equals",

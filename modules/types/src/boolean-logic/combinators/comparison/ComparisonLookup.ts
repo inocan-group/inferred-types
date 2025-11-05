@@ -4,6 +4,7 @@ import type {
     Dictionary,
     Narrowable,
     NumberLike,
+    ObjectKey,
 } from "inferred-types/types";
 
 /** the _mode_ you're using the `ComparisonLookup` table in */
@@ -283,6 +284,12 @@ export type ComparisonLookup = {
         take: 1;
         accept: Dictionary<string | symbol, Narrowable>;
     };
+
+    objectKeyStartsWith: {
+        params: readonly [prop: ObjectKey, comparator: string | number];
+        take: 2;
+        accept: Dictionary<string | symbol, Narrowable>
+    }
 
     returnEquals: {
         params: readonly [ validReturnTypes: unknown, ...unknown[] ];
