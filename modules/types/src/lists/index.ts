@@ -1,4 +1,5 @@
 export * from "./AfterFirst";
+export * from "./AppendToLast";
 export * from "./ArrayElementType";
 export * from "./AsArray";
 export * from "./AsNumericArray";
@@ -37,7 +38,6 @@ export * from "./Shift";
 export * from "./Shortest";
 export * from "./Slice";
 export * from "./sort/index";
-export * from "./sort/index";
 export * from "./SortByKey";
 export * from "./TakeFirst";
 export * from "./TakeLast";
@@ -47,3 +47,4 @@ export * from "./TypeOfArray";
 
 export * from "./UnionFromProp";
 export * from "./Variadic";
+
