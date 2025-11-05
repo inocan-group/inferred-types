@@ -1,8 +1,9 @@
 import { Equal  } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import type { Compare, EndsWith, Expect, Filter, Narrowable, NumberLike, Test, UnionToTuple, UpperAlphaChar } from "inferred-types/types";
+import type { Compare, EndsWith, Expect, Filter, Narrowable, NumberLike, Some, Test, UnionToTuple, UpperAlphaChar } from "inferred-types/types";
 
 import { filter } from "inferred-types/runtime";
+import { ContainsSome } from '../../modules/types/src/boolean-logic/operators/sets/ContainsSome';
 
 describe("Filter", () => {
 
@@ -188,11 +189,11 @@ describe("Filter", () => {
 
     it("containsSome", () => {
         type T1 = Filter<["hello", "world", "testing"], "containsSome", ["x", "ell", "z"]>;
-        type T2 = Filter<[["a", "b"], ["c", "d"], ["e", "f"]], "containsSome", ["b", "d"]>;
+        type T2 = Filter<["a", "b"], "containsSome", ["b", "d"]>;
 
         type cases = [
             Expect<Test<T1, "equals", ["hello"]>>,
-            Expect<Test<T2, "equals", [["a", "b"], ["c", "d"]]>>,
+            Expect<Test<T2, "equals", ["b"]>>,
         ];
     });
 

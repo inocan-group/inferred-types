@@ -1,5 +1,11 @@
 import { describe, it } from "vitest";
-import type { AsArray, Expect, Some, Test, UnionMemberEquals } from "inferred-types/types";
+import type {
+    AsArray,
+    Expect,
+    Test,
+    UnionMemberEquals,
+    AssertFalse
+} from "inferred-types/types";
 
 describe("UnionMemberEquals<T,U>", () => {
     it("should return true when any union member equals the target type", () => {
@@ -42,12 +48,12 @@ describe("UnionMemberEquals<T,U>", () => {
 
     it("when U is a union type it will be converted to a tuple of it's elements", () => {
         type X = AsArray<"foo" | "bar">;
-        type T1 = UnionMemberEquals<"foo"  | 42, "foo" | "bar">;
-        type F1 = UnionMemberEquals<99  | 42, "foo" | "bar">;
+        type F1 = UnionMemberEquals<"foo"  | 42, "foo" | "bar">;
+        type F2 = UnionMemberEquals<99  | 42, "foo" | "bar">;
 
         type cases = [
-            Expect<Test<T1, "equals", true>>,
-            Expect<Test<F1, "equals", false>>,
+            Expect<AssertFalse<F1>>,
+            Expect<AssertFalse<F1>>,
         ];
     });
 

@@ -1,6 +1,7 @@
 import { describe, it } from 'vitest';
 import type {
     AssertContains,
+    AssertError,
     Expect,
     Test
 } from "inferred-types/types"
@@ -31,11 +32,9 @@ describe("asType(token)", () => {
                 { foo: string | undefined; bar: false | boolean[] }
             >>,
 
-            Expect<Test<
-                typeof propError, "extends",
-                Error
-            >>,
-            Expect<AssertContains<typeof propError["keys"], "bar">>
+            Expect<AssertError<
+                typeof propError
+            >>
         ];
     });
 

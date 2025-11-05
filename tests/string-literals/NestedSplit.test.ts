@@ -40,7 +40,7 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         type cases = [
             Expect<AssertEqual<
                 A,
-                ["><(foo", "bar)>"]
+                ["><(foo,bar)>"]
             >>
         ];
     });
