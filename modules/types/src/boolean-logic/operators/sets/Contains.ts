@@ -6,6 +6,7 @@ import type {
     IsNull,
     IsSubstring,
     IsUndefined,
+    IsUnion,
     IsWideType,
 } from "inferred-types/types";
 
@@ -24,11 +25,19 @@ type Cmp<
             ? true
             : [IsWideType<Head>] extends [true]
                 ? Cmp<Rest, TComparator, TOp> // Skip bidirectional check for wide types
-                : [TComparator] extends [Head]
-                    ? [Head] extends [TComparator]
-                        ? false
-                        : true
-                    : Cmp<Rest, TComparator, TOp>
+                : [IsUnion<Head>] extends [true]
+                    // When Head is a union, TComparator extending Head means it's a member
+                    ? [TComparator] extends [Head]
+                        ? [Head] extends [TComparator]
+                            ? Cmp<Rest, TComparator, TOp>  // Bidirectional - Head collapses to TComparator (not a union member match)
+                            : true  // Unidirectional - TComparator is a member of the union
+                        : Cmp<Rest, TComparator, TOp>
+                    // When Head is not a union, use bidirectional extends for equality
+                    : [TComparator] extends [Head]
+                        ? [Head] extends [TComparator]
+                            ? true  // Both directions extend - types are equal, found it!
+                            : Cmp<Rest, TComparator, TOp>  // Only one direction - not equal, continue
+                        : Cmp<Rest, TComparator, TOp>
         : [TOp] extends ["extends"]
             ? [DoesExtend<Head, TComparator>] extends [true]
                 ? true

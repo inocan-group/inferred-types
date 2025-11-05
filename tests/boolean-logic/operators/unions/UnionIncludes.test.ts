@@ -199,7 +199,7 @@ describe("UnionIncludes<T, U>", () => {
     });
 
     it("handles empty object vs object with properties", () => {
-        type ObjectUnion = {} | { a: number } | { b: string };
+        type ObjectUnion = EmptyObject | { a: number } | { b: string };
 
         type Test1 = UnionIncludes<ObjectUnion, EmptyObject>;
         type Test2 = UnionIncludes<ObjectUnion, { a: number }>;
@@ -251,31 +251,26 @@ describe("UnionIncludes<T, U>", () => {
     });
 
     it("handles null and undefined in unions", () => {
-        type WithNull = "foo" | "bar" | null;
-        type WithUndefined = "foo" | "bar" | undefined;
-        type WithBoth = "foo" | null | undefined;
-        type JustNullAndUndefined = null | undefined;
-
-        type Test1 = UnionIncludes<WithNull, "foo">;
-        type Test2 = UnionIncludes<WithNull, null>;
-        type Test3 = UnionIncludes<WithUndefined, "foo">;
-        type Test4 = UnionIncludes<WithUndefined, undefined>;
-        type Test5 = UnionIncludes<WithBoth, "foo">;
-        type Test6 = UnionIncludes<WithBoth, null>;
-        type Test7 = UnionIncludes<WithBoth, undefined>;
-        type Test8 = UnionIncludes<JustNullAndUndefined, null>;
-        type Test9 = UnionIncludes<JustNullAndUndefined, undefined>;
+        type Test1 = UnionIncludes<"foo" | "bar" | null, "foo">;
+        type Test2 = UnionIncludes<"foo" | "bar" | null, null>;
+        type Test3 = UnionIncludes<"foo" | "bar" | undefined, "foo">;
+        type Test4 = UnionIncludes<"foo" | "bar" | undefined, undefined>;
+        type Test5 = UnionIncludes<"foo" | null | undefined, "foo">;
+        type Test6 = UnionIncludes<"foo" | null | undefined, null>;
+        type Test7 = UnionIncludes<"foo" | null | undefined, undefined>;
+        type Test8 = UnionIncludes<null | undefined, null>;
+        type Test9 = UnionIncludes<null | undefined, undefined>;
 
         type cases = [
             Expect<AssertTrue<Test1>>,
-            Expect<AssertTrue<Test2>>,    // null is preserved and matched
+            Expect<AssertTrue<Test2>>,
             Expect<AssertTrue<Test3>>,
-            Expect<AssertFalse<Test4>>,   // undefined in tuple but not matched by Contains "equals"
+            Expect<AssertTrue<Test4>>,
             Expect<AssertTrue<Test5>>,
             Expect<AssertTrue<Test6>>,
-            Expect<AssertFalse<Test7>>,   // undefined in tuple but not matched by Contains "equals"
+            Expect<AssertTrue<Test7>>,
             Expect<AssertTrue<Test8>>,
-            Expect<AssertFalse<Test9>>,   // undefined in tuple but not matched by Contains "equals"
+            Expect<AssertTrue<Test9>>,
         ];
     });
 });
