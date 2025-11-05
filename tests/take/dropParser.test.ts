@@ -44,12 +44,12 @@ describe("dropParser", () => {
             const _temp = result.kept; // =>
             const expected = narrow({
                 kind: "drop-result",
-                kept: "Bar",
-                dropped: ["Foo"],
-                toString(): "Bar" {
-                    return "Bar"
+                kept: "FBar",
+                dropped: ["oo"],
+                toString(): "FBar" {
+                    return "FBar"
                 }
-            });
+            })
 
             expect(result).toBe(expected);
             expect(String(result)).toBe("Bar");
@@ -60,12 +60,12 @@ describe("dropParser", () => {
                 // to test using the configured rule
                 Expect<AssertExtends<
                     typeof partial,
-                    DropParser<[{ enter: "F"; exit: "B"; policy: "drop-enter" }]>
+                    DropParser<[{ enter: ["F"]; exit: ["B"]; policy: "drop-enter" }]>
                 >>,
                 Expect<AssertEqual<typeof result["kind"], "drop-result">>,
-                Expect<AssertEqual<typeof result["kept"], "Bar">>,
-                Expect<AssertEqual<typeof result["dropped"], ["Foo"]>>,
-                Expect<AssertEqual<ReturnType<typeof result["toString"]>, "Bar">>,
+                Expect<AssertEqual<typeof result["kept"], "FBar">>,
+                Expect<AssertEqual<typeof result["dropped"], ["oo"]>>,
+                Expect<AssertEqual<ReturnType<typeof result["toString"]>, "FBar">>,
             ];
 
         });
@@ -82,14 +82,14 @@ describe("dropParser", () => {
             const result = partial("FooBar");
             const _temp = result.kept; // =>
 
-            const expected = {
+            const expected = narrow({
                 kind: "drop-result",
-                kept: "Bar",
-                dropped: ["Foo"],
-                toString(): "Bar" {
-                    return "Bar"
+                kept: "FBar",
+                dropped: ["oo"],
+                toString(): "FBar" {
+                    return "FBar"
                 }
-            }
+            })
 
             expect(result).toBe(expected);
             expect(String(result)).toBe("Bar");
@@ -100,12 +100,12 @@ describe("dropParser", () => {
                 // to test using the configured rule
                 Expect<AssertExtends<
                     typeof partial,
-                    DropParser<[{ enter: "F"; exit: "B"; policy: "inclusive" }]>
+                    DropParser<[{ enter: ["F"]; exit: ["B"]; policy: "inclusive" }]>
                 >>,
                 Expect<AssertEqual<typeof result["kind"], "drop-result">>,
-                Expect<AssertEqual<typeof result["kept"], "Bar">>,
-                Expect<AssertEqual<typeof result["dropped"], ["Foo"]>>,
-                Expect<AssertEqual<ReturnType<typeof result["toString"]>, "Bar">>,
+                Expect<AssertEqual<typeof result["kept"], "FBar">>,
+                Expect<AssertEqual<typeof result["dropped"], ["oo"]>>,
+                Expect<AssertEqual<ReturnType<typeof result["toString"]>, "FBar">>,
             ];
         });
 
@@ -140,7 +140,7 @@ describe("dropParser", () => {
                 // to test using the configured rule
                 Expect<AssertExtends<
                     typeof partial,
-                    DropParser<[{ enter: "F"; exit: "B"; policy: "inclusive" }]>
+                    DropParser<[{ enter: ["F"]; exit: ["B"]; policy: "inclusive" }]>
                 >>,
                 Expect<AssertEqual<typeof result["kind"], "drop-result">>,
                 Expect<AssertEqual<typeof result["kept"], "Bar">>,

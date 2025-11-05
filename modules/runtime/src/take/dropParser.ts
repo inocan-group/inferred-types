@@ -93,16 +93,15 @@ type MatchRule<
 }
     ? StartsWith<
         TContent,
-        Exit[number]
+        Exit
     > extends true
         ? As<{
-            extract: LongestToStartWith<TContent, Exit>,
+            extract: As<LongestToStartWith<TContent, Exit>, string>,
             newState: "keep",
             policy: Policy
         }, Match>
         : false
-: never
-;
+: never;
 
 /**
  * prevents a trailing empty space in the
@@ -226,6 +225,8 @@ MatchRule<TContent,TRules,TState> extends {
         PolicyHandlerForDropped<Policy, NewState, Extracted, TDropped>
     >
 // no match, iterate over content by character until a match is found
+// no need to check "policies" as the policy only determines how to
+// associate **enter** or **exit** tokens
 : TContent extends `${infer Head extends string}${infer Rest}`
     ? TState extends "keep"
         ? AsDropResult<
