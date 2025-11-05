@@ -2,13 +2,12 @@ import type {
     AppendToLast,
     As,
     AsArray,
-    Fallback,
     LongestToStartWith,
     Mutable,
     StartsWith,
     StripLeading
 } from "inferred-types/types";
-import { asArray, createFnWithProps } from "inferred-types/runtime";
+import { asArray, createFnWithProps, isDictionary } from "inferred-types/runtime";
 
 
 /**
@@ -187,6 +186,13 @@ TPolicy extends "inclusive"
         : TDropped // enter token excluded
 : never;
 
+export type DropResult = {
+    kind: "drop-result";
+    kept: string;
+    dropped: string[];
+    toString(): string;
+}
+
 /**
  * **AsDropResult**`<TContent, TRules>`
  *
@@ -210,7 +216,7 @@ export type AsDropResult<
 > =
 // look for a token match
 MatchRule<TContent,TRules,TState> extends {
-    state: infer NewState extends "keep" | Rule,
+    newState: infer NewState extends "keep" | Rule,
     extract: infer Extracted extends string,
     policy: infer Policy extends DropRulePolicy
 }
@@ -243,12 +249,12 @@ MatchRule<TContent,TRules,TState> extends {
             TKept,
             AppendToLast<TDropped, Head>
         >
-: {
+: As<{
     kind: "drop-result";
     kept: TKept;
     dropped: RemoveEmptyDrop<TDropped>;
     toString(): TKept;
-};
+}, DropResult>;
 
 /**
  * **DropRulePolicy**
@@ -372,6 +378,17 @@ function finalize<T extends readonly DropRule[]>(
     }) as FinalizeRules<[...T]>;
 }
 
+/**
+ * **isDropResult**`(val)`
+ *
+ * Type guard which validates whether `val` is a `DropResult` type
+ * (aka, the successful result of a completed call to
+ * `dropParser(...rules)(content)`)
+ */
+export function isDropResult(val: unknown): val is DropResult {
+    return isDictionary(val)
+}
+
 
 /**
  * **dropParser**`(...rules) -> (content) -> DropResult`
@@ -412,10 +429,124 @@ export function dropParser<const T extends readonly DropRule[]>(...rules: T): Dr
     } satisfies DropParserKv<FinalizeRules<[...T]>>
 
     const fn: DropParserFn<FinalizeRules<[...T]>> = <const U extends string>(content: U) => {
-        // TODO: build out runtime implementation
-        // make sure to implement the `.toString()` function and
-        // have it return just the `kept` property.
-        return null as unknown as AsDropResult<U,FinalizeRules<[...T]>>
+        const finalRules = kv.rules;
+        let kept = "";
+        let dropped: string[] = [];
+        let state: "keep" | Rule = "keep";
+        let pos = 0;
+
+        while (pos < content.length) {
+            let matched = false;
+
+            // Try to match a token at current position
+            if (state === "keep") {
+                // Look for enter tokens in all rules
+                for (const rule of finalRules) {
+                    const longestMatch = findLongestStartsWith(content.slice(pos), rule.enter);
+                    if (longestMatch) {
+                        // Apply policy for enter token
+                        applyPolicy(rule.policy, rule, longestMatch, "entering");
+                        state = rule;
+                        pos += longestMatch.length;
+                        matched = true;
+                        break;
+                    }
+                }
+            } else {
+                // We're in drop state, look for exit tokens
+                const longestMatch = findLongestStartsWith(content.slice(pos), state.exit);
+                if (longestMatch) {
+                    // Apply policy for exit token
+                    applyPolicy(state.policy, state, longestMatch, "exiting");
+                    state = "keep";
+                    pos += longestMatch.length;
+                    matched = true;
+                }
+            }
+
+            // If no match, take one character
+            if (!matched) {
+                const char = content[pos];
+                if (state === "keep") {
+                    kept += char;
+                } else {
+                    // Append to last dropped segment
+                    if (dropped.length === 0) {
+                        dropped.push(char);
+                    } else {
+                        dropped[dropped.length - 1] += char;
+                    }
+                }
+                pos++;
+            }
+        }
+
+        // Remove trailing empty strings from dropped
+        while (dropped.length > 0 && dropped[dropped.length - 1] === "") {
+            dropped.pop();
+        }
+
+        // Helper: find longest match from array of possible strings
+        function findLongestStartsWith(str: string, possibilities: string[]): string | null {
+            let longest: string | null = null;
+            for (const poss of possibilities) {
+                if (str.startsWith(poss)) {
+                    if (!longest || poss.length > longest.length) {
+                        longest = poss;
+                    }
+                }
+            }
+            return longest;
+        }
+
+        // Helper: apply policy when matching a token
+        function applyPolicy(
+            policy: DropRulePolicy,
+            rule: Rule,
+            token: string,
+            direction: "entering" | "exiting"
+        ) {
+            const isExiting = direction === "exiting";
+
+            // Handle kept property based on policy
+            if (policy === "inclusive" || policy === "drop-enter" || policy === "drop-exit") {
+                // All three policies add tokens to kept
+                kept += token;
+            } else if (policy === "exclusive") {
+                // Exclusive: neither enter nor exit tokens added to kept
+            }
+
+            // Handle dropped property based on policy
+            if (policy === "inclusive" || policy === "drop-enter" || policy === "drop-exit") {
+                // For these policies: tokens not added to dropped, just start new segment when exiting
+                if (isExiting) {
+                    dropped.push("");
+                }
+            } else if (policy === "exclusive") {
+                // Exclusive: both enter and exit tokens added to dropped
+                if (isExiting) {
+                    // Append exit token to last segment, then start new segment
+                    if (dropped.length === 0) {
+                        dropped.push(token);
+                    } else {
+                        dropped[dropped.length - 1] += token;
+                    }
+                    dropped.push("");
+                } else {
+                    // Add enter token as new segment
+                    dropped.push(token);
+                }
+            }
+        }
+
+        return {
+            kind: "drop-result",
+            kept: kept,
+            dropped: dropped,
+            toString() {
+                return kept;
+            }
+        } as AsDropResult<U,FinalizeRules<[...T]>>
     }
 
     return createFnWithProps(fn, kv) as unknown as DropParser<FinalizeRules<[...T]>>
