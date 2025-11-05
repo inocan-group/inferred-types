@@ -12,7 +12,7 @@ import type { AsArray, Narrowable } from "inferred-types/types";
  * change the optional _widen_ parameter to _false_.
  */
 export function asArray<
-    T extends Narrowable
+    const T extends Narrowable
 >(thing: T) {
     return (
         Array.isArray(thing) === true
