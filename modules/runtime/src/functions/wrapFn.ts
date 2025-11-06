@@ -1,28 +1,71 @@
-// import { FnFrom } from "inferred-types/types";
-// import { identity } from "../literals";
+import { handleDoneFn } from "inferred-types/runtime";
+import { ShapeCallback, TypedFunction } from "inferred-types/types";
+import { HandleDoneFn } from '../../../types/src/functions/HandleDoneFn';
 
-// export const wrapFn = <
-//   TInteriorFn extends TypedFunction,
-// >(fn: TInteriorFn) => {
-//   return <
-//     TWrap extends <I extends ReturnType<TInteriorFn>>(input: I) => unknown
-//   >(wrap: TWrap) => <F extends Parameters<TInteriorFn>>(...input: F) => {
-//     const interior = fn(input) as ReturnType<TInteriorFn>;
-//     return wrap(interior) as ReturnType<TWrap>
-//   }
-// };
+type Api<
+    F extends TypedFunction,
+> = {
+    kind: "wrapped-fn",
+    fn: F,
+    args: Parameters<F>,
+    done(): ReturnType<F>;
+}
 
-// export const wrapFn = <
-//   TWrap extends FnFrom<[any]>,
-// >(wrap: TWrap) => {
-//   return <TInterior extends (...args: any[]) => Parameters<TWrap>[0]>(fn: TInterior) => {
-//     return <TFn extends Parameters<TInterior>>(...args: TFn) => {
-//       const interior = identity(fn(...args) as ReturnType<TInterior>) as ()=>ReturnType<TInterior>;
-//       const wrapped = wrap(interior()) as ReturnType<TWrap>;
 
-//       return wrapped;
-//     }
-//   }
-// };
+type WrapperCallback<
+    F extends TypedFunction
+> = <TCb extends <T extends Api<F>>(api: T) => unknown>(cb: TCb) => HandleDoneFn<ReturnType<TCb>>;
 
-export const wrapFn = "NOT IMPLEMENTED" as const;
+
+
+/**
+ * **wrapFn**`(fn) -> (cb) -> (...args) -> result`
+ *
+ * A higher order utility which wraps a function so
+ * that inputs and outputs can be modified before
+ * returning a result.
+ *
+ * Critically all type information needs to be preserved
+ * throughout the process. Call sequence:
+ *
+ * 1. **`fn`** - provide the function to be wrapped
+ * 2. **`callback`**
+ *     - the callback function will get a `CallBackApi` dictionary
+ *       passed to it and can then return whatever it likes.
+ *     - if the return type is the `CallBackApi` dictionary then
+ *       it will return the internal, wrapped functions result
+ *     - the API surface is:
+ *          - `kind`: an identifier; always literal string `wrapped-fn`
+ *          - `fn`: the underlying/wrapped function
+ *          - `args`: the arguments passed in by caller
+ * 3. **`parameters`**
+ *     - now we should be presenting a function with the SAME argument
+ *       as the wrapped function
+ *     - upon receiving these parameters we will call the callback
+ */
+export function wrapFn<
+    const F extends TypedFunction,
+>(
+    fn: F,
+) {
+    return <CB extends WrapperCallback<F>>(cb: CB) => {
+        return <I extends Parameters<F>>(...args: I) => {
+            const payload = {
+                kind: "wrapper-fn",
+                fn: () => fn,
+                args: () => args,
+                done() {
+                    return fn(...args)
+                }
+            }
+            const outcome =  cb(payload);
+
+            return handleDoneFn(outcome, true);
+        }
+    }
+}
+
+
+// DUMMY IMPLEMENTATION ILLUSTRATING STRUCTURE
+const c: ShapeCallback = null as unknown as ShapeCallback;
+const o = c(a => a.array("Array<boolean>"));

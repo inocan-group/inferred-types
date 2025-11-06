@@ -1,3 +1,4 @@
+import { handleDoneFn } from "inferred-types/runtime";
 import type {
     As,
     AsArray,
@@ -381,6 +382,10 @@ export type ShapeApi = { kind: "shape" }
  * This is a function signature for a property which you want to use
  * the `SharpApi` with to define types.
  */
-export type ShapeCallback = ((api: ShapeApi) => unknown);
+export type ShapeCallback = <TCb extends <T extends ShapeApi>(api: T) => unknown>(cb: TCb) => ReturnType<TCb>;
 
 export type ScalarCallback = (api: ShapeApi__Scalars & ShapeApi__Union) => unknown;
+
+
+
+

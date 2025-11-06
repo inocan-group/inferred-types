@@ -1,3 +1,3 @@
 export * from "./fnProps";
 export * from "./identity";
-// export * from "./wrapFn";
+ export * from "./wrapFn";
