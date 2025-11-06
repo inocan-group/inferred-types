@@ -155,6 +155,7 @@ describe("dropParser", () => {
             const partial = dropParser(
                 { enter: "F", exit: "B", policy: "exclusive" }
             );
+            type P = ReturnType<typeof partial>;
             const result = partial("FooBar");
 
             const expected = narrow({

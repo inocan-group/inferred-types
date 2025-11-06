@@ -255,47 +255,50 @@ export type AsDropResult<
     TKept extends string = "",
     TDropped extends readonly string[] = []
 >
-// look for a token match
-    = MatchRule<TContent, TRules, TState> extends {
-        newState: infer NewState extends "keep" | FinalizedDropRule;
-        extract: infer Extracted extends string;
-        policy: infer Policy extends DropRulePolicy;
-    }
-    // token match found
-        ? AsDropResult<
-            StripLeading<TContent, Extracted>,
-            TRules,
-            NewState,
-            // "kept" property
-            PolicyHandlerForKept<Policy, NewState, Extracted, TKept>,
-            // "dropped" property
-            PolicyHandlerForDropped<Policy, NewState, Extracted, TDropped>
-        >
-    // no match, iterate over content by character until a match is found
-    // no need to check "policies" as the policy only determines how to
-    // associate **enter** or **exit** tokens
-        : TContent extends `${infer Head extends string}${infer Rest}`
-            ? TState extends "keep"
-                ? AsDropResult<
-                    Rest,
-                    TRules,
-                    TState,
+    = string extends TContent
+        ? DropResult
+
+    // look for a token match
+        : MatchRule<TContent, TRules, TState> extends {
+            newState: infer NewState extends "keep" | FinalizedDropRule;
+            extract: infer Extracted extends string;
+            policy: infer Policy extends DropRulePolicy;
+        }
+        // token match found
+            ? AsDropResult<
+                StripLeading<TContent, Extracted>,
+                TRules,
+                NewState,
+                // "kept" property
+                PolicyHandlerForKept<Policy, NewState, Extracted, TKept>,
+                // "dropped" property
+                PolicyHandlerForDropped<Policy, NewState, Extracted, TDropped>
+            >
+        // no match, iterate over content by character until a match is found
+        // no need to check "policies" as the policy only determines how to
+        // associate **enter** or **exit** tokens
+            : TContent extends `${infer Head extends string}${infer Rest}`
+                ? TState extends "keep"
+                    ? AsDropResult<
+                        Rest,
+                        TRules,
+                        TState,
             `${TKept}${Head}`,
             TDropped
-                >
-                : AsDropResult<
-                    Rest,
-                    TRules,
-                    TState,
-                    TKept,
-                    AppendToLast<TDropped, Head>
-                >
-            : As<{
-                kind: "drop-result";
-                kept: TKept;
-                dropped: RemoveEmptyDrop<TDropped>;
-                toString(): TKept;
-            }, DropResult>;
+                    >
+                    : AsDropResult<
+                        Rest,
+                        TRules,
+                        TState,
+                        TKept,
+                        AppendToLast<TDropped, Head>
+                    >
+                : As<{
+                    kind: "drop-result";
+                    kept: TKept;
+                    dropped: RemoveEmptyDrop<TDropped>;
+                    toString(): TKept;
+                }, DropResult>;
 
 /**
  * A finalized `DropRule`
