@@ -1,7 +1,4 @@
-import type { SAFE_STRING } from "inferred-types/constants";
-import type { SafeDecode, SafeEncodingGroup } from "inferred-types/types";
-
-export type SafeStringSymbol = typeof SAFE_STRING;
+import type { Brand, SafeDecode, SafeEncodingGroup } from "inferred-types/types";
 
 /**
  * **SafeString**
@@ -15,9 +12,8 @@ export type SafeStringSymbol = typeof SAFE_STRING;
 export type SafeString<
     T extends string = string,
     G extends readonly SafeEncodingGroup[] = SafeEncodingGroup[],
-> = T & {
-    SafeStringSymbol: "SafeString";
+> = Brand<T, "SafeString", {
     groups: G;
-    origin: SafeDecode<T, G>;
+    origin: SafeDecode<T,G>
     encoded: T;
-};
+}>;
