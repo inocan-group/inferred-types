@@ -3,7 +3,8 @@
     "version": "1.4.4",
     "description": "Functions which provide useful type inference on Typescript projects",
     "repository": {
-        "url": "https://github.com/inocan-group/inferred-types"
+        "type": "git",
+        "url": "https://github.com/inocan-group/inferred-types.git"
     },
     "license": "MIT",
     "author": "Ken Snyder<ken@ken.net>",
@@ -67,6 +68,7 @@
         "test:runtime": "vitest run",
         "test:types": "node_modules/.bin/typed test",
         "test:imports": "bun run scripts/invalid-imports.ts",
+        "test:package": "bun run scripts/validate-package-json.ts",
         "test:bundle": "node scripts/test-bundle.mjs",
         "test:circular-deps": "node scripts/test-circular-deps.mjs",
         "test:ci": "vitest run",
@@ -85,7 +87,7 @@
         "audit:types": "typed source -c modules/types/tsconfig.json -w 6133 -w 6307",
         "audit:runtime": "typed source -c modules/runtime/tsconfig.json -w 2304 -w 6133 -w 6307",
         "audit:constants": "typed source -c modules/constants/tsconfig.json --warn 6133",
-        "release": "bumpp",
+        "release": "run-s test:package bumpp",
         "prepublishOnly": "npm run build",
         "jsr:dry-run": "npx jsr --dry-run --allow-slow-types",
         "prepare": "husky",
@@ -126,6 +128,7 @@
         "moment": "catalog:",
         "moment-timezone": "catalog:",
         "npm-run-all": "catalog:",
+        "package-json-validator": "catalog:",
         "pathe": "catalog:",
         "tsdown": "catalog:",
         "tsx": "catalog:",

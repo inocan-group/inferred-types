@@ -23,6 +23,7 @@
   },
   "include": [
     ".",
+    "**/package.json",
     "../modules",
     ".claude/hooks"
   ],
