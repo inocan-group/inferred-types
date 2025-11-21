@@ -2,8 +2,8 @@
     "name": "@inferred-types/types",
     "private": true,
     "type":"module",
-    "main": "dist/index.mjs",
-    "types": "dist/index.d.mts",
+    "main": "dist/index.cjs",
+    "module": "dist/index.mjs",
     "exports": {
         ".": {
             "import": {
