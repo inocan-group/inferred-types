@@ -8,9 +8,10 @@ import type {
     Punctuation,
     QuoteCharacter,
     SpecialChar,
-    Whitespace
+    Whitespace,
+    EscapeCodeChars
 } from "types/string-literals";
-import type { EscapeCodeChars } from "types/string-literals/character-sets/EscapeCodes";
+
 
 /**
  * **Char**

@@ -1,6 +1,5 @@
 export * from "./Alpha";
 export * from "./Books";
-export * from "./Brands";
 export * from "./Characters";
 export * from "./colors";
 export * from "./Comma";
