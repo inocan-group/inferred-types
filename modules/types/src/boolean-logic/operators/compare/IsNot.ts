@@ -1,5 +1,4 @@
-import type { IsEqual } from "types/boolean-logic/operators/compare/IsEqual";
-import type { IsUnion, UnionIncludes } from "types/boolean-logic/operators/unions";
+import type { IsEqual, IsUnion, UnionIncludes } from "types/boolean-logic";
 
 /**
  * **IsNot**`<TTest, TCompare>`

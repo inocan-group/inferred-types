@@ -1,22 +1,19 @@
+import type { ShapeCallback, TypedFunction } from "inferred-types/types";
+import type { HandleDoneFn } from "../../../types/src/functions/HandleDoneFn";
 import { handleDoneFn } from "inferred-types/runtime";
-import { ShapeCallback, TypedFunction } from "inferred-types/types";
-import { HandleDoneFn } from '../../../types/src/functions/HandleDoneFn';
 
 type Api<
     F extends TypedFunction,
 > = {
-    kind: "wrapped-fn",
-    fn: F,
-    args: Parameters<F>,
+    kind: "wrapped-fn";
+    fn: F;
+    args: Parameters<F>;
     done(): ReturnType<F>;
-}
-
+};
 
 type WrapperCallback<
     F extends TypedFunction
 > = <TCb extends <T extends Api<F>>(api: T) => unknown>(cb: TCb) => HandleDoneFn<ReturnType<TCb>>;
-
-
 
 /**
  * **wrapFn**`(fn) -> (cb) -> (...args) -> result`
@@ -55,16 +52,15 @@ export function wrapFn<
                 fn: () => fn,
                 args: () => args,
                 done() {
-                    return fn(...args)
+                    return fn(...args);
                 }
-            }
-            const outcome =  cb(payload);
+            };
+            const outcome = cb(payload);
 
             return handleDoneFn(outcome, true);
-        }
-    }
+        };
+    };
 }
-
 
 // DUMMY IMPLEMENTATION ILLUSTRATING STRUCTURE
 const c: ShapeCallback = null as unknown as ShapeCallback;

@@ -29,7 +29,7 @@ describe("dropParser", () => {
     })
 
 
-    describe("simple rule", () => {
+    describe("simple and single rule", () => {
 
         it("drop-enter policy", () => {
             const partial = dropParser(
@@ -177,6 +177,14 @@ describe("dropParser", () => {
                 Expect<AssertEqual<typeof result["dropped"], ["FooB"]>>,
             ];
         });
+
+    })
+
+    describe.skip("single rule, more advanced", () => {
+
+    })
+
+    describe.skip("multiple rules", () => {
 
     })
 

@@ -1,6 +1,6 @@
-import type { KnownNestingConfig } from "@inferred-types/types";
 import type {
     AsNestingApi,
+    KnownNestingConfig,
     NestedSplitPolicy,
     Nesting,
     NestingApi

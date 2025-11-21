@@ -14,6 +14,6 @@ export type SafeString<
     G extends readonly SafeEncodingGroup[] = SafeEncodingGroup[],
 > = Brand<T, "SafeString", {
     groups: G;
-    origin: SafeDecode<T,G>
+    origin: SafeDecode<T, G>;
     encoded: T;
 }>;

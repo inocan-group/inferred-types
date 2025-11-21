@@ -75,8 +75,6 @@ export type SpaceChars = " "
 | NarrowNonBreakingSpace
 | IdeographicSpace;
 
-
-
 /**
  * Common escape/control characters and space variants
  * (ESC, BEL, line/paragraph controls, tabs, delete, separators, and

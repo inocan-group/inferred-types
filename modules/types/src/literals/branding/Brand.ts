@@ -13,5 +13,5 @@ export type Brand<
     Kind,
     Kv extends Record<string, unknown> | undefined = undefined
 > = IsUndefined<Kv> extends true
-? Base & { [BrandSymbol]: Kind }
-: Base & { [BrandSymbol]: Kind } & Kv;
+    ? Base & { [BrandSymbol]: Kind }
+    : Base & { [BrandSymbol]: Kind } & Kv;

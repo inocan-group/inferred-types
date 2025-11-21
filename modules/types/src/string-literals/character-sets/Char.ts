@@ -2,16 +2,15 @@ import type {
     AlphanumericChar,
     Bracket,
     CurrencyChar,
+    EscapeCodeChars,
     MatchChar,
     NBSP,
     PlusMinus,
     Punctuation,
     QuoteCharacter,
     SpecialChar,
-    Whitespace,
-    EscapeCodeChars
+    Whitespace
 } from "types/string-literals";
-
 
 /**
  * **Char**

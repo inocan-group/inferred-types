@@ -119,8 +119,7 @@ export const SPACE_CHARS = narrow(
     HAIR_SPACE,
     NARROW_NO_BREAK_SPACE,
     IDEOGRAPHIC_SPACE
-)
-
+);
 
 /**
  * Escape Code Characters

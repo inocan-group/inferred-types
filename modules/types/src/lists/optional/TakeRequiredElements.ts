@@ -1,6 +1,5 @@
 import type { HasOptionalElements } from "types/boolean-logic";
-import type { SliceArray } from "types/lists/Slice";
-import type { GetRequiredElementCount } from "types/lists/Variadic";
+import type { GetRequiredElementCount, SliceArray } from "types/lists";
 
 /**
  * **TakeRequiredElements**`<T>`
