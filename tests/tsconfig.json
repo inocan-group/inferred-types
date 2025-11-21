@@ -43,16 +43,16 @@
             // and it's children should not be used unless you're creating a
             // test specifically testing the validity of transpiled code.
             "transpiled": [
-                "../modules/inferred-types/dist"
+                "../modules/inferred-types/dist/index.d.mts"
             ],
             "transpiled/constants": [
-                "../modules/constants/dist"
+                "../modules/constants/dist/index.d.mts"
             ],
             "transpiled/types": [
-                "../modules/types/dist"
+                "../modules/types/dist/index.d.mts"
             ],
             "transpiled/runtime": [
-                "../modules/runtime/dist"
+                "../modules/runtime/dist/index.d.mts"
             ]
         }
     },

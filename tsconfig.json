@@ -15,7 +15,10 @@
     "rootDir": "..",
     "outDir": "../../dist/none",
     "paths": {
-
+      "transpiled/runtime": ["../modules/runtime/dist/index.d.mts"],
+      "transpiled/types": ["../modules/types/dist/index.d.mts"],
+      "transpiled/constants": ["../modules/constants/dist/index.d.mts"],
+      "transpiled": ["../modules/inferred-types/dist/index.d.mts"]
     }
   },
   "include": [
