@@ -1,4 +1,3 @@
-import { handleDoneFn } from "inferred-types/runtime";
 import type {
     As,
     AsArray,
@@ -385,7 +384,3 @@ export type ShapeApi = { kind: "shape" }
 export type ShapeCallback = <TCb extends <T extends ShapeApi>(api: T) => unknown>(cb: TCb) => ReturnType<TCb>;
 
 export type ScalarCallback = (api: ShapeApi__Scalars & ShapeApi__Union) => unknown;
-
-
-
-

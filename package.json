@@ -11,32 +11,55 @@
     "type": "module",
     "exports": {
         ".": {
-            "types": "./modules/inferred-types/dist/index.d.ts",
-            "import": "./modules/inferred-types/dist/index.js",
-            "require": "./modules/inferred-types/dist/index.cjs"
+            "import": {
+                "types": "./modules/inferred-types/dist/index.d.mts",
+                "default": "./modules/inferred-types/dist/index.mjs"
+            },
+            "require": {
+                "types": "./modules/inferred-types/dist/index.d.cts",
+                "default": "./modules/inferred-types/dist/index.cjs"
+            }
         },
         "./types": {
-            "types": "./modules/types/dist/index.d.ts",
-            "import": "./modules/types/dist/index.js",
-            "require": "./modules/types/dist/index.cjs"
-        },
-        "./runtime": {
-            "types": "./modules/runtime/dist/index.d.ts",
-            "import": "./modules/runtime/dist/index.js",
-            "require": "./modules/runtime/dist/index.cjs"
+            "exports": {
+                "import": {
+                    "types": "./modules/types/dist/index.d.mts",
+                    "default": "./modules/types/dist/index.mjs"
+                },
+                "require": {
+                    "types": "./modules/types/dist/index.d.cts",
+                    "default": "./modules/types/dist/index.cjs"
+                }
+            }
         },
         "./constants": {
-            "types": "./modules/constants/dist/index.d.ts",
-            "import": "./modules/constants/dist/index.js",
-            "require": "./modules/constants/dist/index.cjs"
+            "exports": {
+                "import": {
+                    "types": "./modules/constants/dist/index.d.mts",
+                    "default": "./modules/constants/dist/index.mjs"
+                },
+                "require": {
+                    "types": "./modules/constants/dist/index.d.cts",
+                    "default": "./modules/constants/dist/index.cjs"
+                }
+            }
         },
-        "./globals": {
-            "types": "./modules/types/dist/globals.d.ts"
+        "./runtime": {
+            "exports": {
+                "import": {
+                    "types": "./modules/runtime/dist/index.d.mts",
+                    "default": "./modules/runtime/dist/index.mjs"
+                },
+                "require": {
+                    "types": "./modules/runtime/dist/index.d.cts",
+                    "default": "./modules/runtime/dist/index.cjs"
+                }
+            }
         }
     },
-    "main": "./modules/inferred-types/dist/index.cjs",
-    "module": "./modules/inferred-types/dist/index.js",
-    "typings": "./modules/inferred-types/dist/index.d.ts",
+    "main": "modules/inferred-types/dist/index.cjs",
+    "module": "modules/inferred-types/dist/index.js",
+    "types": "modules/inferred-types/dist/index.d.mts",
     "files": [
         "modules/constants/dist",
         "modules/inferred-types/dist",

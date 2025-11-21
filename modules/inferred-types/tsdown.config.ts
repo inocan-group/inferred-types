@@ -13,7 +13,7 @@ export default defineConfig({
         ]
     },
     sourcemap: true,
-    clean: false,
+    clean: true,
 
     tsconfig: "./tsconfig.tsdown.json",
 

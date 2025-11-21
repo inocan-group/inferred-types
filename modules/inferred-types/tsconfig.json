@@ -3,7 +3,6 @@
         "composite": true,
         "target": "es2022",
         "module": "es2022",
-        "baseUrl": ".",
         "rootDir": ".",
         "moduleResolution": "Bundler",
         "strict": true,
@@ -13,18 +12,7 @@
         "sourceMap": true,
         "stripInternal": false,
         "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true,
-        "paths": {
-            "inferred-types/runtime": [
-                "../runtime/src/index.ts"
-            ],
-            "inferred-types/types": [
-                "../types/src/index.ts"
-            ],
-            "inferred-types/constants": [
-                "../constants/src/index.ts"
-            ]
-        },
+        "skipLibCheck": true
     },
     // this project serves only as a means to reference all sub-projects
     // and allow constants, types, and runtime symbols to be exported
