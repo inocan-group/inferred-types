@@ -58,7 +58,7 @@
         }
     },
     "main": "modules/inferred-types/dist/index.cjs",
-    "module": "modules/inferred-types/dist/index.js",
+    "module": "modules/inferred-types/dist/index.mjs",
     "types": "modules/inferred-types/dist/index.d.mts",
     "files": [
         "modules/constants/dist",
