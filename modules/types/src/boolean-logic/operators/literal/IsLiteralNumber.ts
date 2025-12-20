@@ -23,13 +23,13 @@ export type IsLiteralNumber<
 > = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : [IsUnion<T>] extends [true]
-            ? [HasModifier<"allow-union", U, LiteralNumberModifiers>] extends [true]
-                ? IsEveryUnionMemberLiteralNumber<T>
-                : false
-            : T extends number
-                ? number extends T
-                    ? false
-                    : true
-                : false;
+            ? false
+            : [IsUnion<T>] extends [true]
+                    ? [HasModifier<"allow-union", U, LiteralNumberModifiers>] extends [true]
+                            ? IsEveryUnionMemberLiteralNumber<T>
+                            : false
+                    : T extends number
+                        ? number extends T
+                            ? false
+                            : true
+                        : false;

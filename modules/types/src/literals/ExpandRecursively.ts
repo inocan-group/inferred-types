@@ -63,11 +63,11 @@ export type ExpandUnion<T> = IsUnion<T> extends true
  */
 export type ExpandRecursively<T> = T extends Dictionary
     ? { [K in keyof T]: T[K] extends AnyFunction
-        ? T[K] extends TypedFunction
-            ? ExpandParameters<T[K], Parameters<T[K]>>
-            : T[K]
-        : ExpandRecursively<T[K]>
-    }
+            ? T[K] extends TypedFunction
+                ? ExpandParameters<T[K], Parameters<T[K]>>
+                : T[K]
+            : ExpandRecursively<T[K]>
+        }
     : T;
 
 /**
@@ -76,9 +76,9 @@ export type ExpandRecursively<T> = T extends Dictionary
  */
 export type ExpandDictionary<T> = T extends Dictionary
     ? { [K in keyof T]: T[K] extends AnyFunction
-        ? T[K]
-        : ExpandRecursively<T[K]>
-    }
+            ? T[K]
+            : ExpandRecursively<T[K]>
+        }
     : T;
 
 export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;

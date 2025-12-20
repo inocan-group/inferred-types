@@ -1,9 +1,9 @@
 import type { And, Concat, Contains, IsWideString, Or, StripAfter, StripBefore } from "inferred-types/types";
 
-export type InBetweenOptions = {
+export interface InBetweenOptions {
     policy?: "inclusive" | "exclusive";
     noMatch?: unknown;
-};
+}
 
 /**
  * **InBetween**`<T,TStart,TEnd>`

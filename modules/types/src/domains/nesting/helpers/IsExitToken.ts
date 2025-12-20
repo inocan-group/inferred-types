@@ -12,17 +12,17 @@ export type IsExitToken<
     ? boolean
     : [TNesting] extends [NestingKeyValue]
         // Extract exit tokens from values (handles both string and [exit, nextLevel])
-        ? [TChar] extends [ExtractExitTokens<Values<TNesting>[number]>]
-            ? true
-            : false
-        : [TNesting] extends [NestingTuple]
-            ? [TNesting[1]] extends [readonly string[]]
-                ? [TChar] extends [TNesting[1][number]]
+            ? [TChar] extends [ExtractExitTokens<Values<TNesting>[number]>]
                     ? true
                     : false
-                : [TNesting[1]] extends [undefined]
-                    ? [TChar] extends [TNesting[0][number]]
-                        ? false
-                        : true
-                    : never
-            : never;
+            : [TNesting] extends [NestingTuple]
+                    ? [TNesting[1]] extends [readonly string[]]
+                            ? [TChar] extends [TNesting[1][number]]
+                                    ? true
+                                    : false
+                            : [TNesting[1]] extends [undefined]
+                                    ? [TChar] extends [TNesting[0][number]]
+                                            ? false
+                                            : true
+                                    : never
+                    : never;

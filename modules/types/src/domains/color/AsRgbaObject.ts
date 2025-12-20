@@ -23,10 +23,10 @@ type ParseCssRgb<
     Raw extends string = T extends `rgb(${infer Rest})` ? Trim<Rest> : T
 > = Split<Raw, "," | " "> extends readonly [infer R extends string, infer G extends string, infer B extends string]
     ? {
-        r: AsNumber<Trim<R>>;
-        g: AsNumber<Trim<G>>;
-        b: AsNumber<Trim<B>>;
-    }
+            r: AsNumber<Trim<R>>;
+            g: AsNumber<Trim<G>>;
+            b: AsNumber<Trim<B>>;
+        }
     : Err<
         "invalid-value/rgb",
     `Failed to parse a CssRgb string -- ${T} -- into a valid RGB object`,

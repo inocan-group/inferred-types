@@ -19,5 +19,5 @@ export type GreaterThan<
         : number extends B
             ? boolean
             : [CompareNumbers<A, B>] extends ["greater"]
-                ? true
-                : false;
+                    ? true
+                    : false;

@@ -15,7 +15,7 @@ import type {
  * which are _nesting aware_. This surface is the direct result of calling the
  * `nesting(config)` utility.
  */
-export type NestingApi<T extends Nesting> = {
+export interface NestingApi<T extends Nesting> {
     config: T;
     /**
      * **retainUntil**`(content, find, [include])`
@@ -24,7 +24,7 @@ export type NestingApi<T extends Nesting> = {
      * works in a _nested_ manner so the character match must
      * happen at the root level.
      */
-    retainUntil<
+    retainUntil: <
         const TStr extends string,
         const TFind extends string | readonly string[],
         const TInclude extends boolean = true
@@ -32,7 +32,7 @@ export type NestingApi<T extends Nesting> = {
         str: TStr,
         find: TFind,
         incl?: TInclude
-    ): RetainUntil__Nested<
+    ) => RetainUntil__Nested<
         TStr,
         AsArray<TFind> extends infer Find extends readonly string[]
             ? As<Find[number], string>
@@ -50,7 +50,7 @@ export type NestingApi<T extends Nesting> = {
      * - you may optionally provide a "policy"; by default this policy
      * is "omit".
      */
-    split<
+    split: <
         const TContent extends string,
         const TSplit extends string,
         const TPolicy extends NestedSplitPolicy = "omit"
@@ -58,8 +58,8 @@ export type NestingApi<T extends Nesting> = {
         content: TContent,
         split: TSplit,
         policy?: TPolicy | undefined
-    ): NestedSplit<TContent, TSplit, T, TPolicy>;
-};
+    ) => NestedSplit<TContent, TSplit, T, TPolicy>;
+}
 
 /**
  * used to convert a valid nesting configuration into the `NestingApi`
@@ -68,7 +68,7 @@ export type AsNestingApi<T extends Nesting>
     = [T] extends [Error]
         ? T
         : [AsNestingConfig<T>] extends [Error]
-            ? AsNestingConfig<T>
-            : [AsNestingConfig<T>] extends [Nesting]
-                ? NestingApi<T>
-                : never;
+                ? AsNestingConfig<T>
+                : [AsNestingConfig<T>] extends [Nesting]
+                        ? NestingApi<T>
+                        : never;

@@ -117,27 +117,27 @@ type _Sort<
 > = TValues extends readonly [infer head extends number, ...infer tail extends readonly number[]]
     ? TReverse extends true
         ? [
-            ..._Sort<
-                FilterGreaterThan<head, tail>,
-                TReverse
-            >,
-            head,
-            ..._Sort<
-                FilterLessThanOrEqual<head, tail>,
-                TReverse
-            >,
-        ]
+                ..._Sort<
+                    FilterGreaterThan<head, tail>,
+                    TReverse
+                >,
+                head,
+                ..._Sort<
+                    FilterLessThanOrEqual<head, tail>,
+                    TReverse
+                >,
+            ]
         : [
-            ..._Sort<
-                FilterLessThanOrEqual<head, tail>,
-                TReverse
-            >,
-            head,
-            ..._Sort<
-                FilterGreaterThan<head, tail>,
-                TReverse
-            >,
-        ]
+                ..._Sort<
+                    FilterLessThanOrEqual<head, tail>,
+                    TReverse
+                >,
+                head,
+                ..._Sort<
+                    FilterGreaterThan<head, tail>,
+                    TReverse
+                >,
+            ]
     : [];
 
 /**
@@ -179,16 +179,16 @@ type _SortOffset<
     TOffset extends string,
 > = TContainers extends readonly [infer Head extends Container, ...infer Rest extends readonly Container[]]
     ? [
-        ..._SortOffset<
-            FilterContainersLessThanOrEqual<Head, TOffset, Rest>,
-            TOffset
-        >,
-        Head,
-        ..._SortOffset<
-            FilterContainersGreaterThan<Head, TOffset, Rest>,
-            TOffset
-        >,
-    ]
+            ..._SortOffset<
+                FilterContainersLessThanOrEqual<Head, TOffset, Rest>,
+                TOffset
+            >,
+            Head,
+            ..._SortOffset<
+                FilterContainersGreaterThan<Head, TOffset, Rest>,
+                TOffset
+            >,
+        ]
     : [];
 
 /**
@@ -205,9 +205,9 @@ type ExtractFirstNumeric<
     ? TFirst extends readonly [infer FirstHead, ...infer FirstTail]
         ? FirstHead extends number
             ? [
-                ...ExtractAllMatching<T, FirstHead>,
-                ...ExtractFirstNumeric<T, FirstTail, TOut>
-            ]
+                    ...ExtractAllMatching<T, FirstHead>,
+                    ...ExtractFirstNumeric<T, FirstTail, TOut>
+                ]
             : ExtractFirstNumeric<T, FirstTail, TOut>
         : TOut
     : T extends readonly [infer Head extends number, ...infer Tail extends readonly number[]]
@@ -406,18 +406,18 @@ export type NumericSort<
 > = IsStringLiteral<TOpt["offset"]> extends true
     ? TValues extends readonly Container[]
         ? [IsEqual<TOpt["order"], "Natural">] extends [true]
-            ? TValues // Keep original order for Natural
-            : [IsEqual<TOpt["order"], "DESC">] extends [true]
-                ? Reverse<
-                    _SortOffset<
-                        TValues,
-                        As<TOpt["offset"], string>
-                    >
-                >
-                : _SortOffset<
-                    TValues,
-                    As<TOpt["offset"], string>
-                >
+                ? TValues // Keep original order for Natural
+                : [IsEqual<TOpt["order"], "DESC">] extends [true]
+                        ? Reverse<
+                            _SortOffset<
+                                TValues,
+                                As<TOpt["offset"], string>
+                            >
+                        >
+                        : _SortOffset<
+                            TValues,
+                            As<TOpt["offset"], string>
+                        >
         : never // Cannot sort by offset on non-Container values
 
     : TOpt extends { start: any }

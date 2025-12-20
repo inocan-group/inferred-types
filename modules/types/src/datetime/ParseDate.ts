@@ -78,7 +78,7 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
                 : Err<
                     `parse-date/leftover`,
                 `While parsing what appeared to be an ISO Date, we found extra content at the end which is invalid: ${Rest}`,
-                { year: Year; month: Month; date: Date; rest: Rest }
+                { year: Year; month: Month; date: D; rest: Rest }
                 >
 
             : ErrContext<
@@ -151,11 +151,11 @@ type ParseYearMonth<T extends string> = TakeYear<T> extends {
         ? Rest extends ""
 
             ? [
-                Year,
-                Month,
-                null,
-                null
-            ]
+                    Year,
+                    Month,
+                    null,
+                    null
+                ]
             : Err<
                 `parse-date/leftover`,
                 `The year and month were parsed and validated but there is remaining text which can't be parsed: ${Rest}`,

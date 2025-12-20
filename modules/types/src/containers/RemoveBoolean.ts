@@ -73,14 +73,14 @@ export type RemoveBoolean<
                 ? TakeOptionalElements<T> extends infer Opt extends readonly unknown[]
                     ? TakeRequiredElements<T> extends infer Req extends readonly unknown[]
                         ? [IsTrue<O>] extends [true]
-                            ? [
-                                ...Tuple<Req>,
-                                ...Partial<Tuple<Required<Opt>>>
-                            ]
-                            : [
-                                ...Tuple<Req>,
-                                ...Partial<Opt>
-                            ]
+                                ? [
+                                        ...Tuple<Req>,
+                                        ...Partial<Tuple<Required<Opt>>>
+                                    ]
+                                : [
+                                        ...Tuple<Req>,
+                                        ...Partial<Opt>
+                                    ]
                         : never
                     : never
                 : Tuple<[...T]>

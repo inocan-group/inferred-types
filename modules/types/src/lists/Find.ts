@@ -15,8 +15,8 @@ type FindAcc<
     ? undefined
     : First<TList> extends ComparisonAccept<TOp>
         ? [Compare<First<TList>, TOp, TParams>] extends [true]
-            ? First<TList>
-            : FindAcc<AfterFirst<TList>, TOp, TParams>
+                ? First<TList>
+                : FindAcc<AfterFirst<TList>, TOp, TParams>
         : never;
 
 /**

@@ -67,44 +67,44 @@ export type Each<
                 [K in keyof T]: IsWideType<T[K]>
             }>
             : {
-                [K in keyof T]: TOp extends "returnType"
-                    ? T[K] extends TypedFunction
-                        ? ReturnType<T[K]>
-                        : Err<
-                            `not-function/return-type`,
+                    [K in keyof T]: TOp extends "returnType"
+                        ? T[K] extends TypedFunction
+                            ? ReturnType<T[K]>
+                            : Err<
+                                `not-function/return-type`,
                     `The Each operation 'returnType' expected to see a functions in T but item was '${GetTypeOf<T[K]>}' instead!`,
                     { element: T[K] }
-                        >
-                    : TOp extends "get"
-                        ? TParam extends string
-                            ? Get<T[K], TParam>
-                            : Err<
-                                `no-index/get`,
-                                `The Each operation 'get' requires that a parameter representing a 'DotPath' be present but no such parameter was found!`,
-                                { element: T[K]; param: TParam }
                             >
-                        : TOp extends "append"
-                            ? TParam extends string | number
-                                ? T[K] extends string
-                                    ? `${T[K]}${TParam}`
-                                    : T[K] extends number
-                                        ? `${T[K]}${TParam}` extends `${number}`
-                                            ? AsNumber<`${T[K]}${TParam}`>
-                                            : `${T[K]}${TParam}`
-                                        : T[K]
-                                : Err<`invalid-param/append`, `The parameter for 'append' must be a string (or number)!`, { param: TParam }>
-
-                            : TOp extends "prepend"
+                        : TOp extends "get"
+                            ? TParam extends string
+                                ? Get<T[K], TParam>
+                                : Err<
+                                    `no-index/get`,
+                                    `The Each operation 'get' requires that a parameter representing a 'DotPath' be present but no such parameter was found!`,
+                                    { element: T[K]; param: TParam }
+                                >
+                            : TOp extends "append"
                                 ? TParam extends string | number
                                     ? T[K] extends string
-                                        ? `${TParam}${T[K]}`
+                                        ? `${T[K]}${TParam}`
                                         : T[K] extends number
-                                            ? `${TParam}${T[K]}` extends `${number}`
-                                                ? AsNumber<`${TParam}${T[K]}`>
-                                                : `${TParam}${T[K]}`
+                                            ? `${T[K]}${TParam}` extends `${number}`
+                                                ? AsNumber<`${T[K]}${TParam}`>
+                                                : `${T[K]}${TParam}`
                                             : T[K]
-                                    : Err<`invalid-param/prepend`, `The parameter for 'prepend' must be a string (or number)!`, { param: TParam }>
+                                    : Err<`invalid-param/append`, `The parameter for 'append' must be a string (or number)!`, { param: TParam }>
 
-                                : never
+                                : TOp extends "prepend"
+                                    ? TParam extends string | number
+                                        ? T[K] extends string
+                                            ? `${TParam}${T[K]}`
+                                            : T[K] extends number
+                                                ? `${TParam}${T[K]}` extends `${number}`
+                                                    ? AsNumber<`${TParam}${T[K]}`>
+                                                    : `${TParam}${T[K]}`
+                                                : T[K]
+                                        : Err<`invalid-param/prepend`, `The parameter for 'prepend' must be a string (or number)!`, { param: TParam }>
 
-            };
+                                    : never
+
+                };

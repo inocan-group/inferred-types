@@ -33,7 +33,7 @@ import type {
 
 /* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
 
-export type ToLiteralOptions = {
+export interface ToLiteralOptions {
     quote?: QuoteCharacter;
     encode?: boolean;
     /**
@@ -47,7 +47,7 @@ export type ToLiteralOptions = {
      * for containers which support the concept of "optional" keys
      */
     isOptional?: boolean;
-};
+}
 
 type Enc<
     T extends string,
@@ -115,11 +115,11 @@ type Splitter<
             [...O, Head]
         >
     : [
-        R,
-        T extends [infer Last]
-            ? [...O, Last]
-            : O
-    ];
+            R,
+            T extends [infer Last]
+                ? [...O, Last]
+                : O
+        ];
 
 type ArrayWithOptionalElements<
     T extends readonly unknown[],
@@ -159,26 +159,26 @@ export type ToStringLiteral__Array<
 > = [TupleMeta<T>["hasOptionalElements"]] extends [true]
     ? ArrayWithOptionalElements<T>
     : [TupleMeta<T>["isWide"]] extends [true]
-        ? [T] extends [readonly (infer Type)[]]
-            ? [IsUnion<Type>] extends [true]
-                ? [UnionToTuple<Type>] extends [readonly unknown[]]
-                    ? AsUnionArrayString<UnionToTuple<Type>>
+            ? [T] extends [readonly (infer Type)[]]
+                    ? [IsUnion<Type>] extends [true]
+                            ? [UnionToTuple<Type>] extends [readonly unknown[]]
+                                    ? AsUnionArrayString<UnionToTuple<Type>>
+                                    : never
+                            : [Type] extends [Scalar]
+                                    ? `${ToStringLiteral__Scalar<Type>}[]`
+                                    : [Type] extends [Dictionary]
+                                            ? ToStringLiteral__Object<Type> extends infer Obj extends string
+                                                ? `${Obj}[]`
+                                                : never
+                                            : never
                     : never
-                : [Type] extends [Scalar]
-                    ? `${ToStringLiteral__Scalar<Type>}[]`
-                    : [Type] extends [Dictionary]
-                        ? ToStringLiteral__Object<Type> extends infer Obj extends string
-                            ? `${Obj}[]`
+            : [T["length"]] extends [0]
+                    ? `[]`
+                    : InnerArray<T, O> extends (infer Arr extends readonly string[])
+                        ? Join<Arr, ", "> extends infer Inner extends string
+                            ? `[ ${Inner} ]`
                             : never
-                        : never
-            : never
-        : [T["length"]] extends [0]
-            ? `[]`
-            : InnerArray<T, O> extends (infer Arr extends readonly string[])
-                ? Join<Arr, ", "> extends infer Inner extends string
-                    ? `[ ${Inner} ]`
-                    : never
-                : never;
+                        : never;
 
 /**
  * Object keys typically do not need be surrounded by quotations
@@ -239,32 +239,20 @@ type InnerObject<
             ? Value extends Error
                 ? Value
                 : [IsUnion<Value>] extends [true]
-                    ? InnerObject<
-                        TDict,
-                        TOpt,
-                        Rest,
-                        TOptKeys,
-                        TReq,
-                        ToStringLiteral__Union<UnionToTuple<Value>, TOpt> extends infer Union extends string
-                            ? [
-                                ...TResult,
-                        `${KeyName<K, TOptKeys>}: ${Union}`
-                            ]
-                            : never
-                    >
-                    : Value extends Scalar
                         ? InnerObject<
                             TDict,
                             TOpt,
                             Rest,
                             TOptKeys,
                             TReq,
-                            [
-                                ...TResult,
-                    `${KeyName<K, TOptKeys>}: ${ToStringLiteral__Scalar<Value, TOpt>}`
-                            ]
+                            ToStringLiteral__Union<UnionToTuple<Value>, TOpt> extends infer Union extends string
+                                ? [
+                                        ...TResult,
+                        `${KeyName<K, TOptKeys>}: ${Union}`
+                                    ]
+                                : never
                         >
-                        : Value extends readonly unknown[]
+                        : Value extends Scalar
                             ? InnerObject<
                                 TDict,
                                 TOpt,
@@ -273,36 +261,48 @@ type InnerObject<
                                 TReq,
                                 [
                                     ...TResult,
-                    `${KeyName<K, TOptKeys>}: ${ToStringLiteral__Array<Value, TOpt>}`
+                    `${KeyName<K, TOptKeys>}: ${ToStringLiteral__Scalar<Value, TOpt>}`
                                 ]
                             >
+                            : Value extends readonly unknown[]
+                                ? InnerObject<
+                                    TDict,
+                                    TOpt,
+                                    Rest,
+                                    TOptKeys,
+                                    TReq,
+                                    [
+                                        ...TResult,
+                    `${KeyName<K, TOptKeys>}: ${ToStringLiteral__Array<Value, TOpt>}`
+                                    ]
+                                >
 
-                            : Value extends Dictionary
-                                ? ToStringLiteral__Object<Value, TOpt> extends infer ObjResult
-                                    ? ObjResult extends Error
-                                        ? ObjResult
-                                        : ObjResult extends string
-                                            ? InnerObject<
-                                                TDict,
-                                                TOpt,
-                                                Rest,
-                                                TOptKeys,
-                                                TReq,
-                                                [
-                                                    ...TResult,
+                                : Value extends Dictionary
+                                    ? ToStringLiteral__Object<Value, TOpt> extends infer ObjResult
+                                        ? ObjResult extends Error
+                                            ? ObjResult
+                                            : ObjResult extends string
+                                                ? InnerObject<
+                                                    TDict,
+                                                    TOpt,
+                                                    Rest,
+                                                    TOptKeys,
+                                                    TReq,
+                                                    [
+                                                        ...TResult,
                                         `${KeyName<K, TOptKeys>}: ${ObjResult}`
-                                                ]
-                                            >
-                                            : never
-                                    : never
+                                                    ]
+                                                >
+                                                : never
+                                        : never
 
-                                : never
+                                    : never
             : never
         : TKeys extends [ infer Last extends keyof Required<TDict> & ObjectKey]
             ? [
-                ...TResult,
-                ToStringLiteral<Last, TOpt>
-            ]
+                    ...TResult,
+                    ToStringLiteral<Last, TOpt>
+                ]
 
             : TResult;
 
@@ -337,36 +337,36 @@ export type ToStringLiteral__Scalar<
 > = [IsAny<T>] extends [true]
     ? `any`
     : [IsNever<T>] extends [true]
-        ? `never`
-        : [T] extends [string]
-            ? [string] extends [T]
-                ? `string`
-                : `${Quote<T, O>}`
-            : [T] extends [number]
-                ? [number] extends [T]
-                    ? `number`
-                    : `${T}`
-                : [T] extends [bigint]
-                    ? [bigint] extends [T]
-                        ? `bigint`
-                        : `${T}`
-                    : [IsNull<T>] extends [true]
-                        ? `null`
-                        : [IsUndefined<T>] extends [true]
-                            ? `undefined`
-                            : [IsUnknown<T>] extends [true]
-                                ? `unknown`
-                                : [IsTrue<T>] extends [true]
-                                    ? `true`
-                                    : [IsFalse<T>] extends [true]
-                                        ? `false`
-                                        : [IsBoolean<T>] extends [true]
-                                            ? `boolean`
-                                            : [T] extends [void]
-                                                ? `void`
-                                                : [T] extends [symbol]
-                                                    ? `symbol`
-                                                    : never;
+            ? `never`
+            : [T] extends [string]
+                    ? [string] extends [T]
+                            ? `string`
+                            : `${Quote<T, O>}`
+                    : [T] extends [number]
+                            ? [number] extends [T]
+                                    ? `number`
+                                    : `${T}`
+                            : [T] extends [bigint]
+                                    ? [bigint] extends [T]
+                                            ? `bigint`
+                                            : `${T}`
+                                    : [IsNull<T>] extends [true]
+                                            ? `null`
+                                            : [IsUndefined<T>] extends [true]
+                                                    ? `undefined`
+                                                    : [IsUnknown<T>] extends [true]
+                                                            ? `unknown`
+                                                            : [IsTrue<T>] extends [true]
+                                                                    ? `true`
+                                                                    : [IsFalse<T>] extends [true]
+                                                                            ? `false`
+                                                                            : [IsBoolean<T>] extends [true]
+                                                                                    ? `boolean`
+                                                                                    : [T] extends [void]
+                                                                                            ? `void`
+                                                                                            : [T] extends [symbol]
+                                                                                                    ? `symbol`
+                                                                                                    : never;
 
 export type ToStringLiteral__Union<
     T extends readonly unknown[],
@@ -375,12 +375,12 @@ export type ToStringLiteral__Union<
     [K in keyof T]: ToStringLiteral<T[K], O>
 }, " | ">;
 
-type O<
+interface O<
     T extends ToLiteralOptions
-> = {
+> {
     quote: T["quote"] extends QuoteCharacter ? T["quote"] : "\"";
     encode: T["encode"] extends boolean ? T["encode"] : false;
-};
+}
 
 /**
  * Converts any Typescript type into a string literal
@@ -396,15 +396,15 @@ export type ToStringLiteral<
 > = [IsAny<T>] extends [true]
     ? "any"
     : [IsNever<T>] extends [true]
-        ? "never"
-        : [T] extends [Error]
-            ? T
-            : [IsUnion<T>] extends [true]
-                ? ToStringLiteral__Union<UnionToTuple<T>, Opt>
-                : [T] extends [Scalar]
-                    ? ToStringLiteral__Scalar<T, Opt>
-                    : [T] extends [readonly unknown[]]
-                        ? ToStringLiteral__Array<T, O<Opt>>
-                        : [T] extends [Dictionary]
-                            ? ToStringLiteral__Object<T, O<Opt>>
-                            : never;
+            ? "never"
+            : [T] extends [Error]
+                    ? T
+                    : [IsUnion<T>] extends [true]
+                            ? ToStringLiteral__Union<UnionToTuple<T>, Opt>
+                            : [T] extends [Scalar]
+                                    ? ToStringLiteral__Scalar<T, Opt>
+                                    : [T] extends [readonly unknown[]]
+                                            ? ToStringLiteral__Array<T, O<Opt>>
+                                            : [T] extends [Dictionary]
+                                                    ? ToStringLiteral__Object<T, O<Opt>>
+                                                    : never;

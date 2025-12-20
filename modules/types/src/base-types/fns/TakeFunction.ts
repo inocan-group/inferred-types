@@ -27,12 +27,12 @@ export type TakeFunction<
     TParseString extends string,
     TLexerTokens extends readonly TToken[]
 >(payload: TPayload) =>
-| Error
-| NoMatch
-| LexerDelta<
-    StripLeading<TPayload["state"]["parse"], TFound>,
-    [...TLexerTokens, TToken]
->;
+    | Error
+    | NoMatch
+    | LexerDelta<
+        StripLeading<TPayload["state"]["parse"], TFound>,
+        [...TLexerTokens, TToken]
+    >;
 
 /**
  * **TakeWrapper**

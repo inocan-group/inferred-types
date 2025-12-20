@@ -10,13 +10,13 @@ import type {
  */
 type BuiltinFnKeys
     = | "arguments"
-    | "caller"
-    | "length"
-    | "prototype"
-    | "apply"
-    | "call"
-    | "bind"
-    | "toString";
+        | "caller"
+        | "length"
+        | "prototype"
+        | "apply"
+        | "call"
+        | "bind"
+        | "toString";
 
 type Process<
     T extends TypedFunction,

@@ -44,10 +44,10 @@ type Process<
 > = [IsNever<TTest>] extends [true]
     ? TRemap["never"]
     : [TTest] extends [Error]
-        ? TRemap["error"] extends Constant<"not-set"> ? TTest : TRemap["error"]
-        : [IsFalse<TTest>] extends [true]
-            ? TRemap["false"]
-            : TPass;
+            ? TRemap["error"] extends Constant<"not-set"> ? TTest : TRemap["error"]
+            : [IsFalse<TTest>] extends [true]
+                    ? TRemap["false"]
+                    : TPass;
 
 type Iterate<
     TTest extends readonly unknown[],

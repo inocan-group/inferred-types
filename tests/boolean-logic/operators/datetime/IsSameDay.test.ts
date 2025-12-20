@@ -14,7 +14,10 @@ describe("IsSameDay<A,B>", () => {
             // Identical full ISO dates
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
-            Expect<Test<T3, "equals", true>>, // Leap year
+            Expect<Test<T3, "equals", true>>,
+
+
+     // Leap year
 
             Expect<Test<IsSameDay<"2024-12-25", "2024-12-24">, "equals", false>>,
             Expect<Test<IsSameDay<"2024-12-01", "2024-12-31">, "equals", false>>,

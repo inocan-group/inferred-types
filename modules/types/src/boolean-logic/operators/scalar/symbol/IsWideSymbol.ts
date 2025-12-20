@@ -17,10 +17,10 @@ import type { IsAny, IsEqual, IsNever, IsUnion } from "inferred-types/types";
 export type IsWideSymbol<T>
     = [IsAny<T>] extends [true] ? false
         : [IsNever<T>] extends [true] ? false
-            : [T] extends [symbol]
-                ? [IsEqual<T, symbol>] extends [true]
-                    ? [IsUnion<T>] extends [true]
-                        ? false
-                        : true
-                    : false
-                : false;
+                : [T] extends [symbol]
+                        ? [IsEqual<T, symbol>] extends [true]
+                                ? [IsUnion<T>] extends [true]
+                                        ? false
+                                        : true
+                                : false
+                        : false;

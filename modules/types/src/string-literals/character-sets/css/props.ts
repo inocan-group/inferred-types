@@ -47,9 +47,9 @@ export type CssFlexDirection = "row" | "row-reverse" | "column" | "column-revers
  */
 export type CssFlexFlow
     = | "row" | "row-reverse" | "column" | "column-reverse"
-    | "nowrap" | "wrap" | "wrap-reverse"
-    | "row nowrap" | "column wrap" | "column-reverse wrap-reverse"
-    | CssGlobal;
+        | "nowrap" | "wrap" | "wrap-reverse"
+        | "row nowrap" | "column wrap" | "column-reverse wrap-reverse"
+        | CssGlobal;
 
 /**
  * **CssFlex**
@@ -61,12 +61,12 @@ export type CssFlexFlow
  */
 export type CssFlex
     = | "none"
-    | "min-content"
-    | "auto"
-    | `${CssSizing}`
-    | `${CssSizing} ${CssSizing}`
-    | `${CssSizing} ${CssSizing} ${number}${string}`
-    | CssGlobal;
+        | "min-content"
+        | "auto"
+        | `${CssSizing}`
+        | `${CssSizing} ${CssSizing}`
+        | `${CssSizing} ${CssSizing} ${number}${string}`
+        | CssGlobal;
 
 /**
  * **CssFlexBasis**
@@ -78,12 +78,12 @@ export type CssFlex
  */
 export type CssFlexBasis
     = | "none"
-    | "min-content"
-    | "auto"
-    | `${CssSizing}`
-    | `${CssSizing} ${CssSizing}`
-    | `${CssSizing} ${CssSizing} ${number}${string}`
-    | CssGlobal;
+        | "min-content"
+        | "auto"
+        | `${CssSizing}`
+        | `${CssSizing} ${CssSizing}`
+        | `${CssSizing} ${CssSizing} ${number}${string}`
+        | CssGlobal;
 
 /**
  * **CssListStyle**
@@ -95,14 +95,14 @@ export type CssFlexBasis
  */
 export type CssListStyle
     = | "square"
-    | "inside"
-    | `url('${string}')`
-    | "none"
-    | "georgian inside"
-    | "georgian outside"
-    | `georgian inside url('${string}')`
-    | `georgian outside url('${string}')`
-    | CssGlobal;
+        | "inside"
+        | `url('${string}')`
+        | "none"
+        | "georgian inside"
+        | "georgian outside"
+        | `georgian inside url('${string}')`
+        | `georgian outside url('${string}')`
+        | CssGlobal;
 
 export type CssRotation = "auto"
     | `${number}deg`
@@ -136,16 +136,16 @@ export type CssImageRendering = "auto" | "crisp-edges" | "pixelated" | CssGlobal
  */
 export type CssImageResolution
     = | "from-image"
-    | `${number}dpi`
-    | `${number}dpi snap`
-    | `from-image ${number}dpi`
-    | `from-image ${number}dpi snap`;
+        | `${number}dpi`
+        | `${number}dpi snap`
+        | `from-image ${number}dpi`
+        | `from-image ${number}dpi snap`;
 
 type Punctuation
     = | "none"
-    | "first"
-    | "last"
-    | "allow-end";
+        | "first"
+        | "last"
+        | "allow-end";
 
 export type CssHangingPunctuation = Punctuation
     | `${Punctuation} ${Punctuation}`
@@ -154,11 +154,11 @@ export type CssHangingPunctuation = Punctuation
 
 export type CssFloat
     = | "none"
-    | "left"
-    | "right"
-    | "inline-start"
-    | "inline-end"
-    | CssGlobal;
+        | "left"
+        | "right"
+        | "inline-start"
+        | "inline-end"
+        | CssGlobal;
 
 export type CssAppearance = "none" | "auto" | "menulist-button" | "textfield" | CssGlobal;
 
@@ -177,95 +177,95 @@ export type CssBackdropFilter = "none"
 /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/content) */
 export type CssContent
     = | "normal"
-    | "none"
-    | "open-quote"
-    | "close-quote"
-    | "no-open-quote"
-    | "no-close-quote"
-    | `url(${string})`
-    | `linear-gradient(${string})`
-    | `image-set(${string})`
-    | `counter(${string})`
-    | `counters(${string})`
-    | `attr(${string})`
-    | `"${string}"`;
+        | "none"
+        | "open-quote"
+        | "close-quote"
+        | "no-open-quote"
+        | "no-close-quote"
+        | `url(${string})`
+        | `linear-gradient(${string})`
+        | `image-set(${string})`
+        | `counter(${string})`
+        | `counters(${string})`
+        | `attr(${string})`
+        | `"${string}"`;
 
 export type CssMixBlendMode
     = | "normal"
-    | "multiply"
-    | "screen"
-    | "overlay"
-    | "darken"
-    | "lighten"
-    | "color-dodge"
-    | "color-burn"
-    | "hard-light"
-    | "soft-light"
-    | "difference"
-    | "exclusion"
-    | "hue"
-    | "saturation"
-    | "color"
-    | "luminosity"
-    | "plus-darker"
-    | "plus-lighter"
-    | CssGlobal;
+        | "multiply"
+        | "screen"
+        | "overlay"
+        | "darken"
+        | "lighten"
+        | "color-dodge"
+        | "color-burn"
+        | "hard-light"
+        | "soft-light"
+        | "difference"
+        | "exclusion"
+        | "hue"
+        | "saturation"
+        | "color"
+        | "luminosity"
+        | "plus-darker"
+        | "plus-lighter"
+        | CssGlobal;
 
 export type CssPerspectiveOrigin
     = | `${"left" | "center" | "right" | "top" | "bottom" | `${number}%`}`
-    | `${"left" | "center" | "right"} ${"top" | "center" | "bottom"}`
-    | `${"left" | "right"} ${number}% ${"top" | "bottom"} ${number}%`;
+        | `${"left" | "center" | "right"} ${"top" | "center" | "bottom"}`
+        | `${"left" | "right"} ${number}% ${"top" | "bottom"} ${number}%`;
 
 type Direction = "tb" | "lr" | "rl";
 
 export type CssWritingMode
     = | `horizontal-${Direction}`
-    | `vertical-${Direction}`
-    | CssGlobal;
+        | `vertical-${Direction}`
+        | CssGlobal;
 
 export type CssWordBreak
     = | "normal"
-    | "break-all"
-    | "keep-all"
-    | "auto-phrase"
-    | "break-word"
-    | CssGlobal;
+        | "break-all"
+        | "keep-all"
+        | "auto-phrase"
+        | "break-word"
+        | CssGlobal;
 
 export type CssWhiteSpaceCollapse
     = | "collapse"
-    | "preserve"
-    | "preserve-breaks"
-    | "preserve-spaces"
-    | "break-spaces"
-    | CssGlobal;
+        | "preserve"
+        | "preserve-breaks"
+        | "preserve-spaces"
+        | "break-spaces"
+        | CssGlobal;
 
 type _CssWhiteSpace
     = | "normal"
-    | "nowrap"
-    | "pre"
-    | "pre-wrap"
-    | "pre-line"
-    | "break-spaces";
+        | "nowrap"
+        | "pre"
+        | "pre-wrap"
+        | "pre-line"
+        | "break-spaces";
 
 export type CssWhiteSpace
     = | _CssWhiteSpace
-    | `${_CssWhiteSpace} ${CssTextWrap}`;
+        | `${_CssWhiteSpace} ${CssTextWrap}`;
 
 export type CssTiming = `${number}${"ms" | "s"}`;
 
 export type CssPointerEvent
     = | "auto"
-    | "none"
-    | "visiblePainted"
-    | "visibleFill"
-    | "visibleStroke"
-    | "visible"
-    | "painted"
-    | "fill"
-    | "stroke"
-    | "bounding-box"
-    | "all";
+        | "none"
+        | "visiblePainted"
+        | "visibleFill"
+        | "visibleStroke"
+        | "visible"
+        | "painted"
+        | "fill"
+        | "stroke"
+        | "bounding-box"
+        | "all";
 
 export type CssTranslate
     = | "none"
-    | `${CssSizingLight}${Opt<` ${CssSizingLight}`>}${string}`;
+        | `${CssSizingLight}${Opt<` ${CssSizingLight}`>}${string}`;

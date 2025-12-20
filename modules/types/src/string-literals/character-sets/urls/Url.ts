@@ -103,8 +103,8 @@ export type UrlPort<
 > = [TOpt["portRequirement"]] extends ["required"]
     ? `:${_Ports<TOpt>}`
     : [TOpt["portRequirement"]] extends ["optional"]
-        ? "" | `:${_Ports<TOpt>}`
-        : ``;
+            ? "" | `:${_Ports<TOpt>}`
+            : ``;
 
 /**
  * **GetDefaultPort**`<T>`
@@ -350,7 +350,7 @@ export type UrlBuilder
         domain: D,
         basePath: B
     ) => `${P}://${D}/${B}`)
-  | (<U extends RelativeUrl>(url: U) => U);
+    | (<U extends RelativeUrl>(url: U) => U);
 
 /**
  * **Uri**
@@ -393,12 +393,12 @@ type _UrlsFrom<
     TContent extends string,
     TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions,
 > = [TOpt["protocolOptional"]] extends [true]
-    ? `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
+? `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
 | `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`
 | `${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`
 | `${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
 
-    : `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
+: `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
     | `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`;
 
 /**

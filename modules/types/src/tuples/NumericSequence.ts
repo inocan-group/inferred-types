@@ -39,9 +39,9 @@ type MoveUpward<
         >
         : never
     : [
-        ...TResult,
-        TStart
-    ];
+            ...TResult,
+            TStart
+        ];
 
 type MoveDownward<
     TTracker extends readonly unknown[],
@@ -63,9 +63,9 @@ type MoveDownward<
             >
             : never
         : [
-            ...TResult,
-            TStart
-        ];
+                ...TResult,
+                TStart
+            ];
 
 /**
  * **NumericSequence**

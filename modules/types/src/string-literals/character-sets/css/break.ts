@@ -2,26 +2,26 @@ import type { CssGlobal } from "inferred-types/types";
 
 export type CssBreak
     = | "auto"
-    | "avoid"
-    | "always"
-    | "all"
-    | "avoid-page"
-    | "page"
-    | "left"
-    | "right"
-    | "recto"
-    | "verso"
-    | "avoid-column"
-    | "region"
-    | CssGlobal;
+        | "avoid"
+        | "always"
+        | "all"
+        | "avoid-page"
+        | "page"
+        | "left"
+        | "right"
+        | "recto"
+        | "verso"
+        | "avoid-column"
+        | "region"
+        | CssGlobal;
 
 export type CssBreakInside
     = | "auto"
-    | "avoid"
-    | "avoid-page"
-    | "avoid-column"
-    | "avoid-region"
-    | CssGlobal;
+        | "avoid"
+        | "avoid-page"
+        | "avoid-column"
+        | "avoid-region"
+        | CssGlobal;
 
 export interface CssBreakProperties {
     /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/break-after) */

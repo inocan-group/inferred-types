@@ -32,7 +32,7 @@ type Convert<
               : TObj[First<TKeys>]
       >
       & TResult
-            )
+                )
             : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
     >;
 
@@ -50,14 +50,14 @@ export type CamelKeys<
 > = Process<Required<T>> extends infer CamelDict extends Dictionary
     ? OptionalKeysTuple<T> extends infer OptKeys extends readonly ObjectKey[]
         ? {
-            [K in keyof OptKeys]: OptKeys[K] extends string
-                ? CamelCase<OptKeys[K]>
-                : OptKeys[K]
-        } extends infer OptKeys extends readonly ObjectKey[]
-            ? MakeKeysOptional<
-                CamelDict,
-                OptKeys
-            >
-            : never
+                [K in keyof OptKeys]: OptKeys[K] extends string
+                    ? CamelCase<OptKeys[K]>
+                    : OptKeys[K]
+            } extends infer OptKeys extends readonly ObjectKey[]
+                ? MakeKeysOptional<
+                    CamelDict,
+                    OptKeys
+                >
+                : never
         : never
     : never;

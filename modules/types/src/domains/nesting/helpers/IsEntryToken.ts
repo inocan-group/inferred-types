@@ -11,17 +11,17 @@ export type IsEntryToken<
     ? boolean
     // Handle empty config {} - no starting characters
     : [TNesting] extends [Record<string, never>]
-        ? false
-        : [Keys<TNesting>] extends [never]
             ? false
-            : [TNesting] extends [NestingKeyValue]
-                ? [TChar] extends [Keys<TNesting>[number]]
-                    ? true
-                    : false
-                : [TNesting] extends [NestingTuple]
-                    ? TNesting[0] extends readonly string[]
-                        ? TChar extends TNesting[0][number]
-                            ? true
-                            : false
-                        : never
-                    : never;
+            : [Keys<TNesting>] extends [never]
+                    ? false
+                    : [TNesting] extends [NestingKeyValue]
+                            ? [TChar] extends [Keys<TNesting>[number]]
+                                    ? true
+                                    : false
+                            : [TNesting] extends [NestingTuple]
+                                    ? TNesting[0] extends readonly string[]
+                                        ? TChar extends TNesting[0][number]
+                                            ? true
+                                            : false
+                                        : never
+                                    : never;

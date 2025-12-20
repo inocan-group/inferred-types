@@ -27,7 +27,7 @@ export type StringIsAfter<
             : false; // A is empty, so not after
 
 // Example CharOrder mapping (expand as needed)
-type CharOrder = {
+interface CharOrder {
     "0": 0;
     "1": 1;
     "2": 2;
@@ -96,4 +96,4 @@ type CharOrder = {
     ":": 65;
     "/": 66;
     " ": 67;
-};
+}

@@ -4,14 +4,14 @@ import type { Dictionary, Mutable, ObjectKey, SortOrder } from "inferred-types/t
  * default options for sorting
  */
 
-export type SortByKeyOptions<T extends ObjectKey = ObjectKey> = {
+export interface SortByKeyOptions<T extends ObjectKey = ObjectKey> {
     /** Object Key's that should be pinned to the start of the array  */
     start?: T | readonly T[];
     /** Object keys's that should be pinned to the end of the array */
     end?: T | readonly T[];
 
     order?: SortOrder;
-};
+}
 
 // Helper to convert single value to array
 type ToArray<T> = T extends readonly unknown[] ? T : readonly [T];
@@ -56,9 +56,9 @@ type _GetStartElements<
     TStart extends readonly unknown[]
 > = TStart extends readonly [infer First, ...infer Rest]
     ? [
-        ..._FilterByValue<TList, TKey, First>,
-        ..._GetStartElements<TList, TKey, Rest>
-    ]
+            ..._FilterByValue<TList, TKey, First>,
+            ..._GetStartElements<TList, TKey, Rest>
+        ]
     : [];
 
 // Get elements that match end values
@@ -68,9 +68,9 @@ type _GetEndElements<
     TEnd extends readonly unknown[]
 > = TEnd extends readonly [infer First, ...infer Rest]
     ? [
-        ..._FilterByValue<TList, TKey, First>,
-        ..._GetEndElements<TList, TKey, Rest>
-    ]
+            ..._FilterByValue<TList, TKey, First>,
+            ..._GetEndElements<TList, TKey, Rest>
+        ]
     : [];
 
 // Get middle elements (not in start or end)

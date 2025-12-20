@@ -4,8 +4,8 @@ type Process<T, TNever,
 > = [IsNever<T>] extends [true]
     ? TNever
     : [IsEqual<T, true>] extends [true]
-        ? true
-        : false;
+            ? true
+            : false;
 
 /**
  * **IsTrue**`<T,[TNever]>`

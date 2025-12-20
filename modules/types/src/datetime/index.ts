@@ -17,7 +17,9 @@ export * from "./Iso";
 export * from "./Month";
 export * from "./object-types/index";
 export * from "./ParseDate";
+export * from "./ParsedDate";
+export * from "./ParseIsoFullDate";
+
 export * from "./ParseTime";
 export * from "./RenderTime";
-
 export * from "./seasonality";

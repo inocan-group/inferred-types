@@ -12,10 +12,10 @@ export type AsTemplateType<T extends DefaultTemplateBlocks>
     = [T] extends [`{{string}}`]
         ? string
         : [T] extends [`{{number}}`]
-            ? number
-            : [T] extends [`{{boolean}}`]
-                ? boolean
-                : never;
+                ? number
+                : [T] extends [`{{boolean}}`]
+                        ? boolean
+                        : never;
 
 /**
  * **AsTemplateTypes**`<T>`

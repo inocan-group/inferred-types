@@ -9,10 +9,10 @@ import type {
     TypedFunction
 } from "inferred-types/types";
 
-type LogicOptions = {
+interface LogicOptions {
     empty?: boolean | unknown;
     err?: "false" | "error" | unknown;
-};
+}
 
 type Reduce<T extends readonly (boolean | TypedFunction)[]> = {
     [K in keyof T]: T[K] extends TypedFunction
@@ -64,24 +64,24 @@ export type Or<
                             ? boolean
                         // Handle empty arrays
                             : [] extends T
-                                ? TOpt extends { empty: infer E } ? E : false
-                            // Process the array (reduce functions to booleans if needed)
-                                : T extends readonly boolean[]
-                                    ? HasTrue<T> extends true
-                                        ? true
-                                        : HasWideBoolean<T> extends true
-                                            ? boolean
-                                            : false
-                                // Handle arrays with functions
-                                    : Reduce<T> extends readonly boolean[]
-                                        ? HasTrue<Reduce<T>> extends true
+                                    ? TOpt extends { empty: infer E } ? E : false
+                                // Process the array (reduce functions to booleans if needed)
+                                    : T extends readonly boolean[]
+                                        ? HasTrue<T> extends true
                                             ? true
-                                            : HasWideBoolean<Reduce<T>> extends true
+                                            : HasWideBoolean<T> extends true
                                                 ? boolean
                                                 : false
-                                        : TOpt extends { err: "error" }
-                                            ? Err<"invalid/or", "The conditions passed into Or<T> could not be reduced down to just a boolean array.", { library: "inferred-types"; value: T }>
-                                            : false
+                                    // Handle arrays with functions
+                                        : Reduce<T> extends readonly boolean[]
+                                            ? HasTrue<Reduce<T>> extends true
+                                                ? true
+                                                : HasWideBoolean<Reduce<T>> extends true
+                                                    ? boolean
+                                                    : false
+                                            : TOpt extends { err: "error" }
+                                                ? Err<"invalid/or", "The conditions passed into Or<T> could not be reduced down to just a boolean array.", { library: "inferred-types"; value: T }>
+                                                : false
                     // Handle completely invalid types
                         : TOpt extends { err: "error" }
                             ? Err<"invalid/or", "The Or<T> type utility requires that all elements passed to it are either a boolean value directly or a LogicFunction which returns a boolean value", { value: T }>

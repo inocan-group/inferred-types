@@ -5,14 +5,14 @@ import type {
     NumberLike
 } from "inferred-types/types";
 
-type Descriptors<
+interface Descriptors<
     TOp extends ComparisonOperation,
     TParams extends ComparisonLookup[TOp]["params"],
-> = {
+> {
     sameDay: `compares two DateLike values to see if they refer to the same day.`;
     greaterThan: `checks if the passed in value(s) are greater than ${As<TParams[0], NumberLike>}.`;
     lessThan: `checks if the passed in value(s) are less than ${As<TParams[0], NumberLike>}.`;
-};
+}
 
 /**
  * **ComparisonDesc**`<TOp,TParams>`

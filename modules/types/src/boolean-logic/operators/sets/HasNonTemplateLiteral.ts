@@ -18,10 +18,10 @@ type Test<
 type Validate<T extends Container> = [IsAny<T>] extends [true]
     ? Err<`invalid/has-template-literal`, `The type passed into 'HasNonTemplateLiteral<T>' was 'any'! This utility requires that T be a container type.`>
     : [IsNever<T>] extends [true]
-        ? Err<`invalid/has-template-literal`, `The type passed into 'HasNonTemplateLiteral<T>' was 'never'! This utility requires that T be a container type.`>
-        : T extends Container
-            ? T
-            : Err<`invalid/has-template-literal`, `The type passed into HasNonTemplateLiteral<T> was not a container!`, { value: T }>;
+            ? Err<`invalid/has-template-literal`, `The type passed into 'HasNonTemplateLiteral<T>' was 'never'! This utility requires that T be a container type.`>
+            : T extends Container
+                ? T
+                : Err<`invalid/has-template-literal`, `The type passed into HasNonTemplateLiteral<T> was not a container!`, { value: T }>;
 
 /**
  * **HasNonTemplateLiteral**`<T>`
@@ -39,7 +39,7 @@ export type HasNonTemplateLiteral<
     = [Validate<T>] extends [Error]
         ? Validate<T> // return error
         : [Values<R>] extends [readonly unknown[]]
-            ? [number] extends [Values<R>["length"]]
-                ? boolean
-                : Test<Values<R>>
-            : never;
+                ? [number] extends [Values<R>["length"]]
+                        ? boolean
+                        : Test<Values<R>>
+                : never;

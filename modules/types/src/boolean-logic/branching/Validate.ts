@@ -38,15 +38,15 @@ export type Validate<
 > = [IsTrue<TTest>] extends [true]
     ? TTest
     : [IsFalse<TTest>] extends [true]
-        ? TErr
-        : [IsBoolean<TTest>] extends [true]
-            ? WideBooleanNotAllowed
-            : [TTest] extends [LogicFunction]
-                ? [IsTrue<ReturnType<TTest>>] extends [true]
-                    ? TTest
-                    : [IsFalse<ReturnType<TTest>>] extends [true]
-                        ? TErr
-                        : WideBooleanNotAllowed
-                : [IsWideType<TTest>] extends [true]
-                    ? WideReturnNotAllowed<TTest>
-                    : TTest;
+            ? TErr
+            : [IsBoolean<TTest>] extends [true]
+                    ? WideBooleanNotAllowed
+                    : [TTest] extends [LogicFunction]
+                            ? [IsTrue<ReturnType<TTest>>] extends [true]
+                                    ? TTest
+                                    : [IsFalse<ReturnType<TTest>>] extends [true]
+                                            ? TErr
+                                            : WideBooleanNotAllowed
+                            : [IsWideType<TTest>] extends [true]
+                                    ? WideReturnNotAllowed<TTest>
+                                    : TTest;

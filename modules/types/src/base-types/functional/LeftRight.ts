@@ -209,9 +209,9 @@ export type RightContains<
 
 export type LeftRight__Operations
     = | "extends"
-    | "equals"
-    | "includes"
-    | "contains";
+        | "equals"
+        | "includes"
+        | "contains";
 
 /**
  * **WhereLeft**`<TEval,TOp,TLeftRight,[IF],[ELSE]>`

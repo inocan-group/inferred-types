@@ -20,9 +20,9 @@ type Take<T extends string> = As<
                     ? C2 extends NumericChar
                         ? C3 extends NumericChar
                             ? {
-                                take: ThreeDigitMillisecond<`${C1}${C2}${C3}`>;
-                                rest: Rest;
-                            }
+                                    take: ThreeDigitMillisecond<`${C1}${C2}${C3}`>;
+                                    rest: Rest;
+                                }
                             : E<T>
                         : E<T>
                     : E<T>

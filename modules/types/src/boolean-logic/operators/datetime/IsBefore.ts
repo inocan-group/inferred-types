@@ -1,60 +1,54 @@
 import type {
-    As,
-    AsDateMeta,
-    DateLike,
-    DateMeta,
-    Err,
-    Fallback,
-    IsAny,
-    IsEqual,
     IsLessThan,
-    IsNull,
-    ThreeDigitMillisecond,
-    TwoDigitHour,
-    TwoDigitMinute,
-    TwoDigitSecond,
-    Xor
 } from "inferred-types/types";
 import type { IsTemplateLiteral } from "types/interpolation";
 
-type Lookup = {
-    hour: TwoDigitHour<"00">;
-    minute: TwoDigitMinute<"00">;
-    second: TwoDigitSecond<"00">;
-    ms: ThreeDigitMillisecond<"000">;
-    year: null;
-    month: null;
-    date: null;
-    offset: null;
-};
+// Check if two ISO date strings represent the same date with different precision
+type IsSameDateDifferentPrecision<A extends string, B extends string>
+    // Case: "2023-01-01" vs "2023-01-01T00:00:00Z"
+    = A extends `${infer DatePart}T00:00:00Z`
+        ? B extends DatePart ? true : false
+        : B extends `${infer DatePart}T00:00:00Z`
+            ? A extends DatePart ? true : false
+            : false;
 
-type Check<
-    A extends DateMeta,
-    B extends DateMeta,
-    O extends readonly (keyof A & keyof B & string & keyof Lookup)[] = ["year", "month", "date", "hour", "minute", "second", "ms"]
-> = O extends [
-    infer Head extends string & keyof A & keyof B & keyof Lookup & keyof DateMeta,
-    ...infer Rest extends readonly (keyof A & keyof B & string & keyof Lookup & keyof DateMeta)[]
-]
-    // normalize values for this component
-    ? Fallback<A[Head], Lookup[Head]> extends infer AV
-        ? Fallback<B[Head], Lookup[Head]> extends infer BV
-        // if exactly one side is null, comparison is indeterminate
-            ? Xor<IsNull<AV>, IsNull<BV>> extends true
-                ? boolean
-                // if both null, move to next component
-                : [AV] extends [null]
-                    ? Check<A, B, Rest>
-                    // both sides have comparable numeric-like strings
-                    : IsLessThan<As<AV, `${number}`>, As<BV, `${number}`>> extends true
-                        ? true
-                        : IsEqual<As<AV, `${number}`>, As<BV, `${number}`>> extends true
-                            ? Check<A, B, Rest>
-                            : false
-            : false
-        : false
-    // ran out of components with all equal -> not before
-    : false;
+// Simple character comparison for single characters (0-9, :, -, T, Z)
+type IsCharGreater<A extends string, B extends string>
+    = A extends "0" ? false
+        : A extends "1" ? B extends "0" ? true : false
+            : A extends "2" ? B extends "0" | "1" ? true : false
+                : A extends "3" ? B extends "0" | "1" | "2" ? true : false
+                    : A extends "4" ? B extends "0" | "1" | "2" | "3" ? true : false
+                        : A extends "5" ? B extends "0" | "1" | "2" | "3" | "4" ? true : false
+                            : A extends "6" ? B extends "0" | "1" | "2" | "3" | "4" | "5" ? true : false
+                                : A extends "7" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" ? true : false
+                                    : A extends "8" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" ? true : false
+                                        : A extends "9" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" ? true : false
+                                            : A extends ":" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ? true : false
+                                                : A extends "T" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "-" | ":" ? true : false
+                                                    : A extends "Z" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "-" | ":" | "T" ? true : false
+                                                        : A extends "-" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ? true : false
+                                                            : false;
+
+// Lexicographic string comparison for ISO date strings
+// IsBefore(A, B) is equivalent to IsAfter(B, A) aka LexicographicCompare(B, A)
+type LexicographicCompare<A extends string, B extends string> = A extends B
+    ? false // Equal strings (not after)
+    : IsSameDateDifferentPrecision<A, B> extends true
+        ? false // Semantically equal dates with different precision
+        : [A] extends [never]
+                ? false
+                : [B] extends [never]
+                        ? false
+                        : [A, B] extends [string, string]
+                                ? A extends `${infer AFirst}${infer ARest}`
+                                    ? B extends `${infer BFirst}${infer BRest}`
+                                        ? AFirst extends BFirst
+                                            ? LexicographicCompare<ARest, BRest> // First chars match, compare rest
+                                            : IsCharGreater<AFirst, BFirst> // Compare first characters
+                                        : true // A has chars, B doesn't
+                                    : false // A is empty, B has chars
+                                : false;
 
 /**
  * **IsBefore**`<A,B>`
@@ -62,65 +56,30 @@ type Check<
  * Tests whether `A` is _before_ (in time) `B`.
  */
 export type IsBefore<
-    A extends DateLike,
-    B extends DateLike,
-> = [IsAny<A>] extends [true]
+    A,
+    B,
+> = A extends object
     ? boolean
-    : [IsAny<B>] extends [true]
+    : B extends object
         ? boolean
-        : A extends object
+        : string extends A
             ? boolean
-            : B extends object
+            : string extends B
                 ? boolean
-                : A extends number
-                    ? B extends number
-                        ? IsEqual<A, B> extends true
-                            ? false // A === B
-                            : IsLessThan<A, B>
-                        : boolean
-                    : A extends string
-                        ? IsTemplateLiteral<A> extends true
+                : IsTemplateLiteral<A> extends true
+                    ? boolean
+                    : IsTemplateLiteral<B> extends true
+                        ? boolean
+                        : number extends A
                             ? boolean
-                            : string extends A
+                            : number extends B
                                 ? boolean
-                                : B extends string
-                                    ? IsTemplateLiteral<B> extends true
-                                        ? boolean
-                                        : string extends B
-                                            ? boolean
-                                            : AsDateMeta<A> extends infer AParsed
-                                                ? AsDateMeta<B> extends infer BParsed
-                                                    ? [Extract<AParsed, Error>] extends [never]
-                                                        ? [Extract<BParsed, Error>] extends [never]
-                                                            ? Check<As<AParsed, DateMeta>, As<BParsed, DateMeta>>
-                                                            : boolean
-                                                        : boolean
-                                                    : Err<
-                                                        `invalid-date/B`,
-                                                        `The second parameter 'B' was not a valid date!`,
-                                                        { a: A; b: B }
-                                                    >
-                                                : Err<
-                                                    `invalid-date/A`,
-                                                    `The first parameter 'A' was not a valid date!`,
-                                                    { a: A; b: B }
-                                                >
-                                    : AsDateMeta<A> extends infer AParsed
-                                        ? AsDateMeta<B> extends infer BParsed
-                                            // if either parse is potentially an Error (wide/ambiguous), return boolean
-                                            ? [Extract<AParsed, Error>] extends [never]
-                                                ? [Extract<BParsed, Error>] extends [never]
-                                                    ? Check<As<AParsed, DateMeta>, As<BParsed, DateMeta>>
-                                                    : boolean
-                                                : boolean
-                                            : Err<
-                                                `invalid-date/B`,
-                                                `The second parameter 'B' was not a valid date!`,
-                                                { a: A; b: B }
-                                            >
-                                        : Err<
-                                            `invalid-date/A`,
-                                            `The first parameter 'A' was not a valid date!`,
-                                            { a: A; b: B }
-                                        >
-                        : boolean;
+                                : A extends number
+                                    ? B extends number
+                                        ? IsLessThan<A, B>
+                                        : boolean
+                                    : A extends string
+                                        ? B extends string
+                                            ? LexicographicCompare<B, A>
+                                            : boolean
+                                        : boolean;

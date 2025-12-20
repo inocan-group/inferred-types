@@ -20,9 +20,9 @@ type Take<T extends string> = string extends T
                     ? C3 extends NumericChar
                         ? C4 extends NumericChar
                             ? {
-                                take: FourDigitYear<`${C1}${C2}${C3}${C4}`>;
-                                rest: Rest;
-                            }
+                                    take: FourDigitYear<`${C1}${C2}${C3}${C4}`>;
+                                    rest: Rest;
+                                }
                             : InvalidYear<T>
                         : InvalidYear<T>
                     : InvalidYear<T>

@@ -35,9 +35,9 @@ export type AssertContains<
 > = AssertValidation<TTest, Mapper, TExpected> extends { kind: "AssertionError" }
     ? AssertValidation<TTest, Mapper, TExpected>
     : [TTest] extends [string]
-        ? Contains<TTest, TExpected>
-        : [TTest] extends [number]
             ? Contains<TTest, TExpected>
-            : [TTest] extends [readonly unknown[]]
-                ? Contains<TTest, TExpected>
-                : false;
+            : [TTest] extends [number]
+                    ? Contains<TTest, TExpected>
+                    : [TTest] extends [readonly unknown[]]
+                            ? Contains<TTest, TExpected>
+                            : false;

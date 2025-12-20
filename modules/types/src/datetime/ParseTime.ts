@@ -38,10 +38,10 @@ type GetHoursMinutes<T extends string> = As<
             rest: infer Rest extends string;
         }
             ? {
-                hour: TwoDigitHour<Hour>;
-                minute: TwoDigitMinute<Minute>;
-                rest: Rest;
-            }
+                    hour: TwoDigitHour<Hour>;
+                    minute: TwoDigitMinute<Minute>;
+                    rest: Rest;
+                }
 
             : Err<
                 `parse-time/minute`,
@@ -53,19 +53,19 @@ type GetHoursMinutes<T extends string> = As<
             `the passed in string could not be parsed as an ISO Time string`,
             { parse: T }
         >,
-    Error | {
-        hour: TwoDigitHour<"branded">;
-        minute: TwoDigitMinute<"branded">;
-        rest: string;
-    }
+        Error | {
+            hour: TwoDigitHour<"branded">;
+            minute: TwoDigitMinute<"branded">;
+            rest: string;
+        }
 >;
 
 /** a successful result from `GetHoursMinutes` */
-type HHMM = {
+interface HHMM {
     hour: TwoDigitHour<"branded">;
     minute: TwoDigitMinute<"branded">;
     rest: string;
-};
+}
 
 /**
  * complete parsing of a time with Hour:Minute but not
@@ -94,12 +94,12 @@ type ParseTimeWithMinutes<
         }
             ? Rest extends ""
                 ? [
-                    THours,
-                    TMinutes,
-                    null,
-                    null,
-                    TZ
-                ]
+                        THours,
+                        TMinutes,
+                        null,
+                        null,
+                        TZ
+                    ]
                 : Err<
                     `parse-time/leftover`,
                     `Were able to parse out hours, minutes, and timezone but content still remains: ${Rest}`,

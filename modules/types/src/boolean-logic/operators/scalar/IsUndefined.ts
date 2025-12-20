@@ -8,6 +8,6 @@ import type { IsAny, IsNever } from "inferred-types/types";
 export type IsUndefined<T>
     = [IsNever<T>] extends [true] ? false
         : [IsAny<T>] extends [true] ? boolean
-            : [T] extends [undefined] ? true
-                : [Extract<T, undefined>] extends [never] ? false
-                    : boolean;
+                : [T] extends [undefined] ? true
+                        : [Extract<T, undefined>] extends [never] ? false
+                                : boolean;

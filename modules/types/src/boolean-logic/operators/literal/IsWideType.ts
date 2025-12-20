@@ -21,13 +21,13 @@ export type IsWideType<
 > = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : [IsWideBoolean<T>] extends [true]
-            ? true
-            : [IsUnknown<T>] extends [true]
-                ? boolean
-                : [IsUnion<T>] extends [true]
-                    ? IsWideUnion<T>
-                    : [IsLiteralLike<T>] extends [true]
-                        ? false
-                        : true;
+            ? false
+            : [IsWideBoolean<T>] extends [true]
+                    ? true
+                    : [IsUnknown<T>] extends [true]
+                            ? boolean
+                            : [IsUnion<T>] extends [true]
+                                    ? IsWideUnion<T>
+                                    : [IsLiteralLike<T>] extends [true]
+                                            ? false
+                                            : true;

@@ -7,12 +7,12 @@ type ConvertUnion<
     [K in keyof T]: [T[K]] extends [string]
         ? T[K]
         : [T[K]] extends [number]
-            ? `${T[K]}`
-            : [T[K]] extends [boolean]
                 ? `${T[K]}`
-                : [THandle] extends ["drop"]
-                    ? never
-                    : T[K];
+                : [T[K]] extends [boolean]
+                        ? `${T[K]}`
+                        : [THandle] extends ["drop"]
+                                ? never
+                                : T[K];
 }>;
 
 /**
@@ -39,11 +39,11 @@ export type AsStringUnion<
 > = [IsUnion<T>] extends [true]
     ? ConvertUnion<UnionToTuple<T>, THandle>
     : [T] extends [string]
-        ? T
-        : [T] extends [number]
-            ? `${T}`
-            : [T] extends [boolean]
-                ? `${T}`
-                : [THandle] extends ["drop"]
-                    ? never
-                    : T;
+            ? T
+            : [T] extends [number]
+                    ? `${T}`
+                    : [T] extends [boolean]
+                            ? `${T}`
+                            : [THandle] extends ["drop"]
+                                    ? never
+                                    : T;

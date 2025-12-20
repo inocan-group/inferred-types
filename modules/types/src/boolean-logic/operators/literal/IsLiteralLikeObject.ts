@@ -31,14 +31,14 @@ export type IsLiteralLikeObject<T>
     = [IsAny<T>] extends [true]
         ? false
         : [IsNever<T>] extends [true]
-            ? false
-            : [IsUnknown<T>] extends [true]
-                ? boolean
-                : [T] extends [readonly any[]]
-                    ? false
-                    : T extends Dictionary
-                        ? IsEqual<T, ExplicitlyEmptyObject> extends true
-                            ? true
+                ? false
+                : [IsUnknown<T>] extends [true]
+                        ? boolean
+                        : [T] extends [readonly any[]]
+                                ? false
+                                : T extends Dictionary
+                                    ? IsEqual<T, ExplicitlyEmptyObject> extends true
+                                        ? true
 
-                            : CheckIt<T>
-                        : false;
+                                        : CheckIt<T>
+                                    : false;

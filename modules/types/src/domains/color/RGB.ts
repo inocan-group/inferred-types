@@ -3,11 +3,11 @@
  *
  * An object representation of an RGB value.
  */
-export type RGB = {
+export interface RGB {
     /** red  */
     r: number;
     /** green */
     g: number;
     /** blue */
     b: number;
-};
+}

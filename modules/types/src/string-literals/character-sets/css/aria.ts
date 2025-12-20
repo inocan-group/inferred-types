@@ -57,7 +57,7 @@ export type AriaWindowRoles = "alertdialog"
  */
 export type AriaRole
     = | AriaDocStructureRoles
-    | AriaWidgetRoles
-    | AriaLandmarkRoles
-    | AriaLiveRegionRoles
-    | AriaWindowRoles;
+        | AriaWidgetRoles
+        | AriaLandmarkRoles
+        | AriaLiveRegionRoles
+        | AriaWindowRoles;

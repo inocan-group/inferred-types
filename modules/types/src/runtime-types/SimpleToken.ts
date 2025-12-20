@@ -53,9 +53,9 @@ export type SimpleSetToken = typeof SIMPLE_SET_TOKENS[number];
  */
 export type SimpleContainerToken
     = | SimpleDictToken
-    | SimpleArrayToken
-    | SimpleMapToken
-    | SimpleArrayToken;
+        | SimpleArrayToken
+        | SimpleMapToken
+        | SimpleArrayToken;
 
 /**
  * **SimpleScalarToken**
@@ -67,7 +67,7 @@ export type SimpleContainerToken
  */
 export type SimpleScalarToken
     = | RequiredSimpleScalarTokens
-    | OptionalSimpleScalarTokens;
+        | OptionalSimpleScalarTokens;
 
 /**
  * **SimpleToken**
@@ -82,8 +82,8 @@ export type SimpleScalarToken
  */
 export type SimpleToken
     = | SimpleScalarToken
-    | SimpleArrayToken
-    | SimpleDictToken
-    | SimpleMapToken
-    | SimpleSetToken
-    | SimpleUnionToken;
+        | SimpleArrayToken
+        | SimpleDictToken
+        | SimpleMapToken
+        | SimpleSetToken
+        | SimpleUnionToken;

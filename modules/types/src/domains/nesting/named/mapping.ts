@@ -52,12 +52,12 @@ export type AsNestingConfig<T extends Nesting> = As<
             { config: T }
                                 >
         : [T] extends [NestingKeyValue]
-            ? T
-            : [T] extends [NestingTuple]
                 ? T
-                : Err<
-                    `invalid-nesting-config/structured`,
-                    `The nesting configuration passed in was invalid! You must use either a known "named configuration" like "quotes" or "brackets" or `
-                >,
+                : [T] extends [NestingTuple]
+                        ? T
+                        : Err<
+                            `invalid-nesting-config/structured`,
+                            `The nesting configuration passed in was invalid! You must use either a known "named configuration" like "quotes" or "brackets" or `
+                        >,
     Error | NestingKeyValue | NestingTuple
 >;

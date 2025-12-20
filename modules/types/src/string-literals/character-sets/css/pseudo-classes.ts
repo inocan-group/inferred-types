@@ -5,8 +5,8 @@
  */
 export type CssDisplayStatePseudoClasses
     = | ":fullscreen"
-    | ":modal"
-    | ":picture-in-picture";
+        | ":modal"
+        | ":picture-in-picture";
 
 // INPUT
 
@@ -18,23 +18,23 @@ export type CssDisplayStatePseudoClasses
  */
 export type CssInputPseudoClasses
     = | ":autofill"
-    | ":enabled"
-    | ":disabled"
-    | ":readonly-only"
-    | ":read-write"
-    | ":placeholder-shown"
-    | ":default"
-    | ":checked"
-    | ":indeterminate"
-    | ":blank"
-    | ":valid"
-    | ":invalid"
-    | ":in-range"
-    | ":out-of-range"
-    | ":required"
-    | ":optional"
-    | ":user-valid"
-    | ":user-invalid";
+        | ":enabled"
+        | ":disabled"
+        | ":readonly-only"
+        | ":read-write"
+        | ":placeholder-shown"
+        | ":default"
+        | ":checked"
+        | ":indeterminate"
+        | ":blank"
+        | ":valid"
+        | ":invalid"
+        | ":in-range"
+        | ":out-of-range"
+        | ":required"
+        | ":optional"
+        | ":user-valid"
+        | ":user-invalid";
 
 /**
  * CSS Pseudo Classes for [Linguistic Elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes#linguistic_pseudo-classes).
@@ -43,7 +43,7 @@ export type CssInputPseudoClasses
  */
 export type CssLinguisticPseudoClasses
     = | ":dir"
-    | ":lang";
+        | ":lang";
 
 /**
  * CSS Pseudo Classes for [Locational Elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes#location_pseudo-classes).
@@ -53,12 +53,12 @@ export type CssLinguisticPseudoClasses
  */
 export type CssLocationPseudoClasses
     = | ":any-link"
-    | ":link"
-    | ":visited"
-    | ":local-link"
-    | ":target"
-    | ":target-within"
-    | ":scope";
+        | ":link"
+        | ":visited"
+        | ":local-link"
+        | ":target"
+        | ":target-within"
+        | ":scope";
 
 /**
  * CSS Pseudo Classes for [Resource State](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes#resource_state_pseudo-classes).
@@ -68,7 +68,7 @@ export type CssLocationPseudoClasses
  */
 export type CssResourceStatePseudoClasses
     = | ":playing"
-    | ":paused";
+        | ":paused";
 
 /**
  * CSS Pseudo Classes for [Time Dimensional Elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes#input_pseudo-classes).
@@ -78,8 +78,8 @@ export type CssResourceStatePseudoClasses
  */
 export type CssTimePseudoClasses
     = | ":current"
-    | ":past"
-    | ":future";
+        | ":past"
+        | ":future";
 
 /**
  * CSS Pseudo Classes for [Tree Structural Elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes#tree-structural_pseudo-classes).
@@ -89,17 +89,17 @@ export type CssTimePseudoClasses
  */
 export type CssTreePseudoClasses
     = | ":root"
-    | ":empty"
-    | ":nth-child"
-    | ":nth-last-child"
-    | ":first-child"
-    | ":last-child"
-    | ":only-child"
-    | ":nth-of-type"
-    | ":nth-last-of-type"
-    | ":first-of-type"
-    | ":last-of-type"
-    | ":only-of-type";
+        | ":empty"
+        | ":nth-child"
+        | ":nth-last-child"
+        | ":first-child"
+        | ":last-child"
+        | ":only-child"
+        | ":nth-of-type"
+        | ":nth-last-of-type"
+        | ":first-of-type"
+        | ":last-of-type"
+        | ":only-of-type";
 
 /**
  * CSS Pseudo Classes for [User Action Elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes#user_action_pseudo-classes).
@@ -109,10 +109,10 @@ export type CssTreePseudoClasses
  */
 export type CssUserActionPseudoClasses
     = | ":hover"
-    | ":active"
-    | ":focus"
-    | ":focus-visible"
-    | ":focus-within";
+        | ":active"
+        | ":focus"
+        | ":focus-visible"
+        | ":focus-within";
 
 /**
  * CSS Pseudo Classes for [Functional Elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes#functional_pseudo-classes).
@@ -123,9 +123,9 @@ export type CssUserActionPseudoClasses
  */
 export type CssFunctionalPseudoClass
     = | ":is"
-    | ":not"
-    | ":where"
-    | ":has";
+        | ":not"
+        | ":where"
+        | ":has";
 
 /**
  * Any CSS [**Pseudo Class**](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes#functional_pseudo-classes).
@@ -143,14 +143,14 @@ export type CssFunctionalPseudoClass
  */
 export type CssPseudoClass
     = | CssDisplayStatePseudoClasses
-    | CssFunctionalPseudoClass
-    | CssInputPseudoClasses
-    | CssLinguisticPseudoClasses
-    | CssLocationPseudoClasses
-    | CssResourceStatePseudoClasses
-    | CssTimePseudoClasses
-    | CssTreePseudoClasses
-    | CssUserActionPseudoClasses;
+        | CssFunctionalPseudoClass
+        | CssInputPseudoClasses
+        | CssLinguisticPseudoClasses
+        | CssLocationPseudoClasses
+        | CssResourceStatePseudoClasses
+        | CssTimePseudoClasses
+        | CssTreePseudoClasses
+        | CssUserActionPseudoClasses;
 
 /**
  * **CssPseudoClassDefn**

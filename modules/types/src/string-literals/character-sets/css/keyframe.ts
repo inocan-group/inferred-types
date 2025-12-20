@@ -6,9 +6,9 @@ import type { Suggest } from "inferred-types/types";
  */
 export type CssKeyframeTimestamp
     = | "from"
-    | "to"
-    | `${number}%`
-    | `${number}%${string},${number}%`;
+        | "to"
+        | `${number}%`
+        | `${number}%${string},${number}%`;
 
 export type CssKeyframeTimestampSuggest = Suggest<
     "from"

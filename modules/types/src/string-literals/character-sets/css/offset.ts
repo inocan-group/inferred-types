@@ -4,19 +4,19 @@ type NamedPosition = "bottom" | "top" | "left" | "right" | "center" | "auto" | "
 
 export type CssOffsetPosition
     = | `${NamedPosition} ${CssSizing | NamedPosition}${string}`
-    | `${CssSizing}${string}`
-    | CssGlobal;
+        | `${CssSizing}${string}`
+        | CssGlobal;
 
 export type CssOffsetPath
     = | `ray(${string})`
-    | `url(${string})`
-    | `circle(${string})`
-    | `ellipse(${string})`
-    | `polygon(${string})`
-    | `path(${string})`
-    | `rect(${string})`
-    | `xywh(${string})`
-    | CssGlobal;
+        | `url(${string})`
+        | `circle(${string})`
+        | `ellipse(${string})`
+        | `polygon(${string})`
+        | `path(${string})`
+        | `rect(${string})`
+        | `xywh(${string})`
+        | CssGlobal;
 
 export type CssOffsetDistance = "0" | CssSizing | CssGlobal;
 

@@ -14,10 +14,10 @@
  * - you can test if a node or any of their children are _unbalanced_
  * with the `IsBalanced<T>` utility.
  */
-export type NestedString = {
+export interface NestedString {
     content: string;
     enterChar: string | null;
     exitChar: string | null;
     children: NestedString[];
     level: number;
-};
+}

@@ -14,10 +14,10 @@ import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
  */
 export type Container
     = | readonly unknown[]
-    | Dictionary
-    | Map<any, any>
-    | WeakMap<any, any>
-    | Set<any>;
+        | Dictionary
+        | Map<any, any>
+        | WeakMap<any, any>
+        | Set<any>;
 
 /**
  * **NarrowContainer**`<N>`
@@ -27,4 +27,4 @@ export type Container
  */
 export type NarrowContainer<N extends Narrowable>
     = | Dictionary<ObjectKey, N>
-| readonly N[];
+        | readonly N[];

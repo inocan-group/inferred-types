@@ -22,9 +22,9 @@ type Take<T extends string> = string extends T
             ? C1 extends NumericChar__ZeroToFive
                 ? C2 extends NumericChar
                     ? {
-                        take: TwoDigitSecond<`${C1}${C2}`>;
-                        rest: Rest;
-                    }
+                            take: TwoDigitSecond<`${C1}${C2}`>;
+                            rest: Rest;
+                        }
                     : E<T>
                 : E<T>
             : E<T>;

@@ -13,8 +13,8 @@ type OnlyString<T extends readonly unknown[]> = As<RemoveNever<{
     [K in keyof T]: T[K] extends string
         ? T[K]
         : [T[K]] extends [number | boolean]
-            ? `${T[K]}`
-            : never
+                ? `${T[K]}`
+                : never
 }>, readonly string[]>;
 
 /**
@@ -42,21 +42,21 @@ export type AsString<
 > = [string] extends [T]
     ? string
     : [T] extends [string]
-        ? T
-        : [IsUnion<T>] extends [true]
-            ? OnlyString<UnionToTuple<T>>[number]
-            : [T] extends [number]
-                ? `${T}`
-                : [T] extends [boolean]
-                    ? `${T}`
-                    : [T] extends [readonly (unknown)[]]
-                        ? IsWideArray<T> extends true
-                            ? T extends (infer Type extends string | number | boolean)[]
-                                ? `${Type}`
-                                : never
-                            : ToJsonArray<T, { quote: "'" }>
-                        : [T] extends [object]
-                            ? [T] extends [Dictionary]
-                                ? ToJsonObject<T>
-                                : never
-                            : never;
+            ? T
+            : [IsUnion<T>] extends [true]
+                    ? OnlyString<UnionToTuple<T>>[number]
+                    : [T] extends [number]
+                            ? `${T}`
+                            : [T] extends [boolean]
+                                    ? `${T}`
+                                    : [T] extends [readonly (unknown)[]]
+                                            ? IsWideArray<T> extends true
+                                                ? T extends (infer Type extends string | number | boolean)[]
+                                                    ? `${Type}`
+                                                    : never
+                                                : ToJsonArray<T, { quote: "'" }>
+                                            : [T] extends [object]
+                                                    ? [T] extends [Dictionary]
+                                                            ? ToJsonObject<T>
+                                                            : never
+                                                    : never;

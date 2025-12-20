@@ -8,7 +8,7 @@ import type { InputTokenSuggestions } from "types/runtime-types";
  *
  * **Related:** `GenericParamToken`
  */
-export type GenericParam = {
+export interface GenericParam {
     /** the generic's name */
     name: string;
     /**
@@ -20,4 +20,4 @@ export type GenericParam = {
      * the **type** the given generic parameter  _extends_
      */
     type: unknown;
-};
+}

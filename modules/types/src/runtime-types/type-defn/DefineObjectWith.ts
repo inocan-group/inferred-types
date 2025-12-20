@@ -27,15 +27,15 @@ type Convert<
  *
  * **Related:** `DefineObject`, `TokenMapper`
  */
-export type DefineObjectWith<
+export interface DefineObjectWith<
     TDefn extends Record<string, TKeys[number]>,
     TMap extends TokenMapper,
     TKeys extends readonly string[] = StringKeys<TMap>
-> = {
+> {
     /** a object created with the `DefineObjectWith` utility */
     kind: "define-object-with";
     /** the token based definition of the type */
     defn: TDefn;
     /** the type which the tokens represent */
     type: Convert<TDefn, TMap>;
-};
+}

@@ -23,10 +23,10 @@ import type {
  */
 export type IsIsoMonthDate<T> = [T] extends [IsoMonthDate]
     ? [string] extends [T]
-        ? boolean
-        : [ParseDate<T>] extends [ParsedDate]
-            ? [ParseDate<T>] extends [[null, TwoDigitDate, TwoDigitDate, null]]
-                ? true
-                : false
-            : false
+            ? boolean
+            : [ParseDate<T>] extends [ParsedDate]
+                    ? [ParseDate<T>] extends [[null, TwoDigitDate, TwoDigitDate, null]]
+                            ? true
+                            : false
+                    : false
     : false;

@@ -16,14 +16,14 @@ export type Multiply<
 > = Or<[Extends<AsNumber<A>, 0>, Extends<AsNumber<B>, 0>]> extends true
     ? 0
     : [] extends R
-        ? S["length"]
-        : Multiply<
-            A,
-            B,
-            U,
-            AfterFirst<R>,
-            [
-                ...S,
-                ...U
-            ]
-        >;
+            ? S["length"]
+            : Multiply<
+                A,
+                B,
+                U,
+                AfterFirst<R>,
+                [
+                    ...S,
+                    ...U
+                ]
+            >;

@@ -53,10 +53,10 @@ type GetKv<
             >
             : GetInputToken<ValueToken> extends IT_Token
                 ? {
-                    key: DetermineKeyType<KeyToken>;
-                    value: GetInputToken<ValueToken>["type"];
-                    required: Not<TOptional>;
-                }
+                        key: DetermineKeyType<KeyToken>;
+                        value: GetInputToken<ValueToken>["type"];
+                        required: Not<TOptional>;
+                    }
                 : Err<`malformed-token/object-literal`>
     : never;
 
@@ -96,13 +96,13 @@ type ParseObjectLiteral<T extends string> = NestedSplit<T, "}"> extends infer Pa
                         ? Length<Outcome["errors"]> extends 0
                             ? Outcome["successes"] extends infer Success extends readonly KeyValue[]
                                 ? {
-                                    __kind: "IT_Token";
-                                    kind: "object-literal";
-                                    token: `{ ${Trim<Block>} }`;
-                                    type: FromKv<Success>;
-                                    rest: Trim<Join<Rest, "}">>;
-                                    keyValues: Success;
-                                }
+                                        __kind: "IT_Token";
+                                        kind: "object-literal";
+                                        token: `{ ${Trim<Block>} }`;
+                                        type: FromKv<Success>;
+                                        rest: Trim<Join<Rest, "}">>;
+                                        keyValues: Success;
+                                    }
                                 : Err<
                                     "malformed-token/object-literal",
                         `There were no errors detected in the key/value pairs but result type did not extends IT_Token: ${Block}`,

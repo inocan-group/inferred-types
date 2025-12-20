@@ -28,5 +28,5 @@ export type BeforeLast<
                 ? Concat<Pop<Chars<T>>>
                 : never
     : [T] extends [readonly unknown[]]
-        ? As<Handle<Pop<T>, never, []>, T[number][]>
-        : never;
+            ? As<Handle<Pop<T>, never, []>, T[number][]>
+            : never;

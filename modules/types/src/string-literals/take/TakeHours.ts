@@ -20,23 +20,23 @@ type Take<T extends string> = string extends T
             ? C1 extends "0"
                 ? C2 extends NumericChar
                     ? {
-                        take: TwoDigitHour<`${C1}${C2}`>;
-                        rest: Rest;
-                    }
+                            take: TwoDigitHour<`${C1}${C2}`>;
+                            rest: Rest;
+                        }
                     : HoursErr<T>
                 : C1 extends "1"
                     ? C2 extends NumericChar
                         ? {
-                            take: TwoDigitHour<`${C1}${C2}`>;
-                            rest: Rest;
-                        }
+                                take: TwoDigitHour<`${C1}${C2}`>;
+                                rest: Rest;
+                            }
                         : HoursErr<T>
                     : C1 extends "2"
                         ? C2 extends "0" | "1" | "2" | "3"
                             ? {
-                                take: TwoDigitHour<`${C1}${C2}`>;
-                                rest: Rest;
-                            }
+                                    take: TwoDigitHour<`${C1}${C2}`>;
+                                    rest: Rest;
+                                }
                             : HoursErr<T>
                         : HoursErr<T>
             : HoursErr<T>;

@@ -13,9 +13,9 @@ export type IsOk<T> = T extends { take: null | string; rest: string }
     ? T["take"] extends null
         ? never
         : {
-            take: T["take"];
-            rest: T["rest"];
-        }
+                take: T["take"];
+                rest: T["rest"];
+            }
     : IsUnion<T> extends true
         ? UnionFilter<T, Error>
         : T extends Error

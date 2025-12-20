@@ -61,14 +61,14 @@ export type HasVariadicTail<
 > = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : IsVariadicArray<R> extends true
-            ? HasFixedHead<R> extends true
-                ? SplitAtVariadic<R> extends [...any[], []]
-                    ? true
+            ? false
+            : IsVariadicArray<R> extends true
+                ? HasFixedHead<R> extends true
+                    ? SplitAtVariadic<R> extends [...any[], []]
+                        ? true
+                        : false
                     : false
-                : false
-            : false;
+                : false;
 
 /**
  * **HasVariadicHead**`<T>`
@@ -91,14 +91,14 @@ export type HasVariadicHead<
 > = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : IsVariadicArray<R> extends true
-            ? HasFixedHead<R> extends true
-                ? false
-                : SplitAtVariadic<R> extends [...unknown[], []]
+            ? false
+            : IsVariadicArray<R> extends true
+                ? HasFixedHead<R> extends true
                     ? false
-                    : true
-            : false;
+                    : SplitAtVariadic<R> extends [...unknown[], []]
+                        ? false
+                        : true
+                : false;
 
 /**
  * **HasVariadicInterior**`<T>`
@@ -114,17 +114,17 @@ export type HasVariadicInterior<
 > = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : IsVariadicArray<R> extends true
-            ? Not<Or<[
-                HasVariadicHead<R>,
-                HasVariadicTail<R>,
-            ]>> extends true
-                ? SplitAtVariadic<R> extends [...unknown[], []]
-                    ? false
-                    : true
-                : false
-            : false;
+            ? false
+            : IsVariadicArray<R> extends true
+                ? Not<Or<[
+                    HasVariadicHead<R>,
+                    HasVariadicTail<R>,
+                ]>> extends true
+                    ? SplitAtVariadic<R> extends [...unknown[], []]
+                        ? false
+                        : true
+                    : false
+                : false;
 
 /**
  * **AllOptionalElements**
@@ -151,14 +151,14 @@ export type GetNonVariadicLength<
 > = Depth["length"] extends 25 // Add depth limit to prevent unbounded recursion
     ? F["length"] // Fallback when depth exceeded
     : [] extends Required<T>
-        ? F["length"]
-        : Required<Mutable<T>> extends [infer Explicit, ...infer REST]
-            ? GetNonVariadicLength<
-                REST,
-                [...F, Explicit],
-                [...Depth, unknown]
-            >
-            : F["length"];
+            ? F["length"]
+            : Required<Mutable<T>> extends [infer Explicit, ...infer REST]
+                ? GetNonVariadicLength<
+                    REST,
+                    [...F, Explicit],
+                    [...Depth, unknown]
+                >
+                : F["length"];
 
 /**
  * **NonVariadicRequired**`<T>`
@@ -173,14 +173,14 @@ type NonVariadicRequired<
 > = Depth["length"] extends 25 // Add depth limit to prevent unbounded recursion
     ? F["length"] // Fallback when depth exceeded
     : [] extends T
-        ? F["length"]
-        : Mutable<T> extends [infer Explicit, ...infer REST]
-            ? NonVariadicRequired<
-                REST,
-                [...F, Explicit],
-                [...Depth, unknown]
-            >
-            : F["length"];
+            ? F["length"]
+            : Mutable<T> extends [infer Explicit, ...infer REST]
+                ? NonVariadicRequired<
+                    REST,
+                    [...F, Explicit],
+                    [...Depth, unknown]
+                >
+                : F["length"];
 
 /**
  * **GetRequiredElementCount**`<T>`

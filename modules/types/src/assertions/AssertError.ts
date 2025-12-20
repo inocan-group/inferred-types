@@ -48,17 +48,17 @@ export type AssertError<
                 ? And<[
                     TTest extends { type: any }
                         ? [TTest["type"]] extends [Type]
-                            ? [Type] extends [TTest["type"]]
-                                ? true
+                                ? [Type] extends [TTest["type"]]
+                                        ? true
+                                        : false
                                 : false
-                            : false
                         : false,
                     TTest extends { subType: any }
                         ? [TTest["subType"]] extends [SubType]
-                            ? [SubType] extends [TTest["subType"]]
-                                ? true
+                                ? [SubType] extends [TTest["subType"]]
+                                        ? true
+                                        : false
                                 : false
-                            : false
                         : false
                 ]>
                 : false
@@ -70,25 +70,25 @@ export type AssertError<
                     ? And<[
                         TTest extends { type: any }
                             ? [TTest["type"]] extends [TType]
-                                ? [TType] extends [TTest["type"]]
-                                    ? true
+                                    ? [TType] extends [TTest["type"]]
+                                            ? true
+                                            : false
                                     : false
-                                : false
                             : false,
                         TTest extends { subType: any }
                             ? [TTest["subType"]] extends [TSubType]
-                                ? [TSubType] extends [TTest["subType"]]
-                                    ? true
+                                    ? [TSubType] extends [TTest["subType"]]
+                                            ? true
+                                            : false
                                     : false
-                                : false
                             : false
                     ]>
                     : TTest extends { type: any }
                         ? [TTest["type"]] extends [TType]
-                            ? [TType] extends [TTest["type"]]
-                                ? true
+                                ? [TType] extends [TTest["type"]]
+                                        ? true
+                                        : false
                                 : false
-                            : false
                         : false
                 : true
             : false;

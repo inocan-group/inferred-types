@@ -17,16 +17,16 @@ export type IsLiteral<T, U extends LiteralModifiers = null> = [IsAny<T>] extends
         false
     >
     : [IsNever<T>] extends [true]
-        ? If<
-            Or<[
-                HasModifier<"include-never", U, LiteralModifiers>,
-                HasModifier<"include-boundary", U, LiteralModifiers>
-            ]>,
-            true,
-            false
-        >
-        : [T] extends [readonly unknown[]]
-            ? IsLiteralTuple<T>
-            : [T] extends [object]
-                ? IsLiteralObject<T>
-                : IsLiteralScalar<T>;
+            ? If<
+                Or<[
+                    HasModifier<"include-never", U, LiteralModifiers>,
+                    HasModifier<"include-boundary", U, LiteralModifiers>
+                ]>,
+                true,
+                false
+            >
+            : [T] extends [readonly unknown[]]
+                    ? IsLiteralTuple<T>
+                    : [T] extends [object]
+                            ? IsLiteralObject<T>
+                            : IsLiteralScalar<T>;

@@ -38,6 +38,6 @@ export type IsTemplateLiteral<T> = IsUnion<T> extends true
             : T extends ""
                 ? false
                 : [CountTemplates<`|${T}|`>] extends [0]
-                    ? false
-                    : true
+                        ? false
+                        : true
         : false;

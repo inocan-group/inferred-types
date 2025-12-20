@@ -10,9 +10,9 @@ type Process<
         ? Process<Rest, TReq, Increment<TIndex>, { required: TOutput["required"]; optional: [...TOutput["optional"], Head] }>
         : Process<Rest, TReq, Increment<TIndex>, { required: [...TOutput["required"], Head]; optional: TOutput["optional"] }>
     : [
-        ...TOutput["required"],
-        ...Partial<TOutput["optional"]>
-    ];
+            ...TOutput["required"],
+            ...Partial<TOutput["optional"]>
+        ];
 
 /**
  * **MakeOptional**`<T>`

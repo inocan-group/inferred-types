@@ -72,19 +72,19 @@ type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Aft
                     ? Trim<AfterParams> extends `:${infer ReturnToken extends string}`
                         ? FnFrom<CalcParams<Parameters>, GetReturnType<Trim<ReturnToken>, Generics>, { name: Trim<Name> }> extends infer FnType extends TypedFunction
                             ? {
-                                __kind: "IT_Token";
-                                kind: "function";
-                                name: Trim<Name>;
-                                generics: Generics;
-                                parameters: Parameters;
-                                narrowing: true;
-                                returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
-                                returnType: GetReturnType<Trim<ReturnToken>, Generics>;
-                                token: Trim<T>;
-                                type: FnType;
-                                isAsync: Extends<GetReturnType<Trim<ReturnToken>, Generics>, Promise<any>>;
-                                rest: "";
-                            }
+                                    __kind: "IT_Token";
+                                    kind: "function";
+                                    name: Trim<Name>;
+                                    generics: Generics;
+                                    parameters: Parameters;
+                                    narrowing: true;
+                                    returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                                    returnType: GetReturnType<Trim<ReturnToken>, Generics>;
+                                    token: Trim<T>;
+                                    type: FnType;
+                                    isAsync: Extends<GetReturnType<Trim<ReturnToken>, Generics>, Promise<any>>;
+                                    rest: "";
+                                }
                             : never
                         : Err<
                             "malformed-token",
@@ -109,19 +109,19 @@ type NamedSyncFunction<T extends string> = Trim<T> extends `function ${infer Aft
                             ? AsStaticTemplate<Trim<ReturnTok>, TemplateMap__Generics<Generics>> extends infer ReturnToken extends string
                                 ? FnFrom<CalcParams<Parameters>, GetReturnType<Trim<ReturnToken>, Generics>, EmptyObject> extends infer FnType extends TypedFunction
                                     ? {
-                                        __kind: "IT_Token";
-                                        kind: "function";
-                                        name: Trim<Name>;
-                                        generics: Generics;
-                                        parameters: Parameters;
-                                        returnToken: ReturnToken;
-                                        returnType: GetReturnType<Trim<ReturnTok>, Generics>;
-                                        narrowing: false;
-                                        token: Trim<T>;
-                                        type: FnType & { name: Trim<Name> };
-                                        isAsync: Extends<FromInputToken<Trim<ReturnTok>>, Promise<any>>;
-                                        rest: "";
-                                    }
+                                            __kind: "IT_Token";
+                                            kind: "function";
+                                            name: Trim<Name>;
+                                            generics: Generics;
+                                            parameters: Parameters;
+                                            returnToken: ReturnToken;
+                                            returnType: GetReturnType<Trim<ReturnTok>, Generics>;
+                                            narrowing: false;
+                                            token: Trim<T>;
+                                            type: FnType & { name: Trim<Name> };
+                                            isAsync: Extends<FromInputToken<Trim<ReturnTok>>, Promise<any>>;
+                                            rest: "";
+                                        }
                                     : never
                                 : never
                             : Err<
@@ -167,22 +167,22 @@ type AnonSyncFunction<T extends string> = Trim<T> extends `function ${infer Rest
                     : FnFrom<CalcParams<Parameters>, GetReturnType<Trim<ReturnToken>, Generics>, EmptyObject> extends infer FnType extends TypedFunction
 
                         ? {
-                            __kind: "IT_Token";
-                            kind: "function";
-                            name: null;
-                            generics: Generics;
-                            parameters: Parameters;
-                            narrowing: Generics extends [] ? false : true;
-                            returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
-                            returnType: GetReturnType<Trim<ReturnToken>, Generics>;
-                            token: Trim<T>;
-                            type: FnType;
-                            isAsync: Extends<
-                                GetReturnType<Trim<ReturnToken>, Generics>,
-                                Promise<any>
-                            >;
-                            rest: "";
-                        }
+                                __kind: "IT_Token";
+                                kind: "function";
+                                name: null;
+                                generics: Generics;
+                                parameters: Parameters;
+                                narrowing: Generics extends [] ? false : true;
+                                returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                                returnType: GetReturnType<Trim<ReturnToken>, Generics>;
+                                token: Trim<T>;
+                                type: FnType;
+                                isAsync: Extends<
+                                    GetReturnType<Trim<ReturnToken>, Generics>,
+                                    Promise<any>
+                                >;
+                                rest: "";
+                            }
                         : never
                 : Err<"malformed-token", `Expected return type after ':' in an anonymous function`>
             : never
@@ -225,19 +225,19 @@ type ArrowSyncFunction<T extends string> = IT_TakeParameters<T> extends infer P 
                 : FnFrom<CalcParams<Parameters>, GetReturnType<Trim<ReturnToken>, Generics>, EmptyObject> extends infer FnType extends TypedFunction
 
                     ? {
-                        __kind: "IT_Token";
-                        kind: "function";
-                        name: null;
-                        generics: Generics;
-                        parameters: Parameters;
-                        narrowing: Generics extends [] ? false : true; // generics imply narrowing
-                        isAsync: GetReturnType<Trim<ReturnToken>, Generics> extends Promise<any> ? true : false;
-                        returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
-                        returnType: GetReturnType<Trim<ReturnToken>, Generics>;
-                        token: T;
-                        type: FnType;
-                        rest: "";
-                    }
+                            __kind: "IT_Token";
+                            kind: "function";
+                            name: null;
+                            generics: Generics;
+                            parameters: Parameters;
+                            narrowing: Generics extends [] ? false : true; // generics imply narrowing
+                            isAsync: GetReturnType<Trim<ReturnToken>, Generics> extends Promise<any> ? true : false;
+                            returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                            returnType: GetReturnType<Trim<ReturnToken>, Generics>;
+                            token: T;
+                            type: FnType;
+                            rest: "";
+                        }
                     : never
             : Err<"malformed-token", `An arrow function requires the '=>' operator but it was not found, got: '${Rest}'`>
         : never

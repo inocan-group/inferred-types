@@ -135,9 +135,9 @@ export type Flatten<
 > = [ToScalar] extends [false]
     ? Process<TList, TLevel>
     : [IsUnion<Process<TList, TLevel>>] extends [true]
-        ? IterateScalar<UnionToTuple<Process<TList, TLevel>>, TLevel>
-        : [IsTuple<Process<TList, TLevel>>] extends [true]
-            ? TupleToUnion<Process<TList, TLevel>>
-            : Process<TList, TLevel> extends (infer Type)[]
-                ? Type
-                : never;
+            ? IterateScalar<UnionToTuple<Process<TList, TLevel>>, TLevel>
+            : [IsTuple<Process<TList, TLevel>>] extends [true]
+                    ? TupleToUnion<Process<TList, TLevel>>
+                    : Process<TList, TLevel> extends (infer Type)[]
+                        ? Type
+                        : never;

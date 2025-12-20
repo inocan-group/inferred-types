@@ -2,7 +2,7 @@ import type { AsLiteralTemplate, AsNestingConfig, BracketNesting, EmptyObject, E
 
 type NestingFormat = "string" | "string[]" | "template";
 
-type FilterByNestingLevel__Options = {
+interface FilterByNestingLevel__Options {
     /**
      * The nesting level you want returned; the default is `0`.
      */
@@ -29,7 +29,7 @@ type FilterByNestingLevel__Options = {
      * we will instead add in the `${string}` to indicate a "hole"._
      */
     output?: NestingFormat;
-};
+}
 
 // Helper to format content of the current node of a NestedString
 // For level > 0 nodes, we need to remove {{child}} placeholders

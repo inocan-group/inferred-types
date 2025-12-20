@@ -50,8 +50,8 @@ type FindLast<
         TStack["length"] extends 0 ? true : false
     ]> extends true
         ? [TInclude] extends [true]
-            ? `${TRtn}${First<TChars>}`
-            : TRtn
+                ? `${TRtn}${First<TChars>}`
+                : TRtn
         : And<[
             IsExitToken<First<TChars>, TNesting>,
             TStack["length"] extends 1 ? true : false,
@@ -63,8 +63,8 @@ type FindLast<
             First<TChars> extends TFind ? true : false
         ]> extends true
             ? [TInclude] extends [true]
-                ? `${TRtn}${First<TChars>}`
-                : TRtn
+                    ? `${TRtn}${First<TChars>}`
+                    : TRtn
             : IsNestingMatchEnd<First<TChars>, TStack, GetParentConfig<TStack, TRootNesting>> extends true
                 ? Pop<TStack>["length"] extends 0
                     // Exiting to root level - restore root config
@@ -118,10 +118,10 @@ type FindLast<
                         TRootNesting
                     >;
 
-export type RetainUntil__NestedOptions = {
+export interface RetainUntil__NestedOptions {
     include?: boolean;
     config?: Nesting;
-};
+}
 
 /**
  * **RetainUntil__Nested**`<TStr, TFind, [options]>`

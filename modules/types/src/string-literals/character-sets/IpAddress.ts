@@ -20,14 +20,14 @@ import type {
  */
 export type Ip4Octet
     = | `25${NumericChar__ZeroToFive}`
-    | `24${NumericChar}`
-    | `23${NumericChar}`
-    | `22${NumericChar}`
-    | `21${NumericChar}`
-    | `20${NumericChar}`
-    | `1${NumericChar}${NumericChar}`
-    | `${NumericChar}${NumericChar}`
-    | `${NumericChar}`;
+        | `24${NumericChar}`
+        | `23${NumericChar}`
+        | `22${NumericChar}`
+        | `21${NumericChar}`
+        | `20${NumericChar}`
+        | `1${NumericChar}${NumericChar}`
+        | `${NumericChar}${NumericChar}`
+        | `${NumericChar}`;
 
 export type Ip4NetmaskSuggestion = Suggest<[
     `10.0.0.0/8`,

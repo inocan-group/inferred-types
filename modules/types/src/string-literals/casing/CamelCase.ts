@@ -22,8 +22,8 @@ export type CamelCase<
         ? CamelCaseSimple<T>
         : T extends readonly unknown[]
             ? {
-                [K in keyof T]: T[K] extends string
-                    ? CamelCase<T[K], TPreserve>
-                    : T[K]
-            }
+                    [K in keyof T]: T[K] extends string
+                        ? CamelCase<T[K], TPreserve>
+                        : T[K]
+                }
             : never;

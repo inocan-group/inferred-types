@@ -14,11 +14,11 @@ export type IT_TakePromise<T extends string> = T extends `Promise<${infer Rest e
                 { token: T; block: Block }
             >
             : {
-                __kind: "IT_Token";
-                kind: "promise";
-                token: `Promise<${Block}>`;
-                type: Promise<FromInputToken__String<Block>>;
-                rest: Trim<Join<Rest, ">">>;
-            }
+                    __kind: "IT_Token";
+                    kind: "promise";
+                    token: `Promise<${Block}>`;
+                    type: Promise<FromInputToken__String<Block>>;
+                    rest: Trim<Join<Rest, ">">>;
+                }
         : never
     : Err<"wrong-handler">;

@@ -24,9 +24,9 @@ import type {
  *
  * - typically used `FromDefn` or `FromDefineObject` utilities
  */
-export type DefineObject = {
+export interface DefineObject {
     [key: string]: InputToken;
-};
+}
 
 /**
  * **DefineObjectApi**

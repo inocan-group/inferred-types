@@ -82,8 +82,8 @@ export type PascalCase<
             : PascalCaseSimple<Trim<T>>
         : T extends readonly unknown[]
             ? {
-                [K in keyof T]: T[K] extends string
-                    ? PascalCase<T[K]>
-                    : T[K]
-            }
+                    [K in keyof T]: T[K] extends string
+                        ? PascalCase<T[K]>
+                        : T[K]
+                }
             : never;

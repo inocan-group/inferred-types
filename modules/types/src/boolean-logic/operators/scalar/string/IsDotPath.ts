@@ -44,10 +44,10 @@ export type IsDotPath<
     ? false
     : T extends string
         ? [IsEqual<T, ""> ] extends [true]
-            ? true
-            : IsStringLiteral<T> extends true
-                ? CheckForInvalid<T> extends true
-                    ? TElse
-                    : TIf
-                : TMaybe
+                ? true
+                : IsStringLiteral<T> extends true
+                    ? CheckForInvalid<T> extends true
+                        ? TElse
+                        : TIf
+                    : TMaybe
         : false;

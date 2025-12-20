@@ -23,11 +23,11 @@ export type IsLiteralLikeTuple<T>
     = [IsAny<T>] extends [true]
         ? false
         : [IsNever<T>] extends [true]
-            ? false
-            : [T] extends [readonly unknown[]]
-                ? [number] extends [T["length"]]
-                    ? false
-                    : IsUnion<T["length"]> extends true
-                        ? false
-                        : true
-                : false;
+                ? false
+                : [T] extends [readonly unknown[]]
+                        ? [number] extends [T["length"]]
+                                ? false
+                                : IsUnion<T["length"]> extends true
+                                    ? false
+                                    : true
+                        : false;

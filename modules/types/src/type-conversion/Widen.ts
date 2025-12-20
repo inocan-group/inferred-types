@@ -147,7 +147,7 @@ type WidenFnProps<
               ? WidenScalar<TObj[First<TKeys>]>
               : TObj[First<TKeys>]
       >
-            )
+                )
             : TResult
     >;
 
@@ -161,16 +161,16 @@ type DetermineNarrowingReturn<TParams, TReturn>
                 : Widen<TReturn>
         : Widen<TReturn>;
 
-export type WidenFn<
+export interface WidenFn<
     TFn extends TypedFunction
-> = {
+> {
     narrowing: IsNarrowingFn<TFn>;
     literal: StaticFn<TFn>;
     parameters: Parameters<TFn>;
     returns: TFn extends <T extends readonly any[]>(...args: T) => infer R ? R : never;
     props: FnKeyValue<TFn>;
 
-};
+}
 
 /**
  * Widens a Function (params, return, and props)
@@ -209,25 +209,25 @@ export type WidenContainer<
             ? readonly unknown[]
             : WidenArray<T>
         : [T] extends [Dictionary]
-            ? TForce extends true
-                ? Dictionary
-                : WidenDictionary<T>
-            : [T] extends [Map<infer K, infer V>]
                 ? TForce extends true
-                    ? AnyMap
-                    : Map<K, Widen<V>>
-                : [T] extends [WeakMap<infer K, infer V>]
-                    ? TForce extends true
-                        ? AnyWeakMap
-                        : WeakMap<
-                            K extends object ? K : any,
-                            Widen<V>
-                        >
-                    : [T] extends [Set<infer V>]
+                    ? Dictionary
+                    : WidenDictionary<T>
+                : [T] extends [Map<infer K, infer V>]
                         ? TForce extends true
-                            ? AnySet
-                            : Set<Widen<V>>
-                        : T;
+                            ? AnyMap
+                            : Map<K, Widen<V>>
+                        : [T] extends [WeakMap<infer K, infer V>]
+                                ? TForce extends true
+                                    ? AnyWeakMap
+                                    : WeakMap<
+                                        K extends object ? K : any,
+                                        Widen<V>
+                                    >
+                                : [T] extends [Set<infer V>]
+                                        ? TForce extends true
+                                            ? AnySet
+                                            : Set<Widen<V>>
+                                        : T;
 
 /**
  * **Widen**`<T, [TForce]>`
@@ -248,17 +248,17 @@ export type Widen<
     = [IsUnion<T>] extends [true]
         ? WidenUnion<T>
         : [T] extends [TypedFunction]
-            ? FnFrom<
-                IsWideArray<Parameters<T>> extends true
-                    ? Parameters<T>
-                    : WidenArray<Parameters<T>>,
-                Widen<FnReturn<T>>,
-                WidenDictionary<FnKeyValue<T>>
-            >
-            : [T] extends [Scalar]
-                ? WidenScalar<T>
-                : [T] extends [Container]
-                    ? WidenContainer<T, TForce>
-                    : T extends Scalar
+                ? FnFrom<
+                    IsWideArray<Parameters<T>> extends true
+                        ? Parameters<T>
+                        : WidenArray<Parameters<T>>,
+                    Widen<FnReturn<T>>,
+                    WidenDictionary<FnKeyValue<T>>
+                >
+                : [T] extends [Scalar]
                         ? WidenScalar<T>
-                        : Process<T>;
+                        : [T] extends [Container]
+                                ? WidenContainer<T, TForce>
+                                : T extends Scalar
+                                    ? WidenScalar<T>
+                                    : Process<T>;

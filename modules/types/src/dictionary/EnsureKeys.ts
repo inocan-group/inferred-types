@@ -70,17 +70,17 @@ type BuildObj<
     // DOES NOT HAVE KEY, ADD
         : BuildObj<
             Expand<
-        TObj
-        & Record<
-            First<TKey>,
-            TEnsure extends readonly string[]
-                ? TType
-                : TEnsure extends Dictionary
-                    ? First<TKey> extends keyof TEnsure
-                        ? TEnsure[First<TKey>]
-                        : never
-                    : never
-        >
+                TObj
+                & Record<
+                    First<TKey>,
+                    TEnsure extends readonly string[]
+                        ? TType
+                        : TEnsure extends Dictionary
+                            ? First<TKey> extends keyof TEnsure
+                                ? TEnsure[First<TKey>]
+                                : never
+                            : never
+                >
             >,
             TEnsure,
             TType,

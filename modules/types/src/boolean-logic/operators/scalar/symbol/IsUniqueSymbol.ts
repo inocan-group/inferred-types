@@ -19,9 +19,9 @@ export type IsUniqueSymbol<T>
             ? false
         // must be a subtype of symbol
             : [T] extends [symbol]
-                ? IsEqual<T, symbol> extends true
-                    ? false
-                    : IsUnion<T> extends true
+                    ? IsEqual<T, symbol> extends true
                         ? false
-                        : true
-                : false;
+                        : IsUnion<T> extends true
+                            ? false
+                            : true
+                    : false;

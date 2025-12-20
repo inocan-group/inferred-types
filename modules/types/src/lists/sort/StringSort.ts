@@ -122,27 +122,27 @@ type _SortMixed<
 > = TValues extends readonly [infer Head, ...infer Tail extends readonly unknown[]]
     ? TReverse extends true
         ? [
-            ..._SortMixed<
-                FilterMixedGreaterThan<Head, Tail>,
-                TReverse
-            >,
-            Head,
-            ..._SortMixed<
-                FilterMixedLessThanOrEqual<Head, Tail>,
-                TReverse
-            >,
-        ]
+                ..._SortMixed<
+                    FilterMixedGreaterThan<Head, Tail>,
+                    TReverse
+                >,
+                Head,
+                ..._SortMixed<
+                    FilterMixedLessThanOrEqual<Head, Tail>,
+                    TReverse
+                >,
+            ]
         : [
-            ..._SortMixed<
-                FilterMixedLessThanOrEqual<Head, Tail>,
-                TReverse
-            >,
-            Head,
-            ..._SortMixed<
-                FilterMixedGreaterThan<Head, Tail>,
-                TReverse
-            >,
-        ]
+                ..._SortMixed<
+                    FilterMixedLessThanOrEqual<Head, Tail>,
+                    TReverse
+                >,
+                Head,
+                ..._SortMixed<
+                    FilterMixedGreaterThan<Head, Tail>,
+                    TReverse
+                >,
+            ]
     : [];
 
 /**
@@ -186,16 +186,16 @@ type _SortStringOffset<
     TOffset extends string,
 > = TContainers extends readonly [infer Head extends Container, ...infer Rest extends readonly Container[]]
     ? [
-        ..._SortStringOffset<
-            FilterContainersStringLessThanOrEqual<Head, TOffset, Rest>,
-            TOffset
-        >,
-        Head,
-        ..._SortStringOffset<
-            FilterContainersStringGreaterThan<Head, TOffset, Rest>,
-            TOffset
-        >,
-    ]
+            ..._SortStringOffset<
+                FilterContainersStringLessThanOrEqual<Head, TOffset, Rest>,
+                TOffset
+            >,
+            Head,
+            ..._SortStringOffset<
+                FilterContainersStringGreaterThan<Head, TOffset, Rest>,
+                TOffset
+            >,
+        ]
     : [];
 
 /**
@@ -267,12 +267,12 @@ export type StringSort<
 > = IsStringLiteral<O["offset"]> extends true
     ? T extends readonly Container[]
         ? (O extends { order: infer Ord } ? Ord : undefined) extends infer OOrder
-            ? [IsEqual<OOrder, "Natural">] extends [true]
-                ? T // Keep original order for Natural
-                : [IsEqual<OOrder, "DESC">] extends [true]
-                    ? Reverse<_SortStringOffset<T, As<O["offset"], string>>>
-                    : _SortStringOffset<T, As<O["offset"], string>>
-            : never
+                ? [IsEqual<OOrder, "Natural">] extends [true]
+                        ? T // Keep original order for Natural
+                        : [IsEqual<OOrder, "DESC">] extends [true]
+                                ? Reverse<_SortStringOffset<T, As<O["offset"], string>>>
+                                : _SortStringOffset<T, As<O["offset"], string>>
+                : never
         : never // Cannot use offset with non-container types
     : T extends readonly (string | number | boolean)[]
         ? Length<T> extends 0

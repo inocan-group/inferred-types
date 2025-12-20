@@ -80,8 +80,8 @@ export type Slice<
 > = [TList] extends [string]
     ? SliceString<TList, TStart, TLen>
     : [TList] extends [readonly unknown[]]
-        ? SliceArray<TList, TStart, TLen>
-        : never;
+            ? SliceArray<TList, TStart, TLen>
+            : never;
 
 /**
  * **SliceArray**<TList, TStart, [TLen]>

@@ -65,8 +65,8 @@ export type SnakeCase<
         ? SnakeCaseSimple<Trim<T>>
         : T extends readonly unknown[]
             ? {
-                [K in keyof T]: T[K] extends string
-                    ? SnakeCase<T[K]>
-                    : T[K]
-            }
+                    [K in keyof T]: T[K] extends string
+                        ? SnakeCase<T[K]>
+                        : T[K]
+                }
             : never;

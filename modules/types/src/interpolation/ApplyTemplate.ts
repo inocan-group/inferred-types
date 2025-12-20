@@ -52,9 +52,9 @@ type Apply<
             ...(
                 TStatic extends readonly [string, string, ...string[]]
                     ? [StripAfter<
-                        RetainAfter<TContent, First<TStatic>>,
-                        Second<TStatic>
-                    >]
+                            RetainAfter<TContent, First<TStatic>>,
+                            Second<TStatic>
+                        >]
                     : TStatic extends readonly [string, ...string[]]
                         ? [ RetainAfter<TContent, First<TStatic>> ]
                         : []

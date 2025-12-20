@@ -15,45 +15,45 @@ type ProcessTemplate<
     TResult extends string = ""
 > = TContent extends `${infer First}${infer Rest}`
     ? [IsEqual<First, `${string}`>] extends [true]
-        ? TArgs extends readonly [unknown, ...unknown[]]
-            ? ProcessTemplate<
-                Rest,
-                NextArg<TArgs>,
-                `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
-            >
-            : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
-        : [IsEqual<First, `${number}`>] extends [true]
             ? TArgs extends readonly [unknown, ...unknown[]]
                 ? ProcessTemplate<
                     Rest,
                     NextArg<TArgs>,
-                    `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+                `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
                 >
                 : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
-            : [IsEqual<First, `${boolean}`>] extends [true]
-                ? TArgs extends readonly [unknown, ...unknown[]]
-                    ? ProcessTemplate<
-                        Rest,
-                        NextArg<TArgs>,
+            : [IsEqual<First, `${number}`>] extends [true]
+                    ? TArgs extends readonly [unknown, ...unknown[]]
+                        ? ProcessTemplate<
+                            Rest,
+                            NextArg<TArgs>,
+                    `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+                        >
+                        : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
+                    : [IsEqual<First, `${boolean}`>] extends [true]
+                            ? TArgs extends readonly [unknown, ...unknown[]]
+                                ? ProcessTemplate<
+                                    Rest,
+                                    NextArg<TArgs>,
                         `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
-                    >
-                    : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
-                : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
+                                >
+                                : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
+                            : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
     : [TContent] extends [""]
-        ? TResult
-        : [IsEqual<TContent, `${string}`>] extends [true]
-            ? TArgs extends readonly [unknown, ...unknown[]]
-                ? `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
-                : `${TResult}${TContent}`
-            : [IsEqual<TContent, `${number}`>] extends [true]
-                ? TArgs extends readonly [unknown, ...unknown[]]
-                    ? `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
-                    : `${TResult}${TContent}`
-                : [IsEqual<TContent, `${boolean}`>] extends [true]
+            ? TResult
+            : [IsEqual<TContent, `${string}`>] extends [true]
                     ? TArgs extends readonly [unknown, ...unknown[]]
                         ? `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
                         : `${TResult}${TContent}`
-                    : `${TResult}${TContent}`;
+                    : [IsEqual<TContent, `${number}`>] extends [true]
+                            ? TArgs extends readonly [unknown, ...unknown[]]
+                                ? `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+                                : `${TResult}${TContent}`
+                            : [IsEqual<TContent, `${boolean}`>] extends [true]
+                                    ? TArgs extends readonly [unknown, ...unknown[]]
+                                        ? `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+                                        : `${TResult}${TContent}`
+                                    : `${TResult}${TContent}`;
 
 /**
  * **IntoTemplate**`<TTpl, TArgs>`

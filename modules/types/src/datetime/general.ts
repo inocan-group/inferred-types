@@ -35,8 +35,8 @@ export type TwoDigitHour<
             ? `0${number}` | `1${number}` | `2${0 | 1 | 2 | 3}`
             : T extends "strong"
                 ? | `0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-    | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-    | `2${0 | 1 | 2 | 3}`
+                | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+                | `2${0 | 1 | 2 | 3}`
                 : T extends "branded"
                     ? Brand<`${number}`, "TwoDigitHour">
                     : T extends `${number}`
@@ -54,11 +54,11 @@ export type TwoDigitMinute<
             ? `${0 | 1 | 2 | 3 | 4 | 5}${number}`
             : T extends "strong"
                 ? | `0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-        | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-        | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-        | `3${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-        | `4${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-        | `5${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+                | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+                | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+                | `3${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+                | `4${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+                | `5${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
                 : T extends "branded"
                     ? Brand<`${number}`, "TwoDigitMinute">
                     : T extends `${number}`
@@ -141,12 +141,12 @@ export type TwoDigitMonth<
                 ? Brand<`${number}` & TwoDigitMonth, "TwoDigitMonth">
                 : T extends `${number}`
                     ? [IsTwoDigitMonth<T>] extends [true]
-                        ? Brand<T, "TwoDigitMonth">
-                        : Err<
-                            `invalid-type/month`,
+                            ? Brand<T, "TwoDigitMonth">
+                            : Err<
+                                `invalid-type/month`,
             `The type passed into 'TwoDigitMonth<${T}>' is not a valid two digit month!`,
             { month: T }
-                        >
+                            >
                     : never;
 
 /**
@@ -175,15 +175,15 @@ export type TwoDigitDate<
 >
     = T extends "normal"
         ? | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-    | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-    | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-    | `3${0 | 1}`
+        | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+        | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+        | `3${0 | 1}`
 
         : T extends "weak"
             ? | `0${number}`
-    | `1${number}`
-    | `2${number}`
-    | `3${number}`
+            | `1${number}`
+            | `2${number}`
+            | `3${number}`
             : T extends "branded"
                 ? Brand<`${number}`, "TwoDigitDate">
                 : T extends `${number}`
@@ -213,9 +213,9 @@ export type MinimalDigitDate<
     | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `3${0 | 1}`
     : | `0${number}`
-    | `1${number}`
-    | `2${number}`
-    | `3${number}`;
+        | `1${number}`
+        | `2${number}`
+        | `3${number}`;
 
 type StDays = "1" | "21" | "31";
 type NdDays = "2" | "22";
@@ -225,9 +225,9 @@ type ThDays<T extends "weak" | "normal" = "normal"> = Exclude<MinimalDigitDate<T
 
 export type MinimalDigitDate__Suffixed<T extends "weak" | "normal" = "normal">
     = | `${StDays}st`
-    | `${NdDays}nd`
-    | `${RdDays}rd`
-    | `${ThDays<T>}th`;
+        | `${NdDays}nd`
+        | `${RdDays}rd`
+        | `${ThDays<T>}th`;
 
 /**
  * **MonthDateDigit**
@@ -273,7 +273,7 @@ export type FourDigitYear<
     ) & `${number}`
     : T extends "normal"
         ? (`${"1" | "2"}${NumericChar}${number}`
-        | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
+            | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
     ) & `${number}`
         : T extends "weak"
             ? `${NumericChar}${number}` & `${number}`
@@ -321,28 +321,28 @@ export type TimezoneOffset<
 >
     = T extends "normal"
         ? | `Z`
-    | `${"+" | "-"}${number}`
-    | `${"+" | "-"}${number}${number}`
-    | `${"+" | "-"}${number}:${number}`
-        : T extends "strong"
-            ? | `Z`
-    | `${"+" | "-"}${TwoDigitHour}`
-    | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`
-    | `${"+" | "-"}${TwoDigitHour}:${TwoDigitMinute}`
-            : T extends "explicit"
-                ? | `Z`
-    | `${"+" | "-"}${TwoDigitHour}`
-    | `${"+" | "-"}${TwoDigitHour}:${TwoDigitMinute}`
-                : T extends "implicit"
-                    ? | `Z`
-    | `${"+" | "-"}${TwoDigitHour}`
-    | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`
-                    : T extends "branded"
-                        ? Brand<(
-        | `Z`
         | `${"+" | "-"}${number}`
         | `${"+" | "-"}${number}${number}`
         | `${"+" | "-"}${number}:${number}`
+        : T extends "strong"
+            ? | `Z`
+            | `${"+" | "-"}${TwoDigitHour}`
+            | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`
+            | `${"+" | "-"}${TwoDigitHour}:${TwoDigitMinute}`
+            : T extends "explicit"
+                ? | `Z`
+                | `${"+" | "-"}${TwoDigitHour}`
+                | `${"+" | "-"}${TwoDigitHour}:${TwoDigitMinute}`
+                : T extends "implicit"
+                    ? | `Z`
+                    | `${"+" | "-"}${TwoDigitHour}`
+                    | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`
+                    : T extends "branded"
+                        ? Brand<(
+                            | `Z`
+                            | `${"+" | "-"}${number}`
+                            | `${"+" | "-"}${number}${number}`
+                            | `${"+" | "-"}${number}:${number}`
                         ), "TimezoneOffset"
                         >
                         : T extends `${"Z" | "+" | "-"}${string}`

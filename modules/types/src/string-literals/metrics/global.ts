@@ -42,20 +42,20 @@ import type {
  */
 export type MetricCategory
     = | "Acceleration"
-    | "Area"
-    | "Current"
-    | "Distance"
-    | "Frequency"
-    | "Luminosity"
-    | "Mass"
-    | "Power"
-    | "Pressure"
-    | "Resistance"
-    | "Speed"
-    | "Temperature"
-    | "Time"
-    | "Voltage"
-    | "Volume";
+        | "Area"
+        | "Current"
+        | "Distance"
+        | "Frequency"
+        | "Luminosity"
+        | "Mass"
+        | "Power"
+        | "Pressure"
+        | "Resistance"
+        | "Speed"
+        | "Temperature"
+        | "Time"
+        | "Voltage"
+        | "Volume";
 
 type UnitsByCategory<
     T extends string,

@@ -1,11 +1,11 @@
 type os = "win" | "mac" | "linux" | "unix";
 
-type Editor = {
+interface Editor {
     name: string;
     exec: string;
     os: readonly os[];
     console: boolean;
-};
+}
 
 export const EDITORS = [
     { name: "Atom", exec: "atom", console: false, os: ["win", "mac", "linux"] },

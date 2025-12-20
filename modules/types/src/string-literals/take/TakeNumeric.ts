@@ -4,7 +4,7 @@ import type { Err } from "types/errors";
 import type { StartsWithTemplateLiteral } from "types/interpolation";
 import type { NumericChar, StripLeading } from "types/string-literals";
 
-export type TakeNumericOptions = {
+export interface TakeNumericOptions {
     /**
      * require a string (or string union) which must immediately
      * follow the end of numeric characters.
@@ -20,7 +20,7 @@ export type TakeNumericOptions = {
      * - a common choice would be the `,` character
      */
     ignore?: string;
-};
+}
 
 type Chars<T extends boolean> = [IsTrue<T>] extends [true]
     ? NumericChar

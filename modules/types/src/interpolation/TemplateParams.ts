@@ -13,11 +13,11 @@ import type {
     UnionToTuple
 } from "inferred-types/types";
 
-type Map = {
+interface Map {
     "{{string}}": string;
     "{{number}}": number;
     "{{boolean}}": boolean;
-};
+}
 
 /**
  * **TemplateParams**`<T>`
@@ -72,8 +72,8 @@ type SegmentMap<
 type AsDynamicSegment<T extends Record<string, unknown>> = As<
     StringKeys<T> extends infer Keys extends readonly string[]
         ? {
-            [K in keyof Keys]: `{{${Keys[K]}}}`
-        }[number]
+                [K in keyof Keys]: `{{${Keys[K]}}}`
+            }[number]
         : never,
     string
 >;

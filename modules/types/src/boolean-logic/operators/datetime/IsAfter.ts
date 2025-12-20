@@ -36,18 +36,18 @@ type LexicographicCompare<A extends string, B extends string> = A extends B
     : IsSameDateDifferentPrecision<A, B> extends true
         ? false // Semantically equal dates with different precision
         : [A] extends [never]
-            ? false
-            : [B] extends [never]
                 ? false
-                : [A, B] extends [string, string]
-                    ? A extends `${infer AFirst}${infer ARest}`
-                        ? B extends `${infer BFirst}${infer BRest}`
-                            ? AFirst extends BFirst
-                                ? LexicographicCompare<ARest, BRest> // First chars match, compare rest
-                                : IsCharGreater<AFirst, BFirst> // Compare first characters
-                            : true // A has chars, B doesn't
-                        : false // A is empty, B has chars
-                    : false;
+                : [B] extends [never]
+                        ? false
+                        : [A, B] extends [string, string]
+                                ? A extends `${infer AFirst}${infer ARest}`
+                                    ? B extends `${infer BFirst}${infer BRest}`
+                                        ? AFirst extends BFirst
+                                            ? LexicographicCompare<ARest, BRest> // First chars match, compare rest
+                                            : IsCharGreater<AFirst, BFirst> // Compare first characters
+                                        : true // A has chars, B doesn't
+                                    : false // A is empty, B has chars
+                                : false;
 
 /**
  * **IsAfter**`<A,B>`

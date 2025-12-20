@@ -21,29 +21,29 @@ export type IsTruthy<T>
         ? false
     // Handle exact truthy values
         : [T] extends [true]
-            ? true
-        // Handle string literals
-            : [T] extends [string]
-                ? IsStringLiteral<T> extends true
-                    ? true // non-empty string literal
-                    : boolean // wide string type
-            // Handle numeric literals
-                : [T] extends [number]
-                    ? IsNumericLiteral<T> extends true
-                        ? [T] extends [0 | -0]
-                            ? false
-                            : true
-                        : boolean // wide number type
-                // Handle boolean literals
-                    : [T] extends [boolean]
-                        ? IsFalse<T> extends true
-                            ? false
-                            : IsTrue<T> extends true
-                                ? true
-                                : boolean // wide boolean type
-                    // Handle arrays and objects (always truthy)
-                        : IsArray<T> extends true
-                            ? true
-                            : IsDictionary<T> extends true
-                                ? true
-                                : never;
+                ? true
+            // Handle string literals
+                : [T] extends [string]
+                        ? IsStringLiteral<T> extends true
+                            ? true // non-empty string literal
+                            : boolean // wide string type
+                    // Handle numeric literals
+                        : [T] extends [number]
+                                ? IsNumericLiteral<T> extends true
+                                    ? [T] extends [0 | -0]
+                                            ? false
+                                            : true
+                                    : boolean // wide number type
+                            // Handle boolean literals
+                                : [T] extends [boolean]
+                                        ? IsFalse<T> extends true
+                                            ? false
+                                            : IsTrue<T> extends true
+                                                ? true
+                                                : boolean // wide boolean type
+                                    // Handle arrays and objects (always truthy)
+                                        : IsArray<T> extends true
+                                            ? true
+                                            : IsDictionary<T> extends true
+                                                ? true
+                                                : never;

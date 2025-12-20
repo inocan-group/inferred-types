@@ -2,34 +2,34 @@ import type { CssColorLight, CssGlobal, CssSizingLight, Suggest } from "inferred
 
 export type CssTextAlign
     = | "start"
-    | "end"
-    | "center"
-    | "left"
-    | "right"
-    | "justify"
-    | "match-parent";
+        | "end"
+        | "center"
+        | "left"
+        | "right"
+        | "justify"
+        | "match-parent";
 
 export type CssTextDecorationStyle
     = | "solid"
-    | "double"
-    | "dotted"
-    | "dashed"
-    | "wavy"
-    | CssGlobal;
+        | "double"
+        | "dotted"
+        | "dashed"
+        | "wavy"
+        | CssGlobal;
 
 export type CssTextDecorationLine
     = | "none"
-    | "underline"
-    | "overline"
-    | "line-through";
+        | "underline"
+        | "overline"
+        | "line-through";
 
 export type CssTextWrap
     = | "wrap"
-    | "nowrap"
-    | "balance"
-    | "pretty"
-    | "stable"
-    | CssGlobal;
+        | "nowrap"
+        | "balance"
+        | "pretty"
+        | "stable"
+        | CssGlobal;
 
 export type CssTextWrapMode = "wrap" | "nowrap" | CssGlobal;
 
@@ -44,42 +44,42 @@ export type CssTextIndent = CssSizingLight
 
 export type CssTextJustify
     = | "none"
-    | "auto"
-    | "inter-word"
-    | "inter-character"
-    | "distribute"
-    | CssGlobal;
+        | "auto"
+        | "inter-word"
+        | "inter-character"
+        | "distribute"
+        | CssGlobal;
 
 export type CssTextOrientation = "mixed" | "upright" | "sideways" | "sideways-right" | "use-glyph-orientation" | CssGlobal;
 
 export type CssTextOverflow
     = | "clip"
-    | "ellipsis"
-    | `"${string}"`
-    | CssGlobal;
+        | "ellipsis"
+        | `"${string}"`
+        | CssGlobal;
 
 export type CssTextRendering = "auto" | "optimizeSpeed" | "optimizeLegility" | "geometricPrecision" | CssGlobal;
 
 export type CssTextTransform
     = | "none"
-    | "capitalize"
-    | "uppercase"
-    | "lowercase"
-    | "full-width"
-    | "full-size-kana"
-    | "math-auto"
-    | CssGlobal;
+        | "capitalize"
+        | "uppercase"
+        | "lowercase"
+        | "full-width"
+        | "full-size-kana"
+        | "math-auto"
+        | CssGlobal;
 
 export type CssTextPosition
     = | "auto"
-    | "from-font"
-    | "under"
-    | "left"
-    | "right"
-    | "under left"
-    | "under right"
-    | "left under"
-    | "right under";
+        | "from-font"
+        | "under"
+        | "left"
+        | "right"
+        | "under left"
+        | "under right"
+        | "left under"
+        | "right under";
 
 export interface CssTextProperties {
     "text-align"?: CssTextAlign;

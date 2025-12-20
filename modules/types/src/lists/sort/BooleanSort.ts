@@ -79,27 +79,27 @@ type _SortBooleans<
 > = TValues extends readonly [infer Head extends boolean, ...infer Tail extends readonly boolean[]]
     ? TReverse extends true
         ? [
-            ..._SortBooleans<
-                FilterBoolGreaterThan<Head, Tail>,
-                TReverse
-            >,
-            Head,
-            ..._SortBooleans<
-                FilterBoolLessThanOrEqual<Head, Tail>,
-                TReverse
-            >,
-        ]
+                ..._SortBooleans<
+                    FilterBoolGreaterThan<Head, Tail>,
+                    TReverse
+                >,
+                Head,
+                ..._SortBooleans<
+                    FilterBoolLessThanOrEqual<Head, Tail>,
+                    TReverse
+                >,
+            ]
         : [
-            ..._SortBooleans<
-                FilterBoolLessThanOrEqual<Head, Tail>,
-                TReverse
-            >,
-            Head,
-            ..._SortBooleans<
-                FilterBoolGreaterThan<Head, Tail>,
-                TReverse
-            >,
-        ]
+                ..._SortBooleans<
+                    FilterBoolLessThanOrEqual<Head, Tail>,
+                    TReverse
+                >,
+                Head,
+                ..._SortBooleans<
+                    FilterBoolGreaterThan<Head, Tail>,
+                    TReverse
+                >,
+            ]
     : [];
 
 /**
@@ -145,31 +145,31 @@ type _SortBooleanOffset<
 > = TContainers extends readonly [infer Head extends Container, ...infer Rest extends readonly Container[]]
     ? TReverse extends true
         ? [
-            ..._SortBooleanOffset<
-                FilterContainersBoolGreaterThan<Head, TOffset, Rest>,
-                TOffset,
-                TReverse
-            >,
-            Head,
-            ..._SortBooleanOffset<
-                FilterContainersBoolLessThanOrEqual<Head, TOffset, Rest>,
-                TOffset,
-                TReverse
-            >,
-        ]
+                ..._SortBooleanOffset<
+                    FilterContainersBoolGreaterThan<Head, TOffset, Rest>,
+                    TOffset,
+                    TReverse
+                >,
+                Head,
+                ..._SortBooleanOffset<
+                    FilterContainersBoolLessThanOrEqual<Head, TOffset, Rest>,
+                    TOffset,
+                    TReverse
+                >,
+            ]
         : [
-            ..._SortBooleanOffset<
-                FilterContainersBoolLessThanOrEqual<Head, TOffset, Rest>,
-                TOffset,
-                TReverse
-            >,
-            Head,
-            ..._SortBooleanOffset<
-                FilterContainersBoolGreaterThan<Head, TOffset, Rest>,
-                TOffset,
-                TReverse
-            >,
-        ]
+                ..._SortBooleanOffset<
+                    FilterContainersBoolLessThanOrEqual<Head, TOffset, Rest>,
+                    TOffset,
+                    TReverse
+                >,
+                Head,
+                ..._SortBooleanOffset<
+                    FilterContainersBoolGreaterThan<Head, TOffset, Rest>,
+                    TOffset,
+                    TReverse
+                >,
+            ]
     : [];
 
 /**
@@ -195,10 +195,10 @@ type FilterWideBooleans<T extends readonly boolean[], Result extends readonly bo
 /**
  * Separate wide and narrow boolean types
  */
-type SeparateWideBooleans<T extends readonly boolean[]> = {
+interface SeparateWideBooleans<T extends readonly boolean[]> {
     narrow: FilterNarrowBooleans<T>;
     wide: FilterWideBooleans<T>;
-};
+}
 
 export interface BooleanSortOptions<
     TOrder extends "ASC" | "DESC" | "Natural" | undefined = "ASC" | "DESC" | "Natural" | undefined,
@@ -371,12 +371,12 @@ export type BooleanSort<
 > = IsStringLiteral<O["offset"]> extends true
     ? T extends readonly Container[]
         ? [IsEqual<O["order"], "Natural">] extends [true]
-            ? T // Keep original order for Natural
-            : [IsEqual<O["order"], "DESC">] extends [true]
-                ? Reverse<
-                    _SortBooleanOffset<T, As<O["offset"], string>, false>
-                >
-                : _SortBooleanOffset<T, As<O["offset"], string>, false>
+                ? T // Keep original order for Natural
+                : [IsEqual<O["order"], "DESC">] extends [true]
+                        ? Reverse<
+                            _SortBooleanOffset<T, As<O["offset"], string>, false>
+                        >
+                        : _SortBooleanOffset<T, As<O["offset"], string>, false>
         : never // Cannot use offset with non-container types
     : T extends readonly boolean[]
         ? Length<T> extends 0

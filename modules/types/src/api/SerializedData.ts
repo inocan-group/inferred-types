@@ -34,11 +34,11 @@ export type SerializedData<
                 kind: "SerializedData";
                 data: TData;
             }
-        )
+            )
 
         : (string & {
-            kind: "SerializedData";
-            format: TAs;
-            data: TData;
-        }
-        );
+                kind: "SerializedData";
+                format: TAs;
+                data: TData;
+            }
+            );

@@ -37,7 +37,7 @@ import type {
  * - `isVariadic`
  * - `hasOptionalElements`
  */
-export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
+export interface TupleMeta<T extends readonly unknown[] = readonly unknown[]> {
     /** textual description of the range of lengths available */
     range: And<[
         IsEqual<MinLength<T>, 0>,
@@ -155,4 +155,4 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
      * (e.g., marked with the `?` modifier)
      */
     optionalElementCount: GetOptionalElementCount<T>;
-};
+}

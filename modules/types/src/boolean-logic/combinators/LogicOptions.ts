@@ -2,7 +2,7 @@
  * a set of options for logical utilities like `And` and `Or` which receive an
  * array of logic based values.
  */
-export type LogicOptions = {
+export interface LogicOptions {
     /**
      * The type to return if the passed in conditions
      * were an empty array.
@@ -18,4 +18,4 @@ export type LogicOptions = {
      * type as being exclusively a boolean value
      */
     err?: "error" | "false";
-};
+}

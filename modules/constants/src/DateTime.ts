@@ -46,46 +46,46 @@ type MonthAbbrev = typeof MONTH_ABBR[number];
 
 type NumericChar = typeof NUMERIC_CHAR[number];
 
-type MonthNameLookup = {
+interface MonthNameLookup {
     abbrev: MonthAbbrev;
     num: number;
     twoDigitStr: `${NumericChar}${NumericChar}`;
-};
+}
 
-type MonthAbbrevLookup = {
+interface MonthAbbrevLookup {
     name: MonthName;
     num: number;
     twoDigitStr: `${NumericChar}${NumericChar}`;
-};
+}
 
 export const MONTH_NAME_LOOKUP = {
-    "January": { abbrev: "Jan", num: 1, twoDigitStr: "01" },
-    "February": { abbrev: "Feb", num: 2, twoDigitStr: "02" },
-    "March": { abbrev: "Mar", num: 3, twoDigitStr: "03" },
-    "April": { abbrev: "Apr", num: 4, twoDigitStr: "04" },
-    "May": { abbrev: "May", num: 5, twoDigitStr: "05" },
-    "June": { abbrev: "Jun", num: 6, twoDigitStr: "06" },
-    "July": { abbrev: "Jul", num: 7, twoDigitStr: "07" },
-    "August": { abbrev: "Aug", num: 8, twoDigitStr: "08" },
-    "September": { abbrev: "Sep", num: 9, twoDigitStr: "09" },
-    "October": { abbrev: "Oct", num: 10, twoDigitStr: "10" },
-    "November": { abbrev: "Nov", num: 11, twoDigitStr: "11" },
-    "December": { abbrev: "Dec", num: 12, twoDigitStr: "12" }
+    January: { abbrev: "Jan", num: 1, twoDigitStr: "01" },
+    February: { abbrev: "Feb", num: 2, twoDigitStr: "02" },
+    March: { abbrev: "Mar", num: 3, twoDigitStr: "03" },
+    April: { abbrev: "Apr", num: 4, twoDigitStr: "04" },
+    May: { abbrev: "May", num: 5, twoDigitStr: "05" },
+    June: { abbrev: "Jun", num: 6, twoDigitStr: "06" },
+    July: { abbrev: "Jul", num: 7, twoDigitStr: "07" },
+    August: { abbrev: "Aug", num: 8, twoDigitStr: "08" },
+    September: { abbrev: "Sep", num: 9, twoDigitStr: "09" },
+    October: { abbrev: "Oct", num: 10, twoDigitStr: "10" },
+    November: { abbrev: "Nov", num: 11, twoDigitStr: "11" },
+    December: { abbrev: "Dec", num: 12, twoDigitStr: "12" }
 } as const satisfies Record<MonthName, MonthNameLookup>;
 
 export const MONTH_ABBREV_LOOKUP = {
-    "Jan": { name: "January", num: 1, twoDigitStr: "01" },
-    "Feb": { name: "February", num: 2, twoDigitStr: "02" },
-    "Mar": { name: "March", num: 3, twoDigitStr: "03" },
-    "Apr": { name: "April", num: 4, twoDigitStr: "04" },
-    "May": { name: "May", num: 5, twoDigitStr: "05" },
-    "Jun": { name: "June", num: 6, twoDigitStr: "06" },
-    "Jul": { name: "July", num: 7, twoDigitStr: "07" },
-    "Aug": { name: "August", num: 8, twoDigitStr: "08" },
-    "Sep": { name: "September", num: 9, twoDigitStr: "09" },
-    "Oct": { name: "October", num: 10, twoDigitStr: "10" },
-    "Nov": { name: "November", num: 11, twoDigitStr: "11" },
-    "Dec": { name: "December", num: 12, twoDigitStr: "12" }
+    Jan: { name: "January", num: 1, twoDigitStr: "01" },
+    Feb: { name: "February", num: 2, twoDigitStr: "02" },
+    Mar: { name: "March", num: 3, twoDigitStr: "03" },
+    Apr: { name: "April", num: 4, twoDigitStr: "04" },
+    May: { name: "May", num: 5, twoDigitStr: "05" },
+    Jun: { name: "June", num: 6, twoDigitStr: "06" },
+    Jul: { name: "July", num: 7, twoDigitStr: "07" },
+    Aug: { name: "August", num: 8, twoDigitStr: "08" },
+    Sep: { name: "September", num: 9, twoDigitStr: "09" },
+    Oct: { name: "October", num: 10, twoDigitStr: "10" },
+    Nov: { name: "November", num: 11, twoDigitStr: "11" },
+    Dec: { name: "December", num: 12, twoDigitStr: "12" }
 } as const satisfies Record<MonthAbbrev, MonthAbbrevLookup>;
 
 /** the seasons in a year */
@@ -114,32 +114,32 @@ export const SEASON_TO_MONTH_LOOKUP = {
 
 export const MONTH_TO_SEASON_LOOKUP = {
     northern: {
-        "Jan": "Winter",
-        "Feb": "Winter",
-        "Mar": "Spring",
-        "Apr": "Spring",
-        "May": "Spring",
-        "Jun": "Summer",
-        "Jul": "Summer",
-        "Aug": "Summer",
-        "Sep": "Fall",
-        "Oct": "Fall",
-        "Nov": "Fall",
-        "Dec": "Winter"
+        Jan: "Winter",
+        Feb: "Winter",
+        Mar: "Spring",
+        Apr: "Spring",
+        May: "Spring",
+        Jun: "Summer",
+        Jul: "Summer",
+        Aug: "Summer",
+        Sep: "Fall",
+        Oct: "Fall",
+        Nov: "Fall",
+        Dec: "Winter"
     },
     southern: {
-        "Jan": "Summer",
-        "Feb": "Summer",
-        "Mar": "Fall",
-        "Apr": "Fall",
-        "May": "Fall",
-        "Jun": "Summer",
-        "Jul": "Summer",
-        "Aug": "Summer",
-        "Sep": "Spring",
-        "Oct": "Spring",
-        "Nov": "Spring",
-        "Dec": "Summer"
+        Jan: "Summer",
+        Feb: "Summer",
+        Mar: "Fall",
+        Apr: "Fall",
+        May: "Fall",
+        Jun: "Summer",
+        Jul: "Summer",
+        Aug: "Summer",
+        Sep: "Spring",
+        Oct: "Spring",
+        Nov: "Spring",
+        Dec: "Summer"
     }
 } as const as Record<Hemisphere, Record<MonthAbbr, Season>>;
 

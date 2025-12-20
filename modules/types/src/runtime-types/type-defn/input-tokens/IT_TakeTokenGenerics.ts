@@ -13,19 +13,19 @@ import type {
 /**
  * the successful results of evaluating a single generic parameter
  */
-type TokenParsed = {
+interface TokenParsed {
     name: string;
     token: string;
     type: unknown;
-};
+}
 
 /**
  * all of the tokens found in a generics block plus the "rest"
  */
-type GenericsParsed = {
+interface GenericsParsed {
     generics: TokenParsed[];
     rest: string;
-};
+}
 
 export type IT_TakeTokenGeneric<T extends string>
     = T extends `${infer Name extends string} extends ${infer Type extends string}`
@@ -33,19 +33,19 @@ export type IT_TakeTokenGeneric<T extends string>
             ? Trim<Type> extends infer CleanType extends string
                 ? FromInputToken<CleanType> extends infer ParsedType
                     ? {
-                        name: CleanName;
-                        token: CleanType;
-                        type: ParsedType;
-                    }
+                            name: CleanName;
+                            token: CleanType;
+                            type: ParsedType;
+                        }
                     : never
                 : never
             : never
         : IsAlphanumeric<Trim<T>> extends true
             ? {
-                name: Trim<T>;
-                token: "unknown";
-                type: unknown;
-            }
+                    name: Trim<T>;
+                    token: "unknown";
+                    type: unknown;
+                }
             : Err<
                 `malformed-token/generic`,
         `The string -- '${T}' -- passed to TakeTokenGeneric<T> is invalid as a generic name!`
@@ -131,9 +131,9 @@ export type IT_TakeTokenGenerics<
                             > // Error
                             : ParsedResult extends readonly TokenParsed[]
                                 ? {
-                                    generics: ParsedResult;
-                                    rest: Trim<Join<Rest, ">">>;
-                                } // Successful outcome
+                                        generics: ParsedResult;
+                                        rest: Trim<Join<Rest, ">">>;
+                                    } // Successful outcome
                                 : Err<
                                     "malformed-token",
                                     `The parsed generics appear to be of an invalid type!`,

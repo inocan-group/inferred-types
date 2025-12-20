@@ -12,8 +12,8 @@ type Marked = typeof MARKED;
 type FilterTuple<T extends readonly unknown[], Result extends readonly unknown[] = []>
     = T extends readonly [infer Head, ...infer Tail]
         ? [Head] extends [Marked]
-            ? FilterTuple<Tail, Result>
-            : FilterTuple<Tail, [...Result, Head]>
+                ? FilterTuple<Tail, Result>
+                : FilterTuple<Tail, [...Result, Head]>
         : Result;
 
 /**

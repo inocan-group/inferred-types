@@ -20,7 +20,7 @@ type Convert<
     ? Convert<
         T,
         Rest,
-            O & (
+        O & (
                 Head extends string
                     ? Record<As<PascalCase<Head>, string>, T[Head] extends Dictionary ? PascalKeys<T[Head]> : T[Head]>
                     : Record<Head, T[Head] extends Dictionary ? PascalKeys<T[Head]> : T[Head]>
@@ -40,12 +40,12 @@ export type PascalKeys<
     ? Convert<ReqDict> extends infer ReqDict extends Dictionary
         ? OptionalKeysTuple<T> extends infer OptKeys extends readonly ObjectKey[]
             ? {
-                [K in keyof OptKeys]: OptKeys[K] extends string
-                    ? PascalCase<OptKeys[K]>
-                    : OptKeys[K]
-            } extends infer OptKeys extends readonly ObjectKey[]
-                ? MakeKeysOptional<ReqDict, OptKeys>
-                : never
+                    [K in keyof OptKeys]: OptKeys[K] extends string
+                        ? PascalCase<OptKeys[K]>
+                        : OptKeys[K]
+                } extends infer OptKeys extends readonly ObjectKey[]
+                    ? MakeKeysOptional<ReqDict, OptKeys>
+                    : never
             : never
         : never
     : never;

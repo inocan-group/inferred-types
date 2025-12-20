@@ -89,12 +89,12 @@ type Assert<
     TExpected
 > = TOp extends "equals"
     ? [IsEqual<TTest, TExpected>] extends [true]
-        ? true
-        : AssertionError<
-            `failed/equals`,
-            `The type being tested did not equal the expected type!`,
-            { test: TTest; expected: TExpected }
-        >
+            ? true
+            : AssertionError<
+                `failed/equals`,
+                `The type being tested did not equal the expected type!`,
+                { test: TTest; expected: TExpected }
+            >
     : TOp extends "extends"
         ? Extends<TTest, TExpected> extends true
             ? true
@@ -241,21 +241,21 @@ export type Test<
         { test: TTest; expected: TExpected; assertion: TOp }
     >
     : [IsAny<TExpected>] extends [true]
-        ? AssertionError<
-            `invalid-test/any-type`,
-            `A type test passed in "any" as the expected type! This is not allowed.`,
-            { test: TTest; expected: TExpected; assertion: TOp }
-        >
-        : [IsAny<Assert<TTest, TOp, TExpected>>] extends [true]
             ? AssertionError<
                 `invalid-test/any-type`,
-                `The test evaluated to ANY! This indicates a problem in the test assertion!`,
+                `A type test passed in "any" as the expected type! This is not allowed.`,
                 { test: TTest; expected: TExpected; assertion: TOp }
             >
-            : [IsNever<Assert<TTest, TOp, TExpected>>] extends [true]
-                ? AssertionError<
-                    `invalid-test/never-type`,
-                    `The test evaluated to NEVER! This indicates a problem in the test assertion!`,
-                    { test: TTest; expected: TExpected; assertion: TOp }
-                >
-                : Assert<TTest, TOp, TExpected>;
+            : [IsAny<Assert<TTest, TOp, TExpected>>] extends [true]
+                    ? AssertionError<
+                        `invalid-test/any-type`,
+                        `The test evaluated to ANY! This indicates a problem in the test assertion!`,
+                        { test: TTest; expected: TExpected; assertion: TOp }
+                    >
+                    : [IsNever<Assert<TTest, TOp, TExpected>>] extends [true]
+                            ? AssertionError<
+                                `invalid-test/never-type`,
+                                `The test evaluated to NEVER! This indicates a problem in the test assertion!`,
+                                { test: TTest; expected: TExpected; assertion: TOp }
+                            >
+                            : Assert<TTest, TOp, TExpected>;

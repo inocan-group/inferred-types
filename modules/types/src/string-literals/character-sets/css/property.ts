@@ -2,17 +2,17 @@ import type { OptSpace } from "inferred-types/types";
 
 type PropertyFormat
     = | "*"
-    | "color"
-    | "image"
-    | "length"
-    | "size"
-    | "number"
-    | "integer"
-    | "string"
-    | "angle"
-    | "time"
-    | "frequency"
-    | "resolution";
+        | "color"
+        | "image"
+        | "length"
+        | "size"
+        | "number"
+        | "integer"
+        | "string"
+        | "angle"
+        | "time"
+        | "frequency"
+        | "resolution";
 
 /**
  * **CssProperty**

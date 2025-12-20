@@ -24,7 +24,7 @@ export type ComparisonOperation = typeof COMPARISON_OPERATIONS[number];
 /**
  * A type which provides a lookup table for standard conversion types.
  */
-export type ComparisonLookup = {
+export interface ComparisonLookup {
     isTemplateLiteral: {
         params: readonly[];
         accept: unknown;
@@ -303,4 +303,4 @@ export type ComparisonLookup = {
         convert: "union";
         accept: (...args: any[]) => any;
     };
-};
+}

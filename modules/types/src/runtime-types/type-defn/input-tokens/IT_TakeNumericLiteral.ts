@@ -27,12 +27,12 @@ type TakeNumber<
 type Bare<T extends string> = StartsWith<T, NumericChar | "-"> extends true
     ? TakeNumber<T> extends `${number}`
         ? {
-            __kind: "IT_Token";
-            kind: "literal";
-            token: `${TakeNumber<T>}`;
-            type: AsNumber<TakeNumber<T>>;
-            rest: Trim<StripLeading<T, TakeNumber<T>>>;
-        }
+                __kind: "IT_Token";
+                kind: "literal";
+                token: `${TakeNumber<T>}`;
+                type: AsNumber<TakeNumber<T>>;
+                rest: Trim<StripLeading<T, TakeNumber<T>>>;
+            }
         : Err<
             `malformed-token/numeric-literal`,
             `A bare number was detected but the resultant token of '${TakeNumber<T>}' can not be converted to a number!`,
@@ -47,12 +47,12 @@ type Bare<T extends string> = StartsWith<T, NumericChar | "-"> extends true
 type NumberConstructor<T extends string>
     = T extends `Number(${infer Num extends number})${infer Rest extends string}`
         ? {
-            __kind: "IT_Token";
-            kind: "literal";
-            token: `${Num}`;
-            type: Num;
-            rest: Trim<Rest>;
-        }
+                __kind: "IT_Token";
+                kind: "literal";
+                token: `${Num}`;
+                type: Num;
+                rest: Trim<Rest>;
+            }
         : T extends `Number(${infer Rest extends string}`
             ? Contains<Rest, ")"> extends true
                 ? Err<

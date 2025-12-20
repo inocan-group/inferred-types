@@ -397,11 +397,11 @@ export type MapFn<
     C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > = MapIR<C> extends "opt"
     ? <S extends MapFnInput<I, MapIR<C>, MapCard<C>>>(
-        source?: S
-    ) => MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>
+            source?: S
+        ) => MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>
     : <S extends MapFnInput<I, MapIR<C>, MapCard<C>>>(
-        source: S
-    ) => MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
+            source: S
+        ) => MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
 
 /**
  * **Mapper**

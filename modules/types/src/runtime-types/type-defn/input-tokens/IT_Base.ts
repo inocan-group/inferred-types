@@ -2,35 +2,35 @@ import type { GenericParam, IsDictionary, IsUnion, KeyValue } from "inferred-typ
 
 export type IT_TakeKind
     = | "atomic"
-| "array"
-| "literal"
-| "kv"
-| "set"
-| "group"
-| "union"
-| "intersection"
-| "function"
-| "generator"
-| "promise"
-| "literal-array"
-| "object-literal";
+        | "array"
+        | "literal"
+        | "kv"
+        | "set"
+        | "group"
+        | "union"
+        | "intersection"
+        | "function"
+        | "generator"
+        | "promise"
+        | "literal-array"
+        | "object-literal";
 
 export type IT_Combinators
     = | "union"
-| "intersection"
-| "none";
+        | "intersection"
+        | "none";
 
 export type IT_KvType
     = | "Record"
-| "Map"
-| "WeakMap";
+        | "Map"
+        | "WeakMap";
 
-export type IT_Generics = {
+export interface IT_Generics {
     generics: GenericParam[];
     rest: string;
-};
+}
 
-export type IT_Parameter = {
+export interface IT_Parameter {
     /** the _name_ of the parameter */
     name: string;
     /**
@@ -53,13 +53,13 @@ export type IT_Parameter = {
      * the _type_ it **is** otherwise.
      */
     type: unknown;
-};
+}
 
-export type IT_ParameterResults = {
+export interface IT_ParameterResults {
     parameters: readonly IT_Parameter[];
     generics: readonly GenericParam[];
     rest: string;
-};
+}
 export interface IT_Token_Base<T extends IT_TakeKind> {
     __kind: "IT_Token";
     /**
@@ -237,9 +237,9 @@ export type IsInputTokenSuccess<T> = IsDictionary<T> extends true
  */
 export type IT_Failure
     = | "invalid-token" // no handler exists for the head of the token string
-    | "malformed-token" // correct handler but token is malformed
-    | "wrong-handler"
-    | "unparsed"
+        | "malformed-token" // correct handler but token is malformed
+        | "wrong-handler"
+        | "unparsed"
     ; // the handler recognizes that it is not meant for parsing Head
 
 /**
@@ -257,4 +257,4 @@ export type IT_BooleanLiteralToken = `Boolean(${"true" | "false"})` | "true" | "
 
 export type IT_TakeOutcome<T extends IT_TakeKind = IT_TakeKind>
     = | IT_Token<T>
-| (Error & { type: IT_Failure });
+        | (Error & { type: IT_Failure });

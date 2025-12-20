@@ -7,6 +7,6 @@ import type { NumericChar, NumericChar__OneToFive, NumericChar__ZeroToFour } fro
  */
 export type RgbDecimalString
     = | `25${NumericChar__OneToFive}`
-| `2${NumericChar__ZeroToFour}${NumericChar}`
-| `1${NumericChar}${NumericChar}`
-| `${NumericChar}${NumericChar}`;
+        | `2${NumericChar__ZeroToFour}${NumericChar}`
+        | `1${NumericChar}${NumericChar}`
+        | `${NumericChar}${NumericChar}`;

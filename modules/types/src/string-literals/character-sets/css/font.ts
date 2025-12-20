@@ -2,70 +2,70 @@ import type { CssGlobal, CssRotation, CssSizing, CssSizingLight, Opt } from "inf
 
 export type CssFontFamily
     = | `"${string}"`
-    | "serif"
-    | "san-serif"
-    | "monospace"
-    | "cursive"
-    | "fantasy"
-    | "system-ui"
-    | "ui-serif"
-    | "ui-sans-serif"
-    | "ui-monospace"
-    | "ui-rounded"
-    | "emoji"
-    | "math"
-    | "fansong";
+        | "serif"
+        | "san-serif"
+        | "monospace"
+        | "cursive"
+        | "fantasy"
+        | "system-ui"
+        | "ui-serif"
+        | "ui-sans-serif"
+        | "ui-monospace"
+        | "ui-rounded"
+        | "emoji"
+        | "math"
+        | "fansong";
 
 export type CssFontFeatureSetting
     = | "normal"
-    | "liga"
-    | "tnum"
-    | "smcp";
+        | "liga"
+        | "tnum"
+        | "smcp";
 
 export type CssFontKerning
     = | "auto"
-    | "normal"
-    | "none"
-    | CssGlobal;
+        | "normal"
+        | "none"
+        | CssGlobal;
 
 export type CssFontPalette
     = | "normal"
-    | "light"
-    | "dark"
-    | `--${string}`
-    | `palette-mix(in ${ColorGamut},${string})`;
+        | "light"
+        | "dark"
+        | `--${string}`
+        | `palette-mix(in ${ColorGamut},${string})`;
 
 export type CssFontWidth
     = | "normal"
-    | "ultra-condensed"
-    | "extra-condensed"
-    | "condensed"
-    | "semi-condensed"
-    | "expanded"
-    | "extra-expanded"
-    | "ultra-expanded"
-    | `${number}%`
-    | CssGlobal;
+        | "ultra-condensed"
+        | "extra-condensed"
+        | "condensed"
+        | "semi-condensed"
+        | "expanded"
+        | "extra-expanded"
+        | "ultra-expanded"
+        | `${number}%`
+        | CssGlobal;
 
 export type CssFontStyle
     = | "normal"
-    | "italic"
-    | "oblique"
-    | `oblique ${CssRotation}`
-    | CssGlobal;
+        | "italic"
+        | "oblique"
+        | `oblique ${CssRotation}`
+        | CssGlobal;
 
 export type CssFontSynthesis
     = | "none"
-    | "weight"
-    | "style"
-    | "position"
-    | "small-caps";
+        | "weight"
+        | "style"
+        | "position"
+        | "small-caps";
 
 export type CssFontWeight
     = | "normal" | "bold"
-    | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900"
-    | "lighter" | "bolder"
-    | CssGlobal;
+        | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900"
+        | "lighter" | "bolder"
+        | CssGlobal;
 
 /**
  * The font-language-override CSS property controls the use of language-specific glyphs in a typeface.

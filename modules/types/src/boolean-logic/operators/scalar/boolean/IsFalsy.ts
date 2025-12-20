@@ -8,5 +8,5 @@ import type { IsTruthy, Not } from "inferred-types/types";
 export type IsFalsy<T> = [T] extends [null]
     ? true
     : [T] extends [undefined]
-        ? true
-        : Not<IsTruthy<T>>;
+            ? true
+            : Not<IsTruthy<T>>;

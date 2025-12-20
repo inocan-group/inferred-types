@@ -1,7 +1,7 @@
 import type { Char, NestedException } from "inferred-types/types";
 import type { Nesting } from "./Nesting";
 
-export type NestingKeyValueConfig = {
+export interface NestingKeyValueConfig {
     /** the exit token */
     exit: Char;
 
@@ -14,7 +14,7 @@ export type NestingKeyValueConfig = {
      * optionally add exceptions to _entry_ or _exit_ tokens.
      */
     exception?: NestedException;
-};
+}
 
 /**
  * **NestingKeyValue**

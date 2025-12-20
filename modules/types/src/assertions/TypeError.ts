@@ -10,15 +10,15 @@ type Failed = `failed/${AssertionOp}`;
  *
  * **Related:** `AssertEquals`, `AssertExtends`, `AssertTrue`, `AssertFalse`
  */
-export type AssertionError<
+export interface AssertionError<
     TType extends Invalid | Failed = Invalid | Failed,
     TMsg extends string = string,
     TContext extends { test: unknown; expected: unknown; [key: string]: unknown } = { test: unknown; expected: unknown; [key: string]: unknown }
-> = {
+> {
     kind: "AssertionError";
     classification: TType;
     message: TMsg;
     testType: TContext["test"];
     expectedType: TContext["expected"];
     ctx: WithoutKeys<TContext, "test" | "expected">;
-};
+}

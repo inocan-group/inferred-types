@@ -6,12 +6,16 @@ import { describe, expect, it } from "vitest";
 describe("IsSameMonth<A, B>", () => {
 
   it("Same Month - True Cases", () => {
+    type T1 = IsSameMonth<"2023-01-01", "2024-01-15">;
+    type T2 = IsSameMonth<"2023-12-01", "2024-12-31">;
+    type T3 = IsSameMonth<"2023-01-01", "2023-01-31">;
+
     type cases = [
       // Same month in different years
-      Expect<Test<IsSameMonth<"2023-01-01", "2024-01-15">, "equals", true>>,
-      Expect<Test<IsSameMonth<"2023-12-01", "2024-12-31">, "equals", true>>,
+      Expect<Test<T1, "equals", true>>,
+      Expect<Test<T2, "equals", true>>,
       // Same month, same year, different days
-      Expect<Test<IsSameMonth<"2023-01-01", "2023-01-31">, "equals", true>>,
+      Expect<Test<T3, "equals", true>>,
       Expect<Test<IsSameMonth<"2023-06-15", "2023-06-30">, "equals", true>>,
       Expect<Test<IsSameMonth<"2023-12-01", "2023-12-25">, "equals", true>>,
     ];

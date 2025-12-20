@@ -9,10 +9,10 @@ import type {
     TypedFunction
 } from "inferred-types/types";
 
-type LogicOptions = {
+interface LogicOptions {
     empty?: boolean | unknown;
     err?: "false" | "error" | unknown;
-};
+}
 
 type Reduce<T extends readonly (boolean | TypedFunction)[]> = {
     [K in keyof T]: T[K] extends TypedFunction
@@ -59,30 +59,30 @@ export type And<
                         : false
                 // Handle valid boolean/function arrays
                     : [[...T]] extends [readonly (boolean | TypedFunction)[]]
-                    // Handle wide arrays (unknown length at compile time)
-                        ? number extends T["length"]
-                            ? boolean
-                        // Handle empty arrays
-                            : [[]] extends [[...T]]
-                                ? TOpt extends { empty: infer E } ? E : false
-                            // Process the array (reduce functions to booleans if needed)
-                                : [[...T]] extends [readonly boolean[]]
-                                    ? HasFalse<T> extends true
-                                        ? false
-                                        : HasWideBoolean<T> extends true
-                                            ? boolean
-                                            : true
-                                // Handle arrays with functions
-                                    : Reduce<[...T]> extends readonly boolean[]
-                                        ? HasFalse<Reduce<[...T]>> extends true
-                                            ? false
-                                            : HasWideBoolean<Reduce<[...T]>> extends true
-                                                ? boolean
-                                                : true
-                                        : TOpt extends { err: "error" }
-                                            ? Err<"invalid/and", "The conditions passed into And<T> could not be reduced down to just a boolean array.", { library: "inferred-types"; value: T }>
-                                            : false
-                    // Handle completely invalid types
-                        : TOpt extends { err: "error" }
-                            ? Err<"invalid/and", "The And<T> type utility requires that all elements passed to it are either a boolean value directly or a LogicFunction which returns a boolean value">
-                            : false;
+                        // Handle wide arrays (unknown length at compile time)
+                            ? number extends T["length"]
+                                ? boolean
+                            // Handle empty arrays
+                                : [[]] extends [[...T]]
+                                        ? TOpt extends { empty: infer E } ? E : false
+                                    // Process the array (reduce functions to booleans if needed)
+                                        : [[...T]] extends [readonly boolean[]]
+                                                ? HasFalse<T> extends true
+                                                    ? false
+                                                    : HasWideBoolean<T> extends true
+                                                        ? boolean
+                                                        : true
+                                            // Handle arrays with functions
+                                                : Reduce<[...T]> extends readonly boolean[]
+                                                    ? HasFalse<Reduce<[...T]>> extends true
+                                                        ? false
+                                                        : HasWideBoolean<Reduce<[...T]>> extends true
+                                                            ? boolean
+                                                            : true
+                                                    : TOpt extends { err: "error" }
+                                                        ? Err<"invalid/and", "The conditions passed into And<T> could not be reduced down to just a boolean array.", { library: "inferred-types"; value: T }>
+                                                        : false
+                        // Handle completely invalid types
+                            : TOpt extends { err: "error" }
+                                ? Err<"invalid/and", "The And<T> type utility requires that all elements passed to it are either a boolean value directly or a LogicFunction which returns a boolean value">
+                                : false;

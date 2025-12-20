@@ -37,11 +37,11 @@ export type AddIfUnique<
     : TOffset extends keyof TItem
         ? Contains<GetEach<TList, TOffset>, TItem[TOffset]> extends true
             ? {
-                [K in keyof TList]: TOffset extends keyof TList[K]
-                    ? TList[K][TOffset] extends TItem[TOffset]
-                        ? Merge<As<TList[K], Dictionary>, As<TItem, Dictionary>>
+                    [K in keyof TList]: TOffset extends keyof TList[K]
+                        ? TList[K][TOffset] extends TItem[TOffset]
+                            ? Merge<As<TList[K], Dictionary>, As<TItem, Dictionary>>
+                            : TList[K]
                         : TList[K]
-                    : TList[K]
-            }
+                }
             : [...TList, TItem]
         : TList;

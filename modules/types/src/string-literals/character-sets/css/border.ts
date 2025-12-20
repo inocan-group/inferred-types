@@ -6,15 +6,15 @@ import type { CssColor, CssGlobal, CssSizing } from "inferred-types/types";
  */
 export type CssBorderStyle
     = | "none"
-    | "hidden"
-    | "dotted"
-    | "dashed"
-    | "solid"
-    | "double"
-    | "groove"
-    | "ridge"
-    | "inset"
-    | "outset";
+        | "hidden"
+        | "dotted"
+        | "dashed"
+        | "solid"
+        | "double"
+        | "groove"
+        | "ridge"
+        | "inset"
+        | "outset";
 
 /**
  * CSS Border Width
@@ -22,9 +22,9 @@ export type CssBorderStyle
  */
 export type CssBorderWidth
     = | "thin"
-    | "medium"
-    | "thick"
-    | CssSizing;
+        | "medium"
+        | "thick"
+        | CssSizing;
 
 export type CssBorderImageSource = `url(${string})`
     | `url(${string}) ${number}`
@@ -51,9 +51,9 @@ export type CssBorderCollapse = "collapse" | "separate" | CssGlobal;
  */
 export type CssBorderImageRepeat
     = | "stretch"
-    | "repeat"
-    | "round"
-    | "space";
+        | "repeat"
+        | "round"
+        | "space";
 
 export type CssBorderInlineSizing = CssBorderStyle
     | CssSizing

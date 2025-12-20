@@ -3,17 +3,17 @@ import type { IsAny, IsNever } from "inferred-types/types";
 export type IsLiteralScalar<T> = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : string extends T
             ? false
-            : number extends T
+            : string extends T
                 ? false
-                : bigint extends T
+                : number extends T
                     ? false
-                    : boolean extends T
+                    : bigint extends T
                         ? false
-                        : symbol extends T
+                        : boolean extends T
                             ? false
-                            : T extends string | number | bigint | boolean | symbol | null | undefined
-                                ? true
-                                : false;
+                            : symbol extends T
+                                ? false
+                                : T extends string | number | bigint | boolean | symbol | null | undefined
+                                    ? true
+                                    : false;

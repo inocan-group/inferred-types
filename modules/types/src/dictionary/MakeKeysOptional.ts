@@ -30,14 +30,14 @@ type ConvertArray<
     : Subtract<TArr["length"], TOptional> extends infer ReqNum extends number
         ? Negative<TOptional> extends infer OptNum extends number
             ? [
-                Slice<TArr, 0, ReqNum>,
-                Slice<TArr, OptNum>
-            ] extends [
-                infer ReqElements extends readonly unknown[],
-                infer OptElements extends readonly unknown[]
-            ]
-                ? [...ReqElements, ...Partial<OptElements>]
-                : never
+                    Slice<TArr, 0, ReqNum>,
+                    Slice<TArr, OptNum>
+                ] extends [
+                    infer ReqElements extends readonly unknown[],
+                    infer OptElements extends readonly unknown[]
+                ]
+                    ? [...ReqElements, ...Partial<OptElements>]
+                    : never
             : never
         : never;
 

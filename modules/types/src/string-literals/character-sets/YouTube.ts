@@ -17,24 +17,24 @@ import type {
  */
 export type YouTubePageType
     = | "home"
-    | "play::video::solo"
-    | "play::video::solo::share-link"
-    | "play::video::solo::share-link::with-timestamp"
-    | "play::video::in-list"
-    | "play::video::in-list::share-link"
-    | "play::video::in-list::share-link::with-timestamp"
-    | "playlist::show"
-    | "creator::featured"
-    | "creator::videos"
-    | "creator::playlists"
-    | "creator::other"
-    | "feed::history"
-    | "feed::playlists"
-    | "feed::liked"
-    | "feed::subscriptions"
-    | "feed::trending"
-    | "feed::other"
-    | "other";
+        | "play::video::solo"
+        | "play::video::solo::share-link"
+        | "play::video::solo::share-link::with-timestamp"
+        | "play::video::in-list"
+        | "play::video::in-list::share-link"
+        | "play::video::in-list::share-link::with-timestamp"
+        | "playlist::show"
+        | "creator::featured"
+        | "creator::videos"
+        | "creator::playlists"
+        | "creator::other"
+        | "feed::history"
+        | "feed::playlists"
+        | "feed::liked"
+        | "feed::subscriptions"
+        | "feed::trending"
+        | "feed::other"
+        | "other";
 
 export type YouTubeFeedType = "history" | "playlists" | "liked" | "subscriptions" | "trending" | "other";
 
@@ -71,7 +71,7 @@ export type YouTubeShareUrl = UrlsFrom<"youtu.be">;
  */
 export type YouTubeVideoUrl
     = `https://www.youtube.com/watch?${string}v=${string}` | `https://youtube.com/watch?${string}v=${string}`
-    | YouTubeShareUrl;
+        | YouTubeShareUrl;
 
 /**
  * **YouTubeCreatorUrl**
@@ -127,7 +127,7 @@ export type YouTubeFeedUrl<
     T extends YouTubeFeedType = YouTubeFeedType,
 >
     = | `https://www.youtube.com/feed/${T}${string}`
-    | `https://youtube.com/feed/${T}${string}`;
+        | `https://youtube.com/feed/${T}${string}`;
 
 /**
  * **YouTubeUsersPlaylistUrl**

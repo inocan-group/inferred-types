@@ -29,7 +29,7 @@ export type IsoYear<
 > = T extends "normal"
     ? (
         `${NumericChar}${number}${NumericChar}` | `${"+" | "-"}${number}`
-    )
+        )
     : T extends "weak"
         ? `${number}` | `${number}${"+" | "-"}${number}`
         : T extends "branded"
@@ -61,11 +61,11 @@ export type IsoMonthDate<
     | `--${TwoDigitMonth}${number}`
     : T extends "weak"
         ? | `--${number}-${number}`
-    | `--${number}`
+        | `--${number}`
         : T extends "branded"
             ? (
-        | `--${number}-${number}`
-        | `--${number}`
+                | `--${number}-${number}`
+                | `--${number}`
     ) & {
         kind: "IsoMonthDate";
     }
@@ -96,10 +96,10 @@ export type IsoMonthDate<
 export type IsoYearMonth<T extends "normal" | "weak" | "explicit" | "implicit" = "normal">
     = T extends "normal"
         ? | `-${number}-${TwoDigitMonth}`
-    | `-${number}${TwoDigitMonth}`
+        | `-${number}${TwoDigitMonth}`
         : T extends "weak"
             ? | `-${number}-${number}`
-    | `-${number}`
+            | `-${number}`
             : T extends "explicit"
                 ? | `-${FourDigitYear<"strong">}-${TwoDigitDate}`
                 : T extends "implicit"
@@ -121,10 +121,10 @@ export type IsoFullDate<
 >
     = T extends "normal"
         ? | `${number}${TwoDigitMonth}${number}`
-    | `${number}-${TwoDigitMonth}-${number}`
+        | `${number}-${TwoDigitMonth}-${number}`
         : T extends "weak"
             ? | `${number}${TwoDigitMonth<"weak">}`
-    | `${number}-${TwoDigitMonth<"weak">}-${number}`
+            | `${number}-${TwoDigitMonth<"weak">}-${number}`
             : never;
 
 /**
@@ -139,7 +139,7 @@ export type IsoFullDate<
  */
 export type IsoFullDateTimeLike
     = | `${number}${TwoDigitMonth}${number}T${string}`
-    | `${number}-${TwoDigitMonth}-${number}T${string}`;
+        | `${number}-${TwoDigitMonth}-${number}T${string}`;
 
 /**
  * [IsoDate](https://en.wikipedia.org/wiki/ISO_8601)
@@ -241,8 +241,8 @@ export type IsoTimeLike<
     TZ extends TimezoneOffset | "" = TimezoneOffset | ""
 >
     = | `${THour}:${TMin}${TZ}`
-    | `${THour}:${TMin}:${number}${TZ}`
-    | `${THour}:${TMin}:${number}.${number}${TZ}`;
+        | `${THour}:${TMin}:${number}${TZ}`
+        | `${THour}:${TMin}:${number}.${number}${TZ}`;
 
 /**
  * **IsoTime**`<[TExplicit], [TZ]>`

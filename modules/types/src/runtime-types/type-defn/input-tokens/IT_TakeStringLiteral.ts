@@ -31,28 +31,28 @@ type JoinAll<
 
 type EmptyString<T extends string> = T extends `''${infer Rest}`
     ? {
-        __kind: "IT_Token";
-        kind: "literal";
-        token: T;
-        type: `""`;
-        rest: Rest;
-    }
-    : T extends `""${infer Rest}`
-        ? {
             __kind: "IT_Token";
             kind: "literal";
             token: T;
             type: `""`;
             rest: Rest;
         }
-        : T extends `\`\`${infer Rest}`
-            ? {
+    : T extends `""${infer Rest}`
+        ? {
                 __kind: "IT_Token";
                 kind: "literal";
                 token: T;
                 type: `""`;
                 rest: Rest;
             }
+        : T extends `\`\`${infer Rest}`
+            ? {
+                    __kind: "IT_Token";
+                    kind: "literal";
+                    token: T;
+                    type: `""`;
+                    rest: Rest;
+                }
             : Err<"wrong-handler/empty-string">;
 ;
 
@@ -66,12 +66,12 @@ type Quoted<T extends string> = T extends `${infer Head}${infer Rest}`
                 ? Block extends ""
                     ? Err<"malformed-token/string-literal">
                     : {
-                        __kind: "IT_Token";
-                        kind: "literal";
-                        token: `${Quote}${Block}${Quote}`;
-                        type: AsLiteralTemplate<Block>;
-                        rest: Trim<JoinAll<Rest, Quote>>;
-                    }
+                            __kind: "IT_Token";
+                            kind: "literal";
+                            token: `${Quote}${Block}${Quote}`;
+                            type: AsLiteralTemplate<Block>;
+                            rest: Trim<JoinAll<Rest, Quote>>;
+                        }
                 : Err<
                     `malformed-token/string-literal`,
                 `While parsing a string literal starting with quote character ${Quote}; there was no terminating quote character of the same type!`,
@@ -96,12 +96,12 @@ type StringConstructor<T extends string> = T extends `String(${infer Rest}`
             ...infer Rest extends string[]
         ]
             ? {
-                __kind: "IT_Token";
-                kind: "literal";
-                token: `String(${Block})`;
-                type: AsLiteralTemplate<Block>;
-                rest: Trim<Join<Rest, ")">>;
-            }
+                    __kind: "IT_Token";
+                    kind: "literal";
+                    token: `String(${Block})`;
+                    type: AsLiteralTemplate<Block>;
+                    rest: Trim<Join<Rest, ")">>;
+                }
             : never
         : Err<
             "malformed-token/string-literal",

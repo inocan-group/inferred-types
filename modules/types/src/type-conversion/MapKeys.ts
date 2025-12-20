@@ -39,15 +39,15 @@ type Process<
 > = TConfig extends readonly FromTo[]
     ? TOpt["replaceAll"] extends false
         ? {
-            [K in keyof TObj as ReplaceFromTo<K, TConfig>]: TObj[K] extends Dictionary
-                ? Process<TObj[K], TConfig, TOpt>
-                : TObj[K];
-        }
+                [K in keyof TObj as ReplaceFromTo<K, TConfig>]: TObj[K] extends Dictionary
+                    ? Process<TObj[K], TConfig, TOpt>
+                    : TObj[K];
+            }
         : {
-            [K in keyof TObj as ReplaceAllFromTo<K, TConfig>]: TObj[K] extends Dictionary
-                ? Process<TObj[K], TConfig, TOpt>
-                : TObj[K];
-        }
+                [K in keyof TObj as ReplaceAllFromTo<K, TConfig>]: TObj[K] extends Dictionary
+                    ? Process<TObj[K], TConfig, TOpt>
+                    : TObj[K];
+            }
 // Dictionary definition
     : TConfig extends Dictionary<string, string>
         ? AsFromTo<TConfig> extends infer Config extends readonly FromTo[]

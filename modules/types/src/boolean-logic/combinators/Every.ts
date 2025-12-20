@@ -17,12 +17,12 @@ type Process<
     ? TElements extends readonly unknown[]
         ? Head extends ComparisonAccept<TOp>
             ? [Compare<Head, TOp, TComparator>] extends [true]
-                ? Process<
-                    Rest,
-                    TOp,
-                    TComparator
-                >
-                : false
+                    ? Process<
+                        Rest,
+                        TOp,
+                        TComparator
+                    >
+                    : false
             : Process<
                 Rest,
                 TOp,
@@ -58,7 +58,7 @@ export type Every<
             ? TComparator
             : TComparator extends First<GetComparisonParams<TOp>>
                 ? [TComparator] extends GetComparisonParams<TOp>
-                    ? [TComparator]
-                    : never
+                        ? [TComparator]
+                        : never
                 : never
     >;

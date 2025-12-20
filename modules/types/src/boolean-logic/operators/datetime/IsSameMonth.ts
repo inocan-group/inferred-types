@@ -1,79 +1,78 @@
 import type {
-    And,
-    As,
-    AsDateMeta,
     DateLike,
-    DateMeta,
     Err,
+    IsDayJs,
     IsEqual,
     IsInteger,
-    IsNotEqual,
-    IsNumber,
-    IsNumericLiteral,
-    IsString,
-    Not,
-    Or,
+    IsJsDate,
+    IsLuxonDateTime,
+    IsMoment,
+    IsTrue
 } from "inferred-types/types";
+
+type GetDatePart<T> = T extends `${infer D}T${string}` ? D : T;
+
+type StripLeadingHyphen<T extends string> = T extends `-${infer R}` ? R : T;
+
+// Extracts month from YYYY-MM-DD, -YYYY-MM, --MM-DD, YYYY-MM
+type GetMonthFromDate<T extends string>
+    = StripLeadingHyphen<T> extends infer Clean extends string
+        ? Clean extends `${string}-${infer M}-${string}` ? M
+            : Clean extends `${string}-${infer M}` ? M
+                : never
+        : never;
+
+type IsWide<A, B> = string extends A
+    ? true
+    : string extends B
+        ? true
+        : number extends A
+            ? true
+            : number extends B
+                ? true
+                : false;
+
+type EitherAreDateObject<A, B> = IsJsDate<A> extends true
+    ? true
+    : IsJsDate<B> extends true
+        ? true
+        : IsMoment<A> extends true
+            ? true
+            : IsMoment<B> extends true
+                ? true
+                : IsDayJs<A> extends true
+                    ? true
+                    : IsDayJs<B> extends true
+                        ? true
+                        : IsLuxonDateTime<A> extends true
+                            ? true
+                            : IsLuxonDateTime<B> extends true
+                                ? true
+                                : false;
 
 /**
  * **IsSameMonth**`<A,B>`
  *
  * Boolean operator which indicates whether `A` and `B` represent
- * the same month. A literal true/false is returned where that is
- * possible other wise you'll just `boolean` for things which
- * can only be validated at runtime.
- *
- * **Note:** literal types are available at design time when:
- * - ISO Date/DateTime string are used
- * - returns `true` when epoch timestamps are the same
- * - otherwise we fallback to `boolean` for valid `DateLike` types
- *
- * **Related:**
- * - `IsSameMonthYear`, `IsSameDay`, `IsSameYear`,
- * - `isSameMonthYear()`, `isSameDay()`, `IsSameMonth()`
+ * the same month (regardless/independently of year).
  */
 export type IsSameMonth<
     A extends DateLike,
     B extends DateLike
-> = And<[
-    IsString<A>,
-    IsString<B>
-]> extends true
-    ? Or<[
-        string extends A ? true : false,
-        string extends B ? true : false,
-    ]> extends true
-        ? boolean
-        : AsDateMeta<A> extends Error
-            ? Err<
-                "invalid-date",
-                `The string passed into the first parameter of IsSameMonth -- ${As<A, string>} -- is not a valid ISO date! ${AsDateMeta<A>["message"]}`,
-                { a: A; b: B }
-            >
-            : AsDateMeta<B> extends Error
-                ? Err<
-                    "invalid-date",
-                    `The string passed into the second parameter of IsSameMonth -- ${As<B, string>} -- is not a valid ISO date!`,
-                    { a: A; b: B }
-                >
-                : AsDateMeta<A> extends DateMeta
-                    ? AsDateMeta<B> extends DateMeta
-                        ? And<[
-                            IsEqual<AsDateMeta<A>["month"], AsDateMeta<B>["month"]>,
-                            IsNotEqual<AsDateMeta<A>["month"], null>,
-                        ]>
-                        : never
-                    : never
-    : And<[
-        IsNumericLiteral<A>,
-        IsNumericLiteral<B>,
-        IsEqual<A, B>,
-        IsInteger<A>
-    ]> extends true
-        ? true
-        : Or<[
-            And<[IsNumber<A>, Not<IsInteger<A>>]>,
-            And<[IsNumber<B>, Not<IsInteger<B>>]>,
-        ]> extends true
-            ? Err<`invalid-date`, `The numeric values passed into IsSameMonth were not integers which makes them unable to be treated as a date!`, { a: A; b: B }>
-            : boolean;
+> = IsWide<A, B> extends true
+    ? boolean
+    : A extends string
+        ? B extends string
+            ? IsEqual<GetMonthFromDate<GetDatePart<A>>, GetMonthFromDate<GetDatePart<B>>> extends true
+                ? true
+                : false
+            : EitherAreDateObject<A, B> extends true ? boolean : Err<`invalid-date/type`>
+        : A extends number
+            ? B extends number
+                ? number extends A
+                    ? IsTrue<IsInteger<B>> extends true ? boolean : Err<`invalid-date/numeric`>
+                    : number extends B
+                        ? boolean
+                        : IsEqual<A, B> extends true ? true : boolean
+                : EitherAreDateObject<A, B> extends true ? boolean : Err<`invalid-date/type`>
+            : EitherAreDateObject<A, B> extends true ? boolean : Err<`invalid-date/type`>;

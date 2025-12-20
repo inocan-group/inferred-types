@@ -34,9 +34,9 @@ type PreserveBoolean<T extends readonly unknown[]>
     = Contains<T, true, "equals"> extends true
         ? Contains<T, false, "equals"> extends true
             ? [
-                ...RemoveBoolean<T>,
-                boolean
-            ]
+                    ...RemoveBoolean<T>,
+                    boolean
+                ]
             : T
         : T;
 

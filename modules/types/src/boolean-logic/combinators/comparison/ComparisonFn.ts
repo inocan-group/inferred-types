@@ -21,16 +21,16 @@ export type ComparisonFn<
 > = (
 ComparisonDesc<TOp, TParams> extends string
     ? {
-        kind: "Comparison Function";
-        operation: TOp;
-        params: TParams;
-        desc: ComparisonDesc<TOp, TParams>;
-    }
+            kind: "Comparison Function";
+            operation: TOp;
+            params: TParams;
+            desc: ComparisonDesc<TOp, TParams>;
+        }
     : {
-        kind: "Comparison Function";
-        operation: TOp;
-        params: TParams;
-    }
+            kind: "Comparison Function";
+            operation: TOp;
+            params: TParams;
+        }
 ) & (
     <T extends readonly ComparisonAccept<TOp>[]>(val: T) => T extends readonly unknown[]
         ? Filter<T, TOp, TParams>

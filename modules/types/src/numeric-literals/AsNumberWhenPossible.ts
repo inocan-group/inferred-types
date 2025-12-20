@@ -6,8 +6,8 @@ type Convert<T> = T extends `${number}`
 
 type ConvertTuple<T> = T extends unknown[]
     ? {
-        [K in keyof T]: Convert<T[K]>
-    }
+            [K in keyof T]: Convert<T[K]>
+        }
     : never;
 
 type ConvertUnion<T> = If<

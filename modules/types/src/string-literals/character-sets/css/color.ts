@@ -11,34 +11,34 @@ export type CssNamedColorLookup = typeof CSS_COLOR_LOOKUP;
 
 export type CssColorModel
     = | "rgb"
-    | "hsl"
-    | "hsb"
-    | "lab"
-    | "oklch";
+        | "hsl"
+        | "hsb"
+        | "lab"
+        | "oklch";
 
 export type CssColorSpace
     = | "srgb"
-    | "srgb-linear"
-    | "display-p3"
-    | "rec2020"
-    | "a98-rgb"
-    | "prophoto-rgb"
-    | "xyz"
-    | "xyz-d50"
-    | "xyz-d65"
-    | "hsl"
-    | "hwb"
-    | "lch"
-    | "oklch";
+        | "srgb-linear"
+        | "display-p3"
+        | "rec2020"
+        | "a98-rgb"
+        | "prophoto-rgb"
+        | "xyz"
+        | "xyz-d50"
+        | "xyz-d65"
+        | "hsl"
+        | "hwb"
+        | "lch"
+        | "oklch";
 
 export type CssColorSpacePrimary
     = | "srgb"
-    | "display-p3"
-    | "rec2020"
-    | "hsl"
-    | "hwb"
-    | "lch"
-    | "oklch";
+        | "display-p3"
+        | "rec2020"
+        | "hsl"
+        | "hwb"
+        | "lch"
+        | "oklch";
 
 /**
  * **CssRgb**
@@ -47,25 +47,25 @@ export type CssColorSpacePrimary
  */
 export type CssRgb
     = | `rgb(${OptionalSpace}${number} ${number} ${number}${OptionalSpace})`
-    | `rgb(${OptionalSpace}${number},${OptionalSpace}${number},${OptionalSpace}${number}${OptionalSpace})`;
+        | `rgb(${OptionalSpace}${number},${OptionalSpace}${number},${OptionalSpace}${number}${OptionalSpace})`;
 
 export type CssRgba
     = | `rgba(${number} ${number} ${number} ${number})`
-    | `rgba(${number},${OptionalSpace}${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
+        | `rgba(${number},${OptionalSpace}${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 /**
  * Hue, Saturation, and Lightness level (**HSL** color model)
  */
 export type CssHsl
     = | `hsl(${number} ${number} ${number})`
-    | `hsl(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
+        | `hsl(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 /**
  * Hue, Saturation, and Brightness (**HSB** color model)
  */
 export type CssHsb
     = | `hsb(${number} ${number} ${number})`
-    | `hsb(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
+        | `hsb(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 type OptionalPercent = "%" | "";
 
@@ -94,21 +94,21 @@ export type ColorFnOptOpacity = "" | ` / ${number}`;
  */
 export type CssColor
     = | CssNamedColor
-    | CssHexColor
-    | CssRgb
-    | CssRgba
-    | CssOkLch
-    | CssHsb
-    | CssHsl
-    | "currentcolor"
-    | `color(${string})`;
+        | CssHexColor
+        | CssRgb
+        | CssRgba
+        | CssOkLch
+        | CssHsb
+        | CssHsl
+        | "currentcolor"
+        | `color(${string})`;
 
 export type CssColorLight
     = | CssNamedColor
-    | `#${number}`
-    | "currentcolor"
-    | `${"rgb" | "rgba" | "hsb" | "hsl"}(${string})`
-    | `color(${string})`;
+        | `#${number}`
+        | "currentcolor"
+        | `${"rgb" | "rgba" | "hsb" | "hsl"}(${string})`
+        | `color(${string})`;
 
 /**
  * The new CSS 4 `color(colorspace v1 v2 v3 [/ alpha])` function.
@@ -123,7 +123,7 @@ export type CssColorFn<
     TOp extends ColorFnOptOpacity = ColorFnOptOpacity,
 >
     = | `color(${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}` // absolute color
-    | `color(${CssColor} from ${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}`;
+        | `color(${CssColor} from ${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}`;
 
 export type CssColorMix = `color-mix(in ${CssColorSpace}, ${CssColor}${string})`;
 

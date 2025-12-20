@@ -51,8 +51,8 @@ export type AsChoice<
 > = [TValue] extends [ShapeCallback]
     ? { name: TName; value: HandleDoneFn<ReturnType<TValue>> }
     : [TValue] extends [Scalar | Dictionary]
-        ? { name: TName; value: TValue }
-        : { name: TName; value: TName };
+            ? { name: TName; value: TValue }
+            : { name: TName; value: TName };
 
 type ProcessChoices<
     T extends string | [string, Scalar] | Choice | ChoiceCallback,

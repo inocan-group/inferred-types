@@ -22,7 +22,7 @@ export type DateType = typeof DATE_TYPE[number];
  * but that blew up typescript complexity so for now we're back in
  * design for that.
  */
-export type DateMeta = {
+export interface DateMeta {
     dateType: DateType;
     hasTime: boolean;
     year: FourDigitYear<"branded"> | null;
@@ -33,4 +33,4 @@ export type DateMeta = {
     second: TwoDigitSecond<"branded"> | null;
     ms: ThreeDigitMillisecond<"branded"> | null;
     timezone: TimezoneOffset<"branded"> | null;
-};
+}

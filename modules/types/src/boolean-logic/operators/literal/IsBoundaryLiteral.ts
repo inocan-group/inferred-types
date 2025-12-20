@@ -8,5 +8,5 @@ import type { IsAny, IsNever } from "inferred-types/types";
 export type IsLiteralBoundary<T> = [IsAny<T>] extends [true]
     ? true
     : [IsNever<T>] extends [true]
-        ? true
-        : false;
+            ? true
+            : false;

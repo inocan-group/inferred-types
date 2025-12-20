@@ -29,19 +29,19 @@ export type Logic<
 > = [IsTrue<T>] extends [true]
     ? true
     : [IsFalse<T>] extends [true]
-        ? false
-        : [IsBoolean<T>] extends [true]
-            ? boolean
-            : [IsNever<T>] extends [true]
-                ? never
-                : [T] extends [LogicFunction]
-                    ? [IsTrue<ReturnType<T>>] extends [true]
-                        ? true
-                        : [IsFalse<ReturnType<T>>] extends [true]
-                            ? false
-                            : [IsBoolean<ReturnType<T>>] extends [true]
-                                ? boolean
-                                : [IsNever<ReturnType<T>>] extends [true]
-                                    ? never
-                                    : Handle<T, U>
-                    : Handle<T, U>;
+            ? false
+            : [IsBoolean<T>] extends [true]
+                    ? boolean
+                    : [IsNever<T>] extends [true]
+                            ? never
+                            : [T] extends [LogicFunction]
+                                    ? [IsTrue<ReturnType<T>>] extends [true]
+                                            ? true
+                                            : [IsFalse<ReturnType<T>>] extends [true]
+                                                    ? false
+                                                    : [IsBoolean<ReturnType<T>>] extends [true]
+                                                            ? boolean
+                                                            : [IsNever<ReturnType<T>>] extends [true]
+                                                                    ? never
+                                                                    : Handle<T, U>
+                                    : Handle<T, U>;

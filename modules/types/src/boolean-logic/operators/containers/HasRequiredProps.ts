@@ -15,5 +15,5 @@ export type HasRequiredProps<
 > = IsWideObject<T> extends true
     ? boolean
     : [RequiredKeysTuple<T>["length"]] extends [0]
-        ? false
-        : true;
+            ? false
+            : true;

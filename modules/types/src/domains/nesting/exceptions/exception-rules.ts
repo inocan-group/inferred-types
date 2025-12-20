@@ -1,6 +1,6 @@
 import type { Char } from "types/string-literals";
 
-export type ExitExceptionRules = {
+export interface ExitExceptionRules {
 
     /**
      * will **ignore** the `exit` token when
@@ -17,9 +17,9 @@ export type ExitExceptionRules = {
      */
     ignorePrecededBy: Char | readonly Char[];
 
-};
+}
 
-export type EntryExceptionRules = {
+export interface EntryExceptionRules {
 
     /**
      * will **ignore** the `entry` token when
@@ -36,7 +36,7 @@ export type EntryExceptionRules = {
      */
     ignorePrecededBy: Char | readonly Char[];
 
-};
+}
 
 /**
  * **NestedException**
@@ -46,9 +46,9 @@ export type EntryExceptionRules = {
  *
  * **Related:** `NestingKeyValue`, `NestingTuple`
  */
-export type NestedException = {
+export interface NestedException {
     /** define exceptions for the `exit` token */
     exit?: ExitExceptionRules;
     /** define exceptions for the `entry` token */
     entry?: EntryExceptionRules;
-};
+}

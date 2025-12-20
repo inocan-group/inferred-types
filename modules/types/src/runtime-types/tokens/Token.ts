@@ -13,7 +13,7 @@ export type TokenName = `${AlphaChar}${string}`;
  */
 export type TokenParamsConstraint
     = | "none"
-    | readonly unknown[];
+        | readonly unknown[];
 
 export type TokenType = "static" | "dynamic";
 

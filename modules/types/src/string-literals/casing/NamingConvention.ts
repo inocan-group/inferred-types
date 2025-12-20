@@ -8,6 +8,6 @@
  */
 export type NamingConvention
     = | "camelCase"
-    | "PascalCase"
-    | "kebab-case"
-    | "snake_case";
+        | "PascalCase"
+        | "kebab-case"
+        | "snake_case";

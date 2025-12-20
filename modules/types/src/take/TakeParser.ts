@@ -13,5 +13,5 @@ import type { TakeState } from "inferred-types/types";
 export type TakeParser = <
     T extends TakeState | string
 >(parse: T) =>
-| [ taken: string, parsed: readonly unknown[] ]
-| [ null, Error ];
+    | [ taken: string, parsed: readonly unknown[] ]
+    | [ null, Error ];

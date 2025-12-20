@@ -9,9 +9,9 @@ import type { HasCharacters, IsNever, IsStringLiteral, NumberLike } from "inferr
 export type IsInteger<T> = [IsNever<T>] extends [true]
     ? false
     : [T] extends [NumberLike]
-        ? [IsStringLiteral<`${T}`>] extends [true]
-            ? [HasCharacters<`${T}`, ".">] extends [true]
-                ? false
-                : true
-            : boolean
-        : false;
+            ? [IsStringLiteral<`${T}`>] extends [true]
+                    ? [HasCharacters<`${T}`, ".">] extends [true]
+                            ? false
+                            : true
+                    : boolean
+            : false;

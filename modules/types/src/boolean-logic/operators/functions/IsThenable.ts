@@ -8,23 +8,23 @@ export type IsThenable<T>
     = [IsAny<T>] extends [true]
         ? false
         : [IsNever<T>] extends [true]
-            ? false
-            : [IsUnknown<T>] extends [true]
-                ? boolean
-                : T extends Thenable
-                    ? true
-                    : false;
+                ? false
+                : [IsUnknown<T>] extends [true]
+                        ? boolean
+                        : T extends Thenable
+                            ? true
+                            : false;
 
 export type IsStrictPromise<T> = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : [IsUnknown<T>] extends [true]
-            ? boolean
+            ? false
+            : [IsUnknown<T>] extends [true]
+                    ? boolean
 
-            : T extends {
-                then: (onfulfilled?: (value: any) => any, onrejected?: (reason: any) => any) => any;
-                finally?: (onfinally?: () => void) => any;
-            }
-                ? true
-                : false;
+                    : T extends {
+                        then: (onfulfilled?: (value: any) => any, onrejected?: (reason: any) => any) => any;
+                        finally?: (onfinally?: () => void) => any;
+                    }
+                        ? true
+                        : false;

@@ -19,5 +19,5 @@ export type AsRgbTuple<T> = AsRgbObject<T> extends Error
         red: O["r"],
         green: O["g"],
         blue: O["b"]
-        ]
+            ]
         : never;

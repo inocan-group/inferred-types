@@ -6,7 +6,7 @@ import type { Percentage } from "inferred-types/types";
  * An object representation of an RGB value with
  * an alpha channel.
  */
-export type RGBA = {
+export interface RGBA {
     /** red  */
     r: number;
     /** green */
@@ -15,4 +15,4 @@ export type RGBA = {
     b: number;
     /** alpha value; should have value between 0 and 1 */
     a: Percentage;
-};
+}

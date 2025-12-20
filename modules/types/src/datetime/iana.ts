@@ -13,11 +13,11 @@ import type {
  */
 export type IanaZoneArea
     = | `Africa`
-    | `America`
-    | `Antarctica`
-    | `Asia`
-    | `Europe`
-    | `Pacific`;
+        | `America`
+        | `Antarctica`
+        | `Asia`
+        | `Europe`
+        | `Pacific`;
 
 /**
  * **IanaZone**`<[normal|strong]>`

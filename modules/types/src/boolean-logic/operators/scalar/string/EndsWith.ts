@@ -30,24 +30,24 @@ export type EndsWith<
         ? true
         : false
     : [IsAny<TValue>] extends [true]
-        ? false
-        : [IsNever<TValue>] extends [true]
             ? false
-            : [IsUnknown<TValue>] extends [true]
-                ? boolean
-                : string extends TValue
-                    ? boolean
-                    : number extends TValue
-                        ? boolean
-                        : number extends TComparator
+            : [IsNever<TValue>] extends [true]
+                    ? false
+                    : [IsUnknown<TValue>] extends [true]
                             ? boolean
-                            : string extends TComparator
+                            : string extends TValue
                                 ? boolean
-                                : Check<
+                                : number extends TValue
+                                    ? boolean
+                                    : number extends TComparator
+                                        ? boolean
+                                        : string extends TComparator
+                                            ? boolean
+                                            : Check<
     `${TValue}`,
     TComparator extends readonly (string | number)[]
         ? ToStringArray<TComparator>
         : TComparator extends (string | number)
             ? [`${TComparator}`]
             : never
-                                >;
+                                            >;

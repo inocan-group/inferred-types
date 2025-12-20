@@ -40,11 +40,11 @@ export type Cardinality0 = ZeroToOne | ZeroToMany | OneToOne | OneToMany;
  */
 export type CardinalityFilter0
     = | ZeroToOne
-    | ZeroToMany
-    | OneToOne
-    | OneToMany
-    | OneToZero
-    | ZeroToZero;
+        | ZeroToMany
+        | OneToOne
+        | OneToMany
+        | OneToZero
+        | ZeroToZero;
 
 export type CardinalityExplicit = `${number}:${number}`;
 
@@ -53,11 +53,11 @@ export type CardinalityExplicit = `${number}:${number}`;
  */
 export type Cardinality
     = | CardinalityFilter0
-    | CardinalityFilter1
-    | ManyToMany
-    | ManyToOne
-    | ManyToZero
-    | CardinalityExplicit;
+        | CardinalityFilter1
+        | ManyToMany
+        | ManyToOne
+        | ManyToZero
+        | CardinalityExplicit;
 
 /**
  * The first or _input_ part of the Cardinality relationship

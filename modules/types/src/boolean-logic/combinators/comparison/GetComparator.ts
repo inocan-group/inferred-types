@@ -42,19 +42,19 @@ type ConvertUnit<
     TParam
 > = [TConvert] extends ["stringLiteral"]
     ? [TParam] extends [string | number | boolean]
-        ? `${TParam}`
-        : Err<
+            ? `${TParam}`
+            : Err<
         `invalid-conversion/${TConvert}`,
         `The '${TConvert}' conversion was used on a parameter whose type is not allowed. This operation should be used to convert strings, number, or booleans into string literals.`,
         { param: TParam }
-        >
+            >
     : [TConvert] extends ["token"]
-        ? [TParam] extends [InputToken]
-            ? FromInputToken<TParam>
-            : never
-        : [TConvert] extends ["none"]
-            ? TParam
-            : TParam
+            ? [TParam] extends [InputToken]
+                    ? FromInputToken<TParam>
+                    : never
+            : [TConvert] extends ["none"]
+                    ? TParam
+                    : TParam
     ;
 
 /**
@@ -98,28 +98,28 @@ export type GetComparator<
 > = [TConfig["convert"]] extends ["stringArray"]
     ? Take<ToStringArray<TParams>, TConfig>
     : [TConfig["convert"]] extends ["union"]
-        ? Take<[TParams[number]], TConfig>
-        : [TConfig["convert"]] extends ["stringUnion"]
-            ? TParams extends [infer Only]
-                ? IsUnion<Only> extends true
-                    ? AsStringUnion<Only>
-                    : [AsString<Only>]
-                : Take<[ToStringArray<TParams>[number]], TConfig>
-            : [TConfig["convert"]] extends ["token"]
-                ? Take<{
-                    [K in keyof TParams]: [TParams[K]] extends [InputToken]
-                        ? FromInputToken<TParams[K]>
-                        : never
-                }, TConfig>
-                : [TConfig["convert"]] extends ["stringLiteral"]
-                    ? Take<{
-                        [K in keyof TParams]: [TParams[K]] extends [string | number | boolean]
-                            ? `${TParams[K]}`
-                            : never
-                    }, TConfig>
-                    : [TConfig["convert"]] extends [readonly ComparisonParamConvert__Unit[]]
-                        ? GetTupleComparator<
-                            TConfig["convert"],
-                            TParams
-                        >
-                        : Take<TParams, TConfig>;
+            ? Take<[TParams[number]], TConfig>
+            : [TConfig["convert"]] extends ["stringUnion"]
+                    ? TParams extends [infer Only]
+                        ? IsUnion<Only> extends true
+                            ? AsStringUnion<Only>
+                            : [AsString<Only>]
+                        : Take<[ToStringArray<TParams>[number]], TConfig>
+                    : [TConfig["convert"]] extends ["token"]
+                            ? Take<{
+                                [K in keyof TParams]: [TParams[K]] extends [InputToken]
+                                    ? FromInputToken<TParams[K]>
+                                    : never
+                            }, TConfig>
+                            : [TConfig["convert"]] extends ["stringLiteral"]
+                                    ? Take<{
+                                        [K in keyof TParams]: [TParams[K]] extends [string | number | boolean]
+                                            ? `${TParams[K]}`
+                                            : never
+                                    }, TConfig>
+                                    : [TConfig["convert"]] extends [readonly ComparisonParamConvert__Unit[]]
+                                            ? GetTupleComparator<
+                                                TConfig["convert"],
+                                                TParams
+                                            >
+                                            : Take<TParams, TConfig>;

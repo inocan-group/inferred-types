@@ -10,10 +10,10 @@ import type {
 type ElementLiteral<T> = [T] extends [string]
     ? IsStringLiteral<T> extends true ? T : string
     : [T] extends [number]
-        ? IsNumericLiteral<T> extends true ? T : `${number}`
-        : [T] extends [boolean]
-            ? IsBooleanLiteral<T> extends true ? T : `${boolean}`
-            : never;
+            ? IsNumericLiteral<T> extends true ? T : `${number}`
+            : [T] extends [boolean]
+                    ? IsBooleanLiteral<T> extends true ? T : `${boolean}`
+                    : never;
 
 type Process<
     T extends Tuple,

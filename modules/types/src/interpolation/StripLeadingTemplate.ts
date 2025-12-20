@@ -10,10 +10,10 @@ type Check<
     ]>
 
     : [K] extends ["string"]
-        ? IsEqual<T, `${string}`>
-        : [K] extends ["number"]
-            ? IsEqual<T, `${number}`>
-            : false;
+            ? IsEqual<T, `${string}`>
+            : [K] extends ["number"]
+                    ? IsEqual<T, `${number}`>
+                    : false;
 
 type FixUnion<
     T extends string
@@ -36,7 +36,7 @@ export type StripLeadingTemplate<
     = [IsWideString<T>] extends [true]
         ? string
         : [T] extends [`${infer First}${infer Rest}`]
-            ? [Check<First, K>] extends [true]
-                ? Rest
-                : FixUnion<T>
-            : "";
+                ? [Check<First, K>] extends [true]
+                        ? Rest
+                        : FixUnion<T>
+                : "";

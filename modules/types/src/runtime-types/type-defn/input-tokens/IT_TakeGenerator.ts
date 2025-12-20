@@ -116,19 +116,19 @@ type NamedSyncGenerator<T extends string> = Trim<T> extends `function* ${infer A
                         ? ResolveGeneratorReturn<Trim<ReturnToken>, Generics> extends infer RT
                             ? Extends<RT, Generator<any, any, any> | IterableIterator<any> | Iterator<any>> extends true
                                 ? {
-                                    __kind: "IT_Token";
-                                    kind: "generator";
-                                    name: Trim<Name>;
-                                    generics: Generics;
-                                    parameters: Parameters;
-                                    narrowing: Generics extends [] ? false : true;
-                                    returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
-                                    returnType: RT;
-                                    token: Trim<T>;
-                                    type: RT;
-                                    isAsync: false;
-                                    rest: "";
-                                }
+                                        __kind: "IT_Token";
+                                        kind: "generator";
+                                        name: Trim<Name>;
+                                        generics: Generics;
+                                        parameters: Parameters;
+                                        narrowing: Generics extends [] ? false : true;
+                                        returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                                        returnType: RT;
+                                        token: Trim<T>;
+                                        type: RT;
+                                        isAsync: false;
+                                        rest: "";
+                                    }
                                 : Err<
                                     "malformed-token",
                                     `A synchronous generator must return a Generator/Iterator type!`,
@@ -158,19 +158,19 @@ type NamedSyncGenerator<T extends string> = Trim<T> extends `function* ${infer A
                             ? ResolveGeneratorReturn<Trim<ReturnToken>, Generics> extends infer RT
                                 ? Extends<RT, Generator<any, any, any> | IterableIterator<any> | Iterator<any>> extends true
                                     ? {
-                                        __kind: "IT_Token";
-                                        kind: "generator";
-                                        name: Trim<Name>;
-                                        generics: Generics;
-                                        parameters: Parameters;
-                                        narrowing: Generics extends [] ? false : true;
-                                        returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
-                                        returnType: RT;
-                                        token: Trim<T>;
-                                        type: RT;
-                                        isAsync: false;
-                                        rest: "";
-                                    }
+                                            __kind: "IT_Token";
+                                            kind: "generator";
+                                            name: Trim<Name>;
+                                            generics: Generics;
+                                            parameters: Parameters;
+                                            narrowing: Generics extends [] ? false : true;
+                                            returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                                            returnType: RT;
+                                            token: Trim<T>;
+                                            type: RT;
+                                            isAsync: false;
+                                            rest: "";
+                                        }
                                     : Err<
                                         "malformed-token",
                                         `A synchronous generator must return a Generator/Iterator type!`,
@@ -202,19 +202,19 @@ type NamedAsyncGenerator<T extends string> = Trim<T> extends `async function* ${
                         ? ResolveGeneratorReturn<Trim<ReturnToken>, Generics> extends infer RT
                             ? Extends<RT, AsyncGenerator<any, any, any> | AsyncIterableIterator<any>> extends true
                                 ? {
-                                    __kind: "IT_Token";
-                                    kind: "generator";
-                                    name: Trim<Name>;
-                                    generics: Generics;
-                                    parameters: Parameters;
-                                    narrowing: Generics extends [] ? false : true;
-                                    returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
-                                    returnType: RT;
-                                    token: Trim<T>;
-                                    type: RT;
-                                    isAsync: true;
-                                    rest: "";
-                                }
+                                        __kind: "IT_Token";
+                                        kind: "generator";
+                                        name: Trim<Name>;
+                                        generics: Generics;
+                                        parameters: Parameters;
+                                        narrowing: Generics extends [] ? false : true;
+                                        returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                                        returnType: RT;
+                                        token: Trim<T>;
+                                        type: RT;
+                                        isAsync: true;
+                                        rest: "";
+                                    }
                                 : Err<
                                     "malformed-token",
                                     `An asynchronous generator MUST return an AsyncGenerator/AsyncIterableIterator!`,
@@ -244,19 +244,19 @@ type NamedAsyncGenerator<T extends string> = Trim<T> extends `async function* ${
                             ? ResolveGeneratorReturn<Trim<ReturnToken>, Generics> extends infer RT
                                 ? Extends<RT, AsyncGenerator<any, any, any> | AsyncIterableIterator<any>> extends true
                                     ? {
-                                        __kind: "IT_Token";
-                                        kind: "generator";
-                                        name: Trim<Name>;
-                                        generics: Generics;
-                                        parameters: Parameters;
-                                        narrowing: Generics extends [] ? false : true;
-                                        returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
-                                        returnType: RT;
-                                        token: Trim<T>;
-                                        type: RT;
-                                        isAsync: true;
-                                        rest: "";
-                                    }
+                                            __kind: "IT_Token";
+                                            kind: "generator";
+                                            name: Trim<Name>;
+                                            generics: Generics;
+                                            parameters: Parameters;
+                                            narrowing: Generics extends [] ? false : true;
+                                            returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                                            returnType: RT;
+                                            token: Trim<T>;
+                                            type: RT;
+                                            isAsync: true;
+                                            rest: "";
+                                        }
                                     : Err<
                                         "malformed-token",
                                         `An asynchronous generator MUST return an AsyncGenerator/AsyncIterableIterator!`,
@@ -284,19 +284,19 @@ type AnonSyncGenerator<T extends string> = Trim<T> extends `function* ${infer Re
                 ? ResolveGeneratorReturn<Trim<ReturnToken>, Generics> extends infer RT
                     ? Extends<RT, Generator<any, any, any> | IterableIterator<any> | Iterator<any>> extends true
                         ? {
-                            __kind: "IT_Token";
-                            kind: "generator";
-                            name: null;
-                            generics: Generics;
-                            parameters: Parameters;
-                            narrowing: Generics extends [] ? false : true;
-                            returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
-                            returnType: RT;
-                            token: Trim<T>;
-                            type: RT;
-                            isAsync: false;
-                            rest: "";
-                        }
+                                __kind: "IT_Token";
+                                kind: "generator";
+                                name: null;
+                                generics: Generics;
+                                parameters: Parameters;
+                                narrowing: Generics extends [] ? false : true;
+                                returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                                returnType: RT;
+                                token: Trim<T>;
+                                type: RT;
+                                isAsync: false;
+                                rest: "";
+                            }
                         : Err<
                             "malformed-token",
                             `A synchronous generator must return a Generator/Iterator type!`,
@@ -319,19 +319,19 @@ type AnonAsyncGenerator<T extends string> = Trim<T> extends `async function* ${i
                 ? ResolveGeneratorReturn<Trim<ReturnToken>, Generics> extends infer RT
                     ? Extends<RT, AsyncGenerator<any, any, any> | AsyncIterableIterator<any>> extends true
                         ? {
-                            __kind: "IT_Token";
-                            kind: "generator";
-                            name: null;
-                            generics: Generics;
-                            parameters: Parameters;
-                            narrowing: Generics extends [] ? false : true;
-                            returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
-                            returnType: RT;
-                            token: Trim<T>;
-                            type: RT;
-                            isAsync: true;
-                            rest: "";
-                        }
+                                __kind: "IT_Token";
+                                kind: "generator";
+                                name: null;
+                                generics: Generics;
+                                parameters: Parameters;
+                                narrowing: Generics extends [] ? false : true;
+                                returnToken: AsStaticTemplate<Trim<ReturnToken>, TemplateMap__Generics<Generics>>;
+                                returnType: RT;
+                                token: Trim<T>;
+                                type: RT;
+                                isAsync: true;
+                                rest: "";
+                            }
                         : Err<
                             "malformed-token",
                             `An asynchronous generator MUST return an AsyncGenerator/AsyncIterableIterator!`,

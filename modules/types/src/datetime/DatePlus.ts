@@ -2,18 +2,18 @@ import type { IanaZone, IsoDateTime, TimezoneOffset } from "inferred-types/types
 
 export type DateSource
     = | "date"
-    | "temporal"
-    | "luxon"
-    | "date-fns"
-    | "moment"
-    | "epoch"
-    | "epoch-milliseconds"
-    | "day.js"
-    | "iso-date"
-    | "iso-year"
-    | "iso-year-month"
-    | "iso-year-independent"
-    | "iso-datetime";
+        | "temporal"
+        | "luxon"
+        | "date-fns"
+        | "moment"
+        | "epoch"
+        | "epoch-milliseconds"
+        | "day.js"
+        | "iso-date"
+        | "iso-year"
+        | "iso-year-month"
+        | "iso-year-independent"
+        | "iso-datetime";
 
 /**
  * The JS Date object with a bit more metadata.

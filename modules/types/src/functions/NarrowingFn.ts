@@ -52,6 +52,6 @@ export type AsNarrowingFn<
                 ? () => TReturn
                 : <T extends readonly [...TParams]>(...args: T) => TReturn
             : [IsEqual<TParams, []>] extends [true]
-                ? (() => TReturn) & ExpandRecursively<TProps>
-                : (<T extends readonly [...TParams]>(...args: T) => TReturn) & TProps
+                    ? (() => TReturn) & ExpandRecursively<TProps>
+                    : (<T extends readonly [...TParams]>(...args: T) => TReturn) & TProps
         : never;

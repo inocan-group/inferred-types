@@ -25,20 +25,20 @@ type _Err<
     TCtx extends Record<string, any> = EmptyObject
 > = TType extends `${infer Type}/${infer Subtype}`
     ? Expand<
-            {
-                name: PascalCase<
-                    TCtx["name"] extends string
-                        ? TCtx["name"]
-                        : RetainUntil<TType, "/"> extends string
-                            ? RetainUntil<TType, "/">
-                            : never
-                >;
-                type: KebabCase<Type>;
-                subType: Subtype extends string ? KebabCase<Subtype> : undefined;
-                message: TMsg extends "" ? string : TMsg;
-                cause?: unknown;
-                stack?: string;
-            } & TCtx
+    {
+        name: PascalCase<
+            TCtx["name"] extends string
+                ? TCtx["name"]
+                : RetainUntil<TType, "/"> extends string
+                    ? RetainUntil<TType, "/">
+                    : never
+        >;
+        type: KebabCase<Type>;
+        subType: Subtype extends string ? KebabCase<Subtype> : undefined;
+        message: TMsg extends "" ? string : TMsg;
+        cause?: unknown;
+        stack?: string;
+    } & TCtx
     > & Error
     : Expand<
         {

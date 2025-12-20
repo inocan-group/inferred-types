@@ -35,10 +35,10 @@ export type Min<
     T extends number | (readonly number[]),
 > = [T] extends [number]
     ? [IsUnion<T>] extends [true]
-        ? [UnionToTuple<T>] extends [readonly number[]]
-            ? Min<UnionToTuple<T>>
-            : never
-        : T
+            ? [UnionToTuple<T>] extends [readonly number[]]
+                    ? Min<UnionToTuple<T>>
+                    : never
+            : T
     : T extends readonly number[]
         ? Process<T>
         : never;

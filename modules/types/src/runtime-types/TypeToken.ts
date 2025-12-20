@@ -45,10 +45,10 @@ export type TypeTokenSets = typeof TT_SETS[number];
  */
 export type TypeTokenKind
     = | TypeTokenAtomics
-    | TypeTokenContainers
-    | TypeTokenFunctions
-    | TypeTokenSets
-    | TypeTokenSingletons;
+        | TypeTokenContainers
+        | TypeTokenFunctions
+        | TypeTokenSets
+        | TypeTokenSingletons;
 
 /**
  * string which indicates the start of a `TypeToken`

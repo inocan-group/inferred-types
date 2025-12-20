@@ -6,7 +6,7 @@ import type {
     UnionMemberExtends
 } from "inferred-types/types";
 
-type Shape = {
+interface Shape {
     isValid: Function;
     toDate: Function;
     format: Function;
@@ -17,7 +17,7 @@ type Shape = {
     fromNow: Function;
     creationData: Function;
     // _isAMomentObject: any;
-};
+}
 
 /**
  * **IsMoment`<T>`
@@ -28,13 +28,13 @@ export type IsMoment<T>
     = [IsAny<T>] extends [true]
         ? false
         : [IsNever<T>] extends [true]
-            ? false
-            : [IsUnknown<T>] extends [true]
-                ? boolean
-                : [IsUnion<T>] extends true
-                    ? UnionMemberExtends<T, Shape> extends true
+                ? false
+                : [IsUnknown<T>] extends [true]
                         ? boolean
-                        : false
-                    : T extends Shape
-                        ? true
-                        : false;
+                        : [IsUnion<T>] extends true
+                                ? UnionMemberExtends<T, Shape> extends true
+                                    ? boolean
+                                    : false
+                                : T extends Shape
+                                    ? true
+                                    : false;

@@ -22,11 +22,11 @@ export type UnbrandValues<T extends Container> = T extends readonly unknown[]
     : T extends Dictionary
         ? ToKv<T> extends infer KeyValues extends readonly KeyValue[]
             ? {
-                [K in keyof KeyValues]: KeyValues[K] extends infer KV extends KeyValue
-                    ? Expand<Omit<KV, "value"> & Record<"value", UnbrandIfBranded<KV["value"]>>>
+                    [K in keyof KeyValues]: KeyValues[K] extends infer KV extends KeyValue
+                        ? Expand<Omit<KV, "value"> & Record<"value", UnbrandIfBranded<KV["value"]>>>
+                        : never
+                } extends infer Result extends readonly KeyValue[]
+                    ? FromKv<Result>
                     : never
-            } extends infer Result extends readonly KeyValue[]
-                ? FromKv<Result>
-                : never
             : never
         : never;

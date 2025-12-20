@@ -75,9 +75,9 @@ type HandleDict<
                                     // wide type
                                         : K[]
                                 : [
-                                    ...UnionToTuple<GetFixedKeys<TObj>>,
-                                    ...(GetIndexKeys<TObj>)[]
-                                ]
+                                        ...UnionToTuple<GetFixedKeys<TObj>>,
+                                        ...(GetIndexKeys<TObj>)[]
+                                    ]
     : never;
 
 /**
@@ -137,9 +137,9 @@ export type ObjectKeys<
                                     : IsEqual<K, string | number> extends true
                                         ? RemoveIndexKeys<Required<TObj>> extends Record<infer _K, any>
                                             ? [
-                                                ...(As<ObjectKeys<RemoveIndexKeys<Required<TObj>>>, readonly PropertyKey[]>),
-                                                ...string[]
-                                            ]
+                                                    ...(As<ObjectKeys<RemoveIndexKeys<Required<TObj>>>, readonly PropertyKey[]>),
+                                                    ...string[]
+                                                ]
                                             : PropertyKey[]
                                         : IsNever<K> extends true
                                             ? PropertyKey[]

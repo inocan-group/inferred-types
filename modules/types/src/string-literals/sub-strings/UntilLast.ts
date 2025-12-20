@@ -24,10 +24,10 @@ type Until<
                 : Join<Pop<TParts>>
             : Err<`until`, ``>;
 
-export type UntilLastOptions = {
+export interface UntilLastOptions {
     break?: Unset | string;
     handle?: Error | string;
-};
+}
 
 type Break<T extends UntilLastOptions> = T["break"] extends string
     ? T["break"]

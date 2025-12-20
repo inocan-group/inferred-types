@@ -26,20 +26,20 @@ type ArrayMembers<T extends readonly unknown[]> = {
 export type AsArray<T> = [IsAny<T>] extends [true]
     ? unknown[]
     : [IsNever<T>] extends [true]
-        ? []
-        : [IsUnknown<T>] extends [true]
-            ? unknown[]
-            : [T] extends [readonly (infer Kind)[]]
-                ? As<T, Widen<Kind>[]>
-                : [IsUndefined<T>] extends [true]
-                    ? []
-                    : [IsUnion<T>] extends [true]
-                        ? [UnionToTuple<T>] extends [infer Tuple extends readonly unknown[]]
-                            ? Expand<
+            ? []
+            : [IsUnknown<T>] extends [true]
+                    ? unknown[]
+                    : [T] extends [readonly (infer Kind)[]]
+                            ? As<T, Widen<Kind>[]>
+                            : [IsUndefined<T>] extends [true]
+                                    ? []
+                                    : [IsUnion<T>] extends [true]
+                                            ? [UnionToTuple<T>] extends [infer Tuple extends readonly unknown[]]
+                                                    ? Expand<
             Array<NonArrayMembers<Tuple>> | ArrayMembers<Tuple>
-                            >
-                            : never
+                                                    >
+                                                    : never
 
-                        : IsUndefined<T> extends true
-                            ? []
-                            : [T];
+                                            : IsUndefined<T> extends true
+                                                ? []
+                                                : [T];

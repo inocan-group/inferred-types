@@ -66,8 +66,8 @@ type Test<
     O extends ValidateLengthOptions
 > = [ValidateMin<N, O>] extends [true]
     ? [ValidateMax<N, O>] extends [true]
-        ? T
-        : NotMatched<T, O>
+            ? T
+            : NotMatched<T, O>
     : NotMatched<T, O>;
 
 /**
@@ -98,8 +98,8 @@ export type ValidateLength<
     O extends ValidateLengthOptions
 > = T extends readonly unknown[]
     ? [IsWideArray<T>] extends [true]
-        ? T | Err<`invalid-length/${"min" | "max"}`>
-        : Test<T, T["length"], O>
+            ? T | Err<`invalid-length/${"min" | "max"}`>
+            : Test<T, T["length"], O>
 
     : T extends string
         ? string extends T

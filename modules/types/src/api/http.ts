@@ -14,7 +14,7 @@ export type MimeTypes = typeof MIME_TYPES[number];
  * the string type through the Record<string, string> intersection.
  */
 export type HttpHeaders = {
-    Authorization?: Suggest<
+    "Authorization"?: Suggest<
         "Bearer adfasdfasdfasfd"
     >;
     /**
@@ -174,23 +174,23 @@ export type HttpHeader<T extends keyof HttpHeaders> = [
  */
 export type HttpVerb
     = | "GET"
-| "PUT"
-| "POST"
-| "PATCH"
-| "HEAD"
-| "CONNECT"
-| "OPTIONS"
-| "UPDATE"
-| "DELETE";
+        | "PUT"
+        | "POST"
+        | "PATCH"
+        | "HEAD"
+        | "CONNECT"
+        | "OPTIONS"
+        | "UPDATE"
+        | "DELETE";
 
 /**
  * HTTP verbs which _have_ -- or at least _can have_ -- a `body` property
  */
 export type HttpVerbsWithBody
     = | "POST"
-| "PUT"
-| "DELETE"
-| "UPDATE";
+        | "PUT"
+        | "DELETE"
+        | "UPDATE";
 
 /**
  * HTTP verbs which do **not** have a `body` property

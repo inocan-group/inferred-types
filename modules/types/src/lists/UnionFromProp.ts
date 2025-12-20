@@ -30,9 +30,9 @@ type RemoveMissing<
         P,
         P extends keyof First<T>
             ? [
-                ...R,
-                First<T>,
-            ]
+                    ...R,
+                    First<T>,
+                ]
             : R
     >;
 

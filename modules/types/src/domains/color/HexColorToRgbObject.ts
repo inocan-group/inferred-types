@@ -16,10 +16,10 @@ type Process<
         infer B extends number
     ]
         ? {
-            r: R;
-            g: G;
-            b: B;
-        }
+                r: R;
+                g: G;
+                b: B;
+            }
         : HexToDecimal<T> extends Error
             ? T
             : Err<

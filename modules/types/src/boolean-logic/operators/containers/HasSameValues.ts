@@ -25,18 +25,18 @@ type Test<
 > = A extends readonly unknown[]
     ? B extends readonly unknown[]
         ? [] extends A
-            ? [] extends B
-                ? true // Both arrays are empty
-                : false // A is empty, B is not
-            : [] extends B
-                ? false // B is empty, A is not
-                : A["length"] extends B["length"]
-                    ? CheckAllExist<A, B> extends true
-                        ? CheckAllExist<B, A> extends true
-                            ? true
-                            : false // A elements exist in B, but B elements don't exist in A
-                        : false // A elements don't all exist in B
-                    : false
+                ? [] extends B
+                        ? true // Both arrays are empty
+                        : false // A is empty, B is not
+                : [] extends B
+                        ? false // B is empty, A is not
+                        : A["length"] extends B["length"]
+                            ? CheckAllExist<A, B> extends true
+                                ? CheckAllExist<B, A> extends true
+                                    ? true
+                                    : false // A elements exist in B, but B elements don't exist in A
+                                : false // A elements don't all exist in B
+                            : false
         : false
     : false;
 
@@ -66,19 +66,19 @@ export type HasSameValues<
 > = [IsAny<TContainer>] extends [true]
     ? TException
     : [IsNever<TContainer>] extends [true]
-        ? TException
-        : [IsAny<TComparator>] extends [true]
             ? TException
-            : [IsNever<TComparator>] extends [true]
-                ? TException
-                : Test<Values<Required<TContainer>>, Values<Required<TComparator>>> extends true
-                    ? TContainer extends readonly unknown[]
-                        ? TComparator extends readonly unknown[]
-                            ? IsEqual<GetOptionalElementCount<TContainer>, GetOptionalElementCount<TComparator>>
-                            : false
-                        : TContainer extends Dictionary
-                            ? TComparator extends Dictionary
-                                ? IsEqual<GetOptionalElementCount<Values<TContainer>>, GetOptionalElementCount<Values<TComparator>>>
-                                : false
-                            : never
-                    : TException;
+            : [IsAny<TComparator>] extends [true]
+                    ? TException
+                    : [IsNever<TComparator>] extends [true]
+                            ? TException
+                            : Test<Values<Required<TContainer>>, Values<Required<TComparator>>> extends true
+                                ? TContainer extends readonly unknown[]
+                                    ? TComparator extends readonly unknown[]
+                                        ? IsEqual<GetOptionalElementCount<TContainer>, GetOptionalElementCount<TComparator>>
+                                        : false
+                                    : TContainer extends Dictionary
+                                        ? TComparator extends Dictionary
+                                            ? IsEqual<GetOptionalElementCount<Values<TContainer>>, GetOptionalElementCount<Values<TComparator>>>
+                                            : false
+                                        : never
+                                : TException;

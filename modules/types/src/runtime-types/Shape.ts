@@ -242,7 +242,7 @@ export type FnPropertiesDefn = DictionaryTypeDefn;
 //         done: () => AsLiteralFn<FromDefn<TArgs>>;
 //     });
 // }
-type ShapeApi__Functions = {
+interface ShapeApi__Functions {
     fn: <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) => ({
         returns: <TReturn extends FnReturnTypeDefn>(rtn: TReturn) => ({
             addProperties: <
@@ -253,7 +253,7 @@ type ShapeApi__Functions = {
         });
         done: () => any;
     });
-};
+}
 
 /** used in Shape callbacks */
 export type RecordKeyWideTokens = "string" | "symbol" | "string | symbol";

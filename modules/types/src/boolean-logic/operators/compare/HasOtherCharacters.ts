@@ -28,9 +28,9 @@ export type HasOtherCharacters<
 > = [IsWideType<TStr>] extends [true]
     ? boolean
     : [TChars] extends [string]
-        ? IsWideType<TChars> extends true
-            ? boolean
-            : Process<TStr, TChars>
-        : TChars extends readonly string[]
-            ? Process<TStr, TupleToUnion<TChars>>
-            : never;
+            ? IsWideType<TChars> extends true
+                ? boolean
+                : Process<TStr, TChars>
+            : TChars extends readonly string[]
+                ? Process<TStr, TupleToUnion<TChars>>
+                : never;

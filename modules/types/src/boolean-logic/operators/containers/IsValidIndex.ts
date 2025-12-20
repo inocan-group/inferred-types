@@ -31,12 +31,12 @@ export type IsValidIndex<
             ? IsNegativeNumber<AsNumber<TKey>> extends true
                 ? Abs<AsNumber<TKey>> extends number
                     ? [Abs<AsNumber<TKey>>] extends [TupleToUnion<NumericKeys<TContainer>>]
-                        ? true
-                        : false
+                            ? true
+                            : false
                     : never
                 : [TKey] extends [TupleToUnion<NumericKeys<TContainer>>]
-                    ? true
-                    : false
+                        ? true
+                        : false
             : false
         : boolean // not a tuple literal
 
@@ -44,14 +44,14 @@ export type IsValidIndex<
         ? IsEqual<TContainer, ExplicitlyEmptyObject> extends true
             ? false
             : [IsLiteralLikeObject<TContainer>] extends [true]
-                ? [IsStringLiteral<TKey>] extends [true]
-                    ? [TKey] extends [keyof TContainer]
-                        ? true
-                        : false
-                    : [TKey] extends [symbol]
-                        ? [TKey] extends [keyof TContainer]
-                            ? true
-                            : false
-                        : false
-                : boolean
+                    ? [IsStringLiteral<TKey>] extends [true]
+                            ? [TKey] extends [keyof TContainer]
+                                    ? true
+                                    : false
+                            : [TKey] extends [symbol]
+                                    ? [TKey] extends [keyof TContainer]
+                                            ? true
+                                            : false
+                                    : false
+                    : boolean
         : false;

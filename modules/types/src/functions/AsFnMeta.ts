@@ -17,12 +17,12 @@ export type AsFnMeta<
     TFn extends AnyFunction,
 > = TFn extends TypedFunction
     ? [IsNonEmptyObject<FnKeyValue<TFn>>] extends [true]
-        ? FnMeta<
-            TFn,
-            Parameters<TFn>,
-            ReturnType<TFn>,
-            ExpandDictionary<FnKeyValue<TFn>>
-        >
-        : FnMeta<TFn, Parameters<TFn>, ReturnType<TFn>, EmptyObject>
+            ? FnMeta<
+                TFn,
+                Parameters<TFn>,
+                ReturnType<TFn>,
+                ExpandDictionary<FnKeyValue<TFn>>
+            >
+            : FnMeta<TFn, Parameters<TFn>, ReturnType<TFn>, EmptyObject>
 
     : FnMeta<TypedFunction, any[], any, EmptyObject>;

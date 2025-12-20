@@ -11,5 +11,5 @@ export type DoesExtend<
 > = IsNever<TValue> extends true
     ? false
     : [TValue] extends [TExtends]
-        ? true
-        : false;
+            ? true
+            : false;

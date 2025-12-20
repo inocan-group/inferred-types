@@ -21,21 +21,21 @@ type IsUnion<T> = IsUnionImpl<T>;
 
 type IsTuple<T> = [T] extends [readonly any[]]
     ? [number] extends [T["length"]]
-        ? false
-        : true
+            ? false
+            : true
     : false;
 
 type MutableObject<T> = [T] extends [boolean]
     ? T
     : {
-        -readonly [K in keyof T]: T[K] extends Dictionary
-            ? Mutable<MutableObject<T[K]>>
-            : IsTuple<T[K]> extends true
-                ? Mutable<T[K]>
-                : T[K] extends readonly (infer R)[]
-                    ? [...R[]]
-                    : Mutable<T[K]>;
-    };
+            -readonly [K in keyof T]: T[K] extends Dictionary
+                ? Mutable<MutableObject<T[K]>>
+                : IsTuple<T[K]> extends true
+                    ? Mutable<T[K]>
+                    : T[K] extends readonly (infer R)[]
+                        ? [...R[]]
+                        : Mutable<T[K]>;
+        };
 
 type MutableArray<T extends readonly unknown[]> = [...{
     [K in keyof T]: Mutable<T[K]>
@@ -51,10 +51,10 @@ type Mutable<T>
     = [IsUnion<T>] extends [true]
         ? T
         : [T] extends [infer Arr extends readonly unknown[]]
-            ? MutableArray<Arr>
-            : [T] extends [infer Dict extends Dictionary]
-                ? MutableObject<Dict>
-                : T;
+                ? MutableArray<Arr>
+                : [T] extends [infer Dict extends Dictionary]
+                        ? MutableObject<Dict>
+                        : T;
 
 type Returns<
     T extends (readonly N[]) | [Record<K, N>] | [readonly N[]],

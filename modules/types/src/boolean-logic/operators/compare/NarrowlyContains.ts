@@ -22,5 +22,5 @@ export type NarrowlyContains<
     > extends true
         ? true
         : [] extends AfterFirst<TList>
-            ? false
-            : NarrowlyContains<AfterFirst<TList>, TContains>;
+                ? false
+                : NarrowlyContains<AfterFirst<TList>, TContains>;

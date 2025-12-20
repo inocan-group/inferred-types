@@ -10,12 +10,12 @@ export type IdentityFn<
     TNarrow extends boolean = false,
 > = [TNarrow] extends [true]
     ? [IsLiteralLike<TValue>] extends [true]
-        ? [IsUnion<TValue>] extends [true]
-            ? <T extends TValue>(v: T) => T
-            : Err<
-                "invalid-literal",
-                `A narrowing identity function must be based off a wide type or a union of literals!`,
-                { value: TValue }
-            >
-        : <T extends TValue>(v: T) => T
+            ? [IsUnion<TValue>] extends [true]
+                    ? <T extends TValue>(v: T) => T
+                    : Err<
+                        "invalid-literal",
+                        `A narrowing identity function must be based off a wide type or a union of literals!`,
+                        { value: TValue }
+                    >
+            : <T extends TValue>(v: T) => T
     : () => TValue;

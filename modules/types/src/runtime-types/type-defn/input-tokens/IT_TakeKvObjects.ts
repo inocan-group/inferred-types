@@ -23,25 +23,25 @@ type ParseRecord<T extends string> = NestedSplit<T, ">", { "{": "}"; "[": "]"; "
             : FromInputToken__String<Trim<Value>> extends Error
                 ? Err<`malformed-token/record`, `while parsing a Record, the value token '${Trim<Value>}' was not parsable to a type!`>
                 : [
-                    GetInputToken<Trim<Key>>,
-                    GetInputToken<Trim<Value>>
-                ] extends [
-                    infer ParsedKey extends IT_Token,
-                    infer ParsedValue extends IT_Token
-                ]
-                    ? ParsedKey["type"] extends string
-                        ? {
-                            __kind: "IT_Token";
-                            kind: "kv";
-                            token: `Record<${Block}>`;
-                            type: Record<ParsedKey["type"], ParsedValue["type"]>;
-                            container: "Record";
-                            keyToken: Trim<Key>;
-                            valueToken: Trim<Value>;
-                            rest: Trim<Join<Rest, ">">>;
-                        }
-                        : Err<`malformed-token/record`, `The key and value tokens for the record 'Record<${Block}>' were parsed to types but the key's type did not extend string!`>
-                    : never
+                        GetInputToken<Trim<Key>>,
+                        GetInputToken<Trim<Value>>
+                    ] extends [
+                        infer ParsedKey extends IT_Token,
+                        infer ParsedValue extends IT_Token
+                    ]
+                        ? ParsedKey["type"] extends string
+                            ? {
+                                    __kind: "IT_Token";
+                                    kind: "kv";
+                                    token: `Record<${Block}>`;
+                                    type: Record<ParsedKey["type"], ParsedValue["type"]>;
+                                    container: "Record";
+                                    keyToken: Trim<Key>;
+                                    valueToken: Trim<Value>;
+                                    rest: Trim<Join<Rest, ">">>;
+                                }
+                            : Err<`malformed-token/record`, `The key and value tokens for the record 'Record<${Block}>' were parsed to types but the key's type did not extend string!`>
+                        : never
         : Err<`malformed-token/record`, `The terminating '>' character was not found while parsing the record: 'Record<${T}>'`>
     : Err<"wrong-handler/record">;
 
@@ -58,18 +58,18 @@ type ParseMap<T extends string> = NestedSplit<T, ">", { "{": "}"; "[": "]"; "<":
             : FromInputToken__String<Trim<Value>> extends Error
                 ? Err<`malformed-token/map`, `while parsing a Map, the value token '${Trim<Value>}' was not parsable to a type!`>
                 : {
-                    __kind: "IT_Token";
-                    kind: "kv";
-                    token: `Map<${Block}>`;
-                    type: Map<
-                        FromInputToken__String<Trim<Key>>,
-                        FromInputToken__String<Trim<Value>>
-                    >;
-                    container: "Map";
-                    keyToken: Trim<Key>;
-                    valueToken: Trim<Value>;
-                    rest: Trim<Join<Rest, ">">>;
-                }
+                        __kind: "IT_Token";
+                        kind: "kv";
+                        token: `Map<${Block}>`;
+                        type: Map<
+                            FromInputToken__String<Trim<Key>>,
+                            FromInputToken__String<Trim<Value>>
+                        >;
+                        container: "Map";
+                        keyToken: Trim<Key>;
+                        valueToken: Trim<Value>;
+                        rest: Trim<Join<Rest, ">">>;
+                    }
         : Err<`malformed-token/map`, `The terminating '>' character was not found while parsing: 'Map<${T}'`>
     : Err<"wrong-handler/map">;
 
@@ -86,25 +86,25 @@ type ParseWeakMap<T extends string> = NestedSplit<T, ">", { "{": "}"; "[": "]"; 
             : FromInputToken__String<Trim<Value>> extends Error
                 ? Err<`malformed-token/weakmap`, `while parsing a WeakMap, the value token '${Trim<Value>}' was not parsable to a type!`>
                 : [
-                    GetInputToken<Trim<Key>>,
-                    GetInputToken<Trim<Value>>
-                ] extends [
-                    infer ParsedKey extends IT_Token,
-                    infer ParsedValue extends IT_Token
-                ]
-                    ? ParsedKey["type"] extends object
-                        ? {
-                            __kind: "IT_Token";
-                            kind: "kv";
-                            token: `WeakMap<${Block}>`;
-                            type: WeakMap<ParsedKey["type"], ParsedValue["type"]>;
-                            container: "WeakMap";
-                            keyToken: Trim<Key>;
-                            valueToken: Trim<Value>;
-                            rest: Trim<Join<Rest, ">">>;
-                        }
-                        : Err<`malformed-token/weakmap`, `The key and value tokens for 'WeakMap<${Block}>' were parsed to the key's type did not extend object (which is required for a WeakMap)!`>
-                    : never
+                        GetInputToken<Trim<Key>>,
+                        GetInputToken<Trim<Value>>
+                    ] extends [
+                        infer ParsedKey extends IT_Token,
+                        infer ParsedValue extends IT_Token
+                    ]
+                        ? ParsedKey["type"] extends object
+                            ? {
+                                    __kind: "IT_Token";
+                                    kind: "kv";
+                                    token: `WeakMap<${Block}>`;
+                                    type: WeakMap<ParsedKey["type"], ParsedValue["type"]>;
+                                    container: "WeakMap";
+                                    keyToken: Trim<Key>;
+                                    valueToken: Trim<Value>;
+                                    rest: Trim<Join<Rest, ">">>;
+                                }
+                            : Err<`malformed-token/weakmap`, `The key and value tokens for 'WeakMap<${Block}>' were parsed to the key's type did not extend object (which is required for a WeakMap)!`>
+                        : never
         : Err<`malformed-token/weakmap`, `The terminating '>' character was not found while parsing: 'WeakMap<${T}'`>
     : Err<"wrong-handler/weakmap">;
 

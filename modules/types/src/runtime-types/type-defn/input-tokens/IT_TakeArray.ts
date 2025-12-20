@@ -13,12 +13,12 @@ type IT_TakeArray_Postfix<T extends string>
             >
             : GetInputToken<Block> extends infer Token extends IT_Token
                 ? {
-                    __kind: "IT_Token";
-                    kind: "array";
-                    token: `${Token["token"]}[][]`;
-                    type: (Token["type"])[][];
-                    rest: Rest;
-                }
+                        __kind: "IT_Token";
+                        kind: "array";
+                        token: `${Token["token"]}[][]`;
+                        type: (Token["type"])[][];
+                        rest: Rest;
+                    }
                 : never
 
         : T extends `${infer Block extends string}[]${infer Rest extends string}`
@@ -30,12 +30,12 @@ type IT_TakeArray_Postfix<T extends string>
                 >
                 : GetInputToken<Block> extends infer Token extends IT_Token
                     ? {
-                        __kind: "IT_Token";
-                        kind: "array";
-                        token: `${Token["token"]}[]`;
-                        type: (Token["type"])[];
-                        rest: Rest;
-                    }
+                            __kind: "IT_Token";
+                            kind: "array";
+                            token: `${Token["token"]}[]`;
+                            type: (Token["type"])[];
+                            rest: Rest;
+                        }
                     : Err<"wrong-handler/array">
             : Err<"wrong-handler/array">;
 
@@ -50,12 +50,12 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
         ]
             ? GetInputToken<Trim<Block>> extends infer Token extends IT_Token
                 ? {
-                    __kind: "IT_Token";
-                    kind: "array";
-                    token: `(${Token["token"]})[][]`;
-                    type: (Token["type"])[][];
-                    rest: Trim<Join<Rest, ")[][]">>;
-                }
+                        __kind: "IT_Token";
+                        kind: "array";
+                        token: `(${Token["token"]})[][]`;
+                        type: (Token["type"])[][];
+                        rest: Trim<Join<Rest, ")[][]">>;
+                    }
                 : Err<
                     "malformed-token/array",
                 `The token '${T}' appeared to be a grouped two-dimensional array but the interior block '${Block}' could not be parsed as a valid type!`,
@@ -68,12 +68,12 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
             ]
                 ? GetInputToken<Block> extends infer Token extends IT_Token
                     ? {
-                        __kind: "IT_Token";
-                        kind: "array";
-                        token: `(${Token["token"]})[]`;
-                        type: (Token["type"])[];
-                        rest: Trim<Join<Rest, ")[]">>;
-                    }
+                            __kind: "IT_Token";
+                            kind: "array";
+                            token: `(${Token["token"]})[]`;
+                            type: (Token["type"])[];
+                            rest: Trim<Join<Rest, ")[]">>;
+                        }
                     : Err<
                         "malformed-token/array",
                 `The token '${T}' appeared to be a grouped array but the interior block '${Block}' could not be parsed as a valid type!`,
@@ -103,12 +103,12 @@ type IT_TakeArray_Bracket<T extends string> = T extends `Array<${infer Rest exte
             >
             : GetInputToken<Block> extends infer Token extends IT_Token
                 ? {
-                    __kind: "IT_Token";
-                    kind: "array";
-                    token: `Array<${Token["token"]}>`;
-                    type: Array<Token["type"]>;
-                    rest: Trim<Join<Rest, ">">>;
-                }
+                        __kind: "IT_Token";
+                        kind: "array";
+                        token: `Array<${Token["token"]}>`;
+                        type: Array<Token["type"]>;
+                        rest: Trim<Join<Rest, ">">>;
+                    }
                 : Err<
                     "malformed-token/array",
                 `The token '${T}' appeared to be a bracketed array (e.g., Array<...>) but the interior block '${Block}' could not be parsed as a valid type!`,

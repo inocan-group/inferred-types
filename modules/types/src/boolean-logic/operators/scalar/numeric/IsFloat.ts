@@ -13,9 +13,9 @@ import type { HasCharacters, IsNever, IsStringLiteral, NumberLike } from "inferr
 export type IsFloat<T> = [IsNever<T>] extends [true]
     ? false
     : [T] extends [NumberLike]
-        ? [IsStringLiteral<`${T}`>] extends [true]
-            ? [HasCharacters<`${T}`, ".">] extends [true]
-                ? true
-                : false
-            : boolean
-        : false;
+            ? [IsStringLiteral<`${T}`>] extends [true]
+                    ? [HasCharacters<`${T}`, ".">] extends [true]
+                            ? true
+                            : false
+                    : boolean
+            : false;

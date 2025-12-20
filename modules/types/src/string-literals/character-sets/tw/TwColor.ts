@@ -43,16 +43,16 @@ export type TwColor = TwNeutralColor | TwVibrantColor | TwStaticColor;
  */
 export type TwLuminosity
     = | "50"
-    | "100"
-    | "200"
-    | "300"
-    | "400"
-    | "500"
-    | "600"
-    | "700"
-    | "800"
-    | "900"
-    | "950";
+        | "100"
+        | "200"
+        | "300"
+        | "400"
+        | "500"
+        | "600"
+        | "700"
+        | "800"
+        | "900"
+        | "950";
 
 /**
  * **TwColorWithLuminosity**
@@ -64,8 +64,8 @@ export type TwLuminosity
  */
 export type TwColorWithLuminosity
     = | `${TwNeutralColor}-${TwLuminosity}`
-    | `${TwVibrantColor}-${TwLuminosity}`
-    | TwStaticColor;
+        | `${TwVibrantColor}-${TwLuminosity}`
+        | TwStaticColor;
 
 /**
  * **TwColorWithLuminosityOpacity**

@@ -37,15 +37,15 @@ export type Shift<
 > = IsUndefined<T> extends true
     ? undefined
     : [] extends T
-        ? undefined
-        : T extends readonly unknown[]
-            ? _Shift<AsArray<T>>
-            : string extends T
-                ? string
-                : T extends string
-                    ? T extends ""
-                        ? undefined
-                        : _Shift<AsArray<Chars<AsString<T>>>> extends readonly string[]
-                            ? Concat<_Shift<AsArray<Chars<AsString<T>>>>>
-                            : undefined
-                    : never;
+            ? undefined
+            : T extends readonly unknown[]
+                ? _Shift<AsArray<T>>
+                : string extends T
+                    ? string
+                    : T extends string
+                        ? T extends ""
+                            ? undefined
+                            : _Shift<AsArray<Chars<AsString<T>>>> extends readonly string[]
+                                ? Concat<_Shift<AsArray<Chars<AsString<T>>>>>
+                                : undefined
+                        : never;

@@ -2,59 +2,59 @@ import type { CamelCase, IsUnion, KebabCase, NotFilter, PascalCase, SnakeCase, U
 
 export type UnionMutationOp
     = | "Capitalize"
-    | "Lowercase"
-    | "Uppercase"
-    | "CamelCase"
-    | "PascalCase"
-    | "SnakeCase"
-    | "KebabCase"
-    | "Required";
+        | "Lowercase"
+        | "Uppercase"
+        | "CamelCase"
+        | "PascalCase"
+        | "SnakeCase"
+        | "KebabCase"
+        | "Required";
 
 type Mutate<
     TElements extends readonly unknown[],
     TOp extends UnionMutationOp,
 > = TOp extends "Capitalize"
     ? {
-        [K in keyof TElements]: TElements[K] extends string
-            ? Capitalize<TElements[K]>
-            : TElements[K]
-    }
-    : TOp extends "Uppercase"
-        ? {
             [K in keyof TElements]: TElements[K] extends string
-                ? Uppercase<TElements[K]>
+                ? Capitalize<TElements[K]>
                 : TElements[K]
         }
-        : TOp extends "Lowercase"
-            ? {
+    : TOp extends "Uppercase"
+        ? {
                 [K in keyof TElements]: TElements[K] extends string
-                    ? Lowercase<TElements[K]>
+                    ? Uppercase<TElements[K]>
                     : TElements[K]
             }
-            : TOp extends "CamelCase"
-                ? {
+        : TOp extends "Lowercase"
+            ? {
                     [K in keyof TElements]: TElements[K] extends string
-                        ? CamelCase<TElements[K]>
+                        ? Lowercase<TElements[K]>
                         : TElements[K]
                 }
-                : TOp extends "PascalCase"
-                    ? {
+            : TOp extends "CamelCase"
+                ? {
                         [K in keyof TElements]: TElements[K] extends string
-                            ? PascalCase<TElements[K]>
+                            ? CamelCase<TElements[K]>
                             : TElements[K]
                     }
-                    : TOp extends "KebabCase"
-                        ? {
+                : TOp extends "PascalCase"
+                    ? {
                             [K in keyof TElements]: TElements[K] extends string
-                                ? KebabCase<TElements[K]>
+                                ? PascalCase<TElements[K]>
                                 : TElements[K]
                         }
-                        : TOp extends "SnakeCase"
-                            ? {
+                    : TOp extends "KebabCase"
+                        ? {
                                 [K in keyof TElements]: TElements[K] extends string
-                                    ? SnakeCase<TElements[K]>
+                                    ? KebabCase<TElements[K]>
                                     : TElements[K]
                             }
+                        : TOp extends "SnakeCase"
+                            ? {
+                                    [K in keyof TElements]: TElements[K] extends string
+                                        ? SnakeCase<TElements[K]>
+                                        : TElements[K]
+                                }
                             : TOp extends "Required"
                                 ? NotFilter<TElements, "equals", [undefined]> extends readonly unknown[]
                                     ? NotFilter<TElements, "equals", [undefined]>

@@ -42,11 +42,11 @@ export type IsCsv<
     = [IsAny<T>] extends [true]
         ? false
         : [IsNever<T>] extends [true]
-            ? false
-            : [IsUnknown<T>] extends [true]
-                ? boolean
-                : HasCharacters<T, ","> extends true
-                    ? Contains<T, ",,"> extends true
-                        ? false
-                        : And<Validate<Split<T, ",">, K>>
-                    : false;
+                ? false
+                : [IsUnknown<T>] extends [true]
+                        ? boolean
+                        : HasCharacters<T, ","> extends true
+                            ? Contains<T, ",,"> extends true
+                                ? false
+                                : And<Validate<Split<T, ",">, K>>
+                            : false;

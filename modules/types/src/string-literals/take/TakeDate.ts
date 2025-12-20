@@ -25,23 +25,23 @@ type Take<
             : C1 extends "1"
                 ? C2 extends NumericChar
                     ? {
-                        take: TwoDigitDate<`${C1}${C2}`>;
-                        rest: Rest;
-                    }
+                            take: TwoDigitDate<`${C1}${C2}`>;
+                            rest: Rest;
+                        }
                     : InvalidDate<T>
                 : C1 extends "2"
                     ? C2 extends NumericChar
                         ? {
-                            take: TwoDigitDate<`${C1}${C2}`>;
-                            rest: Rest;
-                        }
+                                take: TwoDigitDate<`${C1}${C2}`>;
+                                rest: Rest;
+                            }
                         : InvalidDate<T>
                     : C1 extends "3"
                         ? C2 extends "0" | "1"
                             ? {
-                                take: TwoDigitDate<`${C1}${C2}`>;
-                                rest: Rest;
-                            }
+                                    take: TwoDigitDate<`${C1}${C2}`>;
+                                    rest: Rest;
+                                }
                             : InvalidDate<T>
                         : InvalidDate<T>
         : InvalidDate<T>

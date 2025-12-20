@@ -167,22 +167,22 @@ type Process__General<
 
         : TOp extends "false"
             ? [TVal] extends [boolean]
-                ? [boolean] extends [TVal]
-                    ? boolean // TVal is exactly boolean
-                    : IsFalse<TVal> // TVal is a literal boolean (true or false)
-                : [TVal] extends [null]
-                    ? false
-                    : [TVal] extends [undefined]
-                        ? false
-                        : [TVal] extends [0]
+                    ? [boolean] extends [TVal]
+                            ? boolean // TVal is exactly boolean
+                            : IsFalse<TVal> // TVal is a literal boolean (true or false)
+                    : [TVal] extends [null]
                             ? false
-                            : [TVal] extends [""]
-                                ? false
-                                : [TVal] extends [true]
+                            : [TVal] extends [undefined]
                                     ? false
-                                    : [TVal] extends [false]
-                                        ? true
-                                        : IsFalse<TVal>
+                                    : [TVal] extends [0]
+                                            ? false
+                                            : [TVal] extends [""]
+                                                    ? false
+                                                    : [TVal] extends [true]
+                                                            ? false
+                                                            : [TVal] extends [false]
+                                                                    ? true
+                                                                    : IsFalse<TVal>
 
             : TOp extends "falsy"
                 ? IsFalsy<TVal>
@@ -315,59 +315,9 @@ type Process__Object<
             `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
         >
         : [Extends<Second<TParams>, NumberLike>] extends [true]
-            ? [First<TParams>] extends [keyof TVal]
-                ? Extends<TVal[First<TParams>], NumberLike> extends true
-                    ? IsGreaterThan<
-                        As<TVal[First<TParams>], NumberLike>,
-                        As<Second<TParams>, NumberLike>
-                    >
-                    : Err<
-                        `invalid-value/non-numeric`,
-                    `The '${TOp}' operation expects the key '${AsString<First<TParams>>}' in the value passed in to be a numeric value but it wasn't!`,
-                    { val: TVal }
-                    >
-                : false // not a key of
-            : Err<
-            `invalid-params/${TOp}`,
-            `The '${TOp}' operation expects the second param to be NumberLike but it wasn't!`,
-            { val: TVal; params: TParams; invalid: TParams[1] }
-            >
-
-    : TOp extends "objectKeyGreaterThanOrEqual"
-        ? IsDictionary<TVal> extends false
-            ? Err<
-                `invalid-value/wrong-type`,
-                `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
-            >
-            : [Extends<Second<TParams>, NumberLike>] extends [true]
                 ? [First<TParams>] extends [keyof TVal]
-                    ? Extends<TVal[First<TParams>], NumberLike> extends true
-                        ? IsGreaterThanOrEqual<
-                            As<TVal[First<TParams>], NumberLike>,
-                            As<Second<TParams>, NumberLike>
-                        >
-                        : Err<
-                            `invalid-value/non-numeric`,
-                    `The '${TOp}' operation expects the key '${AsString<First<TParams>>}' in the value passed in to be a numeric value but it wasn't!`,
-                    { val: TVal }
-                        >
-                    : false // not a key of
-                : Err<
-            `invalid-params/${TOp}`,
-            `The '${TOp}' operation expects the second param to be NumberLike but it wasn't!`,
-            { val: TVal; params: TParams; invalid: TParams[1] }
-                >
-
-        : TOp extends "objectKeyLessThan"
-            ? IsDictionary<TVal> extends false
-                ? Err<
-                    `invalid-value/wrong-type`,
-                `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
-                >
-                : [Extends<Second<TParams>, NumberLike>] extends [true]
-                    ? [First<TParams>] extends [keyof TVal]
                         ? Extends<TVal[First<TParams>], NumberLike> extends true
-                            ? IsLessThan<
+                            ? IsGreaterThan<
                                 As<TVal[First<TParams>], NumberLike>,
                                 As<Second<TParams>, NumberLike>
                             >
@@ -377,11 +327,61 @@ type Process__Object<
                     { val: TVal }
                             >
                         : false // not a key of
+                : Err<
+            `invalid-params/${TOp}`,
+            `The '${TOp}' operation expects the second param to be NumberLike but it wasn't!`,
+            { val: TVal; params: TParams; invalid: TParams[1] }
+                >
+
+    : TOp extends "objectKeyGreaterThanOrEqual"
+        ? IsDictionary<TVal> extends false
+            ? Err<
+                `invalid-value/wrong-type`,
+                `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
+            >
+            : [Extends<Second<TParams>, NumberLike>] extends [true]
+                    ? [First<TParams>] extends [keyof TVal]
+                            ? Extends<TVal[First<TParams>], NumberLike> extends true
+                                ? IsGreaterThanOrEqual<
+                                    As<TVal[First<TParams>], NumberLike>,
+                                    As<Second<TParams>, NumberLike>
+                                >
+                                : Err<
+                                    `invalid-value/non-numeric`,
+                    `The '${TOp}' operation expects the key '${AsString<First<TParams>>}' in the value passed in to be a numeric value but it wasn't!`,
+                    { val: TVal }
+                                >
+                            : false // not a key of
                     : Err<
             `invalid-params/${TOp}`,
             `The '${TOp}' operation expects the second param to be NumberLike but it wasn't!`,
             { val: TVal; params: TParams; invalid: TParams[1] }
                     >
+
+        : TOp extends "objectKeyLessThan"
+            ? IsDictionary<TVal> extends false
+                ? Err<
+                    `invalid-value/wrong-type`,
+                `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
+                >
+                : [Extends<Second<TParams>, NumberLike>] extends [true]
+                        ? [First<TParams>] extends [keyof TVal]
+                                ? Extends<TVal[First<TParams>], NumberLike> extends true
+                                    ? IsLessThan<
+                                        As<TVal[First<TParams>], NumberLike>,
+                                        As<Second<TParams>, NumberLike>
+                                    >
+                                    : Err<
+                                        `invalid-value/non-numeric`,
+                    `The '${TOp}' operation expects the key '${AsString<First<TParams>>}' in the value passed in to be a numeric value but it wasn't!`,
+                    { val: TVal }
+                                    >
+                                : false // not a key of
+                        : Err<
+            `invalid-params/${TOp}`,
+            `The '${TOp}' operation expects the second param to be NumberLike but it wasn't!`,
+            { val: TVal; params: TParams; invalid: TParams[1] }
+                        >
             : TOp extends "objectKeyLessThanOrEqual"
                 ? IsDictionary<TVal> extends false
                     ? Err<
@@ -389,23 +389,23 @@ type Process__Object<
                         `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
                     >
                     : [Extends<Second<TParams>, NumberLike>] extends [true]
-                        ? [First<TParams>] extends [keyof TVal]
-                            ? Extends<TVal[First<TParams>], NumberLike> extends true
-                                ? IsLessThanOrEqual<
-                                    As<TVal[First<TParams>], NumberLike>,
-                                    As<Second<TParams>, NumberLike>
-                                >
-                                : Err<
-                                    `invalid-value/non-numeric`,
+                            ? [First<TParams>] extends [keyof TVal]
+                                    ? Extends<TVal[First<TParams>], NumberLike> extends true
+                                        ? IsLessThanOrEqual<
+                                            As<TVal[First<TParams>], NumberLike>,
+                                            As<Second<TParams>, NumberLike>
+                                        >
+                                        : Err<
+                                            `invalid-value/non-numeric`,
                                     `The '${TOp}' operation expects the key '${AsString<First<TParams>>}' in the value passed in to be a numeric value but it wasn't!`,
                                     { val: TVal }
-                                >
-                            : false // not a key of
-                        : Err<
+                                        >
+                                    : false // not a key of
+                            : Err<
                             `invalid-params/${TOp}`,
                             `The '${TOp}' operation expects the second param to be NumberLike but it wasn't!`,
                             { val: TVal; params: TParams; invalid: TParams[1] }
-                        >
+                            >
 
                 : TOp extends "objectKeyEquals"
                     ? IsDictionary<TVal> extends false
@@ -414,8 +414,8 @@ type Process__Object<
                             `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
                         >
                         : [First<TParams>] extends [keyof TVal]
-                            ? IsEqual<TVal[First<TParams>], Second<TParams>>
-                            : false
+                                ? IsEqual<TVal[First<TParams>], Second<TParams>>
+                                : false
 
                     : TOp extends "objectKeyExtends"
                         ? TVal extends Dictionary

@@ -11,8 +11,8 @@ export type Fallback<
     TFallback
 > = [IsUnion<TVal>] extends [true]
     ? [UnionMemberExtends<TVal, undefined | null>] extends [true]
-        ? UnionFilter<TVal, undefined | null> | TFallback
-        : TVal
+            ? UnionFilter<TVal, undefined | null> | TFallback
+            : TVal
     : IsNull<TVal> extends true
         ? TFallback
         : IsUndefined<TVal> extends true

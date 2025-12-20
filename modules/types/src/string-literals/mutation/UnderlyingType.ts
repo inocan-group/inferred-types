@@ -22,6 +22,6 @@ export type UnderlyingType<
     T,
 > = T extends readonly unknown[]
     ? {
-        [K in keyof T]: Process<T[K]>
-    }
+            [K in keyof T]: Process<T[K]>
+        }
     : Process<T>;

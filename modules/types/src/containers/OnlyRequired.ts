@@ -18,17 +18,17 @@ import type { Container, HasOptionalElements, HasVariadicTail, IsWideContainer }
 export type OnlyRequired<T extends Container> = [IsWideContainer<T>] extends [true]
     ? T
     : [T] extends [readonly unknown[]]
-        ? [HasOptionalElements<T>] extends [false]
-            ? []
-            : HasVariadicTail<T> extends false
-                ? GetOptionalElementCount<T> extends number
-                    ? SliceArray<T, Negative<GetOptionalElementCount<T>>>
-                    : never
-                : GetOptionalElementCount<T> extends infer Count extends number
-                    ? SliceArray<T, Negative<Count>>
-                    : never
-        : T extends Dictionary
-            ? HasOptionalElements<T> extends false
-                ? EmptyObject
-                : WithKeys<T, OptionalKeys<T>>
-            : never;
+            ? [HasOptionalElements<T>] extends [false]
+                    ? []
+                    : HasVariadicTail<T> extends false
+                        ? GetOptionalElementCount<T> extends number
+                            ? SliceArray<T, Negative<GetOptionalElementCount<T>>>
+                            : never
+                        : GetOptionalElementCount<T> extends infer Count extends number
+                            ? SliceArray<T, Negative<Count>>
+                            : never
+            : T extends Dictionary
+                ? HasOptionalElements<T> extends false
+                    ? EmptyObject
+                    : WithKeys<T, OptionalKeys<T>>
+                : never;

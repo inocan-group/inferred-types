@@ -14,7 +14,7 @@ import type {
 /**
  * token to type mapping for atomics
  */
-type AtomicMap = {
+interface AtomicMap {
     string: string;
     number: number;
     bigint: bigint;
@@ -28,7 +28,7 @@ type AtomicMap = {
     any: any;
     object: object;
     Object: object;
-};
+}
 
 /**
  * **IT_AtomicToken**

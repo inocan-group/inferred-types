@@ -145,23 +145,23 @@ export type ToString<
 > = [T] extends [readonly unknown[]]
     ? ArrayToString<T>
     : [T] extends [string]
-        ? [IsStringLiteral<T>] extends [true] ? `${O["quote"]}${T}${O["quote"]}` : "string"
-        : [T] extends [number]
-            ? [IsNumericLiteral<T>] extends [true] ? `${T}` : "number"
-            : [T] extends [boolean]
-                ? [IsBooleanLiteral<T>] extends [true] ? `${T}` : "boolean"
-                : [T] extends [null]
-                    ? `null`
-                    : [T] extends [undefined]
-                        ? `undefined`
-                        : [T] extends [Set<any>]
-                            ? SetToString<T>
-                            : [T] extends [Map<any, any>]
-                                ? MapToString<T>
-                                : [T] extends [WeakMap<any, any>]
-                                    ? WeakMapToString<T>
-                                    : [T] extends [Dictionary]
-                                        ? ObjectToString<T>
-                                        : [IsUnion<T>] extends [true]
-                                            ? "Union<...>"
-                                            : "unknown";
+            ? [IsStringLiteral<T>] extends [true] ? `${O["quote"]}${T}${O["quote"]}` : "string"
+            : [T] extends [number]
+                    ? [IsNumericLiteral<T>] extends [true] ? `${T}` : "number"
+                    : [T] extends [boolean]
+                            ? [IsBooleanLiteral<T>] extends [true] ? `${T}` : "boolean"
+                            : [T] extends [null]
+                                    ? `null`
+                                    : [T] extends [undefined]
+                                            ? `undefined`
+                                            : [T] extends [Set<any>]
+                                                    ? SetToString<T>
+                                                    : [T] extends [Map<any, any>]
+                                                            ? MapToString<T>
+                                                            : [T] extends [WeakMap<any, any>]
+                                                                    ? WeakMapToString<T>
+                                                                    : [T] extends [Dictionary]
+                                                                            ? ObjectToString<T>
+                                                                            : [IsUnion<T>] extends [true]
+                                                                                    ? "Union<...>"
+                                                                                    : "unknown";

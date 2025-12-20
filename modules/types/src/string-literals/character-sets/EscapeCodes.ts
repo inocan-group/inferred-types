@@ -66,14 +66,14 @@ export type IdeographicSpace = `\u3000`;
  * - `IdeographicSpace`
  */
 export type SpaceChars = " "
-| NBSP
-| NonBreakingSpace
-| EmSpace
-| EnSpace
-| ThinSpace
-| HairSpace
-| NarrowNonBreakingSpace
-| IdeographicSpace;
+    | NBSP
+    | NonBreakingSpace
+    | EmSpace
+    | EnSpace
+    | ThinSpace
+    | HairSpace
+    | NarrowNonBreakingSpace
+    | IdeographicSpace;
 
 /**
  * Common escape/control characters and space variants

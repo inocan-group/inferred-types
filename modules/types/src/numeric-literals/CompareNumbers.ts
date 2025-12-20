@@ -1,19 +1,19 @@
 import type { AsNumber, NumberLike } from "inferred-types/types";
 
 // Fast lookup for common single-digit comparisons
-type SimpleCompareMap = {
-    "0": { "0": "equal"; "1": "less"; "2": "less"; "3": "less"; "4": "less"; "5": "less"; "6": "less"; "7": "less"; "8": "less"; "9": "less"; "10": "less" };
-    "1": { "0": "greater"; "1": "equal"; "2": "less"; "3": "less"; "4": "less"; "5": "less"; "6": "less"; "7": "less"; "8": "less"; "9": "less"; "10": "less" };
-    "2": { "0": "greater"; "1": "greater"; "2": "equal"; "3": "less"; "4": "less"; "5": "less"; "6": "less"; "7": "less"; "8": "less"; "9": "less"; "10": "less" };
-    "3": { "0": "greater"; "1": "greater"; "2": "greater"; "3": "equal"; "4": "less"; "5": "less"; "6": "less"; "7": "less"; "8": "less"; "9": "less"; "10": "less" };
-    "4": { "0": "greater"; "1": "greater"; "2": "greater"; "3": "greater"; "4": "equal"; "5": "less"; "6": "less"; "7": "less"; "8": "less"; "9": "less"; "10": "less" };
-    "5": { "0": "greater"; "1": "greater"; "2": "greater"; "3": "greater"; "4": "greater"; "5": "equal"; "6": "less"; "7": "less"; "8": "less"; "9": "less"; "10": "less" };
-    "6": { "0": "greater"; "1": "greater"; "2": "greater"; "3": "greater"; "4": "greater"; "5": "greater"; "6": "equal"; "7": "less"; "8": "less"; "9": "less"; "10": "less" };
-    "7": { "0": "greater"; "1": "greater"; "2": "greater"; "3": "greater"; "4": "greater"; "5": "greater"; "6": "greater"; "7": "equal"; "8": "less"; "9": "less"; "10": "less" };
-    "8": { "0": "greater"; "1": "greater"; "2": "greater"; "3": "greater"; "4": "greater"; "5": "greater"; "6": "greater"; "7": "greater"; "8": "equal"; "9": "less"; "10": "less" };
-    "9": { "0": "greater"; "1": "greater"; "2": "greater"; "3": "greater"; "4": "greater"; "5": "greater"; "6": "greater"; "7": "greater"; "8": "greater"; "9": "equal"; "10": "less" };
-    "10": { "0": "greater"; "1": "greater"; "2": "greater"; "3": "greater"; "4": "greater"; "5": "greater"; "6": "greater"; "7": "greater"; "8": "greater"; "9": "greater"; "10": "equal" };
-};
+interface SimpleCompareMap {
+    0: { 0: "equal"; 1: "less"; 2: "less"; 3: "less"; 4: "less"; 5: "less"; 6: "less"; 7: "less"; 8: "less"; 9: "less"; 10: "less" };
+    1: { 0: "greater"; 1: "equal"; 2: "less"; 3: "less"; 4: "less"; 5: "less"; 6: "less"; 7: "less"; 8: "less"; 9: "less"; 10: "less" };
+    2: { 0: "greater"; 1: "greater"; 2: "equal"; 3: "less"; 4: "less"; 5: "less"; 6: "less"; 7: "less"; 8: "less"; 9: "less"; 10: "less" };
+    3: { 0: "greater"; 1: "greater"; 2: "greater"; 3: "equal"; 4: "less"; 5: "less"; 6: "less"; 7: "less"; 8: "less"; 9: "less"; 10: "less" };
+    4: { 0: "greater"; 1: "greater"; 2: "greater"; 3: "greater"; 4: "equal"; 5: "less"; 6: "less"; 7: "less"; 8: "less"; 9: "less"; 10: "less" };
+    5: { 0: "greater"; 1: "greater"; 2: "greater"; 3: "greater"; 4: "greater"; 5: "equal"; 6: "less"; 7: "less"; 8: "less"; 9: "less"; 10: "less" };
+    6: { 0: "greater"; 1: "greater"; 2: "greater"; 3: "greater"; 4: "greater"; 5: "greater"; 6: "equal"; 7: "less"; 8: "less"; 9: "less"; 10: "less" };
+    7: { 0: "greater"; 1: "greater"; 2: "greater"; 3: "greater"; 4: "greater"; 5: "greater"; 6: "greater"; 7: "equal"; 8: "less"; 9: "less"; 10: "less" };
+    8: { 0: "greater"; 1: "greater"; 2: "greater"; 3: "greater"; 4: "greater"; 5: "greater"; 6: "greater"; 7: "greater"; 8: "equal"; 9: "less"; 10: "less" };
+    9: { 0: "greater"; 1: "greater"; 2: "greater"; 3: "greater"; 4: "greater"; 5: "greater"; 6: "greater"; 7: "greater"; 8: "greater"; 9: "equal"; 10: "less" };
+    10: { 0: "greater"; 1: "greater"; 2: "greater"; 3: "greater"; 4: "greater"; 5: "greater"; 6: "greater"; 7: "greater"; 8: "greater"; 9: "greater"; 10: "equal" };
+}
 
 /**
  * **CompareNumbers**`<A,B>`

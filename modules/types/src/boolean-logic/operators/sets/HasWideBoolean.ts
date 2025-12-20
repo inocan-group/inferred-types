@@ -20,8 +20,8 @@ type Test<
 type Validate<T> = [IsAny<T>] extends [true]
     ? Err<`invalid/has-wide-boolean`, `The type passed into 'HasWideBoolean<T>' was 'any'! This utility requires that T be a container type.`>
     : [IsNever<T>] extends [true]
-        ? Err<`invalid/has-wide-boolean`, `The type passed into 'HasWideBoolean<T>' was 'never'! This utility requires that T be a container type.`>
-        : T;
+            ? Err<`invalid/has-wide-boolean`, `The type passed into 'HasWideBoolean<T>' was 'never'! This utility requires that T be a container type.`>
+            : T;
 
 /**
  * **HasNever**`<T>`
@@ -33,11 +33,11 @@ type Validate<T> = [IsAny<T>] extends [true]
 export type HasWideBoolean<T extends Container> = [Validate<T>] extends [Error]
     ? Validate<T>
     : [T] extends [readonly any[]]
-        ? [number] extends [Keys<T>["length"]]
-            ? boolean
-            : Test<T>
-        : [IsDictionary<T>] extends [true]
             ? [number] extends [Keys<T>["length"]]
-                ? boolean
-                : Test<Values<T>>
-            : false;
+                    ? boolean
+                    : Test<T>
+            : [IsDictionary<T>] extends [true]
+                    ? [number] extends [Keys<T>["length"]]
+                            ? boolean
+                            : Test<Values<T>>
+                    : false;

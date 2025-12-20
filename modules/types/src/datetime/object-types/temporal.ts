@@ -1,6 +1,6 @@
 import type { TypedFunction } from "inferred-types/types";
 
-export type TemporalInstanceLike = {
+export interface TemporalInstanceLike {
     equals: TypedFunction;
     add: TypedFunction;
     subtract: TypedFunction;
@@ -9,12 +9,12 @@ export type TemporalInstanceLike = {
     round: TypedFunction;
     toZoneDateTimeISO: TypedFunction;
     toLocaleString: TypedFunction;
-    toJSON(): string;
+    toJSON: () => string;
     toString: TypedFunction;
     [key: string | symbol]: any;
-};
+}
 
-export type TemporalZonedDateTimeLike = {
+export interface TemporalZonedDateTimeLike {
     era: string | undefined;
     eraYear: number | undefined;
     year: number;
@@ -37,11 +37,11 @@ export type TemporalZonedDateTimeLike = {
     offset: string;
     epochMilliseconds: number;
     [key: string | symbol]: any;
-};
+}
 
 export type TemporalTimeZoneLike = string | TemporalZonedDateTimeLike;
 
-export type TemporalPlainDateTimeLike = {
+export interface TemporalPlainDateTimeLike {
     era: string | undefined;
     eraYear: number | undefined;
     year: number;
@@ -58,22 +58,22 @@ export type TemporalPlainDateTimeLike = {
     equals: TypedFunction;
     with: TypedFunction;
     withPlainTime: TypedFunction;
-    toZonedDateTime(tzLike: TemporalTimeZoneLike, options?: any): TemporalZonedDateTimeLike;
+    toZonedDateTime: (tzLike: TemporalTimeZoneLike, options?: any) => TemporalZonedDateTimeLike;
     add: TypedFunction;
     toPlainDate: TypedFunction;
     toPlainTime: TypedFunction;
     since: TypedFunction;
-    toJSON(): string;
+    toJSON: () => string;
     toString: TypedFunction;
     readonly [Symbol.toStringTag]: "Temporal.PlainDateTime";
     [key: string | symbol]: any;
-};
+}
 
 export interface TemporalLike {
-    toString(): string;
-    toJSON(): string;
-    toPlainDate?(): object;
-    toPlainTime?(): object;
-    toInstant?(): { epochSeconds: number };
+    toString: () => string;
+    toJSON: () => string;
+    toPlainDate?: () => object;
+    toPlainTime?: () => object;
+    toInstant?: () => { epochSeconds: number };
     [key: string | symbol]: any;
 }

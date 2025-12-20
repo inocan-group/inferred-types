@@ -13,8 +13,8 @@ type FilterTuple<
 >
     = T extends readonly [infer Head, ...infer Tail]
         ? [Head] extends [never]
-            ? FilterTuple<Tail, Result>
-            : FilterTuple<Tail, [...Result, Head]>
+                ? FilterTuple<Tail, Result>
+                : FilterTuple<Tail, [...Result, Head]>
         : Result;
 
 /**

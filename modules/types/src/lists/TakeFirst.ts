@@ -20,10 +20,10 @@ type Take<
 > = TLen extends 0
     ? TResult
     : [] extends TContent
-        ? TResult
-        : TContent extends readonly [infer Head, ...infer Tail]
-            ? Take<Tail, Dec<TLen>, [...TResult, Head]>
-            : TResult;
+            ? TResult
+            : TContent extends readonly [infer Head, ...infer Tail]
+                ? Take<Tail, Dec<TLen>, [...TResult, Head]>
+                : TResult;
 
 // Count how many of the first N elements are optional.
 // Optional elements in tuples are trailing; therefore among the first N elements,

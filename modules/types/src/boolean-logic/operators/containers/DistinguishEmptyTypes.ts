@@ -107,18 +107,18 @@ type IsNeverIndexed<T> = T extends { [x: string]: never }
  */
 export type DistinguishEmpty<T> = T extends object
     ? {
-        kind: EmptyObjectKind<T>;
-        canHaveProperties: CanHaveProperties<T>;
-        isNeverIndexed: IsNeverIndexed<T>;
-        acceptsProperties: AcceptsProperties<T>;
-        isExplicitlyEmpty: IsExplicitlyEmptyObject<T>;
-        isWideEmpty: IsWideEmptyObject<T>;
-    }
+            kind: EmptyObjectKind<T>;
+            canHaveProperties: CanHaveProperties<T>;
+            isNeverIndexed: IsNeverIndexed<T>;
+            acceptsProperties: AcceptsProperties<T>;
+            isExplicitlyEmpty: IsExplicitlyEmptyObject<T>;
+            isWideEmpty: IsWideEmptyObject<T>;
+        }
     : {
-        kind: "not-object";
-        canHaveProperties: false;
-        isNeverIndexed: false;
-        acceptsProperties: false;
-        isExplicitlyEmpty: false;
-        isWideEmpty: false;
-    };
+            kind: "not-object";
+            canHaveProperties: false;
+            isNeverIndexed: false;
+            acceptsProperties: false;
+            isExplicitlyEmpty: false;
+            isWideEmpty: false;
+        };

@@ -23,26 +23,26 @@ type _GetExitToken<
             { config: TNesting }
         >
     : [TNesting] extends [[infer StartingChars extends readonly string[], infer EndingChars extends readonly string[], ...infer _Rest]]
-        ? TEntry extends StartingChars[number]
-            ? EndingChars extends readonly string[]
-                ? EndingChars[number]
-                : never
-            : Err<
-                "invalid-lookup",
-            `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TEntry}' which is NOT defined in the configuration (a NestingTuple config)!`,
-            { config: TNesting }
-            >
-        : [TNesting] extends [[infer StartingChars extends readonly string[], infer EndingChars extends readonly string[]]]
             ? TEntry extends StartingChars[number]
                 ? EndingChars extends readonly string[]
                     ? EndingChars[number]
                     : never
                 : Err<
                     "invalid-lookup",
+            `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TEntry}' which is NOT defined in the configuration (a NestingTuple config)!`,
+            { config: TNesting }
+                >
+            : [TNesting] extends [[infer StartingChars extends readonly string[], infer EndingChars extends readonly string[]]]
+                    ? TEntry extends StartingChars[number]
+                        ? EndingChars extends readonly string[]
+                            ? EndingChars[number]
+                            : never
+                        : Err<
+                            "invalid-lookup",
                 `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TEntry}' which is NOT defined in the configuration (a NestingTuple config)!`,
                 { config: TNesting }
-                >
-            : never;
+                        >
+                    : never;
 
 /**
  * **GetExitToken**`<TStartChar, TNesting>`
@@ -61,5 +61,5 @@ export type GetExitToken<
 > = [IsNull<TEntry>] extends [true]
     ? null
     : [string] extends [TEntry]
-        ? string | Err<`invalid-lookup`>
-        : _GetExitToken<As<TEntry, string>, TNesting>;
+            ? string | Err<`invalid-lookup`>
+            : _GetExitToken<As<TEntry, string>, TNesting>;

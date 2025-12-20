@@ -22,20 +22,20 @@ export type IT_TakeLiteralArray<T extends string> = T extends `[${infer Rest ext
             ? TrimEach<Elements> extends infer Elements extends readonly string[]
                 ? Elements["length"] extends 0
                     ? {
-                        __kind: "IT_Token";
-                        kind: "array-literal";
-                        elements: [];
-                        token: "[]";
-                        type: [];
-                        rest: Trim<Join<Rest, ",">>;
-                    }
+                            __kind: "IT_Token";
+                            kind: "array-literal";
+                            elements: [];
+                            token: "[]";
+                            type: [];
+                            rest: Trim<Join<Rest, ",">>;
+                        }
                     : {
-                        __kind: "IT_Token";
-                        kind: "literal-array";
-                        token: `[ ${Join<Elements, ", ">} ]`;
-                        type: GetElementTypes<Elements>;
-                        rest: Trim<Join<Rest, ",">>;
-                    }
+                            __kind: "IT_Token";
+                            kind: "literal-array";
+                            token: `[ ${Join<Elements, ", ">} ]`;
+                            type: GetElementTypes<Elements>;
+                            rest: Trim<Join<Rest, ",">>;
+                        }
 
                 : never
             : Err<`malformed-token`>

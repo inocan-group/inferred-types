@@ -24,9 +24,9 @@ import type {
  * type Test = FnMeta<() => "hi">;
  * ```
  */
-export type FnMeta<
+export interface FnMeta<
     TFn extends TypedFunction,
-> = {
+> {
     /** the function itself */
     fn: TFn;
     /** the parameters of the function */
@@ -39,9 +39,9 @@ export type FnMeta<
     kind: IsNarrowingFn<TFn> extends true
         ? "narrowing"
         : Parameters<TFn>["length"] extends 0 ? "identity" : "static";
-};
+}
 
-export type FnMetaShape = {
+export interface FnMetaShape {
     fn: TypedFunction;
     params: readonly unknown[];
     returns: unknown;
@@ -49,4 +49,4 @@ export type FnMetaShape = {
     hasProps: boolean;
     hasParams: boolean;
     kind: "narrowing" | "identity" | "static";
-};
+}

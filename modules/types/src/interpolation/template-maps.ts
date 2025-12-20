@@ -1,10 +1,10 @@
 import type { EmptyObject, ExpandRecursively, GenericParam, InputTokenSuggestions, MergeObjects } from "inferred-types/types";
 
-export type TemplateMap__Basic = {
+export interface TemplateMap__Basic {
     string: "string";
     number: "number";
     boolean: "boolean";
-};
+}
 
 /**
  * **TemplateMap__Generics**`<T>`

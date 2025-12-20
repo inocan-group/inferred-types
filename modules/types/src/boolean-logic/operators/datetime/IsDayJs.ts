@@ -1,6 +1,6 @@
 import type { IsAny, IsDictionary, IsNever, IsUnion, IsUnknown, UnionMemberExtends } from "inferred-types/types";
 
-type Shape = {
+interface Shape {
     add: Function;
     clone: Function;
     date: Function;
@@ -10,7 +10,7 @@ type Shape = {
     daysInMOnth: Function;
     millisecond: Function;
     calendar: any;
-};
+}
 
 /**
  * **IsDayJs**`<T>`
@@ -21,15 +21,15 @@ export type IsDayJs<T>
     = [IsAny<T>] extends [true]
         ? false
         : [IsNever<T>] extends [true]
-            ? false
-            : [IsUnknown<T>] extends [true]
-                ? boolean
-                : [IsUnion<T>] extends true
-                    ? UnionMemberExtends<T, Shape> extends true
+                ? false
+                : [IsUnknown<T>] extends [true]
                         ? boolean
-                        : false
-                    : IsDictionary<T> extends true
-                        ? T extends Shape
-                            ? true
-                            : false
-                        : false;
+                        : [IsUnion<T>] extends true
+                                ? UnionMemberExtends<T, Shape> extends true
+                                    ? boolean
+                                    : false
+                                : IsDictionary<T> extends true
+                                    ? T extends Shape
+                                        ? true
+                                        : false
+                                    : false;

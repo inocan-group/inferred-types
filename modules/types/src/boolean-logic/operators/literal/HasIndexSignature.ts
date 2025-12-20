@@ -9,7 +9,7 @@ import type { IsAny, IsNever } from "inferred-types/types";
 export type HasIndexSignature<T> = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : string extends keyof T ? true
-            : number extends keyof T ? true
-                : symbol extends keyof T ? true : false;
+            ? false
+            : string extends keyof T ? true
+                : number extends keyof T ? true
+                    : symbol extends keyof T ? true : false;

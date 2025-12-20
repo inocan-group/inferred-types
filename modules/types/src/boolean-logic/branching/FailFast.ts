@@ -37,19 +37,19 @@ export interface FailFastOptions {
     failureConditions?: FailureCondition[];
 }
 
-type DEFAULT = {
+interface DEFAULT {
     err: Unset;
     failureConditions: ["error", "false", "never"];
-};
+}
 
-type Opt<
+interface Opt<
     T extends FailFastOptions
-> = {
+> {
     err: T["err"] extends Error ? T["err"] : DEFAULT["err"];
     failureConditions: T["failureConditions"] extends [FailureCondition, ...FailureCondition[]]
         ? T["failureConditions"]
         : DEFAULT["failureConditions"];
-};
+}
 
 type RtnErr<
     T,

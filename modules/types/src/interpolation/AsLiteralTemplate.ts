@@ -13,18 +13,18 @@ type Convert<
     TKeys extends readonly string[] = StringKeys<TSegments>
 > = TKeys extends [infer Head extends string & keyof TSegments, ...infer Rest extends readonly string[]]
     ? [FromInputToken__String<TSegments[Head]>] extends [string | number | boolean]
-        ? Convert<
-            ReplaceAll<TContent, `{{${Head}}}`, `${FromInputToken__String<TSegments[Head]>}`>,
-            TSegments,
-            Rest
-        >
-        : TContent extends `{{${Head}}}`
-            ? FromInputToken__String<TSegments[Head]>
-            : Err<
-                `invalid-type/template`,
+            ? Convert<
+                ReplaceAll<TContent, `{{${Head}}}`, `${FromInputToken__String<TSegments[Head]>}`>,
+                TSegments,
+                Rest
+            >
+            : TContent extends `{{${Head}}}`
+                ? FromInputToken__String<TSegments[Head]>
+                : Err<
+                    `invalid-type/template`,
             `The segment '{{${Head}}}' was configured as a type which can not be embedded inside of a string literal!`,
             { segment: Head; invalidType: FromInputToken__String<TSegments[Head]>; content: TContent }
-            >
+                >
     : TContent;
 
 /**

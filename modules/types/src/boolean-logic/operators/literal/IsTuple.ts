@@ -11,11 +11,11 @@ import type { IsAny, IsNever, IsUnknown } from "inferred-types/types";
 export type IsTuple<T> = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : [IsUnknown<T>] extends [true]
-            ? boolean
-            : [T] extends [readonly any[]]
-                ? [number] extends [T["length"]]
-                    ? false
-                    : true
-                : false;
+            ? false
+            : [IsUnknown<T>] extends [true]
+                    ? boolean
+                    : [T] extends [readonly any[]]
+                            ? [number] extends [T["length"]]
+                                    ? false
+                                    : true
+                            : false;

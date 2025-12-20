@@ -23,7 +23,7 @@ export type DropRulePolicy = "inclusive" | "exclusive" | "drop-enter" | "drop-ex
  *
  * **Related:** `FinalizedDropRule`
  */
-export type DropRule = {
+export interface DropRule {
     /**
      * the sub-strings which will push the parser _into_
      * the "drop" state.
@@ -53,14 +53,14 @@ export type DropRule = {
      * @default "inclusive"
      */
     policy?: DropRulePolicy;
-};
+}
 
-export type DropResult = {
+export interface DropResult {
     kind: "drop-result";
     kept: string;
     dropped: string[];
-    toString(): string;
-};
+    toString: () => string;
+}
 
 /**
  * looks through rules to find a match and if
@@ -84,9 +84,9 @@ type FindLongestMatch<
     > extends infer Found extends string
         // match
         ? {
-            extract: Found;
-            rule: Head;
-        }
+                extract: Found;
+                rule: Head;
+            }
         // no-match so iterate
         : FindLongestMatch<
             Rest,
@@ -95,7 +95,7 @@ type FindLongestMatch<
 // done iterating, no match
     : false;
 
-type Match = {
+interface Match {
     /** the extracted string representing a **enter** or **exit** token */
     extract: string;
     /**
@@ -103,7 +103,7 @@ type Match = {
      */
     newState: "keep" | FinalizedDropRule;
     policy: DropRulePolicy;
-};
+}
 
 /**
  * Looks for a rule that might match the _beginning_ of the
@@ -217,9 +217,9 @@ type PolicyHandlerForDropped<
         : TPolicy extends "exclusive"
             ? IsMovingToKeepState<TState> extends true
                 ? [
-                    ...AppendToLast<TDropped, TExtracted>,
-                    ""
-                ] // exit token included, new empty item
+                        ...AppendToLast<TDropped, TExtracted>,
+                        ""
+                    ] // exit token included, new empty item
                 : [...TDropped, TExtracted] // enter token included as new item
             : TPolicy extends "drop-enter"
                 ? IsMovingToKeepState<TState> extends true
@@ -228,9 +228,9 @@ type PolicyHandlerForDropped<
                 : TPolicy extends "drop-exit"
                     ? IsMovingToKeepState<TState> extends true
                         ? [
-                            ...AppendToLast<TDropped, TExtracted>,
-                            ""
-                        ] // exit token included, new empty item
+                                ...AppendToLast<TDropped, TExtracted>,
+                                ""
+                            ] // exit token included, new empty item
                         : TDropped // enter token excluded
                     : never;
 
@@ -297,30 +297,30 @@ export type AsDropResult<
                     kind: "drop-result";
                     kept: TKept;
                     dropped: RemoveEmptyDrop<TDropped>;
-                    toString(): TKept;
+                    toString: () => TKept;
                 }, DropResult>;
 
 /**
  * A finalized `DropRule`
  */
-export type FinalizedDropRule = {
+export interface FinalizedDropRule {
     /** enter tokens */
     enter: string[];
     /** exit tokens */
     exit: string[];
     /** token policy */
     policy: DropRulePolicy;
-};
+}
 
 /** KV component of `DropParser` */
-export type DropParserKv<
+export interface DropParserKv<
     T extends readonly FinalizedDropRule[]
-> = {
+> {
     kind: "drop-parser";
     rules: T;
     kept: string;
     dropped: string[];
-};
+}
 
 /** function component of `DropParser` */
 export type DropParserFn<

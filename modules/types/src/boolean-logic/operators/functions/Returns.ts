@@ -13,11 +13,11 @@ export type Returns<
     = [IsAny<T>] extends [true]
         ? false
         : [IsNever<T>] extends [true]
-            ? false
-            : [IsUnknown<T>] extends [true]
-                ? boolean
-                : T extends TypedFunction
-                    ? ReturnType<T> extends TExpected
-                        ? true
-                        : false
-                    : false;
+                ? false
+                : [IsUnknown<T>] extends [true]
+                        ? boolean
+                        : T extends TypedFunction
+                            ? ReturnType<T> extends TExpected
+                                ? true
+                                : false
+                            : false;

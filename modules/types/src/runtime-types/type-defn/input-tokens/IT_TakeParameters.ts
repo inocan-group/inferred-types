@@ -24,19 +24,19 @@ type DetermineType<
     ["name", T]
 > extends infer Generic extends GenericParam
     ? {
-        token: Generic["token"];
-        type: Generic["type"];
-        fromGeneric: Generic["name"];
-    }
+            token: Generic["token"];
+            type: Generic["type"];
+            fromGeneric: Generic["name"];
+        }
 
     // Handle Array<...> where interior may reference generics
     : Trim<T> extends `Array<${infer Inner extends string}>`
         ? DetermineType<Trim<Inner>, U> extends infer InnerInfo extends { type: unknown }
             ? {
-                token: Trim<T>;
-                type: Array<InnerInfo["type"]>;
-                fromGeneric: false;
-            }
+                    token: Trim<T>;
+                    type: Array<InnerInfo["type"]>;
+                    fromGeneric: false;
+                }
             : Err<
                 `malformed-token`,
                 `While parsing an Array parameter, the interior token '${Trim<Inner>}' was not parsable to a type!`,
@@ -47,10 +47,10 @@ type DetermineType<
         : Trim<T> extends `${infer InnerA extends string}[][]`
             ? DetermineType<Trim<InnerA>, U> extends infer AInfo extends { type: unknown }
                 ? {
-                    token: Trim<T>;
-                    type: AInfo["type"][][];
-                    fromGeneric: false;
-                }
+                        token: Trim<T>;
+                        type: AInfo["type"][][];
+                        fromGeneric: false;
+                    }
                 : Err<
                     `malformed-token`,
                 `While parsing a two-dimensional array parameter, the interior token '${Trim<InnerA>}' was not parsable to a type!`,
@@ -59,10 +59,10 @@ type DetermineType<
             : Trim<T> extends `${infer InnerB extends string}[]`
                 ? DetermineType<Trim<InnerB>, U> extends infer BInfo extends { type: unknown }
                     ? {
-                        token: Trim<T>;
-                        type: BInfo["type"][];
-                        fromGeneric: false;
-                    }
+                            token: Trim<T>;
+                            type: BInfo["type"][];
+                            fromGeneric: false;
+                        }
                     : Err<
                         `malformed-token`,
                     `While parsing an array parameter, the interior token '${Trim<InnerB>}' was not parsable to a type!`,
@@ -74,10 +74,10 @@ type DetermineType<
                     ? NestedSplit<InnerS, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
                         ? DetermineType<Trim<Block>, U> extends infer SInfo extends { type: unknown }
                             ? {
-                                token: `Set<${Trim<Block>}>`;
-                                type: Set<SInfo["type"]>;
-                                fromGeneric: false;
-                            }
+                                    token: `Set<${Trim<Block>}>`;
+                                    type: Set<SInfo["type"]>;
+                                    fromGeneric: false;
+                                }
                             : Err<
                                 `malformed-token`,
                     `While parsing a Set parameter, the interior token '${Trim<Block>}' was not parsable to a type!`,
@@ -94,10 +94,10 @@ type DetermineType<
                         ? NestedSplit<InnerP, ">"> extends [infer Block extends string, ...infer _R extends readonly string[]]
                             ? DetermineType<Trim<Block>, U> extends infer PInfo extends { type: unknown }
                                 ? {
-                                    token: `Promise<${Trim<Block>}>`;
-                                    type: Promise<PInfo["type"]>;
-                                    fromGeneric: false;
-                                }
+                                        token: `Promise<${Trim<Block>}>`;
+                                        type: Promise<PInfo["type"]>;
+                                        fromGeneric: false;
+                                    }
                                 : Err<
                                     `malformed-token`,
                     `While parsing a Promise parameter, the interior token '${Trim<Block>}' was not parsable to a type!`,
@@ -120,10 +120,10 @@ type DetermineType<
                                     ? DetermineType<KTok, U> extends infer KInfo extends { type: unknown }
                                         ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
                                             ? {
-                                                token: `Map<${KTok}, ${VTok}>`;
-                                                type: Map<KInfo["type"], VInfo["type"]>;
-                                                fromGeneric: false;
-                                            }
+                                                    token: `Map<${KTok}, ${VTok}>`;
+                                                    type: Map<KInfo["type"], VInfo["type"]>;
+                                                    fromGeneric: false;
+                                                }
                                             : Err<
                                                 `malformed-token`,
                             `While parsing a Map parameter, the value token '${VTok}' was not parsable to a type!`,
@@ -156,10 +156,10 @@ type DetermineType<
                                         ? DetermineType<KTok, U> extends infer KInfo extends { type: unknown }
                                             ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
                                                 ? {
-                                                    token: `WeakMap<${KTok}, ${VTok}>`;
-                                                    type: WeakMap<KInfo["type"], VInfo["type"]>;
-                                                    fromGeneric: false;
-                                                }
+                                                        token: `WeakMap<${KTok}, ${VTok}>`;
+                                                        type: WeakMap<KInfo["type"], VInfo["type"]>;
+                                                        fromGeneric: false;
+                                                    }
                                                 : Err<
                                                     `malformed-token`,
                             `While parsing a WeakMap parameter, the value token '${VTok}' was not parsable to a type!`,
@@ -192,10 +192,10 @@ type DetermineType<
                                             ? DetermineType<KTok, U> extends infer KInfo extends { type: unknown }
                                                 ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
                                                     ? {
-                                                        token: `Record<${KTok}, ${VTok}>`;
-                                                        type: Record<KInfo["type"], VInfo["type"]>;
-                                                        fromGeneric: false;
-                                                    }
+                                                            token: `Record<${KTok}, ${VTok}>`;
+                                                            type: Record<KInfo["type"], VInfo["type"]>;
+                                                            fromGeneric: false;
+                                                        }
                                                     : Err<
                                                         `malformed-token`,
                             `While parsing a Record parameter, the value token '${VTok}' was not parsable to a type!`,
@@ -224,10 +224,10 @@ type DetermineType<
             { parameter: Trim<T>; generics: U }
                                         >
                                         : {
-                                            token: Trim<T>;
-                                            type: FromInputToken__String<Trim<T>>;
-                                            fromGeneric: false;
-                                        };
+                                                token: Trim<T>;
+                                                type: FromInputToken__String<Trim<T>>;
+                                                fromGeneric: false;
+                                            };
 
 type AsParameters<
     TParams extends readonly string[],
@@ -278,34 +278,34 @@ type TakeParameters<
     P extends readonly GenericParam[]
 > = T extends `(${infer Rest extends string}`
     ? [
-        RetainUntil<Rest, ")">,
-        Trim<RetainAfter<Rest, ")">>
-    ] extends [
-        infer Block extends string,
-        infer Rest extends string
-    ]
-        ? Trim<Block> extends ""
-            ? {
-                parameters: [];
-                generics: P;
-                rest: Rest;
-            }
-            : NestedSplit<Block, ","> extends infer KV extends readonly string[]
+            RetainUntil<Rest, ")">,
+            Trim<RetainAfter<Rest, ")">>
+        ] extends [
+            infer Block extends string,
+            infer Rest extends string
+        ]
+            ? Trim<Block> extends ""
                 ? {
-                    parameters: AsParameters<KV, P>;
-                    generics: P;
-                    rest: Rest;
-                }
-                : Err<
-                    "malformed-token",
+                        parameters: [];
+                        generics: P;
+                        rest: Rest;
+                    }
+                : NestedSplit<Block, ","> extends infer KV extends readonly string[]
+                    ? {
+                            parameters: AsParameters<KV, P>;
+                            generics: P;
+                            rest: Rest;
+                        }
+                    : Err<
+                        "malformed-token",
                 `The function's parameter block -- ${Block} -- was not able to be parsed!`,
                 { token: T; block: Block; rest: Rest; generics: P }
-                >
-        : Err<
-            "malformed-token",
+                    >
+            : Err<
+                "malformed-token",
         `The opening parenthesis indicated a parameter block should follow but was unable to find the closing parenthesis in: ${Rest}`,
         { token: T; rest: Rest; generics: P }
-        >
+            >
     : Err<
         `wrong-handler`,
         `parameter blocks expect the leading character to be an open parenthesis`,

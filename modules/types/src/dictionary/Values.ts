@@ -14,8 +14,8 @@ import type {
 type Validate<T extends Container> = [IsAny<T>] extends [true]
     ? Err<`invalid-type/values`, `Values<T> was called where T was the 'any' type`>
     : [IsNever<T>] extends [true]
-        ? Err<`invalid-type/values`, `Values<T> was called where T was the 'never' type`>
-        : T;
+            ? Err<`invalid-type/values`, `Values<T> was called where T was the 'never' type`>
+            : T;
 
 // Single-pass implementation with bounded recursion to avoid deep instantiation errors
 type GetValues<

@@ -24,9 +24,9 @@ import type {
 export type IsScalar<T> = [IsNever<T>] extends [true]
     ? false
     : [IsUnion<T>] extends [true]
-        ? [Every<UnionToTuple<T>, "extends", [Scalar]>] extends [true]
-            ? true
-            : [Some<UnionToTuple<T>, "extends", [Scalar]>] extends [true]
-                ? boolean
-                : false
-        : [T] extends [Scalar] ? true : false;
+            ? [Every<UnionToTuple<T>, "extends", [Scalar]>] extends [true]
+                    ? true
+                    : [Some<UnionToTuple<T>, "extends", [Scalar]>] extends [true]
+                            ? boolean
+                            : false
+            : [T] extends [Scalar] ? true : false;

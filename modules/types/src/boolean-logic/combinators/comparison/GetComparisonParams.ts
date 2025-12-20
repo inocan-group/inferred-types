@@ -17,9 +17,9 @@ export type GetComparisonParams<
     [IsUnion<TOp>] extends [true]
         ? readonly unknown[]
         : ["params"] extends [keyof ComparisonLookup[TOp]]
-            ? ComparisonLookup[TOp]["params"] extends readonly unknown[]
-                ? ComparisonLookup[TOp]["params"]
-                : never
-            : readonly unknown[],
+                ? ComparisonLookup[TOp]["params"] extends readonly unknown[]
+                    ? ComparisonLookup[TOp]["params"]
+                    : never
+                : readonly unknown[],
     readonly unknown[]
 >;

@@ -33,25 +33,25 @@ export type LiteralObjectModifiers = DefineModifiers<["allow-wide-values"]>;
 export type IsLiteralObject<T, U extends LiteralObjectModifiers = null> = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : [IsTuple<T>] extends [true]
             ? false
-            : [T] extends [readonly unknown[]]
-                ? false
-                : [T] extends [(...args: any[]) => any]
+            : [IsTuple<T>] extends [true]
                     ? false
-                    : [T] extends [object]
-                        ? [number] extends [keyof T]
+                    : [T] extends [readonly unknown[]]
                             ? false
-                            : [keyof T] extends [never]
-                                ? false
-                                : [string] extends [keyof T]
+                            : [T] extends [(...args: any[]) => any]
                                     ? false
-                                    : [keyof T] extends [never]
-                                        ? false
-                                        : number extends keyof T
-                                            ? false
-                                            : HasModifier<"allow-wide-values", U, LiteralObjectModifiers> extends true
-                                                ? true
-                                                : AllValuesAreLiteral<As<Values<T>, readonly unknown[]>>
-                        : false;
+                                    : [T] extends [object]
+                                            ? [number] extends [keyof T]
+                                                    ? false
+                                                    : [keyof T] extends [never]
+                                                            ? false
+                                                            : [string] extends [keyof T]
+                                                                    ? false
+                                                                    : [keyof T] extends [never]
+                                                                            ? false
+                                                                            : number extends keyof T
+                                                                                ? false
+                                                                                : HasModifier<"allow-wide-values", U, LiteralObjectModifiers> extends true
+                                                                                    ? true
+                                                                                    : AllValuesAreLiteral<As<Values<T>, readonly unknown[]>>
+                                            : false;

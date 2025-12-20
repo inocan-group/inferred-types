@@ -42,17 +42,17 @@ type Groups<
     ? ApplyTemplate<TValue, TTemplate, false>
     : TStrategy extends "subset"
         ? [
-            TValue,
-            StringLiteralTemplate<StripSurroundingStringTemplate<TTemplate>>,
-            ...(
-                ApplyTemplate<TValue, StripSurroundingStringTemplate<TTemplate>, false> extends readonly [
-                    string,
-                    ...infer Rest
-                ]
-                    ? Rest
-                    : []
-            )
-        ]
+                TValue,
+                StringLiteralTemplate<StripSurroundingStringTemplate<TTemplate>>,
+                ...(
+                    ApplyTemplate<TValue, StripSurroundingStringTemplate<TTemplate>, false> extends readonly [
+                        string,
+                        ...infer Rest
+                    ]
+                        ? Rest
+                        : []
+                )
+            ]
         : never;
 
 type _RegexArray<

@@ -3,11 +3,11 @@ import type { As, Container, Dictionary, Err, Values } from "inferred-types/type
 /**
  * The results produced by the `IsolateErrors<T,U>` utility
  */
-export type IsolatedResults = {
+export interface IsolatedResults {
     successes: readonly unknown[];
     errors: readonly Error[];
     otherErrors: readonly Error[];
-};
+}
 
 type CheckArray<
     T extends readonly unknown[],
@@ -22,15 +22,15 @@ type CheckArray<
                 As<
                     Head extends Err<U>
                         ? {
-                            successes: R["successes"];
-                            errors: [...R["errors"], Head];
-                            otherErrors: R["otherErrors"];
-                        }
+                                successes: R["successes"];
+                                errors: [...R["errors"], Head];
+                                otherErrors: R["otherErrors"];
+                            }
                         : {
-                            successes: R["successes"];
-                            errors: R["errors"];
-                            otherErrors: [...R["otherErrors"], Head];
-                        },
+                                successes: R["successes"];
+                                errors: R["errors"];
+                                otherErrors: [...R["otherErrors"], Head];
+                            },
                     IsolatedResults
                 >
             >

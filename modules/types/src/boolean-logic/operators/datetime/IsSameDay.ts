@@ -1,15 +1,13 @@
 import type {
-    As,
     Err,
-    IsDateLike,
     IsDayJs,
     IsEqual,
     IsFloat,
+    IsIsoFullDate,
     IsJsDate,
     IsLuxonDateTime,
     IsMoment,
     IsNegativeNumber,
-    StripAfter,
 } from "inferred-types/types";
 
 type IsWide<A, B> = string extends A
@@ -34,12 +32,6 @@ type BothStrings<A, B> = A extends string
         : false
     : false;
 
-type AreDateLike<A, B> = IsDateLike<A> extends true
-    ? IsDateLike<B> extends true
-        ? true
-        : false
-    : false;
-
 type EitherAreDateObject<A, B> = IsJsDate<A> extends true
     ? true
     : IsJsDate<B> extends true
@@ -56,30 +48,30 @@ type EitherAreDateObject<A, B> = IsJsDate<A> extends true
                             ? true
                             : IsLuxonDateTime<B> extends true
                                 ? true
-                                : false
+                                : false;
 
-;
+type GetDatePart<T> = T extends `${infer D}T${string}` ? D : T;
+
+// Lightweight check: Just verifies it looks like YYYY-MM-DD or YYYYMMDD using generic ${number}
+// This avoids the combinatorial explosion of 10^N union types from matching specific digits.
+type IsLikelyDate<T extends string>
+    = T extends `${number}-${number}-${number}` ? true
+        : T extends `${number}${number}${number}${number}${number}${number}${number}${number}` ? true
+            : false;
+
+// Efficiently check for 4-digit numeric string without generating large unions
+type IsFourDigitYearString<T extends string>
+    = T extends `${number}`
+        ? T extends `${infer _1}${infer _2}${infer _3}${infer _4}${infer Rest}`
+            ? Rest extends "" ? true : false
+            : false
+        : false;
 
 /**
  * **IsSameDay**`<A,B>`
  *
  * Boolean operator which indicates whether `A` and `B` represent
  * the same calendar day.
- *
- * A literal true/false is returned where that is
- * possible other wise you'll just `boolean` for things which
- * can only be validated at runtime.
- *
- * Note:
- *
- * - literal values should be possible at _design time_ when ISO strings
- * are being used
- * - if both values are numeric we can return `false` when epoch based dates
- * aren't close enough to be on the same day.
- * - if an epoch timestamp is encountered and timestamps are identical then we
- * can return `true` at design time.
- * - if a `year-month` ISO string encountered, this utility will return a
- * a `InvalidDate` error because the date has no concept of a concrete calendar date.
  */
 export type IsSameDay<
     A,
@@ -91,7 +83,7 @@ export type IsSameDay<
             ? Err<`invalid-date/float`>
             : IsFloat<B> extends true
                 ? Err<`invalid-date/float`>
-                : IsNegativeNumber<B> extends true
+                : IsNegativeNumber<A> extends true
                     ? Err<`invalid-date/negative`>
                     : IsNegativeNumber<B> extends true
                         ? Err<`invalid-date/negative`>
@@ -99,16 +91,24 @@ export type IsSameDay<
                             ? true
                             : boolean
         : BothStrings<A, B> extends true
-            ? AreDateLike<A, B> extends true
-                ? IsEqual<A, B> extends true
+            // Fast path for identical strings
+            ? IsEqual<GetDatePart<A>, GetDatePart<B>> extends true
+                // If they are equal strings, check if valid ISO date
+                ? IsIsoFullDate<GetDatePart<A>> extends true
                     ? true
-                    : IsEqual<
-                        StripAfter<As<A, string>, "T">,
-                        StripAfter<As<B, string>, "T">
-                    > extends true
-                        ? true
-                        : false
-                : Err<`invalid-date/type`>
+                    : Err<`invalid-date`>
+                // If not equal
+                : IsLikelyDate<GetDatePart<A>> extends true
+                    ? IsLikelyDate<GetDatePart<B>> extends true
+                        ? false // Both look like dates, but are different -> false
+                        : IsFourDigitYearString<B> extends true
+                            ? false
+                            : Err<`invalid-date`>
+                    : IsFourDigitYearString<A> extends true
+                        ? IsFourDigitYearString<B> extends true
+                            ? IsEqual<A, B> extends true ? true : false
+                            : Err<`invalid-date`>
+                        : Err<`invalid-date`>
             : EitherAreDateObject<A, B> extends true
                 ? boolean
-                : Err<`invalid-date/type`>;
+                : Err<`invalid-date`>;

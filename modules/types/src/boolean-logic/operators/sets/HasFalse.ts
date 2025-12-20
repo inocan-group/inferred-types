@@ -18,10 +18,10 @@ type Test<
 type Validate<T extends Container> = [IsAny<T>] extends [true]
     ? Err<`invalid/has-false`, `The type passed into 'HasFalse<T>' was 'any'! This utility requires that T be a container type.`>
     : [IsNever<T>] extends [true]
-        ? Err<`invalid/has-false`, `The type passed into 'HasFalse<T>' was 'never'! This utility requires that T be a container type.`>
-        : T extends Container
-            ? T
-            : Err<`invalid/has-false`, `The type passed into HasFalse<T> was not a container!`, { value: T }>;
+            ? Err<`invalid/has-false`, `The type passed into 'HasFalse<T>' was 'never'! This utility requires that T be a container type.`>
+            : T extends Container
+                ? T
+                : Err<`invalid/has-false`, `The type passed into HasFalse<T> was not a container!`, { value: T }>;
 
 /**
  * **HasFalse**`<T>`
@@ -34,7 +34,7 @@ export type HasFalse<T extends Container>
     = [Validate<T>] extends [Error]
         ? Validate<T> // return error
         : [Values<T>] extends [readonly unknown[]]
-            ? [number] extends [Values<T>["length"]]
-                ? boolean
-                : Test<Values<T>>
-            : never;
+                ? [number] extends [Values<T>["length"]]
+                        ? boolean
+                        : Test<Values<T>>
+                : never;

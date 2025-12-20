@@ -39,22 +39,22 @@ export type ReplaceStringInterpolation<
     TResult extends string = ""
 > = TContent extends `${infer First}${infer Rest}`
     ? [IsEqual<First, `${string}`>] extends [true]
-        ? ReplaceStringInterpolation<
-            Rest,
-            Next<TReplace>,
+            ? ReplaceStringInterpolation<
+                Rest,
+                Next<TReplace>,
             `${TResult}${R<TReplace, `${string}`>}`
-        >
-        : ReplaceStringInterpolation<
-            Rest,
-            TReplace,
+            >
+            : ReplaceStringInterpolation<
+                Rest,
+                TReplace,
             `${TResult}${First}`
-        >
+            >
 
     : [TContent] extends [""]
-        ? TResult
-        : [IsEqual<TContent, `${string}`>] extends [true]
-            ? `${TResult}${R<TReplace, `${string}`>}`
-            : `${TResult}${TContent}`;
+            ? TResult
+            : [IsEqual<TContent, `${string}`>] extends [true]
+                    ? `${TResult}${R<TReplace, `${string}`>}`
+                    : `${TResult}${TContent}`;
 
 /**
  * **ReplaceNumericInterpolation**`<TContent, TReplace>`
@@ -74,21 +74,21 @@ export type ReplaceNumericInterpolation<
     TResult extends string = ""
 > = TContent extends `${infer First}${infer Rest}`
     ? [IsEqual<First, `${number}`>] extends [true]
-        ? ReplaceNumericInterpolation<
-            Rest,
-            Next<TReplace>,
+            ? ReplaceNumericInterpolation<
+                Rest,
+                Next<TReplace>,
         `${TResult}${R<TReplace, `${number}`>}`
-        >
-        : ReplaceNumericInterpolation<
-            Rest,
-            TReplace,
+            >
+            : ReplaceNumericInterpolation<
+                Rest,
+                TReplace,
         `${TResult}${First}`
-        >
+            >
     : [TContent] extends [""]
-        ? TResult
-        : [IsEqual<TContent, `${number}`>] extends [true]
-            ? `${TResult}${R<TReplace, `${number}`>}`
-            : `${TResult}${TContent}`;
+            ? TResult
+            : [IsEqual<TContent, `${number}`>] extends [true]
+                    ? `${TResult}${R<TReplace, `${number}`>}`
+                    : `${TResult}${TContent}`;
 
 type ReplaceTrueFalse<
     T extends readonly string[],

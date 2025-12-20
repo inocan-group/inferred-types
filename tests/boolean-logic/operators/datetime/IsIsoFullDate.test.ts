@@ -7,10 +7,12 @@ describe("IsIsoFullDate<T>", () => {
         it("happy path", () => {
             type T1 = IsIsoFullDate<"2023-06-01">;
             type T2 = IsIsoFullDate<"2021-02-28">;
+            type T3 = IsIsoFullDate<"2024-03-01">;
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
+                Expect<Test<T3, "equals", true>>,
             ];
         });
 
@@ -37,8 +39,8 @@ describe("IsIsoFullDate<T>", () => {
         });
 
         it("leap year context", () => {
-            type T1 = IsIsoFullDate<"2024-02-29">; // 2024 is a double leap year
-            type T2 = IsIsoFullDate<"2024-02-30">;
+            type T1 = IsIsoFullDate<"2024-02-29">; // 2024 is a leap year
+            type T2 = IsIsoFullDate<"2024-02-30">; // Feb 30 is invalid (Double Leap support removed)
             type T3 = IsIsoFullDate<"2004-02-29">; // 2004 is a regular leap year
 
             type F1 = IsIsoFullDate<"1999-02-29">; // not a leap year
@@ -46,7 +48,7 @@ describe("IsIsoFullDate<T>", () => {
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
-                Expect<Test<T2, "equals", true>>,
+                Expect<Test<T2, "equals", false>>,
                 Expect<Test<T3, "equals", true>>,
 
                 Expect<Test<F1, "equals", false>>,
@@ -100,8 +102,8 @@ describe("IsIsoFullDate<T>", () => {
         });
 
         it("leap year context", () => {
-            type T1 = IsIsoFullDate<"20240229">; // 2024 is a double leap year
-            type T2 = IsIsoFullDate<"20240230">;
+            type T1 = IsIsoFullDate<"20240229">; // 2024 is a leap year
+            type T2 = IsIsoFullDate<"20240230">; // Invalid (no double leap support)
             type T3 = IsIsoFullDate<"20040229">; // 2004 is a regular leap year
 
             type F1 = IsIsoFullDate<"19990229">; // not a leap year
@@ -109,7 +111,7 @@ describe("IsIsoFullDate<T>", () => {
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
-                Expect<Test<T2, "equals", true>>,
+                Expect<Test<T2, "equals", false>>,
                 Expect<Test<T3, "equals", true>>,
 
                 Expect<Test<F1, "equals", false>>,

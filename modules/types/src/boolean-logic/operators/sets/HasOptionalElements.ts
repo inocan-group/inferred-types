@@ -7,8 +7,8 @@ import type { Container, Dictionary, RequiredKeys } from "inferred-types/types";
 type RequiredDiffersFromOriginal<T extends readonly unknown[]>
     = [Required<T>] extends [T]
         ? [T] extends [Required<T>]
-            ? false
-            : true
+                ? false
+                : true
         : true;
 
 export type HasOptionalElements__Tuple<T extends readonly unknown[]> = RequiredDiffersFromOriginal<T>;
@@ -23,8 +23,8 @@ export type HasOptionalElements<T extends Container> = [T] extends [readonly unk
     ? RequiredDiffersFromOriginal<T>
     : T extends Dictionary
         ? [keyof T] extends [RequiredKeys<T>]
-            ? [RequiredKeys<T>] extends [keyof T]
-                ? false
+                ? [RequiredKeys<T>] extends [keyof T]
+                        ? false
+                        : true
                 : true
-            : true
         : never;

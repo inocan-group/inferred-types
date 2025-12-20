@@ -23,27 +23,27 @@ type Process<
         ? T extends readonly [infer First, ...infer Rest]
             ? First extends ComparisonAccept<TOp>
                 ? [Compare<First, TOp, TComparator>] extends [false]
-                    ? Process<
-                        Rest,
-                        TOp,
-                        TComparator,
-                        THasBool
-                    >
-                    : [Compare<First, TOp, TComparator>] extends [true]
-                        ? true
-                        : [Compare<First, TOp, TComparator>] extends [boolean]
-                            ? Process<
-                                Rest,
-                                TOp,
-                                TComparator,
-                                true
-                            >
-                            : Process<
-                                AfterFirst<T>,
-                                TOp,
-                                TComparator,
-                                THasBool
-                            >
+                        ? Process<
+                            Rest,
+                            TOp,
+                            TComparator,
+                            THasBool
+                        >
+                        : [Compare<First, TOp, TComparator>] extends [true]
+                                ? true
+                                : [Compare<First, TOp, TComparator>] extends [boolean]
+                                        ? Process<
+                                            Rest,
+                                            TOp,
+                                            TComparator,
+                                            true
+                                        >
+                                        : Process<
+                                            AfterFirst<T>,
+                                            TOp,
+                                            TComparator,
+                                            THasBool
+                                        >
                 : false
             : false
         : false;
@@ -72,7 +72,7 @@ export type Some<
             ? TComparator
             : TComparator extends GetComparisonParams<TOp>[0]
                 ? [TComparator] extends GetComparisonParams<TOp>
-                    ? [TComparator]
-                    : never
+                        ? [TComparator]
+                        : never
                 : never
     >;

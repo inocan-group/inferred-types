@@ -5,16 +5,16 @@ import type { AsUnion } from "types/type-conversion";
 
 type Policy = "omit" | "before" | "inline";
 
-type Get<
+interface Get<
     TContent extends string,
     TSep extends string
-> = {
+> {
     before: StripAfter<TContent, TSep>;
     sep: TContent extends `${StripAfter<TContent, TSep>}${infer Sep}${RetainAfter<TContent, TSep>}`
         ? Sep
         : never;
     after: RetainAfter<TContent, TSep>;
-};
+}
 
 type Process<
     TContent extends string,
@@ -36,15 +36,15 @@ type Process<
                     : [...TParts, Get<TContent, TSep>["before"], Get<TContent, TSep>["sep"]]
                 : TPolicy extends "before"
                     ? [
-                        ...TParts,
+                            ...TParts,
                         `${Get<TContent, TSep>["before"]}${Get<TContent, TSep>["sep"]}`
-                    ]
+                        ]
 
                     : [
-                        ...BeforeLast<TParts>,
+                            ...BeforeLast<TParts>,
                         `${Get<TContent, TSep>["sep"]}${Last<TParts>}`,
                         Get<TContent, TSep>["before"]
-                    ]
+                        ]
     >
     : TContent extends ""
         ? TParts

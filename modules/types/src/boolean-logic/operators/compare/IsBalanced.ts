@@ -22,58 +22,58 @@ type Check<
     ...infer Rest extends readonly string[]
 ]
     ? [IsEntryToken<Head, TNesting>] extends [true]
-        ? Check<
-            Rest,
-            TNesting,
-            TErr,
-            [...TStack, Head]
-        >
-        : [IsNestingMatchEnd<Head, TStack, TNesting>] extends [true]
             ? Check<
                 Rest,
                 TNesting,
                 TErr,
-                TStack extends [
-                    ...infer Leading extends readonly string[],
-                    string
-                ]
-                    ? Leading
-                    : never
+                [...TStack, Head]
             >
-            : And<[
-                IsExitToken<Head, TNesting>,
-                TStack["length"] extends 0 ? true : false
-            ]
-            > extends true
-                ? TErr extends true
-                    ? Err<
-                        "unbalanced/is-balanced",
-                        `The stack moved into negative territory when the character '${Head}' -- an END character -- while the stack was already empty!`,
-                        { char: Head; stack: ToStringLiteral__Array<TStack> }
-                    >
-                    : false
-                : [IsExitToken<Head, TNesting>] extends [true]
-                    ? TErr extends true
-                        ? Err<
-                            "unbalanced/is-balanced",
-                            `Found an end character '${Head}' that doesn't match the expected end character for the top of the stack`,
-                            { char: Head; stack: ToStringLiteral__Array<TStack> }
-                        >
-                        : false
-                    : Check<
+            : [IsNestingMatchEnd<Head, TStack, TNesting>] extends [true]
+                    ? Check<
                         Rest,
                         TNesting,
                         TErr,
-                        TStack
+                        TStack extends [
+                            ...infer Leading extends readonly string[],
+                            string
+                        ]
+                            ? Leading
+                            : never
                     >
+                    : And<[
+                        IsExitToken<Head, TNesting>,
+                        TStack["length"] extends 0 ? true : false
+                    ]
+                    > extends true
+                        ? TErr extends true
+                            ? Err<
+                                "unbalanced/is-balanced",
+                        `The stack moved into negative territory when the character '${Head}' -- an END character -- while the stack was already empty!`,
+                        { char: Head; stack: ToStringLiteral__Array<TStack> }
+                            >
+                            : false
+                        : [IsExitToken<Head, TNesting>] extends [true]
+                                ? TErr extends true
+                                    ? Err<
+                                        "unbalanced/is-balanced",
+                            `Found an end character '${Head}' that doesn't match the expected end character for the top of the stack`,
+                            { char: Head; stack: ToStringLiteral__Array<TStack> }
+                                    >
+                                    : false
+                                : Check<
+                                    Rest,
+                                    TNesting,
+                                    TErr,
+                                    TStack
+                                >
     : [TStack["length"]] extends [0]
-        ? true
-        : TErr extends true
-            ? Err<
-                `unbalanced/is-balanced`,
+            ? true
+            : TErr extends true
+                ? Err<
+                    `unbalanced/is-balanced`,
             `The characters passed to 'IsBalanced<T,U>' are not balanced for the given nesting configuration. On completing a full pass the stack still has items on it: ${Join<TStack, ", ">}`
-            >
-            : false;
+                >
+                : false;
 
 type EvalString<
     T extends string,

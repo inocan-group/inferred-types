@@ -4,8 +4,8 @@ type _Convert<
     TInput extends Tuple,
 > = IsNonEmptyContainer<TInput> extends true
     ? {
-        [K in keyof TInput]: ToNumber<TInput[K]>
-    }
+            [K in keyof TInput]: ToNumber<TInput[K]>
+        }
     : number[];
 
 /**

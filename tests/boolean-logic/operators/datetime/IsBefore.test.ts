@@ -137,10 +137,10 @@ describe("IsBefore<A, B>", () => {
     describe("Advanced ISO Format Tests", () => {
         it("handles different ISO datetime formats", () => {
             type cases = [
-                // Different timezone indicators in datetimes
+                // Different timezone indicators in datetime's
                 Expect<Test<IsBefore<"2023-01-01T00:00:00Z", "2023-01-01T00:00:01Z">, "equals", true>>,
                 Expect<Test<IsBefore<"2023-01-01T00:00:01Z", "2023-01-01T00:00:00Z">, "equals", false>>,
-                // Same datetimes should be equal (false for "before")
+                // Same datetime's should be equal (false for "before")
                 Expect<Test<IsBefore<"2023-01-01T12:00:00Z", "2023-01-01T12:00:00Z">, "equals", false>>,
             ];
         });

@@ -154,10 +154,10 @@ export type ToJsonScalar<
     ? `${O["quote"]}${Enc<T, O>}${O["quote"]}`
     : `${T}`;
 
-export type ToJsonOptions = {
+export interface ToJsonOptions {
     quote?: QuoteCharacter;
     encode?: boolean;
-};
+}
 
 /**
  * Merges user options with defaults to create `Required<ToJsonOptions>`

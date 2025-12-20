@@ -36,17 +36,17 @@ export type Equals<
     [IsAny<X>] extends [true]
         ? false
         : [IsAny<Y>] extends [true]
-            ? false
-            : [X] extends [Y]
-                ? [Y] extends [X]
-                    ? [X] extends [Container]
-                        ? [Keys<X>] extends [Keys<As<Y, Container>>]
-                            ? [Keys<As<Y, Container>>] extends [Keys<X>]
-                                ? TTrue
+                ? false
+                : [X] extends [Y]
+                        ? [Y] extends [X]
+                                ? [X] extends [Container]
+                                        ? [Keys<X>] extends [Keys<As<Y, Container>>]
+                                                ? [Keys<As<Y, Container>>] extends [Keys<X>]
+                                                        ? TTrue
+                                                        : TFalse
+                                                : TFalse
+                                        : TTrue
                                 : TFalse
-                            : TFalse
-                        : TTrue
-                    : TFalse
-                : TFalse,
+                        : TFalse,
 TTrue | TFalse
 >;

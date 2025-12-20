@@ -15,9 +15,9 @@ export type WithMinLength<
     ? Delta<TTup["length"], TLen> extends infer Difference extends number
         ? FixedLengthArray<TFill, Difference> extends readonly unknown[]
             ? [
-                ...TTup,
-                ...FixedLengthArray<TFill, Difference>
-            ]
+                    ...TTup,
+                    ...FixedLengthArray<TFill, Difference>
+                ]
             : never
         : never
     : TTup;

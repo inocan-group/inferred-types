@@ -6,10 +6,10 @@ type AllElementsAreLiteral<
     B extends boolean = false
 > = T extends [infer Head, ...infer Rest]
     ? [IsLiteralLike<Head>] extends [true]
-        ? AllElementsAreLiteral<Rest, B>
-        : [IsLiteralLike<Head>] extends [false]
-            ? false
-            : AllElementsAreLiteral<Rest, true>
+            ? AllElementsAreLiteral<Rest, B>
+            : [IsLiteralLike<Head>] extends [false]
+                    ? false
+                    : AllElementsAreLiteral<Rest, true>
     : IsTrue<B> extends true
         ? boolean
         : true;

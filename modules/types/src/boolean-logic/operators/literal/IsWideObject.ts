@@ -27,39 +27,39 @@ export type IsWideObject<
 > = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : [T] extends [AnyFunction]
             ? false
-            : [T] extends [Dictionary]
-                ? [number] extends [Keys<T>["length"]]
-                    ? true
-                    : number extends TupleMeta<Keys<T>>["nonVariadicLength"]
-                        ? true
-                        : HasNonTemplateLiteral<Keys<T>> extends true
-                            ? false
-                            : Keys<T>["length"] extends 0
-                                ? false
-                                : true
-                : [T] extends [object]
-                    ? [IsEqual<T, object>] extends [true]
-                        ? true
-                        : [T] extends [Map<infer Key, any>]
-                            ? IsLiteralLike<Key> extends true
-                                ? false
-                                : true
-                            : [T] extends [WeakMap<infer Key, any>]
-                                ? IsLiteralLike<Key> extends true
-                                    ? false
-                                    : true
-                                : [T] extends [Set<infer Type>]
-                                    ? IsLiteralLike<Type, "allow-mixed-unions"> extends true
-                                        ? false
-                                        : true
-                                    : [IsLiteralLikeObject<T>] extends [true]
-                                        ? false
-                                        : [IsUnion<keyof T>] extends [true]
+            : [T] extends [AnyFunction]
+                    ? false
+                    : [T] extends [Dictionary]
+                            ? [number] extends [Keys<T>["length"]]
+                                    ? true
+                                    : number extends TupleMeta<Keys<T>>["nonVariadicLength"]
+                                        ? true
+                                        : HasNonTemplateLiteral<Keys<T>> extends true
                                             ? false
-                                            : [keyof T] extends [never]
+                                            : Keys<T>["length"] extends 0
                                                 ? false
                                                 : true
-                    : false;
+                            : [T] extends [object]
+                                    ? [IsEqual<T, object>] extends [true]
+                                            ? true
+                                            : [T] extends [Map<infer Key, any>]
+                                                    ? IsLiteralLike<Key> extends true
+                                                        ? false
+                                                        : true
+                                                    : [T] extends [WeakMap<infer Key, any>]
+                                                            ? IsLiteralLike<Key> extends true
+                                                                ? false
+                                                                : true
+                                                            : [T] extends [Set<infer Type>]
+                                                                    ? IsLiteralLike<Type, "allow-mixed-unions"> extends true
+                                                                        ? false
+                                                                        : true
+                                                                    : [IsLiteralLikeObject<T>] extends [true]
+                                                                            ? false
+                                                                            : [IsUnion<keyof T>] extends [true]
+                                                                                    ? false
+                                                                                    : [keyof T] extends [never]
+                                                                                            ? false
+                                                                                            : true
+                                    : false;

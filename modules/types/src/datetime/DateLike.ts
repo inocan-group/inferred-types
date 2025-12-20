@@ -22,8 +22,8 @@ import type {
  */
 export type DateLike
     = | number
-    | IsoYear<"weak">
-    | IsoYearMonth<"weak">
-    | IsoDate
-    | IsoDateTime
-    | object;
+        | IsoYear<"weak">
+        | IsoYearMonth<"weak">
+        | IsoDate
+        | IsoDateTime
+        | object;

@@ -3,8 +3,8 @@ import type { IsFalse, IsNever, Or, Tuple } from "inferred-types/types";
 type ShouldFail<TTest> = [IsNever<TTest>] extends [true]
     ? true
     : [IsFalse<TTest>] extends [true]
-        ? true
-        : false;
+            ? true
+            : false;
 
 type Iterate<
     TTest extends readonly unknown[],
@@ -28,8 +28,8 @@ export type Fail<
     TTest,
 > = [TTest] extends [Tuple]
     ? [Iterate<TTest>] extends [true]
-        ? never
-        : TVal
+            ? never
+            : TVal
     : [ShouldFail<TTest>] extends [true]
-        ? never
-        : TVal;
+            ? never
+            : TVal;

@@ -2,10 +2,10 @@ import type { CssGlobal, CssSizing } from "inferred-types/types";
 
 type Overflow
     = | "visible"
-    | "hidden"
-    | "clip"
-    | "scroll"
-    | "auto";
+        | "hidden"
+        | "clip"
+        | "scroll"
+        | "auto";
 
 /**
  * **CssOverflowX**
@@ -48,8 +48,8 @@ export type CssOverflowAnchor = "auto" | "none";
  */
 export type CssOverflowClipMargin
     = | CssSizing
-    | `content-box ${CssSizing}`
-    | CssGlobal;
+        | `content-box ${CssSizing}`
+        | CssGlobal;
 
 export interface CssOverflowProperties {
     /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow) */

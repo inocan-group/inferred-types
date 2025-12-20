@@ -6,5 +6,5 @@
 export type IsError<T> = [T] extends [null]
     ? false
     : [T] extends [Error]
-        ? true
-        : false;
+            ? true
+            : false;

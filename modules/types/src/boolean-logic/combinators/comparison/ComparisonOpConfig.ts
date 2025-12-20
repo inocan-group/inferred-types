@@ -5,8 +5,8 @@
  */
 export type ComparisonParamConvert__List
     = | "union"
-| "stringUnion"
-| "stringArray";
+        | "stringUnion"
+        | "stringArray";
 
 /**
  * Operations to perform on one (or all) parameters in a
@@ -15,8 +15,8 @@ export type ComparisonParamConvert__List
  */
 export type ComparisonParamConvert__Unit
     = | "token"
-| "stringLiteral"
-| "none";
+        | "stringLiteral"
+        | "none";
 
 /**
  * Ways to convert conversion parameters to a `Comparator`
@@ -24,12 +24,12 @@ export type ComparisonParamConvert__Unit
  */
 export type ComparisonParamConvert
     = | ComparisonParamConvert__List
-    | ComparisonParamConvert__Unit;
+        | ComparisonParamConvert__Unit;
 
 /**
  * The definition of a _comparator's_ configuration
  */
-export type ComparisonOpConfig = {
+export interface ComparisonOpConfig {
     params: readonly unknown[];
     /**
      * Explicitly state the _type_ the runtime function can take when moved
@@ -55,4 +55,4 @@ export type ComparisonOpConfig = {
      * desired but just make sure you consider this.
      */
     convert?: ComparisonParamConvert | readonly ComparisonParamConvert__Unit[];
-};
+}

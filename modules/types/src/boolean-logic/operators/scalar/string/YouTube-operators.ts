@@ -16,10 +16,10 @@ type VideoUrlKind = "single-video" | "video-in-playlist" | "both";
  */
 export type IsYouTubeUrl<T> = [T] extends [string]
     ? [IsStringLiteral<T>] extends [true]
-        ? [T] extends [YouTubeUrl]
-            ? true
-            : false
-        : boolean
+            ? [T] extends [YouTubeUrl]
+                    ? true
+                    : false
+            : boolean
     : false;
 
 type _VideoKind<
@@ -50,10 +50,10 @@ export type IsYouTubeVideoUrl<
     TKind extends VideoUrlKind = "both",
 > = [TTest] extends [string]
     ? [IsStringLiteral<TTest>] extends [true]
-        ? [TTest] extends [YouTubeVideoUrl]
-            ? _VideoKind<GetUrlQueryParams<TTest>, TKind>
-            : false
-        : boolean
+            ? [TTest] extends [YouTubeVideoUrl]
+                    ? _VideoKind<GetUrlQueryParams<TTest>, TKind>
+                    : false
+            : boolean
     : false;
 
 /**
@@ -64,8 +64,8 @@ export type IsYouTubeVideoUrl<
  */
 export type IsYouTubePlaylist<T> = [T] extends [string]
     ? [IsStringLiteral<T>] extends [true]
-        ? [T] extends [YouTubePlaylistUrl]
-            ? true
-            : false
-        : boolean
+            ? [T] extends [YouTubePlaylistUrl]
+                    ? true
+                    : false
+            : boolean
     : false;

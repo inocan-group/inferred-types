@@ -7,5 +7,5 @@
 export type IsArray<T> = [T] extends [any[]]
     ? true
     : [T] extends [readonly any[]]
-        ? true
-        : false;
+            ? true
+            : false;

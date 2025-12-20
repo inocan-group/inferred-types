@@ -8,22 +8,22 @@ import type { CssSizing } from "inferred-types/types";
  */
 export type CssObjectFit
     = | "contain"
-    | "cover"
-    | "fill"
-    | "none"
-    | "scale-down"
-    | "inherit"
-    | "initial"
-    | "revert"
-    | "revert-layer"
-    | "unset";
+        | "cover"
+        | "fill"
+        | "none"
+        | "scale-down"
+        | "inherit"
+        | "initial"
+        | "revert"
+        | "revert-layer"
+        | "unset";
 
 type Positional
     = | "top"
-    | "bottom"
-    | "left"
-    | "right"
-    | "center";
+        | "bottom"
+        | "left"
+        | "right"
+        | "center";
 
 type LengthValues = "0 0" | `${CssSizing} ${CssSizing}` | `${Positional} ${CssSizing} ${Positional} ${string}`;
 
@@ -39,14 +39,14 @@ type LengthValues = "0 0" | `${CssSizing} ${CssSizing}` | `${Positional} ${CssSi
  */
 export type CssObjectPosition
     = | "top"
-    | "bottom"
-    | "left"
-    | "right"
-    | "center"
-    | `${LengthValues}`
-    | "center"
-    | "inherit"
-    | "initial"
-    | "revert"
-    | "revert-layer"
-    | "unset";
+        | "bottom"
+        | "left"
+        | "right"
+        | "center"
+        | `${LengthValues}`
+        | "center"
+        | "inherit"
+        | "initial"
+        | "revert"
+        | "revert-layer"
+        | "unset";

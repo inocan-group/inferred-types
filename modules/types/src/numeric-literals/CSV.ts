@@ -22,11 +22,11 @@ type Process<
         ]
     >
     : [
-        ...Result,
-        Tighten<T> extends NumberLike
-            ? AsNumber<Tighten<T>>
-            : Tighten<T>,
-    ];
+            ...Result,
+            Tighten<T> extends NumberLike
+                ? AsNumber<Tighten<T>>
+                : Tighten<T>,
+        ];
 
 type ProcessJsonTuple<
     T extends string,
@@ -50,19 +50,19 @@ type ProcessJsonTuple<
         ]
     >
     : [
-        ...Result,
-        Tighten<T> extends NumberLike
-            ? AsNumber<Tighten<T>>
-            : If<
-                IsEqual<Tighten<T>, "true">,
-                true,
-                If<
-                    IsEqual<Tighten<T>, "false">,
-                    false,
-                    Tighten<`"${T}"`>
-                >
-            >,
-    ];
+            ...Result,
+            Tighten<T> extends NumberLike
+                ? AsNumber<Tighten<T>>
+                : If<
+                    IsEqual<Tighten<T>, "true">,
+                    true,
+                    If<
+                        IsEqual<Tighten<T>, "false">,
+                        false,
+                        Tighten<`"${T}"`>
+                    >
+                >,
+        ];
 
 type ProcessStr<
     T extends string,
@@ -76,9 +76,9 @@ type ProcessStr<
         ]
     >
     : [
-        ...Result,
-        Tighten<T>,
-    ];
+            ...Result,
+            Tighten<T>,
+        ];
 
 type ProcessUnion<
     T extends string,

@@ -12,5 +12,5 @@ export type Xor<A extends boolean, B extends boolean>
             : A extends true
                 ? (B extends false ? true : false)
                 : (A extends false
-                    ? (B extends true ? true : false)
-                    : false);
+                        ? (B extends true ? true : false)
+                        : false);

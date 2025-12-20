@@ -38,8 +38,8 @@ export type TypeToken__Number = `::${number}`;
 
 export type TypeToken__NumberSet
     = | "bigInt" | `bigInt::${bigint}`
-    | "digit" | `digit::${2 | 3 | 4}`
-    | "integer";
+        | "digit" | `digit::${2 | 3 | 4}`
+        | "integer";
 
 type params = string;
 type rtn = string;
@@ -51,7 +51,7 @@ export type TypeToken__Gen = `[${params}]` | `[${params}]${D}${rtn}` | `gen${D}a
 
 export type TypeToken__FnSet
     = | `withoutParams` | `withoutParams${D}${rtn}`
-    | `booleanLogic` | `booleanLogic${D}[${params}]`;
+        | `booleanLogic` | `booleanLogic${D}[${params}]`;
 
 export type RecVariant = typeof TYPE_TOKEN_REC_VARIANTS[number];
 export type RecKeyVariant = typeof TYPE_TOKEN_REC_KEY_VARIANTS[number];

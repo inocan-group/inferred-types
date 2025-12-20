@@ -15,13 +15,13 @@
  * take functions are able to parse any further then we reach an error state for the
  * parser.
  */
-export type LexerState<
+export interface LexerState<
     T extends string = string,
     U extends readonly unknown[] = []
-> = {
+> {
     parse: T;
     tokens: U;
-};
+}
 
 /**
  * When a take function matches the HEAD of the the parse string,

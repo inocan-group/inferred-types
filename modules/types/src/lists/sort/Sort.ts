@@ -17,7 +17,7 @@ type Dotpath = string;
  *
  * Specifies how you'd like a list sorted.
  */
-export type SortOptions = {
+export interface SortOptions {
     /**
      * the sorting strategy for the list
      *
@@ -49,7 +49,7 @@ export type SortOptions = {
      * @default undefined
      */
     end?: unknown;
-};
+}
 
 /**
  * **Sort**`<TList, TOptions>`

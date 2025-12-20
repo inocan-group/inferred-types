@@ -26,8 +26,8 @@ type Recurse<
     TOpt extends ToKvOptions
 > = TVal extends Dictionary
     ? [IsFalse<Fallback<TOpt["recurse"], false>>] extends [true]
-        ? TVal
-        : ToKv<TVal>
+            ? TVal
+            : ToKv<TVal>
     : TVal;
 
 type Convert<
@@ -63,13 +63,13 @@ type Convert<
         : never
     : TKv;
 
-type Options<T extends ToKvOptions> = {
+interface Options<T extends ToKvOptions> {
     order: T["order"] extends SortOrder ? T["order"] : "natural";
     start: T["start"] extends readonly unknown[] ? T["start"] : [];
     end: T["end"] extends readonly unknown[] ? T["end"] : [];
     offset: T["offset"] extends PropertyKey ? T["offset"] : "key";
     recurse: T["recurse"] extends number | boolean ? T["recurse"] : false;
-};
+}
 
 /**
  * **ToKv**`<TObj, [TOpt]>`

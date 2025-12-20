@@ -11,8 +11,8 @@ type Finalize<
     TWithType extends boolean | null
 > = TWithType extends true
     ? {
-        [K in keyof TResults]: StringLiteralTemplate<TResults[K]>
-    }
+            [K in keyof TResults]: StringLiteralTemplate<TResults[K]>
+        }
     : TResults;
 
 /**

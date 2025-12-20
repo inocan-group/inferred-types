@@ -12,11 +12,11 @@ export type ReturnsFalse<T>
     = [IsAny<T>] extends [true]
         ? false
         : [IsNever<T>] extends [true]
-            ? false
-            : [IsUnknown<T>] extends [true]
-                ? boolean
-                : T extends TypedFunction
-                    ? ReturnType<T> extends false
-                        ? true
-                        : IsEqual<ReturnType<T>, boolean> extends true ? boolean : false
-                    : false;
+                ? false
+                : [IsUnknown<T>] extends [true]
+                        ? boolean
+                        : T extends TypedFunction
+                            ? ReturnType<T> extends false
+                                ? true
+                                : IsEqual<ReturnType<T>, boolean> extends true ? boolean : false
+                            : false;

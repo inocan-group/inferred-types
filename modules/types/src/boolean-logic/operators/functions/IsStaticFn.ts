@@ -30,8 +30,8 @@ type IsStaticCheck<T>
         : HasExtraProperties<T> extends false
             ? false // No extra properties and not equal to RegularFn: must be generic
             : [IsEqual<RegularFn<T> & ExtractProps<T>, T>] extends [true]
-                ? true // RegularFn + props = T, so it's a static function with properties
-                : false; // Generic function with properties
+                    ? true // RegularFn + props = T, so it's a static function with properties
+                    : false; // Generic function with properties
 
 /**
  * **IsStaticFn**`<TFn>`
@@ -46,18 +46,18 @@ type IsStaticCheck<T>
 export type IsStaticFn<T> = [IsAny<T>] extends [true]
     ? boolean
     : [IsNever<T>] extends [true]
-        ? false
-        : [IsUnknown<T>] extends [true]
-            ? boolean
+            ? false
+            : [IsUnknown<T>] extends [true]
+                    ? boolean
 
-            : T extends AnyFunction
-                ? T extends TypedFunction
-                    ? IsStaticCheck<T> extends true
-                        ? FnMeta<T>["params"]["length"] extends 0
-                            ? false
-                            : true
-                        : false
-                    : IsStaticCheck<T> extends true
-                        ? true
-                        : false
-                : false;
+                    : T extends AnyFunction
+                        ? T extends TypedFunction
+                            ? IsStaticCheck<T> extends true
+                                ? FnMeta<T>["params"]["length"] extends 0
+                                    ? false
+                                    : true
+                                : false
+                            : IsStaticCheck<T> extends true
+                                ? true
+                                : false
+                        : false;

@@ -76,12 +76,12 @@ import type { InputTokenSuggestions, ObjectKey } from "inferred-types/types";
  */
 export type InputToken
     = | InputTokenSuggestions
-    | Record<
-        ObjectKey,
+        | Record<
+            ObjectKey,
         InputTokenSuggestions | Record<ObjectKey, InputTokenSuggestions>
-    >
-    | readonly (
+        >
+        | readonly (
         InputTokenSuggestions
         | Record<InputTokenSuggestions, InputTokenSuggestions>
         | readonly InputTokenSuggestions[]
-    )[];
+        )[];

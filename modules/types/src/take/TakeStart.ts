@@ -47,7 +47,7 @@ export type TakeStartMatchesKind = "callback" | "mapper" | "default";
 export type TakeStartMatches<
     T extends TakeStartMatchesKind = TakeStartMatchesKind
 > = IsUnion<T> extends true
-    ? TakeStartMatches__Callback
+? TakeStartMatches__Callback
 | TakeStartMatches__Mapper
 | TakeStartMatches__Default
     : T extends "callback" ? TakeStartMatches__Callback
@@ -161,17 +161,17 @@ export type TakeStart<
                     ? GetToken<Match, TMatch> extends Error
                         ? GetToken<Match, TMatch> // exit with error
                         : {
-                            kind: "TakeState";
-                            parsed: [
-                                ...State["parsed"],
-                                Match
-                            ];
-                            parseString: StripLeading<State["parseString"], Match>;
-                            tokens: [
-                                ...State["tokens"],
-                                GetToken<Match, TMatch>
-                            ];
-                        }
+                                kind: "TakeState";
+                                parsed: [
+                                    ...State["parsed"],
+                                    Match
+                                ];
+                                parseString: StripLeading<State["parseString"], Match>;
+                                tokens: [
+                                    ...State["tokens"],
+                                    GetToken<Match, TMatch>
+                                ];
+                            }
                 // no matches
                     : State // no change in state
                 : never

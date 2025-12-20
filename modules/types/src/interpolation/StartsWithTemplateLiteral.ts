@@ -16,14 +16,14 @@ type UnionStartsBoolean<T extends readonly string[]> = And<{
 export type StartsWithTemplateLiteral<T> = T extends string
 
     ? [IsUnion<T>] extends [true]
-        ? [UnionToTuple<T>] extends [readonly string[]]
-            ? UnionStartsBoolean<UnionToTuple<T>>
-            : never
-        : T extends `${infer First}${infer _Rest}`
-            ? IsEqual<`${string}`, First> extends true
-                ? true
-                : IsEqual<`${number}`, First> extends true
+            ? [UnionToTuple<T>] extends [readonly string[]]
+                    ? UnionStartsBoolean<UnionToTuple<T>>
+                    : never
+            : T extends `${infer First}${infer _Rest}`
+                ? IsEqual<`${string}`, First> extends true
                     ? true
-                    : false
-            : false
+                    : IsEqual<`${number}`, First> extends true
+                        ? true
+                        : false
+                : false
     : false;

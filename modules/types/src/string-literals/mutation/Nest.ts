@@ -29,15 +29,15 @@ export type TakeNestedString<
     // #region Exiting
         ? Head extends ExitChar
             ? {
-                node: As<{
-                    content: TContent;
-                    level: TLevel;
-                    enterChar: TEnter;
-                    exitChar: ExitChar;
-                    children: TChildren;
-                }, NestedString>;
-                rest: Rest;
-            }
+                    node: As<{
+                        content: TContent;
+                        level: TLevel;
+                        enterChar: TEnter;
+                        exitChar: ExitChar;
+                        children: TChildren;
+                    }, NestedString>;
+                    rest: Rest;
+                }
         // #endregion
         // #region Entering
             : IsEntryToken<Head, TNesting> extends true // Recurse to get new level
@@ -72,12 +72,12 @@ export type TakeNestedString<
         // #endregion
         : TLevel extends 0
             ? {
-                content: TContent;
-                level: TLevel;
-                enterChar: TEnter;
-                exitChar: ExitChar;
-                children: TChildren;
-            }
+                    content: TContent;
+                    level: TLevel;
+                    enterChar: TEnter;
+                    exitChar: ExitChar;
+                    children: TChildren;
+                }
             : Err<
                 "unbalanced/throw", // caught by parent
                 ``,

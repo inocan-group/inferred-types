@@ -13,11 +13,11 @@ import type { DropVariadic, IsAny, IsEqual, IsNever } from "inferred-types/types
 export type IsWideArray<T> = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-        ? false
-        : T extends readonly unknown[]
-            ? IsEqual<T["length"], number> extends true
-                ? number extends DropVariadic<T>["length"]
-                    ? true
+            ? false
+            : T extends readonly unknown[]
+                ? IsEqual<T["length"], number> extends true
+                    ? number extends DropVariadic<T>["length"]
+                        ? true
+                        : false
                     : false
-                : false
-            : false;
+                : false;

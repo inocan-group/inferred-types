@@ -172,7 +172,7 @@ export type MonthDateYear = MonthDateYearLike & {
 
 export type MonthAbbrevDateYearLike
     = | `${MonthAbbrev} ${MonthDateDigit<"weak">}`
-    | `${MonthAbbrev} ${MinimalDigitDate__Suffixed<"normal">}`;
+        | `${MonthAbbrev} ${MinimalDigitDate__Suffixed<"normal">}`;
 
 export type MonthAbbrevDateYear = MonthAbbrevDateYearLike & {
     kind: "MonthDateAbbrevYear";

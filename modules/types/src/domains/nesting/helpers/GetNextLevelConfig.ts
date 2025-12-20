@@ -41,9 +41,9 @@ export type GetNextLevelConfig<
         // Character not in config - return same config
             : TNesting
         : [TNesting] extends [[infer _Start extends readonly string[], infer _End extends readonly string[] | undefined, infer NextLevel]]
-        // Hierarchical tuple (3 elements) - extract third element
-            ? NextLevel
-        // Simple tuple (2 elements) - return same config
-            : TNesting,
+            // Hierarchical tuple (3 elements) - extract third element
+                ? NextLevel
+            // Simple tuple (2 elements) - return same config
+                : TNesting,
     Nesting
 >;
