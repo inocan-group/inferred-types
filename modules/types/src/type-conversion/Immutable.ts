@@ -1,4 +1,4 @@
-import type { Expand } from "inferred-types/types";
+import type { AnyFunction, Expand } from "inferred-types/types";
 
 type NeverOnSet<T> = T extends `set${infer Name}`
     ? Name extends Capitalize<Name>
@@ -20,7 +20,7 @@ export type Immutable<
     T extends object,
     TDeep extends boolean = true
 > = Expand<{
-    readonly [K in keyof T as T[K] extends Function ? NeverOnSet<K> : K]: T[K] extends object
+    readonly [K in keyof T as T[K] extends AnyFunction ? NeverOnSet<K> : K]: T[K] extends object
         ? TDeep extends false ? T[K] : Immutable<T[K], TDeep>
         : T[K]
 }>;

@@ -1,15 +1,15 @@
-import type { IsAny, IsDictionary, IsNever, IsUnion, IsUnknown, UnionMemberExtends } from "inferred-types/types";
+import type { AnyFunction, IsAny, IsDictionary, IsNever, IsUnion, IsUnknown } from "inferred-types/types";
 
 interface Shape {
-    add: Function;
-    clone: Function;
-    date: Function;
-    endOf: Function;
-    isAfter: Function;
-    isBefore: Function;
-    daysInMOnth: Function;
-    millisecond: Function;
-    calendar: any;
+    add: AnyFunction;
+    clone: AnyFunction;
+    date: AnyFunction;
+    endOf: AnyFunction;
+    isAfter: AnyFunction;
+    isBefore: AnyFunction;
+    daysInMonth: AnyFunction;
+    millisecond: AnyFunction;
+    calendar: unknown;
 }
 
 /**
@@ -24,9 +24,9 @@ export type IsDayJs<T>
                 ? false
                 : [IsUnknown<T>] extends [true]
                         ? boolean
-                        : [IsUnion<T>] extends true
-                                ? UnionMemberExtends<T, Shape> extends true
-                                    ? boolean
+                        : [IsUnion<T>] extends [true]
+                                ? true extends (T extends Shape ? true : false)
+                                    ? T extends Shape ? true : boolean
                                     : false
                                 : IsDictionary<T> extends true
                                     ? T extends Shape

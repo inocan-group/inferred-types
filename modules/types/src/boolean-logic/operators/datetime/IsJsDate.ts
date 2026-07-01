@@ -1,13 +1,13 @@
-import type { Extends, IsAny, IsDictionary, IsNever, IsUnion, IsUnknown, UnionMemberExtends } from "inferred-types/types";
+import type { AnyFunction, Extends, IsAny, IsDictionary, IsNever, IsUnion, IsUnknown, UnionMemberExtends } from "inferred-types/types";
 
 interface Shape {
-    getDate: Function;
-    getMonth: Function;
-    getMilliseconds: Function;
-    getTimezoneOffset: Function;
-    getUTCDate: Function;
-    getUTCDay: Function;
-    getUTCFullYear: Function;
+    getDate: AnyFunction;
+    getMonth: AnyFunction;
+    getMilliseconds: AnyFunction;
+    getTimezoneOffset: AnyFunction;
+    getUTCDate: AnyFunction;
+    getUTCDay: AnyFunction;
+    getUTCFullYear: AnyFunction;
 }
 
 /**

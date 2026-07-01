@@ -61,7 +61,7 @@ type Process<T> = T extends Scalar
                 ReturnType<T>,
                 ExpandDictionary<FnKeyValue<T>>
             >
-            : Function
+            : AnyFunction
         : T extends readonly unknown[]
             ? WidenTuple<T>
             : T extends Dictionary

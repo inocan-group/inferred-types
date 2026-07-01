@@ -47,9 +47,9 @@ export type TakeStartMatchesKind = "callback" | "mapper" | "default";
 export type TakeStartMatches<
     T extends TakeStartMatchesKind = TakeStartMatchesKind
 > = IsUnion<T> extends true
-? TakeStartMatches__Callback
-| TakeStartMatches__Mapper
-| TakeStartMatches__Default
+    ? TakeStartMatches__Callback
+        | TakeStartMatches__Mapper
+        | TakeStartMatches__Default
     : T extends "callback" ? TakeStartMatches__Callback
         : T extends "mapper" ? TakeStartMatches__Mapper
             : T extends "default" ? TakeStartMatches__Default

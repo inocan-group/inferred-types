@@ -16,7 +16,7 @@ export type IsWideContainer<T> = IsEqual<T, object> extends true
                 : T extends TypedFunction
                     ? TypedFunction extends T
                         ? true
-                        : Function extends T
+                        : AnyFunction extends T
                             ? true
                             : false
                     : false

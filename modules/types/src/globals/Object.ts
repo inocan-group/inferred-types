@@ -6,7 +6,7 @@ import type {
 
 declare global {
     interface ObjectConstructor {
-        freeze<T extends NarrowObject<N> | readonly N[], N extends Narrowable>(obj: T): Immutable<T, false>;
+        freeze: <T extends NarrowObject<N> | readonly N[], N extends Narrowable>(obj: T) => Immutable<T, false>;
     }
 }
 

@@ -1,4 +1,5 @@
 import type {
+    AnyFunction,
     IsAny,
     IsDictionary,
     IsNever,
@@ -9,8 +10,8 @@ import type {
 
 interface Shape {
     isValid: boolean;
-    toISO: Function;
-    toFormat: Function;
+    toISO: AnyFunction;
+    toFormat: AnyFunction;
     year: number;
     zoneName: string;
 }

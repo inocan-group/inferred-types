@@ -23,6 +23,8 @@ export type OnlyFn<T extends AnyFunction> = HasExtraProperties<T> extends true
     ? T extends TypedFunction
         ? (...args: FnMeta<T>["params"]) => FnMeta<T>["returns"]
         : T extends (...args: infer P) => infer R
-            ? (...args: P) => R
-            : Function
+            ? CallableFunction extends T
+                ? T
+                : (...args: P) => R
+            : AnyFunction
     : T; // No extra properties: return the function as-is (preserves generics)

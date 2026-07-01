@@ -1,4 +1,5 @@
 import type {
+    AnyFunction,
     IsAny,
     IsNever,
     IsUnion,
@@ -7,15 +8,15 @@ import type {
 } from "inferred-types/types";
 
 interface Shape {
-    isValid: Function;
-    toDate: Function;
-    format: Function;
-    isDST: Function;
-    add: Function;
-    subtract: Function;
-    calendar: Function;
-    fromNow: Function;
-    creationData: Function;
+    isValid: AnyFunction;
+    toDate: AnyFunction;
+    format: AnyFunction;
+    isDST: AnyFunction;
+    add: AnyFunction;
+    subtract: AnyFunction;
+    calendar: AnyFunction;
+    fromNow: AnyFunction;
+    creationData: AnyFunction;
     // _isAMomentObject: any;
 }
 
