@@ -1,0 +1,1 @@
+![](./inferred-types.png)
