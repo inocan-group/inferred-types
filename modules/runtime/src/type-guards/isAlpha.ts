@@ -9,5 +9,5 @@ import { asChars, isString } from "inferred-types/runtime";
  * alphabetic characters.
  */
 export function isAlpha<T extends Narrowable>(value: T): value is T & AlphaChar {
-    return isString(value) && asChars(value).every(v => ALPHA_CHARS.includes(v as AlphaChar));
+    return isString(value) && value.length > 0 && asChars(value).every(v => ALPHA_CHARS.includes(v as AlphaChar));
 }

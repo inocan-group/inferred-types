@@ -12,7 +12,7 @@ import { asChars } from "inferred-types/runtime";
 export function isNumericString<T>(value: T): value is T & `${number}` {
     const numericChars = [...NUMERIC_CHAR];
 
-    return typeof value === "string" && (
+    return typeof value === "string" && value.length > 0 && (
         asChars(value).every(i => numericChars.includes(i as any))
     );
 }
@@ -30,7 +30,7 @@ export function isNumericString<T>(value: T): value is T & `${number}` {
 export function isNumberLike<T>(value: T): value is T & NumberLike {
     const numericChars = [...NUMERIC_CHAR];
 
-    return typeof value === "string" && (
+    return typeof value === "string" && value.length > 0 && (
         asChars(value).every(i => numericChars.includes(i as any))
     )
         ? true

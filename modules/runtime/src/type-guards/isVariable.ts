@@ -9,12 +9,10 @@ const VALID = [
     ".",
 ];
 
-const alpha = null as unknown as typeof ALPHA_CHARS[number];
-
 function valid(chars: string[]): boolean {
     return chars.every(i => VALID.includes(i));
 }
 
 export function isVariable(val: unknown): val is Variable {
-    return isString(val) && startsWithTypeguard(alpha)(val) && valid(asChars(val));
+    return isString(val) && startsWithTypeguard(...ALPHA_CHARS)(val) && valid(asChars(val));
 }

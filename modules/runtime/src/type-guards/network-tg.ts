@@ -167,7 +167,8 @@ export function isUrlPath<T>(val: T): val is T & UrlPath {
                     || c === "_"
                     || c === "@"
                     || c === "."
-                    || c === "-",
+                    || c === "-"
+                    || c === "/",
             )
         );
 }

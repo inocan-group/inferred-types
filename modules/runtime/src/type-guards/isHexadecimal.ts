@@ -8,5 +8,6 @@ import { asChars, isNumericString, isString } from "inferred-types/runtime";
  */
 export function isHexadecimal<T>(val: T): val is T {
     return isString(val)
+        && val.length > 0
         && asChars(val).every(i => isNumericString(i) || ["a", "b", "c", "d", "e", "f"].includes(i.toLowerCase()));
 }

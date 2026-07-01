@@ -1,5 +1,5 @@
 import type { Err } from "inferred-types/types";
-import { retainUntil, stripUntil } from "runtime/string-literals";
+import { retainAfter, retainUntil } from "runtime/string-literals";
 import { isError } from "runtime/type-guards";
 
 /**
@@ -16,7 +16,7 @@ export function isErr<TType extends string>(val: unknown, type?: TType): val is 
     return type
         ? isError(val) && "type" in val && retainUntil(type, "/") === val.type && (
             type.includes("/")
-                ? "subType" in val && val.subType === stripUntil(type, "/")
+                ? "subType" in val && val.subType === retainAfter(type, "/")
                 : true
         )
         : isError(val);
