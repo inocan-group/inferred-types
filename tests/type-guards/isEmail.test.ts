@@ -26,10 +26,19 @@ describe("isEmail(val)", () => {
             type Bob = typeof bob;
 
             type cases = [
-                Expect<Test<Bob, "equals",  Email>>
+                Expect<Test<Bob, "equals",  Email<string>>>
             ];
         }
 
+    });
+
+    it("empty and non-string values return false without throwing", () => {
+        expect(isEmail("")).toBe(false);
+        expect(isEmail("   ")).toBe(false);
+        expect(isEmail("no-at-sign")).toBe(false);
+        expect(isEmail(undefined)).toBe(false);
+        expect(isEmail(null)).toBe(false);
+        expect(isEmail(42)).toBe(false);
     });
 
 });
