@@ -1,7 +1,7 @@
 {
     "name": "@inferred-types/types",
     "private": true,
-    "type":"module",
+    "type": "module",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
     "exports": {
@@ -37,6 +37,7 @@
         "@types/luxon": "catalog:",
         "@typescript-eslint/eslint-plugin": "catalog:",
         "@typescript-eslint/parser": "catalog:",
+        "@typescript/native-preview": "catalog:",
         "eslint": "catalog:",
         "eslint-plugin-format": "catalog:",
         "eslint-plugin-promise": "catalog:",

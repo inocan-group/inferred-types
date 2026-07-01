@@ -64,3 +64,4 @@ traces/
 .ai
 .claude-trace
 .ts-*
+.claudine/tmp/
