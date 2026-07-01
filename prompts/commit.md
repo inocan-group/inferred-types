@@ -7,7 +7,13 @@ operation: commit
 agent: opencode
 model: minimax/MiniMax-M3
 success:
-    message: "git commits in the inferred-types repo have completed"
+    message: "git commits in the **inferred-types** repo have completed"
+    say: "git commits in the inferred-types repo have completed"
+
+    stack:
+        - when: "true"
+          action:
+            - shell: "sniff repo git-status"
 ---
 
 # Commit Staged Files
