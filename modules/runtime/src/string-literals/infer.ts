@@ -19,21 +19,21 @@ type InferenceVars<
 // Peel off a block
     = T extends `${infer _HEAD}${START}${infer Content}${END}${infer REST}`
         ? (
-            Content extends `${OptSpace}infer ${infer Var} extends ${infer Type extends Ext}${OptSpace}`
-            // 2a) `{{ infer Foo extends string|number|boolean }}`
-                ? Type extends "string"
-                    ? InferenceVars<REST, [[...Vars[0], Var], Vars[1], Vars[2]]>
-                    : Type extends "number"
-                        ? InferenceVars<REST, [Vars[0], [...Vars[1], Var], Vars[2]]>
-                        : InferenceVars<REST, [Vars[0], Vars[1], [...Vars[2], Var]]>
+                Content extends `${OptSpace}infer ${infer Var} extends ${infer Type extends Ext}${OptSpace}`
+                // 2a) `{{ infer Foo extends string|number|boolean }}`
+                    ? Type extends "string"
+                        ? InferenceVars<REST, [[...Vars[0], Var], Vars[1], Vars[2]]>
+                        : Type extends "number"
+                            ? InferenceVars<REST, [Vars[0], [...Vars[1], Var], Vars[2]]>
+                            : InferenceVars<REST, [Vars[0], Vars[1], [...Vars[2], Var]]>
 
-            // 2b) `{{ infer Foo }}` with no “extends”
-                : Content extends `${OptSpace}infer ${infer Var2}${OptSpace}`
-                    ? InferenceVars<REST, [[...Vars[0], Var2], Vars[1], Vars[2]]>
+                // 2b) `{{ infer Foo }}` with no “extends”
+                    : Content extends `${OptSpace}infer ${infer Var2}${OptSpace}`
+                        ? InferenceVars<REST, [[...Vars[0], Var2], Vars[1], Vars[2]]>
 
-                // 2c) If it’s some other weird content inside `{{ ... }}`, just keep going
-                    : InferenceVars<REST, Vars>
-        )
+                    // 2c) If it’s some other weird content inside `{{ ... }}`, just keep going
+                        : InferenceVars<REST, Vars>
+            )
     // Done
         : Vars;
 
@@ -164,13 +164,12 @@ function parseTemplate(template: string) {
         = /\{\{\s*infer\s+([A-Za-z_]\w*)\s*(?:(?:extends|as)\s+(string|number|boolean)\s*)?\}\}/g;
 
     let lastIndex = 0;
-    let match: RegExpExecArray | null;
     const segments: Array<
         { dynamic: false; text: string }
         | { dynamic: true; varName: string; type: "string" | "number" | "boolean" }
     > = [];
 
-    while ((match = pattern.exec(template))) {
+    for (const match of template.matchAll(pattern)) {
         const [fullMatch, varName, asType] = match;
         // everything from the previous index to this match is static text
         const staticPart = template.slice(lastIndex, match.index);
@@ -180,7 +179,7 @@ function parseTemplate(template: string) {
         segments.push({
             dynamic: true,
             varName,
-            type: asType ? (asType as "string" | "number" | "boolean") : "string",
+            type: (asType ?? "string") as "string" | "number" | "boolean",
         });
         lastIndex = match.index + fullMatch.length;
     }

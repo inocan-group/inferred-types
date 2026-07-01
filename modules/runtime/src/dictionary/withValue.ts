@@ -26,16 +26,16 @@ import {
 } from "inferred-types/runtime";
 
 const lookup = {
-    string: "string" as string,
+    "string": "string" as string,
     "string|undefined": "string|undefined" as unknown as string | undefined,
-    number: "number" as unknown as number,
+    "number": "number" as unknown as number,
     "number|undefined": "number|undefined" as unknown as number | undefined,
     "string|number": "string|number" as unknown as string | number,
-    boolean: "boolean" as unknown as boolean,
-    true: "true" as unknown as true,
-    false: "false" as unknown as false,
-    object: "object" as unknown as object,
-    Object: "object" as unknown as object,
+    "boolean": "boolean" as unknown as boolean,
+    "true": "true" as unknown as true,
+    "false": "false" as unknown as false,
+    "object": "object" as unknown as object,
+    "Object": "object" as unknown as object,
     "Record<ObjectKey,unknown>": "Record<ObjectKey,unknown>" as unknown as Dictionary,
     "Record<ObjectKey,string>": "Record<ObjectKey,string>" as unknown as Record<string, string>,
     "Record<ObjectKey,string|number>": "Record<ObjectKey,string|number>" as unknown as Record<string, string | number>,
@@ -129,8 +129,8 @@ function testExtends<T extends Narrowable, U extends AllowableType>(value: T, ba
 /** types allowed as input to withValue() */
 type AllowableType
     = | number | boolean | Suggest<TypeSuggestion>
-    | readonly (number | boolean | Suggest<TypeSuggestion>)[]
-    | Record<string, string | number | boolean>;
+        | readonly (number | boolean | Suggest<TypeSuggestion>)[]
+        | Record<string, string | number | boolean>;
 
 type ConvertObjType<
     TObj extends Record<string, unknown>,
@@ -153,21 +153,21 @@ type ConvertObjType<
 type ConvertType<T extends AllowableType>
     = [T] extends [string]
         ? [T] extends [keyof Lookup]
-            ? Lookup[T]
-            : T
+                ? Lookup[T]
+                : T
         : [T] extends [number]
-            ? T
-            : [T] extends [boolean]
                 ? T
-                : [T] extends [readonly (number | boolean | Suggest<TypeSuggestion>)[]]
-                    ? {
-                        [K in keyof T]: T[K] extends AllowableType
-                            ? ConvertType<T[K]>
-                            : never
-                    }
-                    : [T] extends [Record<string, string | number | boolean>]
-                        ? ConvertObjType<T>
-                        : never;
+                : [T] extends [boolean]
+                        ? T
+                        : [T] extends [readonly (number | boolean | Suggest<TypeSuggestion>)[]]
+                                ? {
+                                        [K in keyof T]: T[K] extends AllowableType
+                                            ? ConvertType<T[K]>
+                                            : never
+                                    }
+                                : [T] extends [Record<string, string | number | boolean>]
+                                        ? ConvertObjType<T>
+                                        : never;
 
 /**
  * **withValue**`(withValue) -> (obj) -> (filtered obj)

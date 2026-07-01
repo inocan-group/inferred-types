@@ -7,7 +7,7 @@ import {
     unset
 } from "inferred-types/runtime";
 
-type WhileOptions = {
+interface WhileOptions {
     /**
      * A character or tuple of characters which _must follow_
      * immediately after the END token is reached.
@@ -39,7 +39,7 @@ type WhileOptions = {
     ignore?: string | readonly string[];
 
     callback?: <R extends { head: string; rest: string }>(result: R) => [Unset, string] | [Defined, string];
-};
+}
 
 function takeWhile(
     chars: string[],

@@ -87,8 +87,8 @@ export function doesExtend<
                 if (isArray(val)) {
                     return val.length === type.length
                         ? type.every(
-                            (t, i) => isInputToken(t) && isNarrowable(val[i]) && doesExtend(t)(val[i])
-                        )
+                                (t, i) => isInputToken(t) && isNarrowable(val[i]) && doesExtend(t)(val[i])
+                            )
                         : false;
                 }
                 else {

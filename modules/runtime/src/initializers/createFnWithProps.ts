@@ -24,12 +24,12 @@ type MergeFnWithProps<
     TReturn,
 > = FnKeyValue<TOrig> extends infer P extends Dictionary
     ? [keyof P] extends [never]
-        ? ((...args: TParams) => TReturn) & ExpandRecursively<TProps>
-        : ((...args: TParams) => TReturn) & Readonly<
-            ExpandRecursively<
+            ? ((...args: TParams) => TReturn) & ExpandRecursively<TProps>
+            : ((...args: TParams) => TReturn) & Readonly<
+                ExpandRecursively<
                 WithoutKeys<P, Extract<keyof TProps, ObjectKey>> & TProps
+                >
             >
-        >
     : ((...args: TParams) => TReturn) & ExpandRecursively<TProps>;
 
 // Unified overload: function expression (with or without existing props)

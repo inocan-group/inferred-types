@@ -34,8 +34,8 @@ export function ifScalar<
 ) {
     const result = isScalar(value)
         ? ifCallback(
-            value as Exclude<T, undefined | Dictionary | unknown[]>,
-        )
+                value as Exclude<T, undefined | Dictionary | unknown[]>,
+            )
         : notCallback(value as Exclude<T, Scalar>);
     return result as typeof result & If<IsScalar<T>, TIf, TElse>;
 }

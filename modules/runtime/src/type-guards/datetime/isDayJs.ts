@@ -15,7 +15,6 @@ export function isDayJs(val: unknown): val is DayJsLike {
     ) {
         try {
             return val.toDate() instanceof Date;
-            return true;
         }
         catch {
             return false;

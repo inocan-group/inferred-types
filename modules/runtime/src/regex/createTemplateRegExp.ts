@@ -92,9 +92,9 @@ export function createTemplateRegExp<
     const escaped = escapeRegExp(safe);
 
     const finalPattern = replaceAllFromTo(escaped, {
-        "__STRING__": "(.+?)",
-        "__NUMBER__": "(\\d+)",
-        "__BOOLEAN__": "(true|false)",
+        __STRING__: "(.+?)",
+        __NUMBER__: "(\\d+)",
+        __BOOLEAN__: "(true|false)",
     });
 
     type Pattern = RegexPattern<TContent, THandling>;

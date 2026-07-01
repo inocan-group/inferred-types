@@ -4,13 +4,13 @@ import { isArray, isDictionary, isError, isString } from "runtime/type-guards";
 
 type TrimType = "trim" | "trimStart" | "trimEnd" | "none";
 
-type LexerOptions = {
+interface LexerOptions {
     /**
      * what -- _if any_ -- `trim` operation should be performed on
      * the token string prior to passing to each take function.
      */
     trim: TrimType;
-};
+}
 
 export function isLexerState(val: unknown): val is LexerState {
     return isDictionary(val)
@@ -47,12 +47,15 @@ export function createLexer<
             switch (opt.trim) {
                 case "trim": {
                     state.parse = state.parse.trim();
+                    break;
                 }
                 case "trimEnd": {
                     state.parse = state.parse.trimEnd();
+                    break;
                 }
                 case "trimStart": {
                     state.parse = state.parse.trimStart();
+                    break;
                 }
                 case "none": {
                     break;

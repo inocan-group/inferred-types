@@ -4,8 +4,8 @@ import { isNumberLike } from "runtime/type-guards";
 
 export type CsvFormat
     = | "string-tuple"
-    | "string-numeric-tuple"
-    | "json-tuple";
+        | "string-numeric-tuple"
+        | "json-tuple";
 
 /**
  * **csv**`(csv, [format])`

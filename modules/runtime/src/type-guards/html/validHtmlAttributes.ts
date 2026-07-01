@@ -11,7 +11,7 @@ export function validHtmlAttributes(val: unknown): val is string {
     const unmatchedQuotes = (val.match(quoteRegex)?.length || 0) % 2 !== 0;
 
     // Check for invalid attribute assignment (e.g., id=)
-    const invalidAssignment = /(\w+=)(?=\s|>|$)/.test(val);
+    const invalidAssignment = /\w+=(?=\s|>|$)/.test(val);
 
     return !val.includes(">") && !unmatchedQuotes && !invalidAssignment;
 }

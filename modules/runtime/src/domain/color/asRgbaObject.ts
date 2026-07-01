@@ -29,18 +29,18 @@ export function asRgbaObject<T extends string | RGB | RGBA>(rgb: T) {
     return (
         isRgbObject(rgb)
             ? {
-                ...(rgb as RGB),
-                a: 1
-            }
+                    ...(rgb as RGB),
+                    a: 1
+                }
             : isRgbaObject(rgb)
                 ? rgb
                 : isCssNamedColor(rgb)
                     ? {
-                        ...convertCssRgbStringToRgbObject(
-                            CSS_COLOR_LOOKUP[rgb] as CssRgb
-                        ),
-                        a: 1
-                    }
+                            ...convertCssRgbStringToRgbObject(
+                                CSS_COLOR_LOOKUP[rgb] as CssRgb
+                            ),
+                            a: 1
+                        }
                     : isHexColor(rgb)
                         ? hexColorToRgbObject(rgb)
                         : isCssRgbString(rgb)

@@ -10,6 +10,6 @@ import { isComparisonOperation } from "runtime/type-guards";
 export function isValidComparisonParams<
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[]
->(op: TOp, params: TParams): params is TParams & GetComparisonParams<TOp> {
+>(op: TOp, _params: TParams): _params is TParams & GetComparisonParams<TOp> {
     return !!isComparisonOperation(op);
 }

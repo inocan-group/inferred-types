@@ -133,14 +133,14 @@ export function youtubeMeta<T extends string>(url: T): YouTubeMeta<T> {
     return (
         isYouTubeUrl(url)
             ? {
-                url,
-                isYouTubeUrl: true,
-                isShareUrl: isYouTubeShareUrl(url),
-                pageType: getYouTubePageType(url) as unknown as GetYouTubePageType<T>,
-            }
+                    url,
+                    isYouTubeUrl: true,
+                    isShareUrl: isYouTubeShareUrl(url),
+                    pageType: getYouTubePageType(url) as unknown as GetYouTubePageType<T>,
+                }
             : {
-                url,
-                isYouTubeUrl: false,
-            }
+                    url,
+                    isYouTubeUrl: false,
+                }
     ) as unknown as YouTubeMeta<T>;
 }

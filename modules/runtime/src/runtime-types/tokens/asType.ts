@@ -48,8 +48,8 @@ type AsType<T extends readonly InputToken[]> = T["length"] extends 0
                     : never
         : T extends readonly InputToken[]
             ? {
-                [K in keyof T]: FromInputToken<T[K]>
-            }
+                    [K in keyof T]: FromInputToken<T[K]>
+                }
             : never;
 
 /**
@@ -82,10 +82,10 @@ export function asType<
                     ? first.trim()
                     : isArray(first)
                         ? err(
-                            `invalid-token/tuple`,
-                            `You passed in a single token to asType() but it was an array/tuple. If you're trying to define a tuple type then be sure to use a spread notation instead.`,
-                            { tokens: toStringLiteral__Tuple(token) }
-                        )
+                                `invalid-token/tuple`,
+                                `You passed in a single token to asType() but it was an array/tuple. If you're trying to define a tuple type then be sure to use a spread notation instead.`,
+                                { tokens: toStringLiteral__Tuple(token) }
+                            )
                         : token.length > 1
                             ? token.map(i => isString(i) ? i : fromInputToken(i))
                             : Never

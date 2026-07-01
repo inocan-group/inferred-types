@@ -36,10 +36,10 @@ export function take<TParse extends TakeParser>(parser: TParse) {
         return isNull(taken)
             ? token as unknown as UpdateTake<AsTakeState<TVal>, ReturnType<TParse>>
             : {
-                ...state,
-                parsed: [...state.parsed, taken],
-                parseString: stripLeading(state.parseString, taken),
-                tokens: append(state.tokens, token)
-            } as UpdateTake<AsTakeState<TVal>, ReturnType<TParse>>;
+                    ...state,
+                    parsed: [...state.parsed, taken],
+                    parseString: stripLeading(state.parseString, taken),
+                    tokens: append(state.tokens, token)
+                } as UpdateTake<AsTakeState<TVal>, ReturnType<TParse>>;
     };
 }

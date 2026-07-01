@@ -81,12 +81,12 @@ function getValue<
         hasMoreSegments
             ? isContainer(value) && idx in value
                 ? getValue(
-                    indexOf(value, idx),
-                    pathSegments.join(".").replace(`${idx}.`, ""),
-                    defaultValue,
-                    handleInvalid,
-                    updatedDotPath(value, fullDotPath, idx),
-                )
+                        indexOf(value, idx),
+                        pathSegments.join(".").replace(`${idx}.`, ""),
+                        defaultValue,
+                        handleInvalid,
+                        updatedDotPath(value, fullDotPath, idx),
+                    )
                 : hasHandler
                     ? handleInvalid
                     : invalidDotPath

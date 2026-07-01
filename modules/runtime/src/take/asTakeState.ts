@@ -12,10 +12,10 @@ export function asTakeState<T extends string | TakeState>(take: T): AsTakeState<
         ? take as unknown as AsTakeState<T>
         : isString(take)
             ? {
-                kind: "TakeState",
-                parsed: [],
-                parseString: take,
-                tokens: []
-            } as AsTakeState<T>
+                    kind: "TakeState",
+                    parsed: [],
+                    parseString: take,
+                    tokens: []
+                } as AsTakeState<T>
             : Never;
 }

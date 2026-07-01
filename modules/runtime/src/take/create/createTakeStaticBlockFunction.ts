@@ -49,14 +49,14 @@ export type StaticTakeFunction__Rtn<
     [K in keyof TItems]: StartsWith<TRemain, TItems[K]>
 }> extends true
     ? {
-        parse: StripLeading<
-            TRemain,
-            Find<TItems, "startsWith", [ TRemain ]> extends string
-                ? Find<TItems, "startsWith", [ TRemain ]>
-                : never
-        >;
-        tokens: [...TTokens, TRtn];
-    }
+            parse: StripLeading<
+                TRemain,
+                Find<TItems, "startsWith", [ TRemain ]> extends string
+                    ? Find<TItems, "startsWith", [ TRemain ]>
+                    : never
+            >;
+            tokens: [...TTokens, TRtn];
+        }
     : NoMatch;
 
 /**
@@ -102,9 +102,9 @@ export function createStaticTakeFunction<
                 ? rtn
                 : isDeltaReturn(rtn)
                     ? {
-                        parse: rtn[0],
-                        tokens: [...(state.tokens), rtn[1]]
-                    }
+                            parse: rtn[0],
+                            tokens: [...(state.tokens), rtn[1]]
+                        }
                     : Never;
         }
 

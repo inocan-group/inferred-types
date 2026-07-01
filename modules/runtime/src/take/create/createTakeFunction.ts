@@ -11,17 +11,16 @@ import {
 
 type TakeFunctionKind = "static" | "start-end" | "while";
 
-type StaticBuilder<_O extends TakeFunction__Options> = {
+interface StaticBuilder<_O extends TakeFunction__Options> {
     /**
      * enumerate all the static elements which this function
      * will handle.
      */
-    enum<TItems extends readonly [string, ...string[]]>(...items: TItems): {
+    enum: <TItems extends readonly [string, ...string[]]>(...items: TItems) => {
         /** the callback function used to coerce into a `LexerState` */
-        callback<
+        callback: <
             const TCb extends StaticTakeFunction__CallBack<TItems>
-        >(cb: TCb):
-        <
+        >(cb: TCb) => <
             const TLexer extends LexerState<TParse, TTokens>,
             TParse extends string,
             TTokens extends readonly unknown[]
@@ -32,9 +31,9 @@ type StaticBuilder<_O extends TakeFunction__Options> = {
             ReturnType<TCb>
         >;
     };
-};
+}
 
-export type TakeFunction__Options = {
+export interface TakeFunction__Options {
     /**
      * A character or tuple of characters which _must follow_
      * immediately after the END token is reached.
@@ -57,7 +56,7 @@ export type TakeFunction__Options = {
      * - the _values_ are the `nesting` exit
      */
     nesting?: Record<string, string>;
-};
+}
 
 type Returns<K extends TakeFunctionKind, O extends TakeFunction__Options> = K extends "start-end"
     ? unknown

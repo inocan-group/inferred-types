@@ -9,7 +9,7 @@ export function hasHtml(val: unknown): val is string {
     if (typeof val !== "string")
         return false;
 
-    const htmlTagRegex = /.*<(\w+)>.*/;
+    const htmlTagRegex = /.*<\w+>.*/;
 
     return !!htmlTagRegex.test(val);
 }

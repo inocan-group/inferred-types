@@ -17,7 +17,7 @@ import { isString } from "runtime/type-guards";
  * type-guard based on whether `str` is a `FourDigitYear`
  */
 export function isFourDigitYear(str: unknown): str is FourDigitYear<"branded"> {
-    const re = /^(-?\d{4})$/;
+    const re = /^-?\d{4}$/;
 
     return isString(str) && re.test(str);
 }

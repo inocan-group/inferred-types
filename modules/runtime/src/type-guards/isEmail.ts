@@ -23,10 +23,10 @@ export function isEmail(val: unknown): val is Email<string> {
     const firstChar = val[0].toLowerCase();
 
     return (
-        LOWER_ALPHA_CHARS.includes(firstChar as any) &&
-        parts.length === 2 &&
-        !!domain &&
-        domain.length >= 1 &&
-        tld.length >= 2
+        LOWER_ALPHA_CHARS.includes(firstChar as any)
+        && parts.length === 2
+        && !!domain
+        && domain.length >= 1
+        && tld.length >= 2
     );
 }

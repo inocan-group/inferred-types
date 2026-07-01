@@ -31,8 +31,8 @@ export function isFnWithParams<T, P extends (readonly InputTokenSuggestions[]) |
             : [any, ...any[]]
         : P extends readonly InputTokenSuggestions[]
             ? {
-                [K in keyof P]: FromInputToken__String<P[K]>
-            }
+                    [K in keyof P]: FromInputToken__String<P[K]>
+                }
             : P extends [number]
                 ? Tuple<any, P[0]>
                 : never,

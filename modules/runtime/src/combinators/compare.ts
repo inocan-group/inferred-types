@@ -200,15 +200,15 @@ function handle_general<
         case "containsSome":
             return (isString(val) || isNumber(val) || isNarrowableArray(val)) && isArray(params)
                 ? params.some(
-                    i => contains(val as any, i as Narrowable) as any
-                )
+                        i => contains(val as any, i as Narrowable) as any
+                    )
                 : false;
 
         case "containsAll":
             return (isString(val) || isNumber(val) || isNarrowableArray(val)) && isArray(params)
                 ? params.every(
-                    i => contains(val as any, i as Narrowable) as any
-                )
+                        i => contains(val as any, i as Narrowable) as any
+                    )
                 : false;
     }
 
@@ -335,10 +335,10 @@ function handle_object<
                             : false
                         : false
                     : err(
-                        `invalid-type/objectKeyGreaterThan`,
-                        `The comparison using the 'objectKeyGreaterThan' operation was unable to be performed because the value passed in was not an object!`,
-                        { op, params }
-                    )
+                            `invalid-type/objectKeyGreaterThan`,
+                            `The comparison using the 'objectKeyGreaterThan' operation was unable to be performed because the value passed in was not an object!`,
+                            { op, params }
+                        )
             );
         }
 
@@ -351,10 +351,10 @@ function handle_object<
                         : false
                     : false
                 : err(
-                    `invalid-type/objectKeyGreaterThanOrEqual`,
-                    `The comparison using the 'objectKeyGreaterThanOrEqual' operation was unable to be performed because the value passed in was not an object!`,
-                    { op, params }
-                );
+                        `invalid-type/objectKeyGreaterThanOrEqual`,
+                        `The comparison using the 'objectKeyGreaterThanOrEqual' operation was unable to be performed because the value passed in was not an object!`,
+                        { op, params }
+                    );
         }
         case "objectKeyLessThan": {
             const [key, compare] = params as unknown as [ObjectKey, number];
@@ -365,10 +365,10 @@ function handle_object<
                         : false
                     : false
                 : err(
-                    `invalid-type/objectKeyLessThan`,
-                    `The comparison using the 'objectKeyLessThan' operation was unable to be performed because the value passed in was not an object!`,
-                    { op, params }
-                );
+                        `invalid-type/objectKeyLessThan`,
+                        `The comparison using the 'objectKeyLessThan' operation was unable to be performed because the value passed in was not an object!`,
+                        { op, params }
+                    );
         }
         case "objectKeyLessThanOrEqual": {
             const [key, compare] = params as unknown as [ObjectKey, number];
@@ -379,10 +379,10 @@ function handle_object<
                         : false
                     : false
                 : err(
-                    `invalid-type/objectKeyLessThanOrEqual`,
-                    `The comparison using the 'objectKeyLessThanOrEqual' operation was unable to be performed because the value passed in was not an object!`,
-                    { op, params }
-                );
+                        `invalid-type/objectKeyLessThanOrEqual`,
+                        `The comparison using the 'objectKeyLessThanOrEqual' operation was unable to be performed because the value passed in was not an object!`,
+                        { op, params }
+                    );
         }
         case "objectKeyEquals": {
             const key = indexOf(params, 0) as ObjectKey & TParams[0];
@@ -394,10 +394,10 @@ function handle_object<
                         ? val[key] === compare
                         : false
                     : err(
-                        `invalid-type/objectKeyEquals`,
-                        `The comparison using the 'objectKeyEquals' operation was unable to be performed because the value passed in was not an object!`,
-                        { op, params }
-                    )
+                            `invalid-type/objectKeyEquals`,
+                            `The comparison using the 'objectKeyEquals' operation was unable to be performed because the value passed in was not an object!`,
+                            { op, params }
+                        )
             ) as IsWideObject<TVal> extends true
                 ? boolean
                 : First<TParams> extends ObjectKey

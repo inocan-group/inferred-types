@@ -31,9 +31,9 @@ export function omitKeys<
         (acc, key) => removeKeys.includes(key as any)
             ? acc
             : {
-                ...acc,
-                [key]: obj[key as keyof TObj],
-            },
+                    ...acc,
+                    [key]: obj[key as keyof TObj],
+                },
         {},
     ) as Mutable<Expand<Omit<TObj, TKeys[number]>>>;
 }

@@ -29,14 +29,14 @@ export function asRgbObject<T extends string | RGB | RGBA>(rgb: T): AsRgbObject<
             ? rgb
             : isRgbaObject(rgb)
                 ? {
-                    r: rgb.r,
-                    g: rgb.g,
-                    b: rgb.b
-                }
+                        r: rgb.r,
+                        g: rgb.g,
+                        b: rgb.b
+                    }
                 : isCssNamedColor(rgb)
                     ? asRgbObject(
-                        convertCssRgbStringToRgbObject(CSS_COLOR_LOOKUP[rgb])
-                    )
+                            convertCssRgbStringToRgbObject(CSS_COLOR_LOOKUP[rgb])
+                        )
                     : isHexColor(rgb)
                         ? hexColorToRgbObject(rgb)
                         : isCssRgbString(rgb)

@@ -13,18 +13,18 @@ import { isIsoDate } from "runtime/type-guards";
 type Return<T extends DateMeta> = [IsUnion<T["dateType"]>] extends [true]
     ? IsoDate | IsoDateTime
     : [T["dateType"]] extends ["year"]
-        ? IsoYear
-        : [T["dateType"]] extends ["year-independent"]
-            ? IsoMonthDate
-            : [T["dateType"]] extends ["year-month"]
-                ? IsoYearMonth
-                : [T["dateType"]] extends ["date"]
-                    ? IsoDate
-                    : [T["dateType"]] extends ["datetime"]
-                        ? [T["hasTime"]] extends [true]
-                            ? IsoDateTime
-                            : IsoDate
-                        : Error;
+            ? IsoYear
+            : [T["dateType"]] extends ["year-independent"]
+                    ? IsoMonthDate
+                    : [T["dateType"]] extends ["year-month"]
+                            ? IsoYearMonth
+                            : [T["dateType"]] extends ["date"]
+                                    ? IsoDate
+                                    : [T["dateType"]] extends ["datetime"]
+                                            ? [T["hasTime"]] extends [true]
+                                                    ? IsoDateTime
+                                                    : IsoDate
+                                            : Error;
 
 /**
  * **toIsoDateString**`(meta) -> IsoDate | IsoDateTime`
@@ -65,7 +65,6 @@ export function toIsoDateString<T extends DateMeta>(
             return err("invalid-date", `The parsed 'type' of the date was 'date' but the 'hasTime' variable was set to true! This should not happen.`) as unknown as Return<T>;
         case "datetime":
             return `${parsed.year}-${parsed.month}-${parsed.date}T${parsed.hour}:${parsed.minute}${parsed.second ? `:${parsed.second}${parsed.ms ? `.${parsed.ms}` : ""}` : ""}` as unknown as Return<T>;
-            break;
     }
 
     return err("invalid-date", `the parsed 'dateType' was '${parsed.dateType}' but the 'hasTime' property was set to 'false'!`) as unknown as Return<T>;

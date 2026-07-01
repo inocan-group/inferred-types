@@ -8,10 +8,10 @@ export function removePhoneCountryCode<
     return (
         countryCode !== ""
             ? stripLeading(stripLeading(
-                phone.trim(),
-                "+",
-                "00",
-            ) as string, countryCode).trim()
+                    phone.trim(),
+                    "+",
+                    "00",
+                ) as string, countryCode).trim()
             : phone.trim()
     ) as unknown as RemovePhoneCountryCode<T>;
 }

@@ -50,10 +50,10 @@ export function parseRgbColor<T extends string>(
             .map(i => i.trim().toLowerCase());
         return [r, g, b].every(i => isNumberLike(i))
             ? {
-                r: asNumber(r as NumberLike),
-                g: asNumber(g as NumberLike),
-                b: asNumber(b as NumberLike)
-            } as Result<T>
+                    r: asNumber(r as NumberLike),
+                    g: asNumber(g as NumberLike),
+                    b: asNumber(b as NumberLike)
+                } as Result<T>
             : err(
                 `invalid-color/rgb`,
                 `Some of the values assigned to the RGB colors are unable to be parsed to a numeric value: ${color}`,

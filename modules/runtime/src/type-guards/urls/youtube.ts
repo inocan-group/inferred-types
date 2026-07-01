@@ -73,8 +73,8 @@ function feed_map<T extends YouTubeFeedType | undefined>(type: T): string {
         : type === "liked"
             ? `/playlist?list=LL`
             : ["history", "playlists", "trending", "subscriptions"].includes(type)
-                ? `/feed/${type}`
-                : `/feed/`;
+                    ? `/feed/${type}`
+                    : `/feed/`;
 }
 
 /**

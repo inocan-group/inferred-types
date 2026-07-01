@@ -56,25 +56,25 @@ function isMapper(val: unknown): val is TakeStartMatches<"mapper"> {
 
 type GetVariant<T extends TakeStartMatches> = T extends TakeStartMatches<"callback">
     ? {
-        variant: "callback";
-        callback: T[0];
-        matches: Slice<T, 1>;
-        lookup: undefined;
-    }
+            variant: "callback";
+            callback: T[0];
+            matches: Slice<T, 1>;
+            lookup: undefined;
+        }
     : T extends TakeStartMatches<"mapper">
         ? {
-            variant: "mapper";
-            callback: undefined;
-            matches: StringKeys<T>;
-            lookup: T[0];
-        }
+                variant: "mapper";
+                callback: undefined;
+                matches: StringKeys<T>;
+                lookup: T[0];
+            }
         : T extends TakeStartMatches<"default">
             ? {
-                variant: "default";
-                callback: undefined;
-                matches: T;
-                lookup: undefined;
-            }
+                    variant: "default";
+                    callback: undefined;
+                    matches: T;
+                    lookup: undefined;
+                }
             : never;
 
 function getVariant<const T extends TakeStartMatches>(matches: T): GetVariant<T> {

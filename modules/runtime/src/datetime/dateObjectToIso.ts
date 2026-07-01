@@ -16,10 +16,10 @@ export function dateObjectToIso(d: DateLike & object) {
     return result as [typeof parsed] extends [Error]
         ? typeof parsed
         : [typeof parsed] extends [DateMeta]
-            ? [typeof parsed["hasTime"]] extends [true]
-                ? typeof result & IsoDateTime
-                : [typeof parsed["hasTime"]] extends [false]
-                    ? typeof result & IsoDate
-                    : never
-            : never;
+                ? [typeof parsed["hasTime"]] extends [true]
+                        ? typeof result & IsoDateTime
+                        : [typeof parsed["hasTime"]] extends [false]
+                                ? typeof result & IsoDate
+                                : never
+                : never;
 }

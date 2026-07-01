@@ -30,10 +30,10 @@ export function asIsoDate<
                 : isNumber(input)
                     ? parseNumericDate(input)
                     : err(
-                        `parse/as-iso-date`,
-                        `An invalid type was passed to asIsoDate(input)!`,
-                        { type: typeof input, input }
-                    );
+                            `parse/as-iso-date`,
+                            `An invalid type was passed to asIsoDate(input)!`,
+                            { type: typeof input, input }
+                        );
 
         if (isError(parsed)) {
             return parsed;

@@ -59,50 +59,62 @@ export function isInUnion<
                         if (Array.isArray(value)) {
                             return true;
                         }
+                        return acc;
                     case "Array<Dict>":
                         if (Array.isArray(value) && value.every(i => isDictionary(i))) {
                             return true;
                         }
+                        return acc;
                     case "Array<boolean>":
                         if (Array.isArray(value) && value.every(i => isBoolean(i))) {
                             return true;
                         }
+                        return acc;
                     case "Array<number>":
                         if (Array.isArray(value) && value.every(i => isNumber(i))) {
                             return true;
                         }
+                        return acc;
                     case "Array<string>":
                         if (Array.isArray(value) && value.every(i => isString(i))) {
                             return true;
                         }
+                        return acc;
                     case "Dict":
                         if (isDictionary(value)) {
                             return true;
                         }
+                        return acc;
                     case "Dict<string, unknown>":
-                        if (!hasNonStringKeys(value)) {
+                        if (isDictionary(value) && !hasNonStringKeys(value)) {
                             return true;
                         }
+                        return acc;
                     case "boolean":
                         if (isBoolean(value)) {
                             return true;
                         }
+                        return acc;
                     case "null":
                         if (isNull(value)) {
                             return true;
                         }
+                        return acc;
                     case "number":
                         if (isNumber(value)) {
                             return true;
                         }
+                        return acc;
                     case "string":
                         if (isString(value)) {
                             return true;
                         }
+                        return acc;
                     case "undefined":
                         if (isUndefined(value)) {
                             return true;
                         }
+                        return acc;
                     default:
                         return acc;
                 }

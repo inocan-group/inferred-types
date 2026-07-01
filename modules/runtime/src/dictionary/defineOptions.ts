@@ -14,16 +14,16 @@ export type UserOptions<
     TReq extends ((string | symbol) & keyof TDefn),
 > = TReq extends ""
     ? <
-        T extends Partial<TDefn>,
-        R extends TDefn,
-    >(opt?: T
-    ) => R & { param: MakeKeysRequired<Partial<TDefn>, TReq> }
+            T extends Partial<TDefn>,
+            R extends TDefn,
+        >(opt?: T
+        ) => R & { param: MakeKeysRequired<Partial<TDefn>, TReq> }
     : TReq extends readonly (keyof TDefn)[]
         ? <
-            T extends MakeKeysRequired<Partial<TDefn>, TReq>,
-            R extends TDefn,
-        >(opt: T
-        ) => R & { param: MakeKeysRequired<Partial<TDefn>, TReq> }
+                T extends MakeKeysRequired<Partial<TDefn>, TReq>,
+                R extends TDefn,
+            >(opt: T
+            ) => R & { param: MakeKeysRequired<Partial<TDefn>, TReq> }
         : never;
 
 export type AsUserOptions<

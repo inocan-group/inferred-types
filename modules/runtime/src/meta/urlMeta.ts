@@ -119,11 +119,11 @@ export function getUrlQueryParams<
         return (
             qp.includes(`${specific}=`)
                 ? decodeURIComponent(
-                    stripAfter(
-                        stripBefore(qp, (`${specific}=`)),
-                        "&",
-                    ).replace(/\+/g, "%20"),
-                )
+                        stripAfter(
+                            stripBefore(qp, (`${specific}=`)),
+                            "&",
+                        ).replace(/\+/g, "%20"),
+                    )
                 : undefined
         );
     }
@@ -292,9 +292,9 @@ export function getUrlDynamics<T extends string>(
         allVars: hasOverlappingKeys(pathVars, qpVars)
             ? null
             : {
-                ...pathVars,
-                ...qpVars,
-            },
+                    ...pathVars,
+                    ...qpVars,
+                },
     } as unknown as GetUrlDynamics<T>;
 }
 
