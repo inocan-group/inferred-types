@@ -20,7 +20,9 @@
         "nuke": "rm -rf node_modules",
         "build": "tsdown",
         "test": "vitest run",
-        "lint": "eslint src",
+        "lint": "oxlint src",
+        "lint:ox": "oxlint src",
+        "lint:fix": "oxlint src --fix",
         "circular": "npx madge --circular src/",
         "circular:summary": "FORCE_COLOR=1 npx madge --circular --summary src/ | grep -vE '^\\x1b\\[[0-9;]*m\\x1b\\[[0-9;]*m[01]\\x1b'",
         "watch": "run-p watch:*",
@@ -31,17 +33,11 @@
     "devDependencies": {
         "@type-challenges/utils": "catalog:",
         "@types/luxon": "catalog:",
-        "@typescript-eslint/eslint-plugin": "catalog:",
-        "@typescript-eslint/parser": "catalog:",
-        "eslint": "catalog:",
-        "eslint-plugin-format": "catalog:",
-        "eslint-plugin-promise": "catalog:",
         "npm-run-all": "catalog:",
         "tsdown": "catalog:",
         "typecheck": "catalog:",
         "typed-tester": "catalog:",
         "typescript": "catalog:",
-        "typescript-eslint": "catalog:",
         "vitest": "catalog:",
         "vue": "catalog:"
     }

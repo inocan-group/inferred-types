@@ -1,6 +1,18 @@
 set dotenv-load
 set positional-arguments
 
+Today := `date +%F`
+bold := '\033[1m'
+dim := '\033[2m'
+italic := '\033[3m'
+reset := '\033[0m'
+red := '\033[31m'
+green := '\033[32m'
+yellow := '\033[33m'
+blue := '\033[34m'
+magenta := '\033[35m'
+cyan := '\033[36m'
+
 default:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -8,8 +20,8 @@ default:
     if command -v md &> /dev/null; then
         md just.md
     else
-        echo "Rusty Biscuit Monorepo"
-        echo "======================"
+        echo "Inferred Types"
+        echo "=============="
     fi
     echo ""
     just --list | grep -v 'default'
@@ -20,12 +32,16 @@ default:
 test *args="":
     @pnpm test {{ args }}
 
+# run lint checks
+lint *args="":
+    @pnpm lint {{ args }}
+
 # run the runtime tests
 test-runtime *args="":
     @pnpm test:runtime {{ args }}
 
 # run typed testing
-typed *args="":
+test-types *args="":
     @node_modules/.bin/typed test {{ args }}
 
 # build transpiled Javascript
@@ -50,7 +66,18 @@ codex *args="":
 
 # the outdated dependencies in this repo
 outdated:
+    @echo
+    @pnpm outdated || (echo "\n - updates available" && exit 0)
+
+# upgrade dependencies in the repo
+upgrade:
+    @pnpm upgrade
     @pnpm outdated
 
-commit agent="opencode":
-    @claudine compose prompts/commit.md --{{ agent }} -y
+# use conventional commits to commit to git
+commit agent="opencode" *args="":
+    @claudine compose prompts/commit.md --{{ agent }} -y {{ args }}
+
+feature name:
+    @echo
+    @md edit "features/{{ Today }}-{{ name }}/spec.md"

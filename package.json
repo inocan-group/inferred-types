@@ -97,18 +97,16 @@
         "build:types": "pnpm --filter types build",
         "build:runtime": "pnpm --filter runtime build",
         "watch": "pnpm -r watch",
-        "lint": "pnpm -r lint"
+        "lint": "pnpm -r lint",
+        "lint:fix": "pnpm -r lint:fix",
+        "lint:ox": "pnpm -r lint:ox"
     },
     "devDependencies": {
-        "@antfu/eslint-config": "catalog:",
         "@date-fns/tz": "catalog:",
-        "@eslint/js": "catalog:",
         "@js-temporal/polyfill": "catalog:",
         "@type-challenges/utils": "catalog:",
         "@types/luxon": "catalog:",
         "@types/node": "catalog:",
-        "@typescript-eslint/eslint-plugin": "catalog:",
-        "@typescript-eslint/parser": "catalog:",
         "@typescript/analyze-trace": "catalog:",
         "@vitest/ui": "catalog:",
         "@yankeeinlondon/ask": "catalog:",
@@ -118,9 +116,6 @@
         "cross-env": "catalog:",
         "date-fns": "catalog:",
         "dayjs": "catalog:",
-        "eslint": "catalog:",
-        "eslint-plugin-format": "catalog:",
-        "eslint-plugin-promise": "catalog:",
         "fast-glob": "catalog:",
         "husky": "catalog:",
         "jiti": "catalog:",
@@ -129,6 +124,7 @@
         "moment": "catalog:",
         "moment-timezone": "catalog:",
         "npm-run-all": "catalog:",
+        "oxlint": "catalog:",
         "package-json-validator": "catalog:",
         "pathe": "catalog:",
         "tsdown": "catalog:",
@@ -136,7 +132,6 @@
         "typecheck": "catalog:",
         "typed-tester": "catalog:",
         "typescript": "catalog:",
-        "typescript-eslint": "catalog:",
         "vite": "catalog:",
         "vite-node": "catalog:",
         "vitest": "catalog:",
@@ -148,8 +143,7 @@
             "tar@<6.2.1": ">=6.2.1",
             "braces@<3.0.3": ">=3.0.3",
             "micromatch@<4.0.8": ">=4.0.8",
-            "vite@>=5.4.0 <=5.4.5": ">=5.4.6",
-            "@eslint/plugin-kit@<0.3.4": ">=0.3.4"
+            "vite@>=5.4.0 <=5.4.5": ">=5.4.6"
         },
         "onlyBuiltDependencies": [
             "@pkgr/core",
