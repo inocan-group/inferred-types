@@ -332,8 +332,10 @@ describe("FourDigitYear", () => {
             expect(invalidString).toEqual(expect.objectContaining({
                 type: expect.stringMatching(/year-invalid/)
             }));
-            // Empty string converts to 0, which becomes "0000"
-            expect(emptyString).toBe("0000");
+            // Empty string is not a valid year (isNumberLike("") is false), so it errors
+            expect(emptyString).toEqual(expect.objectContaining({
+                type: expect.stringMatching(/year-invalid/)
+            }));
             expect(mixedString).toEqual(expect.objectContaining({
                 type: expect.stringMatching(/year-invalid/)
             }));
