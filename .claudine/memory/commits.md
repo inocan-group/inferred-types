@@ -78,3 +78,29 @@ committing and then take the commit's parent + the new HEAD's first parent, but 
 
 > Source: Group 4 (`planning(oxlint): record oxlint migration spec, plan, and reviews`)
 > sub-agent, 2026-07-01.
+
+---
+
+## Under heavy parallelism even `git reflog | head -10` may bury the sub-agent's own commit
+
+In a busy round where 8–10 sub-agents commit within seconds of one another, even
+`git reflog | head -10` is no longer deterministic: by the time the sub-agent runs it, a
+sibling agent's commit has already taken `HEAD@{0}` and pushed the agent's own commit to
+`HEAD@{1}`, `HEAD@{2}`, etc. Walking further down the reflog works, but is fragile (the
+agent has to guess how many siblings beat them to it).
+
+A more reliable recovery is `git log -1 -- <one-of-my-assigned-paths>`. Because the
+sub-agent's commit was the most recent one to touch that pathspec (the `--only -- <path>`
+restriction guarantees nothing else can), `git log -1 -- <file>` deterministically returns
+*their* commit, regardless of how many parallel siblings land on top.
+
+Concrete example from 2026-07-01: the `fix(types): redesign IsLeapYear…` sub-agent
+committed `6d0f1ac1…`, then ran `git reflog` and found `HEAD@{0}` was already a sibling
+agent's commit. It pivoted to `git log -1 -- modules/types/src/boolean-logic/operators/datetime/IsLeapYear.ts`
+and recovered its true hash immediately.
+
+This complements (and supersedes for high-fanout rounds) the prior reflog recommendation:
+prefer `git log -1 -- <file>` when your pathspecs are unique to your commit.
+
+> Source: Group A (`fix(types): redesign IsLeapYear to avoid type-instantiation OOM`)
+> sub-agent, 2026-07-01.
