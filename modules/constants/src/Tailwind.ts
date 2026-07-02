@@ -1,5 +1,3 @@
-// eslint-disable style/quote-props
-
 export const TW_HUE_NEUTRAL = {
     slate: 262,
     gray: 270,
