@@ -4,9 +4,10 @@ import { defineConfig } from "tsdown";
 export default defineConfig({
     entry: ["src/index.ts"],
     format: ["esm","cjs"],
-    dts: true,
+    dts: {
+        cjsReexport: true,
+    },
     sourcemap: true,
     clean: true,
     tsconfig: "./tsconfig.tsdown.json",
 });
-

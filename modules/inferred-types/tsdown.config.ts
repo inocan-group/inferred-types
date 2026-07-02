@@ -5,6 +5,7 @@ export default defineConfig({
     entry: ["src/index.ts"],
     format: ["esm", "cjs"],
     dts: {
+        cjsReexport: true,
         // Resolve and bundle type definitions from workspace dependencies
         resolve: [
             "@inferred-types/constants",
@@ -27,5 +28,4 @@ export default defineConfig({
         "@inferred-types/types"
     ]
 });
-
 
