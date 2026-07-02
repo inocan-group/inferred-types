@@ -1,5 +1,10 @@
 import { describe, it } from "vitest";
-import type { Expect, IsEqual, IsUniqueSymbol, IsWideSymbol, Test } from "inferred-types/types";
+import type {
+    Expect,
+    IsUniqueSymbol,
+    IsWideSymbol,
+    Test,
+} from "inferred-types/types";
 
 describe("IsUniqueSymbol<T>", () => {
     const u1 = Symbol("u1");
@@ -36,7 +41,6 @@ describe("IsUniqueSymbol<T>", () => {
             Expect<Test<F2, "equals", false>>,
         ];
     });
-
 });
 
 describe("IsWideSymbol", () => {
@@ -65,4 +69,4 @@ describe("IsWideSymbol", () => {
             Expect<Test<F2, "equals", false>>,
         ];
     });
-})
+});

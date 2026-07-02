@@ -1,10 +1,7 @@
-
-
 import { describe, it } from "vitest";
-import type { AsDateMeta, Expect, IsSameYear, Test } from "inferred-types/types";
+import type { Expect, IsSameYear, Test } from "inferred-types/types";
 
 describe("IsSameYear<A, B>", () => {
-
     it("using ISO Year strings", () => {
         type T1 = IsSameYear<"2023", "2023">;
         type T2 = IsSameYear<"3033", "3033">;
@@ -41,25 +38,19 @@ describe("IsSameYear<A, B>", () => {
     it("Epoch dates return true when equal", () => {
         type T1 = IsSameYear<10000089, 10000089>;
 
-        type cases = [
-            Expect<Test<T1, "equals", true>>,
-        ];
+        type cases = [Expect<Test<T1, "equals", true>>];
     });
 
     it("negative numbers -> error", () => {
-        type E1 = IsSameYear<-100,-100>;
+        type E1 = IsSameYear<-100, -100>;
 
-        type cases = [
-            Expect<Test<E1, "isError", "invalid-date/negative">>
-        ];
+        type cases = [Expect<Test<E1, "isError", "invalid-date/negative">>];
     });
 
     it("float -> error", () => {
         type E1 = IsSameYear<"2012", 0.12>;
 
-        type cases = [
-            Expect<Test<E1, "isError", "invalid-date/float">>
-        ];
+        type cases = [Expect<Test<E1, "isError", "invalid-date/float">>];
     });
 
     it("Wide Types resolve to boolean", () => {
@@ -91,5 +82,4 @@ describe("IsSameYear<A, B>", () => {
             Expect<Test<F2, "equals", false>>,
         ];
     });
-
 });

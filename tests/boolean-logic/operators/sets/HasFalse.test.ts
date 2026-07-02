@@ -1,8 +1,13 @@
 import { describe, it } from "vitest";
-import type { Dictionary, EmptyObject, Expect, HasFalse, Test, Values } from "inferred-types/types";
+import type {
+    Dictionary,
+    EmptyObject,
+    Expect,
+    HasFalse,
+    Test,
+} from "inferred-types/types";
 
 describe("HasFalse<T>", () => {
-
     describe("array", () => {
         it("positive tests", () => {
             type T1 = HasFalse<[false]>;
@@ -66,16 +71,14 @@ describe("HasFalse<T>", () => {
             // @ts-expect-error
             type E1 = HasFalse<42>;
 
-            type cases = [
-                Expect<Test<E1, "isError", "invalid">>,
-            ];
+            type cases = [Expect<Test<E1, "isError", "invalid">>];
         });
-    })
+    });
 
     describe("object", () => {
         it("positive tests", () => {
             type T1 = HasFalse<{ foo: false }>;
-            type T2 = HasFalse<{ foo: 1, bar: 2, baz: false }>;
+            type T2 = HasFalse<{ foo: 1; bar: 2; baz: false }>;
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
@@ -85,7 +88,7 @@ describe("HasFalse<T>", () => {
 
         it("negative tests", () => {
             type F1 = HasFalse<EmptyObject>;
-            type F2 = HasFalse<{ foo: 1, bar: 2, baz: 3 }>;
+            type F2 = HasFalse<{ foo: 1; bar: 2; baz: 3 }>;
 
             type cases = [
                 Expect<Test<F1, "equals", false>>,
@@ -117,10 +120,7 @@ describe("HasFalse<T>", () => {
             // @ts-expect-error
             type E1 = HasFalse<42>;
 
-            type cases = [
-                Expect<Test<E1, "isError", "invalid">>,
-            ];
+            type cases = [Expect<Test<E1, "isError", "invalid">>];
         });
-    })
-
+    });
 });

@@ -5,7 +5,7 @@ import type {
     NarrowlyContains,
     Test,
 } from "inferred-types/types";
-import { AssertFalse, AssertTrue } from "transpiled";
+import type { AssertFalse, AssertTrue } from "transpiled";
 
 import { describe, it } from "vitest";
 

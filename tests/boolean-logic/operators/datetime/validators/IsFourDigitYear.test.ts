@@ -1,8 +1,8 @@
+// deno-lint-ignore-file ban-types
 import { describe, it } from "vitest";
 import type { Expect, IsFourDigitYear, Test } from "inferred-types/types";
 
 describe("IsFourDigitYear<T>", () => {
-
     it("valid 4-digit years", () => {
         type Year1900 = IsFourDigitYear<"1900">;
         type Year2000 = IsFourDigitYear<"2000">;
@@ -17,7 +17,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<Year2023, "equals", true>>,
             Expect<Test<Year2024, "equals", true>>,
             Expect<Test<Year1985, "equals", true>>,
-            Expect<Test<Year1776, "equals", true>>
+            Expect<Test<Year1776, "equals", true>>,
         ];
     });
 
@@ -35,7 +35,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<Year9999, "equals", true>>,
             Expect<Test<Year0100, "equals", true>>,
             Expect<Test<Year0010, "equals", true>>,
-            Expect<Test<Year0999, "equals", true>>
+            Expect<Test<Year0999, "equals", true>>,
         ];
     });
 
@@ -61,7 +61,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<WithSixes, "equals", true>>,
             Expect<Test<WithSevens, "equals", true>>,
             Expect<Test<WithEights, "equals", true>>,
-            Expect<Test<WithNines, "equals", true>>
+            Expect<Test<WithNines, "equals", true>>,
         ];
     });
 
@@ -75,7 +75,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<OneDigit, "equals", false>>,
             Expect<Test<TwoDigit, "equals", false>>,
             Expect<Test<ThreeDigit, "equals", false>>,
-            Expect<Test<Empty, "equals", false>>
+            Expect<Test<Empty, "equals", false>>,
         ];
     });
 
@@ -89,7 +89,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<FiveDigit, "equals", false>>,
             Expect<Test<SixDigit, "equals", false>>,
             Expect<Test<TenDigit, "equals", false>>,
-            Expect<Test<WithExtra, "equals", false>>
+            Expect<Test<WithExtra, "equals", false>>,
         ];
     });
 
@@ -117,7 +117,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<AllLetters, "equals", false>>,
             Expect<Test<SpecialChars, "equals", false>>,
             Expect<Test<WithDot, "equals", false>>,
-            Expect<Test<WithComma, "equals", false>>
+            Expect<Test<WithComma, "equals", false>>,
         ];
     });
 
@@ -133,7 +133,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<EndNumeric, "equals", false>>,
             Expect<Test<MiddleLetters, "equals", false>>,
             Expect<Test<SpaceInMiddle, "equals", false>>,
-            Expect<Test<TabInMiddle, "equals", false>>
+            Expect<Test<TabInMiddle, "equals", false>>,
         ];
     });
 
@@ -151,17 +151,17 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<BothSpaces, "equals", false>>,
             Expect<Test<Tab, "equals", false>>,
             Expect<Test<Newline, "equals", false>>,
-            Expect<Test<CarriageReturn, "equals", false>>
+            Expect<Test<CarriageReturn, "equals", false>>,
         ];
     });
 
     it("special numeric formats", () => {
-        type NegativeNumber = IsFourDigitYear<"-123">;  // 4 chars but starts with -
-        type PositiveSign = IsFourDigitYear<"+123">;    // 4 chars but starts with +
-        type Decimal = IsFourDigitYear<"12.3">;         // 4 chars but contains .
-        type Scientific = IsFourDigitYear<"1e23">;      // 4 chars but scientific notation
-        type Hexadecimal = IsFourDigitYear<"0x12">;     // 4 chars but hex prefix
-        type Binary = IsFourDigitYear<"0b11">;          // 4 chars but binary prefix
+        type NegativeNumber = IsFourDigitYear<"-123">; // 4 chars but starts with -
+        type PositiveSign = IsFourDigitYear<"+123">; // 4 chars but starts with +
+        type Decimal = IsFourDigitYear<"12.3">; // 4 chars but contains .
+        type Scientific = IsFourDigitYear<"1e23">; // 4 chars but scientific notation
+        type Hexadecimal = IsFourDigitYear<"0x12">; // 4 chars but hex prefix
+        type Binary = IsFourDigitYear<"0b11">; // 4 chars but binary prefix
 
         type cases = [
             Expect<Test<NegativeNumber, "equals", false>>,
@@ -169,7 +169,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<Decimal, "equals", false>>,
             Expect<Test<Scientific, "equals", false>>,
             Expect<Test<Hexadecimal, "equals", false>>,
-            Expect<Test<Binary, "equals", false>>
+            Expect<Test<Binary, "equals", false>>,
         ];
     });
 
@@ -189,7 +189,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<InvalidUnion, "equals", false>>,
             // Mixed unions don't reach the wide string case, distributed over union
             Expect<Test<MixedUnion, "equals", true | false>>,
-            Expect<Test<ShortLongUnion, "equals", false>>
+            Expect<Test<ShortLongUnion, "equals", false>>,
         ];
     });
 
@@ -215,7 +215,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<Undefined, "equals", false>>,
             Expect<Test<Symbol, "equals", false>>,
             Expect<Test<BigInt, "equals", false>>,
-            Expect<Test<Function, "equals", false>>
+            Expect<Test<Function, "equals", false>>,
         ];
     });
 
@@ -230,7 +230,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<TemplateLiteral, "equals", true>>,
             // Template with numeric expression should work
             Expect<Test<TemplateWithExpression, "equals", true>>,
-            Expect<Test<TemplateConcat, "equals", true>>
+            Expect<Test<TemplateConcat, "equals", true>>,
         ];
     });
 
@@ -256,7 +256,7 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<Pattern1, "equals", true>>,
             Expect<Test<Pattern2, "equals", true>>,
             Expect<Test<Random1, "equals", true>>,
-            Expect<Test<Random2, "equals", true>>
+            Expect<Test<Random2, "equals", true>>,
         ];
     });
 
@@ -272,23 +272,22 @@ describe("IsFourDigitYear<T>", () => {
             Expect<Test<FromISODate, "equals", false>>,
             Expect<Test<JustYear, "equals", true>>,
             Expect<Test<YearMonth, "equals", false>>,
-            Expect<Test<YearOnly, "equals", true>>
+            Expect<Test<YearOnly, "equals", true>>,
         ];
     });
 
     it("unicode and special characters", () => {
-        type Unicode1 = IsFourDigitYear<"২০২৩">;  // Bengali numerals
-        type Unicode2 = IsFourDigitYear<"٢٠٢٣">;  // Arabic numerals
+        type Unicode1 = IsFourDigitYear<"২০২৩">; // Bengali numerals
+        type Unicode2 = IsFourDigitYear<"٢٠٢٣">; // Arabic numerals
         type Emoji = IsFourDigitYear<"😀😀😀😀">;
-        type Mixed = IsFourDigitYear<"20२३">;    // Mixed scripts
+        type Mixed = IsFourDigitYear<"20२३">; // Mixed scripts
 
         type cases = [
             // Non-ASCII numeric characters are not recognized as NumericChar
             Expect<Test<Unicode1, "equals", false>>,
             Expect<Test<Unicode2, "equals", false>>,
             Expect<Test<Emoji, "equals", false>>,
-            Expect<Test<Mixed, "equals", false>>
+            Expect<Test<Mixed, "equals", false>>,
         ];
     });
-
 });

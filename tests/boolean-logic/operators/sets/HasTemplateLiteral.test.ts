@@ -1,13 +1,20 @@
 import { describe, it } from "vitest";
-import type { Dictionary, EmptyObject, Expect, HasTemplateLiteral, Test, Values } from "inferred-types/types";
+import type {
+    Dictionary,
+    EmptyObject,
+    Expect,
+    HasTemplateLiteral,
+    Test,
+} from "inferred-types/types";
 
 describe("HasTemplateLiteral<T>", () => {
-
     describe("array", () => {
         it("positive tests", () => {
             type T1 = HasTemplateLiteral<[`Hi ${string}`]>;
             type T2 = HasTemplateLiteral<[1, 2, 3, `${number}`]>;
-            type T3 = HasTemplateLiteral<[`Name: ${string}; Age: ${number}`, 1, 2, 3]>;
+            type T3 = HasTemplateLiteral<
+                [`Name: ${string}; Age: ${number}`, 1, 2, 3]
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
@@ -31,7 +38,9 @@ describe("HasTemplateLiteral<T>", () => {
         it("with optional values", () => {
             type T1 = HasTemplateLiteral<[`Hi ${string}`?]>;
             type T2 = HasTemplateLiteral<[1, 2, 3, `${number}`?]>;
-            type T3 = HasTemplateLiteral<[`Name: ${string}; Age: ${number}`?, 1?, 2?, 3?]>;
+            type T3 = HasTemplateLiteral<
+                [`Name: ${string}; Age: ${number}`?, 1?, 2?, 3?]
+            >;
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
@@ -64,16 +73,18 @@ describe("HasTemplateLiteral<T>", () => {
             // @ts-expect-error
             type E1 = HasTemplateLiteral<42>;
 
-            type cases = [
-                Expect<Test<E1, "isError", "invalid">>,
-            ];
+            type cases = [Expect<Test<E1, "isError", "invalid">>];
         });
-    })
+    });
 
     describe("object", () => {
         it("positive tests", () => {
             type T1 = HasTemplateLiteral<{ foo: `Hi ${string}` }>;
-            type T2 = HasTemplateLiteral<{ foo: 1, bar: 2, baz: `Age: ${number}` }>;
+            type T2 = HasTemplateLiteral<{
+                foo: 1;
+                bar: 2;
+                baz: `Age: ${number}`;
+            }>;
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
@@ -83,7 +94,7 @@ describe("HasTemplateLiteral<T>", () => {
 
         it("negative tests", () => {
             type F1 = HasTemplateLiteral<EmptyObject>;
-            type F2 = HasTemplateLiteral<{ foo: 1, bar: 2, baz: 3 }>;
+            type F2 = HasTemplateLiteral<{ foo: 1; bar: 2; baz: 3 }>;
 
             type cases = [
                 Expect<Test<F1, "equals", false>>,
@@ -92,7 +103,7 @@ describe("HasTemplateLiteral<T>", () => {
         });
 
         it("wide input", () => {
-            type W1 = HasTemplateLiteral<Map<any,any>>;
+            type W1 = HasTemplateLiteral<Map<any, any>>;
             type W2 = HasTemplateLiteral<Dictionary>;
 
             type cases = [
@@ -115,10 +126,7 @@ describe("HasTemplateLiteral<T>", () => {
             // @ts-expect-error
             type E1 = HasTemplateLiteral<42>;
 
-            type cases = [
-                Expect<Test<E1, "isError", "invalid">>,
-            ];
+            type cases = [Expect<Test<E1, "isError", "invalid">>];
         });
-    })
-
+    });
 });

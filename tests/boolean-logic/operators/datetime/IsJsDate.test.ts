@@ -1,9 +1,9 @@
+// deno-lint-ignore-file no-explicit-any
 
 import { describe, it } from "vitest";
 import type { Expect, IsJsDate, Test } from "inferred-types/types";
 
 describe("IsJsDate<T>", () => {
-
     it("happy path", () => {
         type JsDate = IsJsDate<Date>;
         type JsDateInstance = IsJsDate<InstanceType<typeof Date>>;
@@ -254,5 +254,4 @@ describe("IsJsDate<T>", () => {
             Expect<Test<BooleanFalse, "equals", false>>,
         ];
     });
-
 });
