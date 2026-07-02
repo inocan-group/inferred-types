@@ -1,10 +1,10 @@
-import type { AfterFirst, AsArray, AsString, Chars, Concat } from "inferred-types/types";
+import type { AsArray } from "inferred-types/types";
 
 type Iterate<
     TInput extends readonly string[],
 > = {
     [K in keyof TInput]: TInput[K] extends string
-        ? Concat<AfterFirst<AsArray<Chars<TInput[K]>>>>
+        ? AfterFirstChar<TInput[K]>
         : never
 };
 
@@ -29,5 +29,11 @@ export type AfterFirstChar<
 > = TContent extends readonly string[]
     ? Iterate<AsArray<TContent>>
     : TContent extends string
-        ? Concat<AfterFirst<AsArray<Chars<AsString<TContent>>>>>
+        ? string extends TContent
+            ? never
+            : TContent extends ""
+                ? ""
+                : TContent extends `${string}${infer Rest}`
+                    ? Rest
+                    : never
         : never;

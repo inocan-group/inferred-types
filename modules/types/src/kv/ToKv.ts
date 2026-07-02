@@ -46,7 +46,11 @@ type Convert<
                 TOptional,
                 [
                     ...TKv,
-                    KeyValue<Head, Recurse<TObj[Head], TOpt> | undefined, false>
+                    {
+                        key: Head;
+                        value: Recurse<TObj[Head], TOpt> | undefined;
+                        required: false;
+                    }
                 ]
             >
 
@@ -57,7 +61,11 @@ type Convert<
                 TOptional,
                 [
                     ...TKv,
-                    KeyValue<Head, Recurse<TObj[Head], TOpt>, true>
+                    {
+                        key: Head;
+                        value: Recurse<TObj[Head], TOpt>;
+                        required: true;
+                    }
                 ]
             >
         : never

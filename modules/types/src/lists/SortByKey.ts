@@ -1,4 +1,4 @@
-import type { Dictionary, Mutable, ObjectKey, SortOrder } from "inferred-types/types";
+import type { Mutable, ObjectKey, SortOrder } from "inferred-types/types";
 
 /**
  * default options for sorting
@@ -18,7 +18,7 @@ type ToArray<T> = T extends readonly unknown[] ? T : readonly [T];
 
 // Main implementation
 export type SortByKey<
-    TList extends readonly Dictionary[],
+    TList extends readonly object[],
     TKey extends ObjectKey,
     TConfig extends SortByKeyOptions
 > = TList extends readonly any[]
@@ -27,7 +27,7 @@ export type SortByKey<
 
 // Internal implementation
 type _SortByKey<
-    TList extends readonly Dictionary[],
+    TList extends readonly object[],
     TKey extends ObjectKey,
     TConfig extends SortByKeyOptions
 > = _Reorder<
@@ -39,7 +39,7 @@ type _SortByKey<
 
 // Reorder the tuple based on start/end configuration
 type _Reorder<
-    TList extends readonly Dictionary[],
+    TList extends readonly object[],
     TKey extends ObjectKey,
     TStart extends readonly unknown[],
     TEnd extends readonly unknown[]
@@ -51,7 +51,7 @@ type _Reorder<
 
 // Get elements that match start values
 type _GetStartElements<
-    TList extends readonly Dictionary[],
+    TList extends readonly object[],
     TKey extends ObjectKey,
     TStart extends readonly unknown[]
 > = TStart extends readonly [infer First, ...infer Rest]
@@ -63,7 +63,7 @@ type _GetStartElements<
 
 // Get elements that match end values
 type _GetEndElements<
-    TList extends readonly Dictionary[],
+    TList extends readonly object[],
     TKey extends ObjectKey,
     TEnd extends readonly unknown[]
 > = TEnd extends readonly [infer First, ...infer Rest]
@@ -75,7 +75,7 @@ type _GetEndElements<
 
 // Get middle elements (not in start or end)
 type _GetMiddleElements<
-    TList extends readonly Dictionary[],
+    TList extends readonly object[],
     TKey extends ObjectKey,
     TStart extends readonly unknown[],
     TEnd extends readonly unknown[]
@@ -83,11 +83,11 @@ type _GetMiddleElements<
 
 // Filter elements by value
 type _FilterByValue<
-    TList extends readonly Dictionary[],
+    TList extends readonly object[],
     TKey extends ObjectKey,
     TValue
-> = TList extends readonly [infer First, ...infer Rest extends Dictionary[]]
-    ? First extends Dictionary
+> = TList extends readonly [infer First, ...infer Rest extends object[]]
+    ? First extends object
         ? TKey extends keyof First
             ? First[TKey] extends TValue
                 ? readonly [First, ..._FilterByValue<Rest, TKey, TValue>]
@@ -98,11 +98,11 @@ type _FilterByValue<
 
 // Filter elements by excluding values
 type _FilterByValues<
-    TList extends readonly Dictionary[],
+    TList extends readonly object[],
     TKey extends ObjectKey,
     TValues extends readonly unknown[]
-> = TList extends readonly [infer First, ...infer Rest extends Dictionary[]]
-    ? First extends Dictionary
+> = TList extends readonly [infer First, ...infer Rest extends object[]]
+    ? First extends object
         ? TKey extends keyof First
             ? First[TKey] extends TValues[number]
                 ? _FilterByValues<Rest, TKey, TValues>

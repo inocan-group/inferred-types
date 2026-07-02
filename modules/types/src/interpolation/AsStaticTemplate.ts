@@ -1,12 +1,13 @@
 import type {
     As,
     Err,
+    IsStringLiteral,
     IsUnion,
     ReplaceAll,
     ReplaceNumericInterpolation,
     ReplaceStringInterpolation,
-    StringKeys,
     TemplateMap__Basic,
+    UnionToTuple,
 } from "inferred-types/types";
 
 type NoBooleanConversion<T> = Err<
@@ -14,6 +15,20 @@ type NoBooleanConversion<T> = Err<
         `An attempt was made to convert a string from a "literal template" to a "static template" but the use of ${boolean} converts to a union type and quickly becomes unmanageable. Use the static {{boolean}} form instead.`,
         { template: T }
 >;
+
+type RestoreVocabularyPlaceholders<
+    TContent extends string,
+    TSegments extends object,
+> = TContent extends `${infer Before}${"$"}{${infer Name}}${infer After}`
+    ? Name extends Extract<keyof TSegments, string>
+        ? RestoreVocabularyPlaceholders<`${Before}{{${Name}}}${After}`, TSegments>
+        : `${Before}${"$"}{${Name}}${RestoreVocabularyPlaceholders<After, TSegments>}`
+    : TContent;
+
+type HasVocabularyPlaceholder<TContent extends string> =
+    TContent extends `${string}${"$"}{${string}}${string}`
+        ? true
+        : false;
 
 /**
  * **FromLiteralTemplate**`<T>`
@@ -39,11 +54,13 @@ export type FromLiteralTemplate<T extends string> = string extends T
 
 type Convert<
     TContent extends string,
-    TSegments extends Record<string, unknown>,
-    TKeys extends readonly string[] = StringKeys<TSegments>
+    TSegments extends object,
+    TKeys extends readonly string[] = UnionToTuple<Extract<keyof TSegments, string>> extends readonly string[]
+        ? UnionToTuple<Extract<keyof TSegments, string>>
+        : []
 > = TKeys extends [infer Head extends string, ...infer Rest extends readonly string[]]
     ? Convert<
-        ReplaceAll<TContent, `\$\{${Head}\}`, `{{${Head}}}`>,
+        ReplaceAll<TContent, `\${${Head}}`, `{{${Head}}}`>,
         TSegments,
         Rest
     >
@@ -67,13 +84,20 @@ type Convert<
  */
 export type AsStaticTemplate<
     TContent extends string,
-    TSegments extends Record<string, unknown> = TemplateMap__Basic
+    TSegments extends object = TemplateMap__Basic
 > = As<
     string extends TContent
         ? string
-        : Convert<
-            As<FromLiteralTemplate<TContent>, string>,
-            TSegments
-        >,
+        : IsStringLiteral<TContent> extends true
+            ? HasVocabularyPlaceholder<TContent> extends true
+                ? RestoreVocabularyPlaceholders<TContent, TSegments>
+                : Convert<
+                    As<FromLiteralTemplate<TContent>, string>,
+                    TSegments
+                >
+            : Convert<
+                As<FromLiteralTemplate<TContent>, string>,
+                TSegments
+            >,
     string
 >;

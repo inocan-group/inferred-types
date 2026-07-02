@@ -1,4 +1,6 @@
-import type { Brand, Container, Dictionary, Expand, FromKv, KeyValue, ToKv } from "inferred-types/types";
+import type { Container, Dictionary, Expand, FromKv, KeyValue, ToKv } from "inferred-types/types";
+import type { Brand } from "./Brand";
+import type { Unbrand } from "./Unbrand";
 
 /**
  * **UnbrandValues**`<T>`
@@ -8,7 +10,7 @@ import type { Brand, Container, Dictionary, Expand, FromKv, KeyValue, ToKv } fro
  * **Related:** `Unbrand`, `Brand`, `IsBranded`, `GetBrand`
  */
 // Helper to map Unbrand over tuple/array elements without touching array prototype keys.
-type UnbrandOne<V> = V extends Brand<infer B, any> ? B : V;
+type UnbrandOne<V> = V extends Brand<any, any> ? Unbrand<V> : V;
 
 // Helper to map shallow un-branding over tuple/array elements.
 type UnbrandTuple<

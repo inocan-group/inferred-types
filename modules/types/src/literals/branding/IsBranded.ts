@@ -1,4 +1,4 @@
-import type { BrandSymbol } from "inferred-types/types";
+import type { BrandSymbol } from "./BrandSymbol";
 
 /**
  * **IsBranded**`<T>`

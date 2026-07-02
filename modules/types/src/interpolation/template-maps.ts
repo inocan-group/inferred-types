@@ -1,10 +1,21 @@
-import type { EmptyObject, ExpandRecursively, GenericParam, InputTokenSuggestions, MergeObjects } from "inferred-types/types";
+import type { EmptyObject, GenericParam, InputTokenSuggestions, MergeObjects } from "inferred-types/types";
 
 export interface TemplateMap__Basic {
     string: "string";
     number: "number";
     boolean: "boolean";
 }
+
+type AddGeneric<
+    G extends Record<string, InputTokenSuggestions>,
+    T extends GenericParam,
+> = {
+    [K in keyof G | T["name"]]: K extends T["name"]
+        ? T["token"]
+        : K extends keyof G
+            ? G[K]
+            : never;
+};
 
 /**
  * **TemplateMap__Generics**`<T>`
@@ -16,8 +27,8 @@ export type TemplateMap__Generics<
     T extends readonly GenericParam[],
     G extends Record<string, InputTokenSuggestions> = TemplateMap__Basic
 > = T extends [ infer Head extends GenericParam, ...infer Rest extends readonly GenericParam[]]
-    ? TemplateMap__Generics<Rest, G & Record<Head["name"], Head["token"]>>
-    : ExpandRecursively<G>;
+    ? TemplateMap__Generics<Rest, AddGeneric<G, Head>>
+    : G;
 
 /**
  * **TemplateMap**`<[T]>`

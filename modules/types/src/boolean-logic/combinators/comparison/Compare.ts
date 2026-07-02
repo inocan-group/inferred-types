@@ -9,7 +9,6 @@ import type {
     ComparisonAccept,
     ComparisonOperation,
     Contains,
-    ContainsAll,
     DateLike,
     Dictionary,
     DoesExtend,
@@ -54,6 +53,17 @@ import type {
     TypedFunction,
     Unset
 } from "inferred-types/types";
+
+type ContainsAllParams<
+    TVal extends string | number | readonly unknown[],
+    TParams extends readonly unknown[],
+> = number extends TParams["length"]
+    ? boolean
+    : TParams extends readonly [infer Head, ...infer Rest]
+        ? Contains<TVal, Head> extends true
+            ? ContainsAllParams<TVal, Rest>
+            : false
+        : true;
 
 /**
  * **Comparator**
@@ -220,7 +230,7 @@ type Process__General<
 
                                     : TOp extends "containsAll"
                                         ? TVal extends string | number | readonly unknown[]
-                                            ? ContainsAll<
+                                            ? ContainsAllParams<
                                                 As<TVal, ComparisonAccept<"containsAll">>,
                                                 TParams
                                             >

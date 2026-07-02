@@ -1,4 +1,5 @@
-import type { BrandSymbol, IsUndefined, Scalar } from "inferred-types/types";
+import type { Scalar } from "types/base-types";
+import type { BrandSymbol } from "./BrandSymbol";
 
 /**
  * **Brand<Base,Kind,[Kv]>**
@@ -12,6 +13,6 @@ export type Brand<
     Base extends Scalar,
     Kind,
     Kv extends Record<string, unknown> | undefined = undefined
-> = IsUndefined<Kv> extends true
+> = [Kv] extends [undefined]
     ? Base & { [BrandSymbol]: Kind }
     : Base & { [BrandSymbol]: Kind } & Kv;
