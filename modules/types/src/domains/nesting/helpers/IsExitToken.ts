@@ -12,7 +12,7 @@ export type IsExitToken<
     ? boolean
     : [TNesting] extends [NestingKeyValue]
         // Extract exit tokens from values (handles both string and [exit, nextLevel])
-            ? [TChar] extends [ExtractExitTokens<Values<TNesting>[number]>]
+            ? [TChar] extends [ExtractExitTokens<Values<TNesting>[number], TNesting>]
                     ? true
                     : false
             : [TNesting] extends [NestingTuple]
@@ -20,6 +20,10 @@ export type IsExitToken<
                             ? [TChar] extends [TNesting[1][number]]
                                     ? true
                                     : false
+                            : [TNesting[1]] extends [{ exit?: infer Exit extends readonly string[] }]
+                                    ? [TChar] extends [Exit[number]]
+                                            ? true
+                                            : false
                             : [TNesting[1]] extends [undefined]
                                     ? [TChar] extends [TNesting[0][number]]
                                             ? false

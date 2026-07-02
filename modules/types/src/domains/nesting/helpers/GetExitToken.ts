@@ -1,28 +1,18 @@
 import type { As, Err, IsNull, Nesting, NestingKeyValue } from "inferred-types/types";
+import type { NormalizeNestingEntry } from "./NormalizeNestingEntry";
 
 type _GetExitToken<
     TEntry extends string,
     TNesting extends Nesting
 > = [TNesting] extends [NestingKeyValue]
     ? TEntry extends keyof TNesting
-        ? TNesting[TEntry] extends infer Value
-            // Handle hierarchical form (readonly tuple)
-            ? Value extends readonly [infer Exit extends string, infer _NextLevel]
-                ? Exit
-                // Handle hierarchical form (mutable tuple)
-                : Value extends [infer Exit extends string, infer _NextLevel]
-                    ? Exit
-                    // Handle simple form (string)
-                    : Value extends string
-                        ? Value
-                        : never
-            : never
+        ? NormalizeNestingEntry<TNesting[TEntry], TNesting>["exit"]
         : Err<
             `invalid-lookup`,
             `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TEntry}' which is NOT defined in the configuration (a NestingKeyValue config)!`,
             { config: TNesting }
         >
-    : [TNesting] extends [[infer StartingChars extends readonly string[], infer EndingChars extends readonly string[], ...infer _Rest]]
+    : [TNesting] extends [readonly [infer StartingChars extends readonly string[], infer EndingChars extends readonly string[], ...infer _Rest]]
             ? TEntry extends StartingChars[number]
                 ? EndingChars extends readonly string[]
                     ? EndingChars[number]
@@ -32,7 +22,15 @@ type _GetExitToken<
             `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TEntry}' which is NOT defined in the configuration (a NestingTuple config)!`,
             { config: TNesting }
                 >
-            : [TNesting] extends [[infer StartingChars extends readonly string[], infer EndingChars extends readonly string[]]]
+            : [TNesting] extends [readonly [infer StartingChars extends readonly string[], infer _EndingConfig extends { exit?: infer Exit extends readonly string[] }]]
+                    ? TEntry extends StartingChars[number]
+                        ? Exit[number]
+                        : Err<
+                            "invalid-lookup",
+                `GetNestingEnd<TStartChar,TNesting> got a start/entering character '${TEntry}' which is NOT defined in the configuration (a NestingTuple config)!`,
+                { config: TNesting }
+                        >
+                : [TNesting] extends [readonly [infer StartingChars extends readonly string[], infer EndingChars extends readonly string[]]]
                     ? TEntry extends StartingChars[number]
                         ? EndingChars extends readonly string[]
                             ? EndingChars[number]

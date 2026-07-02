@@ -16,6 +16,11 @@ export interface NestingKeyValueConfig {
     exception?: NestedException;
 }
 
+export type NestingKeyValueEntry =
+    | Char
+    | readonly [exit: Char, children: Nesting]
+    | NestingKeyValueConfig;
+
 /**
  * **NestingKeyValue**
  *
@@ -57,5 +62,5 @@ export interface NestingKeyValueConfig {
  */
 export type NestingKeyValue = Partial<Record<
     Char,
-    Char | NestingKeyValueConfig
+    NestingKeyValueEntry
 >>;

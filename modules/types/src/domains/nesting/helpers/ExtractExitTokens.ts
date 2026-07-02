@@ -1,12 +1,5 @@
-/**
- * Helper to extract exit tokens from NestingKeyValue values
- * Handles both simple (string) and hierarchical ([exit, nextLevel]) forms
- * Also handles readonly tuples from constants
- */
-export type ExtractExitTokens<V> = V extends readonly [infer Exit extends string, infer _NextLevel]
-    ? Exit
-    : V extends [infer Exit extends string, infer _NextLevel]
-        ? Exit
-        : V extends string
-            ? V
-            : never;
+import type { Nesting } from "inferred-types/types";
+import type { NormalizeNestingEntry } from "./NormalizeNestingEntry";
+
+export type ExtractExitTokens<V, TFallback extends Nesting> =
+    NormalizeNestingEntry<V, TFallback>["exit"];

@@ -47,5 +47,6 @@ export interface NestingTupleConfig {
  */
 export type NestingTuple = [
     entry: readonly Char[],
-    exit: undefined | string[] | NestingTupleConfig
+    exit: undefined | readonly string[] | NestingTupleConfig,
+    children?: Nesting
 ];
