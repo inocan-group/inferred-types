@@ -42,7 +42,7 @@ test-runtime *args="":
 
 # run typed testing
 test-types *args="":
-    @node_modules/.bin/typed test {{ args }}
+    @node --max-old-space-size=8192 node_modules/.pnpm/typed-tester@*/node_modules/typed-tester/bin/typed.js test {{ args }}
 
 # build transpiled Javascript
 build *args="":

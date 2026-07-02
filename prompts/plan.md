@@ -43,3 +43,5 @@ You are a planning agent. Convert the following documents into a high confidence
     - `created` add the date in YYYY-MM-DD format
     - `start_phase` set this to the starting phase number; usually 1 but may be 0 sometimes
     - `yolo` set this to "{{ env.YOLO }}"
+    - `spec` set this to "{{spec}}"
+    - `description` set this to a 1-2 sentence description of plan

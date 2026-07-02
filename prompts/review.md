@@ -116,6 +116,12 @@ A feature MAY be marked production-ready only when each user-observable requirem
     - based on your review suggestions indicate whether you think this feature is **ready for production** by setting the `ready` frontmatter property to `true` or `false`
     - set the `agent` frontmatter property to "{{ctx.agent}}/{{ctx.model}}"
     - set the `created` frontmatter property to "{{ctx.now}}"
+    - set the `spec` frontmatter property to "{{file_trailing(spec)}}"
+    ::block when="file_exists(design)"
+    - set the `design` frontmatter property to "{{file_trailing(design)}}"
+    ::end-block
+    - set the `iteration` frontmatter to `{{iteration}}`
+    - set the `description` frontmatter to a brief summary of the review findings
 - Set the spec file's ({{spec}}) `review_iterations` Frontmatter property to '{{iteration}}'
 - Summarize to the caller what was found and be sure to mention whether the review deemed the {{feature_or_fix}} to be **production ready** or not.
 

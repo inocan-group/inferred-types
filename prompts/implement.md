@@ -63,27 +63,12 @@ You are done when:
     - NOTE: you should mark tasks as complete as soon as you believe they are complete (e.g., implemented and any relevant tests suggest this is complete). Doing this allows an immediate feedback loop but also helps in recovering from a phase that didn't complete
 - all tests are passing (using `just test` in the {{ctx.current_package_area}} package area)
 - all lints are passing (using `just lint` in the {{ctx.current_package_area}} package area)
-- You must set the following Frontmatter properties:
-    - `source_files_during_phase_{{phase}}` should be set to all source code files which were created or updated during this phase of the implementation; put an empty list (e.g., `[]`) if none
-    - `docs_updated_during_phase_{{phase}}` should be set to all documentation files which were updated during this phase of the implementation; put an empty list (e.g., `[]`) if none
-    - `docs_created_during_phase_{{phase}}` should be set to all documentation files which were created during this phase of the implementation; put an empty list (e.g., `[]`) if none
-    - `skills_files_updated_during_phase_{{phase}}` should be set to all agent skill files which were updated during this phase of the implementation; put an empty list (e.g., `[]`) if none
-    ::block when="phase == total_phases"
-        - set `source_code` Frontmatter to every source code file that was updated or created during the various phases of the plan
-        - set `documentation` Frontmatter to every documentation file that was updated or created during the various phases of the plan
-    ::end-block
-    - if this is a monorepo, then include `packages` as a list of packages in the monorepo which were touched by the implementation in phase {{phase}}
+- Set or update the following Frontmatter properties on both the plan file({{plan}}) and the specification file ({{spec}}):
+    - `source_files` should be updated to include all source code files which were created or updated during this phase (note: add an initial `[]` if this property was not previously set, otherwise add to the current list but be sure to dedup the list so that files only show once)
+    - `documentation` should be update the documentation files which were updated or created during this phase of the implementation; put an empty list (e.g., `[]`) if none but otherwise add the delta from this phase to the running total (but be sure to dedup files)
+    - `skills` property should be updated to include any agent skill files which were updated during this phase of the work (note: add an initial `[]` if this property was not previously set, otherwise add to the current list but be sure to dedup the list so that files only show once)
 ::block when="memory"
 - Once all Frontmatter has been set to the plan file ({{plan}}), consider if there was anything surprising or novel that you discovered during this phase that would be valuable to know in future stages. If there is, then add a H2 heading `## Phase {{phase}}` to the end of the file `memory/{{memory}}.md`
-::end-block
-
-::block when="ctx.is_monorepo"
-## Be Efficient in Testing/Building
-
-- when building or testing, make sure to only build/test the _specific packages_ or package area you are working; not the entire monorepo (this will take too long)
-- The session was started in the "{{area}}" package area and so that's very likely an area you'll be focused on, however,
-- most plan's will have a `packages` or `blast_radius` Frontmatter property which will explicitly state which packages are in the "blast radius" (aka, will be impacted
-  during the implementation of this plan)
 ::end-block
 
 **IMPORTANT:**
@@ -91,5 +76,5 @@ You are done when:
 - Do NOT commit or stage files to git, this will be done as a separate process.
 - Report a summary of what you did including all the source files you changed.
 - You do not need to run tests across the entire monorepo as this will take far too long. Only
-- once the implementation is complete update the '{{ctx.current_package_area}}' if there were any notable changes needed in this skill
+- once the implementation is complete update any relevant README files or agent skill files
 - you are running as part of a non-interactive session! Do not ask the user for feedback or permissions as they can not answer!
