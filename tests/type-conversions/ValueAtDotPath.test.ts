@@ -1,9 +1,13 @@
 import { describe, it } from "vitest";
 import { Ref } from "vue";
-import type { Expect, IsValidDotPath, Test, ValueAtDotPath } from "inferred-types/types";
+import type {
+    Expect,
+    IsValidDotPath,
+    Test,
+    ValueAtDotPath,
+} from "inferred-types/types";
 
 describe("ValueAtDotPath", () => {
-
     it("happy path", () => {
         type myRef = Ref<{ age: number; address: string }>;
 
@@ -40,6 +44,5 @@ describe("ValueAtDotPath", () => {
             // Expect<Test<ExplicitInfo, "equals", number>>,
             // Expect<Test<ImplicitInfo, "equals", number>>,
         ];
-
     });
 });

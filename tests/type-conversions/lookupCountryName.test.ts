@@ -1,10 +1,14 @@
-import { lookupCountryAlpha2, lookupCountryAlpha3, lookupCountryCode, lookupCountryName } from "inferred-types/runtime";
+import {
+    lookupCountryAlpha2,
+    lookupCountryAlpha3,
+    lookupCountryCode,
+    lookupCountryName,
+} from "inferred-types/runtime";
 import type { Expect, Test } from "inferred-types/types";
 
 import { describe, expect, it } from "vitest";
 
 describe("lookupCountryName()", () => {
-
     it("lookupCountryName() with alpha2", () => {
         const us = lookupCountryName("US");
         const ca = lookupCountryName("CA");
@@ -22,7 +26,7 @@ describe("lookupCountryName()", () => {
             Expect<Test<typeof ca, "equals", "Canada">>,
             Expect<Test<typeof uk, "equals", "United Kingdom">>,
             Expect<Test<typeof usLower, "equals", "United States of America">>,
-        ]
+        ];
     });
     it("lookupCountryName() with alpha3", () => {
         const us = lookupCountryName("USA");
@@ -41,7 +45,7 @@ describe("lookupCountryName()", () => {
             Expect<Test<typeof ca, "equals", "Canada">>,
             Expect<Test<typeof uk, "equals", "United Kingdom">>,
             Expect<Test<typeof usLower, "equals", "United States of America">>,
-        ]
+        ];
     });
 
     it("lookupCountryName() with numeric string", () => {
@@ -57,13 +61,11 @@ describe("lookupCountryName()", () => {
             Expect<Test<typeof us, "equals", "United States of America">>,
             Expect<Test<typeof ca, "equals", "Canada">>,
             Expect<Test<typeof uk, "equals", "United Kingdom">>,
-        ]
+        ];
     });
-
 });
 
 describe("lookupCountryAlpha2", () => {
-
     it("lookupCountryAlpha2() with alpha2", () => {
         const us = lookupCountryAlpha2("USA");
         const ca = lookupCountryAlpha2("CAN");
@@ -84,7 +86,7 @@ describe("lookupCountryAlpha2", () => {
             Expect<Test<typeof ca2, "equals", "CA">>,
             Expect<Test<typeof uk, "equals", "GB">>,
             Expect<Test<typeof usLower, "equals", "US">>,
-        ]
+        ];
     });
 
     it("lookupCountryAlpha2() with alpha3", () => {
@@ -104,7 +106,7 @@ describe("lookupCountryAlpha2", () => {
             Expect<Test<typeof ca, "equals", "CA">>,
             Expect<Test<typeof uk, "equals", "GB">>,
             Expect<Test<typeof usLower, "equals", "US">>,
-        ]
+        ];
     });
 
     it("lookupCountryAlpha2() with numeric string", () => {
@@ -120,7 +122,7 @@ describe("lookupCountryAlpha2", () => {
             Expect<Test<typeof us, "equals", "US">>,
             Expect<Test<typeof ca, "equals", "CA">>,
             Expect<Test<typeof uk, "equals", "GB">>,
-        ]
+        ];
     });
 
     it("lookupCountryAlpha2() with country name", () => {
@@ -136,13 +138,11 @@ describe("lookupCountryAlpha2", () => {
             Expect<Test<typeof us, "equals", "US">>,
             Expect<Test<typeof ca, "equals", "CA">>,
             Expect<Test<typeof uk, "equals", "GB">>,
-        ]
+        ];
     });
-
-})
+});
 
 describe("lookupCountryAlpha3", () => {
-
     it("lookupCountryAlpha3() with alpha2", () => {
         const us = lookupCountryAlpha3("US");
         const ca = lookupCountryAlpha3("CA");
@@ -160,7 +160,7 @@ describe("lookupCountryAlpha3", () => {
             Expect<Test<typeof ca, "equals", "CAN">>,
             Expect<Test<typeof uk, "equals", "GBR">>,
             Expect<Test<typeof usLower, "equals", "USA">>,
-        ]
+        ];
     });
 
     it("lookupCountryAlpha3() with alpha3", () => {
@@ -180,7 +180,7 @@ describe("lookupCountryAlpha3", () => {
             Expect<Test<typeof ca, "equals", "CAN">>,
             Expect<Test<typeof uk, "equals", "GBR">>,
             Expect<Test<typeof usLower, "equals", "USA">>,
-        ]
+        ];
     });
 
     it("lookupCountryAlpha3() with numeric string", () => {
@@ -196,7 +196,7 @@ describe("lookupCountryAlpha3", () => {
             Expect<Test<typeof us, "equals", "USA">>,
             Expect<Test<typeof ca, "equals", "CAN">>,
             Expect<Test<typeof uk, "equals", "GBR">>,
-        ]
+        ];
     });
 
     it("lookupCountryAlpha3() with country name", () => {
@@ -212,13 +212,11 @@ describe("lookupCountryAlpha3", () => {
             Expect<Test<typeof us, "equals", "USA">>,
             Expect<Test<typeof ca, "equals", "CAN">>,
             Expect<Test<typeof uk, "equals", "GBR">>,
-        ]
+        ];
     });
-
-})
+});
 
 describe("lookupCountryCode", () => {
-
     it("lookupCountryCode() with alpha2", () => {
         const us = lookupCountryCode("US");
         const ca = lookupCountryCode("CA");
@@ -236,7 +234,7 @@ describe("lookupCountryCode", () => {
             Expect<Test<typeof ca, "equals", "124">>,
             Expect<Test<typeof uk, "equals", "826">>,
             Expect<Test<typeof usLower, "equals", "840">>,
-        ]
+        ];
     });
 
     it("lookupCountryCode() with alpha3", () => {
@@ -256,7 +254,7 @@ describe("lookupCountryCode", () => {
             Expect<Test<typeof ca, "equals", "124">>,
             Expect<Test<typeof uk, "equals", "826">>,
             Expect<Test<typeof usLower, "equals", "840">>,
-        ]
+        ];
     });
 
     it("lookupCountryCode() with country name", () => {
@@ -272,7 +270,6 @@ describe("lookupCountryCode", () => {
             Expect<Test<typeof us, "equals", "840">>,
             Expect<Test<typeof ca, "equals", "124">>,
             Expect<Test<typeof uk, "equals", "826">>,
-        ]
+        ];
     });
-
-})
+});

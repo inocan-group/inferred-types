@@ -4,7 +4,6 @@ import type { Expect, Test, ToNumber } from "inferred-types/types";
 import { narrow, toNumber } from "inferred-types/runtime";
 
 describe("ToNumber<T>", () => {
-
     it("happy path for scalars", () => {
         type Num = ToNumber<42>;
         type StrNum = ToNumber<"42">;
@@ -53,7 +52,6 @@ describe("ToNumber<T>", () => {
             Expect<Test<Bool, "equals", [0 | 1, 0 | 1, 0 | 1]>>,
             Expect<Test<TrueFalse, "equals", [1, 1, 0]>>,
         ];
-
     });
 
     it("runtime tests of toNumber()", () => {
@@ -79,5 +77,4 @@ describe("ToNumber<T>", () => {
             Expect<Test<typeof mixedArr, "equals", readonly [1, never, 2]>>,
         ];
     });
-
 });

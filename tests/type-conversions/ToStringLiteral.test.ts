@@ -1,17 +1,21 @@
 import { describe, expect, it } from "vitest";
-import type { AssertError, Expect, ObjectKeys, Test, ToStringLiteral, TupleMeta } from "inferred-types/types";
+import type {
+    AssertError,
+    Expect,
+    Test,
+    ToStringLiteral,
+} from "inferred-types/types";
 
-import { err, toStringLiteral, split, stripChars } from "inferred-types/runtime";
+import { err, toStringLiteral } from "inferred-types/runtime";
 
 describe("ToStringLiteral<T>", () => {
-
     it("undefined and null values", () => {
         type Undef = ToStringLiteral<undefined>;
         type Null = ToStringLiteral<null>;
 
         type cases = [
             Expect<Test<Undef, "equals", "undefined">>,
-            Expect<Test<Null, "equals", "null">>
+            Expect<Test<Null, "equals", "null">>,
         ];
     });
 
@@ -44,68 +48,54 @@ describe("ToStringLiteral<T>", () => {
         type FooBar = ToStringLiteral<{ foo: "hi"; bar: 42 }>;
         type FooBarSingle = ToStringLiteral<
             { foo: "hi"; bar: 42 },
-            { quote: "'"}
+            { quote: "'" }
         >;
         type Nested = ToStringLiteral<{
-            uno: { foo: "hi"; bar: [1,2,3] };
-            dos: [4,5,6]
+            uno: { foo: "hi"; bar: [1, 2, 3] };
+            dos: [4, 5, 6];
         }>;
 
         type cases = [
             Expect<Test<FooBar, "equals", `{ foo: "hi", bar: 42 }`>>,
-            Expect<Test<
-                FooBarSingle, "equals",
-                `{ foo: 'hi', bar: 42 }`
-            >>,
-            Expect<Test<
-                Nested, "equals",
-                `{ uno: { foo: \"hi\", bar: [ 1, 2, 3 ] }, dos: [ 4, 5, 6 ] }`
-            >>,
+            Expect<Test<FooBarSingle, "equals", `{ foo: 'hi', bar: 42 }`>>,
+            Expect<
+                Test<
+                    Nested,
+                    "equals",
+                    `{ uno: { foo: \"hi\", bar: [ 1, 2, 3 ] }, dos: [ 4, 5, 6 ] }`
+                >
+            >,
         ];
     });
 
     it("dictionary with optional keys", () => {
-        type FooBar = ToStringLiteral<{foo: 1; bar?: 2}>
+        type FooBar = ToStringLiteral<{ foo: 1; bar?: 2 }>;
 
-        type cases = [
-            Expect<Test<FooBar, "equals", "{ foo: 1, bar?: 2 }">>
-        ];
+        type cases = [Expect<Test<FooBar, "equals", "{ foo: 1, bar?: 2 }">>];
     });
 
     it("literal array", () => {
-        type Numeric = ToStringLiteral<[1,2,3]>;
-        type Obj = ToStringLiteral<[
-            { id: 1},
-            { id: 2}
-        ]>;
-        type MultiDim = ToStringLiteral<[
-            [1,2],
-            [3,4]
-        ]>
+        type Numeric = ToStringLiteral<[1, 2, 3]>;
+        type Obj = ToStringLiteral<[{ id: 1 }, { id: 2 }]>;
+        type MultiDim = ToStringLiteral<[[1, 2], [3, 4]]>;
 
-        type Mixed = ToStringLiteral<[1,"foo",3]>;
-        type Mixed2 = ToStringLiteral<[
-            1,2, "foo",
-            { id: 1 }
-        ]>;
+        type Mixed = ToStringLiteral<[1, "foo", 3]>;
+        type Mixed2 = ToStringLiteral<[1, 2, "foo", { id: 1 }]>;
 
         type cases = [
             Expect<Test<Numeric, "equals", `[ 1, 2, 3 ]`>>,
             Expect<Test<Obj, "equals", `[ { id: 1 }, { id: 2 } ]`>>,
             Expect<Test<MultiDim, "equals", `[ [ 1, 2 ], [ 3, 4 ] ]`>>,
             Expect<Test<Mixed, "equals", `[ 1, "foo", 3 ]`>>,
-            Expect<Test<
-                Mixed2, "equals",
-                `[ 1, 2, "foo", { id: 1 } ]`
-            >>,
+            Expect<Test<Mixed2, "equals", `[ 1, 2, "foo", { id: 1 } ]`>>,
         ];
     });
 
     it("literal array (with optionals)", () => {
-        type Opt1 = ToStringLiteral<[1,2,3?]>;
-        type Opt2 = ToStringLiteral<[1,2,{foo:1}?]>;
-        type MultiOpt = ToStringLiteral<[1,2?,3?]>;
-        type AllOpt = ToStringLiteral<[1?,2?,3?]>;
+        type Opt1 = ToStringLiteral<[1, 2, 3?]>;
+        type Opt2 = ToStringLiteral<[1, 2, { foo: 1 }?]>;
+        type MultiOpt = ToStringLiteral<[1, 2?, 3?]>;
+        type AllOpt = ToStringLiteral<[1?, 2?, 3?]>;
 
         type cases = [
             Expect<Test<Opt1, "equals", `[ 1, 2, 3? ]`>>,
@@ -127,50 +117,35 @@ describe("ToStringLiteral<T>", () => {
             Expect<Test<NumArr, "equals", `number[]`>>,
             Expect<Test<BoolArr, "equals", `(false | true)[]`>>,
 
-            Expect<Test<
-                UnionArr, "extends",
-                "(\"foo\" | 4)[]" |
-                `("foo" | 4)[]`
-            >>,
+            Expect<
+                Test<UnionArr, "extends", '("foo" | 4)[]' | `("foo" | 4)[]`>
+            >,
         ];
-    })
+    });
 
     it("tuple (empty)", () => {
         type Empty = ToStringLiteral<[]>;
 
-        type cases = [
-            Expect<Test<Empty, "equals", "[]">>
-        ];
+        type cases = [Expect<Test<Empty, "equals", "[]">>];
     });
 
     it("Union type", () => {
         type StrNum = ToStringLiteral<string | number>;
         type Numeric = ToStringLiteral<1 | 2 | 3 | 4>;
-        type Obj = ToStringLiteral<
-            { id: 1 } | { id: 2 }
-        >;
+        type Obj = ToStringLiteral<{ id: 1 } | { id: 2 }>;
 
         type cases = [
-            Expect<Test<
-                StrNum, "extends",
-                "string | number" | "number | string"
-            >>,
+            Expect<
+                Test<StrNum, "extends", "string | number" | "number | string">
+            >,
             /** the ordering of a union type can vary */
-            Expect<Test<
-                Numeric, "containsAll",
-                ["1","2","3","4","|"]
-            >>,
-            Expect<Test<
-                Obj, "equals",
-                `{ id: 1 } | { id: 2 }`
-            >>,
+            Expect<Test<Numeric, "containsAll", ["1", "2", "3", "4", "|"]>>,
+            Expect<Test<Obj, "equals", `{ id: 1 } | { id: 2 }`>>,
         ];
     });
-
 });
 
 describe("toStringLiteral(val)", () => {
-
     it("scalar", () => {
         const num = toStringLiteral(42);
         const str = toStringLiteral("42");
@@ -203,39 +178,35 @@ describe("toStringLiteral(val)", () => {
     });
 
     it("dictionary", () => {
-        const fooBar = toStringLiteral({foo: 1, bar: "hi"});
+        const fooBar = toStringLiteral({ foo: 1, bar: "hi" });
         const nested = toStringLiteral({
-            uno: { foo: "hi", bar: [1,2,3] },
-            dos: [4,5,6]
+            uno: { foo: "hi", bar: [1, 2, 3] },
+            dos: [4, 5, 6],
         });
 
-        expect(fooBar).toBe("{ foo: 1, bar: \"hi\" }");
+        expect(fooBar).toBe('{ foo: 1, bar: "hi" }');
         expect(nested).toBe(
-            `{ uno: { foo: \"hi\", bar: [ 1, 2, 3 ] }, dos: [ 4, 5, 6 ] }`
-        )
+            `{ uno: { foo: \"hi\", bar: [ 1, 2, 3 ] }, dos: [ 4, 5, 6 ] }`,
+        );
 
         type cases = [
-            Expect<Test<
-                typeof fooBar, "equals",
-                "{ foo: 1, bar: \"hi\" }"
-            >>
+            Expect<Test<typeof fooBar, "equals", '{ foo: 1, bar: "hi" }'>>,
         ];
     });
 
     it("tuple", () => {
-        const tup = toStringLiteral([
-            1, 2,
-            "foo",
-            { id: 1 }
-        ]);
+        const tup = toStringLiteral([1, 2, "foo", { id: 1 }]);
 
-        expect(tup).toBe(`[ 1, 2, "foo", { id: 1 } ]`)
+        expect(tup).toBe(`[ 1, 2, "foo", { id: 1 } ]`);
 
         type cases = [
-            Expect<Test<
-                typeof tup, "containsAll",
-                [ "1", "2", "\"foo\"", "{ id: 1 }" ]
-            >>
+            Expect<
+                Test<
+                    typeof tup,
+                    "containsAll",
+                    ["1", "2", '"foo"', "{ id: 1 }"]
+                >
+            >,
         ];
     });
 
@@ -243,14 +214,12 @@ describe("toStringLiteral(val)", () => {
         // Create an object with a property that is an error
         const objWithError = {
             foo: "valid",
-            bar: err("malformed-token", "Invalid token")
+            bar: err("malformed-token", "Invalid token"),
         };
 
         const result = toStringLiteral(objWithError, { tokensAllowed: true });
 
-        type cases = [
-            Expect<AssertError<typeof result, "malformed-token">>
-        ]
+        type cases = [Expect<AssertError<typeof result, "malformed-token">>];
         // The result should be an error
         expect(result).toBeInstanceOf(Error);
 
@@ -272,7 +241,7 @@ describe("toStringLiteral(val)", () => {
         // Create an error with both type and subType
         const objWithError = {
             foo: "valid",
-            bar: err("malformed-token/array", "Invalid array token")
+            bar: err("malformed-token/array", "Invalid array token"),
         };
 
         const result = toStringLiteral(objWithError, { tokensAllowed: true });
@@ -280,8 +249,8 @@ describe("toStringLiteral(val)", () => {
         expect(result).toBeInstanceOf(Error);
 
         type cases = [
-            Expect<AssertError<typeof result, "malformed-token", "array">>
-        ]
+            Expect<AssertError<typeof result, "malformed-token", "array">>,
+        ];
 
         if (result instanceof Error) {
             const typedErr = result as any;
@@ -296,15 +265,15 @@ describe("toStringLiteral(val)", () => {
         const nestedError = {
             outer: "valid",
             inner: {
-                nested: err("malformed-token/literal", "Bad literal")
-            }
+                nested: err("malformed-token/literal", "Bad literal"),
+            },
         };
 
         const result = toStringLiteral(nestedError, { tokensAllowed: true });
 
         type cases = [
-            Expect<AssertError<typeof result, "malformed-token", "literal">>
-        ]
+            Expect<AssertError<typeof result, "malformed-token", "literal">>,
+        ];
 
         // Should catch the nested error when processing the inner object
         expect(result).toBeInstanceOf(Error);

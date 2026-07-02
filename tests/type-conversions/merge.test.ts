@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import type { CombinedKeys, Expect, Merge, MergeObjects, MergeScalars, MergeTuples, Test } from "inferred-types/types";
+import type {
+    CombinedKeys,
+    Expect,
+    Merge,
+    MergeObjects,
+    MergeScalars,
+    MergeTuples,
+    Test,
+} from "inferred-types/types";
 
 import { mergeScalars, mergeTuples } from "inferred-types/runtime";
 
@@ -24,15 +32,14 @@ describe("MergeObjects<A,B>", () => {
         type M1 = MergeObjects<O2, O1>;
 
         type cases = [
-            Expect<Test<M1, "equals", { foo: 1; bar: 2; baz: 4; deep: { a: 1 } }>>,
+            Expect<
+                Test<M1, "equals", { foo: 1; bar: 2; baz: 4; deep: { a: 1 } }>
+            >,
         ];
-
     });
-
 });
 
 describe("MergeTuples<TDefault,TOverride>", () => {
-
     it("happy path", () => {
         type Nothing = MergeTuples<[], []>;
         type Unchanged = MergeTuples<["foo", "bar"], []>;
@@ -45,22 +52,18 @@ describe("MergeTuples<TDefault,TOverride>", () => {
             Expect<Test<Barbar, "equals", readonly ["bar", "bar"]>>,
             Expect<Test<Eclipsed, "equals", readonly ["baz", "bar", "foo"]>>,
         ];
-
     });
-
 });
 
 describe("MergeScalars", () => {
-
     it("happy path", () => {
-
         type cases = [
             Expect<Test<MergeScalars<4, 5>, "equals", 5>>, // override prevails
             Expect<Test<MergeScalars<4, undefined>, "equals", 4>>, // no override, default prevails
             Expect<Test<MergeScalars<number, 5>, "equals", 5>>, // wide type for default is ignored
             Expect<Test<MergeScalars<4, number>, "equals", number>>, // type widened to fit override
             Expect<Test<MergeScalars<number, 5>, "equals", 5>>, // override being wide has no bearing
-            Expect<Test<MergeScalars<number, number>, "equals", number>>
+            Expect<Test<MergeScalars<number, number>, "equals", number>>,
         ];
     });
 });
@@ -91,7 +94,13 @@ describe("Merge Tuples", () => {
         type cases = [
             Expect<Test<OverrideFully, "equals", Baz42>>,
             Expect<Test<PartialOverride, "equals", readonly ["baz", "bar"]>>,
-            Expect<Test<OverExtend, "equals", readonly ["foo", "bar", "three", "four", "five"]>>
+            Expect<
+                Test<
+                    OverExtend,
+                    "equals",
+                    readonly ["foo", "bar", "three", "four", "five"]
+                >
+            >,
         ];
     });
 
@@ -101,7 +110,13 @@ describe("Merge Tuples", () => {
         // partial override
         expect(mergeTuples(baz42, partial)).toEqual(["baz", "bar"]);
         // extend
-        expect(mergeTuples(lengthy, foobar)).toEqual(["foo", "bar", "three", "four", "five"]);
+        expect(mergeTuples(lengthy, foobar)).toEqual([
+            "foo",
+            "bar",
+            "three",
+            "four",
+            "five",
+        ]);
         // empty arrays
         expect(mergeTuples(foobar, [])).toEqual(foobar);
         expect(mergeTuples([], foobar)).toEqual(foobar);
@@ -109,32 +124,31 @@ describe("Merge Tuples", () => {
 });
 
 describe("Merge Objects", () => {
-
     it("CombinedKeys<A,B>", () => {
         type FooBarBaz = CombinedKeys<{ foo: 1; bar: 2 }, { baz: 3 }>;
 
         type cases = [
-            Expect<Test<FooBarBaz, "hasSameKeys", ["foo", "bar", "baz"]>>
+            Expect<Test<FooBarBaz, "hasSameKeys", ["foo", "bar", "baz"]>>,
         ];
-
     });
 
     it("type tests", () => {
         type JustExtend = MergeObjects<{ foo: 1; bar: 2 }, { baz: 3 }>;
         type JustExtend2 = MergeObjects<{ baz: 3 }, { foo: 1; bar: 2 }>;
-        type FullyOverride = MergeObjects<{ foo: 1; bar: 2 }, { foo: 2; bar: 3 }>;
+        type FullyOverride = MergeObjects<
+            { foo: 1; bar: 2 },
+            { foo: 2; bar: 3 }
+        >;
 
         type cases = [
             Expect<Test<JustExtend, "equals", { foo: 1; bar: 2; baz: 3 }>>,
             Expect<Test<JustExtend2, "equals", { foo: 1; bar: 2; baz: 3 }>>,
-            Expect<Test<FullyOverride, "equals", { foo: 2; bar: 3 }>>
+            Expect<Test<FullyOverride, "equals", { foo: 2; bar: 3 }>>,
         ];
-
     });
 });
 
 describe("Merge<A,B>", () => {
-
     it("happy path", () => {
         type FooBar = Merge<{ foo: 1 }, { bar: 2 }>;
         type Replaced = Merge<{ foo: 0; bar: 0 }, { foo: 1; bar: 2 }>;
@@ -157,8 +171,5 @@ describe("Merge<A,B>", () => {
             Expect<Test<Invalid, "isError", Error>>,
             Expect<Test<Nothing, "equals", undefined>>,
         ];
-
     });
-
 });
-

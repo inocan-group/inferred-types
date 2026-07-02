@@ -1,10 +1,18 @@
 import { IsNarrowingFn, NarrowingFn } from "inferred-types";
-import type { AsNarrowingFn, Dictionary, EmptyObject, Expect, Test, Widen, WidenFn, WidenFunction } from "inferred-types/types";
+import type {
+    AsNarrowingFn,
+    Dictionary,
+    EmptyObject,
+    Expect,
+    Test,
+    Widen,
+    WidenFn,
+    WidenFunction,
+} from "inferred-types/types";
 
 import { describe, it } from "vitest";
 
 describe("Widen<T>", () => {
-
     it("widen function", () => {
         type BobNancy = <T extends "Bob" | "Nancy">(name: T) => `hi ${T}`;
         type CS = AsNarrowingFn<Parameters<BobNancy>, string>;
@@ -17,20 +25,34 @@ describe("Widen<T>", () => {
         type IsAny<T> = 0 extends 1 & T ? true : false;
 
         type ReturnOf<F> =
-        // non-generic
-        [F] extends [(...a: any[]) => any] ? ReturnType<F> :
-        // generic call sig (any # of type params)
-        [F] extends [{ <T extends any>(...a: any[]): infer R }] ? R :
-        never;
+            // non-generic
+            [F] extends [(...a: any[]) => any]
+                ? ReturnType<F>
+                : // generic call sig (any # of type params)
+                  [F] extends [{ <T extends any>(...a: any[]): infer R }]
+                  ? R
+                  : never;
 
         // Recursively grab the first candidate C where R <: C
         type FirstAssignable<R, L extends readonly unknown[]> =
-        IsAny<R> extends true ? unknown :
-        L extends readonly [infer H, ...infer T]
-            ? [R] extends [H] ? H : FirstAssignable<R, T>
-            : R;
+            IsAny<R> extends true
+                ? unknown
+                : L extends readonly [infer H, ...infer T]
+                  ? [R] extends [H]
+                      ? H
+                      : FirstAssignable<R, T>
+                  : R;
 
-        type Candidates = [string, number, boolean, bigint, symbol, object, void, never];
+        type Candidates = [
+            string,
+            number,
+            boolean,
+            bigint,
+            symbol,
+            object,
+            void,
+            never,
+        ];
         type WideReturn<F> = FirstAssignable<ReturnOf<F>, Candidates>;
 
         type WR = WideReturn<BobNancy>;
@@ -41,12 +63,10 @@ describe("Widen<T>", () => {
             Parameters<BobNancy>,
             ReturnType<BobNancy>,
             EmptyObject
-        >
+        >;
         type Fn2 = WidenFn<Str>;
 
-        type cases = [
-            /** type tests */
-        ];
+        type cases = [/** type tests */];
     });
 
     it("happy path", () => {
@@ -72,9 +92,7 @@ describe("Widen<T>", () => {
         type TupleForced = Widen<readonly string[], true>;
 
         type Fn = Widen<() => "hi">;
-        type NarrowFnReturn = Widen<
-            <T extends string>(name: T) => `hi ${T}`
-        >;
+        type NarrowFnReturn = Widen<<T extends string>(name: T) => `hi ${T}`>;
 
         type NarrowFnParams = Widen<
             (name: "Bob" | "Nancy") => `hi ${typeof name}`
@@ -89,12 +107,16 @@ describe("Widen<T>", () => {
 
             Expect<Test<LiteralObj, "equals", { foo: number; bar: string }>>,
             Expect<Test<WideObj, "equals", { foo: number; bar: string }>>,
-            Expect<Test<ObjInObj, "equals", { foo: { bar: number; baz: number } }>>,
+            Expect<
+                Test<ObjInObj, "equals", { foo: { bar: number; baz: number } }>
+            >,
             Expect<Test<KeyValue, "equals", EmptyObject>>,
             Expect<Test<Obj, "equals", object>>,
 
             Expect<Test<Arr, "equals", [string, boolean, number]>>,
-            Expect<Test<ArrInObj, "equals", { foo: [string, string]; bar: number }>>,
+            Expect<
+                Test<ArrInObj, "equals", { foo: [string, string]; bar: number }>
+            >,
             Expect<Test<WideArr, "equals", string[]>>,
 
             Expect<Test<Union, "equals", string | number>>,
@@ -105,28 +127,35 @@ describe("Widen<T>", () => {
             Expect<Test<TupleForced, "equals", readonly unknown[]>>,
 
             Expect<Test<Fn, "equals", () => string>>,
-            Expect<Test<
-                NarrowFnReturn, "equals",
-                <T extends readonly [string]>(...args: T) => string
-            >>,
-            Expect<Test<
-                NarrowFnParams, "equals",
-                <T extends readonly [string]>(...args: T) => string
-            >>,
-            Expect<Test<
-                FnWithProps, "equals",
-                (() => string) & { foo: number; bar: number }
-            >>,
-            Expect<Test<
-                FnAsProp, "equals",
-                { foo: () => string }
-            >>,
-            Expect<Test<
-                FnWithPropAsProp, "equals",
-                { foo: (() => string) & { bar: number } }
-            >>
+            Expect<
+                Test<
+                    NarrowFnReturn,
+                    "equals",
+                    <T extends readonly [string]>(...args: T) => string
+                >
+            >,
+            Expect<
+                Test<
+                    NarrowFnParams,
+                    "equals",
+                    <T extends readonly [string]>(...args: T) => string
+                >
+            >,
+            Expect<
+                Test<
+                    FnWithProps,
+                    "equals",
+                    (() => string) & { foo: number; bar: number }
+                >
+            >,
+            Expect<Test<FnAsProp, "equals", { foo: () => string }>>,
+            Expect<
+                Test<
+                    FnWithPropAsProp,
+                    "equals",
+                    { foo: (() => string) & { bar: number } }
+                >
+            >,
         ];
-
     });
-
 });
