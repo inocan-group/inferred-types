@@ -1,10 +1,14 @@
 import { describe, it, expect } from "vitest";
-import type { Expect, LessThan, LessThanOrEqual, Test } from "inferred-types/types";
+import type {
+    Expect,
+    LessThan,
+    LessThanOrEqual,
+    Test,
+} from "inferred-types/types";
 
 import { lessThan, lessThanOrEqual } from "inferred-types/runtime";
 
 describe("LessThan<A,B> Type Utility", () => {
-
     it("basic integer comparisons", () => {
         type T1 = LessThan<0, 1>;
         type T2 = LessThan<0, 1000>;
@@ -215,11 +219,9 @@ describe("LessThan<A,B> Type Utility", () => {
             Expect<Test<W3, "equals", boolean>>,
         ];
     });
-
 });
 
 describe("LessThanOrEqual<A,B> Type Utility", () => {
-
     it("basic integer comparisons", () => {
         type T1 = LessThanOrEqual<0, 1>;
         type T2 = LessThanOrEqual<0, 1000>;
@@ -301,11 +303,9 @@ describe("LessThanOrEqual<A,B> Type Utility", () => {
             Expect<Test<W3, "equals", boolean>>,
         ];
     });
-
 });
 
 describe("lessThan() Runtime Function", () => {
-
     it("basic integer comparisons", () => {
         const lt5 = lessThan(5); // partial application
 
@@ -320,7 +320,6 @@ describe("lessThan() Runtime Function", () => {
         expect(five).toBe(false); // Equal should be false
         expect(six).toBe(false);
         expect(ten).toBe(false);
-
     });
 
     it("decimal number comparisons", () => {
@@ -337,7 +336,6 @@ describe("lessThan() Runtime Function", () => {
         expect(one_five).toBe(false); // Equal should be false
         expect(one_six).toBe(false);
         expect(two).toBe(false);
-
     });
 
     it("negative number comparisons", () => {
@@ -354,7 +352,6 @@ describe("lessThan() Runtime Function", () => {
         expect(neg_one).toBe(false);
         expect(zero).toBe(false);
         expect(one).toBe(false);
-
     });
 
     it("zero comparisons", () => {
@@ -371,7 +368,6 @@ describe("lessThan() Runtime Function", () => {
         expect(zero).toBe(false); // Equal should be false
         expect(point_one).toBe(false);
         expect(one).toBe(false);
-
     });
 
     it("large number comparisons", () => {
@@ -386,13 +382,10 @@ describe("lessThan() Runtime Function", () => {
         expect(thousand).toBe(false); // Equal should be false
         expect(thousand_one).toBe(false);
         expect(ten_thousand).toBe(false);
-
     });
-
 });
 
 describe("lessThanOrEqual() Runtime Function", () => {
-
     it("basic integer comparisons", () => {
         const lte5 = lessThanOrEqual(5);
 
@@ -407,7 +400,6 @@ describe("lessThanOrEqual() Runtime Function", () => {
         expect(five).toBe(true); // Equal should be true
         expect(six).toBe(false);
         expect(ten).toBe(false);
-
     });
 
     it("decimal number comparisons", () => {
@@ -424,7 +416,6 @@ describe("lessThanOrEqual() Runtime Function", () => {
         expect(one_five).toBe(true); // Equal should be true
         expect(one_six).toBe(false);
         expect(two).toBe(false);
-
     });
 
     it("negative number comparisons", () => {
@@ -441,7 +432,6 @@ describe("lessThanOrEqual() Runtime Function", () => {
         expect(neg_one).toBe(false);
         expect(zero).toBe(false);
         expect(one).toBe(false);
-
     });
 
     it("zero comparisons", () => {
@@ -458,7 +448,6 @@ describe("lessThanOrEqual() Runtime Function", () => {
         expect(zero).toBe(true); // Equal should be true
         expect(point_one).toBe(false);
         expect(one).toBe(false);
-
     });
 
     it("large number comparisons", () => {
@@ -473,7 +462,5 @@ describe("lessThanOrEqual() Runtime Function", () => {
         expect(thousand).toBe(true); // Equal should be true
         expect(thousand_one).toBe(false);
         expect(ten_thousand).toBe(false);
-
     });
-
 });

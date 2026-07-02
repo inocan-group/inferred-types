@@ -1,8 +1,12 @@
 import { describe, it } from "vitest";
-import type { Expect, IsNegativeNumber, NumberLike, Test } from "inferred-types/types";
+import type {
+    Expect,
+    IsNegativeNumber,
+    NumberLike,
+    Test,
+} from "inferred-types/types";
 
 describe("IsNegativeNumber<T>", () => {
-
     it("Happy Path", () => {
         type T1 = IsNegativeNumber<-1>;
         type T2 = IsNegativeNumber<"-1">;
@@ -22,10 +26,8 @@ describe("IsNegativeNumber<T>", () => {
 
             // if the input to the utility is wide we can only know
             // if it's negative at runtime.
-            Expect<Test<M1, "equals",  boolean>>,
-            Expect<Test<M2, "equals",  boolean>>,
+            Expect<Test<M1, "equals", boolean>>,
+            Expect<Test<M2, "equals", boolean>>,
         ];
-
     });
-
 });

@@ -1,9 +1,12 @@
 import { describe, it, expect } from "vitest";
-import type { Expect, IsLessThan, LessThanOrEqual, Test } from "inferred-types/types";
-
+import type {
+    Expect,
+    IsLessThan,
+    LessThanOrEqual,
+    Test,
+} from "inferred-types/types";
 
 describe("IsLessThan<A,B> Type Utility", () => {
-
     it("basic integer comparisons", () => {
         type T1 = IsLessThan<0, 1>;
         type T2 = IsLessThan<0, 1000>;
@@ -214,11 +217,9 @@ describe("IsLessThan<A,B> Type Utility", () => {
             Expect<Test<W3, "equals", boolean>>,
         ];
     });
-
 });
 
 describe("LessThanOrEqual<A,B> Type Utility", () => {
-
     it("basic integer comparisons", () => {
         type T1 = LessThanOrEqual<0, 1>;
         type T2 = LessThanOrEqual<0, 1000>;
@@ -300,5 +301,4 @@ describe("LessThanOrEqual<A,B> Type Utility", () => {
             Expect<Test<W3, "equals", boolean>>,
         ];
     });
-
 });

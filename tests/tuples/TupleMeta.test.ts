@@ -1,10 +1,15 @@
 import { Length } from "inferred-types";
-import type { DropVariadicTail, Expect,  MaxSafeInteger, ObjectKeys, Test, TupleMeta } from "inferred-types/types";
+import type {
+    DropVariadicTail,
+    Expect,
+    MaxSafeInteger,
+    Test,
+    TupleMeta,
+} from "inferred-types/types";
 
 import { describe, it } from "vitest";
 
 describe("TupleMeta<T>", () => {
-
     it("happy path", () => {
         type Nada = TupleMeta<[]>;
         type Single = TupleMeta<[string]>;
@@ -13,38 +18,34 @@ describe("TupleMeta<T>", () => {
         type ZeroOrMore = TupleMeta<[...string[]]>;
 
         type cases = [
-            Expect<Test<Nada["range"], "equals",  "empty">>,
-            Expect<Test<Single["range"], "equals",  "[ 1..1 ]">>,
-            Expect<Test<OneOrTwo["range"], "equals",  "[ 1..2 ]">>,
-            Expect<Test<OneOrMore["range"], "equals",  "[ 1..* ]">>,
-            Expect<Test<ZeroOrMore["range"], "equals",  "[ 0..* ]">>,
+            Expect<Test<Nada["range"], "equals", "empty">>,
+            Expect<Test<Single["range"], "equals", "[ 1..1 ]">>,
+            Expect<Test<OneOrTwo["range"], "equals", "[ 1..2 ]">>,
+            Expect<Test<OneOrMore["range"], "equals", "[ 1..* ]">>,
+            Expect<Test<ZeroOrMore["range"], "equals", "[ 0..* ]">>,
 
-            Expect<Test<Nada["isEmpty"], "equals",  true>>,
-            Expect<Test<Single["isEmpty"], "equals",  false>>,
+            Expect<Test<Nada["isEmpty"], "equals", true>>,
+            Expect<Test<Single["isEmpty"], "equals", false>>,
 
-            Expect<Test<OneOrMore["isUnconstrained"], "equals",  true>>,
-            Expect<Test<Single["isUnconstrained"], "equals",  false>>,
+            Expect<Test<OneOrMore["isUnconstrained"], "equals", true>>,
+            Expect<Test<Single["isUnconstrained"], "equals", false>>,
 
-            Expect<Test<ZeroOrMore["isOptional"], "equals",  true>>,
-            Expect<Test<Single["isOptional"], "equals",  false>>,
+            Expect<Test<ZeroOrMore["isOptional"], "equals", true>>,
+            Expect<Test<Single["isOptional"], "equals", false>>,
         ];
     });
-
 
     it("test", () => {
         type K = TupleMeta<string[]>;
 
-        type cases = [
-            /** type tests */
-        ];
+        type cases = [/** type tests */];
     });
-
 
     it("[T] handled correctly", () => {
         type Undef = TupleMeta<[undefined]>;
         type Unknown = TupleMeta<[unknown]>;
         type Num = TupleMeta<[number]>;
-        type OptString = TupleMeta<[string|undefined]>;
+        type OptString = TupleMeta<[string | undefined]>;
 
         type cases = [
             Expect<Test<Undef["minLength"], "equals", 1>>,
@@ -60,7 +61,7 @@ describe("TupleMeta<T>", () => {
     });
 
     it("[ T, ...U[] ] handled correctly", () => {
-        type Len = Length<[string|undefined, ...undefined[]]>
+        type Len = Length<[string | undefined, ...undefined[]]>;
         type Undef = TupleMeta<[undefined, ...undefined[]]>;
         type Unknown = TupleMeta<[unknown, ...unknown[]]>;
         type Num = TupleMeta<[number, ...unknown[]]>;
@@ -72,10 +73,7 @@ describe("TupleMeta<T>", () => {
             Expect<Test<Num["minLength"], "equals", 1>>,
 
             Expect<Test<Undef["maxLength"], "equals", MaxSafeInteger>>,
-            Expect<Test<
-                Unknown["maxLength"], "equals",
-                MaxSafeInteger
-            >>,
+            Expect<Test<Unknown["maxLength"], "equals", MaxSafeInteger>>,
             Expect<Test<Num["maxLength"], "equals", MaxSafeInteger>>,
         ];
     });
@@ -91,7 +89,7 @@ describe("TupleMeta<T>", () => {
             Expect<Test<Empty["length"], "equals", 0>>,
             Expect<Test<Single["length"], "equals", 1>>,
             Expect<Test<Multiple["length"], "equals", 2>>,
-            Expect<Test<WithOptional["length"], "equals", 1|2>>,
+            Expect<Test<WithOptional["length"], "equals", 1 | 2>>,
             // For variadic tuples, length is the non-variadic length
             Expect<Test<Variadic["length"], "equals", number>>,
         ];
@@ -111,8 +109,10 @@ describe("TupleMeta<T>", () => {
             Expect<Test<Empty["nonVariadicLength"], "equals", 0>>,
             Expect<Test<Single["nonVariadicLength"], "equals", 1>>,
             Expect<Test<Multiple["nonVariadicLength"], "equals", 2>>,
-            Expect<Test<WithOptional["nonVariadicLength"], "equals", 1|2>>,
-            Expect<Test<VariadicWithOptional["nonVariadicLength"], "equals", 1|2>>,
+            Expect<Test<WithOptional["nonVariadicLength"], "equals", 1 | 2>>,
+            Expect<
+                Test<VariadicWithOptional["nonVariadicLength"], "equals", 1 | 2>
+            >,
             Expect<Test<Variadic["nonVariadicLength"], "equals", 1>>,
             Expect<Test<HeadVariadic["nonVariadicLength"], "equals", 1>>,
         ];
@@ -191,9 +191,23 @@ describe("TupleMeta<T>", () => {
 
         type cases = [
             Expect<Test<Empty["excludingVariadicElement"], "equals", []>>,
-            Expect<Test<Single["excludingVariadicElement"], "equals", [string]>>,
-            Expect<Test<VariadicTail["excludingVariadicElement"], "equals", [string]>>,
-            Expect<Test<VariadicHead["excludingVariadicElement"], "equals", [number]>>,
+            Expect<
+                Test<Single["excludingVariadicElement"], "equals", [string]>
+            >,
+            Expect<
+                Test<
+                    VariadicTail["excludingVariadicElement"],
+                    "equals",
+                    [string]
+                >
+            >,
+            Expect<
+                Test<
+                    VariadicHead["excludingVariadicElement"],
+                    "equals",
+                    [number]
+                >
+            >,
         ];
     });
 
@@ -222,7 +236,9 @@ describe("TupleMeta<T>", () => {
             Expect<Test<Empty["hasOptionalElements"], "equals", false>>,
             Expect<Test<Single["hasOptionalElements"], "equals", false>>,
             Expect<Test<WithOptional["hasOptionalElements"], "equals", true>>,
-            Expect<Test<MultipleOptional["hasOptionalElements"], "equals", true>>,
+            Expect<
+                Test<MultipleOptional["hasOptionalElements"], "equals", true>
+            >,
             Expect<Test<AllRequired["hasOptionalElements"], "equals", false>>,
         ];
     });
@@ -258,5 +274,4 @@ describe("TupleMeta<T>", () => {
             Expect<Test<AllRequired["optionalElementCount"], "equals", 0>>,
         ];
     });
-
 });

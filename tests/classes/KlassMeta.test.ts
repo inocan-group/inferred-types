@@ -1,4 +1,3 @@
-
 import { describe, it } from "vitest";
 import type { Expect, KlassMeta, Test } from "inferred-types/types";
 
@@ -19,18 +18,22 @@ describe("KlassMeta<T>", () => {
         type Meta = KlassMeta<typeof TestClass>;
 
         type cases = [
-            Expect<Test<Meta["params"], "equals",  Params>>,
-            Expect<Test<Meta["instance"], "equals",  Inst>>,
-            Expect<Test<Meta["class_decorators"], "equals",  ClassDecoratorContext<typeof TestClass>>>,
-            Expect<Test<
-                Meta["field_decorators"],
-                "equals",
-                ClassFieldDecoratorContext<typeof TestClass>
-            >>,
-        ];
-        const cases: cases = [
-            true, true, true, true
+            Expect<Test<Meta["params"], "equals", Params>>,
+            Expect<Test<Meta["instance"], "equals", Inst>>,
+            Expect<
+                Test<
+                    Meta["class_decorators"],
+                    "equals",
+                    ClassDecoratorContext<typeof TestClass>
+                >
+            >,
+            Expect<
+                Test<
+                    Meta["field_decorators"],
+                    "equals",
+                    ClassFieldDecoratorContext<typeof TestClass>
+                >
+            >,
         ];
     });
-
 });

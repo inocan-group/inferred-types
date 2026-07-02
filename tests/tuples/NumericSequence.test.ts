@@ -3,7 +3,6 @@ import { Expect, Test } from "inferred-types/types";
 import type { NumericSequence } from "inferred-types/types";
 
 describe("NumericSequence<TStart, TEnd>", () => {
-
     it("upward sequences (TStart < TEnd)", () => {
         type Small = NumericSequence<3, 8>;
         type Single = NumericSequence<5, 6>;
@@ -18,10 +17,14 @@ describe("NumericSequence<TStart, TEnd>", () => {
             Expect<Test<Single, "equals", [5, 6]>>,
 
             // Larger range
-            Expect<Test<LargerRange, "equals", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]>>,
+            Expect<
+                Test<LargerRange, "equals", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]>
+            >,
 
             // Negative to positive crossing zero
-            Expect<Test<NegativeToPositive, "equals", [-3, -2, -1, 0, 1, 2, 3]>>,
+            Expect<
+                Test<NegativeToPositive, "equals", [-3, -2, -1, 0, 1, 2, 3]>
+            >,
         ];
     });
 
@@ -39,10 +42,14 @@ describe("NumericSequence<TStart, TEnd>", () => {
             Expect<Test<Single, "equals", [6, 5]>>,
 
             // Larger range
-            Expect<Test<LargerRange, "equals", [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]>>,
+            Expect<
+                Test<LargerRange, "equals", [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]>
+            >,
 
             // Positive to negative crossing zero
-            Expect<Test<PositiveToNegative, "equals", [3, 2, 1, 0, -1, -2, -3]>>,
+            Expect<
+                Test<PositiveToNegative, "equals", [3, 2, 1, 0, -1, -2, -3]>
+            >,
         ];
     });
 
@@ -132,16 +139,20 @@ describe("NumericSequence<TStart, TEnd>", () => {
         type LargeDownward = NumericSequence<15, 1>;
 
         type cases = [
-            Expect<Test<
-                LargeUpward,
-                "equals",
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-            >>,
-            Expect<Test<
-                LargeDownward,
-                "equals",
-                [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-            >>,
+            Expect<
+                Test<
+                    LargeUpward,
+                    "equals",
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+                >
+            >,
+            Expect<
+                Test<
+                    LargeDownward,
+                    "equals",
+                    [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                >
+            >,
         ];
     });
 
@@ -168,17 +179,32 @@ describe("NumericSequence<TStart, TEnd>", () => {
 
         type cases = [
             // Upward from -50 to -45
-            Expect<Test<LargeNegativeUpward, "equals", [-50, -49, -48, -47, -46, -45]>>,
+            Expect<
+                Test<
+                    LargeNegativeUpward,
+                    "equals",
+                    [-50, -49, -48, -47, -46, -45]
+                >
+            >,
 
             // Downward from -45 to -50
-            Expect<Test<LargeNegativeDownward, "equals", [-45, -46, -47, -48, -49, -50]>>,
+            Expect<
+                Test<
+                    LargeNegativeDownward,
+                    "equals",
+                    [-45, -46, -47, -48, -49, -50]
+                >
+            >,
 
             // Crossing zero upward
-            Expect<Test<LargeNegativeCrossingZero, "equals", [-2, -1, 0, 1, 2]>>,
+            Expect<
+                Test<LargeNegativeCrossingZero, "equals", [-2, -1, 0, 1, 2]>
+            >,
 
             // Crossing zero downward
-            Expect<Test<LargePositiveCrossingZero, "equals", [2, 1, 0, -1, -2]>>,
+            Expect<
+                Test<LargePositiveCrossingZero, "equals", [2, 1, 0, -1, -2]>
+            >,
         ];
     });
-
 });
