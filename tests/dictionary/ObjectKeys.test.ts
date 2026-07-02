@@ -1,10 +1,16 @@
 import { describe, it } from "vitest";
-import type { AssertEqual, AssertSameValues, Dictionary, DropVariadic, EmptyObject, Expect, GetIndexKeys, HasIndex, HasIndexKeys, ObjectKey, ObjectKeys, Test } from "inferred-types/types";
-
-import { RemoveIndexKeys } from "inferred-types";
+import type {
+    AssertEqual,
+    AssertSameValues,
+    Dictionary,
+    EmptyObject,
+    Expect,
+    ObjectKey,
+    ObjectKeys,
+    Test,
+} from "inferred-types/types";
 
 describe("ObjectKeys<T>", () => {
-
     it("wide objects", () => {
         type W1 = ObjectKeys<object>;
         //   ^?
@@ -23,13 +29,12 @@ describe("ObjectKeys<T>", () => {
         ];
     });
 
-
     it("Record types", () => {
-        type R1 = ObjectKeys<Record<string,string>>;
+        type R1 = ObjectKeys<Record<string, string>>;
         type R2 = ObjectKeys<Record<string | symbol, string>>;
         type R3 = ObjectKeys<Record<symbol, string>>;
-        type R4 = ObjectKeys<Record<string,unknown>>;
-        type R5 = ObjectKeys<Record<string,any>>;
+        type R4 = ObjectKeys<Record<string, unknown>>;
+        type R5 = ObjectKeys<Record<string, any>>;
 
         type cases = [
             Expect<AssertEqual<R1, string[]>>,
@@ -39,7 +44,6 @@ describe("ObjectKeys<T>", () => {
             Expect<AssertEqual<R5, string[]>>,
         ];
     });
-
 
     it("narrow types", () => {
         type Foo = ObjectKeys<{ foo: 1 }>;
@@ -60,60 +64,74 @@ describe("ObjectKeys<T>", () => {
     });
 
     it("optional keys are last", () => {
-        type BarOpt = ObjectKeys<{ foo: 1, bar?: string, baz: 2 }>;
+        type BarOpt = ObjectKeys<{ foo: 1; bar?: string; baz: 2 }>;
         //   ^?
 
         type cases = [
-            Expect<AssertSameValues<BarOpt, ["foo", "baz", ("bar" | undefined)?]>>
+            Expect<
+                AssertSameValues<BarOpt, ["foo", "baz", ("bar" | undefined)?]>
+            >,
         ];
     });
 
     it("variadic key shape", () => {
         // must have foo and bar, optionally can have keys leading with `_`
-        type Optional = ObjectKeys<Record<"foo" | "bar" | `_${string}`, number>>;
+        type Optional = ObjectKeys<
+            Record<"foo" | "bar" | `_${string}`, number>
+        >;
         //    ^?
 
         // this is a different nomenclature for the same type as above
         // in both cases however, the discrete key literals ("foo","bar") to not
         // overlap with the template literal `_${string}`
-        type FooBarIndex = ObjectKeys<{ foo: 1; bar: 2; [x: `_${string}`]: unknown }>;
+        type FooBarIndex = ObjectKeys<{
+            foo: 1;
+            bar: 2;
+            [x: `_${string}`]: unknown;
+        }>;
         //   ^?
 
         // here we discretely define `foo` and `bar` but then provide an index
         // which overlaps with them
-        type FooBarOverlap = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown; }>;
+        type FooBarOverlap = ObjectKeys<{
+            foo: 1;
+            bar: 2;
+            [x: string]: unknown;
+        }>;
         //   ^?
 
         // we go a step further here by having one index signature overlap and the other
         // is non-overlapping
-        type MultiIndex = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown; [y: symbol]: number }>;
+        type MultiIndex = ObjectKeys<{
+            foo: 1;
+            bar: 2;
+            [x: string]: unknown;
+            [y: symbol]: number;
+        }>;
         //   ^?
 
-        type MultiTemplateSymbol = ObjectKeys<
-            { foo: 1; bar: 2; [x: `_${string}`]: number; [y: symbol]: string }
-        >;
+        type MultiTemplateSymbol = ObjectKeys<{
+            foo: 1;
+            bar: 2;
+            [x: `_${string}`]: number;
+            [y: symbol]: string;
+        }>;
 
         type cases = [
-            Expect<Test<
-                Optional, "equals",
-                ["foo", "bar", ...(`_${string}`)[]]
-            >>,
-            Expect<Test<
-                FooBarIndex, "equals",
-                ["foo", "bar", ...(`_${string}`)[]]
-            >>,
-            Expect<Test<
-                FooBarOverlap, "equals",
-                ["foo", "bar", ...string[]]
-            >>,
-            Expect<AssertEqual<
-                MultiIndex,
-                ["foo","bar", ...(symbol | string)[]]
-            >>,
-            Expect<AssertEqual<
-                MultiTemplateSymbol,
-                ["foo","bar", ...(`_${string}` | symbol)[]]
-            >>
+            Expect<Test<Optional, "equals", ["foo", "bar", ...`_${string}`[]]>>,
+            Expect<
+                Test<FooBarIndex, "equals", ["foo", "bar", ...`_${string}`[]]>
+            >,
+            Expect<Test<FooBarOverlap, "equals", ["foo", "bar", ...string[]]>>,
+            Expect<
+                AssertEqual<MultiIndex, ["foo", "bar", ...(symbol | string)[]]>
+            >,
+            Expect<
+                AssertEqual<
+                    MultiTemplateSymbol,
+                    ["foo", "bar", ...(`_${string}` | symbol)[]]
+                >
+            >,
         ];
     });
 
@@ -130,18 +148,16 @@ describe("ObjectKeys<T>", () => {
     it("Set keys is an error", () => {
         type E1 = ObjectKeys<Set<string>>;
 
-        type cases = [
-            Expect<Test<E1, "isError", "invalid-type/object-keys">>
-        ];
+        type cases = [Expect<Test<E1, "isError", "invalid-type/object-keys">>];
     });
 
     it("simple WeakMap types", () => {
         type T1 = ObjectKeys<WeakMap<object, number>>;
-        type T2 = ObjectKeys<WeakMap<{id: 1} | { id: 2}, number>>;
+        type T2 = ObjectKeys<WeakMap<{ id: 1 } | { id: 2 }, number>>;
 
         type cases = [
             Expect<Test<T1, "equals", object[]>>,
-            Expect<Test<T2, "equals", {id: 1} | {id: 2}>>,
+            Expect<Test<T2, "equals", { id: 1 } | { id: 2 }>>,
         ];
     });
 
@@ -152,16 +168,14 @@ describe("ObjectKeys<T>", () => {
         // Skip this test for now as isError is not working properly
         type cases = [
             Expect<Test<AnyType, "extends", Error>>,
-            Expect<Test<AnyType, "isError", "invalid-type/object-keys">>
+            Expect<Test<AnyType, "isError", "invalid-type/object-keys">>,
         ];
     });
 
     it("never", () => {
         type Never = ObjectKeys<never>;
 
-        type cases = [
-            Expect<Test<Never, "isError", "invalid-type">>
-        ];
+        type cases = [Expect<Test<Never, "isError", "invalid-type">>];
     });
 
     it("never keys", () => {
@@ -170,9 +184,7 @@ describe("ObjectKeys<T>", () => {
         type NeverKeys = ObjectKeys<Record<never, string>>;
         //   ^?
 
-        type cases = [
-            Expect<Test<NeverKeys, "equals", []>>
-        ];
+        type cases = [Expect<Test<NeverKeys, "equals", []>>];
     });
 
     it("empty object", () => {
@@ -183,23 +195,30 @@ describe("ObjectKeys<T>", () => {
 
         type cases = [
             Expect<Test<Empty, "equals", []>>,
-            Expect<Test<ExplicitlyEmpty, "equals", []>>
+            Expect<Test<ExplicitlyEmpty, "equals", []>>,
         ];
     });
 
     it("symbol and string keys", () => {
-        type NumberLike = ObjectKeys<{ "1": string; "2": number; foo: boolean }>;
+        type NumberLike = ObjectKeys<{
+            "1": string;
+            "2": number;
+            foo: boolean;
+        }>;
         //   ^?
 
         // numeric keys are not allowed for a Dictionary
-        type MixedKeys = ObjectKeys<{ [sym: symbol]: string; 1: number; foo: boolean }>;
+        type MixedKeys = ObjectKeys<{
+            [sym: symbol]: string;
+            1: number;
+            foo: boolean;
+        }>;
         //   ^?
 
         type cases = [
             // NumberLike keys along with a string key
-            Expect<Test<NumberLike, "hasSameValues", ["foo", "1","2"]>>,
-            Expect<Test<MixedKeys, "equals", ["foo", 1, ...symbol[]]>>
-
+            Expect<Test<NumberLike, "hasSameValues", ["foo", "1", "2"]>>,
+            Expect<Test<MixedKeys, "equals", ["foo", 1, ...symbol[]]>>,
         ];
     });
 
@@ -215,11 +234,19 @@ describe("ObjectKeys<T>", () => {
 
         type cases = [
             // The exact ordering of optional keys may vary, so we test the values
-            Expect<Test<
-                MultipleOptional, "equals",
-                [ "required1", "required2", "optional1"?, "optional2"?, "optional3"?]
-            >>
+            Expect<
+                Test<
+                    MultipleOptional,
+                    "equals",
+                    [
+                        "required1",
+                        "required2",
+                        "optional1"?,
+                        "optional2"?,
+                        "optional3"?,
+                    ]
+                >
+            >,
         ];
     });
-
 });
