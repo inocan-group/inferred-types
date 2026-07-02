@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { convertCssRgbStringToRgbObject } from "inferred-types/runtime";
-import type { Expect, AssertEqual, AssertError, AssertExtends } from "inferred-types/types";
+import type { Expect, AssertEqual, AssertExtends } from "inferred-types/types";
 
 describe("convertCssRgbStringToRgbObject()", () => {
-
     describe("valid CSS RGB strings with commas", () => {
         it("parses standard format with spaces", () => {
             const result = convertCssRgbStringToRgbObject("rgb(255, 128, 64)");
@@ -11,7 +10,12 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 255, g: 128, b: 64 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
 
@@ -21,17 +25,29 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 255, g: 128, b: 64 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
 
         it("parses format with extra spaces", () => {
-            const result = convertCssRgbStringToRgbObject("rgb( 255 , 128 , 64 )");
+            const result = convertCssRgbStringToRgbObject(
+                "rgb( 255 , 128 , 64 )",
+            );
 
             expect(result).toEqual({ r: 255, g: 128, b: 64 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
 
@@ -41,7 +57,12 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 0, g: 0, b: 0 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
 
@@ -51,7 +72,12 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 255, g: 255, b: 255 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
     });
@@ -64,9 +90,7 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 255, g: 128, b: 64 });
 
             // But at the type level, it's recognized as invalid CSS RGB syntax
-            type cases = [
-                Expect<AssertExtends<typeof result, Error>>
-            ];
+            type cases = [Expect<AssertExtends<typeof result, Error>>];
         });
 
         it("runtime parses space-separated with leading/trailing spaces", () => {
@@ -76,9 +100,7 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 100, g: 150, b: 200 });
 
             // Type level recognizes as invalid
-            type cases = [
-                Expect<AssertExtends<typeof result, Error>>
-            ];
+            type cases = [Expect<AssertExtends<typeof result, Error>>];
         });
     });
 
@@ -89,7 +111,12 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 0, g: 100, b: 0 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
 
@@ -99,7 +126,12 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 255, g: 100, b: 255 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
 
@@ -109,7 +141,12 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 0, g: 128, b: 255 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
     });
@@ -121,9 +158,7 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toHaveProperty("type", "invalid-type");
             expect(result).toHaveProperty("subType", "css-rgb");
 
-            type cases = [
-                Expect<AssertExtends<typeof result, Error>>
-            ];
+            type cases = [Expect<AssertExtends<typeof result, Error>>];
         });
 
         it("returns error for empty string", () => {
@@ -132,9 +167,7 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toHaveProperty("type", "invalid-type");
             expect(result).toHaveProperty("subType", "css-rgb");
 
-            type cases = [
-                Expect<AssertExtends<typeof result, Error>>
-            ];
+            type cases = [Expect<AssertExtends<typeof result, Error>>];
         });
 
         it("returns error for hex color", () => {
@@ -143,20 +176,18 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toHaveProperty("type", "invalid-type");
             expect(result).toHaveProperty("subType", "css-rgb");
 
-            type cases = [
-                Expect<AssertExtends<typeof result, Error>>
-            ];
+            type cases = [Expect<AssertExtends<typeof result, Error>>];
         });
 
         it("returns error for rgba format", () => {
-            const result = convertCssRgbStringToRgbObject("rgba(255, 128, 64, 0.5)");
+            const result = convertCssRgbStringToRgbObject(
+                "rgba(255, 128, 64, 0.5)",
+            );
 
             expect(result).toHaveProperty("type", "invalid-type");
             expect(result).toHaveProperty("subType", "css-rgb");
 
-            type cases = [
-                Expect<AssertExtends<typeof result, Error>>
-            ];
+            type cases = [Expect<AssertExtends<typeof result, Error>>];
         });
     });
 
@@ -167,7 +198,12 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 1, g: 2, b: 3 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
 
@@ -177,7 +213,12 @@ describe("convertCssRgbStringToRgbObject()", () => {
             expect(result).toEqual({ r: 100, g: 200, b: 150 });
 
             type cases = [
-                Expect<AssertEqual<typeof result, { r: number; g: number; b: number }>>
+                Expect<
+                    AssertEqual<
+                        typeof result,
+                        { r: number; g: number; b: number }
+                    >
+                >,
             ];
         });
 
@@ -191,7 +232,12 @@ describe("convertCssRgbStringToRgbObject()", () => {
             // We can't test the exact union type easily, but we can test it extends both branches
             type cases = [
                 // The result type should be compatible with both RGB and Error
-                Expect<AssertExtends<typeof result, { r: number; g: number; b: number } | Error>>
+                Expect<
+                    AssertExtends<
+                        typeof result,
+                        { r: number; g: number; b: number } | Error
+                    >
+                >,
             ];
         });
     });

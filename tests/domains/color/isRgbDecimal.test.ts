@@ -1,14 +1,8 @@
 import { describe, expect, it } from "vitest";
-import {
-    AssertEqual,
-    Expect,
-    RgbDecimalString,
-    Test,
-} from "inferred-types/types";
+import { AssertEqual, Expect, RgbDecimalString } from "inferred-types/types";
 import { isRgbDecimal } from "runtime/domain/color/isRgbDecimal";
 
 describe("isRgbDecimal(val)", () => {
-
     it("runtime: positive tests", () => {
         const t1 = isRgbDecimal("0");
         const t2 = isRgbDecimal("255");
@@ -37,19 +31,13 @@ describe("isRgbDecimal(val)", () => {
         expect(t4).toBe(false);
     });
 
-
     it("type narrowing when matched", () => {
         const val = "0" as string;
 
-        if(isRgbDecimal(val)) {
+        if (isRgbDecimal(val)) {
             type Val = typeof val;
 
-            type cases = [
-                Expect<AssertEqual<Val, RgbDecimalString>>
-            ];
+            type cases = [Expect<AssertEqual<Val, RgbDecimalString>>];
         }
-
     });
-
-
 });

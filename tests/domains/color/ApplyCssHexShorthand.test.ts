@@ -3,7 +3,6 @@ import type {
     ApplyCssHexShorthand,
     Expect,
     AssertEqual,
-    AssertExtends
 } from "inferred-types/types";
 
 describe("ApplyCssHexShorthand<T>", () => {
@@ -23,7 +22,7 @@ describe("ApplyCssHexShorthand<T>", () => {
             Expect<AssertEqual<Numeric, "#112233">>,
             Expect<AssertEqual<MixedAlphaNumeric, "#aa11bb">>,
             Expect<AssertEqual<AllF, "#ffffff">>,
-            Expect<AssertEqual<AllZero, "#000000">>
+            Expect<AssertEqual<AllZero, "#000000">>,
         ];
     });
 
@@ -39,7 +38,7 @@ describe("ApplyCssHexShorthand<T>", () => {
             Expect<AssertEqual<UpperCase, "AABBCC">>,
             Expect<AssertEqual<MixedCase, "aaBBcc">>,
             Expect<AssertEqual<Numeric, "112233">>,
-            Expect<AssertEqual<AllF, "ffffff">>
+            Expect<AssertEqual<AllF, "ffffff">>,
         ];
     });
 
@@ -57,7 +56,7 @@ describe("ApplyCssHexShorthand<T>", () => {
             Expect<AssertEqual<MixedCase, "#AaBbCc">>,
             Expect<AssertEqual<Numeric, "#123456">>,
             Expect<AssertEqual<AllF, "#ffffff">>,
-            Expect<AssertEqual<AllZero, "#000000">>
+            Expect<AssertEqual<AllZero, "#000000">>,
         ];
     });
 
@@ -71,7 +70,7 @@ describe("ApplyCssHexShorthand<T>", () => {
             Expect<AssertEqual<LowerCase, "aabbcc">>,
             Expect<AssertEqual<UpperCase, "AABBCC">>,
             Expect<AssertEqual<MixedCase, "AaBbCc">>,
-            Expect<AssertEqual<Numeric, "123456">>
+            Expect<AssertEqual<Numeric, "123456">>,
         ];
     });
 
@@ -82,9 +81,7 @@ describe("ApplyCssHexShorthand<T>", () => {
     it("wide string type returns string | Error", () => {
         type WideString = ApplyCssHexShorthand<string>;
 
-        type cases = [
-            Expect<AssertEqual<WideString, string | Error>>
-        ];
+        type cases = [Expect<AssertEqual<WideString, string | Error>>];
     });
 
     it("edge cases - specific valid patterns", () => {
@@ -108,7 +105,7 @@ describe("ApplyCssHexShorthand<T>", () => {
             Expect<AssertEqual<Black, "#000000">>,
             Expect<AssertEqual<RedFull, "#ff0000">>,
             Expect<AssertEqual<GreenFull, "#00ff00">>,
-            Expect<AssertEqual<BlueFull, "#0000ff">>
+            Expect<AssertEqual<BlueFull, "#0000ff">>,
         ];
     });
 
@@ -130,7 +127,7 @@ describe("ApplyCssHexShorthand<T>", () => {
             // Full format passes through unchanged
             Expect<AssertEqual<LowerFull, "#aabbcc">>,
             Expect<AssertEqual<UpperFull, "#AABBCC">>,
-            Expect<AssertEqual<MixedFull, "#AaBbCc">>
+            Expect<AssertEqual<MixedFull, "#AaBbCc">>,
         ];
     });
 
@@ -148,7 +145,7 @@ describe("ApplyCssHexShorthand<T>", () => {
 
             // Without hash - no hash added
             Expect<AssertEqual<WithoutHashShorthand, "aabbcc">>,
-            Expect<AssertEqual<WithoutHashFull, "aabbcc">>
+            Expect<AssertEqual<WithoutHashFull, "aabbcc">>,
         ];
     });
 });

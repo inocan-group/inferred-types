@@ -1,21 +1,28 @@
 import { setupSafeStringEncoding } from "inferred-types/runtime";
-import type { Expect, SafeDecode, SafeEncode, SafeEncodeEscaped, Test } from "inferred-types/types";
+import type {
+    Expect,
+    SafeDecode,
+    SafeEncode,
+    Test,
+} from "inferred-types/types";
 
 import { describe, expect, it } from "vitest";
 
 type test = `There I was, "in the jungle (or maybe forest)"`;
 describe("SafeEncode<T,G>", () => {
-
     it("with just quotes", () => {
         type E = SafeEncode<test, ["quotes"]>;
         type D = SafeDecode<E, ["quotes"]>;
 
         type cases = [
-            Expect<Test<
-                E, "equals",
-                "There I was, ^<dq>in the jungle (or maybe forest)^<dq>"
-            >>,
-            Expect<Test<D, "equals",  test>>
+            Expect<
+                Test<
+                    E,
+                    "equals",
+                    "There I was, ^<dq>in the jungle (or maybe forest)^<dq>"
+                >
+            >,
+            Expect<Test<D, "equals", test>>,
         ];
     });
 
@@ -24,11 +31,14 @@ describe("SafeEncode<T,G>", () => {
         type D = SafeDecode<E, ["brackets"]>;
 
         type cases = [
-            Expect<Test<
-                E, "equals",
-                "There I was, \"in the jungle ^<op>or maybe forest^<cp>\""
-            >>,
-            Expect<Test<D, "equals",  test>>
+            Expect<
+                Test<
+                    E,
+                    "equals",
+                    'There I was, "in the jungle ^<op>or maybe forest^<cp>"'
+                >
+            >,
+            Expect<Test<D, "equals", test>>,
         ];
     });
 
@@ -38,10 +48,13 @@ describe("SafeEncode<T,G>", () => {
 
         type cases = [
             Expect<
-                Test<E, "equals",
-                "There^<sp>I^<sp>was,^<sp>\"in^<sp>the^<sp>jungle^<sp>(or^<sp>maybe^<sp>forest)\""
-            >>,
-            Expect<Test<D, "equals",  test>>
+                Test<
+                    E,
+                    "equals",
+                    'There^<sp>I^<sp>was,^<sp>"in^<sp>the^<sp>jungle^<sp>(or^<sp>maybe^<sp>forest)"'
+                >
+            >,
+            Expect<Test<D, "equals", test>>,
         ];
     });
 
@@ -50,12 +63,14 @@ describe("SafeEncode<T,G>", () => {
         type D = SafeDecode<E>;
 
         type cases = [
-            Expect<Test<
-                E,
-                "equals",
-                "There^<sp>I^<sp>was,^<sp>^<dq>in^<sp>the^<sp>jungle^<sp>^<op>or^<sp>maybe^<sp>forest^<cp>^<dq>"
-            >>,
-            Expect<Test<D, "equals",  test>>
+            Expect<
+                Test<
+                    E,
+                    "equals",
+                    "There^<sp>I^<sp>was,^<sp>^<dq>in^<sp>the^<sp>jungle^<sp>^<op>or^<sp>maybe^<sp>forest^<cp>^<dq>"
+                >
+            >,
+            Expect<Test<D, "equals", test>>,
         ];
     });
 
@@ -64,19 +79,19 @@ describe("SafeEncode<T,G>", () => {
         type D = SafeDecode<E>;
 
         type cases = [
-            Expect<Test<
-                E,
-                "equals",
-                "There^<sp>I^<sp>was,^<sp>^<dq>in^<sp>the^<sp>jungle^<sp>^<op>or^<sp>maybe^<sp>forest^<cp>^<dq>">
+            Expect<
+                Test<
+                    E,
+                    "equals",
+                    "There^<sp>I^<sp>was,^<sp>^<dq>in^<sp>the^<sp>jungle^<sp>^<op>or^<sp>maybe^<sp>forest^<cp>^<dq>"
+                >
             >,
-            Expect<Test<D, "equals",  test>>
+            Expect<Test<D, "equals", test>>,
         ];
     });
-
 });
 
 describe("SafeString encoding/decoding", () => {
-
     const text = `"Hi there" said the man in the green (or red) hat.`;
 
     it("quotes only", () => {
@@ -84,7 +99,9 @@ describe("SafeString encoding/decoding", () => {
         const safe = encode(text);
         const back = decode(safe);
 
-        expect(safe).toBe("^<dq>Hi there^<dq> said the man in the green (or red) hat.")
+        expect(safe).toBe(
+            "^<dq>Hi there^<dq> said the man in the green (or red) hat.",
+        );
         expect(back).toBe(text);
     });
 
@@ -93,7 +110,9 @@ describe("SafeString encoding/decoding", () => {
         const safe = encode(text);
         const back = decode(safe);
 
-        expect(safe).toBe(`"Hi there" said the man in the green ^<op>or red^<cp> hat.`)
+        expect(safe).toBe(
+            `"Hi there" said the man in the green ^<op>or red^<cp> hat.`,
+        );
         expect(back).toBe(text);
     });
 
@@ -102,7 +121,9 @@ describe("SafeString encoding/decoding", () => {
         const safe = encode(text);
         const back = decode(safe);
 
-        expect(safe).toBe(`\"Hi^<sp>there\"^<sp>said^<sp>the^<sp>man^<sp>in^<sp>the^<sp>green^<sp>(or^<sp>red)^<sp>hat.`)
+        expect(safe).toBe(
+            `\"Hi^<sp>there\"^<sp>said^<sp>the^<sp>man^<sp>in^<sp>the^<sp>green^<sp>(or^<sp>red)^<sp>hat.`,
+        );
         expect(back).toBe(text);
     });
 
@@ -112,21 +133,23 @@ describe("SafeString encoding/decoding", () => {
         const back = decode(safe);
 
         expect(safe).toBe(
-            "^<dq>Hi^<sp>there^<dq>^<sp>said^<sp>the^<sp>man^<sp>in^<sp>the^<sp>green^<sp>^<op>or^<sp>red^<cp>^<sp>hat."
-        )
+            "^<dq>Hi^<sp>there^<dq>^<sp>said^<sp>the^<sp>man^<sp>in^<sp>the^<sp>green^<sp>^<op>or^<sp>red^<cp>^<sp>hat.",
+        );
         expect(back).toBe(text);
     });
 
     it("all groups (explicit)", () => {
-        const [encode, decode] = setupSafeStringEncoding("brackets", "quotes", "whitespace");
+        const [encode, decode] = setupSafeStringEncoding(
+            "brackets",
+            "quotes",
+            "whitespace",
+        );
         const safe = encode(text);
         const back = decode(safe);
 
         expect(safe).toBe(
-            "^<dq>Hi^<sp>there^<dq>^<sp>said^<sp>the^<sp>man^<sp>in^<sp>the^<sp>green^<sp>^<op>or^<sp>red^<cp>^<sp>hat."
-        )
+            "^<dq>Hi^<sp>there^<dq>^<sp>said^<sp>the^<sp>man^<sp>in^<sp>the^<sp>green^<sp>^<op>or^<sp>red^<cp>^<sp>hat.",
+        );
         expect(back).toBe(text);
     });
-
 });
-
