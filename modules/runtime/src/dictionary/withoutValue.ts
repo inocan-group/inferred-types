@@ -132,7 +132,6 @@ type AllowableType
 type ConvertObjType<
     TObj extends Record<string, unknown>,
     TKeys extends readonly (PropertyKey & keyof TObj)[] = As<StringKeys<TObj>, readonly (PropertyKey & keyof TObj)[]>,
-    // eslint-disable-next-line ts/no-empty-object-type
     TResult extends Record<string, unknown> = {}
 > = TKeys extends [
     infer Head extends PropertyKey & keyof TObj,

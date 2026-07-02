@@ -12,7 +12,7 @@ import type {
     IsoMonthDate,
     IsoYear,
     IsoYearMonth,
-    TimezoneOffset
+    TimezoneOffset,
 } from "inferred-types/types";
 import { parseIsoDate } from "runtime/datetime";
 import {
@@ -29,16 +29,15 @@ import {
     isMoment,
     isNumber,
     isTemporalDate,
-    isTimezoneOffset
+    isTimezoneOffset,
 } from "runtime/type-guards";
 
-/* eslint-disable node/prefer-global/process */
-
 const getLocalIanaZone = (() => {
-// compute once, memoise
-    const tz = (process.env.TZ && isIanaTimezone(process.env.TZ)
-        ? process.env.TZ
-        : Intl.DateTimeFormat().resolvedOptions().timeZone) ?? "UTC";
+    // compute once, memoise
+    const tz =
+        (process.env.TZ && isIanaTimezone(process.env.TZ)
+            ? process.env.TZ
+            : Intl.DateTimeFormat().resolvedOptions().timeZone) ?? "UTC";
 
     return () => tz as IanaZone;
 })();
@@ -56,40 +55,39 @@ function offsetMinutesToString(mins: number): TimezoneOffset {
  ****************************************************************/
 
 type Returns<T extends DateLike> = T extends IsoYear
-    ? DatePlus<"iso-year", TimezoneOffset<"Z">, `${T}-${number}-${number}T${string}` & IsoDateTime>
+    ? DatePlus<
+          "iso-year",
+          TimezoneOffset<"Z">,
+          `${T}-${number}-${number}T${string}` & IsoDateTime
+      >
     : T extends IsoYearMonth
-        ? DateMeta extends Error
-            ? DateMeta
-            : DatePlus<
-                "iso-year-month",
-                TimezoneOffset <"Z">,
-                IsoDateTime
-            >
-        : T extends IsoMonthDate
-            ? DatePlus<"iso-year-independent", TimezoneOffset <"Z">, `${number}`>
-            : T extends IsoDateTime
-                ? DatePlus<"iso-datetime">
-                : T extends IsoDate<"normal">
-                    ? DatePlus<"iso-date">
-                    : T extends number
-                        ? DatePlus<"epoch" | "epoch-milliseconds">
-                        : IsDayJs<T> extends true
-                            ? DatePlus<"day.js">
-                            : IsMoment<T> extends true
-                                ? DatePlus<
-                                    "moment",
-                                    "offset" extends keyof T
-                                        ? T["offset"] extends TimezoneOffset
-                                            ? TimezoneOffset<T["offset"]>
-                                            : null
-                                        : null
-                                >
-                                : IsLuxonDateTime<T> extends true
-                                    ? DatePlus<"luxon">
-                                    : IsJsDate<T> extends true
-                                        ? DatePlus<"date", null>
-                                        : DatePlus
-    ;
+      ? DateMeta extends Error
+          ? DateMeta
+          : DatePlus<"iso-year-month", TimezoneOffset<"Z">, IsoDateTime>
+      : T extends IsoMonthDate
+        ? DatePlus<"iso-year-independent", TimezoneOffset<"Z">, `${number}`>
+        : T extends IsoDateTime
+          ? DatePlus<"iso-datetime">
+          : T extends IsoDate<"normal">
+            ? DatePlus<"iso-date">
+            : T extends number
+              ? DatePlus<"epoch" | "epoch-milliseconds">
+              : IsDayJs<T> extends true
+                ? DatePlus<"day.js">
+                : IsMoment<T> extends true
+                  ? DatePlus<
+                        "moment",
+                        "offset" extends keyof T
+                            ? T["offset"] extends TimezoneOffset
+                                ? TimezoneOffset<T["offset"]>
+                                : null
+                            : null
+                    >
+                  : IsLuxonDateTime<T> extends true
+                    ? DatePlus<"luxon">
+                    : IsJsDate<T> extends true
+                      ? DatePlus<"date", null>
+                      : DatePlus;
 
 /**
  * **asDateTime**`(input)`
@@ -110,20 +108,24 @@ export function asDateTime<T extends DateLike>(input: T) {
         const d = new Date(parsed.toISOString()) as DatePlus;
 
         const offsetMins = parsed.utcOffset();
-        const tz: TimezoneOffset<"branded"> | null = isTimezoneOffset(offsetMinutesToString(offsetMins))
-            ? offsetMinutesToString(offsetMins) as TimezoneOffset<"branded">
+        const tz: TimezoneOffset<"branded"> | null = isTimezoneOffset(
+            offsetMinutesToString(offsetMins),
+        )
+            ? (offsetMinutesToString(offsetMins) as TimezoneOffset<"branded">)
             : null;
 
         d.offset = tz;
-        d.tz = isIanaTimezone((input as any)._z?.name) ? (input as any)._z.name : null;
+        d.tz = isIanaTimezone((input as any)._z?.name)
+            ? (input as any)._z.name
+            : null;
 
         d.source = "moment";
         // Use parseZone().toISOString(true) to preserve the original timezone from input
         // But if it's UTC, use the standard Z format
         const sourceIso = parsed.toISOString(true);
         d.sourceIso = sourceIso.endsWith("+00:00")
-            ? sourceIso.replace("+00:00", "Z") as IsoDateTime
-            : sourceIso as IsoDateTime;
+            ? (sourceIso.replace("+00:00", "Z") as IsoDateTime)
+            : (sourceIso as IsoDateTime);
         return d as Returns<T>;
     }
 
@@ -132,7 +134,9 @@ export function asDateTime<T extends DateLike>(input: T) {
         const d = input.toJSDate() as DatePlus;
 
         // Luxon always has an offset (in minutes)
-        d.offset = offsetMinutesToString((input as any).offset) as TimezoneOffset<"branded">;
+        d.offset = offsetMinutesToString(
+            (input as any).offset,
+        ) as TimezoneOffset<"branded">;
         d.tz = isIanaTimezone(input.zoneName) ? input.zoneName : null;
 
         d.source = "luxon";
@@ -151,18 +155,22 @@ export function asDateTime<T extends DateLike>(input: T) {
             const zdt = (input as any).toZonedDateTimeISO(getLocalIanaZone());
             d = new Date(zdt.epochMilliseconds) as DatePlus<"temporal">;
             d.offset = isTimezoneOffset(zdt.offset) ? zdt.offset : null;
-            d.tz = (zdt.timeZone && isIanaTimezone(zdt.timeZone.id)) ? zdt.timeZone.id : null;
+            d.tz =
+                zdt.timeZone && isIanaTimezone(zdt.timeZone.id)
+                    ? zdt.timeZone.id
+                    : null;
             d.sourceIso = zdt.toString() as IsoDateTime;
-        }
-        else if ("timeZone" in input) {
+        } else if ("timeZone" in input) {
             // ZonedDateTime - use as is
             const zdt = input as any;
             d = new Date(zdt.epochMilliseconds) as DatePlus<"temporal">;
             d.offset = isTimezoneOffset(zdt.offset) ? zdt.offset : null;
-            d.tz = (zdt.timeZone && isIanaTimezone(zdt.timeZone.id)) ? zdt.timeZone.id : null;
+            d.tz =
+                zdt.timeZone && isIanaTimezone(zdt.timeZone.id)
+                    ? zdt.timeZone.id
+                    : null;
             d.sourceIso = zdt.toString() as IsoDateTime;
-        }
-        else {
+        } else {
             // PlainDateTime - no timezone info, treat as UTC
             const instant = (input as any).toZonedDateTime("UTC").toInstant();
             d = new Date(instant.epochMilliseconds) as DatePlus<"temporal">;
@@ -200,17 +208,22 @@ export function asDateTime<T extends DateLike>(input: T) {
 
     if (isIsoYearMonth(input)) {
         const meta = parseIsoDate(input) as unknown as DateMeta;
-        const d = new Date(`${meta.year}-${meta.month}-01T00:00:00.000Z`) as DatePlus<"iso-year-month">;
+        const d = new Date(
+            `${meta.year}-${meta.month}-01T00:00:00.000Z`,
+        ) as DatePlus<"iso-year-month">;
 
         d.offset = "Z" as TimezoneOffset<"branded">;
         d.tz = null;
         d.source = "iso-year-month";
-        d.sourceIso = `${meta.year}-${meta.month}-01T00:00:00.000Z` as IsoDateTime;
+        d.sourceIso =
+            `${meta.year}-${meta.month}-01T00:00:00.000Z` as IsoDateTime;
         return d as Returns<T>;
     }
 
     if (isIsoYear(input)) {
-        const d = new Date(`${input}-01-01T00:00:00.000Z`) as DatePlus<"iso-year">;
+        const d = new Date(
+            `${input}-01-01T00:00:00.000Z`,
+        ) as DatePlus<"iso-year">;
 
         d.offset = "Z" as TimezoneOffset<"Z">;
         d.tz = null;
@@ -221,7 +234,9 @@ export function asDateTime<T extends DateLike>(input: T) {
 
     if (isIsoDate(input)) {
         const meta = parseIsoDate(input) as unknown as DateMeta;
-        const d = new Date(`${meta.year}-${meta.month}-${meta.date}T00:00:00.000Z`) as DatePlus;
+        const d = new Date(
+            `${meta.year}-${meta.month}-${meta.date}T00:00:00.000Z`,
+        ) as DatePlus;
 
         d.offset = "Z" as TimezoneOffset<"Z">;
         d.tz = null;

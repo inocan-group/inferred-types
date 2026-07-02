@@ -14,7 +14,6 @@ export function toSnakeCase<
     S extends string,
     P extends boolean = false,
 >(input: S, preserveWhitespace: P = false as P): SnakeCase<S, P> {
-    // eslint-disable-next-line regexp/no-super-linear-backtracking
     const [_, preWhite, focus, postWhite] = /^(\s*)([\s\S]*?)(\s*)$/.exec(input) as RegExpExecArray;
 
     const convertInteriorSpace = (input: string) => input.replace(/\s+/g, "_");

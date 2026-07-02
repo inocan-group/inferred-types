@@ -1,5 +1,3 @@
-// /* eslint-disable ts/no-explicit-any */
-// /* eslint-disable no-use-before-define */
 // import { RESULT } from "inferred-types/constants"
 // import {
 //   Ok,

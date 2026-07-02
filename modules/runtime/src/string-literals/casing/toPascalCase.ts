@@ -19,7 +19,6 @@ export function toPascalCase<
     S extends string,
     P extends boolean | undefined = undefined,
 >(input: S, preserveWhitespace: P = undefined as P) {
-    // eslint-disable-next-line regexp/no-super-linear-backtracking
     const [_, preWhite, focus, postWhite] = /^(\s*)([\s\S]*?)(\s*)$/.exec(
         input,
     ) as RegExpExecArray;

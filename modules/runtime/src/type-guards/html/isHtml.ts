@@ -16,7 +16,6 @@ export function isHtml(val: unknown): val is string {
         return false;
 
     const trimmedVal = val.trim();
-    // eslint-disable-next-line regexp/optimal-quantifier-concatenation
     const fullHtmlRegex = /^<(\w+).*<\/\1>$/;
 
     return fullHtmlRegex.test(trimmedVal);
@@ -77,7 +76,6 @@ export function isValidHtml(val: unknown): val is string {
     // If the stack is not empty, there are unmatched opening tags
     const isBalanced = stack.length === 0;
 
-    // eslint-disable-next-line regexp/optimal-quantifier-concatenation
     const validStructureRegex = /^<(\w+)[^>]*>[\s\S]*<\/\1>$/;
 
     return isBalanced && validStructureRegex.test(trimmedVal);
