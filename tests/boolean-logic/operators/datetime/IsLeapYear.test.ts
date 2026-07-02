@@ -109,6 +109,31 @@ describe("IsLeapYear type utility", () => {
 });
 
 describe("isLeapYear()", () => {
+  it("should mirror runtime results in inferred return types", () => {
+    const literalLeapYear = isLeapYear("2024");
+    const literalNonLeapYear = isLeapYear("2023");
+    const isoDateLeapYear = isLeapYear("2020-01-01");
+    const isoDateNonLeapYear = isLeapYear("2021-01-01");
+    const wideTimestamp = isLeapYear(Date.UTC(2024, 0, 1) as number);
+    const dateObject = isLeapYear(new Date(Date.UTC(2024, 0, 1)));
+
+    expect(literalLeapYear).toBe(true);
+    expect(literalNonLeapYear).toBe(false);
+    expect(isoDateLeapYear).toBe(true);
+    expect(isoDateNonLeapYear).toBe(false);
+    expect(wideTimestamp).toBe(true);
+    expect(dateObject).toBe(true);
+
+    type cases = [
+      Expect<Test<typeof literalLeapYear, "equals", true>>,
+      Expect<Test<typeof literalNonLeapYear, "equals", false>>,
+      Expect<Test<typeof isoDateLeapYear, "equals", true>>,
+      Expect<Test<typeof isoDateNonLeapYear, "equals", false>>,
+      Expect<Test<typeof wideTimestamp, "equals", boolean>>,
+      Expect<Test<typeof dateObject, "equals", boolean>>,
+    ];
+  });
+
   it("should correctly validate ISO Year strings", () => {
     const t1 = "2024";
     const t2 = "2000";
