@@ -78,6 +78,12 @@ upgrade:
 commit agent="opencode" *args="":
     @claudine compose prompts/commit.md --{{ agent }} -y {{ args }}
 
+# add a new feature to repo
 feature name:
     @echo
     @md edit "features/{{ Today }}-{{ name }}/spec.md"
+
+# add a new fix to repo
+fix name:
+    @echo
+    @md edit "fixes/{{ Today }}-{{ name }}/spec.md"
