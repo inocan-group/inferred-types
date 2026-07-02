@@ -7,12 +7,12 @@ catalog:
   '@type-challenges/utils': ~0.1.1
   '@types/luxon': ^3.7.2
   '@types/node': ^22.20.0
-  '@typescript/analyze-trace': ^0.10.1
+  '@typescript/analyze-trace': ^0.11.1
   '@typescript/native-preview': 7.0.0-dev.20251223.1
   '@vitest/ui': ^4.1.9
   '@yankeeinlondon/ask': ^0.4.0
   '@yankeeinlondon/claudine': ^0.4.1
-  bumpp: ^10.4.1
+  bumpp: ^11.1.0
   chalk: ^5.6.2
   cross-env: ^10.1.0
   date-fns: ^4.4.0
@@ -26,17 +26,37 @@ catalog:
   moment-timezone: ^0.6.2
   npm-run-all: ~4.1.5
   oxlint: ^1.72.0
-  package-json-validator: ^0.59.1
+  package-json-validator: ^1.5.2
   pathe: ^2.0.3
-  tsdown: ^0.18.4
+  tsdown: ^0.22.3
   tsx: ^4.22.4
   typecheck: ^0.1.2
   typed-tester: ~0.13.2
-  typescript: ^5.9.3
-  vite: ^7.3.6
-  vite-node: ^5.3.0
+  typescript: ^6.0.3
+  vite: ^8.1.2
+  vite-node: ^6.0.0
   vitest: ^4.1.9
   vue: ^3.5.39
 
-settings:
-  autoInstallPeers: true
+autoInstallPeers: true
+shamefullyHoist: true
+ignoreWorkspaceRootCheck: true
+linkWorkspacePackages: true
+publicHoistPattern:
+  - '*vitest*'
+  - vite-node
+catalogMode: strict
+
+overrides:
+  "tar@<6.2.1": ">=6.2.1"
+  "braces@<3.0.3": ">=3.0.3"
+  "micromatch@<4.0.8": ">=4.0.8"
+  "vite@>=5.4.0 <=5.4.5": ">=5.4.6"
+
+allowBuilds:
+  '@pkgr/core': true
+  esbuild: true
+  synckit: true
+  unrs-resolver: true
+
+auditConfig: {}
