@@ -2,7 +2,6 @@ import type {
     ISO_DATE_30,
     ISO_DATE_31
 } from "inferred-types/constants";
-import type { IsFourDigitYear, IsTwoDigitMonth } from "types/boolean-logic";
 import type { Err } from "types/errors";
 import type { Brand } from "types/literals";
 import type {
@@ -10,6 +9,15 @@ import type {
     NumericChar__NonZero,
     NumericChar__ZeroToFive,
 } from "types/string-literals";
+
+type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+type ValidTwoDigitMonth = `0${Exclude<Digit, "0">}` | `1${"0" | "1" | "2"}`;
+type ValidTwoDigitDate =
+    | `0${Exclude<Digit, "0">}`
+    | `1${Digit}`
+    | `2${Digit}`
+    | `3${"0" | "1"}`;
+type ValidFourDigitYear = `${Digit}${Digit}${Digit}${Digit}`;
 
 /**
  * common characters used to separate date representations
@@ -134,19 +142,19 @@ export type TwoDigitMonth<
     T extends "normal" | "weak" | "branded" | `${number}` = "normal"
 >
     = T extends "normal"
-        ? (`0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}` | `1${0 | 1 | 2}`) & `${number}`
+        ? ValidTwoDigitMonth & `${number}`
         : T extends "weak"
             ? `${"0" | "1"}${number}` & `${number}`
             : T extends "branded"
-                ? Brand<`${number}` & TwoDigitMonth, "TwoDigitMonth">
+                ? Brand<`${number}` & ValidTwoDigitMonth, "TwoDigitMonth">
                 : T extends `${number}`
-                    ? [IsTwoDigitMonth<T>] extends [true]
-                            ? Brand<T, "TwoDigitMonth">
-                            : Err<
-                                `invalid-type/month`,
+                    ? T extends ValidTwoDigitMonth
+                        ? Brand<T, "TwoDigitMonth">
+                        : Err<
+                            `invalid-type/month`,
             `The type passed into 'TwoDigitMonth<${T}>' is not a valid two digit month!`,
             { month: T }
-                            >
+                        >
                     : never;
 
 /**
@@ -174,10 +182,7 @@ export type TwoDigitDate<
     T extends "weak" | "normal" | "branded" | `${number}` = "normal"
 >
     = T extends "normal"
-        ? | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-        | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-        | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-        | `3${0 | 1}`
+        ? ValidTwoDigitDate
 
         : T extends "weak"
             ? | `0${number}`
@@ -185,9 +190,9 @@ export type TwoDigitDate<
             | `2${number}`
             | `3${number}`
             : T extends "branded"
-                ? Brand<`${number}`, "TwoDigitDate">
+                ? Brand<`${number}` & ValidTwoDigitDate, "TwoDigitDate">
                 : T extends `${number}`
-                    ? T extends TwoDigitDate<"normal">
+                    ? T extends ValidTwoDigitDate
                         ? Brand<T, "TwoDigitDate">
                         : Err<
                             `invalid-type/date`,
@@ -280,7 +285,7 @@ export type FourDigitYear<
             : T extends "branded"
                 ? Brand<`${number}`, "FourDigitYear">
                 : T extends `${number}`
-                    ? IsFourDigitYear<T> extends true
+                    ? T extends ValidFourDigitYear
                         ? Brand<T, "FourDigitYear">
                         : Err<
                             `invalid-type/four-digit-year`,

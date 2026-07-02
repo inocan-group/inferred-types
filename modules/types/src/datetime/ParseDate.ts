@@ -97,7 +97,7 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
 type ParseYear<T extends string> = IsFourDigitYear<T> extends true
     ? As<
         [
-            FourDigitYear<As<T, `${number}`>>,
+            FourDigitYear<T & `${number}`>,
             null,
             null,
             null
@@ -114,29 +114,33 @@ type ParseDateTime<T extends `${string}T${string}`> = Split<T, "T"> extends [
     infer DatePart extends string,
     infer TimePart extends string
 ]
-    ? ParseFullDate<DatePart> extends Error
-        ? Err<
-            `parse-date/datetime`,
-            `The date component of a DateTime string was invalid: ${ParseFullDate<DatePart>["message"]}`,
-            { parse: T; date: DatePart; time: TimePart }
-        >
-        : ParseTime<TimePart> extends Error
+    ? ParseFullDate<DatePart> extends infer DateResult
+        ? DateResult extends Error
             ? Err<
                 `parse-date/datetime`,
-                `The time component of a DateTime string was invalid: ${ParseTime<TimePart>["message"]}`,
+                `The date component of a DateTime string was invalid: ${DateResult["message"]}`,
                 { parse: T; date: DatePart; time: TimePart }
             >
-            : ParseFullDate<DatePart> extends ParsedDate
-                ? As<
-                    [
-                        As<ParseFullDate<DatePart>, ParsedDate>[0],
-                        As<ParseFullDate<DatePart>, ParsedDate>[1],
-                        As<ParseFullDate<DatePart>, ParsedDate>[2],
-                        As<ParseTime<TimePart>, ParsedTime>
-                    ],
-                    ParsedDate
-                >
+            : ParseTime<TimePart> extends infer TimeResult
+                ? TimeResult extends Error
+                    ? Err<
+                        `parse-date/datetime`,
+                        `The time component of a DateTime string was invalid: ${TimeResult["message"]}`,
+                        { parse: T; date: DatePart; time: TimePart }
+                    >
+                    : DateResult extends ParsedDate
+                        ? As<
+                            [
+                                DateResult[0],
+                                DateResult[1],
+                                DateResult[2],
+                                As<TimeResult, ParsedTime>
+                            ],
+                            ParsedDate
+                        >
+                        : never
                 : never
+        : never
 
     : Err<`parse-date/datetime`, `Invalid structure`, { parse: T }>;
 

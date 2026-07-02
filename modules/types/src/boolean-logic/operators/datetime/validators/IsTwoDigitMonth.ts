@@ -1,4 +1,5 @@
-import type { NonZeroNumericChar } from "types/string-literals";
+type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+type ValidTwoDigitMonth = `0${Exclude<Digit, "0">}` | `1${"0" | "1" | "2"}`;
 
 /**
  * Boolean operator which tests whether `T` is a valid
@@ -9,17 +10,7 @@ import type { NonZeroNumericChar } from "types/string-literals";
 export type IsTwoDigitMonth<T> = T extends string
     ? string extends T
         ? boolean
-        : T extends `0${infer Rest}`
-            ? Rest extends `${NonZeroNumericChar}${infer Rest}`
-                ? Rest extends ""
-                    ? true
-                    : false
-                : false
-            : T extends `1${infer Rest}`
-                ? Rest extends `${"0" | "1" | "2"}${infer Rest}`
-                    ? Rest extends ""
-                        ? true
-                        : false
-                    : false
-                : false
+        : T extends ValidTwoDigitMonth
+            ? true
+            : false
     : false;

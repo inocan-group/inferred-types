@@ -1,4 +1,4 @@
-import type { NumericChar } from "inferred-types/types";
+type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
 /**
  * Boolean operator which validates that `T` is a
@@ -7,15 +7,7 @@ import type { NumericChar } from "inferred-types/types";
 export type IsFourDigitYear<T> = T extends string
     ? string extends T
         ? boolean
-        : T extends `${NumericChar}${infer Rest}`
-            ? Rest extends `${NumericChar}${infer Rest}`
-                ? Rest extends `${NumericChar}${infer Rest}`
-                    ? Rest extends `${NumericChar}${infer Rest}`
-                        ? Rest extends ""
-                            ? true
-                            : false
-                        : false
-                    : false
-                : false
+        : T extends `${Digit}${Digit}${Digit}${Digit}`
+            ? true
             : false
     : false;

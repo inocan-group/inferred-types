@@ -26,14 +26,9 @@ type SEC_IN_YEAR = 31536000;
 type GetDatePart<T> = T extends `${infer D}T${string}` ? D : T;
 
 // Extracts YYYY-MM from date strings
-// Note: We don't strip leading hyphen here because -2023-01 != 2023-01
 type GetYearMonthFromDate<T extends string>
-    // Negative year cases
     = T extends `-${infer Rest}`
-        ? Rest extends `${infer Y}-${infer M}-${string}` ? `-${Y}-${M}`
-            : Rest extends `${infer Y}-${infer M}` ? `-${Y}-${M}`
-                : never
-    // Positive/Standard cases
+        ? GetYearMonthFromDate<Rest>
         : T extends `${infer Y}-${infer M}-${string}` ? `${Y}-${M}`
             : T extends `${infer Y}-${infer M}` ? `${Y}-${M}`
                 : never;

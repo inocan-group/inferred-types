@@ -1,26 +1,35 @@
 import type {
     IsDoubleLeap,
     IsLeapYear,
-    IsoDate30,
-    IsoDate31
 } from "inferred-types/types";
+
+type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+type ValidTwoDigitDate =
+    | `0${Exclude<Digit, "0">}`
+    | `1${Digit}`
+    | `2${Digit}`
+    | `3${"0" | "1"}`;
+type MonthWith30Days = "04" | "06" | "09" | "11";
+type DateThrough28 = Exclude<ValidTwoDigitDate, "29" | "30" | "31">;
+type DateThrough29 = Exclude<ValidTwoDigitDate, "30" | "31">;
+type DateThrough30 = Exclude<ValidTwoDigitDate, "31">;
 
 type TestFeb<
     T,
     TYear extends string | null
 > = TYear extends null
-    ? T extends Exclude<IsoDate30, "30">
+    ? T extends DateThrough29
         ? true
         : false
     : IsLeapYear<TYear> extends true
-        ? IsDoubleLeap<T> extends true
-            ? T extends IsoDate30
+        ? IsDoubleLeap<TYear> extends true
+            ? T extends DateThrough30
                 ? true
                 : false
-            : T extends Exclude<IsoDate30, "30">
+            : T extends DateThrough29
                 ? true
                 : false
-        : T extends Exclude<IsoDate30, "30" | "29">
+        : T extends DateThrough28
             ? true
             : false
     ;
@@ -45,14 +54,14 @@ export type IsTwoDigitDate<
         : TMonth extends "02"
             ? TestFeb<T, TYear>
             : TMonth extends null | undefined
-                ? T extends IsoDate31
+                ? T extends ValidTwoDigitDate
                     ? true
                     : false
-                : TMonth extends IsoDate30
-                    ? T extends IsoDate30
+                : TMonth extends MonthWith30Days
+                    ? T extends DateThrough30
                         ? true
                         : false
-                    : T extends IsoDate31
+                    : T extends ValidTwoDigitDate
                         ? true
                         : false
     : false;

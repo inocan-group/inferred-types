@@ -64,6 +64,30 @@ type IsNumericMonthIndex<T> = T extends number
             : false
     : false;
 
+type DaysFromParsedDate<
+    T,
+    Y extends NumberLike | undefined,
+    P extends ParsedDate | Error
+> = P extends ParsedDate
+    ? P[1] extends infer Month extends TwoDigitMonth
+        ? P[0] extends infer Year extends FourDigitYear
+            ? Days<Unbrand<Month>, Unbrand<Year>>
+            : Unbrand<Y> extends NumberLike
+                ? Days<Unbrand<Month>, Unbrand<Y>>
+                : Days<Unbrand<Month>>
+        : Err<`invalid-month/missing`>
+    : P extends Error
+        ? Err<
+            `invalid-month/parsing`,
+            `The generic T passed to DaysInMonth<T,[Y]> was date-like but when parsing produced the following error: ${P["message"]}`,
+            { T: T; utility: "DaysInMonth" }
+        >
+        : Err<
+            `invalid-month/parsing`,
+            `The generic T passed to DaysInMonth<T,[Y]> was date-like but when parsing it did not produce a ParsedDate or an Error (this should not happen)!`,
+            { T: T; utility: "DaysInMonth" }
+        >;
+
 /**
  * **DaysInMonth**`<T,[Y]>`
  *
@@ -102,25 +126,13 @@ export type DaysInMonth<
                     ? Days<Unbrand<T>, Unbrand<Y>>
                     : Days<Unbrand<T>>
                 : T extends DateLike
-                    ? ParseDate<T> extends ParsedDate
-                        ? ParseDate<T>[1] extends infer Month extends TwoDigitMonth
-                            ? ParseDate<T>[0] extends infer Year extends FourDigitYear
-                                ? Days<Unbrand<Month>, Unbrand<Year>>
-                                : Unbrand<Y> extends NumberLike
-                                    ? Days<Unbrand<Month>, Unbrand<Y>>
-                                    : Days<Unbrand<Month>>
-                            : Err<`invalid-month/missing`>
-                        : ParseDate<T> extends Error
-                            ? Err<
-                                `invalid-month/parsing`,
-            `The generic T passed to DaysInMonth<T,[Y]> was date-like but when parsing produced the following error: ${ParseDate<T>["message"]}`,
-            { T: T; utility: "DaysInMonth" }
-                            >
-                            : Err<
-                                `invalid-month/parsing`,
-                                `The generic T passed to DaysInMonth<T,[Y]> was date-like but when parsing it did not produce a ParsedDate or an Error (this should not happen)!`,
-                                { T: T; utility: "DaysInMonth" }
-                            >
+                    ? ParseDate<T> extends infer P extends ParsedDate | Error
+                        ? DaysFromParsedDate<T, Unbrand<Y>, P>
+                        : Err<
+                            `invalid-month/parsing`,
+                            `The generic T passed to DaysInMonth<T,[Y]> was date-like but when parsing it did not produce a ParsedDate or an Error (this should not happen)!`,
+                            { T: T; utility: "DaysInMonth" }
+                        >
                     : T extends MonthName
                         ? GetMonthNumber<T> extends number
                             ? Unbrand<Y> extends NumberLike
