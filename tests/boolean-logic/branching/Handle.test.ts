@@ -1,9 +1,7 @@
-
 import { describe, it } from "vitest";
 import type { Expect, Handle, Test } from "inferred-types/types";
 
 describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
-
     it("extends specificity", () => {
         type Foo = Handle<"bar", string, "foo">;
 
@@ -17,14 +15,14 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
         type Nope = Handle<"foo", string, false>;
 
         type cases = [
-            Expect<Test<Foo, "equals",  "foo">>,
+            Expect<Test<Foo, "equals", "foo">>,
 
-            Expect<Test<StillFoo, "equals",  "foo">>,
-            Expect<Test<StillFoo2, "equals",  "foo">>,
-            Expect<Test<UFoo, "equals",  "foo">>,
+            Expect<Test<StillFoo, "equals", "foo">>,
+            Expect<Test<StillFoo2, "equals", "foo">>,
+            Expect<Test<UFoo, "equals", "foo">>,
             Expect<Test<NarrowFoo, "equals", false>>,
 
-            Expect<Test<UnionHandler, "equals",  "union">>,
+            Expect<Test<UnionHandler, "equals", "union">>,
 
             Expect<Test<Nope, "equals", false>>,
         ];
@@ -38,28 +36,17 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
         type UnhandledFoo = Handle<"foo", "foo" | "bar", "handled", "equals">;
 
         type cases = [
-            Expect<Test<WideCondition, "equals",  "foo">>,
-            Expect<Test<WideValue, "equals",  string>>,
+            Expect<Test<WideCondition, "equals", "foo">>,
+            Expect<Test<WideValue, "equals", string>>,
 
-            Expect<Test<Foo, "equals",  "handled">>,
-            Expect<Test<UnhandledFoo, "equals",  "foo">>,
-        ];
-        const cases: cases = [
-            true, true,
-            true, true,
+            Expect<Test<Foo, "equals", "handled">>,
+            Expect<Test<UnhandledFoo, "equals", "foo">>,
         ];
     });
 
     it("using equals for boolean handling", () => {
         type BoolIsTrue = Handle<boolean, boolean, true, "equals">;
 
-        type cases = [
-            Expect<Test<BoolIsTrue, "equals",  true>>
-        ];
-        const cases: cases = [
-            true
-        ];
-
+        type cases = [Expect<Test<BoolIsTrue, "equals", true>>];
     });
-
 });

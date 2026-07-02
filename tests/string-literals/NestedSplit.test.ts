@@ -246,7 +246,7 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
 
 });
 
-describe.skip("NestedSplit<TContent,TSplit,TNesting> (new syntax)", () => {
+describe("NestedSplit<TContent,TSplit,TNesting> (new syntax)", () => {
 
     it("shallow-quotes avoids splitting on delimiter inside quote AND avoids unbalanced quotes in level 1 when single quote is encountered", () => {
         type Text = `1234, 4567, "Bob, the quintessential idiot, didn't care"`;

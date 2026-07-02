@@ -1,9 +1,7 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import type { Expect, IsTuple, Test } from "inferred-types/types";
 
 describe("IsTuple<T>", () => {
-
     it("positive tests", () => {
         type Empty = IsTuple<[]>;
         type RoEmpty = IsTuple<readonly []>;
@@ -11,10 +9,10 @@ describe("IsTuple<T>", () => {
         type RoFoobar = IsTuple<["foo", "bar"]>;
 
         type cases = [
-           Expect<Test<Empty, "equals", true>>,
-           Expect<Test<RoEmpty, "equals", true>>,
-           Expect<Test<Foobar, "equals", true>>,
-           Expect<Test<RoFoobar, "equals", true>>,
+            Expect<Test<Empty, "equals", true>>,
+            Expect<Test<RoEmpty, "equals", true>>,
+            Expect<Test<Foobar, "equals", true>>,
+            Expect<Test<RoFoobar, "equals", true>>,
         ];
     });
 
@@ -31,9 +29,9 @@ describe("IsTuple<T>", () => {
     });
 
     it("variadic array with known keys returns false", () => {
-        type V1 = IsTuple<[1,2,3, ...string[]]>;
-        type V2 = IsTuple<[...string[], 1,2,3]>;
-        type V3 = IsTuple<[number, ...string[], 1,2,3]>;
+        type V1 = IsTuple<[1, 2, 3, ...string[]]>;
+        type V2 = IsTuple<[...string[], 1, 2, 3]>;
+        type V3 = IsTuple<[number, ...string[], 1, 2, 3]>;
 
         type cases = [
             Expect<Test<V1, "equals", false>>,
@@ -41,5 +39,4 @@ describe("IsTuple<T>", () => {
             Expect<Test<V3, "equals", false>>,
         ];
     });
-
 });

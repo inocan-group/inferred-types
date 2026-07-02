@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { parseNumericDate, keysOf } from "inferred-types/runtime";
-import type { DateMeta, Expect, Test } from "inferred-types/types";
+import type { Expect, Test } from "inferred-types/types";
 
 describe("parseNumericDate()", () => {
     it("parses epoch milliseconds", () => {
@@ -49,7 +49,7 @@ describe("parseNumericDate()", () => {
         const now = Date.now();
         const date = new Date(now);
         const result = parseNumericDate(now);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: date.toISOString().slice(0, 4),
@@ -60,7 +60,7 @@ describe("parseNumericDate()", () => {
             second: date.toISOString().slice(17, 19),
             ms: date.toISOString().slice(20, 23),
             timezone: "Z",
-        } as DateMeta;
+        };
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
         }
@@ -81,7 +81,7 @@ describe("parseNumericDate()", () => {
             second: date.toISOString().slice(17, 19),
             ms: date.toISOString().slice(20, 23),
             timezone: "Z",
-        } as DateMeta;
+        };
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
         }

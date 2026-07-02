@@ -1,13 +1,25 @@
+// deno-lint-ignore-file no-explicit-any
 import { describe, it, expect } from "vitest";
 import { compare, isStaticTemplate, startsWith } from "inferred-types/runtime";
-import type { Compare, Contains, EmptyObject, Expect, IsAfter, IsDateLike, IsFalse, IsFalsy, IsGreaterThan, IsSameDay, Test, UpperAlphaChar } from "inferred-types/types";
+import type {
+    Compare,
+    Contains,
+    EmptyObject,
+    Expect,
+    IsAfter,
+    IsDateLike,
+    IsFalse,
+    IsFalsy,
+    IsGreaterThan,
+    IsSameDay,
+    Test,
+    UpperAlphaChar,
+} from "inferred-types/types";
 
-import { StartsWith } from "inferred-types";
+import type { StartsWith } from "inferred-types";
 
 describe("Compare<TVal,TOp,TComparator> type util", () => {
-
     describe("general", () => {
-
         it("equals", () => {
             type T1 = Compare<42, "equals", [42]>;
             type T2 = Compare<string, "equals", [string]>;
@@ -40,7 +52,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
-                Expect<Test<T2, "equals", true>>
+                Expect<Test<T2, "equals", true>>,
             ];
         });
 
@@ -52,7 +64,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             type cases = [
                 Expect<Test<T1, "equals", true>>,
                 Expect<Test<T2, "equals", true>>,
-                Expect<Test<E1, "isError", "invalid-parameters">>
+                Expect<Test<E1, "isError", "invalid-parameters">>,
             ];
         });
 
@@ -60,6 +72,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             type T1 = Compare<true, "truthy", []>;
             type T2 = Compare<1, "truthy", []>;
             type T3 = Compare<"hello", "truthy", []>;
+            // deno-lint-ignore ban-types
             type T4 = Compare<{}, "truthy", []>;
             type T4b = Compare<EmptyObject, "truthy", []>;
             type T5 = Compare<[], "truthy", []>;
@@ -114,8 +127,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<F1, "equals", false>>,
             ];
         });
-
-    })
+    });
 
     describe("string", () => {
         it("startsWith", () => {
@@ -153,9 +165,13 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
         it("isTemplateLiteral", () => {
             type T1 = Compare<`hi${string}`, "isTemplateLiteral", []>;
-            type T2 = Compare<`${string} is${number} years old`, "isTemplateLiteral", []>;
+            type T2 = Compare<
+                `${string} is${number} years old`,
+                "isTemplateLiteral",
+                []
+            >;
 
-            type F1 = Compare<"hi", "isTemplateLiteral", []>
+            type F1 = Compare<"hi", "isTemplateLiteral", []>;
 
             type cases = [
                 Expect<Test<T1, "equals", true>>,
@@ -179,8 +195,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<F1, "equals", false>>,
             ];
         });
-
-    })
+    });
 
     describe("numeric", () => {
         it("greaterThan", () => {
@@ -244,15 +259,14 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<B1, "equals", boolean>>,
             ];
         });
-    })
+    });
 
     describe("edge cases", () => {
-
         it("invalid operation", () => {
             type E1 = Compare<42, "foobar", [42]>;
 
             type cases = [
-                Expect<Test<E1, "isError", "invalid-operation/foobar">>
+                Expect<Test<E1, "isError", "invalid-operation/foobar">>,
             ];
         });
 
@@ -275,8 +289,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<F2, "equals", false>>,
             ];
         });
-
-    })
+    });
 
     it("numeric operators", () => {
         type T1 = Compare<4, "greaterThan", [2]>;
@@ -311,13 +324,12 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             Expect<Test<F9, "equals", false>>,
 
             Expect<Test<T10, "equals", true>>,
-
         ];
     });
 
     describe("objects", () => {
         it("objectKeyEquals operator", () => {
-            type Obj = { foo: 2, bar: "bye" };
+            type Obj = { foo: 2; bar: "bye" };
 
             type T1 = Compare<Obj, "objectKeyEquals", ["foo", 2]>;
             type F1 = Compare<Obj, "objectKeyEquals", ["foo", 5]>;
@@ -333,7 +345,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
         });
 
         it("objectKeyExtends operator", () => {
-            type Obj = { foo: 2, bar: "bye" };
+            type Obj = { foo: 2; bar: "bye" };
 
             type T1 = Compare<Obj, "objectKeyExtends", ["foo", 2]>;
             type T2 = Compare<Obj, "objectKeyExtends", ["foo", number]>;
@@ -350,7 +362,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
         });
 
         it("objectKey numeric ops", () => {
-            type Obj = { foo: 2, bar: "bye" };
+            type Obj = { foo: 2; bar: "bye" };
 
             type T1 = Compare<Obj, "objectKeyGreaterThan", ["foo", 1]>;
 
@@ -382,14 +394,12 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<F4, "equals", false>>,
             ];
         });
-
-    })
+    });
 
     describe("functions", () => {
-
         it("returnEquals", () => {
-            type T1 = Compare<(() => string), "returnEquals", [string]>;
-            type T2 = Compare<(() => number), "returnEquals", [number]>;
+            type T1 = Compare<() => string, "returnEquals", [string]>;
+            type T2 = Compare<() => number, "returnEquals", [number]>;
 
             type F1 = Compare<() => string, "returnEquals", [number]>;
 
@@ -400,11 +410,9 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<F1, "equals", false>>,
             ];
         });
-
-    })
+    });
 
     describe("datetime", () => {
-
         it("sameDay", () => {
             type D = "2023-10-15";
 
@@ -417,16 +425,12 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
                 Expect<Test<T2, "equals", true>>,
             ];
         });
-
-    })
-
+    });
 });
 
 describe("compare() runtime function", () => {
-
     describe("String operations", () => {
         it("startsWith", () => {
-
             const startsWithHello = compare("startsWith", "Hello");
 
             type X = StartsWith<"Hello world", "Hello">;
@@ -443,7 +447,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
-                Expect<Test<typeof f2, "equals", false>>
+                Expect<Test<typeof f2, "equals", false>>,
             ];
         });
 
@@ -467,7 +471,6 @@ describe("compare() runtime function", () => {
                 Expect<Test<F1, "equals", false>>,
                 Expect<Test<typeof f2, "equals", false>>,
                 Expect<Test<F2, "equals", false>>,
-
             ];
         });
 
@@ -495,6 +498,8 @@ describe("compare() runtime function", () => {
             const startsWithNum = compare("startsWithNumber");
             const t1 = startsWithNum("123test");
             const f1 = startsWithNum("test123");
+
+            // deno-lint-ignore ban-ts-comment
             // @ts-expect-error
             const b1 = startsWithNum("123" as unknown);
             const e1 = startsWithNum(123 as any);
@@ -513,7 +518,7 @@ describe("compare() runtime function", () => {
         });
 
         it("onlyNumbers", () => {
-            type X = Compare<"", "onlyNumbers", []>
+            type X = Compare<"", "onlyNumbers", []>;
             const onlyNum = compare("onlyNumbers");
             const result1 = onlyNum("12345");
             const result2 = onlyNum("123a45");
@@ -529,7 +534,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", false>>,
                 Expect<Test<typeof result3, "equals", false>>,
-                Expect<Test<typeof result4, "equals", boolean>>
+                Expect<Test<typeof result4, "equals", boolean>>,
             ];
         });
 
@@ -541,29 +546,19 @@ describe("compare() runtime function", () => {
             expect(onlyLetters("abc def")).toBe(false); // space is not a letter
             expect(onlyLetters(123 as any)).toBe(false);
 
-            type cases = [
-                Expect<Test<
-                    typeof abc, "equals",
-                    true
-                >>
-            ]
+            type cases = [Expect<Test<typeof abc, "equals", true>>];
         });
 
         it("alphaNumeric", () => {
             const alphaNum = compare("alphaNumeric");
-            const alpha123 = alphaNum("abc123")
+            const alpha123 = alphaNum("abc123");
             expect(alpha123).toBe(true);
             expect(alphaNum("abc")).toBe(true);
             expect(alphaNum("123")).toBe(true);
             expect(alphaNum("abc 123")).toBe(false); // space is not alphanumeric
             expect(alphaNum("abc-123")).toBe(false); // hyphen is not alphanumeric
 
-            type cases = [
-                Expect<Test<
-                    typeof alpha123, "equals",
-                    true
-                >>
-            ]
+            type cases = [Expect<Test<typeof alpha123, "equals", true>>];
         });
 
         it("isTemplateLiteral", () => {
@@ -575,6 +570,7 @@ describe("compare() runtime function", () => {
             expect((t2 as any) instanceof Error).toBe(false);
 
             // in these case both runtime and type system know it's false
+            // deno-lint-ignore ban-ts-comment
             // @ts-expect-error
             const f1 = isStaticTemplate(42);
             const f2 = compare("isTemplateLiteral")(42);
@@ -599,7 +595,6 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof f4, "equals", false>>,
             ];
         });
-
     });
 
     describe("General operations", () => {
@@ -614,12 +609,7 @@ describe("compare() runtime function", () => {
             expect(equalsHello("hello")).toBe(true);
             expect(equalsHello("Hello")).toBe(false);
 
-            type cases = [
-                Expect<Test<
-                    typeof five, "equals",
-                    true
-                >>
-            ]
+            type cases = [Expect<Test<typeof five, "equals", true>>];
         });
 
         it("false", () => {
@@ -674,7 +664,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", false>>,
                 Expect<Test<typeof result3, "equals", false>>,
-                Expect<Test<typeof result4, "equals", false>>
+                Expect<Test<typeof result4, "equals", false>>,
             ];
         });
 
@@ -712,7 +702,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof f2, "equals", false>>,
                 Expect<Test<typeof f3, "equals", false>>,
                 Expect<Test<typeof f4, "equals", false>>,
-                Expect<Test<typeof f5, "equals", false>>
+                Expect<Test<typeof f5, "equals", false>>,
             ];
         });
 
@@ -747,7 +737,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof t5, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
                 Expect<Test<typeof f2, "equals", false>>,
-                Expect<Test<typeof f3, "equals", false>>
+                Expect<Test<typeof f3, "equals", false>>,
             ];
         });
 
@@ -777,12 +767,7 @@ describe("compare() runtime function", () => {
             expect(containsHello(["hello", "world"])).toBe(true);
             expect(containsHello(["hi", "world"])).toBe(false);
 
-            type cases = [
-                Expect<Test<
-                    typeof helloWorld, "equals",
-                    true
-                >>
-            ]
+            type cases = [Expect<Test<typeof helloWorld, "equals", true>>];
         });
 
         it("containsSome", () => {
@@ -795,15 +780,9 @@ describe("compare() runtime function", () => {
             expect(containsSome(["hello", "world"])).toBe(true);
 
             type cases = [
-                Expect<Test<
-                    typeof hello, "equals",
-                    true
-                >>,
-                Expect<Test<
-                    X, "equals",
-                    true
-                >>,
-            ]
+                Expect<Test<typeof hello, "equals", true>>,
+                Expect<Test<X, "equals", true>>,
+            ];
         });
 
         it("containsAll", () => {
@@ -815,12 +794,7 @@ describe("compare() runtime function", () => {
             expect(containsAll(["hello", "world", "test"])).toBe(true);
             expect(containsAll(["hello", "test"])).toBe(false);
 
-            type cases = [
-                Expect<Test<
-                    typeof helloWorld, "equals",
-                    true
-                >>
-            ]
+            type cases = [Expect<Test<typeof helloWorld, "equals", true>>];
         });
     });
 
@@ -845,7 +819,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof t2, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
                 Expect<Test<typeof f2, "equals", false>>,
-                Expect<Test<typeof b1, "equals", boolean>>
+                Expect<Test<typeof b1, "equals", boolean>>,
             ];
         });
 
@@ -862,7 +836,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof t2, "equals", true>>,
-                Expect<Test<typeof f1, "equals", false>>
+                Expect<Test<typeof f1, "equals", false>>,
             ];
         });
 
@@ -879,7 +853,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
-                Expect<Test<typeof f2, "equals", false>>
+                Expect<Test<typeof f2, "equals", false>>,
             ];
         });
 
@@ -896,7 +870,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof t2, "equals", true>>,
-                Expect<Test<typeof f1, "equals", false>>
+                Expect<Test<typeof f1, "equals", false>>,
             ];
         });
 
@@ -918,7 +892,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
                 Expect<Test<typeof f2, "equals", false>>,
-                Expect<Test<typeof f3, "equals", false>>
+                Expect<Test<typeof f3, "equals", false>>,
             ];
         });
 
@@ -942,7 +916,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof result2, "equals", true>>,
                 Expect<Test<typeof result3, "equals", true>>,
                 Expect<Test<typeof result4, "equals", false>>,
-                Expect<Test<typeof result5, "equals", false>>
+                Expect<Test<typeof result5, "equals", false>>,
             ];
         });
     });
@@ -976,7 +950,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof f3, "equals", false>>,
                 Expect<Test<typeof t2, "equals", true>>,
                 Expect<Test<typeof e1, "isError", "invalid-value/non-numeric">>,
-                Expect<Test<typeof e2, "isError", "invalid-value/wrong-type">>
+                Expect<Test<typeof e2, "isError", "invalid-value/wrong-type">>,
             ];
         });
 
@@ -993,7 +967,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", true>>,
-                Expect<Test<typeof result3, "equals", false>>
+                Expect<Test<typeof result3, "equals", false>>,
             ];
         });
 
@@ -1010,7 +984,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", false>>,
-                Expect<Test<typeof result3, "equals", false>>
+                Expect<Test<typeof result3, "equals", false>>,
             ];
         });
 
@@ -1027,15 +1001,12 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", true>>,
-                Expect<Test<typeof result3, "equals", false>>
+                Expect<Test<typeof result3, "equals", false>>,
             ];
         });
 
         it("objectKeyEquals", () => {
-            const nameEquals = compare(
-                "objectKeyEquals",
-                "name", "John"
-            );
+            const nameEquals = compare("objectKeyEquals", "name", "John");
             const t1 = nameEquals({ name: "John" });
             const f1 = nameEquals({ name: "Jane" });
             const f2 = nameEquals({ age: 25 });
@@ -1050,7 +1021,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
                 Expect<Test<typeof f2, "equals", false>>,
-                Expect<Test<typeof e1, "isError", "invalid-value/wrong-type">>
+                Expect<Test<typeof e1, "isError", "invalid-value/wrong-type">>,
             ];
         });
     });
@@ -1094,7 +1065,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", true>>,
                 Expect<Test<typeof result3, "equals", false>>,
-                Expect<Test<typeof result4, "equals", true>>
+                Expect<Test<typeof result4, "equals", true>>,
             ];
         });
 
@@ -1115,7 +1086,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", true>>,
                 Expect<Test<typeof result3, "equals", false>>,
-                Expect<Test<typeof result4, "equals", false>>
+                Expect<Test<typeof result4, "equals", false>>,
             ];
         });
 
@@ -1135,14 +1106,14 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof t2, "equals", true>>,
                 Expect<Test<typeof t3, "equals", true>>,
-                Expect<Test<typeof f1, "equals", false>>
+                Expect<Test<typeof f1, "equals", false>>,
             ];
         });
 
         it("after", () => {
             const after = compare("after", "2023-12-20");
             type T1 = IsAfter<"2023-12-22", "2023-12-20">;
-            type TT1 = Compare<"2023-12-22", "after", ["2023-12-20"]>
+            type TT1 = Compare<"2023-12-22", "after", ["2023-12-20"]>;
             const t1 = after("2023-12-22"); // is after
 
             type F1 = IsAfter<"2023-12-20", "2023-12-20">;
@@ -1158,7 +1129,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
-                Expect<Test<typeof b1, "equals", boolean>>
+                Expect<Test<typeof b1, "equals", boolean>>,
             ];
         });
 
@@ -1175,7 +1146,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", false>>,
-                Expect<Test<typeof result3, "equals", false>>
+                Expect<Test<typeof result3, "equals", false>>,
             ];
         });
     });
@@ -1197,12 +1168,14 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", true>>,
                 Expect<Test<typeof result3, "equals", false>>,
-                Expect<Test<typeof result4, "equals", false>>
+                Expect<Test<typeof result4, "equals", false>>,
             ];
         });
 
         it("errorsOfType", () => {
-            const customError = Object.assign(new Error("test"), { type: "CustomError" });
+            const customError = Object.assign(new Error("test"), {
+                type: "CustomError",
+            });
             const isCustomError = compare("errorsOfType", "CustomError");
             const result1 = isCustomError(customError);
             const result2 = isCustomError(new Error("test"));
@@ -1215,19 +1188,17 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", false>>,
-                Expect<Test<typeof result3, "equals", false>>
+                Expect<Test<typeof result3, "equals", false>>,
             ];
         });
-
     });
 
     describe("Edge cases and error handling", () => {
-
         it("handles complex nested comparisons", () => {
             const data = [
                 { name: "John", age: 25, skills: ["js", "ts"] },
                 { name: "Jane", age: 30, skills: ["python", "js"] },
-                { name: "Bob", age: 20, skills: ["java"] }
+                { name: "Bob", age: 20, skills: ["java"] },
             ] as const;
 
             const ageGt21 = compare("objectKeyGreaterThan", "age", 21);
@@ -1243,7 +1214,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", true>>,
-                Expect<Test<typeof result3, "equals", false>>
+                Expect<Test<typeof result3, "equals", false>>,
             ];
         });
     });

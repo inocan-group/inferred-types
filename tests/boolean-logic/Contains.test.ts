@@ -1,9 +1,9 @@
-import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import type { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import type {
     Contains,
     Expect,
     NarrowlyContains,
-    Test
+    Test,
 } from "inferred-types/types";
 import { AssertFalse, AssertTrue } from "transpiled";
 
@@ -21,41 +21,38 @@ describe("Contains<T,A>", () => {
 
         type cases = [
             // "foo" extends string so true
-            Expect<Test<T1, "equals",  true>>,
-            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
             // "bar" does NOT extend "foo"
-            Expect<Test<
-                Contains<[number, 32, 64, "foo"], "bar">,
-                "equals",  false
-            >>,
-            Expect<Test<T3, "equals",  true>>,
-            Expect<Test<T4, "equals",  true>>,
-            Expect<Test<T3, "equals",  true>>,
-            Expect<Test<T5, "equals",  true>>,
-            Expect<Test<TNum, "equals",  true>>,
+            Expect<
+                Test<Contains<[number, 32, 64, "foo"], "bar">, "equals", false>
+            >,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T5, "equals", true>>,
+            Expect<Test<TNum, "equals", true>>,
         ];
-
     });
 
     it("using equals operation", () => {
         type T1 = Contains<[number, 32, 64, "foo"], "foo">;
         type T2 = Contains<[number, 32, 64, "foo"], "foo", "equals">;
-        type T3 = Contains<[42, 64, 128], 42, "equals">
+        type T3 = Contains<[42, 64, 128], 42, "equals">;
 
         type F1 = Contains<[number, 32, 64, "foo"], string, "equals">;
         type F2 = Contains<[42, 64, 128], 442, "equals">;
         type F3 = Contains<[false, true], boolean, "equals">;
 
         type cases = [
-            Expect<Test<T1, "equals",  true>>,
-            Expect<Test<T2, "equals",  true>>,
-            Expect<Test<T3, "equals",  true>>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
 
-            Expect<Test<F1, "equals",  false>>,
-            Expect<Test<F2, "equals",  false>>,
-            Expect<Test<F3, "equals",  false>>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
         ];
-
     });
 
     it("undefined and null", () => {
@@ -66,11 +63,11 @@ describe("Contains<T,A>", () => {
         type F2 = Contains<[null], undefined>; // =>
 
         type cases = [
-            Expect<Test<T1, "equals",  true>>,
-            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
 
-            Expect<Test<F1, "equals",  false>>,
-            Expect<Test<F2, "equals",  false>>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
         ];
     });
 
@@ -103,27 +100,24 @@ describe("Contains<T,A>", () => {
         type cases = [
             ExpectTrue<HasBar>,
             ExpectFalse<NoBar>,
-            Expect<Test<WideContent, "equals",  boolean>>,
-            Expect<Test<WideContains, "equals",  boolean>>
+            Expect<Test<WideContent, "equals", boolean>>,
+            Expect<Test<WideContains, "equals", boolean>>,
         ];
     });
 
     it("Comparator is a union", () => {
-        type Foo = Contains<["foo", "bar"], "foo"| 42>;
+        type Foo = Contains<["foo", "bar"], "foo" | 42>;
         type Nada = Contains<["foo", "bar"], boolean | 42>;
 
         type cases = [
             Expect<Test<Foo, "equals", true>>,
-            Expect<Test<Nada, "equals", false>>
+            Expect<Test<Nada, "equals", false>>,
         ];
-
     });
 
     describe("using 'equals' operation", () => {
-
-
         it("strict equality for wide scalars", () => {
-            type Arr = [ string, 42, number, true ];
+            type Arr = [string, 42, number, true];
             type T1 = Contains<Arr, string, "equals">;
             type T2 = Contains<Arr, number, "equals">;
 
@@ -136,22 +130,17 @@ describe("Contains<T,A>", () => {
             ];
         });
 
-
         it("strict equality for literal scalars", () => {
-            type Arr = [ string, 42, true ];
+            type Arr = [string, 42, true];
 
             type T1 = Contains<Arr, 42, "equals">;
             type F1 = Contains<Arr, number, "equals">;
 
-            type cases = [
-                Expect<AssertTrue<T1>>,
-                Expect<AssertFalse<F1>>,
-            ];
+            type cases = [Expect<AssertTrue<T1>>, Expect<AssertFalse<F1>>];
         });
 
-
         it("strict equality for object literals", () => {
-            type Arr = [ { foo: 1 }, { bar: "baz" } ]
+            type Arr = [{ foo: 1 }, { bar: "baz" }];
             type T1 = Contains<Arr, { foo: 1 }, "equals">;
             type T2 = Contains<Arr, { bar: "baz" }, "equals">;
 
@@ -166,10 +155,9 @@ describe("Contains<T,A>", () => {
             ];
         });
 
-
         it("Strict equality works for arrays of arrays", () => {
-            type Arr = [ string[] | number[] | [1, 2, 3] ];
-            type T1 = Contains<Arr, [1,2,3], "equals">;
+            type Arr = [string[] | number[] | [1, 2, 3]];
+            type T1 = Contains<Arr, [1, 2, 3], "equals">;
             type T2 = Contains<Arr, string[], "equals">;
             type T3 = Contains<Arr, number[], "equals">;
 
@@ -180,21 +168,14 @@ describe("Contains<T,A>", () => {
             ];
         });
 
-
         it("Boolean wide type is preserved", () => {
-            type Arr = [ boolean, 1, 2 ];
+            type Arr = [boolean, 1, 2];
             type T1 = Contains<Arr, boolean, "equals">;
             type F1 = Contains<Arr, true, "equals">;
 
-            type cases = [
-                Expect<AssertTrue<T1>>,
-                Expect<AssertFalse<F1>>,
-            ];
+            type cases = [Expect<AssertTrue<T1>>, Expect<AssertFalse<F1>>];
         });
-
-
-
-    })
+    });
 });
 
 describe("NarrowlyContains<T,A>", () => {
@@ -206,20 +187,19 @@ describe("NarrowlyContains<T,A>", () => {
 
         type cases = [
             // "foo" is not equal to string
-            Expect<Test<NarrowlyContains<T1, string>, "equals",  false>>,
+            Expect<Test<NarrowlyContains<T1, string>, "equals", false>>,
             // "foo" does equal "foo"
-            Expect<Test<NarrowlyContains<T1, "foo">, "equals",  true>>,
+            Expect<Test<NarrowlyContains<T1, "foo">, "equals", true>>,
             // T4 has literal string but this doesn't match with NarrowlyContains
-            Expect<Test<NarrowlyContains<T4, string>, "equals",  false>>,
+            Expect<Test<NarrowlyContains<T4, string>, "equals", false>>,
             // T1 has both wide and narrow versions of "number" but match is only on wide type
-            Expect<Test<NarrowlyContains<T1, number>, "equals",  true>>,
+            Expect<Test<NarrowlyContains<T1, number>, "equals", true>>,
             // T3 has matches on narrow number
-            Expect<Test<NarrowlyContains<T3, 42>, "equals",  true>>,
+            Expect<Test<NarrowlyContains<T3, 42>, "equals", true>>,
             // T3 identifies a non-match of narrow numbers
-            Expect<Test<NarrowlyContains<T3, 442>, "equals",  false>>,
+            Expect<Test<NarrowlyContains<T3, 442>, "equals", false>>,
             // boolean literals evaluate to wide type
-            Expect<Test<NarrowlyContains<T2, boolean>, "equals",  false>>
+            Expect<Test<NarrowlyContains<T2, boolean>, "equals", false>>,
         ];
-
     });
 });

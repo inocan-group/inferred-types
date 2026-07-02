@@ -2,11 +2,11 @@ import { describe, it } from "vitest";
 import type { EmptyObject, Expect, IsTruthy, Test } from "inferred-types/types";
 
 describe("IsTruthy<T>", () => {
-
     it("positive tests", () => {
         type T1 = IsTruthy<true>;
         type T2 = IsTruthy<1>;
         type T3 = IsTruthy<"hello">;
+        // deno-lint-ignore ban-types
         type T4 = IsTruthy<{}>;
         type T4b = IsTruthy<EmptyObject>;
         type T5 = IsTruthy<[]>;
@@ -36,5 +36,4 @@ describe("IsTruthy<T>", () => {
             Expect<Test<F5, "equals", false>>,
         ];
     });
-
 });

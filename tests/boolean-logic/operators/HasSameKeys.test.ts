@@ -1,10 +1,8 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import type { Expect, HasSameKeys, Test } from "inferred-types/types";
 
 import { describe, it } from "vitest";
 
 describe("HasSameKeys<A,B>", () => {
-
     it("testing with tuples", () => {
         type T1 = HasSameKeys<[1, 2, 3], [1, 2, 3]>;
         type T2 = HasSameKeys<[1, 2, 3], [3, 2, 1]>;
@@ -17,7 +15,6 @@ describe("HasSameKeys<A,B>", () => {
 
             Expect<Test<F1, "equals", false>>,
         ];
-
     });
 
     it("testing with objects", () => {
@@ -28,6 +25,5 @@ describe("HasSameKeys<A,B>", () => {
             Expect<Test<T1, "equals", true>>,
             Expect<Test<F1, "equals", false>>,
         ];
-
     });
 });

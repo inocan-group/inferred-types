@@ -1,4 +1,9 @@
-import type { AssertEqual, AssertExtends, EmptyObject, Expect, ObjectKeys, RemoveBoolean } from "inferred-types/types";
+import type {
+    AssertEqual,
+    EmptyObject,
+    Expect,
+    RemoveBoolean,
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // NOTE: RemoveBoolean is a type utility only, so we only write type tests
@@ -25,9 +30,7 @@ describe("RemoveBoolean", () => {
         it("should handle empty tuples", () => {
             type Empty = RemoveBoolean<[]>;
 
-            type cases = [
-                Expect<AssertEqual<Empty, []>>,
-            ];
+            type cases = [Expect<AssertEqual<Empty, []>>];
         });
 
         it("should handle tuples with only booleans", () => {
@@ -72,9 +75,13 @@ describe("RemoveBoolean", () => {
         });
 
         it("should handle complex nested types in arrays", () => {
-            type WithObjects = RemoveBoolean<[{ id: 1 }, true, { name: "test" }, false]>;
+            type WithObjects = RemoveBoolean<
+                [{ id: 1 }, true, { name: "test" }, false]
+            >;
             type WithArrays = RemoveBoolean<[[1, 2], true, [3, 4], false]>;
-            type WithUnions = RemoveBoolean<[string | number, true, boolean, "literal"]>;
+            type WithUnions = RemoveBoolean<
+                [string | number, true, boolean, "literal"]
+            >;
 
             type cases = [
                 Expect<AssertEqual<WithObjects, [{ id: 1 }, { name: "test" }]>>,
@@ -84,7 +91,9 @@ describe("RemoveBoolean", () => {
         });
 
         it("should preserve null and undefined", () => {
-            type WithNullish = RemoveBoolean<[null, true, undefined, false, "value"]>;
+            type WithNullish = RemoveBoolean<
+                [null, true, undefined, false, "value"]
+            >;
 
             type cases = [
                 Expect<AssertEqual<WithNullish, [null, undefined, "value"]>>,
@@ -94,7 +103,13 @@ describe("RemoveBoolean", () => {
 
     describe("Dictionary/Object handling", () => {
         it("should remove properties with boolean values", () => {
-            type Input1 = { a: string; b: true; c: number; d: false; e: boolean };
+            type Input1 = {
+                a: string;
+                b: true;
+                c: number;
+                d: false;
+                e: boolean;
+            };
             type Result1 = RemoveBoolean<Input1>;
 
             type Input2 = { flag1: true; flag2: false; flag3: boolean };
@@ -113,27 +128,21 @@ describe("RemoveBoolean", () => {
         it("should handle empty objects", () => {
             type Empty = RemoveBoolean<EmptyObject>;
 
-            type cases = [
-                Expect<AssertEqual<Empty, EmptyObject>>,
-            ];
+            type cases = [Expect<AssertEqual<Empty, EmptyObject>>];
         });
 
         it("should handle objects with no boolean values", () => {
             type Input = { a: string; b: number; c: { nested: string } };
             type Result = RemoveBoolean<Input>;
 
-            type cases = [
-                Expect<AssertEqual<Result, Input>>,
-            ];
+            type cases = [Expect<AssertEqual<Result, Input>>];
         });
 
         it("should handle objects with only boolean values", () => {
             type OnlyBooleans = { a: true; b: false; c: boolean };
             type Result = RemoveBoolean<OnlyBooleans>;
 
-            type cases = [
-                Expect<AssertEqual<Result, EmptyObject>>,
-            ];
+            type cases = [Expect<AssertEqual<Result, EmptyObject>>];
         });
 
         it("should preserve complex property types", () => {
@@ -154,36 +163,58 @@ describe("RemoveBoolean", () => {
                 union: string | number;
             };
 
-            type cases = [
-                Expect<AssertEqual<Result, Expected>>,
-            ];
+            type cases = [Expect<AssertEqual<Result, Expected>>];
         });
 
         it("removes optional key/values with typeof Optional<Boolean> by default", () => {
-            type Input = { a: string; b?: true; c: number; d?: false; e: boolean };
+            type Input = {
+                a: string;
+                b?: true;
+                c: number;
+                d?: false;
+                e: boolean;
+            };
             type Result = RemoveBoolean<Input>;
 
             type cases = [
-                Expect<AssertEqual<Result, { a: string; c: number; }>>,
+                Expect<AssertEqual<Result, { a: string; c: number }>>,
             ];
         });
 
         it("skips optional key/values with typeof Optional<Boolean> when instructed", () => {
-            type Input = { a: string; b?: true; c: number; d?: false; e: boolean };
+            type Input = {
+                a: string;
+                b?: true;
+                c: number;
+                d?: false;
+                e: boolean;
+            };
             type Result = RemoveBoolean<Input, false>;
 
             type cases = [
-                Expect<AssertEqual<Result, { a: string; b?: true; c: number; d?: false;  }>>,
+                Expect<
+                    AssertEqual<
+                        Result,
+                        { a: string; b?: true; c: number; d?: false }
+                    >
+                >,
             ];
         });
 
-
         it("should preserve null and undefined property values", () => {
-            type Input = { a: null; b: true; c: undefined; d: false; e: string };
+            type Input = {
+                a: null;
+                b: true;
+                c: undefined;
+                d: false;
+                e: string;
+            };
             type Result = RemoveBoolean<Input>;
 
             type cases = [
-                Expect<AssertEqual<Result, { a: null; c: undefined; e: string }>>,
+                Expect<
+                    AssertEqual<Result, { a: null; c: undefined; e: string }>
+                >,
             ];
         });
 
@@ -197,7 +228,12 @@ describe("RemoveBoolean", () => {
             type Result = RemoveBoolean<Input>;
 
             type cases = [
-                Expect<AssertEqual<Result, { a: string | boolean; c: number | false; d: string }>>,
+                Expect<
+                    AssertEqual<
+                        Result,
+                        { a: string | boolean; c: number | false; d: string }
+                    >
+                >,
             ];
         });
 
@@ -207,9 +243,7 @@ describe("RemoveBoolean", () => {
 
             type Expected = { a: string; b: string; d: number };
 
-            type cases = [
-                Expect<AssertEqual<Result, Expected>>,
-            ];
+            type cases = [Expect<AssertEqual<Result, Expected>>];
         });
     });
 
@@ -217,11 +251,16 @@ describe("RemoveBoolean", () => {
         it("should handle nested structures (not recursive)", () => {
             // RemoveBoolean only operates on the top level
             type NestedArray = RemoveBoolean<[{ flag: true }, false, "test"]>;
-            type NestedObject = RemoveBoolean<{ outer: { inner: boolean }; flag: true }>;
+            type NestedObject = RemoveBoolean<{
+                outer: { inner: boolean };
+                flag: true;
+            }>;
 
             type cases = [
                 Expect<AssertEqual<NestedArray, [{ flag: true }, "test"]>>,
-                Expect<AssertEqual<NestedObject, { outer: { inner: boolean } }>>,
+                Expect<
+                    AssertEqual<NestedObject, { outer: { inner: boolean } }>
+                >,
             ];
         });
 
@@ -252,25 +291,19 @@ describe("RemoveBoolean", () => {
         it("should correctly identify IsBoolean for true", () => {
             type OnlyTrue = RemoveBoolean<[true]>;
 
-            type cases = [
-                Expect<AssertEqual<OnlyTrue, []>>,
-            ];
+            type cases = [Expect<AssertEqual<OnlyTrue, []>>];
         });
 
         it("should correctly identify IsBoolean for false", () => {
             type OnlyFalse = RemoveBoolean<[false]>;
 
-            type cases = [
-                Expect<AssertEqual<OnlyFalse, []>>,
-            ];
+            type cases = [Expect<AssertEqual<OnlyFalse, []>>];
         });
 
         it("should correctly identify IsBoolean for boolean", () => {
             type OnlyBoolean = RemoveBoolean<[boolean]>;
 
-            type cases = [
-                Expect<AssertEqual<OnlyBoolean, []>>,
-            ];
+            type cases = [Expect<AssertEqual<OnlyBoolean, []>>];
         });
     });
 
@@ -305,9 +338,9 @@ describe("RemoveBoolean", () => {
             type Result3 = RemoveBoolean<Input3, false>;
 
             type cases = [
-                Expect<AssertEqual<Result1, [ string, number, true?, false?]>>,
-                Expect<AssertEqual<Result2, [ 1, 42, "hello"?, false? ]>>,
-                Expect<AssertEqual<Result3, [ boolean?, string? , number? ]>>,
+                Expect<AssertEqual<Result1, [string, number, true?, false?]>>,
+                Expect<AssertEqual<Result2, [1, 42, "hello"?, false?]>>,
+                Expect<AssertEqual<Result3, [boolean?, string?, number?]>>,
             ];
         });
 
@@ -344,10 +377,18 @@ describe("RemoveBoolean", () => {
             type ResultPreserve = RemoveBoolean<Input, false>;
 
             type cases = [
-                Expect<AssertEqual<ResultDefault, [{ id: number }, number, string[]?]>>,
-                Expect<AssertEqual<ResultPreserve, [
-                    { id: number}, number, true?, string[]?, false?
-                ]>>,
+                Expect<
+                    AssertEqual<
+                        ResultDefault,
+                        [{ id: number }, number, string[]?]
+                    >
+                >,
+                Expect<
+                    AssertEqual<
+                        ResultPreserve,
+                        [{ id: number }, number, true?, string[]?, false?]
+                    >
+                >,
             ];
         });
     });

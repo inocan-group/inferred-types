@@ -1,10 +1,8 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import type { Expect, IsFloat, Test } from "inferred-types/types";
 
 import { describe, it } from "vitest";
 
 describe("IsFloat<T>", () => {
-
     it("Happy Path", () => {
         type T1 = IsFloat<1.1>;
         type T2 = IsFloat<"1.1">;
@@ -22,8 +20,6 @@ describe("IsFloat<T>", () => {
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
             Expect<Test<F3, "equals", false>>,
-
         ];
     });
-
 });

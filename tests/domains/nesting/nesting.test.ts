@@ -54,7 +54,7 @@ describe("nesting() HOF", () => {
 
     });
 
-    describe.skip("Named Configurations (new syntax)", () => {
+    describe("Named Configurations (new syntax)", () => {
 
         it("'shallow-brackets' config works correctly", () => {
             const api = nesting("shallow-brackets");
@@ -157,7 +157,7 @@ describe("nesting() HOF", () => {
 
     });
 
-    describe.skip("Custom Configurations (with new syntax)", () => {
+    describe("Custom Configurations (with new syntax)", () => {
 
         it("accepts hierarchical NestingTuple config", () => {
             const api = nesting([

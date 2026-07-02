@@ -154,7 +154,7 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
 
 });
 
-describe.skip('RetainUntil__Nested<TStr,TFind,TNesting> using new syntax', () => {
+describe("RetainUntil__Nested<TStr,TFind,TNesting> using new syntax", () => {
 
     it("shallow-quotes: treats content inside quotes as literal", () => {
         type Text = `"Hello, world!", he said.`;
@@ -180,7 +180,7 @@ describe.skip('RetainUntil__Nested<TStr,TFind,TNesting> using new syntax', () =>
         type T1 = RetainUntil__Nested<Text1, ".", { include: true, config: "shallow-brackets-and-quotes" }>;
 
         type Text2 = `data(x, y). More`;
-        type T2 = RetainUntil__Nested<Text2, ".", { include: true, "shallow-brackets-and-quotes" }>;
+        type T2 = RetainUntil__Nested<Text2, ".", { include: true; config: "shallow-brackets-and-quotes" }>;
 
         type cases = [
             Expect<Test<T1, "equals", `func(a, b).`>>,
@@ -354,7 +354,7 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
 
 })
 
-describe.skip("retainUntil__Nested(str, find, incl, nesting) using new syntax", () => {
+describe("retainUntil__Nested(str, find, incl, nesting) using new syntax", () => {
 
 
     it("shallow-quotes: treats content inside quotes as literal", () => {
@@ -387,7 +387,10 @@ describe.skip("retainUntil__Nested(str, find, incl, nesting) using new syntax", 
         });
 
         const text2 = `data(x, y). More` as const;
-        const t2 = retainUntil__Nested(text2, ".", true, "shallow-brackets-and-quotes");
+        const t2 = retainUntil__Nested(text2, ".", {
+            include: true,
+            config: "shallow-brackets-and-quotes"
+        });
 
         expect(t1).toBe(`func(a, b).`);
         expect(t2).toBe(`data(x, y).`);
@@ -402,7 +405,7 @@ describe.skip("retainUntil__Nested(str, find, incl, nesting) using new syntax", 
         const text = `{a, b, c}. result` as const;
         const t1 = retainUntil__Nested(text, ".", {
             include: true,
-            config: { "{": { exit: "}", config: {} } }
+            config: { "{": { exit: "}", children: {} } }
         });
 
         expect(t1).toBe(`{a, b, c}.`);
@@ -414,7 +417,10 @@ describe.skip("retainUntil__Nested(str, find, incl, nesting) using new syntax", 
 
     it("hierarchical config: nested levels with different tokens", () => {
         const text = `{inner, [nested. items]}. final` as const;
-        const t1 = retainUntil__Nested(text, ".", true, { "{": ["}", { "[": "]" }] });
+        const t1 = retainUntil__Nested(text, ".", {
+            include: true,
+            config: { "{": ["}", { "[": "]" }] }
+        });
 
         expect(t1).toBe(`{inner, [nested. items]}.`);
 

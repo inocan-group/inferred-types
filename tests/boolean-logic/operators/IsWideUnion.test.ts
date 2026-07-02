@@ -1,9 +1,7 @@
-
 import { describe, it } from "vitest";
 import type { Expect, IsWideUnion, Test } from "inferred-types/types";
 
 describe("IsWideUnion<T>", () => {
-
     it("Happy Path", () => {
         type NotUnion = IsWideUnion<string>;
         type Bool = IsWideUnion<boolean>;
@@ -22,7 +20,5 @@ describe("IsWideUnion<T>", () => {
 
             Expect<Test<AllWide, "equals", true>>,
         ];
-
     });
-
 });

@@ -3,7 +3,6 @@ import { narrow } from "inferred-types/runtime";
 import type { Expect, Narrowable, Test } from "inferred-types/types";
 
 describe("Narrowable", () => {
-
     it("Narrowable<T>", () => {
         type Num = Narrowable & number;
         type Str = Narrowable & string;
@@ -25,7 +24,7 @@ describe("Narrowable", () => {
         const numericLiteral = narrow(42);
 
         const obj = narrow({ foo: 1, bar: 2, baz: [1, 2, 3] });
-        const deepObj = narrow({ foo: { bar: { baz: 42}}});
+        const deepObj = narrow({ foo: { bar: { baz: 42 } } });
         const arr = narrow("foo", "bar");
 
         const stringTuple1 = narrow(["foo", "bar"] as const);
@@ -41,7 +40,12 @@ describe("Narrowable", () => {
             Expect<Test<typeof stringLiteral, "equals", "foo">>,
             Expect<Test<typeof numericLiteral, "equals", 42>>,
 
-            Expect<Test<typeof obj, "equals", { foo: 1; bar: 2; baz: [1,2,3] }>>,
+            Expect<
+                Test<typeof obj, "equals", { foo: 1; bar: 2; baz: [1, 2, 3] }>
+            >,
+            Expect<
+                Test<typeof deepObj, "equals", { foo: { bar: { baz: 42 } } }>
+            >,
 
             Expect<Test<typeof stringTuple1, "equals", ["foo", "bar"]>>,
             Expect<Test<typeof stringTuple2, "equals", ["foo", "bar"]>>,
@@ -53,5 +57,4 @@ describe("Narrowable", () => {
             Expect<Test<typeof mixedTuple3, "equals", ["foo", 42]>>,
         ];
     });
-
 });

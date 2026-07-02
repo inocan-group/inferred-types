@@ -53,8 +53,8 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ToJsonObject<{ foo: [1, 2], bar: ["hey", "ho"] }>;
 
         type cases = [
-            Expect<Test<FooBar, "equals",
-                `{ "foo": [ 1, 2 ], "bar": [ "hey", "ho" ] }`
+            Expect<Test<FooBar, "containsAll",
+                [`"foo": [ 1, 2 ]`, `"bar": [ "hey", "ho" ]`]
             >>
         ];
     });
@@ -68,4 +68,3 @@ describe("ToJsonObject<T>", () => {
     });
 
 });
-

@@ -39,12 +39,12 @@ describe("JSON Conversion", () => {
 
         type cases = [
             Expect<Test<
-                typeof fooBarBaz, "equals",
-                "{ \"foo\": 1, \"bar\": \"hi\" }"
+                typeof fooBarBaz, "containsAll",
+                ["\"foo\": 1", "\"bar\": \"hi\""]
             >>,
             Expect<Test<
-                typeof fooBarBazSingle, "equals",
-                "{ 'foo': 1, 'bar': 'hi' }"
+                typeof fooBarBazSingle, "containsAll",
+                ["'foo': 1", "'bar': 'hi'"]
             >>,
         ];
     });

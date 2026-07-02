@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { Expect, Extends, NotEqual, Test } from "inferred-types/types";
+import type { Expect, NotEqual, Test } from "inferred-types/types";
 
 import { idLiteral, literal } from "inferred-types/runtime";
 
@@ -22,17 +22,16 @@ describe("literal enforcement", () => {
             Expect<Test<T1, "equals", T2>>, // without using explicit cast to literal, TS sees as equivalent
             Expect<NotEqual<L1, L2>>, // TS types, are literals and therefore not equal
             Expect<NotEqual<L1, number>>,
-            Expect<NotEqual<L2, number>>
+            Expect<NotEqual<L2, number>>,
         ];
-
     });
 
     it("An array records from idLiteral() is typed as an array of 'id' literals", () => {
         const l1 = idLiteral({ id: 1, message: "t1" });
         const l2 = idLiteral({ id: 2, message: "t2" });
         const arr = [l1, l2];
-        type L1 = typeof arr[0]["id"];
-        type L2 = typeof arr[1]["id"];
+        type L1 = (typeof arr)[0]["id"];
+        type L2 = (typeof arr)[1]["id"];
         type NonIndexedId = 3;
 
         // run-time type is maintained
@@ -45,7 +44,7 @@ describe("literal enforcement", () => {
             Expect<Test<L1, "equals", L2>>,
             Expect<NotEqual<L1, NonIndexedId>>,
             Expect<NotEqual<L1, number>>,
-            Expect<NotEqual<L2, number>>
+            Expect<NotEqual<L2, number>>,
         ];
     });
 
@@ -64,12 +63,14 @@ describe("literal enforcement", () => {
         type Nope = typeof nope;
 
         type cases = [
-            Expect<Test<Wide, "equals", { foo: number; bar: boolean; baz: string }>>,
+            Expect<
+                Test<Wide, "equals", { foo: number; bar: boolean; baz: string }>
+            >,
             Expect<Test<Narrow, "equals", { foo: 1; bar: false; baz: "hi" }>>,
             Expect<Test<Narrow, "extends", Wide>>,
             // now unfortunately, using literal() on a variable who's type
             // has already been inferred does not get us to Narrow
-            Expect<Test<Wide, "equals", Nope>>
+            Expect<Test<Wide, "equals", Nope>>,
         ];
     });
 });

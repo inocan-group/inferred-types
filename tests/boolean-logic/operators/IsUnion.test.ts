@@ -1,8 +1,7 @@
 import { describe, it } from "vitest";
-import type { Expect, IsNever, IsUnion, Test } from "inferred-types/types";
+import type { Expect, IsUnion, Test } from "inferred-types/types";
 
 describe("IsUnion<T>", () => {
-
     it("happy path", () => {
         type T1 = IsUnion<"foo" | "bar">;
         type T2 = IsUnion<string | number>;
@@ -29,10 +28,10 @@ describe("IsUnion<T>", () => {
             Expect<Test<F5, "equals", false>>,
             Expect<Test<F6, "equals", false>>,
         ];
-
     });
 
     it("edge cases", () => {
+        // deno-lint-ignore no-explicit-any
         type Any = IsUnion<any>;
         type Never = IsUnion<never>;
 
@@ -41,6 +40,4 @@ describe("IsUnion<T>", () => {
             Expect<Test<Never, "equals", false>>,
         ];
     });
-
 });
-

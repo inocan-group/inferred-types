@@ -1,11 +1,18 @@
+// deno-lint-ignore-file ban-types no-explicit-any
 import { describe, expect, it } from "vitest";
-import type { Container, DoesExtend, Expect, IsContainer, Test, Tuple } from "inferred-types/types";
+import type {
+    Container,
+    DoesExtend,
+    Expect,
+    IsContainer,
+    Test,
+    Tuple,
+} from "inferred-types/types";
 
 import { isContainer, narrow } from "inferred-types/runtime";
-import { ExpectTrue } from "@type-challenges/utils";
+import type { ExpectTrue } from "@type-challenges/utils";
 
 describe("IsContainer<T>", () => {
-
     it("happy path for object", () => {
         type ObjLit = IsContainer<{ foo: "bar" }>;
         type Empty = IsContainer<{}>;
@@ -13,10 +20,10 @@ describe("IsContainer<T>", () => {
         type Rec = IsContainer<Record<string, string>>;
 
         type cases = [
-            Expect<Test<ObjLit, "equals",  true>>,
-            Expect<Test<Empty, "equals",  true>>,
-            Expect<Test<GenericObj, "equals",  true>>,
-            Expect<Test<Rec, "equals",  true>>,
+            Expect<Test<ObjLit, "equals", true>>,
+            Expect<Test<Empty, "equals", true>>,
+            Expect<Test<GenericObj, "equals", true>>,
+            Expect<Test<Rec, "equals", true>>,
         ];
     });
 
@@ -27,10 +34,10 @@ describe("IsContainer<T>", () => {
         type Arr = IsContainer<string[]>;
 
         type cases = [
-            Expect<Test<TupleLit, "equals",  true>>,
-            Expect<Test<Empty, "equals",  true>>,
-            Expect<Test<GenericTuple, "equals",  true>>,
-            Expect<Test<Arr, "equals",  true>>,
+            Expect<Test<TupleLit, "equals", true>>,
+            Expect<Test<Empty, "equals", true>>,
+            Expect<Test<GenericTuple, "equals", true>>,
+            Expect<Test<Arr, "equals", true>>,
         ];
     });
 
@@ -55,12 +62,12 @@ describe("IsContainer<T>", () => {
         type Always = IsContainer<any>;
 
         type cases = [
-            Expect<Test<Num, "equals",  false>>,
-            Expect<Test<Str, "equals",  false>>,
-            Expect<Test<Nada, "equals",  false>>,
-            Expect<Test<Nada2, "equals",  false>>,
-            Expect<Test<Never, "equals",  false>>,
-            Expect<Test<Always, "equals",  false>>,
+            Expect<Test<Num, "equals", false>>,
+            Expect<Test<Str, "equals", false>>,
+            Expect<Test<Nada, "equals", false>>,
+            Expect<Test<Nada2, "equals", false>>,
+            Expect<Test<Never, "equals", false>>,
+            Expect<Test<Always, "equals", false>>,
         ];
     });
 });
@@ -68,7 +75,8 @@ describe("IsContainer<T>", () => {
 describe("isContainer(val)", () => {
     const lit_obj = { id: 1 } as { id: 1 } | null;
     const wide_obj = { id: 1 } as { id: number } | null;
-    const lit_arr = narrow([1, 2, 3]) as unknown as readonly [1, 2, 3] | undefined;
+    const lit_arr = narrow([1, 2, 3]) as unknown as
+        readonly [1, 2, 3] | undefined;
     const wide_arr = [1, 2, 3] as number[] | undefined;
 
     it("literal object", () => {
@@ -79,9 +87,7 @@ describe("isContainer(val)", () => {
             expect(true).toBe(true);
 
             type Value = typeof lit_obj;
-            type cases = [
-                ExpectTrue<DoesExtend<Value, { id: 1 }>>
-            ];
+            type cases = [ExpectTrue<DoesExtend<Value, { id: 1 }>>];
         } else {
             throw new Error("lit_obj was NOT seen as a Container!");
         }
@@ -95,9 +101,7 @@ describe("isContainer(val)", () => {
             expect(true).toBe(true);
 
             type Value = typeof wide_obj;
-            type cases = [
-                ExpectTrue<DoesExtend<Value, { id: number }>>
-            ];
+            type cases = [ExpectTrue<DoesExtend<Value, { id: number }>>];
         } else {
             throw new Error("lit_obj was NOT seen as a Container!");
         }
@@ -111,9 +115,7 @@ describe("isContainer(val)", () => {
             expect(true).toBe(true);
 
             type Value = typeof lit_arr;
-            type cases = [
-                Expect<Test<Value, "extends", readonly [1, 2, 3]>>
-            ];
+            type cases = [Expect<Test<Value, "extends", readonly [1, 2, 3]>>];
         } else {
             throw new Error("lit_arr was NOT seen as a Container!");
         }
@@ -127,12 +129,9 @@ describe("isContainer(val)", () => {
             expect(true).toBe(true);
 
             type Value = typeof wide_arr;
-            type cases = [
-                ExpectTrue<DoesExtend<Value, Container>>
-            ];
+            type cases = [ExpectTrue<DoesExtend<Value, Container>>];
         } else {
             throw new Error("wide_arr was NOT seen as a Container!");
         }
     });
-
 });
