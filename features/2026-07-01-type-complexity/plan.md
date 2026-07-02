@@ -4,6 +4,57 @@ total_phases: 6
 created: 2026-07-01
 start_phase: 1
 yolo: "true"
+source_files_during_phase_1: []
+docs_updated_during_phase_1:
+  - features/2026-07-01-type-complexity/plan.md
+docs_created_during_phase_1:
+  - .ai/logs/type-complexity-phase1-isolation-log.md
+skills_files_updated_during_phase_1: []
+source_files_during_phase_2:
+  - modules/types/src/boolean-logic/operators/datetime/IsLeapYear.ts
+docs_updated_during_phase_2:
+  - features/2026-07-01-type-complexity/plan.md
+  - .ai/logs/type-complexity-phase1-isolation-log.md
+docs_created_during_phase_2: []
+skills_files_updated_during_phase_2: []
+source_files_during_phase_3: []
+docs_updated_during_phase_3:
+  - features/2026-07-01-type-complexity/plan.md
+  - .ai/logs/type-complexity-phase1-isolation-log.md
+docs_created_during_phase_3: []
+skills_files_updated_during_phase_3: []
+source_files_during_phase_4: []
+docs_updated_during_phase_4:
+  - features/2026-07-01-type-complexity/plan.md
+  - .ai/logs/type-complexity-phase1-isolation-log.md
+docs_created_during_phase_4:
+  - features/2026-07-01-type-complexity/escalation-isleapyear-redesign.md
+skills_files_updated_during_phase_4: []
+source_files_during_phase_5: []
+docs_updated_during_phase_5:
+  - features/2026-07-01-type-complexity/plan.md
+docs_created_during_phase_5:
+  - features/2026-07-01-type-complexity/stage2-findings.md
+skills_files_updated_during_phase_5: []
+packages:
+  - modules/types
+source_files_during_phase_6: []
+docs_updated_during_phase_6:
+  - features/2026-07-01-type-complexity/spec.md
+  - features/2026-07-01-type-complexity/plan.md
+  - .ai/logs/type-complexity-phase1-isolation-log.md
+docs_created_during_phase_6:
+  - features/2026-07-01-type-complexity-phase2/spec.md
+skills_files_updated_during_phase_6: []
+source_code:
+  - modules/types/src/boolean-logic/operators/datetime/IsLeapYear.ts
+documentation:
+  - features/2026-07-01-type-complexity/plan.md
+  - .ai/logs/type-complexity-phase1-isolation-log.md
+  - features/2026-07-01-type-complexity/escalation-isleapyear-redesign.md
+  - features/2026-07-01-type-complexity/stage2-findings.md
+  - features/2026-07-01-type-complexity/spec.md
+  - features/2026-07-01-type-complexity-phase2/spec.md
 ---
 
 # Execution Plan — Type Complexity Stabilization (Phase 1)
@@ -59,18 +110,18 @@ Phases 2 and 3 are mutually parallelizable (independent test trees) but both dep
 
 ### Tasks
 
-- [ ] Run `just test-types` from repo root and capture: exit code, last file processed before termination, terminal error string, and approximate memory/high-water mark if observable. Confirm the run does not complete normally.
-- [ ] Run `just test-types boolean-logic` and `just test-types datetime` in isolation to confirm both reproduce the crash independently of the full run.
-- [ ] Drill `tests/boolean-logic/operators`: enumerate every `*.test.ts` file (including nested subdirectories: `containers/`, `datetime/`, `dictionary/`, `functions/`, `literal/`, `scalar/`, `sets/`, `unions/`), and run each individually via `just test-types <relative-name>` to classify it as **crashes** or **runs**. Record the crash mode per crashing file (exit / OOM / stack overflow / infinite instantiation depth / hang-timeout) and the offending type expression(s) where identifiable.
-- [ ] Drill `tests/datetime`: enumerate every `*.test.ts` file, run each individually, and record the same per-file crash mode classification.
-- [ ] Confirm `tests/boolean-logic/combinators` is **not** a crash directory (per spec: it is a Stage 2 type-error case) — record this explicitly to prevent misclassification in Phase 5.
-- [ ] Run `just test-runtime` and capture the green baseline (regression anchor for Phases 2–4).
-- [ ] Create the phase log at `.ai/logs/type-complexity-phase1-isolation-log.md` with:
-      - [ ] `## Starting Test Position` section containing the captured `just test-types` failure output (XML or fenced block).
-      - [ ] `## Crash File Inventory` section listing every crashing file with its crash mode and offending type expression.
-      - [ ] `## Runtime Baseline` section recording the `just test-runtime` result.
-      - [ ] `## Repo Starting Position` section (last local commit, last remote commit, dirty files).
-- [ ] Identify any patterns common across crash points (e.g. deeply recursive template literals, specific utility families) and record them in the log under `## Cross-Cutting Patterns`.
+- [x] Run `just test-types` from repo root and capture: exit code, last file processed before termination, terminal error string, and approximate memory/high-water mark if observable. Confirm the run does not complete normally.
+- [x] Run `just test-types boolean-logic` and `just test-types datetime` in isolation to confirm both reproduce the crash independently of the full run.
+- [x] Drill `tests/boolean-logic/operators`: enumerate every `*.test.ts` file (including nested subdirectories: `containers/`, `datetime/`, `dictionary/`, `functions/`, `literal/`, `scalar/`, `sets/`, `unions/`), and run each individually via `just test-types <relative-name>` to classify it as **crashes** or **runs**. Record the crash mode per crashing file (exit / OOM / stack overflow / infinite instantiation depth / hang-timeout) and the offending type expression(s) where identifiable.
+- [x] Drill `tests/datetime`: enumerate every `*.test.ts` file, run each individually, and record the same per-file crash mode classification.
+- [x] Confirm `tests/boolean-logic/combinators` is **not** a crash directory (per spec: it is a Stage 2 type-error case) — record this explicitly to prevent misclassification in Phase 5.
+- [x] Run `just test-runtime` and capture the green baseline (regression anchor for Phases 2–4).
+- [x] Create the phase log at `.ai/logs/type-complexity-phase1-isolation-log.md` with:
+      - [x] `## Starting Test Position` section containing the captured `just test-types` failure output (XML or fenced block).
+      - [x] `## Crash File Inventory` section listing every crashing file with its crash mode and offending type expression.
+      - [x] `## Runtime Baseline` section recording the `just test-runtime` result.
+      - [x] `## Repo Starting Position` section (last local commit, last remote commit, dirty files).
+- [x] Identify any patterns common across crash points (e.g. deeply recursive template literals, specific utility families) and record them in the log under `## Cross-Cutting Patterns`.
 
 ### Validation Checkpoint
 
@@ -95,17 +146,17 @@ None — Phase 1 is read-only with respect to source/tests. The log file can be 
 
 ### Tasks
 
-- [ ] For each crashing file in `tests/boolean-logic/operators/**` (per the Phase 1 inventory), in priority order:
-      - [ ] Reproduce the crash in isolation to confirm the mode before editing.
-      - [ ] Apply the **preferred test-file-level fix**: simplify or split the offending test cases (e.g. narrow a union, break up a deeply-nested conditional type, remove an infinite-recursion case) so the file completes without crash.
-      - [ ] Only if no test-file fix suffices: modify the responsible shared utility under `modules/types/src/` (or elsewhere) strictly to stop the crash, **preserving runtime/type parity**. Then immediately open a Phase 4 escalation entry naming the utility, the change, and the underlying root cause to address later.
-      - [ ] If any widening is unavoidable, record the specific assertion/expectation changed and a one-line justification in the phase log.
-      - [ ] Re-run the individual file: `just test-types <file>` — must complete (pass or produce only **type errors**, never a crash).
-- [ ] Re-run `just test-types boolean-logic` at the directory level — must complete without crash. (Type errors in `tests/boolean-logic/combinators` are expected and remain Stage 2 territory.)
-- [ ] Run `just test-runtime` — must remain green (regression anchor from Phase 1).
-- [ ] Update `.ai/logs/type-complexity-phase1-isolation-log.md` (or append a `## Phase 2 Stabilization Notes` section) capturing:
-      - [ ] Per-file: fix strategy applied (test-level vs. shared-utility), crash mode that was resolved, any widening with justification.
-      - [ ] List of shared utilities touched, if any, with pointer(s) to Phase 4 escalation entries.
+- [x] For each crashing file in `tests/boolean-logic/operators/**` (per the Phase 1 inventory), in priority order:
+      - [x] Reproduce the crash in isolation to confirm the mode before editing.
+      - [x] Apply the **preferred test-file-level fix**: simplify or split the offending test cases (e.g. narrow a union, break up a deeply-nested conditional type, remove an infinite-recursion case) so the file completes without crash.
+      - [x] Only if no test-file fix suffices: modify the responsible shared utility under `modules/types/src/` (or elsewhere) strictly to stop the crash, **preserving runtime/type parity**. Then immediately open a Phase 4 escalation entry naming the utility, the change, and the underlying root cause to address later.
+      - [x] If any widening is unavoidable, record the specific assertion/expectation changed and a one-line justification in the phase log.
+      - [x] Re-run the individual file: `just test-types <file>` — must complete (pass or produce only **type errors**, never a crash).
+- [x] Re-run `just test-types boolean-logic` at the directory level — must complete without crash. (Type errors in `tests/boolean-logic/combinators` are expected and remain Stage 2 territory.)
+- [x] Run `just test-runtime` — must remain green (regression anchor from Phase 1).
+- [x] Update `.ai/logs/type-complexity-phase1-isolation-log.md` (or append a `## Phase 2 Stabilization Notes` section) capturing:
+      - [x] Per-file: fix strategy applied (test-level vs. shared-utility), crash mode that was resolved, any widening with justification.
+      - [x] List of shared utilities touched, if any, with pointer(s) to Phase 4 escalation entries.
 
 ### Validation Checkpoint
 
@@ -131,15 +182,15 @@ Revert the Phase 2 commits. `tests/boolean-logic/operators` returns to its Phase
 
 ### Tasks
 
-- [ ] For each crashing file in `tests/datetime/**` (per the Phase 1 inventory), in priority order:
-      - [ ] Reproduce the crash in isolation to confirm the mode before editing.
-      - [ ] Apply the **preferred test-file-level fix**: simplify or split the offending test cases so the file completes without crash.
-      - [ ] Only if no test-file fix suffices: modify the responsible shared utility under `modules/types/src/` (or `modules/runtime/src/datetime/` where type-level behavior lives) strictly to stop the crash, **preserving runtime/type parity**. Open a Phase 4 escalation entry.
-      - [ ] If any widening is unavoidable, record the specific assertion/expectation changed and a one-line justification in the phase log.
-      - [ ] Re-run the individual file: `just test-types <file>` — must complete (pass or produce only **type errors**, never a crash).
-- [ ] Re-run `just test-types datetime` at the directory level — must complete without crash.
-- [ ] Run `just test-runtime` — must remain green (regression anchor from Phase 1).
-- [ ] Append a `## Phase 3 Stabilization Notes` section to the log capturing per-file fix strategies, widenings, and shared utilities touched.
+- [x] For each crashing file in `tests/datetime/**` (per the Phase 1 inventory), in priority order:
+      - [x] Reproduce the crash in isolation to confirm the mode before editing.
+      - [x] Apply the **preferred test-file-level fix**: simplify or split the offending test cases so the file completes without crash.
+      - [x] Only if no test-file fix suffices: modify the responsible shared utility under `modules/types/src/` (or `modules/runtime/src/datetime/` where type-level behavior lives) strictly to stop the crash, **preserving runtime/type parity**. Open a Phase 4 escalation entry.
+      - [x] If any widening is unavoidable, record the specific assertion/expectation changed and a one-line justification in the phase log.
+      - [x] Re-run the individual file: `just test-types <file>` — must complete (pass or produce only **type errors**, never a crash).
+- [x] Re-run `just test-types datetime` at the directory level — must complete without crash.
+- [x] Run `just test-runtime` — must remain green (regression anchor from Phase 1).
+- [x] Append a `## Phase 3 Stabilization Notes` section to the log capturing per-file fix strategies, widenings, and shared utilities touched.
 
 ### Validation Checkpoint
 
@@ -165,12 +216,12 @@ Revert the Phase 3 commits. `tests/datetime` returns to its Phase 1 crashing sta
 
 ### Tasks
 
-- [ ] Run the full `just test-types` from repo root — must complete without crash (exit normally; type-error diagnostics from Stage 2 directories are acceptable and expected).
-- [ ] Run `just test-runtime` — must remain green (final Stage 1 regression confirmation).
-- [ ] Compile the **previously-crashing file list** with crash modes, drawing on the Phase 1 inventory and the Phase 2/3 stabilization notes. Save it under `## Resolved Crash Files` in the log.
-- [ ] Compile the **type-resolution change ledger**: every widening or assertion change made in Phases 2/3, each with its justification. Save it under `## Type-Resolution Changes` in the log.
-- [ ] Compile the **escalation ledger**: one entry per shared-utility root cause deferred beyond a test-file fix. Each entry names the utility, the file path, the minimal change applied to stop the crash, and the underlying root cause that needs a proper fix. Save it under `## Shared-Utility Escalations` in the log.
-- [ ] For each escalation entry, create a tracked task (issue / tracker item / TODO-on-paper per team convention) so the underlying utility fix is picked up in a future phase. The spec requires these to be "separate design-review task(s)"; they must not be silently absorbed into this feature.
+- [x] Run the full `just test-types` from repo root — must complete without crash (exit normally; type-error diagnostics from Stage 2 directories are acceptable and expected).
+- [x] Run `just test-runtime` — must remain green (final Stage 1 regression confirmation).
+- [x] Compile the **previously-crashing file list** with crash modes, drawing on the Phase 1 inventory and the Phase 2/3 stabilization notes. Save it under `## Resolved Crash Files` in the log.
+- [x] Compile the **type-resolution change ledger**: every widening or assertion change made in Phases 2/3, each with its justification. Save it under `## Type-Resolution Changes` in the log.
+- [x] Compile the **escalation ledger**: one entry per shared-utility root cause deferred beyond a test-file fix. Each entry names the utility, the file path, the minimal change applied to stop the crash, and the underlying root cause that needs a proper fix. Save it under `## Shared-Utility Escalations` in the log.
+- [x] For each escalation entry, create a tracked task (issue / tracker item / TODO-on-paper per team convention) so the underlying utility fix is picked up in a future phase. The spec requires these to be "separate design-review task(s)"; they must not be silently absorbed into this feature.
 
 ### Validation Checkpoint
 
@@ -196,22 +247,22 @@ None — Phase 4 is documentation and validation only; no source changes.
 
 ### Tasks
 
-- [ ] Create `features/2026-07-01-type-complexity/stage2-findings.md` with a table-of-contents skeleton listing all seven type-error directories.
-- [ ] For **each** of the seven type-error directories, produce one findings section (parallelizable sub-tasks):
-      - [ ] `tests/domains`
-      - [ ] `tests/literals`
-      - [ ] `tests/take`
-      - [ ] `tests/interpolation`
-      - [ ] `tests/type-conversions`
-      - [ ] `tests/types`
-      - [ ] `tests/boolean-logic/combinators`
+- [x] Create `features/2026-07-01-type-complexity/stage2-findings.md` with a table-of-contents skeleton listing all seven type-error directories.
+- [x] For **each** of the seven type-error directories, produce one findings section (parallelizable sub-tasks):
+      - [x] `tests/domains`
+      - [x] `tests/literals`
+      - [x] `tests/take`
+      - [x] `tests/interpolation`
+      - [x] `tests/type-conversions`
+      - [x] `tests/types`
+      - [x] `tests/boolean-logic/combinators`
       Each section must contain:
-      - [ ] **Description of type errors:** concrete list of failing assertions with the offending type expressions and the actual vs. expected types (copy from `just test-types <dir>` output).
-      - [ ] **Proposed solution / solution options:** at least one candidate fix per error class (test-level vs. utility-level, with trade-offs noted).
-      - [ ] **Recommended next steps:** the preferred option and any prerequisites (e.g. utility redesign, parity impact, follow-up benchmark).
-- [ ] Cross-link related errors across sections where the same utility appears to be the root cause (e.g. a shared template-literal or recursion-heavy type surfacing in multiple directories).
-- [ ] Add a top-level **Executive Summary** to the findings document that: counts the total errors per directory, highlights any shared root causes, and proposes the recommended Phase 2 sequencing.
-- [ ] Verify the findings document contains **no implementation changes** — only diagnosis and recommendations (spec Boundary for Stage 2).
+      - [x] **Description of type errors:** concrete list of failing assertions with the offending type expressions and the actual vs. expected types (copy from `just test-types <dir>` output).
+      - [x] **Proposed solution / solution options:** at least one candidate fix per error class (test-level vs. utility-level, with trade-offs noted).
+      - [x] **Recommended next steps:** the preferred option and any prerequisites (e.g. utility redesign, parity impact, follow-up benchmark).
+- [x] Cross-link related errors across sections where the same utility appears to be the root cause (e.g. a shared template-literal or recursion-heavy type surfacing in multiple directories).
+- [x] Add a top-level **Executive Summary** to the findings document that: counts the total errors per directory, highlights any shared root causes, and proposes the recommended Phase 2 sequencing.
+- [x] Verify the findings document contains **no implementation changes** — only diagnosis and recommendations (spec Boundary for Stage 2).
 
 ### Validation Checkpoint
 
@@ -236,20 +287,20 @@ Delete `features/2026-07-01-type-complexity/stage2-findings.md`. No code changes
 
 ### Tasks
 
-- [ ] Create the follow-up **Phase 2** feature request (file under `features/` using the team's naming convention, e.g. `features/<date>-type-complexity-phase2/spec.md`) with:
-      - [ ] Explicit **acceptance criteria** derived from the Stage 2 findings (one acceptance bullet per fix recommendation, mapped back to the findings sections).
-      - [ ] A referenced link to `features/2026-07-01-type-complexity/stage2-findings.md` as the canonical input.
-      - [ ] Scope boundaries restating Q1's hybrid-with-escalation policy and Q3's existing-assertions-floor policy so Phase 2 inherits them.
-- [ ] Scan every file touched by Phases 1–5 for forbidden markers:
-      - [ ] Run `rg -i "TODO|FIXME|XXX|HACK" modules/ tests/ features/2026-07-01-type-complexity/` and confirm zero matches were **introduced** by this feature (pre-existing matches must be enumerated and explicitly left untouched).
-- [ ] Update `features/2026-07-01-type-complexity/spec.md` frontmatter: change `clarified: opencode/k2p7` to `clarified: complete`.
-- [ ] Run the final validation pass:
-      - [ ] `just test-types` — completes without crash (re-confirm Phase 4 gate still holds after Phase 5 doc work).
-      - [ ] `just test-runtime` — green.
-      - [ ] `features/2026-07-01-type-complexity/stage2-findings.md` — present with seven sections.
-      - [ ] Phase 2 feature spec — present with acceptance criteria.
-      - [ ] Forbidden-marker scan — clean for newly introduced markers.
-- [ ] Verify all four spec Definition-of-Done items are satisfied and record a brief closeout note in the phase log under `## Final Closeout`.
+- [x] Create the follow-up **Phase 2** feature request (file under `features/` using the team's naming convention, e.g. `features/<date>-type-complexity-phase2/spec.md`) with:
+      - [x] Explicit **acceptance criteria** derived from the Stage 2 findings (one acceptance bullet per fix recommendation, mapped back to the findings sections).
+      - [x] A referenced link to `features/2026-07-01-type-complexity/stage2-findings.md` as the canonical input.
+      - [x] Scope boundaries restating Q1's hybrid-with-escalation policy and Q3's existing-assertions-floor policy so Phase 2 inherits them.
+- [x] Scan every file touched by Phases 1–5 for forbidden markers:
+      - [x] Run `rg -i "TODO|FIXME|XXX|HACK" modules/ tests/ features/2026-07-01-type-complexity/` and confirm zero matches were **introduced** by this feature (pre-existing matches must be enumerated and explicitly left untouched).
+- [x] Update `features/2026-07-01-type-complexity/spec.md` frontmatter: change `clarified: opencode/k2p7` to `clarified: complete`.
+- [x] Run the final validation pass:
+      - [x] `just test-types` — completes without crash (re-confirm Phase 4 gate still holds after Phase 5 doc work).
+      - [x] `just test-runtime` — green.
+      - [x] `features/2026-07-01-type-complexity/stage2-findings.md` — present with seven sections.
+      - [x] Phase 2 feature spec — present with acceptance criteria.
+      - [x] Forbidden-marker scan — clean for newly introduced markers.
+- [x] Verify all four spec Definition-of-Done items are satisfied and record a brief closeout note in the phase log under `## Final Closeout`.
 
 ### Validation Checkpoint
 
