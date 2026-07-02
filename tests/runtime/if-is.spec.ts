@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import type { DoesExtend, EndsWith, Expect, LowerAlphaChar, Or, StartsWith, Test } from "inferred-types/types";
+import type {
+    DoesExtend,
+    EndsWith,
+    Expect,
+    LowerAlphaChar,
+    Or,
+    StartsWith,
+    Test,
+} from "inferred-types/types";
 
 import {
     ifArray,
@@ -10,54 +18,87 @@ import {
     ifString,
     ifTrue,
     ifUndefined,
-    or
-} from "inferred-types/runtime"
+    or,
+} from "inferred-types/runtime";
 
-import {
-    startsWith,
-    isTrue
-} from "runtime/type-guards"
+import { startsWith, isTrue } from "runtime/type-guards";
 
 describe("runtime if/is", () => {
     it("ifString(v,i,e)", () => {
-        const t = ifString("foo", () => 42, () => false);
-        const f = ifString(-1, () => "yikes", () => 42);
-
-        type cases = [
-            Expect<Test<typeof t, "equals", 42>>, //
-            Expect<Test<typeof f, "equals", 42>> //
-        ];
-    });
-
-    it("ifNumber(v,i,e)", () => {
-        const t = ifNumber(42, (n) => n, () => false);
-        const f = ifNumber("foo", () => "yikes", () => 42);
-
-        type cases = [
-            Expect<Test<typeof t, "equals", 42>>, //
-            Expect<Test<typeof f, "equals", 42>> //
-        ];
-    });
-
-    it("ifBoolean(v,i,e)", () => {
-        const t = ifBoolean(false, () => 42, () => false);
-        const f = ifBoolean(undefined, () => "yikes", () => 42);
-
-        type cases = [
-            Expect<Test<typeof t, "equals", 42>>, //
-            Expect<Test<typeof f, "equals", 42>> //
-        ];
-    });
-
-    it("ifTrue(v,i,e)", () => {
-        const t = ifTrue(true, () => 42, () => false);
-        const f = ifTrue(false, () => "yikes", () => 42);
-        const f2 = ifTrue(true as boolean, () => "yikes", () => 42);
+        const t = ifString(
+            "foo",
+            () => 42,
+            () => false,
+        );
+        const f = ifString(
+            -1,
+            () => "yikes",
+            () => 42,
+        );
 
         type cases = [
             Expect<Test<typeof t, "equals", 42>>, //
             Expect<Test<typeof f, "equals", 42>>, //
-            Expect<Test<typeof f2, "equals", "yikes" | 42>> //
+        ];
+    });
+
+    it("ifNumber(v,i,e)", () => {
+        const t = ifNumber(
+            42,
+            (n) => n,
+            () => false,
+        );
+        const f = ifNumber(
+            "foo",
+            () => "yikes",
+            () => 42,
+        );
+
+        type cases = [
+            Expect<Test<typeof t, "equals", 42>>, //
+            Expect<Test<typeof f, "equals", 42>>, //
+        ];
+    });
+
+    it("ifBoolean(v,i,e)", () => {
+        const t = ifBoolean(
+            false,
+            () => 42,
+            () => false,
+        );
+        const f = ifBoolean(
+            undefined,
+            () => "yikes",
+            () => 42,
+        );
+
+        type cases = [
+            Expect<Test<typeof t, "equals", 42>>, //
+            Expect<Test<typeof f, "equals", 42>>, //
+        ];
+    });
+
+    it("ifTrue(v,i,e)", () => {
+        const t = ifTrue(
+            true,
+            () => 42,
+            () => false,
+        );
+        const f = ifTrue(
+            false,
+            () => "yikes",
+            () => 42,
+        );
+        const f2 = ifTrue(
+            true as boolean,
+            () => "yikes",
+            () => 42,
+        );
+
+        type cases = [
+            Expect<Test<typeof t, "equals", 42>>, //
+            Expect<Test<typeof f, "equals", 42>>, //
+            Expect<Test<typeof f2, "equals", "yikes" | 42>>, //
         ];
     });
 
@@ -67,7 +108,12 @@ describe("runtime if/is", () => {
         const t = <T extends string, B extends boolean>(i: T, nice: B) => {
             return isTrue(nice) ? f1(i) : f2(i);
         };
-        const t2 = <T extends string, B extends boolean>(i: T, nice: B) => ifTrue(nice, () => f1(i), () => f2(i));
+        const t2 = <T extends string, B extends boolean>(i: T, nice: B) =>
+            ifTrue(
+                nice,
+                () => f1(i),
+                () => f2(i),
+            );
 
         // both approaches produce correct result
         const r1 = t("Joe", true);
@@ -83,7 +129,7 @@ describe("runtime if/is", () => {
             // still get union type with `isTrue` conditional
             Expect<Test<R1, "equals", "Hello Joe" | "Get out Joe!">>,
             // but encapsulating both outcomes in `ifTrue` resolves the union
-            Expect<Test<R2, "equals", "Hello Joe">>
+            Expect<Test<R2, "equals", "Hello Joe">>,
         ];
     });
 
@@ -97,7 +143,7 @@ describe("runtime if/is", () => {
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", false>>,
             Expect<Test<T3, "equals", true>>,
-            Expect<Test<T4, "equals", boolean>>
+            Expect<Test<T4, "equals", boolean>>,
         ];
     });
 
@@ -111,7 +157,7 @@ describe("runtime if/is", () => {
             Expect<Test<typeof t1, "equals", true>>,
             Expect<Test<typeof t2, "equals", false>>,
             Expect<Test<typeof t3, "equals", true>>,
-            Expect<Test<typeof t4, "equals", boolean>>
+            Expect<Test<typeof t4, "equals", boolean>>,
         ];
 
         expect(t1).toBe(true);
@@ -125,7 +171,7 @@ describe("runtime if/is", () => {
             //
             Expect<Test<DoesExtend<1, number>, "equals", true>>,
             Expect<Test<DoesExtend<2, string>, "equals", false>>,
-            Expect<Test<DoesExtend<2, 2 | 3>, "equals", true>>
+            Expect<Test<DoesExtend<2, 2 | 3>, "equals", true>>,
         ];
     });
 
@@ -138,65 +184,85 @@ describe("runtime if/is", () => {
         const fn0 = ifArray(
             "foobar" as string,
             (i) => `I'm an array, my length is ${i.length}` as const,
-            (i) => `I'm not an array, I am ${i}` as const
+            (i) => `I'm not an array, I am ${i}` as const,
         );
         const fn1 = ifArray(
             "foobar",
             (i) => `I'm an array, my length is ${i.length}` as const,
-            (i) => `I'm not an array, I am ${i}` as const
+            (i) => `I'm not an array, I am ${i}` as const,
         );
         const fn2 = ifArray(
             ["foo", "bar"] as const,
             (i) => `I'm an array, my length is ${i.length}` as const,
-            (i) => `I'm not an array, I am ${i}` as const
+            (i) => `I'm not an array, I am ${i}` as const,
         );
 
         const fn3 = ifArray(
             ["foo", "bar"],
             (i) => `I'm an array, my length is ${i.length}` as const,
-            (i) => `I'm not an array, I am ${i}` as const
+            (i) => `I'm not an array, I am ${i}` as const,
         );
 
         type cases = [
-            Expect<Test<typeof fn0, "equals", `I'm not an array, I am ${string}`>>,
+            Expect<
+                Test<typeof fn0, "equals", `I'm not an array, I am ${string}`>
+            >,
             Expect<Test<typeof fn1, "equals", `I'm not an array, I am foobar`>>,
             Expect<Test<typeof fn2, "equals", `I'm an array, my length is 2`>>,
-            Expect<Test<typeof fn3, "equals", `I'm an array, my length is ${number}`>>
+            Expect<
+                Test<
+                    typeof fn3,
+                    "equals",
+                    `I'm an array, my length is ${number}`
+                >
+            >,
         ];
     });
 
     it("ifArrayPartial()()", () => {
         const arrTest = ifArrayPartial<string | string[]>()(
             (i) => `I'm an array, my length is ${i.length}`,
-            (i) => `I'm not an array, I am ${i}`
+            (i) => `I'm not an array, I am ${i}`,
         );
 
         const t1 = arrTest("Bob");
         const t2 = arrTest(["foo", "bar"]);
 
         type cases = [
-            Expect<Test<
-                typeof t1,
-                "equals",
-                `I'm not an array, I am ${string}`
-            >>,
-            Expect<Test<
-                typeof t2,
-                "equals",
-                `I'm an array, my length is ${number}`
-            >>
+            Expect<
+                Test<typeof t1, "equals", `I'm not an array, I am ${string}`>
+            >,
+            Expect<
+                Test<
+                    typeof t2,
+                    "equals",
+                    `I'm an array, my length is ${number}`
+                >
+            >,
         ];
     });
 
     it("ifUndefined(v,i,e)", () => {
-        const t = ifUndefined(undefined, () => 42, () => false);
-        const f = ifUndefined(false, () => "yikes", () => 42);
-        const f2 = ifUndefined("", () => "yikes", () => 42);
+        const t = ifUndefined(
+            undefined,
+            () => 42,
+            () => false,
+        );
+        const f = ifUndefined(
+            false,
+            () => "yikes",
+            () => 42,
+        );
+        const f2 = ifUndefined(
+            "",
+            () => "yikes",
+            () => 42,
+        );
 
         type cases = [
             Expect<Test<typeof t, "equals", 42>>, //
             Expect<Test<typeof f, "equals", 42>>, //
-            Expect<Test<typeof f2, "equals", 42>> //
+            Expect<Test<typeof f2, "equals", 42>>, //
         ];
     });
 
@@ -243,7 +309,7 @@ describe("runtime if/is", () => {
             Expect<Test<T2, "equals", false>>,
             Expect<Test<T3, "equals", boolean>>,
             Expect<Test<T4, "equals", boolean>>,
-            Expect<Test<T5, "equals", boolean>>
+            Expect<Test<T5, "equals", boolean>>,
         ];
     });
 
@@ -254,7 +320,6 @@ describe("runtime if/is", () => {
         // runtime
         expect(foo("foobar")).toBe(true);
         expect(foot("foobar")).toBe(false);
-
     });
 
     it("ifSameType", () => {
@@ -262,25 +327,25 @@ describe("runtime if/is", () => {
             "foo",
             "" as string,
             (i) => `Hello ${i}`,
-            (i) => `Goodbye ${i}`
+            (i) => `Goodbye ${i}`,
         );
         const t2 = ifSameType(
             42,
             "" as string,
             (i) => `Hello ${i}`,
-            (i) => `Goodbye ${i}`
+            (i) => `Goodbye ${i}`,
         );
         const t3 = ifSameType(
             "foo" as string,
             "" as string,
             (i) => `Hello ${i}`,
-            (i) => `Goodbye ${i}`
+            (i) => `Goodbye ${i}`,
         );
         const t4 = ifSameType(
             42 as number,
             "" as string,
             (i) => `Hello ${i}`,
-            (i) => `Goodbye ${i}`
+            (i) => `Goodbye ${i}`,
         );
 
         const nested = ifSameType(
@@ -297,9 +362,9 @@ describe("runtime if/is", () => {
                             i,
                             true as boolean,
                             (b) => `I'm a boolean value of ${b}`,
-                            () => ""
-                        )
-                )
+                            () => "",
+                        ),
+                ),
         );
 
         type cases = [
@@ -312,7 +377,9 @@ describe("runtime if/is", () => {
             // does not match (wide)
             Expect<Test<typeof t4, "equals", `Goodbye ${number}`>>,
             // nested
-            Expect<Test<typeof nested, "equals", `I'm a boolean value of false`>>
+            Expect<
+                Test<typeof nested, "equals", `I'm a boolean value of false`>
+            >,
         ];
     });
 });
