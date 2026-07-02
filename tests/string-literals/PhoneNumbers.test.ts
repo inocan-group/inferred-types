@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
-import type { Expect, Extends, HasPhoneCountryCode, PhoneNumber, Test } from "inferred-types/types";
+import type {
+    Expect,
+    Extends,
+    HasPhoneCountryCode,
+    PhoneNumber,
+    Test,
+} from "inferred-types/types";
 
 import { isPhoneNumber } from "inferred-types/runtime";
 
 describe("isPhoneNumber(val)", () => {
-
     it("happy path", () => {
         const t1 = isPhoneNumber("555 1212");
         const t2 = isPhoneNumber("456 555 1212");
@@ -16,14 +21,13 @@ describe("isPhoneNumber(val)", () => {
         expect(t3).toBe(true);
         expect(t4).toBe(true);
         expect(t5).toBe(true);
-        const f1 = isPhoneNumber("45 5678")
-        const f2 = isPhoneNumber("445 b5678")
+        const f1 = isPhoneNumber("45 5678");
+        const f2 = isPhoneNumber("445 b5678");
         const f3 = isPhoneNumber("+1 456-555-1212a");
         expect(f1).toBe(false);
         expect(f2).toBe(false);
         expect(f3).toBe(false);
     });
-
 });
 
 describe("PhoneNumber<[T]>", () => {
@@ -62,7 +66,6 @@ describe("PhoneNumber<[T]>", () => {
             Expect<Test<F2, "equals", false>>,
             Expect<Test<F3, "equals", false>>,
         ];
-
     });
 
     it("with generic test", () => {
@@ -85,11 +88,9 @@ describe("PhoneNumber<[T]>", () => {
             Expect<Test<ValidUkNumber2, "equals", "0044 555 456-1212">>,
         ];
     });
-
 });
 
 describe("HasCountryCode<TPhone,TExplicit>", () => {
-
     it("first test", () => {
         type UK = HasPhoneCountryCode<"+44 798-947-9178">;
         type US = HasPhoneCountryCode<"+1 798-947-9178">;
@@ -104,6 +105,4 @@ describe("HasCountryCode<TPhone,TExplicit>", () => {
             Expect<Test<FakeNotExplicit, "equals", true>>,
         ];
     });
-
 });
-

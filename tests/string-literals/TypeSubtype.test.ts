@@ -1,10 +1,8 @@
-
 import { describe, expect, it } from "vitest";
 import { isTypeSubtype, getTypeSubtype } from "inferred-types/runtime";
 import type { Expect, Test, TypeSubtype } from "inferred-types/types";
 
 describe("isTypeSubtype(val)", () => {
-
     it("happy path", () => {
         const t1 = isTypeSubtype("foo/bar");
         const t2 = isTypeSubtype("foo123/34");
@@ -18,11 +16,8 @@ describe("isTypeSubtype(val)", () => {
             type FB = typeof foobar;
 
             type cases = [
-                Expect<Test<
-                    FB, "equals",
-                    "foo/bar"
-                >>,
-                Expect<Test<FB, "extends", TypeSubtype>>
+                Expect<Test<FB, "equals", "foo/bar">>,
+                Expect<Test<FB, "extends", TypeSubtype>>,
             ];
         }
 
@@ -32,20 +27,14 @@ describe("isTypeSubtype(val)", () => {
 
             // @ts-ignore
             type cases = [
-                Expect<Test<
-                    FB, "equals",
-                    `${string}/${string}`
-                >>,
-                Expect<Test<FB, "extends", TypeSubtype>>
+                Expect<Test<FB, "equals", `${string}/${string}`>>,
+                Expect<Test<FB, "extends", TypeSubtype>>,
             ];
         }
-
     });
-
 });
 
 describe("getTypeSubtype(str)", () => {
-
     it("happy path", () => {
         const [t1, st1] = getTypeSubtype("foo/bar");
 
@@ -55,9 +44,8 @@ describe("getTypeSubtype(str)", () => {
         expect(() => getTypeSubtype("foo/bar/baz")).toThrow();
 
         type cases = [
-            Expect<Test<typeof t1, "equals",  "foo">>,
-            Expect<Test<typeof st1, "equals",  "bar">>,
+            Expect<Test<typeof t1, "equals", "foo">>,
+            Expect<Test<typeof st1, "equals", "bar">>,
         ];
     });
-
 });

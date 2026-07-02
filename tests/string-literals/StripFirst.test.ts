@@ -5,17 +5,49 @@ describe("StripFirst<T, U>", () => {
     it("should strip the first matching element from head of string", () => {
         type cases = [
             // Basic functionality - strip first match from head
-            Expect<Test<StripFirst<"foobar", ["foo", "bar", "baz"]>, "equals", "bar">>,
-            Expect<Test<StripFirst<"barfoo", ["foo", "bar", "baz"]>, "equals", "foo">>,
-            Expect<Test<StripFirst<"baztest", ["foo", "bar", "baz"]>, "equals", "test">>,
+            Expect<
+                Test<
+                    StripFirst<"foobar", ["foo", "bar", "baz"]>,
+                    "equals",
+                    "bar"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<"barfoo", ["foo", "bar", "baz"]>,
+                    "equals",
+                    "foo"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<"baztest", ["foo", "bar", "baz"]>,
+                    "equals",
+                    "test"
+                >
+            >,
 
             // Should only strip from head, not middle or end
-            Expect<Test<StripFirst<"testfoo", ["foo", "bar", "baz"]>, "equals", "testfoo">>,
-            Expect<Test<StripFirst<"midfoobar", ["foo", "bar", "baz"]>, "equals", "midfoobar">>,
+            Expect<
+                Test<
+                    StripFirst<"testfoo", ["foo", "bar", "baz"]>,
+                    "equals",
+                    "testfoo"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<"midfoobar", ["foo", "bar", "baz"]>,
+                    "equals",
+                    "midfoobar"
+                >
+            >,
 
             // Order matters - strips first match in array order
             Expect<Test<StripFirst<"foobar", ["bar", "foo"]>, "equals", "bar">>, // bar doesn't match at head
-            Expect<Test<StripFirst<"foobar", ["foo", "foobar"]>, "equals", "bar">>, // foo matches first
+            Expect<
+                Test<StripFirst<"foobar", ["foo", "foobar"]>, "equals", "bar">
+            >, // foo matches first
 
             // Complete string match
             Expect<Test<StripFirst<"foo", ["foo", "bar"]>, "equals", "">>,
@@ -35,9 +67,19 @@ describe("StripFirst<T, U>", () => {
     it("should handle no matches", () => {
         type cases = [
             // No matches should return original string
-            Expect<Test<StripFirst<"hello", ["foo", "bar", "baz"]>, "equals", "hello">>,
-            Expect<Test<StripFirst<"world", ["test", "demo"]>, "equals", "world">>,
-            Expect<Test<StripFirst<"foobar", ["xyz", "abc"]>, "equals", "foobar">>,
+            Expect<
+                Test<
+                    StripFirst<"hello", ["foo", "bar", "baz"]>,
+                    "equals",
+                    "hello"
+                >
+            >,
+            Expect<
+                Test<StripFirst<"world", ["test", "demo"]>, "equals", "world">
+            >,
+            Expect<
+                Test<StripFirst<"foobar", ["xyz", "abc"]>, "equals", "foobar">
+            >,
         ];
     });
 
@@ -59,7 +101,9 @@ describe("StripFirst<T, U>", () => {
             Expect<Test<StripFirst<"test", [""]>, "equals", "test">>,
 
             // Empty string in middle/end
-            Expect<Test<StripFirst<"foobar", ["baz", "", "foo"]>, "equals", "bar">>,
+            Expect<
+                Test<StripFirst<"foobar", ["baz", "", "foo"]>, "equals", "bar">
+            >,
             Expect<Test<TT, "equals", "-test">>,
         ];
     });
@@ -80,16 +124,38 @@ describe("StripFirst<T, U>", () => {
     it("should handle overlapping prefixes", () => {
         type cases = [
             // Overlapping prefixes - should use first match
-            Expect<Test<StripFirst<"foobar", ["foo", "foobar"]>, "equals", "bar">>,
+            Expect<
+                Test<StripFirst<"foobar", ["foo", "foobar"]>, "equals", "bar">
+            >,
             Expect<Test<StripFirst<"foobar", ["foobar", "foo"]>, "equals", "">>,
 
             // Partial vs complete matches
-            Expect<Test<StripFirst<"testing", ["test", "testing"]>, "equals", "ing">>,
-            Expect<Test<StripFirst<"testing", ["testing", "test"]>, "equals", "">>,
+            Expect<
+                Test<
+                    StripFirst<"testing", ["test", "testing"]>,
+                    "equals",
+                    "ing"
+                >
+            >,
+            Expect<
+                Test<StripFirst<"testing", ["testing", "test"]>, "equals", "">
+            >,
 
             // Longer prefix first
-            Expect<Test<StripFirst<"abcdef", ["abcd", "abc", "ab"]>, "equals", "ef">>,
-            Expect<Test<StripFirst<"abcdef", ["abc", "abcd", "ab"]>, "equals", "def">>,
+            Expect<
+                Test<
+                    StripFirst<"abcdef", ["abcd", "abc", "ab"]>,
+                    "equals",
+                    "ef"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<"abcdef", ["abc", "abcd", "ab"]>,
+                    "equals",
+                    "def"
+                >
+            >,
         ];
     });
 
@@ -100,8 +166,20 @@ describe("StripFirst<T, U>", () => {
             Expect<Test<StripFirst<"@hello", ["@hello", "@"]>, "equals", "">>,
 
             // Punctuation
-            Expect<Test<StripFirst<"!important", ["!", "imp"]>, "equals", "important">>,
-            Expect<Test<StripFirst<"...loading", ["...", "."]>, "equals", "loading">>,
+            Expect<
+                Test<
+                    StripFirst<"!important", ["!", "imp"]>,
+                    "equals",
+                    "important"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<"...loading", ["...", "."]>,
+                    "equals",
+                    "loading"
+                >
+            >,
 
             // Spaces
             Expect<Test<StripFirst<" test", [" ", "test"]>, "equals", "test">>,
@@ -112,40 +190,125 @@ describe("StripFirst<T, U>", () => {
     it("should handle complex real-world scenarios", () => {
         type cases = [
             // Common prefixes
-            Expect<Test<StripFirst<"https://example.com", ["https://", "http://", "ftp://"]>, "equals", "example.com">>,
-            Expect<Test<StripFirst<"http://test.com", ["https://", "http://", "ftp://"]>, "equals", "test.com">>,
-            Expect<Test<StripFirst<"ftp://files.com", ["https://", "http://", "ftp://"]>, "equals", "files.com">>,
+            Expect<
+                Test<
+                    StripFirst<
+                        "https://example.com",
+                        ["https://", "http://", "ftp://"]
+                    >,
+                    "equals",
+                    "example.com"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<
+                        "http://test.com",
+                        ["https://", "http://", "ftp://"]
+                    >,
+                    "equals",
+                    "test.com"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<
+                        "ftp://files.com",
+                        ["https://", "http://", "ftp://"]
+                    >,
+                    "equals",
+                    "files.com"
+                >
+            >,
 
             // File extensions
-            Expect<Test<StripFirst<"document.pdf", [".pdf", ".doc", ".txt"]>, "equals", "document.pdf">>, // doesn't match at head
-            Expect<Test<StripFirst<".hidden", [".", ".hidden"]>, "equals", "hidden">>,
+            Expect<
+                Test<
+                    StripFirst<"document.pdf", [".pdf", ".doc", ".txt"]>,
+                    "equals",
+                    "document.pdf"
+                >
+            >, // doesn't match at head
+            Expect<
+                Test<
+                    StripFirst<".hidden", [".", ".hidden"]>,
+                    "equals",
+                    "hidden"
+                >
+            >,
 
             // Path separators
-            Expect<Test<StripFirst<"/root/path", ["/", "\\", "./"]>, "equals", "root/path">>,
-            Expect<Test<StripFirst<"./relative", ["/", "\\", "./"]>, "equals", "relative">>,
+            Expect<
+                Test<
+                    StripFirst<"/root/path", ["/", "\\", "./"]>,
+                    "equals",
+                    "root/path"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<"./relative", ["/", "\\", "./"]>,
+                    "equals",
+                    "relative"
+                >
+            >,
         ];
     });
 
     it("should handle readonly array constraint", () => {
         type cases = [
             // Test that readonly arrays work correctly
-            Expect<Test<StripFirst<"foobar", readonly ["foo", "bar"]>, "equals", "bar">>,
-            Expect<Test<StripFirst<"barfoo", readonly ["foo", "bar"]>, "equals", "foo">>,
+            Expect<
+                Test<
+                    StripFirst<"foobar", readonly ["foo", "bar"]>,
+                    "equals",
+                    "bar"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<"barfoo", readonly ["foo", "bar"]>,
+                    "equals",
+                    "foo"
+                >
+            >,
 
             // Const assertion arrays
-            Expect<Test<StripFirst<"testcase", readonly ["test", "case"]>, "equals", "case">>,
+            Expect<
+                Test<
+                    StripFirst<"testcase", readonly ["test", "case"]>,
+                    "equals",
+                    "case"
+                >
+            >,
         ];
     });
 
     it("should handle edge cases with repeated patterns", () => {
         type cases = [
             // Same string multiple times in array
-            Expect<Test<StripFirst<"foobar", ["foo", "foo", "bar"]>, "equals", "bar">>,
-            Expect<Test<StripFirst<"bartest", ["bar", "bar", "foo"]>, "equals", "test">>,
+            Expect<
+                Test<
+                    StripFirst<"foobar", ["foo", "foo", "bar"]>,
+                    "equals",
+                    "bar"
+                >
+            >,
+            Expect<
+                Test<
+                    StripFirst<"bartest", ["bar", "bar", "foo"]>,
+                    "equals",
+                    "test"
+                >
+            >,
 
             // Repeated characters
-            Expect<Test<StripFirst<"aaabbb", ["aa", "aaa", "a"]>, "equals", "abbb">>, // matches first "aa"
-            Expect<Test<StripFirst<"aaabbb", ["aaa", "aa", "a"]>, "equals", "bbb">>, // matches "aaa"
+            Expect<
+                Test<StripFirst<"aaabbb", ["aa", "aaa", "a"]>, "equals", "abbb">
+            >, // matches first "aa"
+            Expect<
+                Test<StripFirst<"aaabbb", ["aaa", "aa", "a"]>, "equals", "bbb">
+            >, // matches "aaa"
         ];
     });
 });

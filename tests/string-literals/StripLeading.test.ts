@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
-import type { AssertEqual, Expect, StripLeading, Test } from "inferred-types/types";
+import type {
+    AssertEqual,
+    Expect,
+    StripLeading,
+    Test,
+} from "inferred-types/types";
 import { stripLeading } from "inferred-types/runtime";
 
 describe("StripLeading<TStr,TRemove>", () => {
-
     it("string outcome", () => {
         type World = StripLeading<"HelloWorld", "Hello">;
         type Missing = StripLeading<"World", "Hello">;
@@ -14,31 +18,22 @@ describe("StripLeading<TStr,TRemove>", () => {
         ];
     });
 
-
     it("numeric outcome", () => {
         type T1 = StripLeading<442, "4">;
         type T2 = StripLeading<442, 4>;
 
-        type cases = [
-            Expect<AssertEqual<T1, 42>>,
-            Expect<AssertEqual<T2, 42>>,
-        ];
+        type cases = [Expect<AssertEqual<T1, 42>>, Expect<AssertEqual<T2, 42>>];
     });
-
 });
 
 describe("stripLeading(content, remove)", () => {
-
     it("wide string", () => {
         const str = stripLeading("foobar" as string, "foo");
 
         expect(str).toEqual("bar");
 
-        type cases = [
-            Expect<AssertEqual<typeof str, string>>
-        ];
+        type cases = [Expect<AssertEqual<typeof str, string>>];
     });
-
 
     it("string literals", () => {
         const bar = stripLeading("foobar", "foo");
@@ -53,7 +48,6 @@ describe("stripLeading(content, remove)", () => {
             Expect<Test<typeof bar, "equals", "bar">>,
             Expect<Test<typeof foo, "equals", "Foo">>,
             Expect<Test<typeof no_change, "equals", "foobar">>,
-
         ];
     });
 
@@ -67,8 +61,8 @@ describe("stripLeading(content, remove)", () => {
         type cases = [
             Expect<AssertEqual<typeof t1, 42>>,
             Expect<AssertEqual<typeof t2, 42>>,
-        ]
-    })
+        ];
+    });
 
     // I removed this capability until I can get all perf issues sorted
     it("with multiple strip sequences", () => {
@@ -83,5 +77,4 @@ describe("stripLeading(content, remove)", () => {
             Expect<Test<typeof bar2, "equals", "bar">>,
         ];
     });
-
 });

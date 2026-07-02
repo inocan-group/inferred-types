@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
-import type { Expect, RetainAfter, Test, Whitespace } from "inferred-types/types";
+import type {
+    Expect,
+    RetainAfter,
+    Test,
+    Whitespace,
+} from "inferred-types/types";
 
 import { retainAfter, retainAfterInclusive } from "inferred-types/runtime";
 import { WHITESPACE_CHARS } from "inferred-types/constants";
 
 describe("RetainAfter<TStr,TBreak>", () => {
-
     it("happy path", () => {
         type World = RetainAfter<"hello world", " ">;
         type WorldInc = RetainAfter<"hello world", " ", true>;
@@ -28,7 +32,6 @@ describe("RetainAfter<TStr,TBreak>", () => {
 
             Expect<Test<Nada, "equals", "">>,
         ];
-
     });
 
     it("using a union type to break", () => {
@@ -47,11 +50,9 @@ describe("RetainAfter<TStr,TBreak>", () => {
             Expect<Test<FooBarBazInc, "equals", "\tbar\nbaz">>,
         ];
     });
-
 });
 
 describe("retainAfter(contend,find) runtime utility", () => {
-
     it("happy path", () => {
         const world = retainAfter("hello world", " ");
         const world_inc = retainAfterInclusive("hello world", " ");
@@ -63,7 +64,7 @@ describe("retainAfter(contend,find) runtime utility", () => {
 
         type cases = [
             Expect<Test<typeof world, "equals", "world">>, //
-            Expect<Test<typeof barBaz, "equals",  "bar, baz">> //
+            Expect<Test<typeof barBaz, "equals", "bar, baz">>, //
         ];
     });
 
@@ -72,10 +73,6 @@ describe("retainAfter(contend,find) runtime utility", () => {
 
         expect(barBaz).toEqual("bar\tbaz");
 
-        type cases = [
-            Expect<Test<typeof barBaz, "equals", "bar\tbaz">>
-        ];
-
+        type cases = [Expect<Test<typeof barBaz, "equals", "bar\tbaz">>];
     });
-
 });
