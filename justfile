@@ -87,3 +87,8 @@ feature name:
 fix name:
     @echo
     @md edit "fixes/{{ Today }}-{{ name }}/spec.md"
+
+# release a new version
+release:
+    @echo
+    @pnpm release
