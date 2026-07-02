@@ -1,13 +1,27 @@
 import type {
-    As,
-    Dictionary,
-    MergeObjects,
     ObjectKey,
+    ObjectKeys,
     SortByKey,
     SortByKeyOptions,
     ToKv,
 } from "inferred-types/types";
-import { keysOf, sortByKey } from "inferred-types/runtime";
+import { sortByKey } from "inferred-types/runtime";
+
+type KeyOfKv<TObj extends object> = ToKv<TObj>[number] extends {
+    key: infer K extends PropertyKey;
+}
+    ? Extract<K, ObjectKey>
+    : never;
+
+type SortConfig<
+    K extends PropertyKey,
+    TSort extends SortByKeyOptions<K> | undefined,
+> = TSort extends undefined
+    ? { start: []; end: [] }
+    : {
+        start: TSort extends { start: infer S } ? S : [];
+        end: TSort extends { end: infer E } ? E : [];
+    };
 
 /**
  * **toKeyValue**`(obj)` -> tuple
@@ -31,15 +45,13 @@ import { keysOf, sortByKey } from "inferred-types/runtime";
  * ```
  */
 export function toKeyValue<
-    const TObj extends Dictionary,
-    K extends ObjectKey = ToKv<TObj>[number] extends { key: infer KK extends ObjectKey } ? KK : never,
+    const TObj extends object,
+    K extends KeyOfKv<TObj> = KeyOfKv<TObj>,
     const TSort extends SortByKeyOptions<K> | undefined = undefined,
     TSorted = SortByKey<
         ToKv<TObj>,
         "key",
-        TSort extends undefined
-            ? { start: []; end: [] }
-            : MergeObjects<{ start: []; end: [] }, As<TSort, Dictionary>>
+        SortConfig<K, TSort>
     >
 >(
     obj: TObj,
@@ -48,8 +60,8 @@ export function toKeyValue<
     /**
      * an unsorted tuple of `KeyValue`'s
      */
-    const kv = keysOf(obj).map(
-        k => ({ key: k, value: obj[k], required: true })
+    const kv = (Object.keys(obj) as ObjectKeys<TObj>).map(
+        k => ({ key: k, value: obj[k as keyof TObj], required: true })
     );
 
     return sortByKey(kv, "key", sort || {}) as unknown as TSorted;

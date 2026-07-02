@@ -1,5 +1,21 @@
 import type { NestingTuple } from "inferred-types/types";
-import { isArray, isNestingKeyValue, isString, isUndefined } from "inferred-types/runtime";
+import { isArray, isDictionary, isNestingKeyValue, isString, isUndefined } from "inferred-types/runtime";
+
+function isTupleConfig(value: unknown): boolean {
+    if (!isDictionary(value)) {
+        return false;
+    }
+
+    const exit = value.exit;
+    const children = value.children;
+
+    return (isUndefined(exit) || (isArray(exit) && exit.every(isString)))
+        && (
+            isUndefined(children)
+            || (isDictionary(children) && isNestingKeyValue(children))
+            || isNestingTuple(children)
+        );
+}
 
 /**
  * type-guard which validates that `val` is a `NestingTuple`
@@ -21,7 +37,9 @@ export function isNestingTuple(val: unknown): val is NestingTuple {
     }
 
     // Validate second element (end tokens)
-    const validEnd = (isArray(val[1]) && val[1].every(isString)) || isUndefined(val[1]);
+    const validEnd = (isArray(val[1]) && val[1].every(isString))
+        || isUndefined(val[1])
+        || isTupleConfig(val[1]);
     if (!validEnd) {
         return false;
     }
@@ -32,10 +50,8 @@ export function isNestingTuple(val: unknown): val is NestingTuple {
     if (val.length === 3) {
         const nextLevel = val[2];
         // Accept object (NestingKeyValue) or array (NestingTuple) or empty object
-        return (
-            (typeof nextLevel === "object" && nextLevel !== null)
-            && (isNestingKeyValue(nextLevel) || isNestingTuple(nextLevel))
-        );
+        return isDictionary(nextLevel) && isNestingKeyValue(nextLevel)
+            || isNestingTuple(nextLevel);
     }
 
     return true;

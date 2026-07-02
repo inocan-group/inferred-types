@@ -10,8 +10,11 @@ export function isNestingEnd<
 ) {
     if (isNestingTuple(nesting)) {
         const [start, end] = nesting;
-        if (end) {
+        if (Array.isArray(end)) {
             return end.includes(char);
+        }
+        if (end && "exit" in end && Array.isArray(end.exit)) {
+            return end.exit.includes(char);
         }
         else {
             // When end is undefined, any non-start character ends the nesting
@@ -29,6 +32,9 @@ export function isNestingEnd<
             else if (typeof value === "string") {
                 // Simple form: string
                 exitTokens.push(value);
+            }
+            else if (value && typeof value === "object" && "exit" in value && typeof value.exit === "string") {
+                exitTokens.push(value.exit);
             }
         }
         return exitTokens.includes(char);

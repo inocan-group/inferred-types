@@ -1,16 +1,11 @@
 import type {
-    As,
     AsNumber,
     CssNamedColor,
     CssNamedColorLookup,
     Err,
     NumberLike,
-    RGB,
     RgbColor,
-    Split,
-    StripLeading,
-    StripTrailing,
-    TrimEach,
+    Trim,
     Whitespace
 } from "inferred-types/types";
 
@@ -20,19 +15,26 @@ import { asNumber } from "runtime/numeric";
 import { stripLeading, stripTrailing } from "runtime/string-literals";
 import { isNamedColor, isNumberLike, isRgbColor } from "runtime/type-guards";
 
-type FromRgbColor<T extends `rgb(${string})`>
-    = Split<
-        StripTrailing<StripLeading<T, "rgb(">, ")">,
-    "," | Whitespace
-    > extends infer Parts extends readonly string[]
-        ? Parts["length"] extends 3
-            ? TrimEach<Parts> extends infer Success extends readonly [ NumberLike, NumberLike, NumberLike ]
-                ? As<{ r: AsNumber<Success[0]>; g: AsNumber<Success[1]>; b: AsNumber<Success[2]> }, RGB>
-                : Err<"invalid-color/rgb">
-            : Err<"invalid-color/rgb">
-        : Err<"invalid-color/rgb">;
+type AsRgb<
+    R extends string,
+    G extends string,
+    B extends string,
+> = [Trim<R>, Trim<G>, Trim<B>] extends [
+    infer Red extends NumberLike,
+    infer Green extends NumberLike,
+    infer Blue extends NumberLike,
+]
+    ? { r: AsNumber<Red>; g: AsNumber<Green>; b: AsNumber<Blue> }
+    : Err<"invalid-color/rgb">;
 
-type Result<T extends string> = T extends RgbColor
+type FromRgbColor<T extends `rgb(${string})`>
+    = T extends `rgb(${infer R},${infer G},${infer B})`
+        ? AsRgb<R, G, B>
+        : T extends `rgb(${infer R}${Whitespace}${infer G}${Whitespace}${infer B})`
+            ? AsRgb<R, G, B>
+            : Err<"invalid-color/rgb">;
+
+type Result<T extends string> = T extends `rgb(${string})`
     ? FromRgbColor<T>
 
     : T extends CssNamedColor

@@ -36,6 +36,9 @@ export function assignNamedConfig<T extends KnownNestingConfig>(config: T): AsNe
                 ...SHALLOW_QUOTE_NESTING
             } as AsNestingConfig<T>;
         }
+        case "shallow-quotes": {
+            return SHALLOW_QUOTE_NESTING as AsNestingConfig<T>;
+        }
     }
 
     return err(

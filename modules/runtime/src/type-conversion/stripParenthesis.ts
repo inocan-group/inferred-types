@@ -1,5 +1,15 @@
-import type { StripSurround, Trim } from "inferred-types/types";
+import type { Trim } from "inferred-types/types";
 import { stripLeading, stripTrailing } from "inferred-types/runtime";
+
+type StripParenthesis<T extends string> = Trim<T> extends infer S extends string
+    ? S extends `(${infer Inner})`
+        ? Trim<Inner>
+        : S extends `(${infer Inner}`
+            ? Trim<Inner>
+            : S extends `${infer Inner})`
+                ? Trim<Inner>
+                : S
+    : never;
 
 /**
  * **stripParenthesis**`(val)`
@@ -10,5 +20,5 @@ import { stripLeading, stripTrailing } from "inferred-types/runtime";
 export function stripParenthesis<
     T extends string,
 >(val: T) {
-    return stripTrailing(stripLeading(val.trim(), "("), ")").trim() as unknown as Trim<StripSurround<Trim<T>, "(" | ")">>;
+    return stripTrailing(stripLeading(val.trim(), "("), ")").trim() as unknown as StripParenthesis<T>;
 }

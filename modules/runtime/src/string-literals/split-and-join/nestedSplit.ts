@@ -47,6 +47,10 @@ function getNextLevelConfig(startChar: string, nesting: Nesting): Nesting {
             return value[1] as Nesting;
         }
 
+        if (value && typeof value === "object" && "children" in value) {
+            return value.children as Nesting;
+        }
+
         // Simple form or character not in config - return same config
         return nesting;
     }
@@ -54,6 +58,13 @@ function getNextLevelConfig(startChar: string, nesting: Nesting): Nesting {
     // NestingTuple - check for optional third element
     if (Array.isArray(nesting) && nesting.length === 3) {
         return nesting[2] as Nesting;
+    }
+
+    if (Array.isArray(nesting) && nesting.length === 2) {
+        const [, end] = nesting;
+        if (end && !Array.isArray(end) && "children" in end) {
+            return end.children as Nesting;
+        }
     }
 
     // Simple tuple - return same config

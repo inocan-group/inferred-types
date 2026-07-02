@@ -39,12 +39,19 @@ export function isNestingEndMatch<
             return char === nestingValue;
         }
 
+        if (nestingValue && typeof nestingValue === "object" && "exit" in nestingValue) {
+            return char === nestingValue.exit;
+        }
+
         return false;
     }
     else if (isNestingTuple(nesting)) {
         const [start, end] = nesting;
         if (isUndefined(end)) {
             return !start.includes(char);
+        }
+        if (!Array.isArray(end) && "exit" in end && Array.isArray(end.exit)) {
+            return end.exit.includes(char);
         }
         else {
             return !!end.includes(char);
