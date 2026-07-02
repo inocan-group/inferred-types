@@ -1,10 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { Expect, Find, InputTokenSuggestions, Test } from "inferred-types/types";
+import type { Expect, Find, Test } from "inferred-types/types";
 
 import { find, narrow } from "inferred-types/runtime";
 
 describe("Find<TList, 'equals', TValue, TIndex>", () => {
-
     it("objectKeyEquals operation", () => {
         type List = [{ id: 1; val: "hi" }, { id: 2; val: "bye" }];
         type T1 = Find<List, "objectKeyEquals", ["id", 1]>;
@@ -12,25 +11,41 @@ describe("Find<TList, 'equals', TValue, TIndex>", () => {
         type T3 = Find<List, "objectKeyEquals", ["id", 3]>;
 
         type cases = [
-            Expect<Test<T1, "equals",  { id: 1; val: "hi" }>>,
-            Expect<Test<T2, "equals",  { id: 2; val: "bye" }>>,
-            Expect<Test<T3, "equals",  undefined>>,
+            Expect<Test<T1, "equals", { id: 1; val: "hi" }>>,
+            Expect<Test<T2, "equals", { id: 2; val: "bye" }>>,
+            Expect<Test<T3, "equals", undefined>>,
         ];
     });
 
     it("objectKeyExtends operation", () => {
         type Generics = [
-            {name: "T", typeToken: "string", type: string; desc: undefined },
-            {name: "U", typeToken: "number[]", type: number[]; desc: undefined },
+            { name: "T"; typeToken: "string"; type: string; desc: undefined },
+            {
+                name: "U";
+                typeToken: "number[]";
+                type: number[];
+                desc: undefined;
+            },
         ];
         type T1 = Find<Generics, "objectKeyExtends", ["name", "T"]>;
         type F1 = Find<Generics, "objectKeyExtends", ["name", "X"]>;
 
         type cases = [
-            Expect<Test<T1, "equals", {name: "T", typeToken: "string", type: string; desc: undefined }>>,
-            Expect<Test<F1, "equals", undefined>>
-        ]
-    })
+            Expect<
+                Test<
+                    T1,
+                    "equals",
+                    {
+                        name: "T";
+                        typeToken: "string";
+                        type: string;
+                        desc: undefined;
+                    }
+                >
+            >,
+            Expect<Test<F1, "equals", undefined>>,
+        ];
+    });
 
     it("extends operation", () => {
         type List = [number, 1, 2, string, "foo"];
@@ -43,14 +58,14 @@ describe("Find<TList, 'equals', TValue, TIndex>", () => {
         type FooBar = Find<List, "extends", ["foo" | "bar"]>;
 
         type cases = [
-            Expect<Test<Num, "equals",  number>>,
-            Expect<Test<Two, "equals",  2>>,
-            Expect<Test<Str, "equals",  string>>,
-            Expect<Test<Foo, "equals",  "foo">>,
+            Expect<Test<Num, "equals", number>>,
+            Expect<Test<Two, "equals", 2>>,
+            Expect<Test<Str, "equals", string>>,
+            Expect<Test<Foo, "equals", "foo">>,
 
-            Expect<Test<Missing, "equals",  undefined>>,
-            Expect<Test<Num, "equals",  number>>,
-            Expect<Test<FooBar, "equals",  "foo">>,
+            Expect<Test<Missing, "equals", undefined>>,
+            Expect<Test<Num, "equals", number>>,
+            Expect<Test<FooBar, "equals", "foo">>,
         ];
     });
 
@@ -63,10 +78,10 @@ describe("Find<TList, 'equals', TValue, TIndex>", () => {
         type Missing = Find<List, "equals", ["bar"]>;
 
         type cases = [
-            Expect<Test<Two, "equals",  2>>,
-            Expect<Test<Foo, "equals",  "foo">>,
+            Expect<Test<Two, "equals", 2>>,
+            Expect<Test<Foo, "equals", "foo">>,
 
-            Expect<Test<Missing, "equals",  undefined>>,
+            Expect<Test<Missing, "equals", undefined>>,
         ];
     });
 });
@@ -74,8 +89,7 @@ describe("Find<TList, 'equals', TValue, TIndex>", () => {
 // RUNTIME TESTS
 
 describe("find(op, ...params) -> (list) -> result", () => {
-
-    const list = narrow(1,2, 0 as number, "foo", "str" as string);
+    const list = narrow(1, 2, 0 as number, "foo", "str" as string);
 
     it("equals op", () => {
         const f2 = find("equals", 2);
@@ -83,18 +97,13 @@ describe("find(op, ...params) -> (list) -> result", () => {
 
         expect(two).toBe(2);
 
-        type cases = [
-            Expect<Test<typeof two, "equals", 2>>,
-        ];
+        type cases = [Expect<Test<typeof two, "equals", 2>>];
     });
 
     it("extends op", () => {
         const findNumber = find("extends", 0 as number);
         const num = findNumber(list);
 
-        type cases = [
-            Expect<Test<typeof num, "equals", 1>>,
-        ];
+        type cases = [Expect<Test<typeof num, "equals", 1>>];
     });
-
-})
+});

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { AsArray, AssertEqual, Expect, Test, UnionToTuple } from "inferred-types/types";
+import type { AsArray, AssertEqual, Expect, Test } from "inferred-types/types";
 
 import { asArray } from "inferred-types/runtime";
 
@@ -25,7 +25,6 @@ describe("AsArray<T>", () => {
         ];
     });
 
-
     it("singular or array variant", () => {
         type T1 = AsArray<string | string[]>;
         type T2 = AsArray<number | number[] | string[]>;
@@ -35,8 +34,6 @@ describe("AsArray<T>", () => {
             Expect<AssertEqual<T2, string[] | number[]>>,
         ];
     });
-
-
 });
 
 describe("asArray() function", () => {
@@ -47,10 +44,7 @@ describe("asArray() function", () => {
         // run-time
         expect(o).toEqual(["a"]);
         // design-time
-        type cases = [
-            Expect<AssertEqual<typeof o, ["a"]>>,
-        ];
-
+        type cases = [Expect<AssertEqual<typeof o, ["a"]>>];
     });
 
     it("array is returned as an array", () => {
@@ -61,9 +55,7 @@ describe("asArray() function", () => {
         // run-time
         expect(o).toEqual(["a"]);
         // design-time
-        type cases = [
-            Expect<Test<O, "equals", string[]>>
-        ];
+        type cases = [Expect<Test<O, "equals", string[]>>];
     });
 
     it("handling non-array element which presents as undefined", () => {
@@ -100,7 +92,7 @@ describe("asArray() function", () => {
         // design-time
         type cases = [
             Expect<Test<O, "equals", (string | undefined)[]>>, //
-            Expect<Test<O2, "equals", T[]>>
+            Expect<Test<O2, "equals", T[]>>,
         ];
     });
 });

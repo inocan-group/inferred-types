@@ -1,8 +1,7 @@
 import { describe, it } from "vitest";
-import type { Expect, HasSameValues, NotFilter, Test } from "inferred-types/types";
+import type { Expect, NotFilter, Test } from "inferred-types/types";
 
 describe("Filter using extends operation", () => {
-
     it("read-write Tuple, single filter", () => {
         type Foobar = NotFilter<[1, 2, "foo", "bar"], "extends", [number]>;
         type Foobar2 = NotFilter<[1, 2, "foo", "bar"], "extends", [number]>;
@@ -19,10 +18,22 @@ describe("Filter using extends operation", () => {
     });
 
     it("readonly Tuple, single filter", () => {
-        type Foobar = NotFilter<readonly [1, 2, "foo", "bar"], "extends", [number]>;
-        type Foobar2 = NotFilter<readonly [1, 2, "foo", "bar"], "extends", [number]>;
+        type Foobar = NotFilter<
+            readonly [1, 2, "foo", "bar"],
+            "extends",
+            [number]
+        >;
+        type Foobar2 = NotFilter<
+            readonly [1, 2, "foo", "bar"],
+            "extends",
+            [number]
+        >;
 
-        type Numeric = NotFilter<readonly [1, 2, "foo", "bar"], "extends", [string]>;
+        type Numeric = NotFilter<
+            readonly [1, 2, "foo", "bar"],
+            "extends",
+            [string]
+        >;
         type Hybrid = NotFilter<readonly [1, 2, "foo", "bar"], "extends", [1]>;
 
         type cases = [
@@ -34,29 +45,47 @@ describe("Filter using extends operation", () => {
     });
 
     it("startsWith operation", () => {
-        type Foo = NotFilter<[1, 2, "foo", "foobar", "bar"], "startsWith", ["foo"]>;
+        type Foo = NotFilter<
+            [1, 2, "foo", "foobar", "bar"],
+            "startsWith",
+            ["foo"]
+        >;
 
-        type cases = [
-            Expect<Test<Foo, "equals",  [1, 2, "bar"]>>,
-        ];
+        type cases = [Expect<Test<Foo, "equals", [1, 2, "bar"]>>];
     });
 
     it("filter out wide types, including never", () => {
-        type StripNumbers = NotFilter<[1, "foo", number, "bar"], "extends", [number]>;
-        type StripStrings = NotFilter<[never, 1, never, "foo", never, "bar", false], "extends", [string]>;
-        type StripNever = NotFilter<[1, never, "foo", number, "bar"], "equals", [never]>;
+        type StripNumbers = NotFilter<
+            [1, "foo", number, "bar"],
+            "extends",
+            [number]
+        >;
+        type StripStrings = NotFilter<
+            [never, 1, never, "foo", never, "bar", false],
+            "extends",
+            [string]
+        >;
+        type StripNever = NotFilter<
+            [1, never, "foo", number, "bar"],
+            "equals",
+            [never]
+        >;
 
         type cases = [
-            Expect<Test<StripNumbers, "equals",  [ "foo", "bar"]>>,
-            Expect<Test<StripStrings, "equals",  [ 1, false]>>,
-            Expect<Test<StripNever, "equals",  [1, "foo", number, "bar"]>>,
+            Expect<Test<StripNumbers, "equals", ["foo", "bar"]>>,
+            Expect<Test<StripStrings, "equals", [1, false]>>,
+            Expect<Test<StripNever, "equals", [1, "foo", number, "bar"]>>,
         ];
     });
 
     it("read-write Tuple, multiple extends filters (OR)", () => {
         type T1 = NotFilter<[1, 2, "foo", "bar"], "extends", ["bar", 1, 7]>;
         type T3 = NotFilter<[1, 2, "foo", "bar"], "extends", [1, "foo"]>;
-        type T4 = NotFilter<[1, 2, "foo", "bar", true], "extends", [string, boolean]>;
+        type T4 = NotFilter<
+            [1, 2, "foo", "bar", true],
+            "extends",
+            [string, boolean]
+        >;
 
         type cases = [
             Expect<Test<T1, "equals", [2, "foo"]>>,
@@ -66,14 +95,26 @@ describe("Filter using extends operation", () => {
     });
 
     it("readonly Tuple, Tuple Filter", () => {
-        type T1 = NotFilter<readonly [1, 2, "foo", "bar"], "extends", [number, boolean]>;
-        type T2 = NotFilter<readonly [1, 2, "foo", "bar"], "extends", [1, "foo"]>;
-        type T3 = NotFilter<readonly [1, 2, "foo", "bar", true], "extends", [string, boolean]>;
+        type T1 = NotFilter<
+            readonly [1, 2, "foo", "bar"],
+            "extends",
+            [number, boolean]
+        >;
+        type T2 = NotFilter<
+            readonly [1, 2, "foo", "bar"],
+            "extends",
+            [1, "foo"]
+        >;
+        type T3 = NotFilter<
+            readonly [1, 2, "foo", "bar", true],
+            "extends",
+            [string, boolean]
+        >;
 
         type cases = [
-            Expect<Test<T1, "equals",  ["foo", "bar"]>>,
-            Expect<Test<T2, "equals",  [2, "bar"]>>,
-            Expect<Test<T3, "equals",  [1, 2]>>,
+            Expect<Test<T1, "equals", ["foo", "bar"]>>,
+            Expect<Test<T2, "equals", [2, "bar"]>>,
+            Expect<Test<T3, "equals", [1, 2]>>,
         ];
     });
 
@@ -82,32 +123,20 @@ describe("Filter using extends operation", () => {
 
         type One = NotFilter<List, "equals", [1]>;
 
-        type cases = [
-            Expect<Test<One, "equals", [2, "foo", "bar"]>>,
-        ];
-
+        type cases = [Expect<Test<One, "equals", [2, "foo", "bar"]>>];
     });
 
     it("Filtering with readonly tuple and equals op", () => {
-        type List = readonly [1, 2, "foo", "bar",1];
+        type List = readonly [1, 2, "foo", "bar", 1];
 
         type One = NotFilter<List, "equals", [1]>;
 
-        type cases = [
-            Expect<Test<One, "equals", [2, "foo", "bar"]>>,
-        ];
+        type cases = [Expect<Test<One, "equals", [2, "foo", "bar"]>>];
     });
 
     it("Filter array with equals", () => {
-        type T1 = NotFilter<
-            [1, 2, "foo", "bar", "baz"],
-            "equals",
-            ["foo"]
-        >;
+        type T1 = NotFilter<[1, 2, "foo", "bar", "baz"], "equals", ["foo"]>;
 
-        type cases = [
-            Expect<Test<T1, "equals", [1, 2, "bar", "baz"]>>,
-        ];
+        type cases = [Expect<Test<T1, "equals", [1, 2, "bar", "baz"]>>];
     });
 });
-

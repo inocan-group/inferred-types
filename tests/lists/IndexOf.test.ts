@@ -5,7 +5,6 @@ import type { Expect, IndexOf, Test } from "inferred-types/types";
 import { Dictionary } from "inferred-types";
 
 describe("IndexOf<T>", () => {
-
     it("type tests", () => {
         type Arr = IndexOf<[1, 2, 3], 1>;
         type ArrBadIdx = IndexOf<[1, 2, 3], 8>;
@@ -15,7 +14,7 @@ describe("IndexOf<T>", () => {
 
         type Obj = IndexOf<{ foo: 1; bar: 2; baz: 3 }, "bar">;
 
-        type Identity = IndexOf<{foo:1, bar: 2}, null>;
+        type Identity = IndexOf<{ foo: 1; bar: 2 }, null>;
         // @ts-expect-error
         type Never = IndexOf<"foo", 1>;
 
@@ -27,10 +26,9 @@ describe("IndexOf<T>", () => {
             Expect<Test<Neg, "equals", 3>>,
 
             Expect<Test<ArrBadIdx, "isError", true>>,
-            Expect<Test<Identity, "equals", {foo:1,bar:2}>>,
+            Expect<Test<Identity, "equals", { foo: 1; bar: 2 }>>,
             Expect<Test<ArrBadIdx, "isError", "invalid-index">>,
         ];
-
     });
 
     it("wide arrays", () => {
@@ -39,7 +37,16 @@ describe("IndexOf<T>", () => {
         type Obj1 = IndexOf<Dictionary, "foo">;
 
         type cases = [
-            /** type tests */
+            Test<
+                Arr1,
+                "extends",
+                (string | ({ name: "InvalidIndex" } & Error))[]
+            >, //
+            Test<
+                Arr2,
+                "extends",
+                (number | ({ name: "InvalidIndex" } & Error))[]
+            >, //
         ];
     });
 
@@ -51,19 +58,12 @@ describe("IndexOf<T>", () => {
             Expect<Test<Arr, "equals", "oops">>,
             Expect<Test<Obj, "equals", "oops">>,
         ];
-        const cases: cases = [
-            true, true
-        ];
-
+        const cases: cases = [true, true];
     });
 
     it.todo("type tests for negative offsets", () => {
-
-        type cases = [
-            /** type tests */
-        ];
+        type cases = [/** type tests */];
         const cases: cases = [];
-
     });
 
     it("runtime", () => {
@@ -77,8 +77,7 @@ describe("IndexOf<T>", () => {
         expect(identity).toBe("foo");
         expect(
             invalidIndex instanceof Error,
-            `Use of an invalid index: ${JSON.stringify(invalidIndex)}`
+            `Use of an invalid index: ${JSON.stringify(invalidIndex)}`,
         ).toBe(true);
     });
-
 });
