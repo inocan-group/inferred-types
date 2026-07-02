@@ -55,7 +55,6 @@ failure:
 
 ## Skill Selection
 
-- use the '{{ctx.area}}' agent skill for package-area context
 - use the 'development' skill before implementing changes (quality standards, TODO prevention, completion criteria)
 - use the 'testing' skill **before writing or editing any test file** (runtime vs. type-test patterns) — this is mandatory
 - use the 'parsing' skill when the suggestion touches token / template-literal / `take` parsing utilities
