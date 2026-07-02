@@ -1,7 +1,5 @@
 import type { NonZeroNumericChar } from "types/string-literals";
 
-/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars  */
-
 /**
  * Boolean operator which tests whether `T` is a valid
  * ISO month representation.

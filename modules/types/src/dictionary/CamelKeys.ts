@@ -12,8 +12,6 @@ import type {
     OptionalKeysTuple,
 } from "inferred-types/types";
 
-/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
-
 type Convert<
     TObj extends Dictionary,
     TKeys extends readonly (ObjectKey & keyof TObj)[],

@@ -1,6 +1,5 @@
 import type { Err, FromInputToken__String, Join, NestedSplit, Trim } from "inferred-types/types";
 
-// eslint-disable-next-line unused-imports/no-unused-vars, ts/no-unused-vars
 export type IT_TakeSet<T extends string> = T extends `Set<${infer Rest}`
     ? NestedSplit<Rest, ">"> extends [
         infer Block extends string,

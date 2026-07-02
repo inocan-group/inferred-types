@@ -1,4 +1,3 @@
-/* eslint-disable style/indent */
 import type {
     AsArray,
     IsAny,

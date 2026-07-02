@@ -1,7 +1,5 @@
 import type { NumericChar } from "inferred-types/types";
 
-/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars  */
-
 /**
  * Boolean operator which validates that `T` is a
  * `FourDigitYear` found in ISO strings.

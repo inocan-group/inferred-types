@@ -89,7 +89,6 @@ type IT_TakeArray_Postfix_Grouped<T extends string>
 /**
  * matches on tokens like `Array<string|number>`, etc.
  */
-// eslint-disable-next-line unused-imports/no-unused-vars, ts/no-unused-vars
 type IT_TakeArray_Bracket<T extends string> = T extends `Array<${infer Rest extends string}`
     ? NestedSplit<Rest, ">", { "{": "}"; "[": "]"; "<": ">"; "(": ")"; "=": ">" }> extends [
         infer Block extends string,

@@ -10,8 +10,6 @@ import type {
     SnakeCase,
 } from "inferred-types/types";
 
-/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
-
 type Convert<
     T extends Dictionary,
     K extends readonly (ObjectKey & keyof T)[] = As<ObjectKeys<T>, readonly (ObjectKey & keyof T)[]>,

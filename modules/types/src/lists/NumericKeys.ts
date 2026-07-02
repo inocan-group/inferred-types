@@ -1,7 +1,5 @@
 import type { DropVariadicTail, HasVariadicTail } from "inferred-types/types";
 
-/* eslint-disable ts/no-unused-vars, unused-imports/no-unused-vars */
-
 type IndicesTuple<
     T extends readonly unknown[],
     Acc extends number[] = []
