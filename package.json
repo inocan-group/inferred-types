@@ -66,7 +66,7 @@
         "circular:summary": "pnpm -r --stream --color=always --workspace-concurrency=1 circular:summary || true",
         "test": "node scripts/test-with-args.mjs",
         "test:runtime": "vitest run",
-        "test:types": "node_modules/.bin/typed test",
+        "test:types": "node --max-old-space-size=8192 node_modules/.pnpm/typed-tester@*/node_modules/typed-tester/bin/typed.js test",
         "test:imports": "bun run scripts/invalid-imports.ts",
         "test:package": "bun run scripts/validate-package-json.ts",
         "test:bundle": "node scripts/test-bundle.mjs",
