@@ -214,6 +214,25 @@ type Assert<
 
                             : never;
 
+type TestResult<
+    TResult,
+    TTest,
+    TOp extends AssertionOp,
+    TExpected
+> = [IsAny<TResult>] extends [true]
+    ? AssertionError<
+        `invalid-test/any-type`,
+        `The test evaluated to ANY! This indicates a problem in the test assertion!`,
+        { test: TTest; expected: TExpected; assertion: TOp }
+    >
+    : [IsNever<TResult>] extends [true]
+        ? AssertionError<
+            `invalid-test/never-type`,
+            `The test evaluated to NEVER! This indicates a problem in the test assertion!`,
+            { test: TTest; expected: TExpected; assertion: TOp }
+        >
+        : TResult;
+
 /**
  * **Test**`<TTest, TOp, TExpected>`
  *
@@ -246,18 +265,4 @@ export type Test<
                     `A type test passed in "any" as the expected type! This is not allowed.`,
                     { test: TTest; expected: TExpected; assertion: TOp }
                 >
-                : Assert<TTest, TOp, TExpected> extends infer R
-                    ? [IsAny<R>] extends [true]
-                        ? AssertionError<
-                            `invalid-test/any-type`,
-                            `The test evaluated to ANY! This indicates a problem in the test assertion!`,
-                            { test: TTest; expected: TExpected; assertion: TOp }
-                        >
-                        : [IsNever<R>] extends [true]
-                            ? AssertionError<
-                                `invalid-test/never-type`,
-                                `The test evaluated to NEVER! This indicates a problem in the test assertion!`,
-                                { test: TTest; expected: TExpected; assertion: TOp }
-                            >
-                            : R
-                    : never;
+                : TestResult<Assert<TTest, TOp, TExpected>, TTest, TOp, TExpected>;
