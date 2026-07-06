@@ -4,8 +4,11 @@ timeout: 15m
 step_timeout: 12m
 show_system_prompt: false
 operation: commit
+quiet: true
 agent: opencode
 model: minimax/MiniMax-M3
+initialize:
+    stderr: "**Staged Files:**\n\n{{ctx.staged_files_list}}"
 success:
     message: "git commits in the **inferred-types** repo has completed"
     say: "git commits in the inferred-types repo have completed"
