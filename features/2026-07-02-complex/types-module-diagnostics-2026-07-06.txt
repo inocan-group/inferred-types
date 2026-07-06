@@ -1,0 +1,512 @@
+modules/types/src/api/api.ts(65,33): error TS2344: Type 'T["surface"]' does not satisfy the constraint 'Container'.
+  Type 'Dictionary | TypedFunction' is not assignable to type 'Container'.
+    Type 'TypedFunction' is not assignable to type 'Container'.
+      Type 'T["surface"]' is not assignable to type 'Set<any>'.
+        Type 'Dictionary | TypedFunction' is not assignable to type 'Set<any>'.
+          Type 'Dictionary' is missing the following properties from type 'Set<any>': add, clear, delete, forEach, and 7 more.
+modules/types/src/api/api.ts(66,33): error TS2344: Type 'T' does not satisfy the constraint 'Container'.
+  Type 'Dictionary | TypedFunction | Api<Dictionary | TypedFunction>' is not assignable to type 'Container'.
+    Type 'TypedFunction' is not assignable to type 'Container'.
+      Type 'T' is not assignable to type 'Set<any>'.
+        Type 'Dictionary | TypedFunction | Api<Dictionary | TypedFunction>' is not assignable to type 'Set<any>'.
+          Type 'Dictionary' is missing the following properties from type 'Set<any>': add, clear, delete, forEach, and 7 more.
+modules/types/src/api/api.ts(140,74): error TS2344: Type 'TSurface' does not satisfy the constraint 'Container'.
+  Type 'Dictionary | TypedFunction' is not assignable to type 'Container'.
+    Type 'TypedFunction' is not assignable to type 'Container'.
+      Type 'TSurface' is not assignable to type 'Set<any>'.
+        Type 'Dictionary | TypedFunction' is not assignable to type 'Set<any>'.
+          Type 'Dictionary' is missing the following properties from type 'Set<any>': add, clear, delete, forEach, and 7 more.
+modules/types/src/api/api.ts(167,36): error TS2344: Type 'AsApi<TSurface>' does not satisfy the constraint 'Container'.
+  Type '({ name: ""; message: string; type: "no-escape-function"; cause?: unknown; stack?: string | undefined; } & Error) | Api<TSurface>' is not assignable to type 'Container'.
+    Type '{ name: ""; message: string; type: "no-escape-function"; cause?: unknown; stack?: string | undefined; } & Error' is not assignable to type 'Container'.
+      Type '{ name: ""; message: string; type: "no-escape-function"; cause?: unknown; stack?: string | undefined; } & Error' is not assignable to type 'Dictionary'.
+        Index signature for type 'string' is missing in type '{ name: ""; message: string; type: "no-escape-function"; cause?: unknown; stack?: string | undefined; } & Error'.
+          Type 'AsApi<TSurface>' is not assignable to type 'Set<any>'.
+            Type '({ name: ""; message: string; type: "no-escape-function"; cause?: unknown; stack?: string | undefined; } & Error) | Api<TSurface>' is not assignable to type 'Set<any>'.
+              Type '{ name: ""; message: string; type: "no-escape-function"; cause?: unknown; stack?: string | undefined; } & Error' is missing the following properties from type 'Set<any>': add, clear, delete, forEach, and 7 more.
+modules/types/src/api/http.ts(1,33): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/assertions/Test.ts(37,43): error TS2536: Type '"type"' cannot be used to index type 'Err<TExpected>'.
+modules/types/src/assertions/Test.ts(38,46): error TS2536: Type '"subType"' cannot be used to index type 'Err<TExpected>'.
+modules/types/src/assertions/Test.ts(46,41): error TS2536: Type '"type"' cannot be used to index type 'Err<TExpected>'.
+modules/types/src/assertions/Test.ts(54,41): error TS2536: Type '"type"' cannot be used to index type 'Err<TExpected>'.
+modules/types/src/assertions/Test.ts(63,142): error TS2322: Type 'Err<TExpected>["type"]' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'unknown' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/assertions/Test.ts(63,142): error TS2536: Type '"type"' cannot be used to index type 'Err<TExpected>'.
+modules/types/src/assertions/Test.ts(68,37): error TS2536: Type '"type"' cannot be used to index type 'Err<TExpected>'.
+modules/types/src/assertions/Test.ts(72,86): error TS2322: Type 'Err<TExpected>["type"]' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'Err<TExpected>["type"]' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type 'unknown' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/assertions/Test.ts(72,86): error TS2536: Type '"type"' cannot be used to index type 'Err<TExpected>'.
+modules/types/src/assertions/Test.ts(77,141): error TS2322: Type 'Err<TExpected>["type"]' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'unknown' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/assertions/Test.ts(77,141): error TS2536: Type '"type"' cannot be used to index type 'Err<TExpected>'.
+modules/types/src/boolean-logic/branching/OnPass.ts(1,31): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/boolean-logic/combinators/comparison/ComparisonAccept.ts(18,30): error TS2536: Type 'TOp' cannot be used to index type 'ComparisonLookup'.
+modules/types/src/boolean-logic/combinators/comparison/ComparisonAccept.ts(19,11): error TS2536: Type 'TOp' cannot be used to index type 'ComparisonLookup'.
+modules/types/src/boolean-logic/combinators/comparison/ComparisonLookup.ts(1,44): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/boolean-logic/narrowing/AsIndexOf.ts(1,31): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/boolean-logic/narrowing/AsSomething.ts(1,31): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/boolean-logic/operators/containers/IsValidIndex.ts(32,19): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/datetime/IsLeapYear.ts(48,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/datetime/IsLeapYear.ts(48,18): error TS2344: Type 'AsFourDigitYear<T>' does not satisfy the constraint 'string'.
+  Type 'Error | ((`0${number}` | `1${any}${number}` | `2${any}${number}` | `3${number}` | `4${number}` | `5${number}` | `6${number}` | `7${number}` | `8${number}` | `9${number}`) & `${number}`) | As<Convert<T, false>, Error | ((`0${number}` | ... 8 more ... | `9${number}`) & `${number}`)>' is not assignable to type 'string'.
+    Type 'Error' is not assignable to type 'string'.
+modules/types/src/boolean-logic/operators/datetime/IsSameDay.ts(101,32): error TS2344: Type 'GetDatePart<A>' does not satisfy the constraint 'string'.
+  Type 'string | A' is not assignable to type 'string'.
+    Type 'A' is not assignable to type 'string'.
+modules/types/src/boolean-logic/operators/datetime/IsSameDay.ts(102,36): error TS2344: Type 'GetDatePart<B>' does not satisfy the constraint 'string'.
+  Type 'string | B' is not assignable to type 'string'.
+    Type 'B' is not assignable to type 'string'.
+modules/types/src/boolean-logic/operators/datetime/IsSameDay.ts(104,49): error TS2344: Type 'B' does not satisfy the constraint 'string'.
+modules/types/src/boolean-logic/operators/datetime/IsSameDay.ts(107,45): error TS2344: Type 'A' does not satisfy the constraint 'string'.
+modules/types/src/boolean-logic/operators/datetime/IsSameDay.ts(108,49): error TS2344: Type 'B' does not satisfy the constraint 'string'.
+modules/types/src/boolean-logic/operators/datetime/IsSameMonthYear.ts(93,27): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/datetime/IsSameMonthYear.ts(105,31): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/datetime/IsSameYear.ts(87,59): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/datetime/IsSameYear.ts(99,63): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/literal/IsLiteralObject.ts(56,117): error TS2344: Type 'object & T' does not satisfy the constraint 'Container'.
+  Type '{}' is missing the following properties from type 'Set<any>': add, clear, delete, forEach, and 7 more.
+modules/types/src/boolean-logic/operators/literal/IsWideContainer.ts(19,27): error TS2552: Cannot find name 'AnyFunction'. Did you mean 'Function'?
+modules/types/src/boolean-logic/operators/scalar/numeric/IsGreaterThan.ts(25,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/scalar/numeric/IsGreaterThan.ts(27,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/scalar/numeric/IsGreaterThan.ts(42,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/scalar/numeric/IsGreaterThan.ts(44,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/scalar/numeric/IsLessThan.ts(27,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/scalar/numeric/IsLessThan.ts(28,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/scalar/numeric/IsLessThan.ts(46,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/scalar/numeric/IsLessThan.ts(48,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/scalar/string/EndsWith.ts(29,39): error TS2322: Type 'TComparator' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'string | number | readonly (string | number)[]' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type 'readonly (string | number)[]' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/boolean-logic/operators/scalar/string/Network-operators.ts(173,19): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/boolean-logic/operators/scalar/string/Network-operators.ts(173,30): error TS2344: Type 'BeforeLast<Split<T, ".">>' does not satisfy the constraint 'readonly string[]'.
+  Type '(string extends string & Split<T, "."> ? string & Split<T, "."> : As<[IsAny<string & Split<T, ".">>] extends [true] ? false : [...] extends [...] ? [...] extends [...] ? [...] extends [...] ? [...] extends [...] ? [...] extends [...] ? true : false : false : true : false : false, boolean> extends true ? "" : Pop<......' is not assignable to type 'readonly string[]'.
+    Type 'string extends string & Split<T, "."> ? string & Split<T, "."> : As<[IsAny<string & Split<T, ".">>] extends [true] ? false : [...] extends [...] ? [...] extends [...] ? [...] extends [...] ? [...] extends [...] ? [...] extends [...] ? true : false : false : true : false : false, boolean> extends true ? "" : Pop<...>...' is not assignable to type 'readonly string[]'.
+      Type '(string & Split<T, ".">) | (As<[IsAny<string & Split<T, ".">>] extends [true] ? false : [string & Split<T, ".">] extends [...] ? [...] extends [...] ? [...] extends [...] ? [...] extends [...] ? [...] extends [...] ? true : false : false : true : false : false, boolean> extends true ? "" : Pop<...> extends readonly ...' is not assignable to type 'readonly string[]'.
+        Type 'As<[IsAny<string & Split<T, ".">>] extends [true] ? false : [string & Split<T, ".">] extends [""] ? [""] extends ["" & Split<T, ".">] ? [...] extends [...] ? [...] extends [...] ? [...] extends [...] ? true : false : false : true : false : false, boolean> extends true ? "" : Pop<...> extends readonly string[] ? Conc...' is not assignable to type 'readonly string[]'.
+          Type '"" | (Pop<Chars<string & Split<T, ".">>> extends readonly string[] ? Concat<readonly string[] & Pop<Chars<string & Split<T, ".">>>> : never)' is not assignable to type 'readonly string[]'.
+            Type 'string' is not assignable to type 'readonly string[]'.
+modules/types/src/containers/OnlyRequired.ts(24,27): error TS2304: Cannot find name 'GetOptionalElementCount'.
+modules/types/src/containers/OnlyRequired.ts(25,31): error TS2304: Cannot find name 'SliceArray'.
+modules/types/src/containers/OnlyRequired.ts(25,45): error TS2304: Cannot find name 'Negative'.
+modules/types/src/containers/OnlyRequired.ts(25,54): error TS2304: Cannot find name 'GetOptionalElementCount'.
+modules/types/src/containers/OnlyRequired.ts(27,27): error TS2304: Cannot find name 'GetOptionalElementCount'.
+modules/types/src/containers/OnlyRequired.ts(28,31): error TS2304: Cannot find name 'SliceArray'.
+modules/types/src/containers/OnlyRequired.ts(28,45): error TS2304: Cannot find name 'Negative'.
+modules/types/src/containers/OnlyRequired.ts(30,25): error TS2304: Cannot find name 'Dictionary'.
+modules/types/src/containers/OnlyRequired.ts(32,23): error TS2304: Cannot find name 'EmptyObject'.
+modules/types/src/containers/OnlyRequired.ts(33,23): error TS2304: Cannot find name 'WithKeys'.
+modules/types/src/containers/OnlyRequired.ts(33,35): error TS2304: Cannot find name 'OptionalKeys'.
+modules/types/src/containers/RemoveEmpty.ts(1,29): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/containers/RemoveMarked.ts(1,29): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/datetime/AsFourDigitYear.ts(29,27): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/datetime/AsRelativeDate.ts(87,13): error TS2859: Excessive complexity comparing types 'Unbrand<T> & `${number}`' and '"0000" | "0001" | "0002" | "0003" | "0004" | "0005" | "0006" | "0007" | "0008" | "0009" | "0010" | "0011" | "0012" | "0013" | "0014" | "0015" | "0016" | "0017" | "0018" | "0019" | "0020" | ... 9978 more ... | "9999"'.
+modules/types/src/datetime/AsTwoDigitMonth.ts(32,19): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/datetime/DateMeta.ts(1,32): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/datetime/DaysInMonth.ts(139,35): error TS2859: Excessive complexity comparing types 'Unbrand<T> & `${number}`' and '"0000" | "0001" | "0002" | "0003" | "0004" | "0005" | "0006" | "0007" | "0008" | "0009" | "0010" | "0011" | "0012" | "0013" | "0014" | "0015" | "0016" | "0017" | "0018" | "0019" | "0020" | ... 9978 more ... | "9999"'.
+modules/types/src/datetime/DaysOfWeek.ts(6,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/datetime/DoubleLeap.ts(1,41): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/datetime/GetMonth.ts(6,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/datetime/GetSeason.ts(1,45): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/datetime/Month.ts(1,45): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/datetime/RenderTime.ts(26,54): error TS2344: Type '"00"' does not satisfy the constraint 'TwoDigitHour<TComplexity>'.
+modules/types/src/datetime/RenderTime.ts(27,55): error TS2344: Type '"00"' does not satisfy the constraint 'TwoDigitMinute<TComplexity>'.
+modules/types/src/datetime/RenderTime.ts(28,33): error TS2344: Type 'TComplexity' does not satisfy the constraint '`${number}` | "normal" | "branded" | "strong"'.
+  Type '"normal" | "weak" | "strong"' is not assignable to type '`${number}` | "normal" | "branded" | "strong"'.
+    Type '"weak"' is not assignable to type '`${number}` | "normal" | "branded" | "strong"'.
+modules/types/src/datetime/RenderTime.ts(30,93): error TS2344: Type '"Z"' does not satisfy the constraint 'TimezoneOffset<TComplexity extends "strong" ? "strong" : "normal">'.
+modules/types/src/datetime/general.ts(4,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/datetime/iana.ts(9,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/datetime/object-types/moment.ts(5,5): error TS2300: Duplicate identifier 'isValid'.
+modules/types/src/datetime/object-types/moment.ts(6,5): error TS2300: Duplicate identifier 'toDate'.
+modules/types/src/datetime/object-types/moment.ts(7,5): error TS2300: Duplicate identifier 'format'.
+modules/types/src/datetime/object-types/moment.ts(68,5): error TS2300: Duplicate identifier 'toDate'.
+modules/types/src/datetime/object-types/moment.ts(84,5): error TS2300: Duplicate identifier 'format'.
+modules/types/src/datetime/object-types/moment.ts(117,5): error TS2300: Duplicate identifier 'isValid'.
+modules/types/src/datetime/seasonality.ts(1,54): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/dictionary/KeysWithError.ts(11,38): error TS2344: Type 'ObjectKeys<T>' does not satisfy the constraint 'readonly ObjectKey[]'.
+  Type '({ name: ""; type: ""; subType: ""; message: "Call to ObjectKeys<T> where T was 'any'!"; cause?: unknown; stack?: string | undefined; } & Error) | (IsNever<T> extends true ? { ...; } & Error : T extends object ? T extends Map<...> ? IsUnionImpl<...> extends true ? As<...> extends true ? Required<...> : IsWideUnion<....' is not assignable to type 'readonly ObjectKey[]'.
+    Type '{ name: ""; type: ""; subType: ""; message: "Call to ObjectKeys<T> where T was 'any'!"; cause?: unknown; stack?: string | undefined; } & Error' is missing the following properties from type 'readonly ObjectKey[]': length, concat, join, slice, and 20 more.
+modules/types/src/dictionary/SharedKeys.ts(20,22): error TS2344: Type 'A' does not satisfy the constraint 'Container'.
+  Type 'object | Record<ObjectKey, unknown>' is not assignable to type 'Container'.
+    Type 'object' is not assignable to type 'Container'.
+      Type 'A' is not assignable to type 'Set<any>'.
+        Type 'object | Record<ObjectKey, unknown>' is not assignable to type 'Set<any>'.
+          Type '{}' is missing the following properties from type 'Set<any>': add, clear, delete, forEach, and 7 more.
+modules/types/src/dictionary/WithValue.ts(1,29): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/domains/color/AsRgbObject.ts(1,39): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/domains/color/AsRgbaObject.ts(1,39): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/domains/nesting/helpers/IsEntryToken.ts(18,48): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/domains/nesting/helpers/isNamedNestingConfig.ts(2,46): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/domains/nesting/named/mapping.ts(1,51): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/domains/nesting/named/recursive.ts(5,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/domains/nesting/named/shallow.ts(5,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/functions/AsFnMeta.ts(20,15): error TS2314: Generic type 'FnMeta<TFn>' requires 1 type argument(s).
+modules/types/src/functions/AsFnMeta.ts(26,15): error TS2314: Generic type 'FnMeta<TFn>' requires 1 type argument(s).
+modules/types/src/functions/AsFnMeta.ts(28,7): error TS2314: Generic type 'FnMeta<TFn>' requires 1 type argument(s).
+modules/types/src/functions/FnWithProps.ts(38,38): error TS2344: Type 'keyof TProps' does not satisfy the constraint 'ObjectKey | readonly ObjectKey[]'.
+  Type 'string | number | symbol' is not assignable to type 'ObjectKey | readonly ObjectKey[]'.
+    Type 'number' is not assignable to type 'ObjectKey | readonly ObjectKey[]'.
+modules/types/src/globals/Object.ts(9,9): error TS2717: Subsequent property declarations must have the same type.  Property 'freeze' must be of type '{ <T extends Function>(f: T): T; <T extends { [idx: string]: U | null | undefined | object; }, U extends string | bigint | number | boolean | symbol>(o: T): Readonly<T>; <T>(o: T): Readonly<...>; }', but here has type '<T extends NarrowObject<N> | readonly N[], N extends Narrowable>(obj: T) => Immutable<T, false>'.
+modules/types/src/interpolation/ApplyTemplate.ts(21,7): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/interpolation/ApplyTemplate.ts(88,36): error TS2344: Type 'FromLiteralTemplate<TTemplate>' does not satisfy the constraint 'string'.
+  Type 'Error | TTemplate | (IsUnionImpl<TTemplate, TTemplate> extends true ? { name: ""; type: ""; subType: ""; message: "An attempt was made to convert a string from a \"literal template\" to a \"static template\" but the use of false converts to a union type and quickly becomes unmanageable. Use the static {{boolean}} fo...' is not assignable to type 'string'.
+    Type 'Error' is not assignable to type 'string'.
+modules/types/src/interpolation/AsLiteralTemplate.ts(37,63): error TS2344: Type 'TemplateMap__Basic' does not satisfy the constraint 'Record<string, InputTokenSuggestions>'.
+  Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/interpolation/IsStaticTemplate.ts(21,38): error TS2344: Type 'TemplateMap__Basic' does not satisfy the constraint 'DefineObject'.
+  Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/interpolation/StaticTemplateSections.ts(31,5): error TS2590: Expression produces a union type that is too complex to represent.
+modules/types/src/interpolation/StaticTemplateSections.ts(33,9): error TS2344: Type 'FromLiteralTemplate<TTemplate>' does not satisfy the constraint 'string'.
+  Type 'Error | TTemplate | (IsUnionImpl<TTemplate, TTemplate> extends true ? { name: ""; type: ""; subType: ""; message: "An attempt was made to convert a string from a \"literal template\" to a \"static template\" but the use of false converts to a union type and quickly becomes unmanageable. Use the static {{boolean}} fo...' is not assignable to type 'string'.
+    Type 'Error' is not assignable to type 'string'.
+modules/types/src/interpolation/TemplateBlock.ts(3,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/interpolation/template-maps.ts(28,55): error TS2344: Type 'TemplateMap__Basic' does not satisfy the constraint 'Record<string, InputTokenSuggestions>'.
+  Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/interpolation/template-maps.ts(40,103): error TS2344: Type 'TemplateMap__Basic' does not satisfy the constraint 'Dictionary'.
+  Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/kv/ToKv.ts(18,5): error TS2344: Type 'SortOptions' does not satisfy the constraint 'Dictionary'.
+  Index signature for type 'string' is missing in type 'SortOptions'.
+modules/types/src/kv/ToKv.ts(127,9): error TS2344: Type 'Options<TOpt>' does not satisfy the constraint '{ order?: SortOrder | undefined; offset?: string | undefined; start?: unknown; end?: unknown; recurse?: number | boolean | undefined; }'.
+  Types of property 'order' are incompatible.
+    Type 'TOpt["order"] extends SortOrder ? TOpt["order"] : "natural"' is not assignable to type 'SortOrder | undefined'.
+      Type '"natural" | TOpt["order"]' is not assignable to type 'SortOrder | undefined'.
+        Type '"natural"' is not assignable to type 'SortOrder | undefined'. Did you mean '"Natural"'?
+modules/types/src/lists/AsNumericArray.ts(9,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/BeforeLast.ts(31,18): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/Filter.ts(1,29): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/lists/Filter.ts(13,18): error TS2344: Type '{ [K in keyof TList]: any; }' does not satisfy the constraint 'Container'.
+  Type '{ [K in keyof TList]: any; }' is not assignable to type 'Set<any>'.
+modules/types/src/lists/IndexOf.ts(1,31): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/lists/IndexOf.ts(33,5): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/IndexOf.ts(35,9): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/Longest.ts(14,7): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/NotFilter.ts(1,29): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/lists/NotFilter.ts(13,18): error TS2344: Type '{ [K in keyof TList]: TList[K]; }' does not satisfy the constraint 'Container'.
+  Type '{ [K in keyof TList]: TList[K]; }' is not assignable to type 'Set<any>'.
+modules/types/src/lists/RetainLiterals.ts(1,31): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/lists/RetainWideTypes.ts(1,31): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/lists/RetainWideTypes.ts(6,18): error TS2344: Type '{ [K in keyof T]: If<IsWideType<T[K]>, T[K], Constant<"Marked">>; }' does not satisfy the constraint 'Container'.
+  Type '{ [K in keyof T]: If<IsWideType<T[K]>, T[K], Constant<"Marked">>; }' is not assignable to type 'Set<any>'.
+modules/types/src/lists/Slice.ts(37,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/Slice.ts(47,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/TakeFirst.ts(25,19): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/TakeFirst.ts(31,6): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/TakeFirst.ts(57,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/TakeFirst.ts(59,13): error TS2344: Type 'CountOptionalInFirstN<TContent, TLen, [] extends TContent ? 0 : Mutable<TContent> extends [infer Explicit, ...infer REST] ? [] extends REST ? 1 : Mutable<...> extends [...] ? [] extends REST ? 2 : Mutable<...> extends [...] ? [] extends REST ? 3 : Mutable<...> extends [...] ? [] extends REST ? 4 : Mutable<...> exten...' does not satisfy the constraint 'number'.
+  Type '0 | ([GetOptionalElementCount<TContent>, Subtract<TLen, [] extends TContent ? 0 : Mutable<TContent> extends [...] ? [] extends REST ? 1 : Mutable<...> extends [...] ? [] extends REST ? 2 : Mutable<...> extends [...] ? [] extends REST ? 3 : Mutable<...> extends [...] ? [] extends REST ? 4 : Mutable<...> extends [...]...' is not assignable to type 'number'.
+    Type '[GetOptionalElementCount<TContent>, Subtract<TLen, [] extends TContent ? 0 : Mutable<TContent> extends [...] ? [] extends REST ? 1 : Mutable<...> extends [...] ? [] extends REST ? 2 : Mutable<...> extends [...] ? [] extends REST ? 3 : Mutable<...> extends [...] ? [] extends REST ? 4 : Mutable<...> extends [...] ? []...' is not assignable to type 'number'.
+      Type 'Process<readonly number[] & [GetOptionalElementCount<TContent>, Subtract<TLen, [] extends TContent ? 0 : Mutable<TContent> extends [...] ? [] extends REST ? 1 : Mutable<...> extends [...] ? [] extends REST ? 2 : Mutable<...> extends [...] ? [] extends REST ? 3 : Mutable<...> extends [...] ? [] extends REST ? 4 : Mut...' is not assignable to type 'number'.
+        Type '(GetOptionalElementCount<TContent> extends number ? GetOptionalElementCount<TContent> : undefined) | (Subtract<...> extends number ? number & Subtract<...> : undefined) | undefined' is not assignable to type 'number'.
+          Type 'undefined' is not assignable to type 'number'.
+modules/types/src/lists/TakeFirst.ts(59,13): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/lists/TakeLast.ts(34,9): error TS2344: Type '[GetOptionalElementCount<TContent>, TLen] extends readonly number[] ? Process<readonly number[] & [GetOptionalElementCount<TContent>, TLen], Unset> : never' does not satisfy the constraint 'number'.
+  Type 'Process<readonly number[] & [GetOptionalElementCount<TContent>, TLen], Unset>' is not assignable to type 'number'.
+    Type '(TLen extends number ? TLen : undefined) | (GetOptionalElementCount<TContent> extends number ? GetOptionalElementCount<TContent> : undefined) | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+modules/types/src/lists/sort/StringSort.ts(349,52): error TS2344: Type 'RemoveFirst<T, TEnd, []>' does not satisfy the constraint 'readonly string[]'.
+  Type '(T extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? RemoveFirst<Tail, TEnd, []> : RemoveFirst<Tail, TEnd, [...]> : []) | (T extends readonly [...] ? Head extends TEnd ? RemoveFirst<...> : RemoveFirst<...> : [])' is not assignable to type 'readonly string[]'.
+    Type 'T extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? RemoveFirst<Tail, TEnd, []> : RemoveFirst<Tail, TEnd, [...]> : []' is not assignable to type 'readonly string[]'.
+      Type '[] | (unknown extends TEnd[number] ? RemoveFirst<unknown[], TEnd, []> : RemoveFirst<unknown[], TEnd, [unknown]>)' is not assignable to type 'readonly string[]'.
+        Type 'unknown extends TEnd[number] ? RemoveFirst<unknown[], TEnd, []> : RemoveFirst<unknown[], TEnd, [unknown]>' is not assignable to type 'readonly string[]'.
+          Type 'RemoveFirst<unknown[], TEnd, []> | RemoveFirst<unknown[], TEnd, [unknown]>' is not assignable to type 'readonly string[]'.
+            Type 'RemoveFirst<unknown[], TEnd, [unknown]>' is not assignable to type 'readonly string[]'.
+              Type '[unknown]' is not assignable to type 'readonly string[]'.
+                Type 'unknown' is not assignable to type 'string'.
+modules/types/src/lists/sort/StringSort.ts(375,48): error TS2344: Type 'ExtractFirst<T, TStart, []>' does not satisfy the constraint 'readonly string[]'.
+  Type '(T extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TStart[number] ? ExtractFirst<Tail, TStart, [Head]> : ExtractFirst<...> : []) | (T extends readonly [...] ? Head extends TStart ? ExtractFirst<...> : ExtractFirst<...> : [])' is not assignable to type 'readonly string[]'.
+    Type 'T extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TStart[number] ? ExtractFirst<Tail, TStart, [Head]> : ExtractFirst<...> : []' is not assignable to type 'readonly string[]'.
+      Type '[] | (unknown extends TStart[number] ? ExtractFirst<unknown[], TStart, [unknown]> : ExtractFirst<unknown[], TStart, []>)' is not assignable to type 'readonly string[]'.
+        Type 'unknown extends TStart[number] ? ExtractFirst<unknown[], TStart, [unknown]> : ExtractFirst<unknown[], TStart, []>' is not assignable to type 'readonly string[]'.
+          Type 'ExtractFirst<unknown[], TStart, [unknown]> | ExtractFirst<unknown[], TStart, []>' is not assignable to type 'readonly string[]'.
+            Type 'ExtractFirst<unknown[], TStart, [unknown]>' is not assignable to type 'readonly string[]'.
+              Type '[unknown]' is not assignable to type 'readonly string[]'.
+                Type 'unknown' is not assignable to type 'string'.
+modules/types/src/lists/sort/StringSort.ts(376,46): error TS2344: Type 'ExtractFirst<RemoveFirst<T, TStart, []>, TEnd, []>' does not satisfy the constraint 'readonly string[]'.
+  Type '(RemoveFirst<T, TStart, []> extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? ExtractFirst<Tail, TEnd, [...]> : ExtractFirst<...> : []) | (RemoveFirst<...> extends readonly [...] ? Head extends TEnd ? ExtractFirst<...> : ExtractFirst<...> : [])' is not assignable to type 'readonly string[]'.
+    Type 'RemoveFirst<T, TStart, []> extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? ExtractFirst<Tail, TEnd, [...]> : ExtractFirst<...> : []' is not assignable to type 'readonly string[]'.
+      Type '((T extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TStart[number] ? RemoveFirst<Tail, TStart, []> : RemoveFirst<Tail, TStart, [...]> : []) extends readonly [...] ? Head extends TEnd[number] ? ExtractFirst<...> : ExtractFirst<...> : []) | ((T extends readonly [...] ? Head exten...' is not assignable to type 'readonly string[]'.
+        Type '(T extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TStart[number] ? RemoveFirst<Tail, TStart, []> : RemoveFirst<Tail, TStart, [...]> : []) extends readonly [...] ? Head extends TEnd[number] ? ExtractFirst<...> : ExtractFirst<...> : []' is not assignable to type 'readonly string[]'.
+          Type '[] | ((unknown extends TStart[number] ? RemoveFirst<unknown[], TStart, []> : RemoveFirst<unknown[], TStart, [unknown]>) extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? ExtractFirst<...> : ExtractFirst<...> : [])' is not assignable to type 'readonly string[]'.
+            Type '(unknown extends TStart[number] ? RemoveFirst<unknown[], TStart, []> : RemoveFirst<unknown[], TStart, [unknown]>) extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? ExtractFirst<...> : ExtractFirst<...> : []' is not assignable to type 'readonly string[]'.
+              Type '(RemoveFirst<unknown[], TStart, []> extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? ExtractFirst<Tail, TEnd, [...]> : ExtractFirst<...> : []) | (RemoveFirst<...> extends readonly [...] ? Head extends TEnd[number] ? ExtractFirst<...> : ExtractFirst<...> : [])' is not assignable to type 'readonly string[]'.
+                Type 'RemoveFirst<unknown[], TStart, [unknown]> extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? ExtractFirst<Tail, TEnd, [...]> : ExtractFirst<...> : []' is not assignable to type 'readonly string[]'.
+                  Type 'unknown extends TEnd[number] ? ExtractFirst<[], TEnd, [unknown]> : ExtractFirst<[], TEnd, []>' is not assignable to type 'readonly string[]'.
+                    Type 'ExtractFirst<[], TEnd, [unknown]> | ExtractFirst<[], TEnd, []>' is not assignable to type 'readonly string[]'.
+                      Type 'ExtractFirst<[], TEnd, [unknown]>' is not assignable to type 'readonly string[]'.
+                        Type '[unknown]' is not assignable to type 'readonly string[]'.
+                          Type 'unknown' is not assignable to type 'string'.
+modules/types/src/lists/sort/StringSort.ts(377,52): error TS2344: Type 'RemoveFirst<RemoveFirst<T, TStart, []>, TEnd, []>' does not satisfy the constraint 'readonly string[]'.
+  Type '(RemoveFirst<T, TStart, []> extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? RemoveFirst<Tail, TEnd, []> : RemoveFirst<...> : []) | (RemoveFirst<...> extends readonly [...] ? Head extends TEnd ? RemoveFirst<...> : RemoveFirst<...> : [])' is not assignable to type 'readonly string[]'.
+    Type 'RemoveFirst<T, TStart, []> extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? RemoveFirst<Tail, TEnd, []> : RemoveFirst<...> : []' is not assignable to type 'readonly string[]'.
+      Type '((T extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TStart[number] ? RemoveFirst<Tail, TStart, []> : RemoveFirst<Tail, TStart, [...]> : []) extends readonly [...] ? Head extends TEnd[number] ? RemoveFirst<...> : RemoveFirst<...> : []) | ((T extends readonly [...] ? Head extends...' is not assignable to type 'readonly string[]'.
+        Type '(T extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TStart[number] ? RemoveFirst<Tail, TStart, []> : RemoveFirst<Tail, TStart, [...]> : []) extends readonly [...] ? Head extends TEnd[number] ? RemoveFirst<...> : RemoveFirst<...> : []' is not assignable to type 'readonly string[]'.
+          Type '[] | ((unknown extends TStart[number] ? RemoveFirst<unknown[], TStart, []> : RemoveFirst<unknown[], TStart, [unknown]>) extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? RemoveFirst<...> : RemoveFirst<...> : [])' is not assignable to type 'readonly string[]'.
+            Type '(unknown extends TStart[number] ? RemoveFirst<unknown[], TStart, []> : RemoveFirst<unknown[], TStart, [unknown]>) extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? RemoveFirst<...> : RemoveFirst<...> : []' is not assignable to type 'readonly string[]'.
+              Type '(RemoveFirst<unknown[], TStart, []> extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? RemoveFirst<Tail, TEnd, []> : RemoveFirst<...> : []) | (RemoveFirst<...> extends readonly [...] ? Head extends TEnd[number] ? RemoveFirst<...> : RemoveFirst<...> : [])' is not assignable to type 'readonly string[]'.
+                Type 'RemoveFirst<unknown[], TStart, [unknown]> extends readonly [infer Head, ...infer Tail extends readonly unknown[]] ? Head extends TEnd[number] ? RemoveFirst<Tail, TEnd, []> : RemoveFirst<...> : []' is not assignable to type 'readonly string[]'.
+                  Type 'unknown extends TEnd[number] ? RemoveFirst<[], TEnd, []> : RemoveFirst<[], TEnd, [unknown]>' is not assignable to type 'readonly string[]'.
+                    Type 'RemoveFirst<[], TEnd, []> | RemoveFirst<[], TEnd, [unknown]>' is not assignable to type 'readonly string[]'.
+                      Type 'RemoveFirst<[], TEnd, [unknown]>' is not assignable to type 'readonly string[]'.
+                        Type '[unknown]' is not assignable to type 'readonly string[]'.
+                          Type 'unknown' is not assignable to type 'string'.
+modules/types/src/literals/Choices.ts(99,25): error TS2344: Type 'TOptions' does not satisfy the constraint 'Dictionary'.
+  Type 'ChoiceApiOptions' is not assignable to type 'Dictionary'.
+    Index signature for type 'string' is missing in type 'ChoiceApiOptions'.
+modules/types/src/literals/Choices.ts(106,25): error TS2344: Type 'TOptions' does not satisfy the constraint 'Dictionary'.
+  Type 'ChoiceApiOptions' is not assignable to type 'Dictionary'.
+    Index signature for type 'string' is missing in type 'ChoiceApiOptions'.
+modules/types/src/literals/Choices.ts(110,25): error TS2344: Type 'TOptions' does not satisfy the constraint 'Dictionary'.
+  Type 'ChoiceApiOptions' is not assignable to type 'Dictionary'.
+    Index signature for type 'string' is missing in type 'ChoiceApiOptions'.
+modules/types/src/literals/Choices.ts(117,25): error TS2344: Type 'TOptions' does not satisfy the constraint 'Dictionary'.
+  Type 'ChoiceApiOptions' is not assignable to type 'Dictionary'.
+    Index signature for type 'string' is missing in type 'ChoiceApiOptions'.
+modules/types/src/numeric-literals/Add.ts(113,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Add.ts(113,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/CSV.ts(87,7): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/CompareNumbers.ts(42,7): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/CompareNumbers.ts(44,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Delta.ts(24,9): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Digit.ts(1,36): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/numeric-literals/Divide.ts(64,23): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Divide.ts(65,25): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Divide.ts(66,25): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Increment.ts(25,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Increment.ts(25,20): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Mod.ts(50,7): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Mod.ts(52,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Mod.ts(67,27): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Mod.ts(68,29): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Mod.ts(69,29): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Multiply.ts(9,13): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Multiply.ts(13,36): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Multiply.ts(14,36): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/ShiftDecimalPlace.ts(108,35): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/ShiftDecimalPlace.ts(108,44): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Subtract.ts(263,11): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/numeric-literals/Sum.ts(22,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/runtime-types/SimpleToken.ts(9,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/runtime-types/SimpleType.ts(6,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/runtime-types/Type.ts(9,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/runtime-types/Type.ts(140,81): error TS2344: Type '{ kind: never; required: TypeIsRequired; underlying: readonly unknown[] | "none"; }' does not satisfy the constraint 'readonly unknown[]'.
+  Type '{ kind: never; required: TypeIsRequired; underlying: readonly unknown[] | "none"; }' is missing the following properties from type 'readonly unknown[]': length, concat, join, slice, and 20 more.
+modules/types/src/runtime-types/Type.ts(152,85): error TS2344: Type '{ kind: never; required: TypeIsRequired; underlying: readonly unknown[] | "none"; }' does not satisfy the constraint 'readonly unknown[]'.
+  Type '{ kind: never; required: TypeIsRequired; underlying: readonly unknown[] | "none"; }' is missing the following properties from type 'readonly unknown[]': length, concat, join, slice, and 20 more.
+modules/types/src/runtime-types/TypeOf.ts(1,30): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/runtime-types/TypeToken-variants.ts(7,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/runtime-types/TypeToken.ts(11,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/runtime-types/tokens/OutputToken.ts(48,24): error TS2344: Type 'DefineObject & T' does not satisfy the constraint 'Dictionary'.
+modules/types/src/runtime-types/type-defn/input-tokens/FromInputToken.ts(140,13): error TS2344: Type 'Result' does not satisfy the constraint 'readonly unknown[] | Dictionary'.
+  Type 'Result' is not assignable to type 'Dictionary'.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeFunction.ts(49,60): error TS2344: Type 'TemplateMap__Generics<TGenerics>' does not satisfy the constraint 'DefineObject'.
+  Type 'TemplateMap__Basic | AddGeneric<TemplateMap__Basic, GenericParam>' is not assignable to type 'DefineObject'.
+    Type 'TemplateMap__Basic' is not assignable to type 'DefineObject'.
+      Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeFunction.ts(52,17): error TS2344: Type 'TemplateMap__Generics<TGenerics>' does not satisfy the constraint 'Record<string, InputTokenSuggestions>'.
+  Type 'TemplateMap__Basic | AddGeneric<TemplateMap__Basic, GenericParam>' is not assignable to type 'Record<string, InputTokenSuggestions>'.
+    Type 'TemplateMap__Basic' is not assignable to type 'Record<string, InputTokenSuggestions>'.
+      Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeFunction.ts(57,21): error TS2344: Type 'TemplateMap__Generics<TGenerics>' does not satisfy the constraint 'Record<string, InputTokenSuggestions>'.
+  Type 'TemplateMap__Basic | AddGeneric<TemplateMap__Basic, GenericParam>' is not assignable to type 'Record<string, InputTokenSuggestions>'.
+    Type 'TemplateMap__Basic' is not assignable to type 'Record<string, InputTokenSuggestions>'.
+      Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeGenerator.ts(39,56): error TS2344: Type 'TemplateMap__Generics<TGenerics>' does not satisfy the constraint 'DefineObject'.
+  Type 'TemplateMap__Basic | AddGeneric<TemplateMap__Basic, GenericParam>' is not assignable to type 'DefineObject'.
+    Type 'TemplateMap__Basic' is not assignable to type 'DefineObject'.
+      Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeGenerator.ts(42,13): error TS2344: Type 'TemplateMap__Generics<TGenerics>' does not satisfy the constraint 'Record<string, InputTokenSuggestions>'.
+  Type 'TemplateMap__Basic | AddGeneric<TemplateMap__Basic, GenericParam>' is not assignable to type 'Record<string, InputTokenSuggestions>'.
+    Type 'TemplateMap__Basic' is not assignable to type 'Record<string, InputTokenSuggestions>'.
+      Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeGenerator.ts(47,17): error TS2344: Type 'TemplateMap__Generics<TGenerics>' does not satisfy the constraint 'Record<string, InputTokenSuggestions>'.
+  Type 'TemplateMap__Basic | AddGeneric<TemplateMap__Basic, GenericParam>' is not assignable to type 'Record<string, InputTokenSuggestions>'.
+    Type 'TemplateMap__Basic' is not assignable to type 'Record<string, InputTokenSuggestions>'.
+      Index signature for type 'string' is missing in type 'TemplateMap__Basic'.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeParameters.ts(160,71): error TS2344: Type 'KInfo["type"]' does not satisfy the constraint 'object'.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeParameters.ts(196,74): error TS2344: Type 'KInfo["type"]' does not satisfy the constraint 'string | number | symbol'.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeUnion.ts(62,44): error TS2344: Type 'ValidateStructure<RestParts>' does not satisfy the constraint 'readonly string[]'.
+  Type '({ name: ""; type: ""; subType: ""; message: "The union operator '|' was found at the end of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!"; cause?: unknown; stack?: string | undefined; parseString: RestParts; } & Error) | (HasEmptyString<....' is not assignable to type 'readonly string[]'.
+    Type '{ name: ""; type: ""; subType: ""; message: "The union operator '|' was found at the end of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!"; cause?: unknown; stack?: string | undefined; parseString: RestParts; } & Error' is missing the following properties from type 'readonly string[]': length, concat, join, slice, and 20 more.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeUnion.ts(79,57): error TS2574: A rest element type must be an array type.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeUnion.ts(79,82): error TS2344: Type 'ValidateStructure<RestParts>' does not satisfy the constraint 'readonly InputToken[]'.
+  Type '({ name: ""; type: ""; subType: ""; message: "The union operator '|' was found at the end of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!"; cause?: unknown; stack?: string | undefined; parseString: RestParts; } & Error) | (HasEmptyString<....' is not assignable to type 'readonly InputToken[]'.
+    Type '{ name: ""; type: ""; subType: ""; message: "The union operator '|' was found at the end of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!"; cause?: unknown; stack?: string | undefined; parseString: RestParts; } & Error' is missing the following properties from type 'readonly InputToken[]': length, concat, join, slice, and 20 more.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeUnion.ts(84,57): error TS2574: A rest element type must be an array type.
+modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeUnion.ts(84,82): error TS2344: Type 'ValidateStructure<RestParts>' does not satisfy the constraint 'readonly InputToken[]'.
+  Type '({ name: ""; type: ""; subType: ""; message: "The union operator '|' was found at the end of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!"; cause?: unknown; stack?: string | undefined; parseString: RestParts; } & Error) | (HasEmptyString<....' is not assignable to type 'readonly InputToken[]'.
+    Type '{ name: ""; type: ""; subType: ""; message: "The union operator '|' was found at the end of the parse string. This is not allowed as the union operator is an inline operator and must have types on both sides of it!"; cause?: unknown; stack?: string | undefined; parseString: RestParts; } & Error' is missing the following properties from type 'readonly InputToken[]': length, concat, join, slice, and 20 more.
+modules/types/src/string-literals/Proxmox.ts(1,39): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/Consonants.ts(1,33): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/Country.ts(1,32): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/DomainName.ts(1,40): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/EscapeCodes.ts(1,40): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/Hexadecimal.ts(1,39): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/IpAddress.ts(1,27): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/LowerAlphaChar.ts(1,40): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/NumericChar.ts(4,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/Repos.ts(1,72): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/SingularNoun.ts(1,44): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/UpperAlphaChar.ts(1,40): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/Whitespace.ts(3,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/css/color.ts(1,57): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/html/tag.ts(1,56): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/html/tag.ts(101,35): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/string-literals/character-sets/html/tag.ts(101,39): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/string-literals/character-sets/images/ImgFormat.ts(1,42): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/phone/PhoneCountryCode.ts(1,42): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/phone/ToPhoneFormat.ts(3,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/tw/TwColor.ts(8,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/tw/TwColor.ts(66,12): error TS2322: Type 'string | number | symbol' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'symbol' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/character-sets/tw/TwColor.ts(67,14): error TS2322: Type 'string | number | symbol' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'symbol' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/character-sets/tw/TwModifer.ts(1,79): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/tw/TwSize.ts(1,42): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/tw/TwTarget.ts(6,38): error TS2322: Type 'TwColor' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'symbol' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/character-sets/urls/Github.ts(1,53): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/Social.ts(1,35): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/Url.ts(1,63): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/Url.ts(238,23): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/string-literals/character-sets/urls/Url.ts(238,26): error TS2322: Type 'Slice<T, 0, 2>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'SliceString<T, 0, 2> | ([T] extends [readonly unknown[]] ? [] : never)' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type '[T] extends [readonly unknown[]] ? [] : never' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+      Type '[]' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/character-sets/urls/Url.ts(374,7): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/string-literals/character-sets/urls/bitbucket.ts(1,41): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/book-urls.ts(1,35): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/australian.ts(1,38): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/belgian.ts(1,35): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/canadian.ts(1,36): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/chinese.ts(1,35): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/danish.ts(1,34): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/dutch.ts(1,33): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/french.ts(1,34): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/german.ts(1,34): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/indian.ts(1,34): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/italian.ts(1,35): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/japanese.ts(1,36): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/mexican.ts(1,35): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/norwegian.ts(1,37): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/south-korean.ts(1,40): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/spanish.ts(1,35): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/swiss.ts(1,33): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/turkish.ts(1,35): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/uk.ts(1,30): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/news/us.ts(1,30): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/character-sets/urls/retail.ts(24,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/finance/IsPercentage.ts(76,19): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/string-literals/geo/global.ts(1,45): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/geo/state.ts(1,65): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/geo/zip.ts(1,35): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/acceleration.ts(1,50): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/area.ts(1,42): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/current.ts(1,45): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/distance.ts(1,46): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/energy.ts(1,44): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/frequency.ts(1,47): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/luminosity.ts(1,48): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/mass.ts(1,42): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/power.ts(1,43): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/pressure.ts(1,46): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/resistance.ts(1,48): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/speed.ts(1,43): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/temperature.ts(1,49): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/time.ts(1,42): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/voltage.ts(1,45): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/metrics/volume.ts(1,44): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/mutation/NestedSplit.ts(122,21): error TS2321: Excessive stack depth comparing types 'Pop<TStack>[AfterFirst<Pop<TStack>>["length"]]' and 'Pop<TStack>[number]'.
+modules/types/src/string-literals/mutation/NestedSplit.ts(122,21): error TS2590: Expression produces a union type that is too complex to represent.
+modules/types/src/string-literals/mutation/NestedSplit.ts(233,21): error TS2321: Excessive stack depth comparing types 'Pop<TStack>[AfterFirst<Pop<TStack>>["length"]]' and 'Pop<TStack>[number]'.
+modules/types/src/string-literals/mutation/NestedSplit.ts(233,21): error TS2590: Expression produces a union type that is too complex to represent.
+modules/types/src/string-literals/mutation/Pluralize.ts(1,40): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/string-literals/mutation/Repeat.ts(28,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/string-literals/mutation/Repeat.ts(30,17): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/string-literals/mutation/Repeat.ts(33,15): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/string-literals/mutation/Split.ts(25,7): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/string-literals/mutation/Split.ts(29,9): error TS2321: Excessive stack depth comparing types 'TPolicy extends "omit" ? As<IsStringLiteral<TContent> extends true ? IsStringLiteral<TSep> extends true ? IsUnionImpl<...> extends true ? UnionToTuple<...> extends readonly string[] ? Process<...> : never : TContent extends `${infer Before}${TSep}${string}` ? Before : TContent : string : string, string> extends "" ?...' and 'readonly string[]'.
+modules/types/src/string-literals/mutation/Split.ts(44,29): error TS2574: A rest element type must be an array type.
+modules/types/src/string-literals/mutation/Split2.ts(35,9): error TS2321: Excessive stack depth comparing types 'TPolicy extends "omit" ? As<IsStringLiteral<TContent> extends true ? IsStringLiteral<TSep> extends true ? IsUnionImpl<...> extends true ? UnionToTuple<...> extends readonly string[] ? Process<...> : never : TContent extends `${infer Before}${TSep}${string}` ? Before : TContent : string : string, string> extends "" ?...' and 'readonly string[]'.
+modules/types/src/string-literals/mutation/Split2.ts(54,37): error TS2574: A rest element type must be an array type.
+modules/types/src/string-literals/sub-strings/FillStringHole.ts(24,16): error TS2344: Type 'FromLiteralTemplate<TTpl>' does not satisfy the constraint 'string | readonly string[]'.
+  Type 'Error | TTpl | (IsUnionImpl<TTpl, TTpl> extends true ? { name: ""; type: ""; subType: ""; message: "An attempt was made to convert a string from a \"literal template\" to a \"static template\" but the use of false converts to a union type and quickly becomes unmanageable. Use the static {{boolean}} form instead." | ...' is not assignable to type 'string | readonly string[]'.
+    Type 'Error' is not assignable to type 'string | readonly string[]'.
+      Type 'FromLiteralTemplate<TTpl>' is not assignable to type 'readonly string[]'.
+        Type 'Error | TTpl | (IsUnionImpl<TTpl, TTpl> extends true ? { name: ""; type: ""; subType: ""; message: "An attempt was made to convert a string from a \"literal template\" to a \"static template\" but the use of false converts to a union type and quickly becomes unmanageable. Use the static {{boolean}} form instead." | ...' is not assignable to type 'readonly string[]'.
+          Type 'Error' is missing the following properties from type 'readonly string[]': length, concat, join, slice, and 20 more.
+modules/types/src/string-literals/sub-strings/FilterByNestingLevel.ts(110,39): error TS2322: Type 'AsLiteralTemplate<T["content"], { child: "string"; }>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type '({ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error) | ({ name: ""; ... 7 more ...; content: `${string}{{child}}${string}`; } & Error)' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type '{ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/sub-strings/FilterByNestingLevel.ts(111,39): error TS2322: Type 'AsLiteralTemplate<T["content"], { child: "string"; }>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type '({ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error) | ({ name: ""; ... 7 more ...; content: `${string}{{child}}${string}`; } & Error)' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type '{ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/sub-strings/FilterByNestingLevel.ts(119,35): error TS2322: Type 'AsLiteralTemplate<T["content"], { child: "string"; }>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type '({ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error) | ({ name: ""; ... 7 more ...; content: string; } & Error) | ({ ...; } & Error)' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type '{ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/sub-strings/FilterByNestingLevel.ts(120,35): error TS2322: Type 'AsLiteralTemplate<T["content"], { child: "string"; }>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type '({ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error) | ({ name: ""; ... 7 more ...; content: string; } & Error) | ({ ...; } & Error)' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type '{ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/sub-strings/FilterByNestingLevel.ts(137,84): error TS2322: Type 'FormatNodeForTemplate<First>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'FormatWithBrackets<First> | (First["enterChar"] extends string ? First["exitChar"] extends string ? `${First["enterChar"]}${AsLiteralTemplate<...>}${First["exitChar"]}` : `${First["enterChar"]}${AsLiteralTemplate<...>}` : AsLiteralTemplate<...>)' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type 'First["enterChar"] extends string ? First["exitChar"] extends string ? `${First["enterChar"]}${AsLiteralTemplate<First["content"], { child: "string"; }>}${First["exitChar"]}` : `${First["enterChar"]}${AsLiteralTemplate<...>}` : AsLiteralTemplate<...>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+      Type '(First["exitChar"] extends string ? `${First["enterChar"]}${AsLiteralTemplate<First["content"], { child: "string"; }>}${First["exitChar"]}` : `${First["enterChar"]}${AsLiteralTemplate<...>}`) | AsLiteralTemplate<...>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+        Type 'AsLiteralTemplate<First["content"], { child: "string"; }>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+          Type '({ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error) | ({ name: ""; ... 7 more ...; content: `${string}{{child}}${string}`; } & Error)' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+            Type '{ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/sub-strings/FilterByNestingLevel.ts(139,88): error TS2322: Type 'FormatLevel1PlusForTemplate<First>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type '(First["exitChar"] extends string ? `${First["enterChar"]}${AsLiteralTemplate<First["content"], { child: "string"; }>}${First["exitChar"]}` : `${First["enterChar"]}${AsLiteralTemplate<...>}`) | AsLiteralTemplate<...>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type 'AsLiteralTemplate<First["content"], { child: "string"; }>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+      Type '({ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error) | ({ name: ""; ... 7 more ...; content: string; } & Error) | ({ ...; } & Error)' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+        Type '{ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/sub-strings/FilterByNestingLevel.ts(140,88): error TS2322: Type 'FormatLevel1PlusForTemplate<First>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type '(First["exitChar"] extends string ? `${First["enterChar"]}${AsLiteralTemplate<First["content"], { child: "string"; }>}${First["exitChar"]}` : `${First["enterChar"]}${AsLiteralTemplate<...>}`) | AsLiteralTemplate<...>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type 'AsLiteralTemplate<First["content"], { child: "string"; }>' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+      Type '({ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error) | ({ name: ""; ... 7 more ...; content: string; } & Error) | ({ ...; } & Error)' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+        Type '{ name: ""; message: "The token string was an empty string so there is nothing to parse!"; type: "empty-parse"; cause?: unknown; stack?: string | undefined; } & Error' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/string-literals/sub-strings/after/AfterFirstChar.ts(30,15): error TS2344: Type 'AsArray<TContent>' does not satisfy the constraint 'readonly string[]'.
+  Type 'unknown[] | ([IsNever<TContent>] extends [true] ? [] : [IsUnknown<TContent>] extends [true] ? unknown[] : [TContent] extends [...] ? As<...> : [...] extends [...] ? [] : [...] extends [...] ? [...] extends [...] ? Expand<...> : never : IsUndefined<...> extends true ? [] : [...])' is not assignable to type 'readonly string[]'.
+    Type 'unknown[]' is not assignable to type 'readonly string[]'.
+      Type 'unknown' is not assignable to type 'string'.
+modules/types/src/string-literals/take/TakeDate.ts(23,40): error TS2344: Type '`${C1}${C2}`' does not satisfy the constraint '`${number}` | "normal" | "weak" | "branded"'.
+  Type '`${string}1` | `${string}2` | `${string}3` | `${string}4` | `${string}5` | `${string}6` | `${string}7` | `${string}8` | `${string}9`' is not assignable to type '`${number}` | "normal" | "weak" | "branded"'.
+    Type '`${string}1`' is not assignable to type '`${number}` | "normal" | "weak" | "branded"'.
+modules/types/src/string-literals/take/TakeDate.ts(28,48): error TS2344: Type '`${C1}${C2}`' does not satisfy the constraint '`${number}` | "normal" | "weak" | "branded"'.
+  Type 'string' is not assignable to type '`${number}` | "normal" | "weak" | "branded"'.
+modules/types/src/string-literals/take/TakeDate.ts(35,52): error TS2344: Type '`${C1}${C2}`' does not satisfy the constraint '`${number}` | "normal" | "weak" | "branded"'.
+  Type 'string' is not assignable to type '`${number}` | "normal" | "weak" | "branded"'.
+modules/types/src/string-literals/take/TakeDate.ts(42,56): error TS2344: Type '`${C1}${C2}`' does not satisfy the constraint '`${number}` | "normal" | "weak" | "branded"'.
+  Type '`${string}1` | `${string}0`' is not assignable to type '`${number}` | "normal" | "weak" | "branded"'.
+    Type '`${string}1`' is not assignable to type '`${number}` | "normal" | "weak" | "branded"'.
+modules/types/src/string-literals/take/TakeHours.ts(23,48): error TS2344: Type '`${C1}${C2}`' does not satisfy the constraint '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+  Type '`0${string}`' is not assignable to type '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+modules/types/src/string-literals/take/TakeHours.ts(30,52): error TS2344: Type '`${C1}${C2}`' does not satisfy the constraint '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+  Type '`1${string}`' is not assignable to type '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+modules/types/src/string-literals/take/TakeMilliseconds.ts(23,65): error TS2344: Type '`${C1}${C2}${C3}`' does not satisfy the constraint '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+  Type 'string' is not assignable to type '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+modules/types/src/string-literals/take/TakeMinutes.ts(17,50): error TS2344: Type '`${C1}${C2}`' does not satisfy the constraint '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+  Type '`0${string}` | `1${string}` | `2${string}` | `3${string}` | `4${string}` | `5${string}`' is not assignable to type '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+    Type '`0${string}`' is not assignable to type '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+modules/types/src/string-literals/take/TakeSeconds.ts(25,50): error TS2344: Type '`${C1}${C2}`' does not satisfy the constraint '`${number}` | "normal" | "branded" | "strong"'.
+  Type '`0${string}` | `1${string}` | `2${string}` | `3${string}` | `4${string}` | `5${string}`' is not assignable to type '`${number}` | "normal" | "branded" | "strong"'.
+    Type '`0${string}`' is not assignable to type '`${number}` | "normal" | "branded" | "strong"'.
+modules/types/src/string-literals/take/TakeYear.ts(23,57): error TS2344: Type '`${C1}${C2}${C3}${C4}`' does not satisfy the constraint '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+  Type 'string' is not assignable to type '`${number}` | "normal" | "weak" | "branded" | "strong"'.
+modules/types/src/tuples/FixedLengthArray.ts(37,7): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/type-conversion/ReplaceFromTo.ts(25,5): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/type-conversion/ToJson.ts(155,10): error TS2322: Type 'T' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+  Type 'string | number | bigint | boolean | void | null | undefined' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+    Type 'void' is not assignable to type 'string | number | bigint | boolean | null | undefined'.
+modules/types/src/type-conversion/ToJson.ts(167,53): error TS2344: Type 'T' does not satisfy the constraint 'Dictionary'.
+  Type 'ToJsonOptions' is not assignable to type 'Dictionary'.
+    Index signature for type 'string' is missing in type 'ToJsonOptions'.
+modules/types/src/type-conversion/encoding/EncodingLookups.ts(5,8): error TS6305: Output file '/Volumes/coding/inocan/inferred-types/modules/constants/dist/src/index.d.ts' has not been built from source file '/Volumes/coding/inocan/inferred-types/modules/constants/src/index.ts'.
+modules/types/src/type-conversion/numeric/HexToDecimal.ts(32,7): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/type-conversion/numeric/HexToDecimal.ts(77,31): error TS2589: Type instantiation is excessively deep and possibly infinite.
+modules/types/src/type-conversion/numeric/HexToDecimal.ts(78,33): error TS2344: Type 'As<{ [K in keyof any]: any; }, readonly number[]>' does not satisfy the constraint 'readonly number[]'.
+  Type '{ [K in keyof any]: any; }' is missing the following properties from type 'readonly number[]': length, concat, join, slice, and 20 more.
+modules/types/src/validation/ValidateLength.ts(33,72): error TS2344: Type '{ min: O extends readonly unknown[] ? If<IsValidIndex<O, "min">, { name: ""; message: "IndexOf<Tuple,min> failed because a tuple container must use numeric indexes!"; ... 5 more ...; library: "inferred-types/constants"; } & Error, { ...; } & Error, ({ ...; } & Error) | ({ ...; } & Error), never, never> : O extends D...' does not satisfy the constraint '{ min: number | undefined; max: number | undefined; }'.
+  Types of property 'min' are incompatible.
+    Type 'O extends readonly unknown[] ? If<IsValidIndex<O, "min">, { name: ""; message: "IndexOf<Tuple,min> failed because a tuple container must use numeric indexes!"; type: "invalid-index"; ... 4 more ...; library: "inferred-types/constants"; } & Error, { ...; } & Error, ({ ...; } & Error) | ({ ...; } & Error), never, neve...' is not assignable to type 'number | undefined'.
+      Type 'number | ({ name: ""; message: "Attempt to index ['min'] into a non-container type!"; type: "invalid-index"; cause?: unknown; stack?: string | undefined; container: { max: number; }; key: "min"; library: "inferred-types/constants"; } & Error)' is not assignable to type 'number | undefined'.
+        Type '{ name: ""; message: "Attempt to index ['min'] into a non-container type!"; type: "invalid-index"; cause?: unknown; stack?: string | undefined; container: { max: number; }; key: "min"; library: "inferred-types/constants"; } & Error' is not assignable to type 'number | undefined'.
