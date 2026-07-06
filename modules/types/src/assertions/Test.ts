@@ -239,23 +239,25 @@ export type Test<
         `invalid-test/any-type`,
         `A type test passed in "any" as the test value! This is not allowed.`,
         { test: TTest; expected: TExpected; assertion: TOp }
-    >
-    : [IsAny<TExpected>] extends [true]
-            ? AssertionError<
-                `invalid-test/any-type`,
-                `A type test passed in "any" as the expected type! This is not allowed.`,
-                { test: TTest; expected: TExpected; assertion: TOp }
             >
-            : [IsAny<Assert<TTest, TOp, TExpected>>] extends [true]
-                    ? AssertionError<
-                        `invalid-test/any-type`,
-                        `The test evaluated to ANY! This indicates a problem in the test assertion!`,
-                        { test: TTest; expected: TExpected; assertion: TOp }
-                    >
-                    : [IsNever<Assert<TTest, TOp, TExpected>>] extends [true]
+            : [IsAny<TExpected>] extends [true]
+                ? AssertionError<
+                    `invalid-test/any-type`,
+                    `A type test passed in "any" as the expected type! This is not allowed.`,
+                    { test: TTest; expected: TExpected; assertion: TOp }
+                >
+                : Assert<TTest, TOp, TExpected> extends infer R
+                    ? [IsAny<R>] extends [true]
+                        ? AssertionError<
+                            `invalid-test/any-type`,
+                            `The test evaluated to ANY! This indicates a problem in the test assertion!`,
+                            { test: TTest; expected: TExpected; assertion: TOp }
+                        >
+                        : [IsNever<R>] extends [true]
                             ? AssertionError<
                                 `invalid-test/never-type`,
                                 `The test evaluated to NEVER! This indicates a problem in the test assertion!`,
                                 { test: TTest; expected: TExpected; assertion: TOp }
                             >
-                            : Assert<TTest, TOp, TExpected>;
+                            : R
+                    : never;
