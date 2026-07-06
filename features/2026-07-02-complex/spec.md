@@ -16,6 +16,22 @@ baseline_artifacts:
 related:
   - features/2026-07-02-complex/tool-gaps.md
 source_files:
+  - features/2026-07-02-complex/phase3-probes/Add.ts
+  - features/2026-07-02-complex/phase3-probes/CSV.ts
+  - features/2026-07-02-complex/phase3-probes/CompareNumbers.ts
+  - features/2026-07-02-complex/phase3-probes/Decrement.ts
+  - features/2026-07-02-complex/phase3-probes/Delta.ts
+  - features/2026-07-02-complex/phase3-probes/Divide.ts
+  - features/2026-07-02-complex/phase3-probes/FixedLengthArray.ts
+  - features/2026-07-02-complex/phase3-probes/Increment.ts
+  - features/2026-07-02-complex/phase3-probes/IsGreaterThan.ts
+  - features/2026-07-02-complex/phase3-probes/IsLessThan.ts
+  - features/2026-07-02-complex/phase3-probes/Mod.ts
+  - features/2026-07-02-complex/phase3-probes/Multiply.ts
+  - features/2026-07-02-complex/phase3-probes/ShiftDecimalPlace.ts
+  - features/2026-07-02-complex/phase3-probes/Subtract.ts
+  - features/2026-07-02-complex/phase3-probes/Sum.ts
+  - features/2026-07-02-complex/phase3-probes/tsconfig.json
   - features/2026-07-02-complex/perf-baseline.mjs
   - justfile
   - modules/constants/tsconfig.check.json
@@ -26,7 +42,19 @@ source_files:
   - modules/runtime/src/lists/joinWith.ts
   - modules/runtime/src/regex/createTemplateRegExp.ts
   - modules/runtime/tsconfig.check.json
+  - modules/types/src/boolean-logic/operators/scalar/numeric/IsGreaterThan.ts
+  - modules/types/src/boolean-logic/operators/scalar/numeric/IsLessThan.ts
   - modules/types/src/assertions/Test.ts
+  - modules/types/src/numeric-literals/CSV.ts
+  - modules/types/src/numeric-literals/Decrement.ts
+  - modules/types/src/numeric-literals/Delta.ts
+  - modules/types/src/numeric-literals/Divide.ts
+  - modules/types/src/numeric-literals/Increment.ts
+  - modules/types/src/numeric-literals/Mod.ts
+  - modules/types/src/numeric-literals/Multiply.ts
+  - modules/types/src/numeric-literals/ShiftDecimalPlace.ts
+  - modules/types/src/numeric-literals/Sum.ts
+  - modules/types/src/tuples/FixedLengthArray.ts
   - modules/types/tsconfig.check.json
   - package.json
 documentation:

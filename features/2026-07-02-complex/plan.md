@@ -12,6 +12,22 @@ description: >
   with a measurement foundation built first so every remediation phase is
   verified against hard numbers.
 source_files:
+  - features/2026-07-02-complex/phase3-probes/Add.ts
+  - features/2026-07-02-complex/phase3-probes/CSV.ts
+  - features/2026-07-02-complex/phase3-probes/CompareNumbers.ts
+  - features/2026-07-02-complex/phase3-probes/Decrement.ts
+  - features/2026-07-02-complex/phase3-probes/Delta.ts
+  - features/2026-07-02-complex/phase3-probes/Divide.ts
+  - features/2026-07-02-complex/phase3-probes/FixedLengthArray.ts
+  - features/2026-07-02-complex/phase3-probes/Increment.ts
+  - features/2026-07-02-complex/phase3-probes/IsGreaterThan.ts
+  - features/2026-07-02-complex/phase3-probes/IsLessThan.ts
+  - features/2026-07-02-complex/phase3-probes/Mod.ts
+  - features/2026-07-02-complex/phase3-probes/Multiply.ts
+  - features/2026-07-02-complex/phase3-probes/ShiftDecimalPlace.ts
+  - features/2026-07-02-complex/phase3-probes/Subtract.ts
+  - features/2026-07-02-complex/phase3-probes/Sum.ts
+  - features/2026-07-02-complex/phase3-probes/tsconfig.json
   - features/2026-07-02-complex/perf-baseline.mjs
   - justfile
   - modules/constants/tsconfig.check.json
@@ -22,7 +38,19 @@ source_files:
   - modules/runtime/src/lists/joinWith.ts
   - modules/runtime/src/regex/createTemplateRegExp.ts
   - modules/runtime/tsconfig.check.json
+  - modules/types/src/boolean-logic/operators/scalar/numeric/IsGreaterThan.ts
+  - modules/types/src/boolean-logic/operators/scalar/numeric/IsLessThan.ts
   - modules/types/src/assertions/Test.ts
+  - modules/types/src/numeric-literals/CSV.ts
+  - modules/types/src/numeric-literals/Decrement.ts
+  - modules/types/src/numeric-literals/Delta.ts
+  - modules/types/src/numeric-literals/Divide.ts
+  - modules/types/src/numeric-literals/Increment.ts
+  - modules/types/src/numeric-literals/Mod.ts
+  - modules/types/src/numeric-literals/Multiply.ts
+  - modules/types/src/numeric-literals/ShiftDecimalPlace.ts
+  - modules/types/src/numeric-literals/Sum.ts
+  - modules/types/src/tuples/FixedLengthArray.ts
   - modules/types/tsconfig.check.json
   - package.json
 documentation:
@@ -137,16 +165,16 @@ Targets: `Mod`, `Multiply`, `Divide`, `Add`, `Sum`, `Subtract`, `Delta`, `Increm
 
 - [ ] Reproduce each file's diagnostics in isolation with a scoped `tsc` probe (one probe file per utility;
       keep probes under this feature directory or scratch — not in `tests/`)
-- [ ] Fix `FixedLengthArray` first (shared primitive; `TS2589` at line ~37) — wide-input early return and/or
+- [x] Fix `FixedLengthArray` first (shared primitive; `TS2589` at line ~37) — wide-input early return and/or
       bounded doubling without the `any[]` cap leaking
-- [ ] Rework the arithmetic utilities against the spec's preferred patterns (wide-input early return,
+- [x] Rework the arithmetic utilities against the spec's preferred patterns (wide-input early return,
       bind-once, phase-split); shared digit/char helpers may be consolidated but must remain internal
-- [ ] Fix the comparison operators (`IsLessThan`, `IsGreaterThan`) including branded-number paths
+- [x] Fix the comparison operators (`IsLessThan`, `IsGreaterThan`) including branded-number paths
       (regression risk: `tests/boolean-logic/operators/IsGreaterThan.test.ts` branded cases)
 - [ ] `just check-types`: numeric-literals + tuples + numeric operators contribute **zero** complexity-class diagnostics
       (note: the `Increment`/`Decrement` **test files** were already fixed by Phase 2a annotations;
       this phase owns the *module-context* TS2589s that remain in the arithmetic sources themselves)
-- [ ] Full runtime suite (`pnpm test:runtime numeric`) green; full type suite green with unchanged assertions
+- [x] Full runtime suite (`pnpm test:runtime numeric`) green; full type suite green with unchanged assertions
 
 **Validation checkpoint:** `just perf-compare` green; cluster diagnostic count 24 → 0.
 
