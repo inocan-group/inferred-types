@@ -13,6 +13,7 @@ function run(command, args, options = {}) {
         cwd: resolve("."),
         encoding: "utf8",
         shell: true,
+        maxBuffer: 200 * 1024 * 1024,
         env: {
             ...process.env,
             FORCE_COLOR: "0",
@@ -30,7 +31,7 @@ function run(command, args, options = {}) {
 
 function stripAnsi(value) {
     return value
-        .replace(/\u001B\][^\u0007]*(?:\u0007|\u001B\\)/g, "")
+        .replace(/\u001B\]8;;[^\u001B\u0007]*(?:\u0007|\u001B\\)/g, "")
         .replace(/\u001B\[[0-?]*[ -/]*[@-~]/g, "");
 }
 
@@ -49,7 +50,7 @@ function parseTime(stderr) {
 function parseFileTimings(stdout) {
     const clean = stripAnsi(stdout);
     const timings = [];
-    const re = /(tests\/[^\s]+?\.ts)[^\n]*\)\s+([\d.]+)(ms|s)\b/g;
+    const re = /((?:tests|benches)\/[^\n]+?\.ts)[^\n]*\)\s+([\d.]+)(ms|s)(?:\s+\|[^\n]*)?\s*$/gm;
     let match;
 
     while ((match = re.exec(clean))) {
@@ -84,6 +85,7 @@ function measure() {
         typedBin,
         "test",
         "--metrics",
+        "--show-passing",
     ]);
 
     if (typed.status !== 0) {
@@ -99,13 +101,13 @@ function measure() {
     return {
         capturedAt: new Date().toISOString(),
         commands: {
-            typeTests: "/usr/bin/time -l node --max-old-space-size=12288 node_modules/.pnpm/typed-tester@*/node_modules/typed-tester/bin/typed.js test --metrics",
+            typeTests: "/usr/bin/time -l node --max-old-space-size=12288 node_modules/.pnpm/typed-tester@*/node_modules/typed-tester/bin/typed.js test --metrics --show-passing",
             checkTypes: "just check-types",
         },
         typeTests: {
             status: typed.status,
             ...parseTime(typed.stderr),
-            fileTimings: parseFileTimings(typed.stdout),
+            fileTimings: parseFileTimings(`${typed.stdout}\n${typed.stderr}`),
         },
         checkTypes: {
             status: checkTypes.status,
