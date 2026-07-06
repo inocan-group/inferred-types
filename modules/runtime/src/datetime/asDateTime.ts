@@ -100,7 +100,7 @@ type Returns<T extends DateLike> = T extends IsoYear
  * interface with a few extra properties to try and preserve the source
  * timezone where that's feasible
  */
-export function asDateTime<T extends DateLike>(input: T): never {
+export function asDateTime<T extends DateLike>(input: T): Returns<T> {
     // ——— Moment ————————————————————————————————————————————————
     if (isMoment(input)) {
         // parseZone() preserves the original timezone offset from the input string

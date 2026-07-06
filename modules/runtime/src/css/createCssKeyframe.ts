@@ -90,8 +90,8 @@ export function createCssKeyframe<
     keyframes: TKeyframes
 ): {
         name: TName;
-        keyframes: typeof frames;
-        css: FrameToCSSString<typeof frames, TName>;
+        keyframes: HandleDoneFn<ReturnType<TKeyframes>>;
+        css: FrameToCSSString<HandleDoneFn<ReturnType<TKeyframes>>, TName>;
     } {
     /** api surface */
     const surface = api([]);
@@ -108,7 +108,7 @@ export function createCssKeyframe<
         css: `@keyframes ${name} {\n${frameToCss(frames)}\n}`,
     } as {
         name: TName;
-        keyframes: typeof frames;
-        css: FrameToCSSString<typeof frames, TName>;
+        keyframes: HandleDoneFn<ReturnType<TKeyframes>>;
+        css: FrameToCSSString<HandleDoneFn<ReturnType<TKeyframes>>, TName>;
     };
 }
