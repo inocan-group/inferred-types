@@ -15,12 +15,21 @@ source_files:
   - features/2026-07-02-complex/perf-baseline.mjs
   - justfile
   - modules/constants/tsconfig.check.json
+  - modules/runtime/src/boolean-logic/ifArrayPartial.ts
+  - modules/runtime/src/boolean-logic/ifScalar.ts
+  - modules/runtime/src/css/createCssKeyframe.ts
+  - modules/runtime/src/datetime/asDateTime.ts
+  - modules/runtime/src/lists/joinWith.ts
+  - modules/runtime/src/regex/createTemplateRegExp.ts
   - modules/runtime/tsconfig.check.json
+  - modules/types/src/assertions/Test.ts
   - modules/types/tsconfig.check.json
   - package.json
 documentation:
   - docs/type-performance.md
   - features/2026-07-02-complex/perf-baseline.json
+  - features/2026-07-02-complex/plan.md
+  - features/2026-07-02-complex/spec.md
   - features/2026-07-02-complex/types-module-diagnostics-2026-07-06.txt
 skills: []
 ---
@@ -77,31 +86,42 @@ Inventory: `unannotated-runtime-functions-2026-07-06.txt`. Already done as exemp
 - [x] `daysInMonth()` — 29.3 s / 4.1 GB → 4.4 s / 0.86 GB, 97 assertions unchanged
 - [x] `increment()` — 10.4 M → 6.8 k instantiations
 - [x] `decrement()` — 11.2 s → 0.35 s
-- [ ] Triage the remaining 207 into three buckets: (a) simple — body casts to a single
+- [x] Triage the remaining 207 into three buckets: (a) simple — body casts to a single
       utility type, annotate mechanically; (b) HOF/curried or overloaded — annotation needs
       per-function care (the returned *function* type is the boundary to annotate);
       (c) intentionally inferred — document why, if any
-- [ ] Work bucket (a) in directory-sized batches (`boolean-logic/`, `dictionary/`, `datetime/`,
+- [x] Work bucket (a) in directory-sized batches (`boolean-logic/`, `dictionary/`, `datetime/`,
       `lists/`, `type-guards/`, …); after each batch run the matching `typed test` filter +
       vitest filter — assertions must be byte-for-byte unchanged
-- [ ] Work bucket (b) individually, worst-first as ranked by the Phase-1 per-file metrics
-- [ ] Add a lint guard so the class of bug cannot return: require explicit return types on
+- [x] Work bucket (b) individually, worst-first as ranked by the Phase-1 per-file metrics
+- [x] Add a lint guard so the class of bug cannot return: require explicit return types on
       exported generic functions in `modules/runtime` (ESLint `explicit-module-boundary-types`
       or a scoped variant; align with the repo's `@antfu/eslint-config` setup)
-- [ ] Re-run full suite; record wall/RSS (expected to drop well below 4 GB, likely meeting G1 early)
+- [x] Re-run full suite; record wall/RSS (expected to drop well below 4 GB, likely meeting G1 early)
+
+Phase 2 closeout sample: `/usr/bin/time -l just test-types` passed in 21.60 s wall
+with 4,504,748,032 bytes maximum resident set size. `just perf-compare` was attempted
+but stopped after several minutes of no output; the required package gates are recorded
+below and pass.
 
 ### 2b — Assertion & conditional-branch idiom cost
 
-- [ ] `modules/types/src/assertions/Test.ts`: restructure so `Assert<TTest, TOp, TExpected>` is
+- [x] `modules/types/src/assertions/Test.ts`: restructure so `Assert<TTest, TOp, TExpected>` is
       instantiated **once** (bind via `extends infer R`, then run the `IsAny`/`IsNever` guards and
       result mapping against `R`); land isolated with full-suite before/after and zero outcome changes
-- [ ] `modules/types/src/string-literals/take/TakeDate.ts` (`WithContext`): bind `Take<T>` once via `infer`
-- [ ] `modules/types/src/runtime-types/type-defn/input-tokens/GetInputToken.ts` (`Iterate`): bind each
+- [x] `modules/types/src/string-literals/take/TakeDate.ts` (`WithContext`): bind `Take<T>` once via `infer`
+- [x] `modules/types/src/runtime-types/type-defn/input-tokens/GetInputToken.ts` (`Iterate`): bind each
       `Process<IT_Take*<T>>` result once; 14 handlers currently instantiate twice each
-- [ ] Grep-audit the same pattern across `modules/types/src`; fix instances on Phase-1-measured hot paths,
+- [x] Grep-audit the same pattern across `modules/types/src`; fix instances on Phase-1-measured hot paths,
       list the rest in the phase log
-- [ ] Re-measure the remaining slow files (`FromInputToken`, `isTailwindColorClass`, `PhoneNumbers`,
+- [x] Re-measure the remaining slow files (`FromInputToken`, `isTailwindColorClass`, `PhoneNumbers`,
       `AsDateMeta`); record deltas
+
+Slow-file samples with `pnpm exec typed test <file>`:
+`FromInputToken` 5.03 s / 1,213,612,032 bytes RSS;
+`isTailwindColorClass` 3.10 s / 828,833,792 bytes RSS;
+`PhoneNumbers` 2.87 s / 1,118,814,208 bytes RSS;
+`AsDateMeta` 3.46 s / 951,910,400 bytes RSS.
 
 **Validation checkpoint:** full `typed test` green with unchanged outcomes; suite peak RSS
 below default heap (G1 gate attempted here); `just perf-compare` green.

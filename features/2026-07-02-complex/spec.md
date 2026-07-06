@@ -19,12 +19,21 @@ source_files:
   - features/2026-07-02-complex/perf-baseline.mjs
   - justfile
   - modules/constants/tsconfig.check.json
+  - modules/runtime/src/boolean-logic/ifArrayPartial.ts
+  - modules/runtime/src/boolean-logic/ifScalar.ts
+  - modules/runtime/src/css/createCssKeyframe.ts
+  - modules/runtime/src/datetime/asDateTime.ts
+  - modules/runtime/src/lists/joinWith.ts
+  - modules/runtime/src/regex/createTemplateRegExp.ts
   - modules/runtime/tsconfig.check.json
+  - modules/types/src/assertions/Test.ts
   - modules/types/tsconfig.check.json
   - package.json
 documentation:
   - docs/type-performance.md
   - features/2026-07-02-complex/perf-baseline.json
+  - features/2026-07-02-complex/plan.md
+  - features/2026-07-02-complex/spec.md
   - features/2026-07-02-complex/types-module-diagnostics-2026-07-06.txt
 skills: []
 ---
