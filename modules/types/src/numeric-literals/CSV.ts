@@ -112,7 +112,9 @@ type ProcessUnionStr<
  *
  * **Related:** `CsvToTupleStr`, `CsvToUnion`
  */
-export type CsvToTuple<T extends string> = Process<T>;
+export type CsvToTuple<T extends string> = string extends T
+    ? (string | number)[]
+    : Process<T>;
 
 /**
  * **CsvToTupleStr**`<T>`
@@ -121,7 +123,9 @@ export type CsvToTuple<T extends string> = Process<T>;
  *
  * **Related:** `CsvToTuple`
  */
-export type CsvToTupleStr<T extends string> = ProcessStr<T>;
+export type CsvToTupleStr<T extends string> = string extends T
+    ? string[]
+    : ProcessStr<T>;
 
 /**
  * **CsvToUnion**`<T>`
@@ -130,7 +134,9 @@ export type CsvToTupleStr<T extends string> = ProcessStr<T>;
  *
  * **Related:** `CsvToTuple`, `CsvToStrUnion`
  */
-export type CsvToUnion<T extends string> = ProcessUnion<T>;
+export type CsvToUnion<T extends string> = string extends T
+    ? string | number
+    : ProcessUnion<T>;
 
 /**
  * **CsvToStrUnion**`<T>`

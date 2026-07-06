@@ -102,8 +102,10 @@ export type DeltaLight<
             `The DeltaLight<A,B> utility does not work with negative numbers! Use Delta<A,B> if you need that`,
             { a: A; b: B }
         >
-        : CompareNumbers<A, B> extends "greater"
-            ? Subtract<A, B>
-            : CompareNumbers<A, B> extends "less"
-                ? Subtract<B, A>
-                : 0;
+        : CompareNumbers<A, B> extends infer Comparison
+            ? Comparison extends "greater"
+                ? Subtract<A, B>
+                : Comparison extends "less"
+                    ? Subtract<B, A>
+                    : 0
+            : never;

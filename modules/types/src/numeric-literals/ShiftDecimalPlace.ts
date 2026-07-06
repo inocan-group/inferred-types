@@ -95,7 +95,9 @@ export type ShiftDecimalPlace<
     U extends number
 >
     // Fast bailouts
-    = U extends 0 ? T
+    = number extends T ? number
+        : `${number}` extends T ? `${number}`
+            : U extends 0 ? T
         : T extends 0 ? T
             : number extends U ? `${number}`
 

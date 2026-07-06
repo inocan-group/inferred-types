@@ -41,6 +41,15 @@ type Div<
     ? Div<Sub<A, B>, B, [...Q, unknown]>
     : Q;
 
+type Process<
+    A extends number,
+    B extends number,
+> = FixedLengthArray<number, Abs<A>> extends infer Dividend extends unknown[]
+    ? FixedLengthArray<number, Abs<B>> extends infer Divisor extends unknown[]
+        ? Div<Dividend, Divisor>
+        : never
+    : never;
+
 /**
  * **Divide**<A,B>
  *
@@ -61,10 +70,7 @@ export type Divide<A extends number, B extends number>
         `The Divide<${A},${B}> type utility can not receive 0 as the divisor.`,
         { a: A; b: B }
                     >
-                    : Div<
-                        FixedLengthArray<number, Abs<A>>,
-                        FixedLengthArray<number, Abs<B>>
-                    > extends infer D extends readonly unknown[]
+                    : Process<A, B> extends infer D extends readonly unknown[]
                         ? Xor<IsNegativeNumber<A>, IsNegativeNumber<B>> extends true
                             ? AsNegativeNumber<D["length"]>
                             : D["length"]

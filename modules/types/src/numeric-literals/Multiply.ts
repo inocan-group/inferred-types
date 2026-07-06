@@ -1,4 +1,25 @@
-import type { AfterFirst, AsNumber, Extends, FixedLengthArray, NumberLike, Or } from "inferred-types/types";
+import type { AsNumber, FixedLengthArray, NumberLike, Or } from "inferred-types/types";
+
+type IsZero<T extends NumberLike> = AsNumber<T> extends 0 ? true : false;
+
+type MultiplyTuples<
+    U extends readonly unknown[],
+    R extends readonly unknown[],
+    S extends readonly unknown[] = []
+> = R extends readonly []
+    ? S["length"]
+    : R extends readonly [unknown, ...infer Rest extends readonly unknown[]]
+        ? MultiplyTuples<U, Rest, [...S, ...U]>
+        : number;
+
+type Process<
+    A extends number,
+    B extends number,
+> = FixedLengthArray<unknown, A> extends infer U extends readonly unknown[]
+    ? FixedLengthArray<unknown, B> extends infer R extends readonly unknown[]
+        ? MultiplyTuples<U, R>
+        : never
+    : never;
 
 /**
  * **Multiply**`<A,B>`
@@ -9,21 +30,10 @@ import type { AfterFirst, AsNumber, Extends, FixedLengthArray, NumberLike, Or } 
 export type Multiply<
     A extends NumberLike,
     B extends NumberLike,
-
-    U extends readonly unknown[] = FixedLengthArray<1, AsNumber<A>>,
-    R extends readonly unknown[] = FixedLengthArray<1, AsNumber<B>>,
-    S extends readonly unknown[] = []
-> = Or<[Extends<AsNumber<A>, 0>, Extends<AsNumber<B>, 0>]> extends true
+> = Or<[IsZero<A>, IsZero<B>]> extends true
     ? 0
-    : [] extends R
-            ? S["length"]
-            : Multiply<
-                A,
-                B,
-                U,
-                AfterFirst<R>,
-                [
-                    ...S,
-                    ...U
-                ]
-            >;
+    : number extends AsNumber<A>
+        ? number
+        : number extends AsNumber<B>
+            ? number
+            : Process<AsNumber<A>, AsNumber<B>>;

@@ -37,6 +37,15 @@ type Modulus<
     B
 > extends true ? Modulus<Sub<A, B>, B> : A;
 
+type Process<
+    A extends number,
+    B extends number,
+> = FixedLengthArray<number, Abs<A>> extends infer Dividend extends number[]
+    ? FixedLengthArray<number, Abs<B>> extends infer Divisor extends number[]
+        ? Modulus<Dividend, Divisor>
+        : never
+    : never;
+
 /**
  * **Mod**`<A,B>`
  *
@@ -64,10 +73,7 @@ export type Mod<
         `The Mod<${A},${B}> type utility can not receive 0 as the divisor.`,
         { a: A; b: B }
                         >
-                        : Modulus<
-                            FixedLengthArray<number, Abs<A>>,
-                            FixedLengthArray<number, Abs<B>>
-                        > extends infer M extends unknown[]
+                        : Process<AsNumber<A>, AsNumber<B>> extends infer M extends unknown[]
                             ? M["length"]
                             : never
                     : Err<
