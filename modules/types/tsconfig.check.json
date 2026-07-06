@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ES2022",
+        "moduleResolution": "Bundler",
+        "paths": {
+            "inferred-types/types": [
+                "./src/index.ts"
+            ],
+            "inferred-types/constants": [
+                "../constants/src/index.ts"
+            ],
+            "types/*": [
+                "./src/*"
+            ],
+            "constants/*": [
+                "../constants/src/*"
+            ]
+        },
+        "strict": true,
+        "noEmit": true,
+        "preserveConstEnums": true,
+        "strictNullChecks": true,
+        "stripInternal": false,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "tests",
+        "dist"
+    ]
+}
