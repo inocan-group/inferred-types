@@ -14,6 +14,7 @@ jobs:
     name: testing
     uses: yankeeinlondon/gha/.github/workflows/test.yml@main
     with:
+        nodeVersion: '["22.x", "24.x"]'
         transpile: true
   publish:
     name: publish
@@ -24,4 +25,3 @@ jobs:
       github_packages_scope: '@inocan-group'
     secrets:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
