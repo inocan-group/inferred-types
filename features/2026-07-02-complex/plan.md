@@ -25,25 +25,25 @@ guard exists.
 **Goal:** every later phase can be measured cheaply and honestly; config
 artifacts (TS6305 / TS5101) stop polluting diagnostics.
 
-- [ ] Create `tsconfig.check.json` in each of `modules/constants`, `modules/types`, `modules/runtime`:
+- [x] Create `tsconfig.check.json` in each of `modules/constants`, `modules/types`, `modules/runtime`:
       no `composite`, no `references`, no `baseUrl`, `noEmit: true`, `skipLibCheck: true`,
       `paths` mapped to **source** (`../types/src/index.ts` etc., matching the vitest aliases),
       includes limited to `src/**/*.ts` (drop the stray `"src/string-literals/character-sets/Opt"`-style entries
       and `.drop`/`.hold` files currently in the `include` arrays)
-- [ ] Verify: `tsc -p modules/constants/tsconfig.check.json` exits clean at default heap
+- [x] Verify: `tsc -p modules/constants/tsconfig.check.json` exits clean at default heap
 - [ ] Verify: `tsc -p modules/types/tsconfig.check.json` runs to completion at 12 GB heap and the
       TS6305 count drops to zero; error totals otherwise match the 2026-07-06 inventory (re-baseline the file if not)
 - [ ] Verify: `tsc -p modules/runtime/tsconfig.check.json` runs to completion (errors expected; captured, not fixed here)
-- [ ] Add `just` recipes: `check-constants`, `check-types`, `check-runtime` (each: `NODE_OPTIONS=--max-old-space-size=12288 tsc -p <check-config> --noEmit --pretty false`), plus `check` running all three
-- [ ] Add `just perf-baseline`: runs `typed test` under `/usr/bin/time -l`, captures wall/peak-RSS,
+- [x] Add `just` recipes: `check-constants`, `check-types`, `check-runtime` (each: `NODE_OPTIONS=--max-old-space-size=12288 tsc -p <check-config> --noEmit --pretty false`), plus `check` running all three
+- [x] Add `just perf-baseline`: runs `typed test` under `/usr/bin/time -l`, captures wall/peak-RSS,
       per-file timings via `--metrics`, and complexity-diagnostic counts from `just check-types`,
       writing a JSON baseline (checked in; location per spec Open Question 3)
-- [ ] Add `just perf-compare`: re-runs the same measurements and fails if any complexity-class
+- [x] Add `just perf-compare`: re-runs the same measurements and fails if any complexity-class
       diagnostic count rose, or suite peak RSS grew > 15 %
 - [ ] Capture and commit the Phase-1 baseline JSON
 - [ ] Document the scoped-tracing workflow (single file / single subdirectory only) in `docs/type-performance.md`,
       and remove/correct stale references there (`detect-regressions.sh`, `typed diagnostics`, etc.)
-- [ ] Fix `pnpm test:types` so it survives today's peak until Phase 2 lowers it below the
+- [x] Fix `pnpm test:types` so it survives today's peak until Phase 2 lowers it below the
       default heap: route the script through the same heap-raised invocation the justfile uses.
       This also unbreaks `just test` / `pnpm test`, whose `scripts/test-with-args.mjs`
       currently crashes in its type-test stage for exactly this reason
