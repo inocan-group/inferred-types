@@ -1,9 +1,13 @@
 import type {
-    AsNumber,
-    LessThan,
-    LessThanOrEqual,
+    CompareNumbers,
     NumberLike,
 } from "inferred-types/types";
+
+type IsWideNumberLike<T extends NumberLike> = number extends T
+    ? true
+    : `${number}` extends T
+        ? true
+        : false;
 
 /**
  * **IsLessThan**`<A,B>`
@@ -21,11 +25,13 @@ export type IsLessThan<
     A extends NumberLike,
     B extends NumberLike,
 >
-    = A extends number
-        ? B extends number
-            ? LessThan<A, B>
-            : LessThan<A, AsNumber<B>>
-        : LessThan<AsNumber<A>, AsNumber<B>>;
+    = IsWideNumberLike<A> extends true
+        ? boolean
+        : IsWideNumberLike<B> extends true
+            ? boolean
+            : [CompareNumbers<A, B>] extends ["less"]
+                ? true
+                : false;
 
 /**
  * **IsLessThanOrEqual**`<A,B>`
@@ -40,10 +46,10 @@ export type IsLessThanOrEqual<
     A extends NumberLike,
     B extends NumberLike,
 >
-    = A extends number
-        ? B extends number
-            ? LessThanOrEqual<A, B>
-            : LessThanOrEqual<A, AsNumber<B>>
-        : B extends number
-            ? LessThanOrEqual<AsNumber<A>, B>
-            : LessThanOrEqual<AsNumber<A>, AsNumber<B>>;
+    = IsWideNumberLike<A> extends true
+        ? boolean
+        : IsWideNumberLike<B> extends true
+            ? boolean
+            : [CompareNumbers<A, B>] extends ["less" | "equal"]
+                ? true
+                : false;

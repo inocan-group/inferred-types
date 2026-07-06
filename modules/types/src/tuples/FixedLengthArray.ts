@@ -1,23 +1,48 @@
 import type { AsNumber } from "inferred-types/types";
 import type { NumberLike } from "types/numeric-literals";
 
-type Shift<A extends Array<any>>
-    = ((...args: A) => void) extends ((...args: [A[0], ...infer R]) => void) ? R : never;
-
-type GrowExpRev<A extends any[], N extends number, P extends any[][]>
-    = A["length"] extends N ? A : [...A, ...P[0]][N] extends undefined ? GrowExpRev<[...A, ...P[0]], N, P> : GrowExpRev<A, N, Shift<P>>;
-
-type GrowExp<A extends any[], N extends number, P extends any[][], L extends number = A["length"]>
-    = L extends N ? A : L extends 8192 ? any[] : [...A, ...A][N] extends undefined ? GrowExp<[...A, ...A], N, [A, ...P]> : GrowExpRev<A, N, P>;
-
 type MapItemType<T, I> = { [K in keyof T]: I };
+
+type Shift<T extends readonly unknown[][]> = T extends readonly [
+    unknown[],
+    ...infer Rest extends unknown[][]
+]
+    ? Rest
+    : [];
+
+type GrowExpRev<
+    T extends unknown[],
+    N extends number,
+    P extends unknown[][]
+> = T["length"] extends N
+    ? T
+    : [...T, ...P[0]][N] extends undefined
+        ? GrowExpRev<[...T, ...P[0]], N, P>
+        : GrowExpRev<T, N, Shift<P>>;
+
+type GrowExp<
+    T extends unknown[],
+    N extends number,
+    P extends unknown[][],
+    L extends number = T["length"]
+> = L extends N
+    ? T
+    : L extends 8192
+        ? unknown[]
+        : [...T, ...T][N] extends undefined
+            ? GrowExp<[...T, ...T], N, [T, ...P]>
+            : GrowExpRev<T, N, P>;
 
 type Process<
     T,
     N extends number,
-> = N extends 0
+> = number extends N
+    ? T[]
+    : N extends 0
     ? []
-    : MapItemType<GrowExp<[0], N, []>, T>;
+    : GrowExp<[unknown], N, []> extends infer R extends readonly unknown[]
+        ? MapItemType<R, T>
+        : never;
 
 /**
  * **FixedLengthArray**`<TType,TLen,[TOpt]>`
@@ -34,9 +59,13 @@ export type FixedLengthArray<
     TLen extends NumberLike,
     TExtends extends boolean = false,
 > = TExtends extends true
-    ? Process<TType, AsNumber<TLen>> extends readonly unknown[]
-        ? [...Process<TType, AsNumber<TLen>>, ...TType[]]
+    ? AsNumber<TLen> extends infer Len extends number
+        ? Process<TType, Len> extends infer Fixed extends readonly unknown[]
+            ? number extends Len
+                ? TType[]
+                : [...Fixed, ...TType[]]
+            : never
         : never
-    : Process<TType, AsNumber<TLen>> extends readonly unknown[]
-        ? Process<TType, AsNumber<TLen>>
+    : AsNumber<TLen> extends infer Len extends number
+        ? Process<TType, Len>
         : never;
