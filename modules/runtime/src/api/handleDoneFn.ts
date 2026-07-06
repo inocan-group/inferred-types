@@ -17,7 +17,7 @@ import {
 export function handleDoneFn<
     TVal,
     TBareFn extends boolean,
->(val: TVal, call_bare_fn: TBareFn = false as TBareFn) {
+>(val: TVal, call_bare_fn: TBareFn = false as TBareFn): any {
     return isDictionary(val) || isFunction(val)
         ? isDoneFn(val)
             ? val.done()

@@ -41,7 +41,7 @@ export function stripSurround<
         }
 
         return (
-            isNumber(input) ? Number(output) : output
+            isNumber(input) ? Number(output): output
         ) as unknown as StripSurround<TInput, TChars[number]>;
     };
 }

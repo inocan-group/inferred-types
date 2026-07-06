@@ -32,6 +32,6 @@ export function toCsv<
     const T extends string[] | string[][] | Dictionary | Dictionary<string>[]
 >(
     _data: T
-) {
+): void {
 
 }

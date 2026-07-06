@@ -19,7 +19,7 @@ export function typedError<
 >(
     type: T,
     message: M = "" as M
-) {
+): Err<T, M> {
     const err = new Error(message) as TypedError<string, string | undefined>;
     const [t, subType] = type.split("/");
     err.__kind = "Error";
@@ -41,7 +41,7 @@ export function err<
     type: TType,
     message?: TMsg,
     ctx?: TCtx
-) {
+): Err<TType, TMsg, IsNever<TCtx> extends true ? EmptyObject : TCtx> {
     const err = new Error(message) as TypedError<string, string | undefined>;
     const [t, subType] = type.split("/");
     err.type = toKebabCase(t);

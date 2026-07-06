@@ -7,7 +7,7 @@ import { retainAfterInclusive } from "inferred-types/runtime";
  *
  * Extracts and returns the whitespace on the _right_ part of the string.
  */
-export function rightWhitespace<T extends string>(content: T) {
+export function rightWhitespace<T extends string>(content: T): RetainAfter<TrimStart<T>, Whitespace, true> {
     const trimmed = content.trimStart() as string;
     return retainAfterInclusive(
         trimmed,

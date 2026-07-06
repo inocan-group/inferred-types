@@ -22,7 +22,7 @@ import {
  */
 export function asEscapeFunction<
     TFn extends () => Narrowable,
->(fn: TFn) {
+>(fn: TFn): AsEscapeFunction<TFn> {
     return createFnWithProps(fn, { escape: true }) as unknown as AsEscapeFunction<TFn>;
 }
 
@@ -33,7 +33,7 @@ export function asEscapeFunction<
  */
 export function asOptionalParamFunction<
     TFn extends (() => any) | ((p1?: any, p2?: any, p3?: any, p4?: any) => any),
->(fn: TFn) {
+>(fn: TFn): AsOptionalParamFn<TFn> {
     return createFnWithProps(fn, { optionalParams: true }) as unknown as AsOptionalParamFn<TFn>;
 }
 

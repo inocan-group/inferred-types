@@ -6,7 +6,7 @@ import type { IsGreaterThan } from "inferred-types/types";
  * Creates a type strong comparison as to whether the value `TVal` is
  * greater than the _comparator_ value.
  */
-export function isGreaterThan<T extends number>(comparator: T) {
+export function isGreaterThan<T extends number>(comparator: T): <TVal extends number>(val: TVal) => IsGreaterThan<TVal, T> {
     return <TVal extends number>(val: TVal) => {
         return val > comparator as IsGreaterThan<TVal, T>;
     };

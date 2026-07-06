@@ -19,7 +19,9 @@ export function ifTrue<
     val: TContent,
     ifVal: <V extends TContent & true>(val: V) => TIf,
     elseVal: <V extends Exclude<TContent, true>>(val: V) => TElse,
-) {
+): [IsTrue<TContent>] extends [true]
+        ? TIf
+        : [IsFalse<TContent>] extends [true] ? TElse : TIf | TElse {
     return (
     //
         isTrue(val)

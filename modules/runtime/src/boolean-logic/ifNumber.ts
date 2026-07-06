@@ -20,7 +20,7 @@ export function ifNumber<
     val: TContent,
     ifVal: <V extends TContent & number>(v: V) => TIf,
     elseVal: <V extends Exclude<TContent, number>>(v: V) => TElse,
-) {
+): IsNumber<TContent> extends true ? TIf : TElse {
     return (
         isNumber(val)
             ? ifVal(val as TContent & number)

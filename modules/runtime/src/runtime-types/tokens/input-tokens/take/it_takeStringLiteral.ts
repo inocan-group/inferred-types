@@ -1,3 +1,4 @@
+import type { IT_TakeOutcome } from "inferred-types/types";
 import { err } from "inferred-types/runtime";
 
 /**
@@ -11,7 +12,7 @@ import { err } from "inferred-types/runtime";
  * - `\`foo\`` - template literals
  * - `String(foo)` - String constructor calls
  */
-export function it_takeStringLiteral<T extends string>(parseStr: T) {
+export function it_takeStringLiteral<T extends string>(parseStr: T): IT_TakeOutcome<"literal"> {
     const parse = parseStr.trim();
 
     // Pattern 1: Double quoted strings: "foo"

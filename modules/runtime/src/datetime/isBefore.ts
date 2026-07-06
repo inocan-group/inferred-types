@@ -11,7 +11,7 @@ import { asDate } from "inferred-types/runtime";
  */
 export function isBefore<
     TComparator extends DateLike
->(comparator: TComparator) {
+>(comparator: TComparator): <TVal extends DateLike>(val: TVal) => IsBefore<TVal, TComparator> {
     const comp = asDate(comparator);
 
     return <TVal extends DateLike>(

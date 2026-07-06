@@ -13,7 +13,7 @@ import { isRegExp, isString } from "inferred-types/runtime";
 export function regexToken<
     TExp extends RegExp | string,
     TRep extends readonly SimpleToken[],
->(re: TExp, ...rep: TRep) {
+>(re: TExp, ...rep: TRep): AsSimpleType<TRep> {
     let exp: string = "";
 
     if (isString(re)) {

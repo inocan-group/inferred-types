@@ -55,7 +55,7 @@ export function createTokenSyntax<
     end: TEnd,
     sep: TSep,
     encoding: TEncode = defaultEncoder(start, end, sep) as unknown as TEncode,
-) {
+): { kind: "TokenSyntax"; name: TName; start: TStart; end: TEnd; sep: TSep; encodingDefinition: TEncode; encode: string; decode: string; } {
     // const { encoder: encode, decoder: decode } = createEncoder(encoding);
 
     const tg = {

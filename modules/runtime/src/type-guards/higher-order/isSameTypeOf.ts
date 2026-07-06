@@ -10,7 +10,7 @@ import type { ConvertTypeOf, GetTypeOf } from "inferred-types/types";
  *
  * **Related:** `IsSameType`
  */
-export function isSameTypeOf<TBase>(base: TBase) {
+export function isSameTypeOf<TBase>(base: TBase): <TCompare>(compare: TCompare) => compare is TCompare & ConvertTypeOf<GetTypeOf<TBase>> {
     return <TCompare>(compare: TCompare): compare is TCompare & ConvertTypeOf<GetTypeOf<TBase>> => {
         return typeof base === typeof compare;
     };

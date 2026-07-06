@@ -52,6 +52,6 @@ export function filter<
 >(
     op: TOp,
     ...params: TParams
-) {
+): FilterFn<TOp, TParams> {
     return filterFn(op, params) as FilterFn<TOp, TParams>;
 }

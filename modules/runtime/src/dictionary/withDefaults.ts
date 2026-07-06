@@ -9,7 +9,7 @@ import type { MergeObjects, Narrowable, ObjectKey } from "inferred-types/types";
 export function withDefaults<
     TDefaults extends Record<ObjectKey, N>,
     N extends Narrowable,
->(with_defaults: TDefaults) {
+>(with_defaults: TDefaults): <TObj extends Record<ObjectKey, W>, W extends Narrowable>(obj: TObj) => MergeObjects<Required<TDefaults>, TObj> {
     return <
         TObj extends Record<ObjectKey, W>,
         W extends Narrowable,

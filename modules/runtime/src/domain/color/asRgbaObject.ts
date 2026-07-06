@@ -25,7 +25,7 @@ import { isCssRgbString } from "./isCssRgbString";
  *
  * If the incoming color information has no alpha value then `1` will be used.
  */
-export function asRgbaObject<T extends string | RGB | RGBA>(rgb: T) {
+export function asRgbaObject<T extends string | RGB | RGBA>(rgb: T): AsRgbaObject<T> {
     return (
         isRgbObject(rgb)
             ? {

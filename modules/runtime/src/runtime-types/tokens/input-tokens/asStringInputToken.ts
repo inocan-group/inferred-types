@@ -13,7 +13,7 @@ import {
  */
 export function toStringToken<
     T extends InputToken
->(token: T) {
+>(token: T): "string | false | true | symbol | number | undefined | null | bigint | void | {  } | [  ]" | undefined {
     if (isDefineObject(token)) {
         return toStringLiteral(token, { tokensAllowed: true });
     }

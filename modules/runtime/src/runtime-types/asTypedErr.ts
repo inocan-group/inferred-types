@@ -7,7 +7,7 @@ export function asTypedError<
 >(
     classification: TType,
     msg: TMsg
-) {
+): string extends TType ? WideErrType<TMsg, {}> : _Err<TType, TMsg, {}> {
     const [type, subType] = asTypeSubtype(classification);
     const err = new Error(msg) as Err<TType, TMsg>;
     err.name = toPascalCase(type);

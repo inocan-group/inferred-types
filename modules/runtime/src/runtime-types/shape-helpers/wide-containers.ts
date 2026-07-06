@@ -17,17 +17,21 @@ import type {
 export function record<
     TKey extends DictionaryTypeDefn,
     TValue extends RecordValueTypeDefn = "unknown",
->(_key?: TKey, _value?: TValue) {
+>(_key?: TKey, _value?: TValue): Record<As<FromDefn<TKey>, string>, FromDefn<TValue>> {
     // TODO
     return null as unknown as Record<As<FromDefn<TKey>, string>, FromDefn<TValue>>;
 }
 
-export function array<T extends ArrayTypeDefn = "Array<unknown>">(_type?: T) {
+export function array<T extends ArrayTypeDefn = "Array<unknown>">(_type?: T): AsArray<FromDefn<T>> {
     // TODO
     return null as unknown as AsArray<FromDefn<T>>;
 }
 
-export function set<T extends WideTokenNames | ShapeCallback = "unknown">(_type?: T) {
+export function set<T extends WideTokenNames | ShapeCallback = "unknown">(_type?: T): T extends ShapeCallback
+        ? Set<HandleDoneFn<ReturnType<T>>>
+        : T extends WideTokenNames
+            ? Set<FromDefn<T>>
+            : Set<unknown> {
     return null as unknown as T extends ShapeCallback
         ? Set<HandleDoneFn<ReturnType<T>>>
         : T extends WideTokenNames
@@ -38,7 +42,7 @@ export function set<T extends WideTokenNames | ShapeCallback = "unknown">(_type?
 export function map<
     TKey extends MapKeyDefn = "unknown",
     TValue extends MapValueDefn = "unknown",
->(_key?: TKey, _value?: TValue) {
+>(_key?: TKey, _value?: TValue): Map<FromDefn<TKey>, FromDefn<TValue>> {
     // TODO
     return null as unknown as Map<FromDefn<TKey>, FromDefn<TValue>>;
 }
@@ -46,7 +50,12 @@ export function map<
 export function weakMap<
     TKey extends WeakMapKeyDefn = "object",
     TValue extends WeakMapValueDefn = "unknown",
->(_key?: TKey, _value?: TValue) {
+>(_key?: TKey, _value?: TValue): WeakMap<
+        FromDefn<TKey> extends object
+            ? FromDefn<TKey>
+            : never,
+        FromDefn<TValue>
+    > {
     // TODO
     return null as unknown as WeakMap<
         FromDefn<TKey> extends object

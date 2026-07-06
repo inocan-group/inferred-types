@@ -2,7 +2,7 @@ import type { GetPhoneCountryCode } from "inferred-types/types";
 import { NUMERIC_CHAR } from "inferred-types/constants";
 import { retainWhile, stripLeading } from "inferred-types/runtime";
 
-export function getPhoneCountryCode<T extends string>(phone: T) {
+export function getPhoneCountryCode<T extends string>(phone: T): GetPhoneCountryCode<T> {
     return (
         phone.trim().startsWith("+") || phone.trim().startsWith("00")
             ? retainWhile(

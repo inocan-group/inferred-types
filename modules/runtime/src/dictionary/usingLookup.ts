@@ -7,7 +7,7 @@ export function usingLookup<
 >(
     lookup: TLookup,
     missing: TMissing = unset as TMissing
-) {
+): <const TKey extends Suggest<StringKeys<TLookup>[number]>>(key: TKey) => TMissing | TLookup[TKey] {
     return <
         const TKey extends Suggest<StringKeys<TLookup>[number]>,
     >(

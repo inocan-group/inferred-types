@@ -12,7 +12,7 @@ import { asDate } from "inferred-types/runtime";
  */
 export function isSameMonthYear<
     TComparator extends DateLike
->(comparator: TComparator) {
+>(comparator: TComparator): <TVal extends DateLike>(val: TVal) => IsSameMonthYear<TVal, TComparator> {
     const comp = asDate(comparator);
 
     return <TVal extends DateLike>(

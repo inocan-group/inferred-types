@@ -44,7 +44,7 @@ const TOKENS = [
  */
 export function isInUnion<
     TOptions extends readonly Narrowable[],
->(...elements: TOptions) {
+>(...elements: TOptions): (value: unknown) => value is TOptions[number] {
     return (
         value: unknown,
     ): value is TOptions[number] => {

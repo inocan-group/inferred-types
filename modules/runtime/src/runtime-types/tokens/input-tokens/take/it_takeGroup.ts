@@ -1,3 +1,4 @@
+import type { IT_TakeOutcome } from "inferred-types/types";
 import { err } from "inferred-types/runtime";
 
 /**
@@ -7,7 +8,7 @@ import { err } from "inferred-types/runtime";
  *
  * Handles: `(string | number)`, `(string)`, etc.
  */
-export function it_takeGroup<T extends string>(parseStr: T) {
+export function it_takeGroup<T extends string>(parseStr: T): IT_TakeOutcome<"group"> {
     const parse = parseStr.trim();
 
     // Pattern: (content) where content can be any valid type expression

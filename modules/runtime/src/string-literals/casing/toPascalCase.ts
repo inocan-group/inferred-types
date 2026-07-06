@@ -18,7 +18,9 @@ import { capitalize } from "inferred-types/runtime";
 export function toPascalCase<
     S extends string,
     P extends boolean | undefined = undefined,
->(input: S, preserveWhitespace: P = undefined as P) {
+>(input: S, preserveWhitespace: P = undefined as P): true extends P
+        ? `${LeftWhitespace<S>}${PascalCase<S>}${RightWhitespace<S>}`
+        : PascalCase<S> {
     const [_, preWhite, focus, postWhite] = /^(\s*)([\s\S]*?)(\s*)$/.exec(
         input,
     ) as RegExpExecArray;

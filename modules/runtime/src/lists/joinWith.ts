@@ -27,7 +27,7 @@ export type Joiner<
  */
 export function joinWith<const TJoin extends string>(
     joinWith: TJoin,
-) {
+): <const TContent extends readonly string[]>(...tuple: TContent) => Join<TContent, TJoin, null, "..."> {
     /**
      * add elements of the tuple you want to join
      */

@@ -26,7 +26,7 @@ export function indexOf<
     const TContainer extends N | NarrowObject<N> | readonly N[],
     const N extends Narrowable,
     const TIdx extends PropertyKey | null,
->(val: TContainer, index: TIdx) {
+>(val: TContainer, index: TIdx): TContainer extends Container ? IndexOf<TContainer, TIdx> : Err<"invalid-index"> {
     const isNegative = isNumber(index) && index < 0;
     if (isNegative && !Array.isArray(val)) {
         throw new Error(`The indexOf(val,idx) utility received a negative index value [${index}] but the value being de-references is not an array [${typeof val}]!`);

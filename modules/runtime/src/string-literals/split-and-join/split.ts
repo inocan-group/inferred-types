@@ -58,7 +58,7 @@ function splitUp<
     }
 
     else if (policy === "inline") {
-        inline = inline.map(i => i.startsWith(SEP) ? i.replace(SEP, "") : i);
+        inline = inline.map(i => i.startsWith(SEP) ? i.replace(SEP, ""): i);
     }
 
     return inline;

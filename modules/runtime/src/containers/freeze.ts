@@ -15,7 +15,7 @@ import { isArray, keysOf } from "inferred-types/runtime";
 export function freeze<
     T extends NarrowObject<N> | readonly N[],
     N extends Narrowable
->(obj: T & Dictionary) {
+>(obj: T & Dictionary): Immutable<T> {
     const output: any = isArray(obj) ? [] : {};
 
     for (const key of keysOf(obj)) {

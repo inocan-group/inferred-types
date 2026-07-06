@@ -22,7 +22,7 @@ export function hasKeys(...keys: any[]) {
     }
 
     return <V>(val: V): val is any => {
-        const iterable = isDictionary(keys[0]) && keys.length === 1 ? keysOf(keys[0]) : keys;
+        const iterable = isDictionary(keys[0]) && keys.length === 1 ? keysOf(keys[0]): keys;
         return !!(
             (isDictionary(val)) && iterable.every((k) => {
                 if (!indexOf(val, k as PropertyKey)) {

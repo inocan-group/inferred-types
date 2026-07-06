@@ -15,7 +15,7 @@ export function mergeObjects<
 >(
     defVal: TDefault,
     override: TOverride,
-) {
+): MergeObjects<TDefault, TOverride> {
     return {
         ...defVal,
         ...override,

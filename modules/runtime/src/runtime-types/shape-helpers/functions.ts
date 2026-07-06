@@ -12,7 +12,7 @@ import type {
  *
  * provides an API surface for function definition
  */
-export function fn<TArgs extends readonly FnArgsDefn[]>(..._args: TArgs) {
+export function fn<TArgs extends readonly FnArgsDefn[]>(..._args: TArgs): { returns: <TReturn extends FnReturnTypeDefn>(_rtn: TReturn) => { addProperties: <TProps extends FnPropertiesDefn>(_kv: TProps) => AsStaticFn<FromWideTokens<TArgs, FromDefn<TArgs>>, FromWideTokens<TReturn, FromDefn<TReturn>>, FromDefn<TProps>>; done: () => AsStaticFn<FromDefn<TArgs>, FromDefn<TReturn>>; }; done: () => AsStaticFn<FromDefn<TArgs>>; } {
     return {
         returns: <TReturn extends FnReturnTypeDefn>(_rtn: TReturn) => ({
             addProperties: <TProps extends FnPropertiesDefn>(_kv: TProps) => {

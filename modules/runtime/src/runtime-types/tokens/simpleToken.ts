@@ -14,7 +14,7 @@ import { isSimpleContainerToken, isSimpleScalarToken } from "inferred-types/runt
  *
  * **Related:** `simpleType()`, `simpleScalarToken()`, `simpleContainerToken()`
  */
-export const simpleToken = <T extends SimpleToken>(token: T) => token;
+export const simpleToken = <T extends SimpleToken>(token: T): T => token;
 
 /**
  * **simpleScalarToken**`(token)`
@@ -23,7 +23,7 @@ export const simpleToken = <T extends SimpleToken>(token: T) => token;
  *
  * **Related:** `simpleType()`, `simpleToken()`, `simpleContainerToken()`
  */
-export const simpleScalarToken = <T extends SimpleScalarToken>(token: T) => token;
+export const simpleScalarToken = <T extends SimpleScalarToken>(token: T): T => token;
 
 /**
  * **simpleContainerToken**`(token)`
@@ -32,7 +32,7 @@ export const simpleScalarToken = <T extends SimpleScalarToken>(token: T) => toke
  *
  * **Related:** `simpleType()`, `simpleToken()`, `simpleScalarToken()`
  */
-export const simpleContainerToken = <T extends SimpleContainerToken>(token: T) => token;
+export const simpleContainerToken = <T extends SimpleContainerToken>(token: T): T => token;
 
 /**
  * **simpleScalarType**`(token)`
@@ -42,7 +42,7 @@ export const simpleContainerToken = <T extends SimpleContainerToken>(token: T) =
  *
  * **Related:** `simpleScalarToken`
  */
-export function simpleScalarType<T extends SimpleScalarToken>(token: T) {
+export function simpleScalarType<T extends SimpleScalarToken>(token: T): SimpleType<T> {
     const value: unknown = simpleScalarToken(token) as unknown;
 
     return value as SimpleType<T>;
@@ -56,7 +56,7 @@ export function simpleScalarType<T extends SimpleScalarToken>(token: T) {
  *
  * **Related:** `simpleContainerToken`
  */
-export function simpleContainerType<T extends SimpleContainerToken>(token: T) {
+export function simpleContainerType<T extends SimpleContainerToken>(token: T): SimpleType<T> {
     const value: unknown = simpleContainerToken(token) as unknown;
 
     return value as SimpleType<T>;
@@ -68,7 +68,7 @@ export function simpleContainerType<T extends SimpleContainerToken>(token: T) {
  * Creates a valid runtime token of the `SimpleToken` convention and converts
  * the _type_ to the type that the token represents.
  */
-export function simpleType<T extends SimpleToken>(token: T) {
+export function simpleType<T extends SimpleToken>(token: T): SimpleType<T> {
     const value: unknown = (
         isSimpleScalarToken(token)
             ? simpleScalarType(token)

@@ -13,7 +13,7 @@ import type {
 export function addPropsToFn<
     TFn extends TypedFunction,
     TClone extends boolean | undefined,
->(fn: TFn, clone_fn?: TClone) {
+>(fn: TFn, clone_fn?: TClone): <K extends PropertyKey, N extends Narrowable, TProps extends Record<K, N>>(obj: TProps) => FnWithProps<TFn, TProps, TClone> {
     const localFn: any = clone_fn
         ? <T extends Parameters<TFn>>(...args: T) => fn(args)
         : fn;

@@ -14,7 +14,7 @@ import { ensureLeading, ensureTrailing } from "inferred-types/runtime";
 export function ensureSurround<
     TPrefix extends string,
     TPostfix extends string,
->(prefix: TPrefix, postfix: TPostfix) {
+>(prefix: TPrefix, postfix: TPostfix): <TInput extends string>(input: TInput) => EnsureSurround<TInput, TPrefix, TPostfix> {
     const fn = <TInput extends string>(
         input: TInput,
     ): EnsureSurround<TInput, TPrefix, TPostfix> => {

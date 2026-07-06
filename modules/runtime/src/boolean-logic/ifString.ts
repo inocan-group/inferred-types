@@ -19,7 +19,11 @@ export function ifString<
     val: TContent,
     ifVal: <V extends TContent & string>(t: V & TContent) => TIf,
     elseVal: <V extends Exclude<TContent, string>>(v: V & TContent) => TElse,
-) {
+): If<
+        IsTrue<IsString<TContent>>,
+        TIf,
+        If<IsFalse<IsString<TContent>>, TElse, TIf | TElse>
+    > {
     return (
         typeof val === "string"
             ? ifVal(val as string & TContent)

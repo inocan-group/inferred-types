@@ -55,7 +55,7 @@ export interface YouTubeMeta<T extends string> {
  * Returns a `YouTubePageType` description based on the url passed in (assuming
  * that URL is for YouTube). Returns _never_ if not a YouTube URL.
  */
-export function getYouTubePageType<T extends string>(url: T) {
+export function getYouTubePageType<T extends string>(url: T): GetYouTubePageType<T> {
     return (
         isYouTubeUrl(url)
             ? isYouTubeVideoUrl(url) && (hasUrlQueryParameter(url, "v") || isYouTubeShareUrl(url))

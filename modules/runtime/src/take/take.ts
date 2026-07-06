@@ -24,7 +24,7 @@ export function append<
  * parameter. The callback will receive the `Err<"unmatched">` and your callback can convert
  * this to whatever type you like (however, some sort of Error is typically a good idea).
  */
-export function take<TParse extends TakeParser>(parser: TParse) {
+export function take<TParse extends TakeParser>(parser: TParse): <TVal extends string | TakeState | Error>(val: TVal) => UpdateTake<AsTakeState<TVal>, ReturnType<TParse>> {
     return <TVal extends string | TakeState | Error>(val: TVal): UpdateTake<AsTakeState<TVal>, ReturnType<TParse>> => {
         const state = asTakeState(val);
         if (isError(state)) {

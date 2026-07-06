@@ -38,7 +38,7 @@
  * Handles: `string`, `number`, `boolean`, `true`, `false` `unknown`, `any`,
  * `void`, `never`, `undefined`, `null`, `object`, `Object`, `symbol`, and `bigint`
  */
-export function it_takeAtomic<T extends string>(_parseStr: T) {
+export function it_takeAtomic<T extends string>(_parseStr: T): void {
     // const parse = trim(parseStr);
     // const take = takeStart(...ATOMIC_TYPES);
 

@@ -43,7 +43,7 @@ export function startsWith<
     const TStartsWith extends readonly (string | number)[]
 >(
     ...startingWith: TStartsWith
-) {
+): <const TValue extends string | number>(val: TValue) => StartsWith<TValue, TStartsWith> {
     return <
         const TValue extends string | number,
     >(val: TValue) => {

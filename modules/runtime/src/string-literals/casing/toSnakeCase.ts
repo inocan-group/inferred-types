@@ -20,7 +20,7 @@ export function toSnakeCase<
     const convertDashes = (input: string) => input.replace(/-/g, "_");
     const injectUnderscoreBeforeCaps = (input: string) => input.replace(/([A-Z])/g, "_$1");
     const removeLeadingUnderscore = (input: string) =>
-        input.startsWith("_") ? input.slice(1) : input;
+        input.startsWith("_") ? input.slice(1): input;
 
     return (
         (preserveWhitespace ? preWhite : "")

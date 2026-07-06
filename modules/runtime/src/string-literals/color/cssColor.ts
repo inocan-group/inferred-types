@@ -11,7 +11,15 @@ export function cssColor<
     TV2 extends ColorFnValue,
     TV3 extends ColorFnValue,
     TOp extends undefined | ColorFnOptOpacity,
->(color: TColorSpace, v1: TV1, v2: TV2, v3: TV3, opacity?: TOp) {
+>(color: TColorSpace, v1: TV1, v2: TV2, v3: TV3, opacity?: TOp): CssColorFn<
+        TColorSpace,
+        TV1,
+        TV2,
+        TV3,
+        TOp extends ` / ${number}`
+            ? TOp
+            : ""
+    > {
     return `color(${color} ${v1} ${v2} ${v3}${opacity ? ` / ${opacity}` : ""}` as CssColorFn<
         TColorSpace,
         TV1,

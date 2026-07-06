@@ -17,7 +17,7 @@ export function ifSameType<
     comparator: TType,
     same: <T extends TType & TValue>(v: T) => IF,
     notSame: <T extends Exclude<TValue, TType>>(v: T) => ELSE,
-) {
+): TValue extends TType ? IF : ELSE {
     return (
     // runtime values match
         (

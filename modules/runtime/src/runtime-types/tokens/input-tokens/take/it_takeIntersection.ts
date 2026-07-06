@@ -1,3 +1,4 @@
+import type { IT_TakeOutcome } from "inferred-types/types";
 import { err } from "inferred-types/runtime";
 
 /**
@@ -9,7 +10,7 @@ import { err } from "inferred-types/runtime";
  * Note: This function is typically called by the orchestrator when it encounters
  * an ampersand character, not directly for parsing complete intersection expressions.
  */
-export function it_takeIntersection<T extends string>(parseStr: T) {
+export function it_takeIntersection<T extends string>(parseStr: T): IT_TakeOutcome<"intersection"> {
     const parse = parseStr.trim();
 
     // Intersection parsing is typically handled by the orchestrator when it sees "&"

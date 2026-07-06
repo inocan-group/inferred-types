@@ -7,6 +7,6 @@ import type { AsOutputToken, TypeTokenKind } from "inferred-types/types";
 export function addToken<
     T extends TypeTokenKind,
     TData extends readonly string[],
->(token: T, ...params: TData) {
+>(token: T, ...params: TData): AsOutputToken {
     return `<<${token}${params.length > 0 ? `::${params.join("::")}` : ""}>>` as AsOutputToken;
 }

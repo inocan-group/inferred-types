@@ -17,7 +17,7 @@ export function between<
     min: TMin,
     max: TMax,
     scope: TScope = "exclusively" as TScope
-) {
+): <TVal extends number>(val: TVal) => TScope extends "inclusively" ? IsBetweenInclusively<TVal, TMin, TMax> : TScope extends "exclusively" ? IsBetweenExclusively<TVal, TMin, TMax> : never {
     return <TVal extends number>(val: TVal) => {
         return (
             scope === "inclusively"

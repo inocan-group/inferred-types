@@ -13,7 +13,11 @@ import { isArray, isDictionary } from "inferred-types/runtime";
 export function valuesOf<
     const TContainer extends Record<ObjectKey, N> | readonly N[],
     const N extends Narrowable,
->(val: TContainer) {
+>(val: TContainer): TContainer extends readonly unknown[]
+        ? Mutable<TContainer>
+        : TContainer extends Dictionary
+            ? Values<TContainer>
+            : never {
     let values: any[] = [];
     if (isArray(val)) {
         values = val;

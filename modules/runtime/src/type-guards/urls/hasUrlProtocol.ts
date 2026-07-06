@@ -10,7 +10,7 @@ import { isString } from "inferred-types/runtime";
 export function hasUrlProtocol<P extends readonly NetworkProtocol[] = readonly ["http", "https"]>(
     test: unknown,
     protocols?: P
-) {
+): boolean {
     protocols = (
         protocols || ["http", "https"]
     ) as P;

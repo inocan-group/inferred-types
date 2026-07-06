@@ -69,7 +69,10 @@ export function createEncoder<
     N extends string,
 >(
     defn: TDefn,
-) {
+): {
+    encoder: ReturnType<typeof encode<TDefn, N>>;
+    decoder: ReturnType<typeof decode<any, string>>;
+} {
     return {
         encoder: encode(defn),
         decoder: decode(reverseLookup(defn) as any),

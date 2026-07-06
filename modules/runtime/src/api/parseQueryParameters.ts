@@ -19,7 +19,7 @@
  */
 export function parseQueryParams(query: string): Record<string, string> {
     // Remove the leading '?' if present
-    const trimmedQuery = query.startsWith("?") ? query.slice(1) : query;
+    const trimmedQuery = query.startsWith("?") ? query.slice(1): query;
 
     // Initialize an empty object to hold the key/value pairs
     const params: Record<string, string> = {};

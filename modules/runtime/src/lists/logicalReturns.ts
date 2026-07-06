@@ -4,7 +4,7 @@ import { isBoolean, isFunction } from "inferred-types/runtime";
 
 export function logicalReturns<
     TConditions extends readonly (boolean | LogicFunction)[],
->(conditions: TConditions) {
+>(conditions: TConditions): LogicalReturns<TConditions> {
     return conditions.map(c => isBoolean(c)
         ? c
         : isFunction(c)

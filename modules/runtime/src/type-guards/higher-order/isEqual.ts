@@ -20,6 +20,6 @@ function compare<
 export function isEqual<
     TBase extends readonly N[],
     N extends Narrowable,
->(...base: TBase) {
+>(...base: TBase): (value: unknown) => value is TBase[number] {
     return compare(base);
 }

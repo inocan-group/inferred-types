@@ -514,7 +514,12 @@ export function nestedSplit<
     split: TSplit,
     nesting: TNesting = mutable(BRACKET_NESTING) as TNesting,
     policy: TPolicy = "omit" as TPolicy
-) {
+): NestedSplit<
+        TContent,
+        TSplit,
+        AsNestingConfig<TNesting>,
+        TPolicy
+    > {
     const config: Nesting = isString(nesting)
         ? nesting === "default" || nesting === "brackets"
             ? BRACKET_NESTING

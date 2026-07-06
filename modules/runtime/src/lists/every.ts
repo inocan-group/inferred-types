@@ -14,7 +14,7 @@ export function every<
 >(
     op: TOp,
     comparator: TComparator
-) {
+): <const TContainer extends Record<ObjectKey, N> | readonly N[], const N extends Narrowable>(value: TContainer) => Every<Values<TContainer>, TOp, TComparator> {
     return <
         const TContainer extends Record<ObjectKey, N> | readonly N[],
         const N extends Narrowable,

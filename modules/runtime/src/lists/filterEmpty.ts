@@ -23,6 +23,6 @@ type NotEmpty<
 export function filterEmpty<
     T extends readonly N[],
     N extends Narrowable,
->(...val: T) {
+>(...val: T): NotEmpty<T> {
     return val.filter(i => isNotEmpty(i)) as NotEmpty<T>;
 }

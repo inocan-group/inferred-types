@@ -35,7 +35,7 @@ export function asUnion<
     sep: TSep = " | " as TSep,
 
     options: TOpt = {} as TOpt,
-) {
+): TElements[number] {
     const opts = {
         ...defaultOptions,
         ...options,

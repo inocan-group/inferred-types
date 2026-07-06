@@ -17,7 +17,9 @@ export function keysOf<
     const TObj extends Dictionary
 >(
     container: TObj,
-) {
+): ObjectKeys<TObj> extends PropertyKey[] & (keyof TObj)[]
+        ? ObjectKeys<TObj>
+        : never {
     const keys: unknown = (
         isArray(container)
             ? Object.keys(container).map(i => Number(i))

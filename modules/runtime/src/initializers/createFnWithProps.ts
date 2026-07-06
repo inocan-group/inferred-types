@@ -62,7 +62,9 @@ export function createFnWithProps<
     fn: TFn,
     props: TProps,
     _narrowing: TNarrowing = false as TNarrowing
-) {
+): ExpandRecursively<
+        FnWithProps<TFn, TProps>
+    > {
     let fnWithProps: any = fn;
     const p = {
         ...(fnProps(fn)),

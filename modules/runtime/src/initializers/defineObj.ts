@@ -29,7 +29,7 @@ export function defineObj<
     TLiteral extends Record<string, N>,
 >(
     literal: TLiteral = {} as TLiteral,
-) {
+): <N2 extends Narrowable, TWide extends Record<string, N2>>(wide?: TWide) => ExpandDictionary<RemoveIndex<TLiteral> & (IsNonEmptyObject<TWide> extends true ? Widen<TWide> : EmptyObject)> {
     /**
      * Add any key/value pairs which you want to have _wide_ types associated;
      * literal types are defined already and stated above.

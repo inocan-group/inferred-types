@@ -51,6 +51,6 @@ type Interpolate<
  *
  * **Related:** `asTemplateProvidingTags`
  */
-export function asTemplate<T extends string>(template: T) {
+export function asTemplate<T extends string>(template: T): Interpolate<T, Find> {
     return template as Interpolate<T, Find>;
 }

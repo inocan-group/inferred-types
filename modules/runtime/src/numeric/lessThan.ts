@@ -6,7 +6,7 @@ import type { LessThan } from "inferred-types/types";
  * Creates a type strong comparison as to whether the value `TVal` is
  * less than the _comparator_ value.
  */
-export function lessThan<T extends number>(comparator: T) {
+export function lessThan<T extends number>(comparator: T): <TVal extends number>(val: TVal) => LessThan<TVal, T> {
     return <TVal extends number>(val: TVal) => {
         return val < comparator as LessThan<TVal, T>;
     };

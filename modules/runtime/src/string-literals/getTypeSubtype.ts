@@ -14,7 +14,7 @@ import { isTypeSubtype } from "inferred-types/runtime";
  *
  * **Related:** `TypeSubtype`, `isTypeSubtype`
  */
-export function getTypeSubtype<T extends TypeSubtype | `${string}/${string}`>(str: T) {
+export function getTypeSubtype<T extends TypeSubtype | `${string}/${string}`>(str: T): [RetainUntil<T, "/">, RetainAfter<T, "/">] {
     if (isTypeSubtype(str)) {
         const [t, st] = str.split("/");
 

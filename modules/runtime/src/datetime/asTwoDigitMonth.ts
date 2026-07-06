@@ -14,7 +14,7 @@ import { asDate, isError, isInteger, parseDateObject } from "inferred-types/runt
  */
 export function asTwoDigitMonth<T extends DateLike>(
     date: T
-) {
+): AsTwoDigitMonth<T> {
     return (
         isInteger(date)
             ? date > 0 && date < 13

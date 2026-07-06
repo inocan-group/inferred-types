@@ -17,7 +17,7 @@ import { keysOf } from "inferred-types/runtime";
 export function entries<
     T extends Record<ObjectKey, N>,
     N extends Narrowable,
->(obj: T) {
+>(obj: T): { [Symbol.iterator](): Generator<{ key: PropertyKey; value: PropertyKey extends keyof T ? T[PropertyKey] : never; }, void, unknown>; } {
     const iterable = {
         * [Symbol.iterator]() {
             for (const k of keysOf(obj)) {

@@ -12,7 +12,7 @@ export function ifHasKey<
     TKey extends PropertyKey,
     IF extends Narrowable,
     ELSE extends Narrowable,
->(container: TContainer, key: TKey, hasKey: <V extends TContainer & Record<TKey, unknown>>(val: V) => IF, doesNotHaveKey: <N extends Exclude<TContainer, TKey>>(nonArr: N) => ELSE) {
+>(container: TContainer, key: TKey, hasKey: <V extends TContainer & Record<TKey, unknown>>(val: V) => IF, doesNotHaveKey: <N extends Exclude<TContainer, TKey>>(nonArr: N) => ELSE): If<Contains<Keys<TContainer>, TKey>, IF, ELSE> {
     return (
         hasIndexOf(container, key)
             ? hasKey(container as TContainer & Record<TKey, unknown>)

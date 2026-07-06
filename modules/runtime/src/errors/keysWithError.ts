@@ -8,7 +8,7 @@ import { indexOf, isError } from "inferred-types/runtime";
  */
 export function keysWithError<
     const T extends Dictionary<string>,
->(obj: T) {
+>(obj: T): KeysWithError<T> {
     const keys = Object.keys(obj).filter((k) => {
         return isError(indexOf(obj, k));
     });

@@ -22,7 +22,7 @@ export function addFnToProps<
     TProps extends Record<K, N>,
     TClone extends boolean | undefined,
 
->(props: TProps, _clone_fn?: TClone) {
+>(props: TProps, _clone_fn?: TClone): <TFn extends TypedFunction>(fn: TFn) => FnWithProps<TFn, TProps, TClone> {
     return <
         TFn extends TypedFunction,
     >(fn: TFn) => {

@@ -42,7 +42,7 @@ export function isValidAtomicTag(val: unknown): val is string {
  */
 export function isValidHtmlTag<
     T extends readonly (Html__BlockTag | Html__AtomicTag)[],
->(...tags: T) {
+>(...tags: T): <V>(val: V) => val is V & AsHtmlTag<V, T[number]> {
     return <V>(val: V): val is V & AsHtmlTag<V, T[number]> => {
         if (typeof val !== "string")
             return false;

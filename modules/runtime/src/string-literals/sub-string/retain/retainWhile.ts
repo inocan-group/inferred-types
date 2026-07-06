@@ -11,7 +11,7 @@ import { asChars } from "inferred-types/runtime";
 export function retainWhile<
     TContent extends string,
     TRetain extends readonly string[],
->(content: TContent, ...retain: TRetain) {
+>(content: TContent, ...retain: TRetain): RetainWhile<TContent, TupleToUnion<TRetain>> {
     const stopIdx = asChars(content)
         .findIndex(c => !retain.includes(c));
 

@@ -29,7 +29,7 @@ export function ifLength<
     length: TLen,
     ifVal: <V extends Exclude<TList, Scalar | undefined> & Tuple>(v: V) => IF,
     elseVal: <V extends If<IsArray<TList>, TList, Exclude<TList, Tuple>>>(v: V) => ELSE,
-) {
+): IfLength<TList, TLen, IF, ELSE> {
     return (
         Array.isArray(value) && (value as unknown[]).length === length
 

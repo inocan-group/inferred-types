@@ -41,6 +41,6 @@ export function idTypeGuard<T extends { id: I }, I extends PropertyKey>(
  * > Note: this addresses this [a known TS gap](https://github.com/microsoft/TypeScript/issues/30680).
  * > Hopefully at some point this will be addressed in the language.
  */
-export function literal<N extends Narrowable, T extends Record<keyof T, N>>(obj: T) {
+export function literal<N extends Narrowable, T extends Record<keyof T, N>>(obj: T): T {
     return obj;
 }

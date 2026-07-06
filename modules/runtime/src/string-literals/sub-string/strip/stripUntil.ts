@@ -10,7 +10,7 @@ import { asChars } from "inferred-types/runtime";
 export function stripUntil<
     TContent extends string,
     TUntil extends readonly string[],
->(content: TContent, ...until: TUntil) {
+>(content: TContent, ...until: TUntil): StripUntil<TContent, TupleToUnion<TUntil>> {
     const stopIdx = asChars(content)
         .findIndex(c => until.includes(c));
 

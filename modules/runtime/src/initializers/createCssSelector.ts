@@ -52,7 +52,7 @@ export type AsClassSelector<
  */
 export function createCssSelector<
     TOpt extends CssSelectorOptions,
->(_opt?: TOpt) {
+>(_opt?: TOpt): <TSelect extends readonly CssSelector<TOpt["ids"] extends readonly CssIdSelector[] ? TupleToUnion<TOpt["ids"]> : CssIdSelector, TOpt["classes"] extends readonly CssClassSelector[] ? TupleToUnion<TOpt["classes"]> : CssClassSelector, TOpt["tags"] extends readonly CssTagSelector[] ? TupleToUnion<TOpt["tags"]> : CssTagSelector, TOpt["pseudo"] extends readonly CssPseudoClass[] ? TupleToUnion<TOpt["pseudo"]> : CssPseudoClass>[]>(...selectors: TSelect) => Join<TSelect, " "> {
     return <
         TSelect extends readonly CssSelector<
             TOpt["ids"] extends readonly CssIdSelector[] ? TupleToUnion<TOpt["ids"]> : CssIdSelector,

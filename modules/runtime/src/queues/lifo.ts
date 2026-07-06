@@ -39,6 +39,6 @@ function queue<
 export function createLifoQueue<
     T extends readonly K[],
     K extends Narrowable,
->(...list: T) {
+>(...list: T): LifoQueue<T[number]> {
     return queue([...list]);
 }

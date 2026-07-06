@@ -20,7 +20,7 @@ export function ifNull<
     val: T,
     ifVal: () => IF,
     elseVal: (v: Exclude<T, null>) => ELSE,
-) {
+): IsNull<T> extends true ? IF : ELSE {
     return (
         isNull(val)
             ? ifVal()

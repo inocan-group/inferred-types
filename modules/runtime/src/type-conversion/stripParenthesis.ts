@@ -19,6 +19,6 @@ type StripParenthesis<T extends string> = Trim<T> extends infer S extends string
  */
 export function stripParenthesis<
     T extends string,
->(val: T) {
+>(val: T): StripParenthesis<T> {
     return stripTrailing(stripLeading(val.trim(), "("), ")").trim() as unknown as StripParenthesis<T>;
 }

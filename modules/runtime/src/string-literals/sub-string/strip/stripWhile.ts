@@ -11,7 +11,7 @@ import { asChars } from "inferred-types/runtime";
 export function stripWhile<
     TContent extends string,
     TMatch extends readonly string[],
->(content: TContent, ...match: TMatch) {
+>(content: TContent, ...match: TMatch): StripWhile<TContent, TMatch[number]> {
     const stopIdx = asChars(content)
         .findIndex(c => !match.includes(c));
 

@@ -5,7 +5,7 @@ import { retainAfter } from "runtime/string-literals";
  * Provides the number of digits to the _right_ of the decimal
  * place for a given number.
  */
-export function precision<T extends NumberLike>(num: T) {
+export function precision<T extends NumberLike>(num: T): Precision<T> {
     const digits = retainAfter(`${num}`, ".") as string;
 
     return digits.length as Precision<T>;

@@ -23,6 +23,6 @@ type NotUndefined<
 export function filterUndefined<
     T extends readonly N[],
     N extends Narrowable,
->(...val: T) {
+>(...val: T): NotUndefined<T> {
     return val.filter(i => isDefined(i)) as NotUndefined<T>;
 }

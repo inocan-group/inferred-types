@@ -14,7 +14,7 @@ export function ifEmpty<
     val: T,
     empty: TEmpty,
     notEmpty: TNotEmpty,
-) {
+): IsEmpty<T> extends true ? TEmpty : TNotEmpty {
     return (
         isEmpty(val) ? empty : notEmpty
     ) as IsEmpty<T> extends true ? TEmpty : TNotEmpty;

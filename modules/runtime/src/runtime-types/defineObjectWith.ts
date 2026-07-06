@@ -2,7 +2,7 @@ import type { DefineObject, DefineObjectWith, FromInputToken__Object, StringKeys
 
 export function defineObjectWith<
     TMapper extends DefineObject
->(_mapper: TMapper) {
+>(_mapper: TMapper): <TDefn extends Record<string, StringKeys<FromInputToken__Object<TMapper>>[number]>>(defn: TDefn) => DefineObjectWith<TDefn, FromInputToken__Object<TMapper>> {
     type Mapper = FromInputToken__Object<TMapper>;
 
     return <TDefn extends Record<string, StringKeys<Mapper>[number]>>(defn: TDefn) => {

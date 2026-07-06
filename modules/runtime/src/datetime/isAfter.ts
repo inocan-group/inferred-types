@@ -23,7 +23,7 @@ function isYearOnly(input: unknown): input is number {
  */
 export function isAfter<
     TComparator extends DateLike
->(comparator: TComparator) {
+>(comparator: TComparator): <TVal extends DateLike>(val: TVal) => IsAfter<TVal, TComparator> {
     return <TVal extends DateLike>(
         val: TVal
     ): IsAfter<TVal, TComparator> => {

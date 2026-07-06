@@ -15,7 +15,7 @@ export function isNestingEndMatch<
     char: TChar,
     stack: TStack,
     nesting: TNesting
-) {
+): boolean {
     if (isNestingEnd(char, nesting) !== true) {
         return false;
     }

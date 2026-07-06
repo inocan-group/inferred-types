@@ -13,7 +13,7 @@ import type { AsArray, Narrowable } from "inferred-types/types";
  */
 export function asArray<
     const T extends Narrowable
->(thing: T) {
+>(thing: T): AsArray<T> {
     return (
         Array.isArray(thing) === true
             ? thing // proxy thing back as it's already an array

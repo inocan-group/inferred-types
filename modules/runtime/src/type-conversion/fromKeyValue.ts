@@ -16,7 +16,7 @@ export function fromKeyValue<
     T extends readonly KeyValue<K, N>[],
     K extends string,
     N extends Narrowable,
->(kvs: T) {
+>(kvs: T): FromKv<[...T]> {
     const obj: Dictionary = {};
 
     for (const kv of kvs) {

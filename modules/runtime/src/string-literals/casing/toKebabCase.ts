@@ -13,7 +13,7 @@ import type { KebabCase } from "inferred-types/types";
 export function toKebabCase<
     S extends string | undefined,
     P extends boolean = false,
->(input: S, _preserveWhitespace: P = false as P) {
+>(input: S, _preserveWhitespace: P = false as P): S extends string ? KebabCase<S, P> : undefined {
     const [_, preWhite, focus, postWhite] = /^(\s*)([\s\S]*?)(\s*)$/.exec(input || "") as RegExpExecArray;
 
     const replaceWhitespace = (i: string) => i.replace(/\s/g, "-");

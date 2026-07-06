@@ -33,7 +33,7 @@ export function doesExtend<
     TType extends InputToken
 >(
     type: TType,
-) {
+): <T extends Narrowable>(val: T) => boolean {
     return <T extends Narrowable>(val: T): boolean => {
         if (isInputToken(type)) {
             if (isString(type)) {

@@ -150,7 +150,7 @@ export function toStringLiteral__Tuple<
 >(
     tup: T,
     opt?: ToLiteralOptions
-) {
+): ToStringLiteral__Array<T> {
     return `[ ${tup.map(i => toStringLiteral(i as any, opt)).join(", ")} ]` as ToStringLiteral__Array<T>;
 }
 

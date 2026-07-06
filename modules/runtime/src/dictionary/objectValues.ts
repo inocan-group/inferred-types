@@ -8,7 +8,7 @@ import type { Narrowable, ObjectKey, Tuple, Values } from "inferred-types/types"
 export function objectValues<
     T extends Record<ObjectKey, N>,
     N extends Narrowable,
->(obj: T) {
+>(obj: T): Values<T> {
     const tuple: Tuple = Object.keys(obj).reduce(
         (acc, key) => [
             ...acc,

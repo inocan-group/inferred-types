@@ -23,7 +23,7 @@ export function cssFromDefinition<
 >(
     defn: T,
     opt?: O,
-) {
+): string {
     if (isUndefined(defn)) {
         return "";
     }
@@ -46,7 +46,7 @@ export function cssFromDefinition<
         .join(nextDefn);
 }
 
-export function defineCss<T extends CssDefinition>(defn: T) {
+export function defineCss<T extends CssDefinition>(defn: T): { defn: T } & (<S extends string>(selector?: S) => string) {
     const fn = <S extends string>(selector?: S) => {
         return selector
             ? `${selector} {\n${cssFromDefinition(defn, { indent: "  " })}}\n`

@@ -1,3 +1,4 @@
+import type { IT_TakeOutcome } from "inferred-types/types";
 import { err } from "inferred-types/runtime";
 
 /**
@@ -9,7 +10,7 @@ import { err } from "inferred-types/runtime";
  * Note: This function is typically called by the orchestrator when it encounters
  * a pipe character, not directly for parsing complete union expressions.
  */
-export function it_takeUnion<T extends string>(parseStr: T) {
+export function it_takeUnion<T extends string>(parseStr: T): IT_TakeOutcome<"union"> {
     const parse = parseStr.trim();
 
     // Union parsing is typically handled by the orchestrator when it sees "|"

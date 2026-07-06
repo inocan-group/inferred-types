@@ -1,4 +1,4 @@
-import type { Nesting } from "inferred-types/types";
+import type { Err, Nesting } from "inferred-types/types";
 import { err, isNestingKeyValue, isNestingTuple } from "inferred-types/runtime";
 
 export function isNestingEnd<
@@ -7,7 +7,7 @@ export function isNestingEnd<
 >(
     char: TChar,
     nesting: TNesting
-) {
+): boolean | Err<"invalid-type/nesting", string, { nesting: TNesting; char: TChar }> {
     if (isNestingTuple(nesting)) {
         const [start, end] = nesting;
         if (Array.isArray(end)) {

@@ -2,7 +2,7 @@ import type { AsFromTo, FromTo } from "inferred-types/types";
 
 export function asFromTo<
     const T extends Record<string, string>,
->(defn: T) {
+>(defn: T): AsFromTo<T> {
     const fromTo: FromTo[] = Object.keys(defn).reduce(
         (acc, from) => {
             return [

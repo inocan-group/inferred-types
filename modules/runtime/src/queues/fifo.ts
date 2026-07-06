@@ -49,6 +49,6 @@ function queue<
 export function createFifoQueue<
     T extends readonly K[],
     K extends Narrowable,
->(...list: T) {
+>(...list: T): FifoQueue<T[number]> {
     return queue([...list]);
 }

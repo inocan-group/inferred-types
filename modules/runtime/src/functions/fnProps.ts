@@ -5,7 +5,7 @@ import type { AnyFunction, Dictionary, FnKeyValue } from "inferred-types/types";
  *
  * Extracts any key/value pairs found along with the function.
  */
-export function fnProps<T extends AnyFunction>(fn: T) {
+export function fnProps<T extends AnyFunction>(fn: T): FnKeyValue<T> {
     const names = Object.getOwnPropertyNames(fn);
     const props: Dictionary = {};
 

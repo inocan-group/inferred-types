@@ -21,7 +21,7 @@ export function withoutKeys<
     const TObj extends NarrowObject<N>,
     N extends Narrowable,
     const TKeys extends readonly Suggest<StringKeys<TObj>[number]>[],
->(dict: TObj, ...exclude: TKeys) {
+>(dict: TObj, ...exclude: TKeys): Expand<WithoutKeys<TObj, TKeys>> {
     const obj: any = {};
     for (const [_, key] of Object.keys(dict).entries()) {
         if (!(exclude).includes(key as any)) {

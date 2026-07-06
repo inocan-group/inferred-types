@@ -1,3 +1,4 @@
+import type { IT_TakeOutcome } from "inferred-types/types";
 import { err } from "inferred-types/runtime";
 
 /**
@@ -9,7 +10,7 @@ import { err } from "inferred-types/runtime";
  * - `42` - direct numeric literals
  * - `Number(42)` - Number constructor calls
  */
-export function it_takeNumericLiteral<T extends string>(parseStr: T) {
+export function it_takeNumericLiteral<T extends string>(parseStr: T): IT_TakeOutcome<"literal"> {
     const parse = parseStr.trim();
 
     // Pattern 1: Direct numeric literals: 42, 3.14, -5, etc.

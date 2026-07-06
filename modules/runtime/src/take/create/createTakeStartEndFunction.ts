@@ -10,7 +10,7 @@ export function createTakeStartEndFunction<
 >(
     _startEnd: TStartEnd,
     _opts: TOpt
-) {
+): <TParse extends string>(_str: TParse) => void {
     return <TParse extends string>(_str: TParse) => {
 
     };

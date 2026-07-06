@@ -21,7 +21,7 @@ export function ifFunction<
     value: TValue,
     isFnCallback: (fn: TValue & TypedFunction) => Fn,
     notFnCallback: (payload: Exclude<TValue, TypedFunction>) => NotFn,
-) {
+): IsFunction<TValue> extends true ? Fn : NotFn {
     return (
         isFunction(value)
             ? isFnCallback(value)

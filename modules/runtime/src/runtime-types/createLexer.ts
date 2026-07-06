@@ -39,7 +39,7 @@ export function createLexer<
 >(
     opt: TOpt,
     ...takeFns: TTake
-) {
+): <TParse extends string>(token: TParse) => LexerState | Error {
     return <TParse extends string>(token: TParse) => {
         let state: LexerState = { parse: token, tokens: [] };
 

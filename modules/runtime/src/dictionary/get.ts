@@ -149,7 +149,7 @@ export function get<
         defaultValue: NO_DEFAULT_VALUE,
         handleInvalidDotpath: NOT_DEFINED,
     } as GetOptions<TDefVal, TInvalid>,
-) {
+): Get<TValue, TDotPath> {
     const outcome: unknown = (
         dotPath === null || dotPath === ""
             ? value

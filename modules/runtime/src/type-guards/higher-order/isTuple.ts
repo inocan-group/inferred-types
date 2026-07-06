@@ -16,7 +16,7 @@ type FromDefn<
     [K in keyof T]: HandleDoneFn<ReturnType<T[K]>>
 };
 
-export function isTuple<TDefn extends readonly ShapeCallback[]>(...tuple: TDefn) {
+export function isTuple<TDefn extends readonly ShapeCallback[]>(...tuple: TDefn): <T>(v: T) => v is T & FromDefn<TDefn> {
     const results = tuple
         .map(i => i(ShapeApiImplementation))
         .map(i => isDoneFn(i) ? (i as any).done() : i);

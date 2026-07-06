@@ -81,7 +81,7 @@ export function createTemplateRegExp<
 >(
     template: TContent,
     handling: THandling = "exact" as THandling
-) {
+): Omit<RegExp, "test" | "exec"> & { kind: "RegexpArray"; test: <T extends string>(test: T) => RegexTestFn<T, RegexPattern<TContent, THandling>>; exec: RegexExecFn<RegexPattern<TContent, THandling>>; pattern: RegexPattern<TContent, THandling>; } {
     /** safe characters used instead of curlies */
     const safe = replaceAllFromTo(template, {
         "{{string}}": "__STRING__",

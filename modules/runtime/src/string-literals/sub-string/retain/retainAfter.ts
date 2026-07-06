@@ -17,7 +17,7 @@ import type { RetainAfter } from "inferred-types/types";
 export function retainAfter<
     TContent extends string,
     TFind extends readonly string[],
->(content: TContent, ...find: TFind) {
+>(content: TContent, ...find: TFind): RetainAfter<TContent, TFind[number]> {
     const idx = Math.min(
         ...find.map(i => content.indexOf(i)).filter(i => i > -1),
     );
@@ -57,7 +57,7 @@ export function retainAfterInclusive<
 >(
     content: TContent,
     ...find: TFind
-) {
+): RetainAfter<TContent, TFind[number], true> {
     const minFound = Math.min(
         ...find.map(i => content.indexOf(i)).filter(i => i > -1),
     );

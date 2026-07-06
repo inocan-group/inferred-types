@@ -18,7 +18,7 @@ import { asChars } from "inferred-types/runtime";
 export function retainUntil<
     TContent extends string,
     TFind extends readonly string[],
->(content: TContent, ...find: TFind) {
+>(content: TContent, ...find: TFind): RetainUntil<TContent, TFind[number]> {
     const chars = asChars(content) as readonly string[];
 
     let idx = 0;
@@ -50,7 +50,7 @@ export function retainUntil<
 export function retainUntilInclusive<
     TContent extends string,
     TFind extends readonly string[],
->(content: TContent, ...find: TFind) {
+>(content: TContent, ...find: TFind): RetainUntil<TContent, TFind[number], true> {
     const chars = asChars(content) as readonly string[];
 
     let idx = 0;

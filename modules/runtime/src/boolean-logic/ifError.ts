@@ -14,7 +14,7 @@ export function ifError<
     val: T,
     wasError: E,
     wasNotError: NE
-) {
+): IsError<T> extends true ? E : NE {
     return (
         isError(val)
             ? wasError

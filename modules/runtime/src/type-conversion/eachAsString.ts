@@ -9,7 +9,7 @@ import { asString } from "inferred-types/runtime";
 export function eachAsString<
     T extends readonly N[],
     N extends Narrowable,
->(...tuple: T) {
+>(...tuple: T): EachAsString<T> {
     return tuple.map(
         i => asString(i),
     ) as EachAsString<T>;

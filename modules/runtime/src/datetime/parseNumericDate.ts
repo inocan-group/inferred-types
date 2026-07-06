@@ -8,7 +8,7 @@ import {
  * Parses a number as a `epoch` timestamp (detects whether in
  * seconds or milliseconds) into a `IsoMeta` tuple.
  */
-export function parseNumericDate<T extends number>(d: T) {
+export function parseNumericDate<T extends number>(d: T): Error {
     try {
         const date = isEpochInSeconds(d)
             ? new Date(d * 1000)

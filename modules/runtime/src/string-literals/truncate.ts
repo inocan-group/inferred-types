@@ -4,7 +4,7 @@ export function truncate<
     TStr extends string,
     TMax extends number,
     TEllipsis extends boolean | string = false,
->(content: TStr, maxLength: TMax, ellipsis: TEllipsis = false as TEllipsis) {
+>(content: TStr, maxLength: TMax, ellipsis: TEllipsis = false as TEllipsis): Truncate<TStr, TMax, TEllipsis> {
     const overLimit = content.length > maxLength;
 
     return (

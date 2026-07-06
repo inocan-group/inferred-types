@@ -73,13 +73,13 @@ const PROTOCOLS = Object.values(NETWORK_PROTOCOL_LOOKUP).flat().filter(i => i !=
 
 export function getUrlProtocol<
     T extends string,
->(url: T) {
+>(url: T): GetUrlProtocol<T> {
     const proto = PROTOCOLS.find(p => url.startsWith(`${p}://`));
 
     return proto as GetUrlProtocol<T>;
 }
 
-export function removeUrlProtocol<T extends string>(url: T) {
+export function removeUrlProtocol<T extends string>(url: T): IsStringLiteral<T> extends true ? T extends `${string}://${infer REST}` ? `${REST}` : T : string {
     return stripBefore(url, "://");
 }
 
@@ -93,7 +93,7 @@ function ensurePath(val: string) {
 
 export function getUrlPath<
     T extends string,
->(url: T) {
+>(url: T): [IsStringLiteral<T>] extends [true] ? _GetUrlPath<RemoveUrlSource<RemoveNetworkProtocol<RemoveUrlPort<T>, "http" | "ftp" | "ws" | "dns" | "telnet" | "imap" | "pop3" | "smtp" | "https" | "sftp" | "wss" | "sdns" | "ssh">>> : string {
     return isUrl(url)
         ? ensurePath(
             stripAfter(stripBefore(removeUrlProtocol(url), "/"), "?"),
@@ -113,7 +113,7 @@ export function getUrlPath<
 export function getUrlQueryParams<
     T extends string,
     S extends string | undefined,
->(url: T, specific: S = undefined as S) {
+>(url: T, specific: S = undefined as S): GetUrlQueryParams<T, S> {
     const qp = stripBefore(url, "?");
     if (specific) {
         return (
@@ -141,7 +141,7 @@ export function getUrlQueryParams<
  * Returns the default port which the given URL string would use
  * based on the protocol detected in this string.
  */
-export function getUrlDefaultPort<T extends string>(url: T) {
+export function getUrlDefaultPort<T extends string>(url: T): 22 | 21 | 23 | 25 | 80 | 443 | 53 | 853 | 142 | 110 {
     const proto = getUrlProtocol(url);
     return proto in PROTOCOL_DEFAULT_PORTS
         ? PROTOCOL_DEFAULT_PORTS[proto as keyof typeof PROTOCOL_DEFAULT_PORTS]
@@ -190,7 +190,7 @@ export function getUrlPort<
  */
 export function getUrlSource<
     T extends string,
->(url: T) {
+>(url: T): GetUrlSource<T> {
     const candidate = stripAfter(stripAfter(stripAfter(removeUrlProtocol(url), "/"), "?"), ":") as unknown;
 
     return (
@@ -202,7 +202,7 @@ export function getUrlSource<
 
 export function getUrlBase<
     T extends string,
->(url: T) {
+>(url: T): `${GetUrlProtocol<T>}://${GetUrlSource<T>}` {
     const path = getUrlPath(url);
     const remaining = stripAfter(url, path);
 
@@ -308,7 +308,7 @@ export function urlMeta<
     T extends string,
 >(
     url: T,
-) {
+): { url: T; isUrl: IsUrl<T>; protocol: GetUrlProtocol<T>; path: GetUrlPath<T>; queryParameters: GetUrlQueryParams<T, string | undefined>; params: (url: T) => GetUrlDynamics<T>; port: GetUrlPort<T, boolean>; source: GetUrlSource<T>; isIpAddress: IsIpAddress<GetUrlSource<T>>; isIp4Address: IsIp4Address<GetUrlSource<T>>; isIp6Address: IsIp6Address<GetUrlSource<T>>; } {
     return {
         url,
         isUrl: isUrl(url) as IsUrl<T>,

@@ -188,7 +188,7 @@ export function withValue<
     TWith extends AllowableType
 >(
     withValue: TWith,
-) {
+): <const TObj extends Record<string, N>, N extends Narrowable>(obj: TObj) => WithValue<TObj, ConvertType<TWith>> {
     return <const TObj extends Record<string, N>, N extends Narrowable>(obj: TObj) => {
         const result: Record<string, unknown> = {};
         for (const key of Object.keys(obj)) {

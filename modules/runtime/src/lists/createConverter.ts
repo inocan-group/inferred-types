@@ -62,7 +62,7 @@ export function createConverter<
     TObj extends Narrowable = never,
     TTuple extends Narrowable = never,
     TNothing extends Narrowable = never,
->(mapper: Partial<ConverterDefn<TStr, TNum, TBool, TObj, TTuple, TNothing>>) {
+>(mapper: Partial<ConverterDefn<TStr, TNum, TBool, TObj, TTuple, TNothing>>): <TInput extends Narrowable | Tuple>(input: TInput) => ConversionResult<typeof mapper, TInput> {
     return <TInput extends Narrowable | Tuple>(input: TInput) => {
         let result: unknown;
         if (isNothing(input)) {

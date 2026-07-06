@@ -14,7 +14,7 @@ export function ifChar<
     ch: T,
     callback_if_match: Callback<T, IF> = def_if as Callback<T, IF>,
     callback_not_match: Callback<T, ELSE> = def_else as Callback<T, ELSE>,
-) {
+): If<IsSingleChar<T>, IF, ELSE> {
     return (
         ch.length === 1
             ? callback_if_match(ch)

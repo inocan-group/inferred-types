@@ -7,7 +7,7 @@ export function add<
 >(
     a: A,
     b: B
-) {
+): A extends number ? As<PreProcess<A, B>, number> : A extends `${number}` ? As<PreProcess<A, B>, `${number}`> : never {
     return isString(a) || isString(b)
         ? String(asNumber(a) + asNumber(b)) as Add<A, B>
         : asNumber(a) + asNumber(b) as Add<A, B>;

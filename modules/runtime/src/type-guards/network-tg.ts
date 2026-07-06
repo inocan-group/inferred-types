@@ -24,7 +24,7 @@ import {
  * Type guard which checks whether the value is a valid IPv4 address.
  */
 export function isIp4Address<T>(val: T): val is T & Ip4Address {
-    const octets: string[] = isString(val) ? val.split(".") : [];
+    const octets: string[] = isString(val) ? val.split("."): [];
     return isString(val)
         && (octets.length === 4)
         && (octets.every(i => isNumberLike(i)))
@@ -194,7 +194,7 @@ export function isDomainName<T>(val: T): val is T & DomainName<AsString<T>> {
  * Type guard which checks whether the value is a valid URL source
  * (aka, an IP address or a Domain Name)
  */
-export function isUrlSource<T>(val: T) {
+export function isUrlSource<T>(val: T): boolean {
     return isDomainName(val) || isIpAddress(val);
 }
 
@@ -203,6 +203,6 @@ export function isUrlSource<T>(val: T) {
  *
  * Tests whether the valued in has a query parameter specified by `prop`.
  */
-export function hasUrlQueryParameter<T extends string, P extends string>(val: T, prop: P) {
+export function hasUrlQueryParameter<T extends string, P extends string>(val: T, prop: P): boolean {
     return isString(getUrlQueryParams(val, prop));
 }

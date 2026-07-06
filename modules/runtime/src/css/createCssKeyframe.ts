@@ -88,7 +88,11 @@ export function createCssKeyframe<
 >(
     name: TName,
     keyframes: TKeyframes
-) {
+): {
+        name: TName;
+        keyframes: typeof frames;
+        css: FrameToCSSString<typeof frames, TName>;
+    } {
     /** api surface */
     const surface = api([]);
     /** return from user callback */

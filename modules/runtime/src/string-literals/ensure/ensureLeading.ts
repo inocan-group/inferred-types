@@ -13,7 +13,7 @@ export function ensureLeading<
 >(
     content: T,
     ensure: U,
-) {
+): EnsureLeading<T, U> {
     const output: string = String(content);
 
     return (

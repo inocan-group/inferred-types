@@ -3,7 +3,7 @@ import { getPhoneCountryCode, stripLeading } from "inferred-types/runtime";
 
 export function removePhoneCountryCode<
     T extends string,
->(phone: T) {
+>(phone: T): RemovePhoneCountryCode<T> {
     const countryCode = getPhoneCountryCode(phone) as unknown as string;
     return (
         countryCode !== ""

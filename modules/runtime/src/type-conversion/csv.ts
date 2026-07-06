@@ -23,13 +23,19 @@ export type CsvFormat
 export function csv<
     T extends string,
     F extends CsvFormat = `string-numeric-tuple`,
->(csv: T, format: F = `string-numeric-tuple` as F) {
+>(csv: T, format: F = `string-numeric-tuple` as F): F extends "string-numeric-tuple"
+        ? CsvToTuple<T>
+        : F extends "json-tuple"
+            ? CsvToJsonTuple<T>
+            : F extends "string-tuple"
+                ? CsvToTupleStr<T>
+                : never {
     const tuple: unknown[] = [];
 
     csv.split(/,\s?/).forEach((v) => {
         tuple.push(
             format === "string-numeric-tuple"
-                ? isNumberLike(v) ? Number(v) : v
+                ? isNumberLike(v) ? Number(v): v
                 : format === "json-tuple"
                     ? isNumberLike(v)
                         ? Number(v)

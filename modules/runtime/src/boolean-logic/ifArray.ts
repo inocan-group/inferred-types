@@ -15,8 +15,8 @@ export function ifArray<
     val: T,
     isAnArray: <N extends T & unknown[]>(arr: N) => IF,
     isNotAnArray: <N extends Exclude<T, unknown[] | readonly unknown[]>>(nonArr: N) => ELSE,
-) {
+): IsArray<T> extends true ? IF : ELSE {
     return (
-        Array.isArray(val) ? isAnArray(val) : isNotAnArray(val as Exclude<T, unknown[] | readonly unknown[]>)
+        Array.isArray(val) ? isAnArray(val): isNotAnArray(val as Exclude<T, unknown[] | readonly unknown[]>)
     ) as IsArray<T> extends true ? IF : ELSE;
 }

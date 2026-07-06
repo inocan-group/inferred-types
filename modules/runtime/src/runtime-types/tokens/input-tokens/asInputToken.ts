@@ -18,7 +18,13 @@ import {
  * - if you'd prefer the _type_ to be transformed to what the type the token is
  * referencing then use `fromInputToken()` instead.
  */
-export function asInputToken<const T extends InputToken>(token: T) {
+export function asInputToken<const T extends InputToken>(token: T): T extends string
+        ? Trim<T>
+        : T extends Dictionary
+            ? ToStringLiteral__Object<T>
+            : T extends any[]
+                ? ToStringLiteral__Array<T>
+                : never {
     return (
         isString(token)
             ? token.trim() as Trim<As<T, string>>

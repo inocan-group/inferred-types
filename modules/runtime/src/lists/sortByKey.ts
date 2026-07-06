@@ -29,10 +29,23 @@ export function sortByKey<
     items: T,
     key: K,
     config: C
-) {
+): SortByKey<
+        T,
+        K,
+
+        As<{
+            start: IsUnionArray<C["start"]> extends true
+                ? UnionArrayToTuple<C["start"]>
+                : C["start"];
+            end: IsUnionArray<C["end"]> extends true
+                ? UnionArrayToTuple<C["end"]>
+                : C["end"];
+        }, SortByKeyOptions>
+
+    > {
     const o: { start: Narrowable[]; end: Narrowable[] } = {
-        start: config.start ? asArray(config.start) : [],
-        end: config.end ? asArray(config.end) : [],
+        start: config.start ? asArray(config.start): [],
+        end: config.end ? asArray(config.end): [],
     };
 
     const start = o.start.map((k) => {

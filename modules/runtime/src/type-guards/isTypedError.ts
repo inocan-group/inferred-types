@@ -1,7 +1,7 @@
 import type { AsTypeSubtype, TypedError } from "inferred-types/types";
 import { isError } from "inferred-types/runtime";
 
-export function isTypedError<T extends string>(_type: T) {
+export function isTypedError<T extends string>(_type: T): (val: unknown) => val is TypedError<AsTypeSubtype<T>[0], AsTypeSubtype<T>[1]> {
     /**
      * Type guard which validates that the `val` passsed in
      * extends the configured variant of `TypedError`

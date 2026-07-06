@@ -10,6 +10,6 @@ import { isUndefined } from "runtime/type-guards";
 export function mergeScalars<
     A extends Scalar | undefined,
     B extends Scalar | undefined,
->(a: A, b: B) {
+>(a: A, b: B): MergeScalars<A, B> {
     return (isUndefined(b) ? a : b) as MergeScalars<A, B>;
 }

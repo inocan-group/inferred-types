@@ -36,6 +36,6 @@ export function stripTrailing<
     }
 
     return (
-        isNumber(content) ? Number(output) : output
+        isNumber(content) ? Number(output): output
     ) as unknown as Returns<T, U>;
 }

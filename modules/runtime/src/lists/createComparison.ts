@@ -9,6 +9,6 @@ import type { ComparatorOperation, Comparison, Narrowable, ParamsForComparison }
 export function createComparison<
     TOp extends ComparatorOperation,
     TArgs extends readonly Narrowable[],
->(_op: TOp, ...args: TArgs & ParamsForComparison<TOp>) {
+>(_op: TOp, ...args: TArgs & ParamsForComparison<TOp>): Comparison<TOp, typeof args> {
     return [args[0], ...args.slice(1)] as unknown as Comparison<TOp, typeof args>;
 }

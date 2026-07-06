@@ -17,7 +17,7 @@ import { isArray, split } from "inferred-types/runtime";
 export function stripAfterLast<
     TContent extends string,
     TBreak extends string,
->(content: TContent, find: TBreak) {
+>(content: TContent, find: TBreak): StripAfterLast<TContent, TBreak> {
     const parts = split.inline(content, find) as any[];
     return (
         isArray(parts)

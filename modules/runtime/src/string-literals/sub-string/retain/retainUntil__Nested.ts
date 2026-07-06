@@ -194,7 +194,7 @@ export function retainUntil__Nested<
     str: TStr,
     find: TFind,
     opt: TOpt = { include: true, config: "brackets" } as TOpt
-) {
+): TFind extends readonly string[] ? AsNestingConfig<TNesting> extends infer NestingConfig extends Nesting ? RetainUntil__Nested<TStr, TFind[number], { include: TInclude; config: NestingConfig; }> : never : TFind extends string ? AsNestingConfig<TNesting> extends infer NestingConfig extends Nesting ? RetainUntil__Nested<TStr, TFind, { include: TInclude; config: NestingConfig; }> : never : never {
     const config: Nesting = isString(opt.config)
         ? opt.config === "default" || opt.config === "brackets"
             ? BRACKET_NESTING

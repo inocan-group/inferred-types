@@ -61,7 +61,7 @@ type AsType<T extends readonly InputToken[]> = T["length"] extends 0
  */
 export function asType<
     T extends readonly InputToken[]
->(...token: T) {
+>(...token: T): AsType<T> {
     if (token.length === 0) {
         return err(
             `invalid-token/structure`,

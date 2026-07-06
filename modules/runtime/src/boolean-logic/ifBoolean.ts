@@ -20,7 +20,7 @@ export function ifBoolean<
     val: TContent,
     ifBoolean: <V extends boolean>(v: V & TContent) => TIf,
     notBoolean: <V extends Exclude<TContent, boolean>>(v: V) => TElse,
-) {
+): [IsBoolean<TContent>] extends [true] ? TIf : TElse {
     return (
         isBoolean(val)
             ? ifBoolean(val as TContent & boolean)

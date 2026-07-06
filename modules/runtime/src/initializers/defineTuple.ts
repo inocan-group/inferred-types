@@ -18,6 +18,6 @@ import type { Narrowable } from "inferred-types/types";
  */
 export function defineTuple<
     const T extends readonly Narrowable[],
->(...values: T) {
+>(...values: T): T {
     return values as unknown as T;
 }

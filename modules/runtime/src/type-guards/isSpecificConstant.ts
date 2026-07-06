@@ -8,7 +8,7 @@ import { isConstant } from "inferred-types/runtime";
  */
 export function isSpecificConstant<
     TKind extends string,
->(kind: TKind) {
+>(kind: TKind): (value: unknown) => value is Constant<TKind> {
     return (value: unknown): value is Constant<TKind> => {
         return !!(isConstant(value) && value.kind === kind);
     };

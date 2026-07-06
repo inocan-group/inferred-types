@@ -6,7 +6,7 @@ import type { Or } from "inferred-types/types";
  * If you have a discrete list of boolean values then you can use this
  * function to perform a logical OR operation on them.
  */
-export function or<TList extends readonly boolean[]>(...conditions: TList) {
+export function or<TList extends readonly boolean[]>(...conditions: TList): Or<TList> {
     const values: unknown = conditions.includes(true);
 
     return values as Or<TList>;

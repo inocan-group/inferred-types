@@ -21,7 +21,7 @@ import {
 export function isLength<
     TValue,
     TLen extends number,
->(value: TValue, len: TLen) {
+>(value: TValue, len: TLen): boolean {
     return isArray(value)
         ? !!isEqual((value as unknown[]).length)(len)
         : isString(value)

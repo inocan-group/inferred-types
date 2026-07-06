@@ -10,7 +10,7 @@ export function createErrorCondition<
     TKind extends string,
     TMsg extends string = never,
     TUtility extends string = never,
->(kind: TKind, msg: TMsg = "" as never, utility: TUtility = "" as never) {
+>(kind: TKind, msg: TMsg = "" as never, utility: TUtility = "" as never): Err<TKind, TMsg> {
     return {
         __kind: "Error",
         kind,

@@ -20,7 +20,7 @@ export function ifUndefined<
     val: T,
     ifUndefined: () => IF,
     ifDefined: <V extends Exclude<T, undefined>>(v: V) => ELSE,
-) {
+): IsUndefined<T> extends true ? IF : ELSE {
     return (
         isUndefined(val) ? ifUndefined() : ifDefined(val as Exclude<T, undefined>)
     ) as IsUndefined<T> extends true ? IF : ELSE;
@@ -34,6 +34,6 @@ export function ifDefined<
     val: T,
     ifVal: <V extends Exclude<T, undefined>>(v: V) => IF,
     elseVal: () => ELSE,
-) {
+): (<V extends Exclude<T, undefined>>(v: V) => IF) | (() => ELSE) {
     return isDefined(val) ? ifVal : elseVal;
 }

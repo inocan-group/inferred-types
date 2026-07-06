@@ -31,7 +31,7 @@ export function ifScalar<
     >(v: V
     ) => TIf,
     notCallback: <V extends Exclude<T, Scalar>>(v: V) => TElse,
-) {
+): typeof result & If<IsScalar<T>, TIf, TElse> {
     const result = isScalar(value)
         ? ifCallback(
                 value as Exclude<T, undefined | Dictionary | unknown[]>,

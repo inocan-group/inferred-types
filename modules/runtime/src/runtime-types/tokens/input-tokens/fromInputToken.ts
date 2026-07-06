@@ -29,7 +29,7 @@ export function fromInputToken<
     T extends InputToken
 >(
     token: T
-) {
+): FromInputToken<T> {
     return (
         isInputToken__String(token)
             ? token.trim()

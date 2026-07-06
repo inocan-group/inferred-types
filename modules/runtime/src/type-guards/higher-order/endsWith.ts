@@ -10,7 +10,7 @@ import { isNumber, isString } from "runtime/type-guards";
  */
 export function endsWithTypeguard<
     const TEndsWith extends readonly (string | number)[],
->(...endingWith: TEndsWith) {
+>(...endingWith: TEndsWith): <const TValue extends string | number>(val: TValue) => val is TValue extends string ? TValue & `${TEndsWith[number]}${string}` : TValue {
     return <
         const TValue extends string | number,
     >(val: TValue): val is TValue extends string
@@ -26,7 +26,7 @@ export function endsWithTypeguard<
 
 export function endsWith<
     const TEndsWith extends readonly (string | number)[],
->(...endingWith: TEndsWith) {
+>(...endingWith: TEndsWith): <const TValue extends string | number>(val: TValue) => EndsWith<TValue, TEndsWith> {
     return <
         const TValue extends string | number,
     >(val: TValue) => {

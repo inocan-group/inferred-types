@@ -9,7 +9,7 @@ import { toStringLiteral } from "inferred-types/runtime";
  */
 export function fromDefineObject<
     const T extends DefineObject
->(defn: T) {
+>(defn: T): FromDefineObject<T> {
     return toStringLiteral(
         defn,
         { tokensAllowed: true }

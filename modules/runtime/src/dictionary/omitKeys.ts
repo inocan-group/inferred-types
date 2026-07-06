@@ -24,7 +24,7 @@ export function omitKeys<
 >(
     obj: TObj,
     ...removeKeys: TKeys
-) {
+): Mutable<Expand<Omit<TObj, TKeys[number]>>> {
     const keys = Object.keys(obj);
 
     return keys.reduce(

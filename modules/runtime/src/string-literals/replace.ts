@@ -16,7 +16,7 @@ export function replace<
     content: TContent,
     find: TFind,
     replace: TReplace
-) {
+): Replace<TContent, TFind, TReplace> {
     return content.replace(find, replace) as Replace<TContent, TFind, TReplace>;
 }
 
@@ -36,7 +36,7 @@ export function replaceAll<
     content: TContent,
     find: TFind,
     replace: TReplace
-) {
+): ReplaceAll<TContent, TFind, TReplace> {
     return content.replaceAll(find, replace) as ReplaceAll<TContent, TFind, TReplace>;
 }
 
@@ -57,7 +57,7 @@ export function replaceAllFromTo<
 >(
     content: TContent,
     fromTo: TFromTo
-) {
+): ReplaceAllFromTo<TContent, AsFromTo<TFromTo>> {
     let output: string = content;
 
     for (const key of Object.keys(fromTo)) {

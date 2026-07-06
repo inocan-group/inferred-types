@@ -15,7 +15,7 @@ import {
  *
  * Attributes are validated using `areAttributesValid()`.
  */
-export function isHtmlComponentTag<T extends readonly string[]>(...names: T) {
+export function isHtmlComponentTag<T extends readonly string[]>(...names: T): <V>(val: V) => val is V & AsHtmlComponentTag<T[number]> {
     return <V>(val: V): val is V & AsHtmlComponentTag<T[number]> => {
         if (typeof val !== "string")
             return false;

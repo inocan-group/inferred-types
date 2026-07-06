@@ -23,7 +23,7 @@ export function stripLeading<
 >(
     content: T,
     ...strip: U
-) {
+): Returns<T, U> {
     if (!isString(content) && !isNumber(content)) {
         return err("invalid-type/strip-leading") as Returns<T, U>;
     }
@@ -36,6 +36,6 @@ export function stripLeading<
     }
 
     return (
-        isNumber(content) ? Number(output) : output
+        isNumber(content) ? Number(output): output
     ) as unknown as Returns<T, U>;
 }

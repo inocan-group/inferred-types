@@ -88,7 +88,7 @@ function select<TParse extends string>(parseStr: TParse) {
  * - **PostFix Grouped**: `(string | number)[]`, `(number | boolean)[][]`
  * - **Bracketed**: `Array<string>`, `Array<string | number>`
  */
-export function it_takeArray<T extends string>(parseStr: T) {
+export function it_takeArray<T extends string>(parseStr: T): IT_TakeOutcome<"array"> {
     const parse = parseStr.trim();
 
     return select(parse)(

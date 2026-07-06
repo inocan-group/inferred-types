@@ -131,7 +131,7 @@ function lookupNumericCode<
  *
  * **Related:** `lookupCountryAlpha2()`, `lookupCountryAlpha3()`
  */
-export function lookupCountryName<T extends Suggest<Iso3166_1_Alpha2 | Iso3166_1_Alpha3 | Iso3166_1_CountryCode>>(code: T) {
+export function lookupCountryName<T extends Suggest<Iso3166_1_Alpha2 | Iso3166_1_Alpha3 | Iso3166_1_CountryCode>>(code: T): Iso3166CountryLookup<Uppercase<AsString<T>>> {
     const uc = toAllCaps(code);
 
     return (
@@ -154,7 +154,9 @@ export function lookupCountryAlpha2<
     | Iso3166_1_CountryCode
     | Iso3166_1_CountryName
     >,
->(code: T) {
+>(code: T): T extends Iso3166_1_CountryName
+        ? Iso3166Alpha2Lookup<T>
+        : Iso3166Alpha2Lookup<Uppercase<AsString<T>>> {
     const uc = toAllCaps(code);
 
     return (
@@ -182,7 +184,9 @@ export function lookupCountryAlpha3<
         | Iso3166_1_CountryCode
         | Iso3166_1_CountryName
     >,
->(token: T) {
+>(token: T): T extends Iso3166_1_CountryName
+        ? Iso3166Alpha3Lookup<T>
+        : Iso3166Alpha3Lookup<Uppercase<AsString<T>>> {
     const uc = toAllCaps(token);
 
     return (
@@ -210,7 +214,9 @@ export function lookupCountryCode<
         | Iso3166_1_Alpha3
         | Iso3166_1_CountryName
     >,
->(token: T) {
+>(token: T): T extends Iso3166_1_CountryName
+        ? Iso3166CodeLookup<T>
+        : Iso3166CodeLookup<Uppercase<AsString<T>>> {
     const uc = toAllCaps(token);
 
     return (

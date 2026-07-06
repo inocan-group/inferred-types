@@ -12,7 +12,7 @@ import { toStringLiteral } from "inferred-types/runtime";
  * definition of the tuple token (if it wasn't already a string variant)
  * - the _type_ will be whatever type the provided `DefineTuple` _defined_
  */
-export function fromDefineTuple<T extends DefineTuple>(defn: T) {
+export function fromDefineTuple<T extends DefineTuple>(defn: T): T {
     return (
         toStringLiteral(defn)
     ) as unknown as T;

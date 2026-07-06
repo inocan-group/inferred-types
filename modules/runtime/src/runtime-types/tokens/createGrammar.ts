@@ -11,7 +11,7 @@ export function createGrammar<
 >(
     tokenSyntax: TSyntax,
     ...tokens: TTokens
-) {
+): { kind: string; syntax: TSyntax; tokens: TTokens; } {
     return {
         kind: "Grammar",
         syntax: tokenSyntax,
