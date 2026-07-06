@@ -37,7 +37,7 @@ export function daysInMonth<
 >(
     month: TMonth,
     year: TYear = undefined as TYear
-) {
+): DaysInMonth<TMonth, TYear> {
     const monthNum: number | Error = isTwoDigitMonth(month)
         ? Number(month)
         : getMonthNumber(month) as number | Error;

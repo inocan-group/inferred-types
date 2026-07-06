@@ -6,7 +6,7 @@ import { asNumber, isString } from "inferred-types/runtime";
  *
  * Decrements a `NumberLike` value.
  */
-export function decrement<T extends NumberLike>(val: T) {
+export function decrement<T extends NumberLike>(val: T): Decrement<T> {
     return isString(val)
         ? String(asNumber(val) - 1) as Decrement<T>
         : asNumber(val) - 1 as Decrement<T>;

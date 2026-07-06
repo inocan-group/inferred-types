@@ -6,7 +6,7 @@ import { asNumber, isString } from "inferred-types/runtime";
  *
  * Increments a `NumberLike` value.
  */
-export function increment<T extends NumberLike>(val: T) {
+export function increment<T extends NumberLike>(val: T): Increment<T> {
     return isString(val)
         ? String(asNumber(val) + 1) as Increment<T>
         : asNumber(val) + 1 as Increment<T>;
