@@ -46,15 +46,15 @@ test-types *args="":
 
 # source check: constants module
 check-constants:
-    @NODE_OPTIONS=--max-old-space-size=12288 tsc -p modules/constants/tsconfig.check.json --noEmit --pretty false
+    @NODE_OPTIONS=--max-old-space-size=12288 ./node_modules/.bin/tsc -p modules/constants/tsconfig.check.json --noEmit --pretty false
 
 # source check: types module
 check-types:
-    @NODE_OPTIONS=--max-old-space-size=12288 tsc -p modules/types/tsconfig.check.json --noEmit --pretty false
+    @NODE_OPTIONS=--max-old-space-size=12288 ./node_modules/.bin/tsc -p modules/types/tsconfig.check.json --noEmit --pretty false
 
 # source check: runtime module
 check-runtime:
-    @NODE_OPTIONS=--max-old-space-size=12288 tsc -p modules/runtime/tsconfig.check.json --noEmit --pretty false
+    @NODE_OPTIONS=--max-old-space-size=12288 ./node_modules/.bin/tsc -p modules/runtime/tsconfig.check.json --noEmit --pretty false
 
 # source check: all check-mode module configs
 check:
