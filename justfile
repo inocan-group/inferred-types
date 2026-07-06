@@ -44,6 +44,32 @@ test-runtime *args="":
 test-types *args="":
     @node --max-old-space-size=8192 node_modules/.pnpm/typed-tester@*/node_modules/typed-tester/bin/typed.js test {{ args }}
 
+# source check: constants module
+check-constants:
+    @NODE_OPTIONS=--max-old-space-size=12288 tsc -p modules/constants/tsconfig.check.json --noEmit --pretty false
+
+# source check: types module
+check-types:
+    @NODE_OPTIONS=--max-old-space-size=12288 tsc -p modules/types/tsconfig.check.json --noEmit --pretty false
+
+# source check: runtime module
+check-runtime:
+    @NODE_OPTIONS=--max-old-space-size=12288 tsc -p modules/runtime/tsconfig.check.json --noEmit --pretty false
+
+# source check: all check-mode module configs
+check:
+    @just check-constants
+    @just check-types
+    @just check-runtime
+
+# capture type-test and source-check performance baseline
+perf-baseline:
+    @node features/2026-07-02-complex/perf-baseline.mjs baseline
+
+# compare current type-test and source-check performance to the baseline
+perf-compare:
+    @node features/2026-07-02-complex/perf-baseline.mjs compare
+
 # build transpiled Javascript
 build *args="":
     @pnpm build {{ args }}
