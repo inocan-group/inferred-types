@@ -15,7 +15,7 @@ baseline_artifacts:
   - features/2026-07-02-complex/unannotated-runtime-functions-2026-07-06.txt
 related:
   - features/2026-07-02-complex/tool-gaps.md
-review_iterations: 2
+review_iterations: 3
 source_files:
   - features/2026-07-02-complex/perf-baseline.mjs
   - features/2026-07-02-complex/phase3-probes/Add.ts
