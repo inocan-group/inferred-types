@@ -12,6 +12,7 @@ description: >
   with a measurement foundation built first so every remediation phase is
   verified against hard numbers.
 source_files:
+  - features/2026-07-02-complex/perf-baseline.mjs
   - features/2026-07-02-complex/phase3-probes/Add.ts
   - features/2026-07-02-complex/phase3-probes/CSV.ts
   - features/2026-07-02-complex/phase3-probes/CompareNumbers.ts
@@ -28,33 +29,134 @@ source_files:
   - features/2026-07-02-complex/phase3-probes/Subtract.ts
   - features/2026-07-02-complex/phase3-probes/Sum.ts
   - features/2026-07-02-complex/phase3-probes/tsconfig.json
-  - features/2026-07-02-complex/perf-baseline.mjs
   - justfile
+  - modules/constants/src/TypeComparisons.ts
   - modules/constants/tsconfig.check.json
+  - modules/runtime/src/api/handleDoneFn.ts
   - modules/runtime/src/boolean-logic/ifArrayPartial.ts
   - modules/runtime/src/boolean-logic/ifScalar.ts
   - modules/runtime/src/css/createCssKeyframe.ts
   - modules/runtime/src/datetime/asDateTime.ts
   - modules/runtime/src/lists/joinWith.ts
   - modules/runtime/src/regex/createTemplateRegExp.ts
+  - modules/runtime/src/runtime-check-shim.d.ts
+  - modules/runtime/src/runtime-types/shape-helpers/functions.ts
+  - modules/runtime/src/runtime-types/shape-helpers/wide-containers.ts
+  - modules/runtime/src/runtime-types/tokens/asType.ts
+  - modules/runtime/src/type-guards/comparison/hasValidComparator.ts
+  - modules/runtime/src/type-guards/tokens/isInputToken__String.ts
+  - modules/runtime/src/type-guards/tokens/isOutputToken.ts
   - modules/runtime/tsconfig.check.json
+  - modules/types/src/api/api.ts
+  - modules/types/src/assertions/Test.ts
+  - modules/types/src/boolean-logic/branching/OnPass.ts
+  - modules/types/src/boolean-logic/branching/When.ts
+  - modules/types/src/boolean-logic/combinators/comparison/ComparisonAccept.ts
+  - modules/types/src/boolean-logic/combinators/comparison/ComparisonDesc.ts
+  - modules/types/src/boolean-logic/combinators/comparison/ComparisonFn.ts
+  - modules/types/src/boolean-logic/combinators/comparison/GetComparisonParams.ts
+  - modules/types/src/boolean-logic/combinators/comparison/GetOpConfig.ts
+  - modules/types/src/boolean-logic/operators/compare/IsBalanced.ts
+  - modules/types/src/boolean-logic/operators/containers/IsValidIndex.ts
+  - modules/types/src/boolean-logic/operators/datetime/IsLeapYear.ts
+  - modules/types/src/boolean-logic/operators/datetime/IsSameDay.ts
+  - modules/types/src/boolean-logic/operators/datetime/IsSameMonthYear.ts
+  - modules/types/src/boolean-logic/operators/datetime/IsSameYear.ts
+  - modules/types/src/boolean-logic/operators/functions/HasEscapeFunction.ts
+  - modules/types/src/boolean-logic/operators/literal/IsLiteralObject.ts
+  - modules/types/src/boolean-logic/operators/literal/IsWideContainer.ts
   - modules/types/src/boolean-logic/operators/scalar/numeric/IsGreaterThan.ts
   - modules/types/src/boolean-logic/operators/scalar/numeric/IsLessThan.ts
-  - modules/types/src/assertions/Test.ts
+  - modules/types/src/boolean-logic/operators/scalar/string/EndsWith.ts
+  - modules/types/src/boolean-logic/operators/scalar/string/Network-operators.ts
+  - modules/types/src/containers/OnlyRequired.ts
+  - modules/types/src/datetime/AsFourDigitYear.ts
+  - modules/types/src/datetime/AsRelativeDate.ts
+  - modules/types/src/datetime/AsTwoDigitMonth.ts
+  - modules/types/src/datetime/DaysInMonth.ts
+  - modules/types/src/datetime/GetMonth.ts
+  - modules/types/src/datetime/ParseDate.ts
+  - modules/types/src/datetime/RenderTime.ts
+  - modules/types/src/datetime/object-types/moment.ts
+  - modules/types/src/dictionary/KeysWithError.ts
+  - modules/types/src/dictionary/SharedKeys.ts
+  - modules/types/src/dictionary/WithKeys.ts
+  - modules/types/src/domains/nesting/helpers/IsEntryToken.ts
+  - modules/types/src/domains/nesting/helpers/IsExitToken.ts
+  - modules/types/src/domains/nesting/helpers/IsNestingMatchEnd.ts
+  - modules/types/src/functions/AsFnMeta.ts
+  - modules/types/src/functions/FnWithProps.ts
+  - modules/types/src/globals/Object.ts
+  - modules/types/src/interpolation/ApplyTemplate.ts
+  - modules/types/src/interpolation/AsLiteralTemplate.ts
+  - modules/types/src/interpolation/IsStaticTemplate.ts
+  - modules/types/src/interpolation/IsTemplateLiteral.ts
+  - modules/types/src/interpolation/StaticTemplateSections.ts
+  - modules/types/src/interpolation/template-maps.ts
+  - modules/types/src/kv/FromKv.ts
+  - modules/types/src/kv/ToKv.ts
+  - modules/types/src/lists/AsNumericArray.ts
+  - modules/types/src/lists/BeforeLast.ts
+  - modules/types/src/lists/FilterEmptyString.ts
+  - modules/types/src/lists/IndexOf.ts
+  - modules/types/src/lists/Longest.ts
+  - modules/types/src/lists/MakeOptional.ts
+  - modules/types/src/lists/Pop.ts
+  - modules/types/src/lists/Shortest.ts
+  - modules/types/src/lists/Slice.ts
+  - modules/types/src/lists/TakeFirst.ts
+  - modules/types/src/lists/TakeLast.ts
+  - modules/types/src/lists/sort/StringSort.ts
+  - modules/types/src/literals/Choices.ts
+  - modules/types/src/literals/ExpandRecursively.ts
+  - modules/types/src/numeric-literals/Add.ts
   - modules/types/src/numeric-literals/CSV.ts
+  - modules/types/src/numeric-literals/CompareNumbers.ts
   - modules/types/src/numeric-literals/Decrement.ts
   - modules/types/src/numeric-literals/Delta.ts
   - modules/types/src/numeric-literals/Divide.ts
   - modules/types/src/numeric-literals/Increment.ts
   - modules/types/src/numeric-literals/Mod.ts
   - modules/types/src/numeric-literals/Multiply.ts
+  - modules/types/src/numeric-literals/NextDigit.ts
+  - modules/types/src/numeric-literals/PriorDigit.ts
   - modules/types/src/numeric-literals/ShiftDecimalPlace.ts
+  - modules/types/src/numeric-literals/Subtract.ts
   - modules/types/src/numeric-literals/Sum.ts
+  - modules/types/src/runtime-types/Type.ts
+  - modules/types/src/runtime-types/tokens/OutputToken.ts
+  - modules/types/src/runtime-types/type-defn/FromDefn.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/FromInputToken.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeIntersection.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeParameters.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeUnion.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/InputToken.ts
+  - modules/types/src/string-literals/character-sets/html/tag.ts
+  - modules/types/src/string-literals/character-sets/phone/PhoneNumber.ts
+  - modules/types/src/string-literals/character-sets/tw/TwTarget.ts
+  - modules/types/src/string-literals/character-sets/urls/Url.ts
+  - modules/types/src/string-literals/finance/IsPercentage.ts
+  - modules/types/src/string-literals/mutation/Join.ts
+  - modules/types/src/string-literals/mutation/Nest.ts
+  - modules/types/src/string-literals/mutation/NestedSplit.ts
+  - modules/types/src/string-literals/mutation/Repeat.ts
+  - modules/types/src/string-literals/mutation/Split.ts
+  - modules/types/src/string-literals/mutation/Split2.ts
+  - modules/types/src/string-literals/sub-strings/FillStringHole.ts
+  - modules/types/src/string-literals/sub-strings/FilterByNestingLevel.ts
+  - modules/types/src/string-literals/sub-strings/after/AfterFirstChar.ts
   - modules/types/src/tuples/FixedLengthArray.ts
+  - modules/types/src/type-conversion/Merge.ts
+  - modules/types/src/type-conversion/ReplaceFromTo.ts
+  - modules/types/src/type-conversion/ToJson.ts
+  - modules/types/src/type-conversion/ToStringLiteral.ts
+  - modules/types/src/type-conversion/numeric/HexToDecimal.ts
   - modules/types/tsconfig.check.json
   - package.json
 documentation:
   - docs/type-performance.md
+  - features/2026-07-02-complex/deferred.md
+  - features/2026-07-02-complex/implementation-log.md
   - features/2026-07-02-complex/perf-baseline.json
   - features/2026-07-02-complex/plan.md
   - features/2026-07-02-complex/spec.md
@@ -189,19 +291,19 @@ Targets: `DaysInMonth`, `ParseDate` → `TakeYear`/`TakeMonth`/`TakeDate` chain,
 `IsLeapYear`/`IsDoubleLeap` (80-member `IsoModernDoubleLeap` union), `IsSameYear`,
 `IsSameMonthYear`, `AsTwoDigitMonth`, `AsFourDigitYear`, `AsRelativeDate`, `AsDateMeta`.
 
-- [ ] Profile `daysInMonth.test.ts` with a scoped trace to rank which input forms dominate
+- [x] Profile `daysInMonth.test.ts` with a scoped trace to rank which input forms dominate
       (agent survey predicts full ISO datetime inputs via `ParseDateTime` → `Split` → `ParseTime`)
-- [ ] Flatten `DaysInMonth`'s ~10-level dispatch: extract only the fields it needs (year, month) via
+- [x] Flatten `DaysInMonth`'s ~10-level dispatch: extract only the fields it needs (year, month) via
       bounded helpers instead of full `ParseDate` where inputs allow
-- [ ] Replace `IsoModernDoubleLeap` union-membership testing with a cheaper bounded check if profiling
+- [x] Replace `IsoModernDoubleLeap` union-membership testing with a cheaper bounded check if profiling
       shows it matters (80 members may be acceptable — measure first)
-- [ ] Apply bind-once/early-return fixes through the `Take*` chain (beyond Phase 2's `TakeDate` fix)
+- [x] Apply bind-once/early-return fixes through the `Take*` chain (beyond Phase 2's `TakeDate` fix)
       where the trace shows repeated instantiation
-- [ ] Fix the datetime complexity diagnostics from the inventory (`IsSameYear`, `IsSameMonthYear`,
+- [x] Fix the datetime complexity diagnostics from the inventory (`IsSameYear`, `IsSameMonthYear`,
       `IsLeapYear`, `AsTwoDigitMonth`, `AsFourDigitYear`, `AsRelativeDate`, `DaysInMonth`)
-- [ ] Regression sweep: `just test-types datetime`, `just test-types boolean-logic/operators/datetime`,
+- [x] Regression sweep: `just test-types datetime`, `just test-types boolean-logic/operators/datetime`,
       `just test-types take`, `just test-types literals` — all green with unchanged assertions
-- [ ] `typed test tests/datetime/daysInMonth.test.ts` ≤ 5 s / ≤ 1.5 GB; `AsDateMeta.test.ts` ≤ 2 s
+- [x] `typed test tests/datetime/daysInMonth.test.ts` ≤ 5 s / ≤ 1.5 GB; `AsDateMeta.test.ts` ≤ 2 s
 
 **Validation checkpoint:** `just perf-compare` green; datetime cluster diagnostics 7 → 0;
 no July-1 phase-2 assertion regressions.
@@ -214,16 +316,16 @@ Targets: Tailwind (`TwColor`/`TwTarget`/`FullTailwindColorClass`, ~2,440-member 
 `PhoneNumber` family, `Url.ts`, `html/tag.ts`, `Network-operators.ts`, `IsPercentage`,
 interpolation (`StaticTemplateSections`, `ApplyTemplate`).
 
-- [ ] Tailwind: replace membership-in-materialized-union with a validation-shaped conditional
+- [x] Tailwind: replace membership-in-materialized-union with a validation-shaped conditional
       (parse target/color/luminosity/opacity/modifiers structurally); keep the *narrow* guard result type
       for valid literal inputs
-- [ ] Confirm `isTailwindColorClass` runtime guard + type tests unchanged in outcome; file ≤ 2 s individually
-- [ ] PhoneNumber: resolve spec Open Question 2 (default assumption: restore **bounded** validation);
+- [x] Confirm `isTailwindColorClass` runtime guard + type tests unchanged in outcome; file ≤ 2 s individually
+- [x] PhoneNumber: resolve spec Open Question 2 (default assumption: restore **bounded** validation);
       either way remove the dead commented-out validator block and make the shape's cost proportional
       to what it validates
-- [ ] Fix `Url.ts`, `html/tag.ts`, `Network-operators.ts`, `IsPercentage`, and the two interpolation files'
+- [x] Fix `Url.ts`, `html/tag.ts`, `Network-operators.ts`, `IsPercentage`, and the two interpolation files'
       complexity diagnostics with the same structural-validation approach
-- [ ] Regression sweep: `just test-types tw`, `just test-types PhoneNumber`, `just test-types urls`,
+- [x] Regression sweep: `just test-types tw`, `just test-types PhoneNumber`, `just test-types urls`,
       `just test-types interpolation` (adjust filters to actual paths) — green, unchanged assertions
 
 **Validation checkpoint:** `just perf-compare` green; cluster diagnostics 4+ → 0;
@@ -237,14 +339,14 @@ Targets: `TakeFirst`, `Slice`, `IndexOf`, `Longest`, `BeforeLast`, `AsNumericArr
 `IsValidIndex` (lists); `NestedSplit`, `Repeat`, `Split`, `Split2`, `ReplaceFromTo`,
 `HexToDecimal` (string mutation); `domains/nesting/helpers/IsEntryToken`.
 
-- [ ] Reproduce each diagnostic with a scoped probe; classify: genuine deep recursion vs.
+- [x] Reproduce each diagnostic with a scoped probe; classify: genuine deep recursion vs.
       constraint-context blow-up (`TS2344` companions in the same files often point at the latter)
-- [ ] Apply wide-input early returns and bind-once through the list utilities; where a utility
+- [x] Apply wide-input early returns and bind-once through the list utilities; where a utility
       recurses element-by-element over tuples, cap with the established bailout pattern rather than `any`
-- [ ] `NestedSplit` / `Split2` / `ReplaceFromTo`: verify against the July-1 phase-2 nesting work —
+- [x] `NestedSplit` / `Split2` / `ReplaceFromTo`: verify against the July-1 phase-2 nesting work —
       these share helpers with `RetainUntil__Nested`; run the full nesting/domains filters after changes
-- [ ] `HexToDecimal`: fix both the TS2589s and the accompanying `As<...>` constraint error
-- [ ] Regression sweep: `just test-types lists`, `just test-types string-literals`,
+- [x] `HexToDecimal`: fix both the TS2589s and the accompanying `As<...>` constraint error
+- [x] Regression sweep: `just test-types lists`, `just test-types string-literals`,
       `just test-types domains` — green, unchanged assertions
 
 **Validation checkpoint:** `just perf-compare` green; both clusters' complexity diagnostics → 0.
@@ -253,32 +355,32 @@ Targets: `TakeFirst`, `Slice`, `IndexOf`, `Longest`, `BeforeLast`, `AsNumericArr
 
 **Goal:** make G4's "clean whole-module check" true for all three modules.
 
-- [ ] Work through the remaining non-complexity errors in `modules/types`
+- [x] Work through the remaining non-complexity errors in `modules/types`
       (~118: TS2344 constraint violations, TS2304 missing names, TS2536 index errors, TS2300 duplicates,
       TS2322 assignability, `ToJson`, `ValidateLength`, `TakeYear` constraint errors, etc.);
       each is a real latent bug or a stale internal contract — fix or defer per spec G3/G4 rules
 - [ ] Fix `modules/runtime` real errors starting with `src/api/handleDoneFn.ts` (TS2339/TS2349)
 - [ ] `just check-runtime` reaches zero errors at default heap
-- [ ] `just check-types` reaches zero errors; runs at default heap in ≤ 180 s (G4)
-- [ ] Point `pnpm audit:types` / `audit:runtime` / `audit:constants` at the working `just check-*`
+- [x] `just check-types` reaches zero errors; runs at default heap in ≤ 180 s (G4)
+- [x] Point `pnpm audit:types` / `audit:runtime` / `audit:constants` at the working `just check-*`
       path (or equivalent tsc invocation) so the package scripts stop invoking the non-viable
       `typed source` configuration (G7); leave `typed source` itself to the tooling exercise
-- [ ] If any deferrals were used, create `deferred.md` (≤ 5 entries, per-symbol justification)
+- [x] If any deferrals were used, create `deferred.md` (≤ 5 entries, per-symbol justification)
 
 **Validation checkpoint:** `just check` — all three modules clean (or documented deferrals);
 full runtime + type suites green.
 
 ## Phase 8 — Final Validation & Closeout
 
-- [ ] `pnpm test:types` at **default heap**: exit 0, peak RSS ≤ 3.5 GB, wall ≤ 60 s (G1) —
+- [x] `pnpm test:types` at **default heap**: exit 0, peak RSS ≤ 3.5 GB, wall ≤ 60 s (G1) —
       remove the Phase-1 heap-raising stopgap
-- [ ] Per-file sweep: no test file > 5 s / 1.5 GB individually (G2); runner's slow-file list re-checked
-- [ ] `just check-types 2>&1 | grep -cE "error TS(2589|2590|2859|2321)"` → **0** (G3)
+- [x] Per-file sweep: no test file > 5 s / 1.5 GB individually (G2); runner's slow-file list re-checked
+- [x] `just check-types 2>&1 | grep -cE "error TS(2589|2590|2859|2321)"` → **0** (G3)
 - [ ] `just check` clean for all modules at documented budgets (G4, G7)
-- [ ] Diff review of all assertion changes across phases: every widening documented (G5)
-- [ ] Refresh the checked-in perf baseline; `just perf-compare` green (G6)
-- [ ] Forbidden-marker scan: `rg -i "TODO|FIXME|XXX|HACK" modules/` clean
-- [ ] Update `docs/type-performance.md` with the final workflow and numbers; write the implementation
+- [x] Diff review of all assertion changes across phases: every widening documented (G5)
+- [x] Refresh the checked-in perf baseline; `just perf-compare` green (G6)
+- [x] Forbidden-marker scan: `rg -i "TODO|FIXME|XXX|HACK" modules/` clean
+- [x] Update `docs/type-performance.md` with the final workflow and numbers; write the implementation
       log for this feature directory
 
 **Exit criteria:** all spec goals G1–G7 demonstrably met by the commands in the spec's

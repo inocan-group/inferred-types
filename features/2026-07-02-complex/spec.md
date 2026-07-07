@@ -16,6 +16,7 @@ baseline_artifacts:
 related:
   - features/2026-07-02-complex/tool-gaps.md
 source_files:
+  - features/2026-07-02-complex/perf-baseline.mjs
   - features/2026-07-02-complex/phase3-probes/Add.ts
   - features/2026-07-02-complex/phase3-probes/CSV.ts
   - features/2026-07-02-complex/phase3-probes/CompareNumbers.ts
@@ -32,33 +33,134 @@ source_files:
   - features/2026-07-02-complex/phase3-probes/Subtract.ts
   - features/2026-07-02-complex/phase3-probes/Sum.ts
   - features/2026-07-02-complex/phase3-probes/tsconfig.json
-  - features/2026-07-02-complex/perf-baseline.mjs
   - justfile
+  - modules/constants/src/TypeComparisons.ts
   - modules/constants/tsconfig.check.json
+  - modules/runtime/src/api/handleDoneFn.ts
   - modules/runtime/src/boolean-logic/ifArrayPartial.ts
   - modules/runtime/src/boolean-logic/ifScalar.ts
   - modules/runtime/src/css/createCssKeyframe.ts
   - modules/runtime/src/datetime/asDateTime.ts
   - modules/runtime/src/lists/joinWith.ts
   - modules/runtime/src/regex/createTemplateRegExp.ts
+  - modules/runtime/src/runtime-check-shim.d.ts
+  - modules/runtime/src/runtime-types/shape-helpers/functions.ts
+  - modules/runtime/src/runtime-types/shape-helpers/wide-containers.ts
+  - modules/runtime/src/runtime-types/tokens/asType.ts
+  - modules/runtime/src/type-guards/comparison/hasValidComparator.ts
+  - modules/runtime/src/type-guards/tokens/isInputToken__String.ts
+  - modules/runtime/src/type-guards/tokens/isOutputToken.ts
   - modules/runtime/tsconfig.check.json
+  - modules/types/src/api/api.ts
+  - modules/types/src/assertions/Test.ts
+  - modules/types/src/boolean-logic/branching/OnPass.ts
+  - modules/types/src/boolean-logic/branching/When.ts
+  - modules/types/src/boolean-logic/combinators/comparison/ComparisonAccept.ts
+  - modules/types/src/boolean-logic/combinators/comparison/ComparisonDesc.ts
+  - modules/types/src/boolean-logic/combinators/comparison/ComparisonFn.ts
+  - modules/types/src/boolean-logic/combinators/comparison/GetComparisonParams.ts
+  - modules/types/src/boolean-logic/combinators/comparison/GetOpConfig.ts
+  - modules/types/src/boolean-logic/operators/compare/IsBalanced.ts
+  - modules/types/src/boolean-logic/operators/containers/IsValidIndex.ts
+  - modules/types/src/boolean-logic/operators/datetime/IsLeapYear.ts
+  - modules/types/src/boolean-logic/operators/datetime/IsSameDay.ts
+  - modules/types/src/boolean-logic/operators/datetime/IsSameMonthYear.ts
+  - modules/types/src/boolean-logic/operators/datetime/IsSameYear.ts
+  - modules/types/src/boolean-logic/operators/functions/HasEscapeFunction.ts
+  - modules/types/src/boolean-logic/operators/literal/IsLiteralObject.ts
+  - modules/types/src/boolean-logic/operators/literal/IsWideContainer.ts
   - modules/types/src/boolean-logic/operators/scalar/numeric/IsGreaterThan.ts
   - modules/types/src/boolean-logic/operators/scalar/numeric/IsLessThan.ts
-  - modules/types/src/assertions/Test.ts
+  - modules/types/src/boolean-logic/operators/scalar/string/EndsWith.ts
+  - modules/types/src/boolean-logic/operators/scalar/string/Network-operators.ts
+  - modules/types/src/containers/OnlyRequired.ts
+  - modules/types/src/datetime/AsFourDigitYear.ts
+  - modules/types/src/datetime/AsRelativeDate.ts
+  - modules/types/src/datetime/AsTwoDigitMonth.ts
+  - modules/types/src/datetime/DaysInMonth.ts
+  - modules/types/src/datetime/GetMonth.ts
+  - modules/types/src/datetime/ParseDate.ts
+  - modules/types/src/datetime/RenderTime.ts
+  - modules/types/src/datetime/object-types/moment.ts
+  - modules/types/src/dictionary/KeysWithError.ts
+  - modules/types/src/dictionary/SharedKeys.ts
+  - modules/types/src/dictionary/WithKeys.ts
+  - modules/types/src/domains/nesting/helpers/IsEntryToken.ts
+  - modules/types/src/domains/nesting/helpers/IsExitToken.ts
+  - modules/types/src/domains/nesting/helpers/IsNestingMatchEnd.ts
+  - modules/types/src/functions/AsFnMeta.ts
+  - modules/types/src/functions/FnWithProps.ts
+  - modules/types/src/globals/Object.ts
+  - modules/types/src/interpolation/ApplyTemplate.ts
+  - modules/types/src/interpolation/AsLiteralTemplate.ts
+  - modules/types/src/interpolation/IsStaticTemplate.ts
+  - modules/types/src/interpolation/IsTemplateLiteral.ts
+  - modules/types/src/interpolation/StaticTemplateSections.ts
+  - modules/types/src/interpolation/template-maps.ts
+  - modules/types/src/kv/FromKv.ts
+  - modules/types/src/kv/ToKv.ts
+  - modules/types/src/lists/AsNumericArray.ts
+  - modules/types/src/lists/BeforeLast.ts
+  - modules/types/src/lists/FilterEmptyString.ts
+  - modules/types/src/lists/IndexOf.ts
+  - modules/types/src/lists/Longest.ts
+  - modules/types/src/lists/MakeOptional.ts
+  - modules/types/src/lists/Pop.ts
+  - modules/types/src/lists/Shortest.ts
+  - modules/types/src/lists/Slice.ts
+  - modules/types/src/lists/TakeFirst.ts
+  - modules/types/src/lists/TakeLast.ts
+  - modules/types/src/lists/sort/StringSort.ts
+  - modules/types/src/literals/Choices.ts
+  - modules/types/src/literals/ExpandRecursively.ts
+  - modules/types/src/numeric-literals/Add.ts
   - modules/types/src/numeric-literals/CSV.ts
+  - modules/types/src/numeric-literals/CompareNumbers.ts
   - modules/types/src/numeric-literals/Decrement.ts
   - modules/types/src/numeric-literals/Delta.ts
   - modules/types/src/numeric-literals/Divide.ts
   - modules/types/src/numeric-literals/Increment.ts
   - modules/types/src/numeric-literals/Mod.ts
   - modules/types/src/numeric-literals/Multiply.ts
+  - modules/types/src/numeric-literals/NextDigit.ts
+  - modules/types/src/numeric-literals/PriorDigit.ts
   - modules/types/src/numeric-literals/ShiftDecimalPlace.ts
+  - modules/types/src/numeric-literals/Subtract.ts
   - modules/types/src/numeric-literals/Sum.ts
+  - modules/types/src/runtime-types/Type.ts
+  - modules/types/src/runtime-types/tokens/OutputToken.ts
+  - modules/types/src/runtime-types/type-defn/FromDefn.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/FromInputToken.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeIntersection.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeParameters.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeUnion.ts
+  - modules/types/src/runtime-types/type-defn/input-tokens/InputToken.ts
+  - modules/types/src/string-literals/character-sets/html/tag.ts
+  - modules/types/src/string-literals/character-sets/phone/PhoneNumber.ts
+  - modules/types/src/string-literals/character-sets/tw/TwTarget.ts
+  - modules/types/src/string-literals/character-sets/urls/Url.ts
+  - modules/types/src/string-literals/finance/IsPercentage.ts
+  - modules/types/src/string-literals/mutation/Join.ts
+  - modules/types/src/string-literals/mutation/Nest.ts
+  - modules/types/src/string-literals/mutation/NestedSplit.ts
+  - modules/types/src/string-literals/mutation/Repeat.ts
+  - modules/types/src/string-literals/mutation/Split.ts
+  - modules/types/src/string-literals/mutation/Split2.ts
+  - modules/types/src/string-literals/sub-strings/FillStringHole.ts
+  - modules/types/src/string-literals/sub-strings/FilterByNestingLevel.ts
+  - modules/types/src/string-literals/sub-strings/after/AfterFirstChar.ts
   - modules/types/src/tuples/FixedLengthArray.ts
+  - modules/types/src/type-conversion/Merge.ts
+  - modules/types/src/type-conversion/ReplaceFromTo.ts
+  - modules/types/src/type-conversion/ToJson.ts
+  - modules/types/src/type-conversion/ToStringLiteral.ts
+  - modules/types/src/type-conversion/numeric/HexToDecimal.ts
   - modules/types/tsconfig.check.json
   - package.json
 documentation:
   - docs/type-performance.md
+  - features/2026-07-02-complex/deferred.md
+  - features/2026-07-02-complex/implementation-log.md
   - features/2026-07-02-complex/perf-baseline.json
   - features/2026-07-02-complex/plan.md
   - features/2026-07-02-complex/spec.md
