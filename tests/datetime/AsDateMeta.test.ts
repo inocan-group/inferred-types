@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import type { AsDateMeta, DateMeta, Expect, FourDigitYear, ParseDate, ParsedDate, Test, TwoDigitDate, TwoDigitMonth } from "inferred-types/types";
+import type { AsDateMeta, AssertEqual, AssertExtends, DateMeta, Expect, FourDigitYear, ParseDate, ParsedDate, TwoDigitDate, TwoDigitMonth } from "inferred-types/types";
 
 describe("AsDateMeta<T>", () => {
 
@@ -8,22 +8,10 @@ describe("AsDateMeta<T>", () => {
         type M = AsDateMeta<P>;
 
         type cases = [
-            Expect<Test<
-                M, "extends",
-                DateMeta
-            >>,
-            Expect<Test<
-                M["year"], "equals",
-                FourDigitYear<"2022">
-            >>,
-            Expect<Test<
-                M["month"], "equals",
-                TwoDigitMonth<"12">
-            >>,
-            Expect<Test<
-                M["date"], "equals",
-                TwoDigitDate<"24">
-            >>,
+            Expect<AssertExtends<M, DateMeta>>,
+            Expect<AssertEqual<M["year"], FourDigitYear<"2022">>>,
+            Expect<AssertEqual<M["month"], TwoDigitMonth<"12">>>,
+            Expect<AssertEqual<M["date"], TwoDigitDate<"24">>>,
         ];
     });
 
@@ -32,9 +20,9 @@ describe("AsDateMeta<T>", () => {
         type T = AsDateMeta<"2024">;
 
         type cases = [
-            Expect<Test<P, "extends", ParsedDate>>,
-            Expect<Test<T, "extends", DateMeta>>,
-            Expect<Test<T["dateType"], "equals", "year">>,
+            Expect<AssertExtends<P, ParsedDate>>,
+            Expect<AssertExtends<T, DateMeta>>,
+            Expect<AssertEqual<T["dateType"], "year">>,
         ];
     });
 
@@ -43,9 +31,9 @@ describe("AsDateMeta<T>", () => {
         type T = AsDateMeta<"-2024-12">;
 
         type cases = [
-            Expect<Test<P, "extends", ParsedDate>>,
-            Expect<Test<T, "extends", DateMeta>>,
-            Expect<Test<T["dateType"], "equals", "year-month">>,
+            Expect<AssertExtends<P, ParsedDate>>,
+            Expect<AssertExtends<T, DateMeta>>,
+            Expect<AssertEqual<T["dateType"], "year-month">>,
         ];
     });
 
@@ -54,9 +42,9 @@ describe("AsDateMeta<T>", () => {
         type T = AsDateMeta<"--12-25">;
 
         type cases = [
-            Expect<Test<P, "extends", ParsedDate>>,
-            Expect<Test<T, "extends", DateMeta>>,
-            Expect<Test<T["dateType"], "equals", "year-independent">>,
+            Expect<AssertExtends<P, ParsedDate>>,
+            Expect<AssertExtends<T, DateMeta>>,
+            Expect<AssertEqual<T["dateType"], "year-independent">>,
         ];
     });
 
@@ -65,9 +53,9 @@ describe("AsDateMeta<T>", () => {
         type T = AsDateMeta<"2022-12-20T12:30:00Z">;
 
         type cases = [
-            Expect<Test<P, "extends", ParsedDate>>,
-            Expect<Test<T, "extends", DateMeta>>,
-            Expect<Test<T["dateType"], "equals", "datetime">>,
+            Expect<AssertExtends<P, ParsedDate>>,
+            Expect<AssertExtends<T, DateMeta>>,
+            Expect<AssertEqual<T["dateType"], "datetime">>,
         ];
     });
 

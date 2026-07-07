@@ -1,6 +1,5 @@
-import type { As, Extends, IsNull, Or } from "types/boolean-logic";
+import type { Extends, IsNull, Or } from "types/boolean-logic";
 import type {
-    DateMeta,
     ParseDate,
     ParsedDate,
     ParsedTime,
@@ -76,7 +75,7 @@ type Offset<T extends ParsedTime | null> = T extends null
         ? T[4]
         : never;
 
-type SetParsed<T extends ParsedDate> = As<{
+type SetParsed<T extends ParsedDate> = {
     dateType: ParsedDateType<T>;
     hasTime: HasTime<T>;
     year: T[0];
@@ -87,7 +86,7 @@ type SetParsed<T extends ParsedDate> = As<{
     second: Second<T[3]>;
     ms: Millisecond<T[3]>;
     timezone: Offset<T[3]>;
-}, DateMeta>;
+};
 
 /**
  * **AsDateMeta**`<T>`
@@ -103,15 +102,12 @@ type SetParsed<T extends ParsedDate> = As<{
  * then this utility will never return an error as the validation
  * has already been done.
  */
-export type AsDateMeta<T> = As<
-    T extends ParsedDate
-        ? SetParsed<T>
-        : ParseDate<T> extends infer P
-            ? P extends Error
-                ? As<P, Error>
-                : P extends ParsedDate
-                    ? SetParsed<P>
-                    : never
-            : never,
-    DateMeta | Error
->;
+export type AsDateMeta<T> = T extends ParsedDate
+    ? SetParsed<T>
+    : ParseDate<T> extends infer P
+        ? P extends Error
+            ? P
+            : P extends ParsedDate
+                ? SetParsed<P>
+                : never
+        : never;
