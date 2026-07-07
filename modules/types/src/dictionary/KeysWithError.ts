@@ -1,5 +1,6 @@
 import type {
     AfterFirst,
+    As,
     Dictionary,
     First,
     ObjectKey,
@@ -8,7 +9,7 @@ import type {
 
 type Process<
     T extends Dictionary,
-    K extends readonly ObjectKey[] = ObjectKeys<T>,
+    K extends readonly ObjectKey[] = As<ObjectKeys<T>, readonly ObjectKey[]>,
     R extends readonly ObjectKey[] = []
 > = [] extends K
     ? R

@@ -7,6 +7,7 @@ import type {
     Extends,
     Fail,
     First,
+    FnKeyValue,
     HasEscapeFunction,
     If,
     IsEscapeFunction,
@@ -62,8 +63,16 @@ type _GetEscapeFunction<
 export type GetEscapeFunction<
     T extends Dictionary | TypedFunction | Api,
 > = T extends Api
-    ? _GetEscapeFunction<Values<T["surface"]>>
-    : _GetEscapeFunction<Values<T>>;
+    ? T["surface"] extends Dictionary
+        ? _GetEscapeFunction<Values<T["surface"]>>
+        : T["surface"] extends TypedFunction
+            ? _GetEscapeFunction<Values<FnKeyValue<T["surface"]>>>
+            : Err<"no-escape-function">
+    : T extends Dictionary
+        ? _GetEscapeFunction<Values<T>>
+        : T extends TypedFunction
+            ? _GetEscapeFunction<Values<FnKeyValue<T>>>
+            : Err<"no-escape-function">;
 
 export interface FluentState<T> {
     state: T;
@@ -137,7 +146,9 @@ export interface ApiConfig<
 > {
     callOnce: readonly string[];
     called: readonly string[];
-    mask: ((state: TState, called: readonly string[]) => readonly (KeyOf<TSurface>)[]);
+    mask: ((state: TState, called: readonly string[]) => readonly (KeyOf<
+        TSurface extends Dictionary ? TSurface : TSurface extends TypedFunction ? FnKeyValue<TSurface> : EmptyObject
+    >)[]);
 }
 
 /**
@@ -164,7 +175,9 @@ export interface ApiOptions<
     callOnce: TSurface extends Unset
         ? readonly PropertyKey[]
         : TSurface extends Dictionary | TypedFunction
-            ? readonly PublicKeyOf<AsApi<TSurface>>[]
+            ? readonly PublicKeyOf<
+                TSurface extends Dictionary ? TSurface : TSurface extends TypedFunction ? FnKeyValue<TSurface> : EmptyObject
+            >[]
             : never;
 
 }

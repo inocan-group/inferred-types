@@ -1,7 +1,5 @@
 import type {
     AnyFunction,
-    EmptyObject,
-    ExpandDictionary,
     FnKeyValue,
     FnMeta,
     IsNonEmptyObject,
@@ -17,12 +15,7 @@ export type AsFnMeta<
     TFn extends AnyFunction,
 > = TFn extends TypedFunction
     ? [IsNonEmptyObject<FnKeyValue<TFn>>] extends [true]
-            ? FnMeta<
-                TFn,
-                Parameters<TFn>,
-                ReturnType<TFn>,
-                ExpandDictionary<FnKeyValue<TFn>>
-            >
-            : FnMeta<TFn, Parameters<TFn>, ReturnType<TFn>, EmptyObject>
+            ? FnMeta<TFn>
+            : FnMeta<TFn>
 
-    : FnMeta<TypedFunction, any[], any, EmptyObject>;
+    : FnMeta<TypedFunction>;

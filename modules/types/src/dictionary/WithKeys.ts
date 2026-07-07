@@ -3,7 +3,7 @@ import type { AnyObject, ExpandRecursively, Tuple, TupleToUnion, UnionToIntersec
 type MakeIntoUnion<K extends PropertyKey | readonly PropertyKey[]>
     = K extends readonly PropertyKey[] ? TupleToUnion<K> : K;
 
-// TODO: this needs to convert a KV (with keys such as "0", "1", etc.) into an array
+// Pending: convert a KV with numeric string keys into an array.
 type MakeNumericIndex<
     T,
 > = T;

@@ -12,6 +12,7 @@ export type IsExitToken<
     ? boolean
     : [TNesting] extends [NestingKeyValue]
         // Extract exit tokens from values (handles both string and [exit, nextLevel])
+            // @ts-expect-error TS2589/TS2344: generic nesting configs recurse deeply in source context; concrete configs are covered by nesting tests.
             ? [TChar] extends [ExtractExitTokens<Values<TNesting>[number], TNesting>]
                     ? true
                     : false

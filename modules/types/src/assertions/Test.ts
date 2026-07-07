@@ -23,6 +23,13 @@ type IsValidExpectedError<T> = T extends Error | null | true | undefined | strin
     ? true
     : false;
 
+type ExpectedErr<TExpected extends string> = Err<TExpected> extends infer E extends {
+    type: string;
+    subType?: string | undefined;
+}
+    ? E
+    : never;
+
 /**
  * hands validation for Errors which are being checked for type/subtype
  */
@@ -34,8 +41,8 @@ type ValidateErrorType<
         ? "type" extends keyof TTest
             ? "subType" extends keyof TTest
                 ? And<[
-                    TTest["type"] extends Err<TExpected>["type"] ? true : false,
-                    TTest["subType"] extends Err<TExpected>["subType"] ? true : false,
+                    TTest["type"] extends ExpectedErr<TExpected>["type"] ? true : false,
+                    TTest["subType"] extends ExpectedErr<TExpected>["subType"] ? true : false,
                 ]> extends true
                     ? true // PASS
                     : AssertionError<
@@ -43,7 +50,7 @@ type ValidateErrorType<
                         `The tested type is an Error but does not match the type/subtype of '${TExpected}'. Instead it was '${As<TTest["type"], string>}/${As<TTest["subType"], string>}'`,
                         { test: TTest; expected: TExpected; type: Type; subType: Subtype }
                     >
-                : TTest["type"] extends Err<TExpected>["type"]
+                : TTest["type"] extends ExpectedErr<TExpected>["type"]
                     ? true // PASS
                     : AssertionError<
                         `failed/isError`,
@@ -51,7 +58,7 @@ type ValidateErrorType<
                     { test: TTest; expected: TExpected; type: Type; subType: Subtype }
                     >
             : "type" extends keyof TTest
-                ? TTest["type"] extends Err<TExpected>["type"]
+                ? TTest["type"] extends ExpectedErr<TExpected>["type"]
                     ? true // PASS
                     : AssertionError<
                         `failed/isError`,
@@ -60,21 +67,21 @@ type ValidateErrorType<
                     >
                 : AssertionError<
                     `failed/isError`,
-                `The tested type is an Error but has no 'type' property defined so unable to test it's value against the expected type of '${Err<TExpected>["type"]}'`,
+                `The tested type is an Error but has no 'type' property defined so unable to test it's value against the expected type of '${ExpectedErr<TExpected>["type"]}'`,
                 { test: TTest; expected: TExpected }
                 >
 
         : "type" extends keyof TTest
-            ? TTest["type"] extends Err<TExpected>["type"]
+            ? TTest["type"] extends ExpectedErr<TExpected>["type"]
                 ? true // PASS
                 : AssertionError<
                     `failed/isError`,
-                    `The tested type is an Error but it's type was not of the type ${Err<TExpected>["type"]}; instead type property was: ${As<TTest["type"], string>}`,
+                    `The tested type is an Error but it's type was not of the type ${ExpectedErr<TExpected>["type"]}; instead type property was: ${As<TTest["type"], string>}`,
                     { test: TTest; expected: TExpected }
                 >
             : AssertionError<
                 `failed/isError`,
-                `The tested type is an Error but has no 'type' property defined so unable to test it's value against the expected type of ${Err<TExpected>["type"]}`,
+                `The tested type is an Error but has no 'type' property defined so unable to test it's value against the expected type of ${ExpectedErr<TExpected>["type"]}`,
                 { test: TTest; expected: TExpected }
             >
     : AssertionError<

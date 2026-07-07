@@ -6,7 +6,6 @@ import type {
     IsFalse,
     IsLiteralLikeObject,
     KeyValue,
-    MergeObjects,
     ObjectKey,
     ObjectKeys,
     OptionalKeysTuple,
@@ -14,16 +13,13 @@ import type {
     SortOrder,
 } from "inferred-types/types";
 
-export type ToKvOptions = MergeObjects<
-    SortOptions, // offset will always be "key"
-    {
-        recurse?: number | boolean;
-    }
->;
+export interface ToKvOptions extends Partial<SortOptions> {
+    recurse?: number | boolean;
+}
 
 type Recurse<
     TVal,
-    TOpt extends ToKvOptions
+    TOpt extends { recurse?: number | boolean }
 > = TVal extends Dictionary
     ? [IsFalse<Fallback<TOpt["recurse"], false>>] extends [true]
             ? TVal
@@ -33,7 +29,7 @@ type Recurse<
 type Convert<
     TObj extends Dictionary,
     TKeys extends readonly ObjectKey[],
-    TOpt extends ToKvOptions,
+    TOpt extends { recurse?: number | boolean },
     TOptional extends readonly ObjectKey[] = OptionalKeysTuple<TObj>,
     TKv extends readonly KeyValue[] = [],
 > = TKeys extends [infer Head extends ObjectKey, ...infer Rest extends ObjectKey[]]

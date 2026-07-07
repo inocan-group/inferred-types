@@ -8,8 +8,8 @@ import type {
 } from "inferred-types/types";
 
 type Intersect<
-    T extends readonly Dictionary[],
-    R extends Dictionary = EmptyObject
+    T extends readonly object[],
+    R extends object = EmptyObject
 > = T extends [infer Head extends Dictionary, ...infer Rest extends Dictionary[]]
     ? Intersect<
         Rest,
@@ -19,7 +19,7 @@ type Intersect<
 
 type Convert<
     T extends readonly KeyValue[],
-    KV extends readonly Dictionary[] = []
+    KV extends readonly object[] = []
 > = T extends [infer Head extends KeyValue, ...infer Rest extends KeyValue[]]
     ? Head["required"] extends true
         ? Convert<

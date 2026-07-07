@@ -23,12 +23,14 @@ export type IsNestingMatchEnd<
 > = [IsExitToken<TChar, TNesting>] extends [true]
     ? [TNesting] extends [NestingKeyValue]
             ? [Last<TStack>] extends [string]
-                    ? TNesting[Last<TStack>] extends infer Value
+                    ? Last<TStack> extends keyof TNesting
+                        ? TNesting[Last<TStack>] extends infer Value
                     // Extract exit token from hierarchical or simple value
-                        ? [TChar] extends [ExtractExitTokens<Value, TNesting>]
+                            ? [TChar] extends [ExtractExitTokens<Value, TNesting>]
                                 ? true
                                 : false
-                        : never
+                            : never
+                        : false
                     : never
             : true
     : false;

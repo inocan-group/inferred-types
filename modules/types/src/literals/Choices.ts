@@ -96,25 +96,25 @@ export interface ChoiceApiConfig<
     done: () => ChoiceApi<TChoices, TOptions>;
     allowChoicesToBeUsedOnlyOnce: () => ChoiceApiConfig<
         TChoices,
-        As<MergeObjects<TOptions, { unique: true }>, ChoiceApiOptions>
+        As<MergeObjects<As<TOptions, Dictionary>, { unique: true }>, ChoiceApiOptions>
     >;
     /**
      * configured choices can be _reused_ multiple times
      */
     allowChoicesToBeUsedMultipleTimes: () => ChoiceApiConfig<
         TChoices,
-        As<MergeObjects<TOptions, { unique: false }>, ChoiceApiOptions>
+        As<MergeObjects<As<TOptions, Dictionary>, { unique: false }>, ChoiceApiOptions>
     >;
     setStyle: <TStyle extends "fn" | "object">(style: TStyle) => ChoiceApiConfig<
         TChoices,
-        As<MergeObjects<TOptions, { style: TStyle }>, ChoiceApiOptions>
+        As<MergeObjects<As<TOptions, Dictionary>, { style: TStyle }>, ChoiceApiOptions>
     >;
     /**
      * set a maximum number of choices that should be allowed
      */
     maximumChoices: <TMax extends number>(max: TMax) => ChoiceApiConfig<
         TChoices,
-        As<MergeObjects<TOptions, { max: TMax }>, ChoiceApiOptions>
+        As<MergeObjects<As<TOptions, Dictionary>, { max: TMax }>, ChoiceApiOptions>
     >;
 }
 

@@ -4,6 +4,7 @@ import type {
     FnKeyValue,
     FnReturn,
     IsNonEmptyObject,
+    ObjectKey,
     TypedFunction,
     WithoutKeys
 } from "inferred-types/types";
@@ -35,7 +36,7 @@ export type FnWithProps<
 > = IsNonEmptyObject<FnKeyValue<TFn>> extends true
     // function already has props: rebuild signature (loses generics) to prevent conflicts
     ? RebaseFn<TFn> & Readonly<ExpandRecursively<
-        WithoutKeys<FnKeyValue<TFn>, keyof TProps> & TProps
+        WithoutKeys<FnKeyValue<TFn>, Extract<keyof TProps, ObjectKey>> & TProps
     >>
     // function has no props: preserve original signature (including generics)
     : TFn & ExpandRecursively<TProps>;

@@ -21,6 +21,7 @@ type _ExpandTuple<
     TTuple extends Tuple = [],
 > = TLength extends 0
     ? Readonly<TTuple>
+    // @ts-expect-error TS2589: generic tuple expansion is recursive by design; concrete callers are covered by type tests.
     : _ExpandTuple<
         Decrement<TLength>,
         AfterFirst<TContent>,

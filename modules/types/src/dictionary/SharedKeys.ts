@@ -1,4 +1,4 @@
-import type { IntersectingKeys, ObjectKey } from "inferred-types/types";
+import type { As, Container, IntersectingKeys, ObjectKey } from "inferred-types/types";
 
 /**
  * **SharedKeys**`<A,B>`
@@ -17,4 +17,4 @@ import type { IntersectingKeys, ObjectKey } from "inferred-types/types";
 export type SharedKeys<
     A extends Record<ObjectKey, unknown> | object,
     B extends Record<ObjectKey, unknown> | object,
-> = IntersectingKeys<A, B>;
+> = IntersectingKeys<As<A, Container>, As<B, Container>>;
