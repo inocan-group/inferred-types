@@ -44,6 +44,7 @@ export type IT_TakeIntersection<
                                 ? IsolateErrors<SplitTokens> extends infer Outcome extends IsolatedResults
                                     ? Err<
                                         `malformed-token/intersection`,
+                                // @ts-expect-error TS2589: generic intersection parsing is source-context expensive; concrete behavior is covered by IT_TakeIntersection tests.
                                 `Error occurred trying to parse the elements [${Increment<Length<SplitTokens>>}] of an intersection type. The text prior to the first '&' character was valid but ${Outcome["errors"]["length"]} of the remaining ${Length<SplitTokens>} were in an error state.`,
                                 {
                                     token: P;

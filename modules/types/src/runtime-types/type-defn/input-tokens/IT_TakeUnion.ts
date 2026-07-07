@@ -59,7 +59,8 @@ type Parse<
                     ]
                         ? (
                     // parse rest parts only; head token is already an IT_Token
-                                ParseParts<ValidateStructure<RestParts>> extends infer TokensOrErr
+                                ValidateStructure<RestParts> extends infer ValidRest extends readonly string[]
+                                    ? ParseParts<ValidRest> extends infer TokensOrErr
                                     ? TokensOrErr extends Error
                                         ? Err<
                                             "malformed-token/union",
@@ -76,15 +77,16 @@ type Parse<
                                                     ], " | ">>;
                                                     type: TupleToUnion<[
                                                         FromInputToken__String<Trim<HeadTokenStr>>,
-                                                        ...FromInputToken__Tuple<ValidateStructure<RestParts>>
+                                                        ...FromInputToken__Tuple<ValidRest>
                                                     ]>;
                                                     rest: As<Last<RestTokens>["rest"], string>;
                                                     members: [
                                                         FromInputToken__String<Trim<HeadTokenStr>>,
-                                                        ...FromInputToken__Tuple<ValidateStructure<RestParts>>
+                                                        ...FromInputToken__Tuple<ValidRest>
                                                     ];
                                                 }
                                             : never
+                                    : never
                                     : never
                             )
                         : never

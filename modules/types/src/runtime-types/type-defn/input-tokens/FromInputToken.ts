@@ -1,6 +1,7 @@
 import type {
     DefineObject,
     DefineTuple,
+    Dictionary,
     Err,
     FromDefineObject,
     FromDefineTuple,
@@ -136,10 +137,12 @@ export type FromInputToken__Object<
 > = _FromInputToken__Object<Required<T>> extends infer Result
     ? Result extends Error
         ? Result
-        : Mutable<MakeKeysOptional<
-            Result,
-            UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
-                ? UnionToTuple<OptionalKeys<T>>
-                : never
-        >>
+        : Result extends Dictionary
+            ? Mutable<MakeKeysOptional<
+                Result,
+                UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
+                    ? UnionToTuple<OptionalKeys<T>>
+                    : never
+            >>
+            : never
     : never;

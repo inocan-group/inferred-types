@@ -1,34 +1,24 @@
 import type {
-    AfterFirst,
     AsBoolean,
     AsNumber,
     BooleanLike,
-    First,
     FromLiteralTemplate,
     IsStringLiteral,
     NumberLike,
     RetainAfter,
-    Second,
     StaticTemplateSections,
     StripAfter,
 } from "inferred-types/types";
 
 type ToBaseType<
-    T extends readonly string[],
-    R extends readonly (string | number | boolean)[] = []
-> = [] extends T
-    ? R
-    : ToBaseType<
-        AfterFirst<T>,
-        [
-            ...R,
-            First<T> extends NumberLike
-                ? AsNumber<First<T>>
-                : First<T> extends BooleanLike
-                    ? AsBoolean<First<T>>
-                    : First<T>
-        ]
-    >;
+    T extends readonly string[]
+> = {
+    [K in keyof T]: T[K] extends NumberLike
+        ? AsNumber<T[K]>
+        : T[K] extends BooleanLike
+            ? AsBoolean<T[K]>
+            : T[K]
+};
 
 type Finalize<
     TContent extends string,
@@ -36,7 +26,7 @@ type Finalize<
     TOnlyStringLit extends boolean
 > = TOnlyStringLit extends true
     ? [TContent, ...TApplied]
-    : [TContent, ...ToBaseType<TApplied> ];
+    : [TContent, ...ToBaseType<TApplied>];
 
 type Apply<
     TContent extends string,
@@ -44,23 +34,18 @@ type Apply<
     TResults extends readonly string[] = []
 > = [] extends TStatic
     ? TResults
-    : Apply<
-        TContent,
-        AfterFirst<TStatic>,
-        [
-            ...TResults,
-            ...(
-                TStatic extends readonly [string, string, ...string[]]
-                    ? [StripAfter<
-                            RetainAfter<TContent, First<TStatic>>,
-                            Second<TStatic>
-                        >]
-                    : TStatic extends readonly [string, ...string[]]
-                        ? [ RetainAfter<TContent, First<TStatic>> ]
-                        : []
-            )
-        ]
-    >;
+    : TStatic extends readonly [infer Head extends string, infer Next extends string, ...infer Rest extends string[]]
+        ? Apply<
+            TContent,
+            [Next, ...Rest],
+            [
+                ...TResults,
+                StripAfter<RetainAfter<TContent, Head>, Next>
+            ]
+        >
+        : TStatic extends readonly [infer Head extends string]
+            ? [...TResults, RetainAfter<TContent, Head>]
+            : TResults;
 
 /**
  * **ApplyTemplate**`<TContent,TTemplate,[TOnlyStringLit]>`
@@ -81,12 +66,14 @@ export type ApplyTemplate<
     TOnlyStringLit extends boolean = true
 > = IsStringLiteral<TContent> extends true
 
-    ? Finalize<
-        TContent,
-        Apply<
+    ? FromLiteralTemplate<TTemplate> extends infer Template extends string
+        ? Finalize<
             TContent,
-            StaticTemplateSections<FromLiteralTemplate<TTemplate>>
-        >,
-        TOnlyStringLit
-    >
+            Apply<
+                TContent,
+                StaticTemplateSections<Template>
+            >,
+            TOnlyStringLit
+        >
+        : never
     : string;

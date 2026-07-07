@@ -1,4 +1,4 @@
-import type { EmptyObject, GenericParam, InputTokenSuggestions, MergeObjects } from "inferred-types/types";
+import type { As, Dictionary, EmptyObject, GenericParam, MergeObjects } from "inferred-types/types";
 
 export interface TemplateMap__Basic {
     string: "string";
@@ -7,7 +7,7 @@ export interface TemplateMap__Basic {
 }
 
 type AddGeneric<
-    G extends Record<string, InputTokenSuggestions>,
+    G extends object,
     T extends GenericParam,
 > = {
     [K in keyof G | T["name"]]: K extends T["name"]
@@ -25,7 +25,7 @@ type AddGeneric<
  */
 export type TemplateMap__Generics<
     T extends readonly GenericParam[],
-    G extends Record<string, InputTokenSuggestions> = TemplateMap__Basic
+    G extends object = TemplateMap__Basic
 > = T extends [ infer Head extends GenericParam, ...infer Rest extends readonly GenericParam[]]
     ? TemplateMap__Generics<Rest, AddGeneric<G, Head>>
     : G;
@@ -37,4 +37,4 @@ export type TemplateMap__Generics<
  * you set the generic `T` using a `DefineObject` this map will be combined with the
  * basics.
  */
-export type TemplateMap<T extends Record<string, InputTokenSuggestions> = EmptyObject> = MergeObjects<TemplateMap__Basic, T>;
+export type TemplateMap<T extends object = EmptyObject> = MergeObjects<As<TemplateMap__Basic, Dictionary>, As<T, Dictionary>>;

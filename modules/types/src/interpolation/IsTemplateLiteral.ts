@@ -1,10 +1,9 @@
 import type { Every, IsUnion, Or } from "types/boolean-logic";
-import type { Increment } from "types/numeric-literals";
 import type { UnionToTuple } from "types/type-conversion";
 
 type CountTemplates<
     T extends string,
-    C extends number = 0
+    C extends readonly unknown[] = []
 > = string extends T
     ? 1
     : T extends `${infer First}${infer Rest}`
@@ -14,10 +13,10 @@ type CountTemplates<
         ]> extends true
             ? CountTemplates<
                 Rest,
-                Increment<C>
+                [unknown, ...C]
             >
             : CountTemplates<Rest, C>
-        : C;
+        : C["length"];
 
 /**
  * **isTemplateLiteral**`<T>`

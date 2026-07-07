@@ -37,7 +37,7 @@ import type { InputTokenSuggestions, ObjectKey } from "inferred-types/types";
  *
  * - `AsType<T>`
  *
- *     - same as the `FromXXX` utilities except that if `T` isn't a token then
+ *     - same as the `From...` utilities except that if `T` isn't a token then
  *     it will _proxy_ through **T**'s existing type "as is"
  *
  * - `AsString<T>` / `ToStringInputToken<T>`

@@ -1,8 +1,6 @@
 import type {
     As,
-    DefaultTemplateBlocks,
     FromLiteralTemplate,
-    Split,
     StringLiteralTemplate
 } from "inferred-types/types";
 
@@ -14,6 +12,33 @@ type Finalize<
             [K in keyof TResults]: StringLiteralTemplate<TResults[K]>
         }
     : TResults;
+
+type Section<
+    THead extends string,
+    TBlock extends string,
+    TWithType extends boolean | null
+> = TWithType extends null
+    ? THead
+    : `${THead}${TBlock}`;
+
+type Scan<
+    TTemplate extends string,
+    TWithType extends boolean | null,
+    TResults extends readonly string[] = [],
+    TCurrent extends string = ""
+> = TTemplate extends `{{string}}${infer Rest}`
+    ? Scan<Rest, TWithType, [...TResults, Section<TCurrent, "{{string}}", TWithType>]>
+    : TTemplate extends `{{number}}${infer Rest}`
+        ? Scan<Rest, TWithType, [...TResults, Section<TCurrent, "{{number}}", TWithType>]>
+        : TTemplate extends `{{boolean}}${infer Rest}`
+            ? Scan<Rest, TWithType, [...TResults, Section<TCurrent, "{{boolean}}", TWithType>]>
+            : TTemplate extends `{{true}}${infer Rest}`
+                ? Scan<Rest, TWithType, [...TResults, Section<TCurrent, "{{true}}", TWithType>]>
+                : TTemplate extends `{{false}}${infer Rest}`
+                    ? Scan<Rest, TWithType, [...TResults, Section<TCurrent, "{{false}}", TWithType>]>
+                    : TTemplate extends `${infer Head}${infer Rest}`
+                        ? Scan<Rest, TWithType, TResults, `${TCurrent}${Head}`>
+                        : TResults;
 
 /**
  * **StaticTemplateSections**`<TTemplate, [TWithType]>`
@@ -29,12 +54,8 @@ export type StaticTemplateSections<
     TTemplate extends string,
     TWithType extends boolean | null = null
 > = Finalize<
-    As<Split<
-        FromLiteralTemplate<TTemplate>,
-        DefaultTemplateBlocks,
-        TWithType extends null
-            ? "omit"
-            : "before"
-    >, readonly string[]>,
+    FromLiteralTemplate<TTemplate> extends infer Template extends string
+        ? As<Scan<Template, TWithType>, readonly string[]>
+        : [],
     TWithType
 >;

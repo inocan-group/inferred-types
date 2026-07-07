@@ -20,7 +20,6 @@ import type {
     IsStringLiteral,
     IsUnion,
     Narrowable,
-    NotFilter,
     Or,
     TupleToUnion,
     TypeGuard,
@@ -134,27 +133,11 @@ type ToBaseType<
                                                                         : never
                                                                     : TKind extends "union"
                                                                         ? TUnderlying extends readonly unknown[]
-                                                                            ? TupleToUnion<NotFilter<
-                                                                                TUnderlying,
-                                                                                "extends",
-                                                                                {
-                                                                                    kind: TypeKind;
-                                                                                    required: TypeIsRequired;
-                                                                                    underlying: readonly unknown[] | "none";
-                                                                                }
-                                                                            >>
+                                                                            ? TupleToUnion<TUnderlying>
                                                                             : never
                                                                         : TKind extends "intersection"
                                                                             ? TUnderlying extends readonly unknown[]
-                                                                                ? UnionToIntersection<TupleToUnion<NotFilter<
-                                                                                    TUnderlying,
-                                                                                    "extends",
-                                                                                    {
-                                                                                        kind: TypeKind;
-                                                                                        required: TypeIsRequired;
-                                                                                        underlying: readonly unknown[] | "none";
-                                                                                    }
-                                                                                >>>
+                                                                                ? UnionToIntersection<TupleToUnion<TUnderlying>>
                                                                                 : never
                                                                             : unknown;
 

@@ -1,9 +1,8 @@
 import type { Contains, TemplateMap__Basic } from "inferred-types/types";
 import type { StringKeys } from "types/dictionary";
-import type { DefineObject } from "types/runtime-types";
 
 type Curly<
-    T extends DefineObject,
+    T extends object,
     K extends readonly string[] = StringKeys<T>,
     O extends string = never
 > = K extends [ infer Head extends string, ...infer Rest extends readonly string[]]
@@ -18,5 +17,5 @@ type Curly<
  */
 export type IsStaticTemplate<
     TContent extends string,
-    TSegments extends DefineObject = TemplateMap__Basic
+    TSegments extends object = TemplateMap__Basic
 > = Contains<TContent, Curly<TSegments>>;

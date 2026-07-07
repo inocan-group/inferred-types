@@ -157,7 +157,7 @@ type DetermineType<
                                             ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
                                                 ? {
                                                         token: `WeakMap<${KTok}, ${VTok}>`;
-                                                        type: WeakMap<KInfo["type"], VInfo["type"]>;
+                                                        type: WeakMap<As<KInfo["type"], object>, VInfo["type"]>;
                                                         fromGeneric: false;
                                                     }
                                                 : Err<
@@ -193,7 +193,7 @@ type DetermineType<
                                                 ? DetermineType<VTok, U> extends infer VInfo extends { type: unknown }
                                                     ? {
                                                             token: `Record<${KTok}, ${VTok}>`;
-                                                            type: Record<KInfo["type"], VInfo["type"]>;
+                                                            type: Record<As<KInfo["type"], string | number | symbol>, VInfo["type"]>;
                                                             fromGeneric: false;
                                                         }
                                                     : Err<

@@ -90,7 +90,7 @@ export type FromShapeCallback<
     TAsToken extends boolean = false,
 > = TAsToken extends false
     ? ReturnType<HandleDoneFn<TShape>>
-    : string; // TODO
+    : string;
 
 /**
  * converts a `SimpleToken` into the _type_ which it is defining

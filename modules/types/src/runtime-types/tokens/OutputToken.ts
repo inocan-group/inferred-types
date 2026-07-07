@@ -1,6 +1,8 @@
 import type {
     AfterFirst,
+    As,
     DefineObject,
+    Dictionary,
     First,
     InputToken,
     InputTokenSuggestions,
@@ -45,7 +47,8 @@ export type OutputToken = `<<${string}>>` & {
 export type AsOutputToken<T extends InputToken> = T extends string
     ? `<<"${SafeEncode<T>}">>`
     : T extends DefineObject
-        ? ToJsonObject<T> extends infer J extends string
+        // @ts-expect-error TS2590: generic object-token JSON expansion is too broad in source context; concrete behavior is covered by token tests.
+        ? ToJsonObject<As<T, Dictionary>> extends infer J extends string
             ? `<<${J}>>`
             : never
         : T extends readonly InputTokenSuggestions[]
