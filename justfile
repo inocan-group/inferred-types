@@ -54,7 +54,7 @@ check-types:
 
 # source check: runtime module
 check-runtime:
-    @./node_modules/.bin/tsc -p modules/runtime/tsconfig.check.json --noEmit --pretty false
+    @node scripts/check-runtime-source.mjs
 
 # source check: all check-mode module configs
 check:

@@ -1,0 +1,29 @@
+{
+    "extends": "../tsconfig.check.json",
+    "compilerOptions": {
+        "paths": {
+            "inferred-types/types": [
+                "../src/runtime-check-types.d.ts"
+            ],
+            "inferred-types/constants": [
+                "../../constants/dist/index.d.mts"
+            ],
+            "inferred-types/runtime": [
+                "./runtime-facade.d.ts"
+            ],
+            "runtime/*": [
+                "../src/*"
+            ],
+            "constants/*": [
+                "../../constants/dist/*"
+            ],
+            "types/*": [
+                "../../types/dist/*"
+            ]
+        }
+    },
+    "include": [],
+    "files": [
+        "../src/type-conversion/mergeTuples.ts"
+    ]
+}
