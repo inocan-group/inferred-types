@@ -11,6 +11,7 @@ import type {
     IsAfter,
     IsEqual,
     IsError,
+    IsTemplateLiteral,
     IsWideObject,
     Narrowable,
     ObjectKey,
@@ -493,7 +494,7 @@ function handle_datetime<
             case "after": {
                 return isDateLike(params[0])
                     ? isAfter(params[0])(val) as IsAfter<TVal, First<TParams>>
-                    : err("invalid-params/not-date-like") as IsAfter<TVal, First<TParams>>;
+                    : err("invalid-params/not-date-like") as unknown as IsAfter<TVal, First<TParams>>;
             }
 
             case "before": {

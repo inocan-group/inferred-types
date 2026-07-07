@@ -17,11 +17,11 @@ export function freeze<
 >(obj: T): Immutable<T> {
     const output: any = isArray(obj) ? [] : {};
 
-    for (const key of keysOf(obj)) {
+    for (const key of keysOf(obj as NarrowObject<N>)) {
         const value = obj[key as keyof typeof obj];
 
         output[key] = typeof value === "object"
-            ? freeze(value as NarrowObject<Narrowable> | readonly Narrowable[])
+            ? freeze(value as NarrowObject<N> | readonly N[])
             : value;
     }
 
