@@ -2,7 +2,7 @@ import type { Unbrand } from "inferred-types/types";
 import type { As, IsFourDigitYear } from "types/boolean-logic";
 import type { FourDigitYear, ParsedTime, ParseTime, TwoDigitDate, TwoDigitMonth } from "types/datetime";
 import type { Err, ErrContext } from "types/errors";
-import type { Split, StrLen, TakeDate, TakeMonth, TakeYear } from "types/string-literals";
+import type { StrLen, TakeDate, TakeMonth, TakeYear } from "types/string-literals";
 
 export type ParsedDate = [
     year: FourDigitYear<"branded"> | null,
@@ -110,10 +110,7 @@ type ParseYear<T extends string> = IsFourDigitYear<T> extends true
         { parse: T }
     >;
 
-type ParseDateTime<T extends `${string}T${string}`> = Split<T, "T"> extends [
-    infer DatePart extends string,
-    infer TimePart extends string
-]
+type ParseDateTime<T extends `${string}T${string}`> = T extends `${infer DatePart extends string}T${infer TimePart extends string}`
     ? ParseFullDate<DatePart> extends infer DateResult
         ? DateResult extends Error
             ? Err<

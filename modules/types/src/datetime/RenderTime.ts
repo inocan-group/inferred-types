@@ -23,12 +23,12 @@ import type { Err } from "types/errors";
  * branches that avoid distributing large unions through template literals.
  */
 export type RenderTime<
-    THour extends TwoDigitHour<TComplexity> | null = "00",
-    TMin extends TwoDigitMinute<TComplexity> | null = "00",
-    TSec extends TwoDigitSecond<TComplexity> | null = null,
-    TMs extends ThreeDigitMillisecond<TComplexity> | null = null,
-    TTz extends TimezoneOffset<TComplexity extends "strong" ? "strong" : "normal"> | null = "Z",
-    TComplexity extends "weak" | "normal" | "strong" = "normal"
+    THour extends TwoDigitHour<"weak" | "normal" | "strong"> | null = "00",
+    TMin extends TwoDigitMinute<"weak" | "normal" | "strong"> | null = "00",
+    TSec extends TwoDigitSecond<"normal" | "strong"> | null = null,
+    TMs extends ThreeDigitMillisecond<"weak" | "normal" | "strong"> | null = null,
+    TTz extends TimezoneOffset<"normal" | "strong"> | null = "Z",
+    _TComplexity extends "weak" | "normal" | "strong" = "normal",
 > = THour extends null
     ? Err<`render-time/hour`, `To render a time you MUST have an hour!`>
     : TMin extends null

@@ -2,9 +2,6 @@ import type { IsoDateTime, TypedFunction } from "inferred-types/types";
 
 export interface MomentLike {
     _isAMomentObject: boolean;
-    isValid: () => boolean;
-    toDate: () => Date;
-    format: (formatStr?: string) => string;
     utc: () => MomentLike;
     local: () => MomentLike;
     add: (amount: number, unit: string) => MomentLike;

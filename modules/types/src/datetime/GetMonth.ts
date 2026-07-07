@@ -5,7 +5,6 @@ import type {
     MONTH_NAME_LOOKUP
 } from "inferred-types/constants";
 import type {
-    AsNumber,
     DateLike,
     Err,
     ErrContext,
@@ -93,6 +92,39 @@ type ExtractMonthFromIsoDate<T extends string>
                                                         : never
         : never;
 
+type MonthNumberFromTwoDigit<T> = T extends "01" ? 1
+    : T extends "02" ? 2
+        : T extends "03" ? 3
+            : T extends "04" ? 4
+                : T extends "05" ? 5
+                    : T extends "06" ? 6
+                        : T extends "07" ? 7
+                            : T extends "08" ? 8
+                                : T extends "09" ? 9
+                                    : T extends "10" ? 10
+                                        : T extends "11" ? 11
+                                            : T extends "12" ? 12
+                                                : never;
+
+type GetMonthNumberFromParsed<P> = P extends ParsedDate
+    ? [P[1]] extends [null]
+        ? Err<
+            `month-number/missing`,
+            `The type passed into GetMonthNumber<T> was successfully parsed but there is no month information. This typically means that an IsoYear was passed in.`,
+            { parse: ToStringLiteral__Array<P> }
+        >
+        : P[1] extends infer Month extends string
+            ? MonthNumberFromTwoDigit<Month> extends never
+                ? MonthNumber
+                : MonthNumberFromTwoDigit<Month>
+            : MonthNumber
+    : P extends Error
+        ? ErrContext<
+            P,
+            { fn: "GetMonthNumber" }
+        >
+        : never;
+
 export type GetMonthNumber<
     T
 > = [T] extends [object]
@@ -105,22 +137,9 @@ export type GetMonthNumber<
                             ? string extends T
                                 ? boolean
                                 : ExtractMonthFromIsoDate<T> extends never
-                                    ? [ParseDate<T>] extends [ParsedDate]
-                                            ? [ParseDate<T>["1"]] extends [null]
-                                                    ? Err<
-                                                        `month-number/missing`,
-                                                        `The type passed into GetMonthNumber<T> was successfully parsed but there is no month information. This typically means that an IsoYear was passed in.`,
-                                                        { parse: ToStringLiteral__Array<ParseDate<T>> }
-                                                    >
-                                                    : ParseDate<T>[1] extends `${infer N extends number}`
-                                                        ? N
-                                                        : AsNumber<ParseDate<T>[1]>
-                                            : [ParseDate<T>] extends [Error]
-                                                    ? ErrContext<
-                                                        ParseDate<T>,
-                                                        { fn: "GetMonthNumber" }
-                                                    >
-                                                    : never
+                                    ? ParseDate<T> extends infer P
+                                        ? GetMonthNumberFromParsed<P>
+                                        : never
                                     : ExtractMonthFromIsoDate<T>
                             : [T] extends [number]
                                     ? IsInteger<T> extends true

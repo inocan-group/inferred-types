@@ -11,6 +11,7 @@ import type {
     IsInteger,
     IsLeapYear,
     IsoDate30,
+    IsUnion,
     IsUndefined,
     MonthAbbrev,
     MonthName,
@@ -23,36 +24,67 @@ import type {
 
 type CalcFeb<T extends NumberLike | undefined> = IsUndefined<T> extends true
     ? 28
-    : AsFourDigitYear<T> extends FourDigitYear
-        ? IsLeapYear<T> extends true
-            ? IsDoubleLeap<T> extends true
-                ? 30
-                : 29
-            : 28
-        : ParseDate<T> extends ParsedDate
-            ? ParseDate<T>[0] extends infer Year extends FourDigitYear
-                ? IsLeapYear<Unbrand<Year>> extends true
-                    ? IsDoubleLeap<Unbrand<Year>> extends true
-                        ? 30
-                        : 29
-                    : 28
+    : AsFourDigitYear<T> extends infer Year
+        ? Year extends string
+            ? IsLeapYear<Year> extends true
+                ? IsDoubleLeap<Year> extends true
+                    ? 30
+                    : 29
+                : 28
+            : ParseDate<T> extends infer P
+                ? P extends ParsedDate
+                    ? P[0] extends infer ParsedYear extends FourDigitYear
+                        ? IsLeapYear<Unbrand<ParsedYear>> extends true
+                            ? IsDoubleLeap<Unbrand<ParsedYear>> extends true
+                                ? 30
+                                : 29
+                            : 28
+                        : Err<
+                            `invalid-year/missing`,
+                            `The utility DaysInMonth<T,[Y]> was passed a value for Y and though it was parsed as a date, the year information was invalid!`,
+                            { T: T; utility: "DaysInMonth" }
+                        >
+                    : Err<
+                        `invalid-year/parse`,
+                        `The utility DaysInMonth<T,[Y]> was passed a value for Y but it was unable to be parsed into a valid year!`,
+                        { T: T; utility: "DaysInMonth" }
+                    >
+                : never
+        : ParseDate<T> extends infer P
+            ? P extends ParsedDate
+                ? P[0] extends infer ParsedYear extends FourDigitYear
+                    ? IsLeapYear<Unbrand<ParsedYear>> extends true
+                        ? IsDoubleLeap<Unbrand<ParsedYear>> extends true
+                            ? 30
+                            : 29
+                        : 28
+                    : Err<
+                        `invalid-year/missing`,
+                        `The utility DaysInMonth<T,[Y]> was passed a value for Y and though it was parsed as a date, the year information was invalid!`,
+                        { T: T; utility: "DaysInMonth" }
+                    >
                 : Err<
-                    `invalid-year/missing`,
-                    `The utility DaysInMonth<T,[Y]> was passed a value for Y and though it was parsed as a date, the year information was invalid!`,
+                    `invalid-year/parse`,
+                    `The utility DaysInMonth<T,[Y]> was passed a value for Y but it was unable to be parsed into a valid year!`,
                     { T: T; utility: "DaysInMonth" }
                 >
-            : Err<
-                `invalid-year/parse`,
-                `The utility DaysInMonth<T,[Y]> was passed a value for Y but it was unable to be parsed into a valid year!`,
-                { T: T; utility: "DaysInMonth" }
-            >;
+            : never;
 
 type Days<
     T extends TwoDigitMonth | number,
     Y extends NumberLike | undefined = undefined,
 > = Unbrand<T> extends "02" | 2
     ? CalcFeb<Y>
-    : AsTwoDigitMonth<T> extends IsoDate30
+        : AsTwoDigitMonth<T> extends IsoDate30
+            ? 30
+            : 31;
+
+type DaysForMonthNumber<
+    M extends number,
+    Y extends NumberLike | undefined
+> = M extends 2
+    ? CalcFeb<Y>
+    : M extends 4 | 6 | 9 | 11
         ? 30
         : 31;
 
@@ -134,20 +166,24 @@ export type DaysInMonth<
                             { T: T; utility: "DaysInMonth" }
                         >
                     : T extends MonthName
-                        ? GetMonthNumber<T> extends number
-                            ? Unbrand<Y> extends NumberLike
-                                ? Days<GetMonthNumber<T>, Unbrand<Y>>
-                                : Days<GetMonthNumber<T>>
+                        ? GetMonthNumber<T> extends infer M extends number
+                            ? IsUnion<M> extends true
+                                ? 28 | 29 | 30 | 31
+                                : [Y] extends [undefined]
+                                    ? DaysForMonthNumber<M, undefined>
+                                    : DaysForMonthNumber<M, Unbrand<Y>>
                             : Err<
                                 `invalid-month/name`,
                                 `The generic T passed to DaysInMonth<T,[Y]> extends MonthName but GetMonthNumber<T> was unable to convert it to a number! This should not happen.`,
                                 { T: T; utility: "DaysInMonth" }
                             >
                         : T extends MonthAbbrev
-                            ? GetMonthNumber<T> extends number
-                                ? Unbrand<Y> extends NumberLike
-                                    ? Days<GetMonthNumber<T>, Unbrand<Y>>
-                                    : Days<GetMonthNumber<T>>
+                            ? GetMonthNumber<T> extends infer M extends number
+                                ? IsUnion<M> extends true
+                                    ? 28 | 29 | 30 | 31
+                                    : [Y] extends [undefined]
+                                        ? DaysForMonthNumber<M, undefined>
+                                        : DaysForMonthNumber<M, Unbrand<Y>>
                                 : Err<
                                     `invalid-month/abbrev`,
                                     `The generic T passed to DaysInMonth<T,[Y]> extends MonthAbbrev but GetMonthNumber<T> was unable to convert it to a number! This should not happen.`,

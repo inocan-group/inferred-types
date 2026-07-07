@@ -78,6 +78,22 @@ type Days<
         : never
     : never;
 
+type FromMeta<M extends DateMeta> = AsNumber<M["year"]> extends infer Year extends number
+    ? AsNumber<M["month"]> extends infer Month extends number
+        ? AsNumber<M["date"]> extends infer Date extends number
+            ? Days<Year, Month, Date>
+            : Days<Year, Month, 0>
+        : Days<Year, 0, 0>
+    : never;
+
+type ParseRelativeInput<T> = T extends ParsedDate
+    ? T
+    : ParseDate<T> extends infer P
+        ? P extends ParsedDate
+            ? P
+            : Err<"invalid-date">
+        : never;
+
 /**
  * **AsRelativeDate**`<T>`
  *
@@ -86,21 +102,12 @@ type Days<
  */
 export type AsRelativeDate<
     T,
-    P extends ParsedDate | Error = T extends ParsedDate
-        ? T
-        : ParseDate<T> extends ParsedDate
-            ? ParseDate<T>
-            : Err<"invalid-date">
+    P extends ParsedDate | Error = ParseRelativeInput<T>
 > = P extends ParsedDate
-    ? AsDateMeta<P> extends DateMeta
-        ? AsNumber<AsDateMeta<P>["year"]> extends infer Year extends number
-            ? AsNumber<AsDateMeta<P>["month"]> extends infer Month extends number
-                ? AsNumber<AsDateMeta<P>["date"]> extends infer Date extends number
-                    ? Days<Year, Month, Date>
-                    : Days<Year, Month, 0>
-                : Days<Year, 0, 0>
+    ? AsDateMeta<P> extends infer M
+        ? M extends DateMeta
+            ? FromMeta<M>
             : never
-
         : never
 
     : P extends TypedError
