@@ -1,5 +1,6 @@
 import type {
     AfterFirst,
+    As,
     First,
     IsGreaterThan,
     IsWideArray,
@@ -30,7 +31,7 @@ type Slicer<
     TMax extends number,
     TEllipsis extends string | false,
 > = TEllipsis extends string
-    ? [...TakeFirst<TTuple, TMax>, TEllipsis]
+    ? [...As<TakeFirst<TTuple, TMax>, readonly string[]>, TEllipsis]
     : TakeFirst<TTuple, TMax>;
 
 /**
@@ -66,5 +67,5 @@ export type Join<
                     TSeparator
                 >
                 : never
-            : Process<ToStringArray<TTuple>, TSeparator>
-        : Process<ToStringArray<TTuple>, TSeparator>;
+            : Process<As<ToStringArray<TTuple>, readonly string[]>, TSeparator>
+        : Process<As<ToStringArray<TTuple>, readonly string[]>, TSeparator>;

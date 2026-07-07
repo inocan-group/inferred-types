@@ -1,5 +1,4 @@
 import type { IsSubstring, IsWideString } from "types/boolean-logic";
-import type { BeforeLast, Last } from "types/lists";
 import type { RetainAfter, StripAfter } from "types/string-literals";
 import type { AsUnion } from "types/type-conversion";
 
@@ -22,30 +21,27 @@ type Process<
     TPolicy extends Policy,
     TParts extends readonly string[] = []
 > = IsSubstring<TContent, TSep> extends true
-    ? Process<
-        Get<TContent, TSep>["after"],
-        TSep,
-        TPolicy,
-        TPolicy extends "omit"
-            ? Get<TContent, TSep>["before"] extends ""
-                ? TParts
-                : [...TParts, Get<TContent, TSep>["before"]]
-            : TPolicy extends "inline"
-                ? Get<TContent, TSep>["before"] extends ""
-                    ? [...TParts, Get<TContent, TSep>["sep"]]
-                    : [...TParts, Get<TContent, TSep>["before"], Get<TContent, TSep>["sep"]]
-                : TPolicy extends "before"
-                    ? [
-                            ...TParts,
-                        `${Get<TContent, TSep>["before"]}${Get<TContent, TSep>["sep"]}`
-                        ]
-
-                    : [
-                            ...BeforeLast<TParts>,
-                        `${Get<TContent, TSep>["sep"]}${Last<TParts>}`,
-                        Get<TContent, TSep>["before"]
-                        ]
-    >
+    ? Get<TContent, TSep> extends infer G extends { before: string; sep: string; after: string }
+        ? Process<
+            G["after"],
+            TSep,
+            TPolicy,
+            TPolicy extends "omit"
+                ? G["before"] extends ""
+                    ? TParts
+                    : [...TParts, G["before"]]
+                : TPolicy extends "inline"
+                    ? G["before"] extends ""
+                        ? [...TParts, G["sep"]]
+                        : [...TParts, G["before"], G["sep"]]
+                    : TPolicy extends "before"
+                        ? [
+                                ...TParts,
+                            `${G["before"]}${G["sep"]}`
+                            ]
+                        : never
+        >
+        : never
     : TContent extends ""
         ? TParts
         : [...TParts, TContent];
@@ -71,4 +67,6 @@ export type Split<
     ? string[]
     : TContent extends ""
         ? []
-        : Process<TContent, AsUnion<TSep>, TPolicy>;
+        : AsUnion<TSep> extends infer Sep extends string
+            ? Process<TContent, Sep, TPolicy>
+            : never;

@@ -33,6 +33,21 @@ type SplitWithNoStack<
         : false
     : false;
 
+type NormalizeNesting<T extends Nesting> = AsNestingConfig<T> extends infer N
+    ? N extends Nesting
+        ? N
+        : never
+    : never;
+
+type ParentConfigAfterPop<
+    TStack extends readonly string[],
+    TRootNesting extends Nesting,
+> = Pop<TStack> extends infer ParentStack extends readonly string[]
+    ? Last<ParentStack> extends infer ParentEntry extends string
+        ? GetNextLevelConfig<ParentEntry, TRootNesting>
+        : never
+    : never;
+
 /**
  * Checks if TContent starts with TSplit at the current position
  */
@@ -119,7 +134,7 @@ type MultiConvertDirect<
                 : MultiConvertDirect<
                     Rest,
                     TSplit,
-                    GetNextLevelConfig<Last<Pop<TStack>>, TRootNesting>,
+                    ParentConfigAfterPop<TStack, TRootNesting>,
                     TPolicy,
                     Pop<TStack>,
                     `${TWaiting}${Head}`,
@@ -230,7 +245,7 @@ type Convert<
                 : Convert<
                     AfterFirst<TChars>,
                     TSplit,
-                    GetNextLevelConfig<Last<Pop<TStack>>, TRootNesting>,
+                    ParentConfigAfterPop<TStack, TRootNesting>,
                     TPolicy,
                     Pop<TStack>,
                     `${TWaiting}${First<TChars>}`,
@@ -300,12 +315,12 @@ export type NestedSplit<
                     ? Convert<
                         Chars<TContent>,
                         TSplit[number],
-                        AsNestingConfig<TNesting>,
+                        NormalizeNesting<TNesting>,
                         TPolicy,
                         [],
                         "",
                         [],
-                        AsNestingConfig<TNesting>
+                        NormalizeNesting<TNesting>
                     >
                     : Err<
                         `invalid-nesting/nested-split`,
@@ -317,17 +332,17 @@ export type NestedSplit<
                         ? Convert<
                             Chars<TContent>,
                             TSplit,
-                            AsNestingConfig<TNesting>,
+                            NormalizeNesting<TNesting>,
                             TPolicy,
                             [],
                             "",
                             [],
-                            AsNestingConfig<TNesting>
+                            NormalizeNesting<TNesting>
                         >
                         : MultiConvert<
                             TContent,
                             TSplit,
-                            AsNestingConfig<TNesting>,
+                            NormalizeNesting<TNesting>,
                             TPolicy
                         >
                     : never;

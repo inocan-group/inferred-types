@@ -1,16 +1,18 @@
-import type { Abs, FixedLengthArray, IsNegativeNumber } from "inferred-types/types";
-
 type Repeater<
     TStr extends string,
-    TTup extends readonly string[],
-    TResult extends string = ""
-> = TTup extends [infer Head extends string, ...infer Rest extends readonly string[]]
-    ? Repeater<
-        TStr,
-        Rest,
-    `${TResult}${Head}`
-    >
-    : TResult;
+    TCount extends number,
+    TResult extends string = "",
+    TDepth extends readonly unknown[] = [],
+> = TDepth["length"] extends TCount
+    ? TResult
+    : TDepth["length"] extends 64
+        ? string
+        : Repeater<
+            TStr,
+            TCount,
+            `${TResult}${TStr}`,
+            [...TDepth, unknown]
+        >;
 
 /**
  * **Repeat**`<TStr,TCount>`
@@ -24,13 +26,13 @@ export type Repeat<
     ? string
     : TCount extends 0
         ? ""
-        : IsNegativeNumber<TCount> extends true
+        : `${TCount}` extends `-${infer Positive extends number}`
             ? Repeater<
                 TStr,
-                FixedLengthArray<TStr, Abs<TCount>>
+                Positive
             >
 
             : Repeater<
                 TStr,
-                FixedLengthArray<TStr, TCount>
+                TCount
             >;

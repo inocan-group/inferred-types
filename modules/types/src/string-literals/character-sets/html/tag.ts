@@ -1,5 +1,5 @@
 import type { HTML_ATOMIC_TAGS, HTML_BLOCK_TAGS } from "inferred-types/constants";
-import type { IsWideString, KebabCase, PascalCase, StripSurround } from "inferred-types/types";
+import type { IsWideString, KebabCase, PascalCase } from "inferred-types/types";
 
 /**
  * a valid HTML "block tag" (aka, a tag which requires
@@ -44,7 +44,7 @@ export type HtmlTag = HtmlTagOpen | HtmlTagClose | HtmlTagAtomic;
  * boolean operator which validates that `T` is an HTML _closing_ tag
  */
 export type IsHtmlClosingTag<T> = T extends `</${infer Tag}>`
-    ? Tag extends HtmlTagOpen
+    ? Tag extends Html__BlockTag
         ? true
         : false
     : false;
@@ -53,10 +53,31 @@ export type IsHtmlClosingTag<T> = T extends `</${infer Tag}>`
  * boolean operator which validates that `T` is an Atomic tag
  */
 export type IsAtomicTag<T> = T extends `<${infer Tag}>`
-    ? Tag extends HtmlTagAtomic
-        ? true
+    ? Tag extends `${infer Name}${string}`
+        ? Name extends Html__AtomicTag
+            ? true
+            : false
         : false
     : false;
+
+type OpenOrAtomic<TScope extends Html__AtomicTag | Html__BlockTag>
+    = | HtmlTagOpen<Exclude<TScope, Html__AtomicTag>>
+        | HtmlTagAtomic<Extract<TScope, Html__AtomicTag>>;
+
+type AsOpenOrAtomic<
+    TInput,
+    TScope extends Html__AtomicTag | Html__BlockTag
+> = TInput extends OpenOrAtomic<TScope>
+    ? TInput
+    : TInput extends `<${string}`
+        ? OpenOrAtomic<TScope>
+        : never;
+
+type IsComponentName<T extends string> = T extends PascalCase<T>
+    ? true
+    : T extends KebabCase<T>
+        ? true
+        : false;
 
 /**
  * A narrowing utility which takes an input and ensures it's type
@@ -74,9 +95,7 @@ export type AsHtmlTag<
             : TInput extends `</${string}>`
                 ? HtmlTagClose<Exclude<TScope, Html__AtomicTag>>
                 : TInput extends `<${string}`
-                    ? HtmlTagOpen<Exclude<TScope, Html__AtomicTag>> | HtmlTagAtomic extends TInput
-                        ? HtmlTagOpen<Exclude<TScope, Html__AtomicTag>> | HtmlTagAtomic
-                        : never
+                    ? AsOpenOrAtomic<TInput, TScope>
                     : IsWideString<TInput> extends true
                         ? HtmlTag
                         : never;
@@ -88,16 +107,16 @@ export type AsHtmlTag<
  * (`kebab-case` or `PascalCase`) and ensures valid attributes.
  */
 export type AsHtmlComponentTag<T>
-    = T extends `<${infer Name} ${infer Attr}/>`
-        ? T & (`<${PascalCase<Name>} ${Attr}/>` | `<${KebabCase<Name>} ${Attr}/>`)
-        : T extends `<${infer Name} ${infer Attr}>`
-            ? T & (`<${PascalCase<Name>} ${Attr}>` | `<${KebabCase<Name>} ${Attr}>`)
+    = T extends `<${infer Name} ${infer _Attr}/>`
+        ? IsComponentName<Name> extends true ? T : never
+        : T extends `<${infer Name} ${infer _Attr}>`
+            ? IsComponentName<Name> extends true ? T : never
             : T extends `<${infer Name}/>`
-                ? T & (`<${PascalCase<Name>}/>` | `<${KebabCase<Name>}/>`)
+                ? IsComponentName<Name> extends true ? T : never
                 : T extends `<${infer Name}>`
-                    ? T & (`<${PascalCase<Name>}` | `<${KebabCase<Name>}`)
+                    ? IsComponentName<Name> extends true ? T : never
                     : T extends string // Wide string matching
                         ? IsWideString<T> extends true
-                            ? T & `<${PascalCase<StripSurround<T, "<" | ">">>}${string}>`
+                            ? `<${string}>`
                             : never
                         : never;

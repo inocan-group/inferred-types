@@ -1,4 +1,4 @@
-import type { AsLiteralTemplate, AsNestingConfig, BracketNesting, EmptyObject, Err, KnownNestingConfig, Nest, NestedString, Nesting, ReplaceAll } from "inferred-types/types";
+import type { As, AsLiteralTemplate, AsNestingConfig, BracketNesting, EmptyObject, Err, KnownNestingConfig, Nest, NestedString, Nesting, ReplaceAll } from "inferred-types/types";
 
 type NestingFormat = "string" | "string[]" | "template";
 
@@ -162,7 +162,7 @@ export type FilterByNestingLevel<
 > = Nest<
     TContent,
     TOpt["strategy"] extends infer Strategy extends KnownNestingConfig | Nesting
-        ? AsNestingConfig<Strategy>
+        ? As<AsNestingConfig<Strategy>, Nesting>
         : BracketNesting
 > extends infer Structured
     ? Structured extends NestedString

@@ -23,8 +23,11 @@ export type TakeNestedString<
     TEnter extends string | null,
     TLevel extends number,
     TContent extends string = "",
-    TChildren extends readonly NestedString[] = []
-> = GetExitToken<TEnter, TNesting> extends infer ExitChar extends string | null
+    TChildren extends readonly NestedString[] = [],
+    Depth extends readonly unknown[] = []
+> = Depth["length"] extends 128
+    ? NestedString | Err<"unbalanced">
+    : GetExitToken<TEnter, TNesting> extends infer ExitChar extends string | null
     ? TParse extends `${infer Head extends string}${infer Rest extends string}`
     // #region Exiting
         ? Head extends ExitChar
@@ -41,7 +44,8 @@ export type TakeNestedString<
         // #endregion
         // #region Entering
             : IsEntryToken<Head, TNesting> extends true // Recurse to get new level
-                ? TakeNestedString<Rest, TNesting, Head, Increment<TLevel>> extends infer Child extends {
+                // @ts-expect-error TS2589: recursive nesting parser is depth-capped; concrete behavior is covered by Nest tests.
+                ? TakeNestedString<Rest, TNesting, Head, Increment<TLevel>, "", [], [unknown, ...Depth]> extends infer Child extends {
                     node: NestedString;
                     rest: string;
                 }
@@ -49,9 +53,9 @@ export type TakeNestedString<
                         [
                             ...TChildren,
                             Child["node"]
-                        ]>
+                        ], [unknown, ...Depth]>
                 // Failure on child node
-                    : TakeNestedString<Rest, TNesting, Head, Increment<TLevel>> extends infer E extends Error
+                    : TakeNestedString<Rest, TNesting, Head, Increment<TLevel>, "", [], [unknown, ...Depth]> extends infer E extends Error
                         ? E extends Err<"unbalanced/throw"> & { level: number; enterChar: string }
                             ? ErrContext<
                                 E,
@@ -64,11 +68,11 @@ export type TakeNestedString<
                         : Err<
                             `invalid-node`,
                             `Call to TakeNestedString<..> did not produce a recognized type; should have been an Error or a { node, rest } object.`,
-                            { node: TakeNestedString<Rest, TNesting, Head, Increment<TLevel>> }
+                            { node: TakeNestedString<Rest, TNesting, Head, Increment<TLevel>, "", [], [unknown, ...Depth]> }
                         >
             // #endregion Entering
             // #region ConcatToContent
-                : TakeNestedString<Rest, TNesting, TEnter, TLevel, `${TContent}${Head}`, TChildren>
+                : TakeNestedString<Rest, TNesting, TEnter, TLevel, `${TContent}${Head}`, TChildren, [unknown, ...Depth]>
         // #endregion
         : TLevel extends 0
             ? {

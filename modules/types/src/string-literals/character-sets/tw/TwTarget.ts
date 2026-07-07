@@ -1,4 +1,4 @@
-import type { Opt, TwColor, TwColorTarget, TwColorWithLuminosity, TwColorWithLuminosityOpacity } from "inferred-types/types";
+import type { Opt, TwColor, TwColorTarget, TwLuminosity } from "inferred-types/types";
 
 /**
  * All of the `TwColorTarget`'s combined with a color (e.g, `bg-slate`, `border-blue`)
@@ -14,7 +14,21 @@ export type TwTarget__ColorName = `${TwColor}`;
  * **Note:** both `white` and `black` are also allowed but don't allow variants
  * as the luminosity level is fixed.
  */
-export type TwTarget__ColorLuminosity = `${TwColorTarget}-${TwColorWithLuminosity}`;
+export type TwTarget__ColorLuminosity<T extends string = string> = T extends `${infer Target}-${infer Color}-${infer Luminosity}`
+    ? Target extends TwColorTarget
+        ? Color extends TwColor
+            ? Luminosity extends TwLuminosity
+                ? T
+                : never
+            : never
+        : never
+    : T extends `${infer Target}-${infer StaticColor}`
+        ? Target extends TwColorTarget
+            ? StaticColor extends "white" | "black"
+                ? T
+                : never
+            : never
+        : `${TwColorTarget}-${string}`;
 
 /**
  * All of the combinations of a:
@@ -28,7 +42,11 @@ export type TwTarget__ColorLuminosity = `${TwColorTarget}-${TwColorWithLuminosit
  * **Note:** both `white` and `black` are also allowed but don't allow variants
  * as the luminosity level is fixed.
  */
-export type TwTarget__ColorLuminosityWithOpacity = `${TwColorTarget}-${TwColorWithLuminosityOpacity}`;
+export type TwTarget__ColorLuminosityWithOpacity<T extends string = string> = T extends `${infer Color}/${infer Opacity extends number}`
+    ? TwTarget__ColorLuminosity<Color> extends never
+        ? never
+        : `${TwTarget__ColorLuminosity<Color>}/${Opacity}`
+    : `${TwColorTarget}-${string}/${number}`;
 
 /**
  * All of the combinations of a:
@@ -39,7 +57,11 @@ export type TwTarget__ColorLuminosityWithOpacity = `${TwColorTarget}-${TwColorWi
  *
  * **Related:** `TwTarget__ColorLuminosityWithOpacity`, `TwTarget__ColorLuminosity`, `TwTarget__ColorName`
  */
-export type TwTarget__Color = `${TwColorTarget}-${TwColorWithLuminosity}${Opt<`/${number}`>}`;
+export type TwTarget__Color<T extends string = string> = T extends `${string}/${number}`
+    ? TwTarget__ColorLuminosityWithOpacity<T>
+    : TwTarget__ColorLuminosity<T> extends never
+        ? never
+        : TwTarget__ColorLuminosity<T>;
 
 /**
  * A simpler representation of what `TwTarget__Color` provides.

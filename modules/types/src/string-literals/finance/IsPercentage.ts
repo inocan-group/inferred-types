@@ -1,4 +1,4 @@
-import type { Divide, Err, IsBetweenInclusively } from "inferred-types/types";
+import type { Err, IsBetweenInclusively } from "inferred-types/types";
 import type { Percentage } from "./Percentage";
 
 export type Process<
@@ -7,9 +7,13 @@ export type Process<
     TMax extends number
 > = IsBetweenInclusively<T, TMin, TMax>;
 
-export type AdjustNumeric<T extends number> = T extends 0
-    ? 0
-    : Divide<T, 100>;
+export type IsDefaultNumericPercentage<T extends number> = `${T}` extends `-${string}`
+    ? false
+    : T extends 0 | 1
+        ? true
+        : `${T}` extends `0.${string}`
+            ? true
+            : false;
 
 export type HandleErr<
     T,
@@ -73,5 +77,9 @@ export type IsPercentage<
         : T extends `${infer Num extends number}%`
             ? Process<Num, TMin, TMax>
             : T extends number
-                ? Process<T, AdjustNumeric<TMin>, AdjustNumeric<TMax>>
+                ? TMin extends 0
+                    ? TMax extends 100
+                        ? IsDefaultNumericPercentage<T>
+                        : boolean
+                    : boolean
                 : HandleErr<T, TMin, TMax>;

@@ -1,4 +1,4 @@
-import type { AsArray } from "inferred-types/types";
+import type { As, AsArray } from "inferred-types/types";
 
 type Iterate<
     TInput extends readonly string[],
@@ -27,7 +27,7 @@ type Iterate<
 export type AfterFirstChar<
     TContent extends string | readonly string[],
 > = TContent extends readonly string[]
-    ? Iterate<AsArray<TContent>>
+    ? Iterate<As<AsArray<TContent>, readonly string[]>>
     : TContent extends string
         ? string extends TContent
             ? never

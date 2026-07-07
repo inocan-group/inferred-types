@@ -8,7 +8,6 @@ import type {
     DomainName,
     EmptyObject,
     Err,
-    ExpandUnion,
     Ip4AddressLike,
     IsEqual,
     IsFalse,
@@ -17,11 +16,8 @@ import type {
     Mutable,
     NumericChar,
     RetainWhile,
-    Slice,
     StripAfter,
     StripBefore,
-    StripLeading,
-    StripTrailing,
     StripWhile,
     TupleToUnion,
     ValidateCharacterSet,
@@ -233,9 +229,9 @@ export type UrlPath<T extends string | null = null> = T extends null
     : T extends string
         ? string extends T
             ? string | Error
-            : T extends `/${AlphanumericChar}${infer Rest}`
-                ? ValidateCharacterSet<Rest, AlphanumericChar | "_" | "@" | "." | "-" | "/"> extends infer Rest extends string
-                    ? `${Slice<T, 0, 2>}${Rest}`
+            : T extends `/${infer First extends AlphanumericChar}${infer Rest}`
+                ? ValidateCharacterSet<Rest, AlphanumericChar | "_" | "@" | "." | "-" | "/"> extends infer ValidRest extends string
+                    ? `/${First}${ValidRest}`
                     : ValidateCharacterSet<Rest, AlphanumericChar | "_" | "@" | "." | "-" | "/">
                 : Err<`invalid-character`>
         : never; // when not string or null
@@ -371,11 +367,19 @@ export type AddUrlPathSegment<
     TExisting extends string,
     TAdd extends string,
 > = TExisting extends `${string}/`
-    ? `${TExisting}${StripTrailing<StripLeading<TAdd, "/">, "/">}`
-    : `${TExisting}/${StripTrailing<StripLeading<TAdd, "/">, "/">}`;
+    ? `${TExisting}${UrlSegment<TAdd>}`
+    : `${TExisting}/${UrlSegment<TAdd>}`;
 
-type _Path<T extends string> = GetUrlPath<T> extends UrlPath
-    ? GetUrlPath<T>
+type UrlSegment<T extends string> = string extends T
+    ? string
+    : T extends `/${infer Rest}`
+        ? UrlSegment<Rest>
+        : T extends `${infer Rest}/`
+            ? UrlSegment<Rest>
+            : T;
+
+type _Path<T extends string> = GetUrlPath<T> extends infer P extends string
+    ? P
     : never;
 
 type _Proto<TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions>
@@ -416,12 +420,12 @@ export type UrlsFrom<
     T extends string | readonly string[],
     TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions = EmptyObject,
 > = T extends string
-    ? ExpandUnion<_UrlsFrom<T, TOpt>>
+    ? _UrlsFrom<T, TOpt>
     : T extends readonly string[]
         ? TupleToUnion<
             {
                 [K in keyof T]: IsStringLiteral<T[K]> extends true
-                    ? ExpandUnion<_UrlsFrom<AsString<T[K]>, TOpt>>
+                    ? _UrlsFrom<AsString<T[K]>, TOpt>
                     : never
             }
         >
