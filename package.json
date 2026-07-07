@@ -1,6 +1,6 @@
 {
     "name": "inferred-types",
-    "version": "1.5.2",
+    "version": "1.5.3",
     "description": "Functions which provide useful type inference on Typescript projects",
     "repository": {
         "type": "git",
