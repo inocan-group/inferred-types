@@ -12,6 +12,8 @@ type DoneFnContainer = {
     done: () => unknown;
 };
 
+type Callable = (...args: never[]) => unknown;
+
 function hasDoneFn(val: unknown): val is DoneFnContainer {
     return isDictionary(val) && "done" in val && typeof val.done === "function";
 }
@@ -34,7 +36,7 @@ export function handleDoneFn<
         hasDoneFn(val)
             ? val.done()
             : isFunction(val) && call_bare_fn
-                ? val()
+                ? (val as Callable)()
                 : val
     ) as HandleDoneFnReturn<TVal, TBareFn>;
 }
