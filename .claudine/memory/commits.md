@@ -104,3 +104,32 @@ prefer `git log -1 -- <file>` when your pathspecs are unique to your commit.
 
 > Source: Group A (`fix(types): redesign IsLeapYear to avoid type-instantiation OOM`)
 > sub-agent, 2026-07-01.
+
+---
+
+## Sub-agents should self-verify the orchestrator-supplied path list against `git diff --staged --name-only`
+
+The orchestrator's prompt may list paths that don't actually match what's in the index
+(count drift, a typo, or a duplicated entry). If the sub-agent passes an un-staged path to
+`git commit --only -F - -- <good1> <bad>`, the commit fails mid-heredoc with
+`fatal: pathspec '<bad>' did not match any files`. With `--only`, git tolerates mixed
+listed paths and *silently* drops the un-staged ones, so a counting error in the orchestrator's
+list can otherwise land a partial commit that misses files the agent meant to include.
+
+Best practice: immediately before issuing the commit, the sub-agent should run
+
+```sh
+git diff --staged --name-only -- <subtree-or-glob>
+```
+
+and reconcile the orchestrator's list against it — drop duplicates and skip anything not
+in the index. The orchestrator's path list is a *suggestion* of intent; staging is the
+contract.
+
+Concrete example from 2026-07-06: the `perf(types): list utilities` sub-agent was assigned 13
+numbered paths but the explicit path list contained only 12 distinct staged files (the prompt
+duplicated one entry when counting). It self-verified with `git diff --staged --name-only
+-- modules/types/src/lists/`, de-duplicated, and committed exactly the 12 staged files.
+Without that step it would have either failed the commit or produced a partial commit.
+
+> Source: Group 10 (`perf(types): list utilities`) sub-agent, 2026-07-06.
