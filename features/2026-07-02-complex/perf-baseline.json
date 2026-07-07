@@ -2672,12 +2672,12 @@
     "wallSeconds": 144.66,
     "peakRssMb": 3578,
     "complexityDiagnostics": {
-      "TS2589": 0,
+      "TS2589": 7,
       "TS2590": 0,
       "TS2859": 0,
       "TS2321": 0
     },
-    "complexityTotal": 0,
+    "complexityTotal": 7,
     "checks": {
       "check-constants": {
         "status": 0,
@@ -2711,12 +2711,14 @@
         "peakRssBytes": 202358784,
         "peakRssMb": 193,
         "complexityDiagnostics": {
-          "TS2589": 0,
+          "TS2589": 7,
           "TS2590": 0,
           "TS2859": 0,
           "TS2321": 0
         },
-        "complexityTotal": 0
+        "complexityTotal": 7,
+        "runtimeDeferredDiagnostics": 807,
+        "runtimeDeferredStatus": "matched-deferred-inventory"
       }
     }
   },

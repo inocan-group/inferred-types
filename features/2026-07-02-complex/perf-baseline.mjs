@@ -101,6 +101,45 @@ function countComplexityDiagnostics(output) {
     );
 }
 
+function parseRuntimeDiagnosticSummary(output) {
+    const clean = stripAnsi(output);
+    const match = clean.match(/^RUNTIME_SOURCE_DIAGNOSTICS (\{.+\})$/m);
+
+    if (!match) {
+        return null;
+    }
+
+    const parsed = JSON.parse(match[1]);
+    const complexityDiagnostics = parsed.complexityDiagnostics;
+
+    if (
+        typeof parsed.total !== "number"
+        || typeof parsed.complexityTotal !== "number"
+        || !complexityDiagnostics
+        || typeof complexityDiagnostics !== "object"
+    ) {
+        throw new Error("check-runtime emitted malformed RUNTIME_SOURCE_DIAGNOSTICS summary");
+    }
+
+    return {
+        runtimeDeferredDiagnostics: parsed.total,
+        runtimeDeferredStatus: parsed.status,
+        complexityDiagnostics: Object.fromEntries(
+            complexityCodes.map((code) => {
+                const key = `TS${code}`;
+                const value = complexityDiagnostics[key];
+
+                if (typeof value !== "number") {
+                    throw new Error(`check-runtime summary omitted ${key}`);
+                }
+
+                return [key, value];
+            }),
+        ),
+        complexityTotal: parsed.complexityTotal,
+    };
+}
+
 function totalCounts(counts) {
     return Object.values(counts).reduce((sum, count) => sum + count, 0);
 }
@@ -278,7 +317,11 @@ function measureSourceCheck(recipe) {
         defaultHeap: true,
     });
     const diagnosticOutput = `${check.stdout}\n${check.stderr}`;
-    const complexityDiagnostics = countComplexityDiagnostics(diagnosticOutput);
+    const runtimeSummary = recipe === "check-runtime"
+        ? parseRuntimeDiagnosticSummary(diagnosticOutput)
+        : null;
+    const complexityDiagnostics = runtimeSummary?.complexityDiagnostics
+        ?? countComplexityDiagnostics(diagnosticOutput);
 
     return {
         status: check.status,
@@ -286,7 +329,13 @@ function measureSourceCheck(recipe) {
         peakRssBytes: check.peakRssBytes,
         peakRssMb: check.peakRssMb,
         complexityDiagnostics,
-        complexityTotal: totalCounts(complexityDiagnostics),
+        complexityTotal: runtimeSummary?.complexityTotal ?? totalCounts(complexityDiagnostics),
+        ...(runtimeSummary
+            ? {
+                    runtimeDeferredDiagnostics: runtimeSummary.runtimeDeferredDiagnostics,
+                    runtimeDeferredStatus: runtimeSummary.runtimeDeferredStatus,
+                }
+            : {}),
     };
 }
 
