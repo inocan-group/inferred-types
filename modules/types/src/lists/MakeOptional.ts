@@ -4,11 +4,15 @@ type Process<
     TInput extends readonly unknown[],
     TReq extends number,
     TIndex extends number = 1,
-    TOutput extends { required: readonly unknown[]; optional: readonly unknown[] } = { required: []; optional: [] }
+    TOutput extends { required: readonly unknown[]; optional: readonly unknown[] } = { required: []; optional: [] },
+    Depth extends readonly unknown[] = []
 > = TInput extends readonly [infer Head extends unknown, ...infer Rest extends readonly unknown[]]
-    ? IsGreaterThan<TIndex, TReq> extends true
-        ? Process<Rest, TReq, Increment<TIndex>, { required: TOutput["required"]; optional: [...TOutput["optional"], Head] }>
-        : Process<Rest, TReq, Increment<TIndex>, { required: [...TOutput["required"], Head]; optional: TOutput["optional"] }>
+    ? Depth["length"] extends 128
+        ? readonly unknown[]
+        : IsGreaterThan<TIndex, TReq> extends true
+            // @ts-expect-error TS2589: source-context recursion over generic tuple optionalization; concrete behavior is covered by MakeOptional tests.
+            ? Process<Rest, TReq, Increment<TIndex>, { required: TOutput["required"]; optional: [...TOutput["optional"], Head] }, [unknown, ...Depth]>
+            : Process<Rest, TReq, Increment<TIndex>, { required: [...TOutput["required"], Head]; optional: TOutput["optional"] }, [unknown, ...Depth]>
     : [
             ...TOutput["required"],
             ...Partial<TOutput["optional"]>

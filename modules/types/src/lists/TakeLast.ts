@@ -4,6 +4,7 @@ import type {
     MakeOptional,
     Min,
     Reverse,
+    As,
     TakeFirst,
 } from "inferred-types/types";
 
@@ -31,10 +32,10 @@ export type TakeLast<
                 TLen
             >>
             : [],
-        Min<[
+        As<Min<[
             GetOptionalElementCount<TContent>,
             TLen
-        ]>
+        ]>, number>
     >
 
     : Reverse<TakeFirst<

@@ -1,25 +1,35 @@
 import type {
-    IsGreaterThan,
     IsStringLiteral,
-    Length,
-    Max,
     Unset
 } from "inferred-types/types";
 
+type StringToTuple<T extends string, TResult extends readonly string[] = []> = T extends `${string}${infer Rest}`
+    ? StringToTuple<Rest, [...TResult, string]>
+    : TResult;
+
+type IsLonger<
+    A extends string,
+    B extends string,
+> = StringToTuple<A> extends infer ATuple extends readonly string[]
+    ? StringToTuple<B> extends infer BTuple extends readonly string[]
+        ? ATuple extends readonly [...BTuple, unknown, ...readonly unknown[]]
+            ? true
+            : false
+        : false
+    : false;
+
 type Process<
     T extends readonly string[],
-    TShortest extends number = 0,
     TResult extends string | Unset = Unset
 > = T extends [ infer Head extends string, ...infer Rest extends readonly string[]]
     ? Process<
         Rest,
         IsStringLiteral<Head> extends true
-            ? Max<[TShortest, Length<Head>]>
-            : TShortest,
-        IsStringLiteral<Head> extends true
-            ? IsGreaterThan<Length<Head>, TShortest> extends true
-                ? Head
-                : TResult
+            ? TResult extends string
+                ? IsLonger<Head, TResult> extends true
+                    ? Head
+                    : TResult
+                : Head
             : TResult
     >
     : TResult extends Unset

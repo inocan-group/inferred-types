@@ -1,4 +1,4 @@
-import type { As, Chars, Concat, Handle, IsEqual, Pop } from "inferred-types/types";
+import type { Chars, Concat, IsEqual, Pop } from "inferred-types/types";
 
 /**
  * **BeforeLast**`<T>`
@@ -24,9 +24,11 @@ export type BeforeLast<
         ? string
         : IsEqual<T, ""> extends true
             ? ""
-            : Pop<Chars<T>> extends readonly string[]
-                ? Concat<Pop<Chars<T>>>
+            : Pop<Chars<T>> extends infer Leading extends readonly string[]
+                ? Concat<Leading>
                 : never
     : [T] extends [readonly unknown[]]
-            ? As<Handle<Pop<T>, never, []>, T[number][]>
+            ? T extends readonly [...infer Leading, unknown]
+                ? Leading
+                : []
             : never;

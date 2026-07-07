@@ -1,12 +1,10 @@
 import type { Constant } from "inferred-types/constants";
 import type {
-    Abs,
     As,
     AsPropertyKey,
     AsString,
     Concat,
     Container,
-    Decrement,
     Dictionary,
     Err,
     If,
@@ -30,22 +28,37 @@ type Override<
 type NegativeIndex<
     TValue extends readonly unknown[],
     TIdx extends number,
-> = Decrement<Abs<TIdx>> extends number
-    ? If<
-        IsValidIndex<TValue, Decrement<Abs<TIdx>>>,
-        TValue[Decrement<Abs<TIdx>>],
+    TPositive extends number = `${TIdx}` extends `-${infer N extends number}` ? N : never,
+    TDepth extends readonly unknown[] = [unknown],
+> = TDepth["length"] extends TPositive
+    ? TValue extends readonly [infer Head, ...readonly unknown[]]
+        ? Head
+        : Err<
+            "invalid-index",
+            `Use of a negative index [${AsString<TIdx>}] was unsuccessful in matching a valid index`,
+            {
+                container: TValue;
+                key: TIdx;
+                revIndex: TPositive;
+                revContainer: Reverse<TValue>;
+            }
+        >
+    : TValue extends readonly [unknown, ...infer Rest]
+        ? NegativeIndex<Rest, TIdx, TPositive, [...TDepth, unknown]>
+        : If<
+        IsValidIndex<TValue, TPositive>,
+        TValue[TPositive],
         Err<
             "invalid-index",
             `Use of a negative index [${AsString<TIdx>}] was unsuccessful in matching a valid index`,
             {
                 container: TValue;
                 key: TIdx;
-                revIndex: Decrement<Abs<TIdx>>;
+                revIndex: TPositive;
                 revContainer: Reverse<TValue>;
             }
         >
-    >
-    : never;
+    >;
 
 type HandleArr<
     TValue extends readonly unknown[],

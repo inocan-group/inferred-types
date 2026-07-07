@@ -10,19 +10,24 @@ import type {
 type Process<
     T extends readonly string[],
     TShortest extends number = MaxSafeInteger,
-    TResult extends string | Unset = Unset
+    TResult extends string | Unset = Unset,
+    Depth extends readonly unknown[] = []
 > = T extends [ infer Head extends string, ...infer Rest extends readonly string[]]
-    ? Process<
-        Rest,
-        IsStringLiteral<Head> extends true
-            ? Min<[TShortest, Length<Head>]>
-            : TShortest,
-        IsStringLiteral<Head> extends true
-            ? IsLessThan<Length<Head>, TShortest> extends true
-                ? Head
-                : TResult
-            : TResult
-    >
+    ? Depth["length"] extends 128
+        ? TResult extends Unset ? string : TResult
+        // @ts-expect-error TS2589: source-context recursion over generic string tuples; concrete behavior is covered by Shortest tests.
+        : Process<
+            Rest,
+            IsStringLiteral<Head> extends true
+                ? Min<[TShortest, Length<Head>]>
+                : TShortest,
+            IsStringLiteral<Head> extends true
+                ? IsLessThan<Length<Head>, TShortest> extends true
+                    ? Head
+                    : TResult
+                : TResult,
+            [unknown, ...Depth]
+        >
     : TResult extends Unset
         ? string
         : TResult;

@@ -346,7 +346,7 @@ type _StringSortWithEnd<
     OOrder = O extends { order: infer Ord } ? Ord : undefined,
     TEnd = O["end"] extends readonly unknown[] ? O["end"] : [O["end"]] extends readonly [infer E] ? E : O["end"],
     TEndElements extends readonly unknown[] = ExtractFirst<T, TEnd>,
-    TRemainingElements extends readonly string[] = RemoveFirst<T, TEnd>,
+    TRemainingElements extends readonly unknown[] = RemoveFirst<T, TEnd>,
     TPart = PartitionWide<TRemainingElements>,
     TNatural extends readonly unknown[] = TPart extends { narrow: infer N; wide: infer W }
         ? N extends readonly unknown[]
@@ -372,9 +372,9 @@ type _StringSortWithStartAndEnd<
     OOrder = O extends { order: infer Ord } ? Ord : undefined,
     TStart = O["start"] extends readonly unknown[] ? O["start"] : [O["start"]] extends readonly [infer S] ? S : O["start"],
     TEnd = O["end"] extends readonly unknown[] ? O["end"] : [O["end"]] extends readonly [infer E] ? E : O["end"],
-    TStartElements extends readonly string[] = ExtractFirst<T, TStart>,
-    TEndElements extends readonly string[] = ExtractFirst<RemoveFirst<T, TStart>, TEnd>,
-    TRemainingElements extends readonly string[] = RemoveFirst<RemoveFirst<T, TStart>, TEnd>,
+    TStartElements extends readonly unknown[] = ExtractFirst<T, TStart>,
+    TEndElements extends readonly unknown[] = ExtractFirst<RemoveFirst<T, TStart>, TEnd>,
+    TRemainingElements extends readonly unknown[] = RemoveFirst<RemoveFirst<T, TStart>, TEnd>,
     TPart = PartitionWide<TRemainingElements>,
     TNatural extends readonly unknown[] = TPart extends { narrow: infer N; wide: infer W }
         ? N extends readonly unknown[]

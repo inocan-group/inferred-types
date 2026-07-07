@@ -9,34 +9,39 @@ import type {
     Subtract,
 } from "inferred-types/types";
 
-// Generic decrement using numeric Subtract utility
-type Dec<N extends number> = Subtract<N, 1>;
-
 // Simplified Take implementation
 type Take<
     TContent extends readonly unknown[],
     TLen extends number,
     TResult extends readonly unknown[] = [],
-> = TLen extends 0
+    TDepth extends readonly unknown[] = [],
+> = TDepth["length"] extends TLen
     ? TResult
-    : [] extends TContent
+    : number extends TLen
+        ? TContent
+        : TDepth["length"] extends 64
             ? TResult
-            : TContent extends readonly [infer Head, ...infer Tail]
-                ? Take<Tail, Dec<TLen>, [...TResult, Head]>
-                : TResult;
+            : [] extends TContent
+                    ? TResult
+                    : TContent extends readonly [infer Head, ...infer Tail]
+                        ? Take<Tail, TLen, [...TResult, Head], [...TDepth, unknown]>
+                        : TResult;
 
 // Count how many of the first N elements are optional.
-// Optional elements in tuples are trailing; therefore among the first N elements,
-// the count is clamp(0, min(OptionalCount, N - RequiredCount)).
 type CountOptionalInFirstN<
     TContent extends readonly unknown[],
     N extends number,
-    Req extends number = GetRequiredElementCount<TContent>,
-    Opt extends number = GetOptionalElementCount<TContent>,
-    Delta extends number = Subtract<N, Req>
-> = IsLessThan<N, Req> extends true
-    ? 0
-    : Min<[Opt, Delta]>;
+> = number extends N
+    ? number
+    : GetRequiredElementCount<TContent> extends infer Req extends number
+        ? GetOptionalElementCount<TContent> extends infer Opt extends number
+            ? Subtract<N, Req> extends infer Delta extends number
+                ? IsLessThan<N, Req> extends true
+                    ? 0
+                    : Min<[Opt, Delta]>
+                : 0
+            : 0
+        : 0;
 
 /**
  * **TakeFirst**`<TContent,TLen,[THandle]>`
@@ -54,8 +59,11 @@ export type TakeFirst<
 > = HasOptionalElements<TContent> extends true
     ? AllOptionalElements<TContent> extends true
         ? Partial<Take<TReq, TLen>>
-        : MakeOptional<
-            Take<TReq, TLen>,
-            CountOptionalInFirstN<TContent, TLen>
-        >
+        : number extends TLen
+            ? TContent
+            : Take<TReq, TLen> extends infer FirstN extends readonly unknown[]
+                ? CountOptionalInFirstN<TContent, TLen> extends infer Optional extends number
+                    ? MakeOptional<FirstN, Optional>
+                    : never
+                : never
     : Take<TContent, TLen>;

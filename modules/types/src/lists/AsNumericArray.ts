@@ -1,13 +1,13 @@
-import type { AsNumber, NumberLike } from "inferred-types/types";
-
 /**
  * Simple filter approach to avoid RemoveNever complexity
  */
 type FilterNumeric<T extends readonly unknown[], Result extends readonly number[] = []>
     = T extends readonly [infer Head, ...infer Tail]
-        ? Head extends NumberLike
-            ? FilterNumeric<Tail, [...Result, AsNumber<Head>]>
-            : FilterNumeric<Tail, Result>
+        ? Head extends number
+            ? FilterNumeric<Tail, [...Result, Head]>
+            : Head extends `${infer N extends number}`
+                ? FilterNumeric<Tail, [...Result, N]>
+                : FilterNumeric<Tail, Result>
         : Result;
 /**
  * **AsNumericArray**`<T>`

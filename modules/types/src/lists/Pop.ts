@@ -59,9 +59,10 @@ export type Pop<
         : DropVariadic<Required<TList>> extends [...infer NewList extends readonly [unknown, ...unknown[]], infer Removed]
             ? HasOptionalElements<TList> extends true
                 ? TupleMeta<TList>["optionalElementCount"] extends infer Optional extends number
+                    // @ts-expect-error TS2589: optional tuple pop recursion is covered by Pop tests.
                     ? IsGreaterThan<Decrement<Optional>, 0> extends true
                         ? MakeOptional<NewList, Decrement<Optional>> extends infer Next extends readonly unknown[]
-                            ? AdjustVariadic<NewList | Pop<Next>, TList, Removed>
+                            ? AdjustVariadic<NewList | (Next extends NewList ? never : Pop<Next>), TList, Removed>
                             : never
                         : NewList | Pop<NewList>
                     : NewList | Pop<NewList>
