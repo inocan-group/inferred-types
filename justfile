@@ -42,19 +42,19 @@ test-runtime *args="":
 
 # run typed testing
 test-types *args="":
-    @node --max-old-space-size=8192 node_modules/.pnpm/typed-tester@*/node_modules/typed-tester/bin/typed.js test {{ args }}
+    @node_modules/.bin/typed test {{ args }}
 
 # source check: constants module
 check-constants:
-    @NODE_OPTIONS=--max-old-space-size=12288 ./node_modules/.bin/tsc -p modules/constants/tsconfig.check.json --noEmit --pretty false
+    @./node_modules/.bin/tsc -p modules/constants/tsconfig.check.json --noEmit --pretty false
 
 # source check: types module
 check-types:
-    @NODE_OPTIONS=--max-old-space-size=12288 ./node_modules/.bin/tsc -p modules/types/tsconfig.check.json --noEmit --pretty false
+    @./node_modules/.bin/tsc -p modules/types/tsconfig.check.json --noEmit --pretty false
 
 # source check: runtime module
 check-runtime:
-    @NODE_OPTIONS=--max-old-space-size=12288 ./node_modules/.bin/tsc -p modules/runtime/tsconfig.check.json --noEmit --pretty false
+    @./node_modules/.bin/tsc -p modules/runtime/tsconfig.check.json --noEmit --pretty false
 
 # source check: all check-mode module configs
 check:
