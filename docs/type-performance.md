@@ -19,9 +19,9 @@ just perf-baseline
 just perf-compare
 ```
 
-`just test-types` runs `typed test` with an 8 GB Node heap. This is a temporary
-Phase-1 stopgap while the type-cost remediation phases reduce the suite below
-the default heap again.
+`just test-types` runs `typed test` at the default Node heap. As of the Phase 8
+closeout, the full type-test suite runs in about 20 seconds with a peak RSS of
+3,602,628,608 bytes, roughly 3.36 GiB.
 
 The source-check recipes use the check-mode tsconfigs:
 
@@ -31,10 +31,22 @@ modules/types/tsconfig.check.json
 modules/runtime/tsconfig.check.json
 ```
 
-Those configs are source-only checks. They avoid project references, build
-artifacts, `baseUrl`, declaration emit, `.drop` / `.hold` files, and stale
-include entries. They map `inferred-types/*` and local deep aliases directly to
-source files so diagnostics point at the implementation being changed.
+Those configs are source-only checks. They avoid project references, `baseUrl`,
+declaration emit, `.drop` / `.hold` files, and stale include entries.
+
+`modules/types/tsconfig.check.json` maps package aliases to source and is the
+canonical complexity gate. Phase 8 closes with:
+
+```txt
+just check-types
+# exit 0, 0 TS2589/TS2590/TS2859/TS2321 diagnostics
+```
+
+`modules/runtime/tsconfig.check.json` uses declaration bundles for upstream
+packages and a check-only self-import shim for `inferred-types/runtime`; the
+runtime source graph still exceeds the practical default-heap budget for a
+single whole-module `tsc` invocation and remains documented in the feature
+deferral log.
 
 ## Baselines
 
@@ -58,6 +70,20 @@ The baseline captures:
 
 The baseline is machine-dependent by design. Treat it as a point-in-time guard
 for this feature branch, not as a portable benchmark for all machines.
+
+Phase 8 refreshed the checked-in baseline with:
+
+```txt
+type tests: 18.7s, 3645 MB RSS
+complexity diagnostics: 0
+```
+
+The matching `just perf-compare` run passed with:
+
+```txt
+type tests: 18.58s, 4014 MB RSS
+complexity diagnostics: 0
+```
 
 ## Scoped Tracing
 
