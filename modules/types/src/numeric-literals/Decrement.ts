@@ -23,7 +23,10 @@ type StripLeadingZeros<T extends string> = T extends "0"
 type DecrementString<
     T extends string,
     Acc extends string = "",
-> = T extends "0" | ""
+    Depth extends readonly unknown[] = [],
+> = Depth["length"] extends 32
+    ? `${number}`
+    : T extends "0" | ""
     ? "0"
     : T extends `${infer Rest}${NumericChar}`
         ? T extends `${Rest}${infer Digit extends NumericChar}`
@@ -31,7 +34,7 @@ type DecrementString<
                 ? Borrow extends true
                     ? Rest extends ""
                         ? "0"
-                        : DecrementString<Rest, `${Next}${Acc}`>
+                        : DecrementString<Rest, `${Next}${Acc}`, [unknown, ...Depth]>
                     : StripLeadingZeros<`${Rest}${Next}${Acc}`>
                 : never
             : never
@@ -51,10 +54,10 @@ export type Decrement<T extends number | `${number}`> = number extends T
         ? `${T}` extends `${string}.${string}` | `-${string}`
             ? number
             : AsNumber<DecrementString<`${T}`>>
-    : T extends `${infer Num extends number}`
+    : T extends `${number}`
         ? string extends T
             ? `${number}`
             : T extends `${string}.${string}` | `-${string}`
                 ? `${number}`
-                : `${Decrement<Num>}`
+                : DecrementString<T>
         : never;

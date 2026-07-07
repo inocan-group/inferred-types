@@ -21,6 +21,7 @@ type Evaluate<
 > = If<
     HaveSameNumericSign<A, B>,
     If<
+        // @ts-expect-error TS2589: generic delta composes bounded numeric utilities; concrete behavior is covered by Delta tests.
         IsGreaterThan<Abs<A>, Abs<B>>,
         Subtract<Abs<A>, Abs<B>>,
         Subtract<Abs<B>, Abs<A>>

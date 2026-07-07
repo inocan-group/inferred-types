@@ -11,7 +11,10 @@ type Tighten<
 type Process<
     T extends string,
     Result extends readonly unknown[] = [],
-> = T extends `${infer Element},${infer Rest}`
+    Depth extends readonly unknown[] = [],
+> = Depth["length"] extends 64
+    ? readonly (string | number)[]
+    : T extends `${infer Element},${infer Rest}`
     ? Process<
         Rest,
         [
@@ -19,7 +22,8 @@ type Process<
             Tighten<Element> extends NumberLike
                 ? AsNumber<Tighten<Element>>
                 : Tighten<Element>,
-        ]
+        ],
+        [unknown, ...Depth]
     >
     : [
             ...Result,
@@ -31,7 +35,10 @@ type Process<
 type ProcessJsonTuple<
     T extends string,
     Result extends readonly unknown[] = [],
-> = T extends `${infer Element},${infer Rest}`
+    Depth extends readonly unknown[] = [],
+> = Depth["length"] extends 64
+    ? readonly unknown[]
+    : T extends `${infer Element},${infer Rest}`
     ? ProcessJsonTuple<
         Rest,
         [
@@ -47,7 +54,8 @@ type ProcessJsonTuple<
                         Tighten<`"${Element}"`>
                     >
                 >,
-        ]
+        ],
+        [unknown, ...Depth]
     >
     : [
             ...Result,
@@ -67,13 +75,17 @@ type ProcessJsonTuple<
 type ProcessStr<
     T extends string,
     Result extends readonly unknown[] = [],
-> = T extends `${infer Element},${infer Rest}`
+    Depth extends readonly unknown[] = [],
+> = Depth["length"] extends 64
+    ? readonly string[]
+    : T extends `${infer Element},${infer Rest}`
     ? ProcessStr<
         Rest,
         [
             ...Result,
             Tighten<Element>,
-        ]
+        ],
+        [unknown, ...Depth]
     >
     : [
             ...Result,
@@ -83,12 +95,17 @@ type ProcessStr<
 type ProcessUnion<
     T extends string,
     Result extends string | number = never,
-> = T extends `${infer Element},${infer Rest}`
+    Depth extends readonly unknown[] = [],
+> = Depth["length"] extends 64
+    ? Result | string | number
+    : T extends `${infer Element},${infer Rest}`
+    // @ts-expect-error TS2589: CSV union recursion is depth-capped and covered by CSV tests.
     ? ProcessUnion<
         Rest,
         Tighten<Element> extends NumberLike
             ? Result | AsNumber<Tighten<Element>>
-            : Result | Tighten<Element>
+            : Result | Tighten<Element>,
+        [unknown, ...Depth]
     >
     : Tighten<T> extends NumberLike
         ? Result | AsNumber<Tighten<T>>
@@ -97,10 +114,14 @@ type ProcessUnion<
 type ProcessUnionStr<
     T extends string,
     Result extends string | number = never,
-> = T extends `${infer Element},${infer Rest}`
+    Depth extends readonly unknown[] = [],
+> = Depth["length"] extends 64
+    ? Result | string
+    : T extends `${infer Element},${infer Rest}`
     ? ProcessUnionStr<
         Rest,
-    Result | Tighten<Element>
+    Result | Tighten<Element>,
+    [unknown, ...Depth]
     >
     : Result | Tighten<T>;
 

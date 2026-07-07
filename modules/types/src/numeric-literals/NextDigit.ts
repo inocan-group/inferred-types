@@ -1,9 +1,4 @@
-import type {
-    AsNumber,
-    Digit,
-    NumericChar,
-    ToString,
-} from "inferred-types/types";
+import type { Digit, NumericChar } from "inferred-types/types";
 
 /**
  * **NextDigit**`<T>`
@@ -20,8 +15,18 @@ import type {
  * type S = NextDigit<"4">;
  * ```
  */
-export type NextDigit<T extends Digit | NumericChar> = T extends `${NumericChar}`
-    ? ToString<NextDigit<AsNumber<T>>>
+export type NextDigit<T extends Digit | NumericChar> = T extends NumericChar
+    ? T extends "0" ? "1"
+        : T extends "1" ? "2"
+            : T extends "2" ? "3"
+                : T extends "3" ? "4"
+                    : T extends "4" ? "5"
+                        : T extends "5" ? "6"
+                            : T extends "6" ? "7"
+                                : T extends "7" ? "8"
+                                    : T extends "8" ? "9"
+                                        : T extends "9" ? "0"
+                                            : never
     : T extends 0 ? 1
         : T extends 1 ? 2
             : T extends 2 ? 3

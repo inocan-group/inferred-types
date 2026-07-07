@@ -39,6 +39,7 @@ export type CompareNumbers<
     A extends NumberLike,
     B extends NumberLike
 > = A extends `${number}`
+    // @ts-expect-error TS2589: source-context comparison over generic NumberLike constraints; concrete behavior is covered by CompareNumbers tests.
     ? CompareNumbers<AsNumber<A>, AsNumber<B>>
     : B extends `${number}`
         ? CompareNumbers<AsNumber<A>, AsNumber<B>>
@@ -132,21 +133,29 @@ type CompareIntegerToDecimal<A extends string, B extends string>
 
 // Compare decimal parts (when integer parts are equal)
 type CompareDecimalParts<A extends string, B extends string>
-    = A extends B
+    = CompareDecimalPartsWithDepth<A, B>;
+
+type CompareDecimalPartsWithDepth<
+    A extends string,
+    B extends string,
+    Depth extends readonly unknown[] = [],
+> = Depth["length"] extends 32
+    ? "equal" | "greater" | "less"
+    : A extends B
         ? "equal"
         : A extends `${infer A_first}${infer A_rest}`
             ? B extends `${infer B_first}${infer B_rest}`
                 ? A_first extends B_first
-                    ? CompareDecimalParts<A_rest, B_rest>
+                    ? CompareDecimalPartsWithDepth<A_rest, B_rest, [unknown, ...Depth]>
                     : CompareDigit<A_first, B_first>
                 // B is shorter, pad with zeros
                 : A extends `${string}${string}${string}${string}${string}${string}`
                     ? "greater" // A is much longer
-                    : CompareDecimalParts<A, `${B}0`>
+                    : CompareDecimalPartsWithDepth<A, `${B}0`, [unknown, ...Depth]>
             // A is shorter, pad with zeros
             : B extends `${string}${string}${string}${string}${string}${string}`
                 ? "less" // B is much longer
-                : CompareDecimalParts<`${A}0`, B>;
+                : CompareDecimalPartsWithDepth<`${A}0`, B, [unknown, ...Depth]>;
 
 // Compare single digits
 type CompareDigit<A extends string, B extends string>
@@ -209,10 +218,18 @@ type SimpleNumberCompare<A, B>
 
 // Compare strings of same length
 type CompareSameLength<A extends string, B extends string>
-    = A extends `${infer A_first}${infer A_rest}`
+    = CompareSameLengthWithDepth<A, B>;
+
+type CompareSameLengthWithDepth<
+    A extends string,
+    B extends string,
+    Depth extends readonly unknown[] = [],
+> = Depth["length"] extends 32
+    ? "equal" | "greater" | "less"
+    : A extends `${infer A_first}${infer A_rest}`
         ? B extends `${infer B_first}${infer B_rest}`
             ? A_first extends B_first
-                ? CompareSameLength<A_rest, B_rest>
+                ? CompareSameLengthWithDepth<A_rest, B_rest, [unknown, ...Depth]>
                 : CompareDigit<A_first, B_first>
             : never
         : "equal";

@@ -1,7 +1,6 @@
 import type {
     AsNumber,
     NumericChar,
-    ToString,
 } from "inferred-types/types";
 
 type IncrementDigit<T extends string> = T extends "0" ? { digit: "1"; carry: false }
@@ -19,11 +18,14 @@ type IncrementDigit<T extends string> = T extends "0" ? { digit: "1"; carry: fal
 type IncrementString<
     T extends string,
     Acc extends string = "",
-> = T extends `${infer Rest}${NumericChar}`
+    Depth extends readonly unknown[] = [],
+> = Depth["length"] extends 32
+    ? `${number}`
+    : T extends `${infer Rest}${NumericChar}`
     ? T extends `${Rest}${infer Digit extends NumericChar}`
         ? IncrementDigit<Digit> extends { digit: infer Next extends string; carry: infer Carry extends boolean }
             ? Carry extends true
-                ? IncrementString<Rest, `${Next}${Acc}`>
+                ? IncrementString<Rest, `${Next}${Acc}`, [unknown, ...Depth]>
                 : `${Rest}${Next}${Acc}`
             : never
         : never
@@ -52,5 +54,5 @@ export type Increment<T extends number | `${number}`> = number extends T
             ? `${number}`
             : T extends `${string}.${string}` | `-${string}`
                 ? `${number}`
-                : ToString<Increment<AsNumber<T>>>
+                : IncrementString<T>
         : never;

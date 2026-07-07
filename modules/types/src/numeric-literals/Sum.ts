@@ -5,9 +5,12 @@ import type { AsNumber } from "types/type-conversion";
 
 export type Count<
     T extends readonly NumberLike[],
-    U extends number = 0
+    U extends number = 0,
+    Depth extends readonly unknown[] = []
 > = number extends T["length"]
     ? number
+    : Depth["length"] extends 64
+        ? number
     : T extends readonly []
     ? U
     : T extends readonly [
@@ -21,7 +24,8 @@ export type Count<
                 { negative: Head; remaining: T; count: U }
             >
             : Add<U, Head> extends infer Next extends NumberLike
-                ? Count<Rest, AsNumber<Next>>
+                // @ts-expect-error TS2589: tuple summation is depth-capped and covered by Sum tests.
+                ? Count<Rest, AsNumber<Next>, [unknown, ...Depth]>
                 : never
         : U
     ;

@@ -1,15 +1,11 @@
 import type {
-    Abs,
-    And,
     As,
     AsNumber,
     If,
-    IsNegativeNumber,
     IsString,
     IsWideType,
     NumberLike,
     NumericChar,
-    Or,
 } from "inferred-types/types";
 
 type Either<left extends boolean, right extends boolean>
@@ -75,8 +71,11 @@ type SumStrings<
     right extends string,
     accumulatedResultDigits extends string = "",
     carry extends boolean = false,
+    Depth extends readonly unknown[] = [],
 >
-    = "" extends left
+    = Depth["length"] extends 32
+        ? `${number}`
+        : "" extends left
     // Left is empty
         ? "" extends right
         // Right is empty
@@ -84,7 +83,7 @@ type SumStrings<
         // Right has value
             : RightMostDigit<right> extends RightMostDigitResult<infer remainingRight, infer rightDigit>
                 ? SumSingleDigits<"0", rightDigit, carry> extends SingleDigitSumResult<infer resultDigit, infer resultCarry>
-                    ? SumStrings<"", remainingRight, `${resultDigit}${accumulatedResultDigits}`, resultCarry>
+                    ? SumStrings<"", remainingRight, `${resultDigit}${accumulatedResultDigits}`, resultCarry, [unknown, ...Depth]>
                     : never
                 : never
     // Left has value
@@ -92,14 +91,14 @@ type SumStrings<
         // Right has no value
             ? RightMostDigit<left> extends RightMostDigitResult<infer remainingLeft, infer leftDigit>
                 ? SumSingleDigits<"0", leftDigit, carry> extends SingleDigitSumResult<infer resultDigit, infer resultCarry>
-                    ? SumStrings<remainingLeft, "", `${resultDigit}${accumulatedResultDigits}`, resultCarry>
+                    ? SumStrings<remainingLeft, "", `${resultDigit}${accumulatedResultDigits}`, resultCarry, [unknown, ...Depth]>
                     : never
                 : never
         // Right has value
             : RightMostDigit<left> extends RightMostDigitResult<infer remainingLeft, infer leftDigit>
                 ? RightMostDigit<right> extends RightMostDigitResult<infer remainingRight, infer rightDigit>
                     ? SumSingleDigits<leftDigit, rightDigit, carry> extends SingleDigitSumResult<infer resultDigit, infer resultCarry>
-                        ? SumStrings<remainingLeft, remainingRight, `${resultDigit}${accumulatedResultDigits}`, resultCarry>
+                        ? SumStrings<remainingLeft, remainingRight, `${resultDigit}${accumulatedResultDigits}`, resultCarry, [unknown, ...Depth]>
                         : never
                     : never
                 : never;
@@ -109,10 +108,12 @@ type Process<
     B extends `${number}`,
 >
     // Both operands are negative: sum their absolutes, then apply negative sign
-    = And<[ IsNegativeNumber<A>, IsNegativeNumber<B> ]> extends true
-        ? `-${SumStrings<Abs<A>, Abs<B>>}`
+    = A extends `-${infer AAbs extends `${number}`}`
+        ? B extends `-${infer BAbs extends `${number}`}`
+            ? `-${SumStrings<AAbs, BAbs>}`
+            : `${number}`
     // Mixed signs: would require subtraction, return wide type to avoid circular dependency
-        : Or<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
+        : B extends `-${number}`
             ? `${number}`
         // Both positive: use digit-wise addition
             : SumStrings<A, B>;
@@ -130,37 +131,26 @@ type PreProcess<
     A extends NumberLike,
     B extends NumberLike,
 > = CheckWide<A, B> extends true
-    ? Or<[IsString<A>, IsString<A>]> extends true
-        ? string
-        : number
-    : Or<[IsWideType<A>, IsWideType<B>]> extends true
-    // wide types found
-        ? If<IsString<A>, string, number>
-    // both are literals - check for mixed signs to avoid complexity
-        : And<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
-            // Both negative - safe to process
+    ? If<IsString<A>, string, number>
+    : A extends `-${number}`
+        ? B extends `-${number}`
             ? A extends `${number}`
                 ? B extends `${number}`
                     ? As<Process<A, B>, `${number}`>
                     : As<Process<A, `${As<B, number>}`>, `${number}`>
-                : A extends number
-                    ? B extends number
-                        ? AsNumber<Process<`${A}`, `${B}`>>
-                        : AsNumber<Process<`${A}`, As<B, `${number}`>>>
-                    : never
-            : Or<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
-            // One is negative, one is positive - return wide type to avoid complexity
-                ? A extends `${number}` ? `${number}` : number
-            // Same signs or both positive - proceed normally
-                : A extends `${number}`
-                    ? B extends `${number}`
-                        ? As<Process<A, B>, `${number}`>
-                        : As<Process<A, `${As<B, number>}`>, `${number}`>
-                    : A extends number
-                        ? B extends number
-                            ? AsNumber<Process<`${A}`, `${B}`>>
-                            : AsNumber<Process<`${A}`, As<B, `${number}`>>>
-                        : never;
+                : never
+            : A extends `${number}` ? `${number}` : number
+    : B extends `-${number}`
+        ? A extends `${number}` ? `${number}` : number
+        : A extends `${number}`
+            ? B extends `${number}`
+                ? As<Process<A, B>, `${number}`>
+                : As<Process<A, `${As<B, number>}`>, `${number}`>
+            : A extends number
+                ? B extends number
+                    ? AsNumber<Process<`${A}`, `${B}`>>
+                    : AsNumber<Process<`${A}`, As<B, `${number}`>>>
+                : never;
 
 /**
  * **Add**`<A,B>`

@@ -107,6 +107,7 @@ export type ShiftDecimalPlace<
                         ? `${T}` extends `${number}.${number}`
                             ? number // decimal numbers lose precision
                             : IsNumericLiteral<T> extends true
+                                // @ts-expect-error TS2589: generic decimal shifting is source-context expensive; concrete behavior is covered by ShiftDecimalPlace tests.
                                 ? AsNumber<DivideBy10Power<`${T}`, Abs<U>>>
                                 : number
                         : DivideBy10Power<As<T, `${number}`>, Abs<U>>

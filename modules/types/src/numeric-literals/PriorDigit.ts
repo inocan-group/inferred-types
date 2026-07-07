@@ -1,9 +1,4 @@
-import type {
-    AsNumber,
-    Digit,
-    NumericChar,
-    ToString,
-} from "inferred-types/types";
+import type { Digit, NumericChar } from "inferred-types/types";
 
 /**
  * **PriorDigit**`<T>`
@@ -20,8 +15,18 @@ import type {
  * type S = PriorDigit<"5">;
  * ```
  */
-export type PriorDigit<T extends Digit | NumericChar> = T extends `${NumericChar}`
-    ? ToString<PriorDigit<AsNumber<T>>>
+export type PriorDigit<T extends Digit | NumericChar> = T extends NumericChar
+    ? T extends "0" ? "9"
+        : T extends "1" ? "0"
+            : T extends "2" ? "1"
+                : T extends "3" ? "2"
+                    : T extends "4" ? "3"
+                        : T extends "5" ? "4"
+                            : T extends "6" ? "5"
+                                : T extends "7" ? "6"
+                                    : T extends "8" ? "7"
+                                        : T extends "9" ? "8"
+                                            : never
     : T extends 0 ? 9
         : T extends 1 ? 0
             : T extends 2 ? 1

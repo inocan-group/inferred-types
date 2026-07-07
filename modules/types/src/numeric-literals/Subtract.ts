@@ -1,16 +1,12 @@
 import type {
-    Abs,
     AddPositive,
-    And,
     As,
     AsNumber,
     CompareNumbers,
-    IsNegativeNumber,
     IsString,
     IsWideType,
     NumberLike,
     NumericChar,
-    Or,
 } from "inferred-types/types";
 
 type DecrementDigit<digit extends NumericChar> = digit extends "0" ? "9"
@@ -219,8 +215,11 @@ type SubtractStrings<
     right extends string,
     accumulatedResultDigits extends string = "",
     borrow extends boolean = false,
+    Depth extends readonly unknown[] = [],
 >
-    = "" extends left
+    = Depth["length"] extends 32
+        ? `${number}`
+        : "" extends left
         ? "" extends right
             ? borrow extends true
                 ? never // Should not happen if we check magnitude first
@@ -230,7 +229,7 @@ type SubtractStrings<
             ? RightMostDigit<left> extends { rest: infer remainingLeft; digit: infer leftDigit }
                 ? leftDigit extends NumericChar
                     ? SubtractSingleDigits<leftDigit, "0", borrow> extends SingleDigitSubResult<infer resultDigit, infer resultBorrow>
-                        ? SubtractStrings<remainingLeft & string, "", `${resultDigit}${accumulatedResultDigits}`, resultBorrow>
+                        ? SubtractStrings<remainingLeft & string, "", `${resultDigit}${accumulatedResultDigits}`, resultBorrow, [unknown, ...Depth]>
                         : never
                     : never
                 : never
@@ -239,7 +238,7 @@ type SubtractStrings<
                     ? leftDigit extends NumericChar
                         ? rightDigit extends NumericChar
                             ? SubtractSingleDigits<leftDigit, rightDigit, borrow> extends SingleDigitSubResult<infer resultDigit, infer resultBorrow>
-                                ? SubtractStrings<remainingLeft & string, remainingRight & string, `${resultDigit}${accumulatedResultDigits}`, resultBorrow>
+                                ? SubtractStrings<remainingLeft & string, remainingRight & string, `${resultDigit}${accumulatedResultDigits}`, resultBorrow, [unknown, ...Depth]>
                                 : never
                             : never
                         : never
@@ -259,40 +258,39 @@ type Process<
     B extends `${number}`,
 >
     // Both operands are negative: -A - (-B) = -A + B = B - A
-    = And<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
-        ? CompareNumbers<Abs<A>, Abs<B>> extends "less"
+    = A extends `-${infer AAbs extends `${number}`}`
+        ? B extends `-${infer BAbs extends `${number}`}`
+            ? CompareNumbers<AAbs, BAbs> extends "less"
             // |A| < |B|, so B - A is positive
-            ? SubtractStrings<Abs<B>, Abs<A>>
+                ? SubtractStrings<BAbs, AAbs>
             // |A| >= |B|, so B - A is negative or zero
-            : SubtractStrings<Abs<A>, Abs<B>> extends infer Result
-                ? Result extends string
-                    ? Result extends "0" ? "0" : `-${Result}`
+                : SubtractStrings<AAbs, BAbs> extends infer Result
+                    ? Result extends string
+                        ? Result extends "0" ? "0" : `-${Result}`
+                        : `${number}`
                     : `${number}`
-                : `${number}`
-        // A is negative, B is positive: -(|A| + |B|)
-        : IsNegativeNumber<A> extends true
-            ? AddPositive<Abs<A>, Abs<B>> extends infer Sum
+            : AddPositive<AAbs, B> extends infer Sum
                 ? Sum extends number | `${number}`
                     ? `-${Sum}`
                     : `${number}`
                 : `${number}`
-            // A is positive, B is negative: A + |B|
-            : IsNegativeNumber<B> extends true
-                ? AddPositive<A, Abs<B>> extends infer Sum
-                    ? Sum extends number
-                        ? `${Sum}`
-                        : Sum extends `${number}`
-                            ? Sum
-                            : `${number}`
-                    : `${number}`
-                // Both positive: check which is larger
-                : CompareNumbers<A, B> extends "less"
-                    ? SubtractStrings<B, A> extends infer Result
-                        ? Result extends string
-                            ? `-${Result}`
-                            : `${number}`
+        // A is negative, B is positive: -(|A| + |B|)
+        : B extends `-${infer BAbs extends `${number}`}`
+            ? AddPositive<A, BAbs> extends infer Sum
+                ? Sum extends number
+                    ? `${Sum}`
+                    : Sum extends `${number}`
+                        ? Sum
                         : `${number}`
-                    : SubtractStrings<A, B>;
+                : `${number}`
+            // Both positive: check which is larger
+            : CompareNumbers<A, B> extends "less"
+                ? SubtractStrings<B, A> extends infer Result
+                    ? Result extends string
+                        ? `-${Result}`
+                        : `${number}`
+                    : `${number}`
+                : SubtractStrings<A, B>;
 
 // Check for wide types
 type CheckWide<
@@ -309,9 +307,11 @@ type PreProcess<
     A extends NumberLike,
     B extends NumberLike,
 > = CheckWide<A, B> extends true
-    ? Or<[IsString<A>, IsString<B>]> extends true
+    ? IsString<A> extends true
         ? `${number}`
-        : number
+        : IsString<B> extends true
+            ? `${number}`
+            : number
     : A extends `${number}`
         ? B extends `${number}`
             ? Process<A, B> extends infer Result
