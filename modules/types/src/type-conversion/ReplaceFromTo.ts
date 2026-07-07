@@ -22,7 +22,9 @@ type MAX = 35;
 type ExcessProcessor<
     TText extends string,
     TFromTo extends readonly FromTo[],
-> = ProcessFromTo<TText, TakeFirst<TFromTo, MAX>>;
+> = TakeFirst<TFromTo, MAX> extends infer FirstItems extends readonly FromTo[]
+    ? ProcessFromTo<TText, FirstItems>
+    : never;
 
 /**
  * **ReplaceFromTo**`<TText, TFromTo>`

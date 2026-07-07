@@ -152,7 +152,7 @@ export type ToJsonScalar<
     O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
 > = T extends string
     ? `${O["quote"]}${Enc<T, O>}${O["quote"]}`
-    : `${T}`;
+    : `${As<T, string | number | bigint | boolean | null | undefined>}`;
 
 export interface ToJsonOptions {
     quote?: QuoteCharacter;
@@ -164,7 +164,7 @@ export interface ToJsonOptions {
  */
 type O<
     T extends ToJsonOptions
-> = As<MergeObjects<{ quote: "\""; encode: false }, T>, Required<ToJsonOptions>>;
+> = As<MergeObjects<{ quote: "\""; encode: false }, As<T, Dictionary>>, Required<ToJsonOptions>>;
 /**
  * Converts an object, array or scalar value to a
  * strongly typed JSON string.

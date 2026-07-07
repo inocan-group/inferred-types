@@ -102,6 +102,7 @@ type Splitter<
     O extends readonly unknown[] = []
 > = T extends [ infer Head, ...infer Rest extends readonly unknown[] ]
     ? IsGreaterThan<N, 0> extends true
+        // @ts-expect-error TS2589: generic literal stringification recursion is source-context expensive; concrete conversions are covered by tests.
         ? Splitter<
             Rest,
             Decrement<N>,

@@ -64,7 +64,7 @@ type MergeTuplesAcc<
 export type MergeTuples<
     TDefault extends readonly Narrowable[],
     TOverride extends readonly Narrowable[],
-    TKey extends string | false = false, // TODO: not currently being used
+    TKey extends string | false = false, // Reserved; not currently being used.
 > = MergeTuplesAcc<[...TDefault], [...TOverride], TKey>;
 
 type Process<
