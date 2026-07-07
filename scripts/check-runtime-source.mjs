@@ -4,6 +4,7 @@ import { dirname, join, resolve } from "node:path";
 
 const repoRoot = resolve(import.meta.dirname, "..");
 const tsc = join(repoRoot, "node_modules/.bin/tsc");
+const deferredPath = join(repoRoot, "features/2026-07-02-complex/deferred.md");
 const diagnosticsPath = join(
     repoRoot,
     "features/2026-07-02-complex/runtime-module-diagnostics-deferred.txt",
@@ -11,6 +12,7 @@ const diagnosticsPath = join(
 
 const complexityDiagnosticPattern = /error TS(?:2589|2590|2859|2321):/;
 const complexityCodes = ["TS2589", "TS2590", "TS2859", "TS2321"];
+const runtimeDeferredRowPattern = /^\|\s+`([^`]+)`\s+\|\s+`([^`]+)`\s+\|\s+`(\d+)`\s+\|\s+`([^`]+)`\s+\|\s+(.+?)\s+\|$/gm;
 const updateInventory = process.env.UPDATE_RUNTIME_DIAGNOSTICS === "1";
 
 const inventoryHeader = [
@@ -56,6 +58,102 @@ function countComplexityDiagnostics(diagnostics) {
             diagnostics.filter(line => line.includes(`error ${code}:`)).length,
         ]),
     );
+}
+
+function diagnosticFile(line) {
+    return line.match(/^(.*)\(\d+,\d+\): error TS\d+:/)?.[1];
+}
+
+function diagnosticCode(line) {
+    return line.match(/: error (TS\d+):/)?.[1];
+}
+
+function codeSummary(codes) {
+    return [...codes.entries()]
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([code, count]) => `${code}:${count}`)
+        .join(", ");
+}
+
+function runtimeDeferredEntries(diagnostics) {
+    const entries = new Map();
+
+    for (const line of diagnostics) {
+        const file = diagnosticFile(line);
+        const code = diagnosticCode(line);
+
+        if (!file || !code) {
+            continue;
+        }
+
+        const entry = entries.get(file) ?? {
+            total: 0,
+            codes: new Map(),
+        };
+
+        entry.total += 1;
+        entry.codes.set(code, (entry.codes.get(code) ?? 0) + 1);
+        entries.set(file, entry);
+    }
+
+    return entries;
+}
+
+function readDocumentedRuntimeDeferredEntries() {
+    if (!existsSync(deferredPath)) {
+        throw new Error(`Missing deferred diagnostics documentation at ${deferredPath}`);
+    }
+
+    const deferred = readFileSync(deferredPath, "utf8");
+    const documented = new Map();
+    let match;
+
+    while ((match = runtimeDeferredRowPattern.exec(deferred))) {
+        documented.set(match[1], {
+            symbol: match[2],
+            total: Number(match[3]),
+            codes: match[4],
+            justification: match[5].trim(),
+        });
+    }
+
+    return documented;
+}
+
+function compareRuntimeDeferredDocumentation(diagnostics) {
+    const expected = runtimeDeferredEntries(diagnostics);
+    const documented = readDocumentedRuntimeDeferredEntries();
+    const failures = [];
+
+    for (const [file, entry] of expected) {
+        const row = documented.get(file);
+        const expectedCodes = codeSummary(entry.codes);
+
+        if (!row) {
+            failures.push(`${file} has ${entry.total} deferred runtime diagnostics but is not documented in ${deferredPath}`);
+            continue;
+        }
+
+        if (row.total !== entry.total) {
+            failures.push(`${file} documents ${row.total} deferred runtime diagnostics but inventory has ${entry.total}`);
+        }
+
+        if (row.codes !== expectedCodes) {
+            failures.push(`${file} documents runtime diagnostic codes '${row.codes}' but inventory has '${expectedCodes}'`);
+        }
+
+        if (row.justification.length < 40) {
+            failures.push(`${file} runtime deferral justification is too short for review`);
+        }
+    }
+
+    for (const file of documented.keys()) {
+        if (!expected.has(file)) {
+            failures.push(`${file} is documented in ${deferredPath} but has no deferred runtime diagnostics`);
+        }
+    }
+
+    return failures;
 }
 
 function countLines(lines) {
@@ -141,8 +239,18 @@ else {
     const expectedDiagnostics = readExpectedDiagnostics();
     const inventoryDiff = compareInventories(expectedDiagnostics, diagnostics);
     const matchesInventory = inventoryDiff.added.length === 0 && inventoryDiff.removed.length === 0;
+    const documentationDiff = matchesInventory
+        ? compareRuntimeDeferredDocumentation(diagnostics)
+        : [];
 
-    emitSummary(matchesInventory ? "matched-deferred-inventory" : "inventory-mismatch", diagnostics);
+    emitSummary(
+        matchesInventory
+            ? documentationDiff.length === 0
+                ? "matched-deferred-inventory"
+                : "documentation-mismatch"
+            : "inventory-mismatch",
+        diagnostics,
+    );
 
     if (!matchesInventory) {
         console.error(`Runtime source diagnostics do not match ${diagnosticsPath}.`);
@@ -157,6 +265,20 @@ else {
 
         if (inventoryDiff.added.length > 20 || inventoryDiff.removed.length > 20) {
             console.error(`additional differences: ${Math.max(0, inventoryDiff.added.length - 20)} unexpected, ${Math.max(0, inventoryDiff.removed.length - 20)} missing`);
+        }
+
+        process.exit(1);
+    }
+
+    if (documentationDiff.length > 0) {
+        console.error(`Runtime source diagnostics are not fully documented in ${deferredPath}.`);
+
+        for (const line of documentationDiff.slice(0, 20)) {
+            console.error(`runtime deferred documentation mismatch: ${line}`);
+        }
+
+        if (documentationDiff.length > 20) {
+            console.error(`additional documentation mismatches: ${documentationDiff.length - 20}`);
         }
 
         process.exit(1);
