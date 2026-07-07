@@ -97,7 +97,7 @@ export type OnPass<
         TPass,
         TRemap extends OnPassRemap<never, false, Constant<"not-set">>
             ? TRemap
-            : Merge<TRemap, Keys<TRemap>>
+            : Merge<TRemap, As<Keys<TRemap>, readonly (ObjectKey & keyof TRemap)[]>>
     >
 
     : Process<
@@ -105,5 +105,5 @@ export type OnPass<
         TPass,
         TRemap extends OnPassRemap<never, false, Constant<"not-set">>
             ? TRemap
-            : Merge<TRemap, Keys<TRemap>>
+            : Merge<TRemap, As<Keys<TRemap>, readonly (ObjectKey & keyof TRemap)[]>>
     >;

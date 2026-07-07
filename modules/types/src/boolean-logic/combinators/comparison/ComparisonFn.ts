@@ -16,8 +16,10 @@ import type {
  * 1. return a boolean value when passed a
  */
 export type ComparisonFn<
-    TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
+    TOp extends ComparisonOperation & keyof ComparisonLookup,
+    TParams extends readonly unknown[] = ComparisonLookup[TOp]["params"] extends readonly unknown[]
+        ? ComparisonLookup[TOp]["params"]
+        : readonly unknown[]
 > = (
 ComparisonDesc<TOp, TParams> extends string
     ? {

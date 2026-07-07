@@ -1,8 +1,8 @@
-import type { Compare, ComparisonLookup, ComparisonOperation } from "inferred-types/types";
+import type { Compare, ComparisonAccept, ComparisonOperation, GetComparisonParams } from "inferred-types/types";
 
 export type When<
-    TVal,
-    TComparator extends ComparisonLookup[TOp]["params"],
+    TVal extends ComparisonAccept<TOp>,
+    TComparator extends GetComparisonParams<TOp>,
     TThen extends never,
     TOp extends ComparisonOperation = "extends",
 > = Compare<TVal, TOp, TComparator> extends true

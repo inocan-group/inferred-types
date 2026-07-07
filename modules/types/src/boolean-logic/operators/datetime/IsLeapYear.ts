@@ -45,7 +45,11 @@ export type IsLeapYear<
 > = T extends number
     ? number extends T
         ? boolean
-        : Detect<AsFourDigitYear<T>>
+        : AsFourDigitYear<T> extends infer Y
+            ? Y extends string
+                ? Detect<Y>
+                : Y
+            : never
 
     : [Unbrand<T>] extends [DateLike]
         ? string extends Unbrand<T>

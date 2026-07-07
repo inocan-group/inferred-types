@@ -14,8 +14,10 @@ import type {
  */
 export type ComparisonAccept<
     TOp extends string
-> = TOp extends ComparisonOperation
+> = TOp extends keyof ComparisonLookup
     ? "accept" extends keyof ComparisonLookup[TOp]
         ? ComparisonLookup[TOp]["accept"]
         : Narrowable
+    : TOp extends ComparisonOperation
+        ? Narrowable
     : Narrowable;

@@ -1,7 +1,6 @@
 import type {
     AfterFirst,
     And,
-    BeforeLast,
     First,
     GetUrlQueryParams,
     HasOtherCharacters,
@@ -14,7 +13,6 @@ import type {
     IsGreaterThan,
     IsLessThan,
     IsStringLiteral,
-    Last,
     Length,
     LowerAlphaChar,
     NumericChar,
@@ -147,19 +145,25 @@ export type HasIpAddress<T> = T extends string
         : boolean
     : never;
 
-type _TLD<T extends string> = Length<T> extends 0
-    ? false
-    : Length<T> extends 1
+type _TLD<T extends string> = Lowercase<T> extends `${LowerAlphaChar}${LowerAlphaChar}${infer Rest}`
+    ? HasOtherCharacters<Rest, LowerAlphaChar> extends true
         ? false
-        : HasOtherCharacters<Lowercase<T>, LowerAlphaChar> extends true
-            ? false
-            : true;
+        : true
+    : false;
 
-type _BeforeTLD<T extends readonly string[]> = [] extends T
-    ? true
-    : HasOtherCharacters<Lowercase<First<T>>, LowerAlphaChar | NumericChar | "-" | "_"> extends true
+type _DomainLabel<T extends string> = T extends ""
+    ? false
+    : HasOtherCharacters<Lowercase<T>, LowerAlphaChar | NumericChar | "-" | "_"> extends true
         ? false
-        : _BeforeTLD<AfterFirst<T>>;
+        : true;
+
+type _DomainName<T extends string> = T extends `${infer Label}.${infer Rest}`
+    ? _DomainLabel<Label> extends true
+        ? Rest extends `${string}.${string}`
+            ? _DomainName<Rest>
+            : _TLD<Rest>
+        : false
+    : false;
 
 /**
  * **IsDomainName**`<T>`
@@ -169,11 +173,7 @@ type _BeforeTLD<T extends readonly string[]> = [] extends T
 export type IsDomainName<T> = T extends string
     ? IsStringLiteral<T> extends true
         ? T extends `${string}.${string}`
-            ? _TLD<Last<Split<T, ".">>> extends true
-                ? _BeforeTLD<BeforeLast<Split<T, ".">>> extends true
-                    ? true
-                    : false
-                : false
+            ? _DomainName<T>
             : false
         : boolean
     : never;

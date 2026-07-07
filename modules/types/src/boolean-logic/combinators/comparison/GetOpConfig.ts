@@ -14,7 +14,7 @@ import type {
  */
 export type GetOpConfig<
     TOp extends ComparisonOperation,
-    TConfig = ComparisonLookup[TOp]
+    TConfig = TOp extends keyof ComparisonLookup ? ComparisonLookup[TOp] : never
 > = TConfig extends ComparisonOpConfig
     ? TConfig
     : TOp extends keyof ComparisonLookup

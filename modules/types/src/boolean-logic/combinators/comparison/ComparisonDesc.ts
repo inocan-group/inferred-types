@@ -6,12 +6,16 @@ import type {
 } from "inferred-types/types";
 
 interface Descriptors<
-    TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"],
+    _TOp extends ComparisonOperation & keyof ComparisonLookup,
+    TParams extends readonly unknown[],
 > {
     sameDay: `compares two DateLike values to see if they refer to the same day.`;
-    greaterThan: `checks if the passed in value(s) are greater than ${As<TParams[0], NumberLike>}.`;
-    lessThan: `checks if the passed in value(s) are less than ${As<TParams[0], NumberLike>}.`;
+    greaterThan: TParams extends readonly [infer First, ...unknown[]]
+        ? `checks if the passed in value(s) are greater than ${As<First, NumberLike>}.`
+        : string;
+    lessThan: TParams extends readonly [infer First, ...unknown[]]
+        ? `checks if the passed in value(s) are less than ${As<First, NumberLike>}.`
+        : string;
 }
 
 /**
@@ -24,8 +28,8 @@ interface Descriptors<
  * of the operation.
  */
 export type ComparisonDesc<
-    TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
+    TOp extends ComparisonOperation & keyof ComparisonLookup,
+    TParams extends readonly unknown[]
 > = TOp extends keyof Descriptors<TOp, TParams>
     ? Descriptors<TOp, TParams>[TOp]
     : null;

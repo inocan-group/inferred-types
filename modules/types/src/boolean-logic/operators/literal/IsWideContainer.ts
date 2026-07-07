@@ -1,4 +1,4 @@
-import type { Container, IsEqual, IsWideArray, IsWideObject, TypedFunction } from "inferred-types/types";
+import type { AnyFunction, Container, IsEqual, IsWideArray, IsWideObject, TypedFunction } from "inferred-types/types";
 
 /**
  * **IsWideContainer**`<T>`

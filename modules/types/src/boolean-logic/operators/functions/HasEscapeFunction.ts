@@ -1,4 +1,4 @@
-import type { Api, Dictionary, GetEscapeFunction, TypedFunction } from "inferred-types/types";
+import type { Api, Dictionary, GetEscapeFunction, IsAny, IsNever, TypedFunction } from "inferred-types/types";
 
 /**
  * **HasEscapeFunction**`<T>`
@@ -7,6 +7,10 @@ import type { Api, Dictionary, GetEscapeFunction, TypedFunction } from "inferred
  */
 export type HasEscapeFunction<
     T extends Dictionary | TypedFunction | Api,
-> = GetEscapeFunction<T> extends Error
+> = IsAny<T> extends true
     ? false
-    : true;
+    : IsNever<T> extends true
+        ? false
+        : GetEscapeFunction<T> extends Error
+            ? false
+            : true;

@@ -1,15 +1,22 @@
-import type { IsAny, IsEqual, IsNever, IsUnion, IsUnknown, Or, ToStringArray } from "inferred-types/types";
+import type { IsAny, IsNever, IsUnknown, ToStringArray } from "inferred-types/types";
+
+type CheckOne<
+    TValue extends string,
+    TComparator
+> = TComparator extends string
+    ? TComparator extends ""
+        ? false
+        : TValue extends `${string}${TComparator}`
+            ? true
+            : false
+    : false;
 
 type Check<
     TValue extends string,
     TComparator extends readonly string[],
-> = Or<{
-    [K in keyof TComparator]: TValue extends `${string}${TComparator[K]}`
-        ? IsEqual<TComparator[K], ""> extends true
-            ? false
-            : true
-        : false;
-}>;
+> = true extends CheckOne<TValue, TComparator[number]>
+    ? true
+    : false;
 
 /**
  * **EndsWith**<TValue, TComparator>
@@ -25,29 +32,25 @@ type Check<
 export type EndsWith<
     TValue extends string | number,
     TComparator extends string | number | readonly (string | number)[],
-> = [IsUnion<TComparator>] extends [true]
-    ? `${TValue}` extends `${string}${TComparator}`
-        ? true
-        : false
-    : [IsAny<TValue>] extends [true]
-            ? false
-            : [IsNever<TValue>] extends [true]
-                    ? false
-                    : [IsUnknown<TValue>] extends [true]
+> = [IsAny<TValue>] extends [true]
+    ? false
+    : [IsNever<TValue>] extends [true]
+        ? false
+        : [IsUnknown<TValue>] extends [true]
+            ? boolean
+            : string extends TValue
+                ? boolean
+                : number extends TValue
+                    ? boolean
+                    : number extends TComparator
+                        ? boolean
+                        : string extends TComparator
                             ? boolean
-                            : string extends TValue
-                                ? boolean
-                                : number extends TValue
-                                    ? boolean
-                                    : number extends TComparator
-                                        ? boolean
-                                        : string extends TComparator
-                                            ? boolean
-                                            : Check<
-    `${TValue}`,
-    TComparator extends readonly (string | number)[]
-        ? ToStringArray<TComparator>
-        : TComparator extends (string | number)
-            ? [`${TComparator}`]
-            : never
-                                            >;
+                            : Check<
+                                `${TValue}`,
+                                TComparator extends readonly (string | number)[]
+                                    ? ToStringArray<TComparator>
+                                    : TComparator extends (string | number)
+                                        ? [`${TComparator}`]
+                                        : never
+                            >;

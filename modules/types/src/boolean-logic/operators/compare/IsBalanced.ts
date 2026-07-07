@@ -1,5 +1,6 @@
 import type {
     And,
+    As,
     AsNestingConfig,
     Chars,
     Err,
@@ -104,5 +105,5 @@ export type IsBalanced<
 > = T extends string
     ? string extends T
         ? boolean
-        : EvalString<T, AsNestingConfig<U>, TErr>
+        : EvalString<T, As<AsNestingConfig<U>, Nesting>, TErr>
     : never;

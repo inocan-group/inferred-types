@@ -26,12 +26,6 @@ type BothNumeric<A, B> = A extends number
         : false
     : false;
 
-type BothStrings<A, B> = A extends string
-    ? B extends string
-        ? true
-        : false
-    : false;
-
 type EitherAreDateObject<A, B> = IsJsDate<A> extends true
     ? true
     : IsJsDate<B> extends true
@@ -90,7 +84,8 @@ export type IsSameDay<
                         : IsEqual<A, B> extends true
                             ? true
                             : boolean
-        : BothStrings<A, B> extends true
+        : A extends string
+            ? B extends string
             // Fast path for identical strings
             ? IsEqual<GetDatePart<A>, GetDatePart<B>> extends true
                 // If they are equal strings, check if valid ISO date
@@ -109,6 +104,7 @@ export type IsSameDay<
                             ? IsEqual<A, B> extends true ? true : false
                             : Err<`invalid-date`>
                         : Err<`invalid-date`>
+            : Err<`invalid-date`>
             : EitherAreDateObject<A, B> extends true
                 ? boolean
                 : Err<`invalid-date`>;

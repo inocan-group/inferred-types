@@ -1,4 +1,4 @@
-import type { And, AnyFunction, As, Container, DefineModifiers, HasModifier, IsAny, IsLiteralContainer, IsLiteralScalar, IsNever, IsTuple, Scalar, TypedFunction, Values } from "inferred-types/types";
+import type { And, AnyFunction, As, Container, DefineModifiers, Dictionary, HasModifier, IsAny, IsLiteralContainer, IsLiteralScalar, IsNever, IsTuple, Scalar, TypedFunction, Values } from "inferred-types/types";
 
 type AllValuesAreLiteral<T extends readonly unknown[]> = And<{
     [K in keyof T]: T[K] extends Scalar
@@ -53,5 +53,5 @@ export type IsLiteralObject<T, U extends LiteralObjectModifiers = null> = [IsAny
                                                                                 ? false
                                                                                 : HasModifier<"allow-wide-values", U, LiteralObjectModifiers> extends true
                                                                                     ? true
-                                                                                    : AllValuesAreLiteral<As<Values<T>, readonly unknown[]>>
+                                                                                    : AllValuesAreLiteral<As<Values<As<T, Dictionary>>, readonly unknown[]>>
                                             : false;
