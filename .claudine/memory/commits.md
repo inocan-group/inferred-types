@@ -133,3 +133,26 @@ duplicated one entry when counting). It self-verified with `git diff --staged --
 Without that step it would have either failed the commit or produced a partial commit.
 
 > Source: Group 10 (`perf(types): list utilities`) sub-agent, 2026-07-06.
+
+---
+
+## When verifying a rename-staged scope, `git diff --staged --name-only` shows only the destination
+
+`git diff --staged --name-only -- <subtree>` flattens staged renames to *just the
+destination path* (one line per rename, name only). To see both sides of the rename
+shown in `git status --short`'s `R  old -> new` form, use `git diff --staged --name-status`
+or `git status --short`.
+
+This matters for the path-verification step before committing: a sub-agent asked to verify
+"are both `tsdown.config.ts` and `tsdown.config.mjs` staged inside `modules/<scope>/`?"
+cannot rely on `git diff --staged --name-only` alone when the change is a rename, because
+the source path is suppressed from the output. The agents involved here were robust to
+this — they passed both paths to `git commit --only …` explicitly regardless, and that
+worked because git accepts both sides of a rename in the pathspec list — but a less
+careful verification step could under-count and silently drop one side.
+
+When verifying a rename-staged scope, prefer `git status --short -- <subtree>` (which
+keeps the `R old -> new` form) or `git diff --staged --name-status`.
+
+> Source: Group 1 (`refactor(constants): rename tsdown.config.ts to tsdown.config.mjs`)
+> sub-agent, 2026-07-07.
