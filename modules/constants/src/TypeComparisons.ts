@@ -88,7 +88,7 @@ export const TYPE_COMPARISONS = {
     ReturnsExtends: entry(t => t.unknown(), "must be a function which returns a value which extends [[0]]", t => t.unknown()),
     ReturnsEquals: entry(t => t.unknown(), "must be a function which returns a value which equals [[0]]", t => t.unknown()),
     Contains: entry(t => t.tuple(), "must be a tuple and have elements that extends the value [[0]]", t => t.unknown()),
-    // TODO: get the below working`
+    // Pending: get the below working.
     ContainsSome: entry(t => t.tuple(), "must be a tuple and have elements that extends the value [[0]]", t => t.singularTuple()),
 
 } as const;
