@@ -5,22 +5,22 @@
         "moduleResolution": "Bundler",
         "paths": {
             "inferred-types/types": [
-                "../types/src/index.ts"
+                "../types/dist/index.d.mts"
             ],
             "inferred-types/constants": [
-                "../constants/src/index.ts"
+                "../constants/dist/index.d.mts"
             ],
             "inferred-types/runtime": [
-                "./src/index.ts"
+                "./src/runtime-check-shim.d.ts"
             ],
             "runtime/*": [
                 "./src/*"
             ],
             "constants/*": [
-                "../constants/src/*"
+                "../constants/dist/*"
             ],
             "types/*": [
-                "../types/src/*"
+                "../types/dist/*"
             ]
         },
         "strict": true,

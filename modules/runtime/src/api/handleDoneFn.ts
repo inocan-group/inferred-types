@@ -1,8 +1,20 @@
-import {
-    isDictionary,
-    isDoneFn,
-    isFunction
-} from "inferred-types/runtime";
+import type { HandleDoneFn } from "inferred-types/types";
+import { isDictionary, isFunction } from "inferred-types/runtime";
+
+type HandleDoneFnReturn<TVal, TBareFn extends boolean> =
+    TVal extends { done: (...args: never[]) => unknown }
+        ? HandleDoneFn<TVal>
+        : TBareFn extends true
+            ? HandleDoneFn<TVal>
+            : TVal;
+
+type DoneFnContainer = {
+    done: () => unknown;
+};
+
+function hasDoneFn(val: unknown): val is DoneFnContainer {
+    return isDictionary(val) && "done" in val && typeof val.done === "function";
+}
 
 /**
  * **handleDoneFn**(val, [bare_fn])
@@ -17,14 +29,12 @@ import {
 export function handleDoneFn<
     TVal,
     TBareFn extends boolean,
->(val: TVal, call_bare_fn: TBareFn = false as TBareFn): any {
-    return isDictionary(val) || isFunction(val)
-        ? isDoneFn(val)
+>(val: TVal, call_bare_fn: TBareFn = false as TBareFn): HandleDoneFnReturn<TVal, TBareFn> {
+    return (
+        hasDoneFn(val)
             ? val.done()
-            : isFunction(val)
-                ? call_bare_fn ? val() : val
+            : isFunction(val) && call_bare_fn
+                ? val()
                 : val
-        : isFunction(val)
-            ? call_bare_fn ? val() : val
-            : val;
+    ) as HandleDoneFnReturn<TVal, TBareFn>;
 }

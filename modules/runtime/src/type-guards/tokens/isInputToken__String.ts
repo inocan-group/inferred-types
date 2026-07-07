@@ -7,7 +7,7 @@ import { isString } from "inferred-types/runtime";
  * Type guard which validates that `val` is a _string-based_
  * `InputToken`.
  *
- * TODO: this is not ready to be used!
+ * This guard is intentionally permissive until string-token validation is complete.
  */
 export function isInputToken__String(val: unknown): val is InputTokenSuggestions {
     return isString(val);

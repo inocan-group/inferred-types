@@ -1,5 +1,4 @@
 import type {
-    As,
     DefineObject,
     Dictionary,
     Err,
@@ -35,14 +34,18 @@ type AsType<T extends readonly InputToken[]> = T["length"] extends 0
                 { tokens: ToStringLiteral<T> }
             >
             : Only extends DefineObject
-                ? KeysWithError<
-                    As<FromInputToken__Object<Only>, Dictionary>
-                > extends []
-                    ? FromInputToken__Object<Only>
-                    : Err<`invalid-token/object`, `A 'DefineObject' was malformed and at least one key produced an error!`, {
-                        keys: KeysWithError<As<FromInputToken__Object<Only>, Dictionary>>;
-                        tokens: ToStringLiteral<T>;
-                    }>
+                ? FromInputToken__Object<Only> extends infer Result
+                    ? Result extends Error
+                        ? Result
+                        : Result extends Dictionary
+                            ? KeysWithError<Result> extends []
+                                ? Result
+                                : Err<`invalid-token/object`, `A 'DefineObject' was malformed and at least one key produced an error!`, {
+                                    keys: KeysWithError<Result>;
+                                    tokens: ToStringLiteral<T>;
+                                }>
+                            : never
+                    : never
                 : Only extends InputToken
                     ? FromInputToken<Only>
                     : never
