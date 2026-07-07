@@ -364,6 +364,6 @@ tsc --noEmit -p <check-config> --generateTrace <dir> ... && npx @typescript/anal
 
 ## Open Questions
 
-1. Is the 5-entry ceiling on the deferred list (G3/G4) acceptable, or should deferral be disallowed entirely?
+1. What follow-up target should replace the former five-entry deferred ceiling once the exact suppression inventory is enforced?
 2. `PhoneNumber`'s validators are commented out, so its expensive default shape currently buys no validation. Should W5 restore (bounded) validation, or simplify the shape and document the looser contract? Restoring validation is assumed unless overridden.
 3. Should the G6 baseline file live in-repo (versioned, machine-dependent numbers) or in `features/` as a point-in-time artifact? In-repo with relative-threshold comparison is assumed.

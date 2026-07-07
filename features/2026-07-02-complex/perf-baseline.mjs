@@ -7,7 +7,8 @@ const mode = process.argv[2] ?? "baseline";
 const baselinePath = resolve("features/2026-07-02-complex/perf-baseline.json");
 const deferredPath = resolve("features/2026-07-02-complex/deferred.md");
 const complexityCodes = ["2589", "2590", "2859", "2321"];
-const complexitySuppressionPattern = /@ts-expect-error TS(?:2589|2590|2859|2321)/;
+const complexitySuppressionPattern = /@ts-expect-error TS(2589|2590|2859|2321)/;
+const trackedSuppressionPattern = /^-\s+`([^`]+)`\s+\|\s+`(TS(?:2589|2590|2859|2321))`\s+\|\s+`([^`]+)`\s*$/gm;
 const sourceCheckRecipes = ["check-constants", "check-types", "check-runtime"];
 const g1TypeTestLimits = {
     wallSeconds: 60,
@@ -15,6 +16,19 @@ const g1TypeTestLimits = {
     peakRssMiB: Math.round(3.5 * 1024),
     convention: "GiB",
 };
+const g2SlowFileLimits = {
+    wallSeconds: 5,
+    peakRssBytes: Math.round(1.5 * 1024 ** 3),
+    peakRssMiB: Math.round(1.5 * 1024),
+    convention: "GiB",
+};
+const g2SlowFileCandidates = [
+    "tests/api/GetUrlDynamics.test.ts",
+    "tests/runtime/input-tokens/FromInputToken.test.ts",
+    "tests/type-guards/tw/isTailwindColorClass.test.ts",
+    "tests/string-literals/PhoneNumbers.test.ts",
+    "tests/datetime/AsDateMeta.test.ts",
+];
 
 function run(command, args, options = {}) {
     const env = {
@@ -132,22 +146,74 @@ function collectComplexitySuppressions() {
         .filter(Boolean)
         .map((line) => {
             const [file, lineNumber, ...rest] = line.split(":");
+            const text = rest.join(":").trim();
+            const code = text.match(complexitySuppressionPattern)?.[1];
             return {
                 file,
                 line: Number(lineNumber),
-                text: rest.join(":").trim(),
+                code: code ? `TS${code}` : null,
+                text,
             };
         })
         .filter(suppression => complexitySuppressionPattern.test(suppression.text));
 }
 
-function validateTrackedSuppressions(suppressions) {
+function suppressionKey(suppression) {
+    return `${suppression.file}\0${suppression.code}\0${suppression.text}`;
+}
+
+function suppressionLabel(suppression) {
+    return `${suppression.file}:${suppression.line} ${suppression.code} ${suppression.text}`;
+}
+
+function countSuppressionKeys(suppressions) {
+    const counts = new Map();
+
+    for (const suppression of suppressions) {
+        const key = suppressionKey(suppression);
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+
+    return counts;
+}
+
+function readTrackedSuppressions() {
     const deferred = existsSync(deferredPath) ? readFileSync(deferredPath, "utf8") : "";
+    const tracked = [];
+    let match;
+
+    while ((match = trackedSuppressionPattern.exec(deferred))) {
+        tracked.push({
+            file: match[1],
+            code: match[2],
+            text: match[3],
+        });
+    }
+
+    return tracked;
+}
+
+function validateTrackedSuppressions(suppressions) {
+    const tracked = readTrackedSuppressions();
+    const trackedCounts = countSuppressionKeys(tracked);
     const failures = [];
 
     for (const suppression of suppressions) {
-        if (!deferred.includes(suppression.file)) {
-            failures.push(`${suppression.file}:${suppression.line} is not listed in ${deferredPath}`);
+        const key = suppressionKey(suppression);
+        const remaining = trackedCounts.get(key) ?? 0;
+
+        if (remaining === 0) {
+            failures.push(`${suppressionLabel(suppression)} is not listed exactly in ${deferredPath}`);
+        }
+        else {
+            trackedCounts.set(key, remaining - 1);
+        }
+    }
+
+    for (const [key, remaining] of trackedCounts) {
+        if (remaining > 0) {
+            const [file, code, text] = key.split("\0");
+            failures.push(`${file} ${code} ${text} is listed ${remaining} too many time${remaining === 1 ? "" : "s"} in ${deferredPath}`);
         }
     }
 
@@ -183,6 +249,28 @@ function measureTypeTests() {
         peakRssMb: typed.peakRssMb,
         fileTimings: parseFileTimings(`${typed.stdout}\n${typed.stderr}`),
     };
+}
+
+function measureSlowTypeTestFiles() {
+    return g2SlowFileCandidates.map((file) => {
+        const typed = runTimed("node_modules/.bin/typed", ["test", file], {
+            defaultHeap: true,
+        });
+
+        if (typed.status !== 0) {
+            process.stdout.write(typed.stdout);
+            process.stderr.write(typed.stderr);
+            throw new Error(`typed test ${file} failed with exit code ${typed.status}`);
+        }
+
+        return {
+            file,
+            status: typed.status,
+            wallSeconds: typed.wallSeconds,
+            peakRssBytes: typed.peakRssBytes,
+            peakRssMb: typed.peakRssMb,
+        };
+    });
 }
 
 function measureSourceCheck(recipe) {
@@ -221,6 +309,7 @@ function printSummary(current) {
     console.log(`type tests: ${current.typeTests.wallSeconds ?? "unknown"}s, ${current.typeTests.peakRssMb ?? "unknown"} MiB RSS`);
     console.log(`G1 limits: <= ${g1TypeTestLimits.wallSeconds}s, <= ${g1TypeTestLimits.peakRssMiB} MiB RSS (${g1TypeTestLimits.convention})`);
     console.log(`type-test file timings: ${current.typeTests.fileTimings.length} files; slowest ${summarizeSlowestFiles(current.typeTests)}`);
+    console.log(`slow-file RSS checks: ${current.slowTypeTestFiles.length} files; limit <= ${g2SlowFileLimits.wallSeconds}s, <= ${g2SlowFileLimits.peakRssMiB} MiB RSS (${g2SlowFileLimits.convention})`);
     console.log(`source checks: ${summarizeSourceChecks(current.sourceChecks)}; ${current.sourceChecks.wallSeconds ?? "unknown"}s, ${current.sourceChecks.peakRssMb ?? "unknown"} MiB peak RSS`);
     console.log(`complexity diagnostics: ${current.sourceChecks.complexityTotal}`);
     console.log(`tracked complexity suppressions: ${current.complexitySuppressions.total}`);
@@ -228,6 +317,7 @@ function printSummary(current) {
 
 function measure() {
     const typeTests = measureTypeTests();
+    const slowTypeTestFiles = measureSlowTypeTestFiles();
     const checks = Object.fromEntries(
         sourceCheckRecipes.map(recipe => [recipe, measureSourceCheck(recipe)]),
     );
@@ -247,8 +337,10 @@ function measure() {
         },
         thresholds: {
             typeTests: g1TypeTestLimits,
+            slowTypeTestFiles: g2SlowFileLimits,
         },
         typeTests,
+        slowTypeTestFiles,
         sourceChecks: {
             status: sourceCheckValues.every(check => check.status === 0) ? 0 : 1,
             wallSeconds: Math.round(sumNumbers(sourceCheckValues.map(check => check.wallSeconds)) * 100) / 100,
@@ -272,6 +364,7 @@ function compare(current, baseline) {
     const currentRssBytes = current.typeTests?.peakRssBytes;
     const currentWallSeconds = current.typeTests?.wallSeconds;
     const sourceChecks = current.sourceChecks?.checks ?? {};
+    const slowTypeTestFiles = current.slowTypeTestFiles ?? [];
 
     if (typeof currentWallSeconds === "number" && currentWallSeconds > g1TypeTestLimits.wallSeconds) {
         failures.push(`type-test wall time ${currentWallSeconds}s exceeds G1 limit ${g1TypeTestLimits.wallSeconds}s`);
@@ -285,6 +378,20 @@ function compare(current, baseline) {
         const maxRss = baselineRss * 1.15;
         if (currentRss > maxRss) {
             failures.push(`type-test peak RSS grew from ${baselineRss} MiB to ${currentRss} MiB (> 15%)`);
+        }
+    }
+
+    for (const fileCheck of slowTypeTestFiles) {
+        if (fileCheck.status !== 0) {
+            failures.push(`typed test ${fileCheck.file} failed with exit code ${fileCheck.status}`);
+        }
+
+        if (typeof fileCheck.wallSeconds === "number" && fileCheck.wallSeconds > g2SlowFileLimits.wallSeconds) {
+            failures.push(`${fileCheck.file} wall time ${fileCheck.wallSeconds}s exceeds G2 limit ${g2SlowFileLimits.wallSeconds}s`);
+        }
+
+        if (typeof fileCheck.peakRssBytes === "number" && fileCheck.peakRssBytes > g2SlowFileLimits.peakRssBytes) {
+            failures.push(`${fileCheck.file} peak RSS ${fileCheck.peakRssBytes} bytes exceeds G2 limit ${g2SlowFileLimits.peakRssBytes} bytes (${g2SlowFileLimits.peakRssMiB} MiB)`);
         }
     }
 
