@@ -1,5 +1,6 @@
 ---
 ready: false
+implemented: true
 agent: codex/default
 created: 2026-07-07T00:31:37
 spec: 2026-07-02-complex/spec.md
