@@ -18,14 +18,14 @@
     },
     "scripts": {
         "nuke": "rm -rf node_modules",
-        "build": "tsdown",
+        "build": "tsdown --config-loader native",
         "test": "vitest run",
         "lint": "oxlint src",
         "lint:ox": "oxlint src",
         "lint:fix": "oxlint src --fix",
         "circular": "npx madge --circular src/",
         "watch": "run-p watch:*",
-        "watch:build": "tsdown --watch",
+        "watch:build": "tsdown --config-loader native --watch",
         "watch:test": "vitest"
     },
     "dependencies": {
