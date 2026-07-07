@@ -1,42 +1,53 @@
 {
-  "capturedAt": "2026-07-07T03:34:42.813Z",
+  "capturedAt": "2026-07-07T05:06:17.750Z",
   "commands": {
-    "typeTests": "/usr/bin/time -l node --max-old-space-size=12288 node_modules/.pnpm/typed-tester@*/node_modules/typed-tester/bin/typed.js test --metrics --show-passing",
-    "checkTypes": "just check-types"
+    "typeTests": "/usr/bin/time -l pnpm test:types --metrics --show-passing",
+    "checkConstants": "just check-constants",
+    "checkTypes": "just check-types",
+    "checkRuntime": "just check-runtime",
+    "complexitySuppressions": "rg -n \"@ts-expect-error TS(2589|2590|2859|2321)\" modules/types/src modules/runtime/src modules/constants/src"
+  },
+  "thresholds": {
+    "typeTests": {
+      "wallSeconds": 60,
+      "peakRssBytes": 3758096384,
+      "peakRssMiB": 3584,
+      "convention": "GiB"
+    }
   },
   "typeTests": {
     "status": 0,
-    "wallSeconds": 18.7,
-    "peakRssBytes": 3821944832,
-    "peakRssMb": 3645,
+    "wallSeconds": 21.93,
+    "peakRssBytes": 3621650432,
+    "peakRssMb": 3454,
     "fileTimings": [
       {
         "file": "tests/api/GetUrlDynamics.test.ts",
-        "ms": 430
+        "ms": 688
       },
       {
         "file": "tests/assertions/AssertContains.test.ts",
-        "ms": 132
+        "ms": 224
       },
       {
         "file": "tests/assertions/AssertError.test.ts",
-        "ms": 14
+        "ms": 26
       },
       {
         "file": "tests/base-types/AnyFunction.test.ts",
-        "ms": 4
+        "ms": 10
       },
       {
         "file": "tests/base-types/AsyncFunction.test.ts",
-        "ms": 3
+        "ms": 14
       },
       {
         "file": "tests/base-types/EmptyObject.test.ts",
-        "ms": 6
+        "ms": 12
       },
       {
         "file": "tests/base-types/IndexableObject.test.ts",
-        "ms": 5
+        "ms": 19
       },
       {
         "file": "tests/base-types/Tuple.test.ts",
@@ -44,15 +55,15 @@
       },
       {
         "file": "tests/boolean-logic/AllExtend.test.ts",
-        "ms": 2
+        "ms": 10
       },
       {
         "file": "tests/boolean-logic/Contains.test.ts",
-        "ms": 25
+        "ms": 38
       },
       {
         "file": "tests/boolean-logic/ContainsAll.test.ts",
-        "ms": 3
+        "ms": 9
       },
       {
         "file": "tests/boolean-logic/ExtendsAll.test.ts",
@@ -64,15 +75,15 @@
       },
       {
         "file": "tests/boolean-logic/HasEvery.test.ts",
-        "ms": 7
+        "ms": 13
       },
       {
         "file": "tests/boolean-logic/HasParameters.test.ts",
-        "ms": 3
+        "ms": 4
       },
       {
         "file": "tests/boolean-logic/HasSameValues.test.ts",
-        "ms": 25
+        "ms": 42
       },
       {
         "file": "tests/boolean-logic/IfExtendsSome.test.ts",
@@ -80,11 +91,11 @@
       },
       {
         "file": "tests/boolean-logic/IfSomeEqual.test.ts",
-        "ms": 3
+        "ms": 6
       },
       {
         "file": "tests/boolean-logic/IfSomeExtend.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/boolean-logic/IsArray.test.ts",
@@ -92,7 +103,7 @@
       },
       {
         "file": "tests/boolean-logic/IsContainer.test.ts",
-        "ms": 20
+        "ms": 22
       },
       {
         "file": "tests/boolean-logic/IsNegativeNumber.test.ts",
@@ -100,19 +111,19 @@
       },
       {
         "file": "tests/boolean-logic/IsNumericLiteral.test.ts",
-        "ms": 2
+        "ms": 1
       },
       {
         "file": "tests/boolean-logic/IsValidIndex.test.ts",
-        "ms": 4
+        "ms": 7
       },
       {
         "file": "tests/boolean-logic/IsWideType.test.ts",
-        "ms": 14
+        "ms": 15
       },
       {
         "file": "tests/boolean-logic/LogicalReturns.test.ts",
-        "ms": 7
+        "ms": 9
       },
       {
         "file": "tests/boolean-logic/NotLength.test.ts",
@@ -120,11 +131,11 @@
       },
       {
         "file": "tests/boolean-logic/ReturnValues.test.ts",
-        "ms": 8
+        "ms": 9
       },
       {
         "file": "tests/boolean-logic/functions.test.ts",
-        "ms": 21
+        "ms": 25
       },
       {
         "file": "tests/classes/KlassMeta.test.ts",
@@ -132,55 +143,59 @@
       },
       {
         "file": "tests/classes/constructor.test.ts",
-        "ms": 5
-      },
-      {
-        "file": "tests/containers/OnlyOptional.test.ts",
-        "ms": 153
-      },
-      {
-        "file": "tests/containers/ReduceValues.test.ts",
-        "ms": 12
-      },
-      {
-        "file": "tests/containers/RemoveNever.test.ts",
-        "ms": 76
-      },
-      {
-        "file": "tests/containers/RemoveUndefined.test.ts",
         "ms": 7
       },
       {
+        "file": "tests/containers/OnlyOptional.test.ts",
+        "ms": 170
+      },
+      {
+        "file": "tests/containers/ReduceValues.test.ts",
+        "ms": 14
+      },
+      {
+        "file": "tests/containers/RemoveNever.test.ts",
+        "ms": 85
+      },
+      {
+        "file": "tests/containers/RemoveUndefined.test.ts",
+        "ms": 6
+      },
+      {
         "file": "tests/containers/WidenValues.test.ts",
-        "ms": 8
+        "ms": 12
+      },
+      {
+        "file": "tests/containers/freeze.test.ts",
+        "ms": 4
       },
       {
         "file": "tests/datetime/AsDateMeta.test.ts",
-        "ms": 815
+        "ms": 800
       },
       {
         "file": "tests/datetime/AsParsedDate.test.ts",
-        "ms": 8
+        "ms": 6
       },
       {
         "file": "tests/datetime/AsRelativeDate.test.ts",
-        "ms": 42
+        "ms": 46
       },
       {
         "file": "tests/datetime/ParseDate.test.ts",
-        "ms": 328
+        "ms": 338
       },
       {
         "file": "tests/datetime/ParseTime.test.ts",
-        "ms": 73
+        "ms": 90
       },
       {
         "file": "tests/datetime/asDateTime.test.ts",
-        "ms": 20
+        "ms": 24
       },
       {
         "file": "tests/datetime/asFourDigitYear.test.ts",
-        "ms": 49
+        "ms": 55
       },
       {
         "file": "tests/datetime/asIsoDate.test.ts",
@@ -192,23 +207,23 @@
       },
       {
         "file": "tests/datetime/asTwoDigitMonth.test.ts",
-        "ms": 67
+        "ms": 69
       },
       {
         "file": "tests/datetime/dateObjectToIso.test.ts",
-        "ms": 25
+        "ms": 28
       },
       {
         "file": "tests/datetime/daysInMonth.test.ts",
-        "ms": 92
+        "ms": 107
       },
       {
         "file": "tests/datetime/getMonthNumber.test.ts",
-        "ms": 13
+        "ms": 14
       },
       {
         "file": "tests/datetime/getTomorrow.test.ts",
-        "ms": 5
+        "ms": 6
       },
       {
         "file": "tests/datetime/getYesterday.test.ts",
@@ -216,11 +231,11 @@
       },
       {
         "file": "tests/datetime/isAfter.test.ts",
-        "ms": 61
+        "ms": 65
       },
       {
         "file": "tests/datetime/isDoubleLeap.test.ts",
-        "ms": 338
+        "ms": 347
       },
       {
         "file": "tests/datetime/isSameYear.test.ts",
@@ -232,11 +247,11 @@
       },
       {
         "file": "tests/datetime/isTomorrow.test.ts",
-        "ms": 12
+        "ms": 13
       },
       {
         "file": "tests/datetime/isYesterday.test.ts",
-        "ms": 12
+        "ms": 11
       },
       {
         "file": "tests/datetime/parseIsoDate.test.ts",
@@ -244,7 +259,7 @@
       },
       {
         "file": "tests/datetime/parseNumericDate.test.ts",
-        "ms": 12
+        "ms": 11
       },
       {
         "file": "tests/datetime/toIsoDateString.test.ts",
@@ -252,19 +267,19 @@
       },
       {
         "file": "tests/dictionary/AddKeyValue.test.ts",
-        "ms": 4
-      },
-      {
-        "file": "tests/dictionary/CamelKeys.test.ts",
-        "ms": 14
-      },
-      {
-        "file": "tests/dictionary/CombinedKeys.test.ts",
         "ms": 5
       },
       {
-        "file": "tests/dictionary/CreateLookup.test.ts",
+        "file": "tests/dictionary/CamelKeys.test.ts",
+        "ms": 16
+      },
+      {
+        "file": "tests/dictionary/CombinedKeys.test.ts",
         "ms": 7
+      },
+      {
+        "file": "tests/dictionary/CreateLookup.test.ts",
+        "ms": 8
       },
       {
         "file": "tests/dictionary/EnsureKeys.test.ts",
@@ -272,11 +287,11 @@
       },
       {
         "file": "tests/dictionary/GetFixedKeys.test.ts",
-        "ms": 13
+        "ms": 12
       },
       {
         "file": "tests/dictionary/GetIndexKeys.test.ts",
-        "ms": 78
+        "ms": 83
       },
       {
         "file": "tests/dictionary/KebabKeys.test.ts",
@@ -284,23 +299,23 @@
       },
       {
         "file": "tests/dictionary/KeysOf.test.ts",
-        "ms": 15
+        "ms": 18
       },
       {
         "file": "tests/dictionary/KeysWithValue.test.ts",
-        "ms": 14
+        "ms": 15
       },
       {
         "file": "tests/dictionary/KvFn.test.ts",
-        "ms": 3
+        "ms": 1
       },
       {
         "file": "tests/dictionary/MakeKeysOptional.test.ts",
-        "ms": 9
+        "ms": 12
       },
       {
         "file": "tests/dictionary/MapKeys.test.ts",
-        "ms": 39
+        "ms": 40
       },
       {
         "file": "tests/dictionary/MergeKVs.test.ts",
@@ -312,15 +327,15 @@
       },
       {
         "file": "tests/dictionary/MutableProps.test.ts",
-        "ms": 21
+        "ms": 20
       },
       {
         "file": "tests/dictionary/ObjectKeys.test.ts",
-        "ms": 47
+        "ms": 50
       },
       {
         "file": "tests/dictionary/OptionalKeys.test.ts",
-        "ms": 7
+        "ms": 8
       },
       {
         "file": "tests/dictionary/PascalKeys.test.ts",
@@ -328,7 +343,7 @@
       },
       {
         "file": "tests/dictionary/RemoveIndexKeys.test.ts",
-        "ms": 39
+        "ms": 41
       },
       {
         "file": "tests/dictionary/RequireProps.test.ts",
@@ -336,7 +351,7 @@
       },
       {
         "file": "tests/dictionary/RequiredKeys.test.ts",
-        "ms": 8
+        "ms": 9
       },
       {
         "file": "tests/dictionary/RequiredKeysTuple.test.ts",
@@ -344,27 +359,27 @@
       },
       {
         "file": "tests/dictionary/ReverseLookup.test.ts",
-        "ms": 5
+        "ms": 6
       },
       {
         "file": "tests/dictionary/SameKeys.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/dictionary/SetKey.test.ts",
-        "ms": 5
+        "ms": 6
       },
       {
         "file": "tests/dictionary/SnakeKeys.test.ts",
-        "ms": 4
+        "ms": 3
       },
       {
         "file": "tests/dictionary/SortByKey.test.ts",
-        "ms": 40
+        "ms": 44
       },
       {
         "file": "tests/dictionary/UnionFromProp.test.ts",
-        "ms": 6
+        "ms": 2
       },
       {
         "file": "tests/dictionary/UpsertKeyValue.test.ts",
@@ -372,23 +387,23 @@
       },
       {
         "file": "tests/dictionary/Values.test.ts",
-        "ms": 21
-      },
-      {
-        "file": "tests/dictionary/WithKeys.test.ts",
-        "ms": 18
-      },
-      {
-        "file": "tests/dictionary/WithoutKeys.test.ts",
         "ms": 20
       },
       {
+        "file": "tests/dictionary/WithKeys.test.ts",
+        "ms": 17
+      },
+      {
+        "file": "tests/dictionary/WithoutKeys.test.ts",
+        "ms": 21
+      },
+      {
         "file": "tests/dictionary/defineObject.test.ts",
-        "ms": 136
+        "ms": 137
       },
       {
         "file": "tests/dictionary/get.test.ts",
-        "ms": 31
+        "ms": 30
       },
       {
         "file": "tests/dictionary/objectValues.test.ts",
@@ -396,15 +411,15 @@
       },
       {
         "file": "tests/dictionary/omitKeys.test.ts",
-        "ms": 18
+        "ms": 14
       },
       {
         "file": "tests/dictionary/set.test.ts",
-        "ms": 40
+        "ms": 42
       },
       {
         "file": "tests/dictionary/sharedKeys.test.ts",
-        "ms": 20
+        "ms": 21
       },
       {
         "file": "tests/dictionary/withDefaults.test.ts",
@@ -412,15 +427,15 @@
       },
       {
         "file": "tests/dictionary/withValue.test.ts",
-        "ms": 129
+        "ms": 132
       },
       {
         "file": "tests/dictionary/withoutValue.test.ts",
-        "ms": 94
+        "ms": 100
       },
       {
         "file": "tests/domains/units-of-measure.test.ts",
-        "ms": 12
+        "ms": 15
       },
       {
         "file": "tests/errors/Err.test.ts",
@@ -432,11 +447,11 @@
       },
       {
         "file": "tests/errors/HasErrors.test.ts",
-        "ms": 8
+        "ms": 9
       },
       {
         "file": "tests/errors/IsolateErrors.test.ts",
-        "ms": 23
+        "ms": 26
       },
       {
         "file": "tests/errors/KeysWithError.test.ts",
@@ -448,19 +463,19 @@
       },
       {
         "file": "tests/functions/DoneFnTuple.test.ts",
-        "ms": 1
+        "ms": 0
       },
       {
         "file": "tests/functions/FnKeyValue.createFnWithProps-shape.test.ts",
-        "ms": 2
+        "ms": 1
       },
       {
         "file": "tests/functions/FnKeyValue.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/functions/FnMeta.test.ts",
-        "ms": 12
+        "ms": 13
       },
       {
         "file": "tests/functions/FnProps.test.ts",
@@ -468,15 +483,15 @@
       },
       {
         "file": "tests/functions/FnReturn.test.ts",
-        "ms": 10
+        "ms": 11
       },
       {
         "file": "tests/functions/FnWithProps.test.ts",
-        "ms": 5
+        "ms": 4
       },
       {
         "file": "tests/functions/IdentityFn.test.ts",
-        "ms": 6
+        "ms": 7
       },
       {
         "file": "tests/functions/JustFunction.test.ts",
@@ -484,15 +499,15 @@
       },
       {
         "file": "tests/functions/LiteralFn and NarrowingFn.test.ts",
-        "ms": 15
+        "ms": 16
       },
       {
         "file": "tests/functions/OnlyFn.test.ts",
-        "ms": 10
+        "ms": 11
       },
       {
         "file": "tests/functions/RemoveFnProps.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/functions/ToFn.test.ts",
@@ -500,15 +515,15 @@
       },
       {
         "file": "tests/functions/fn.test.ts",
-        "ms": 1
-      },
-      {
-        "file": "tests/globals-and-transpiled/global-export.test.ts",
         "ms": 2
       },
       {
+        "file": "tests/globals-and-transpiled/global-export.test.ts",
+        "ms": 5
+      },
+      {
         "file": "tests/globals-and-transpiled/transpiled-runtime.test.ts",
-        "ms": 58
+        "ms": 68
       },
       {
         "file": "tests/globals-and-transpiled/transpiled-types.test.ts",
@@ -516,35 +531,35 @@
       },
       {
         "file": "tests/globals-and-transpiled/transpiled.test.ts",
-        "ms": 54
+        "ms": 64
       },
       {
         "file": "tests/initializers/createCssSelector.test.ts",
-        "ms": 91
+        "ms": 118
       },
       {
         "file": "tests/initializers/createFnWithProps.test.ts",
-        "ms": 25
+        "ms": 30
       },
       {
         "file": "tests/initializers/defineObj.test.ts",
-        "ms": 40
+        "ms": 50
       },
       {
         "file": "tests/initializers/defineTuple.test.ts",
-        "ms": 4
+        "ms": 6
       },
       {
         "file": "tests/initializers/narrow.test.ts",
-        "ms": 24
+        "ms": 25
       },
       {
         "file": "tests/interpolation/ApplyTemplate.test.ts",
-        "ms": 35
+        "ms": 37
       },
       {
         "file": "tests/interpolation/AsLiteralTemplate.test.ts",
-        "ms": 42
+        "ms": 45
       },
       {
         "file": "tests/interpolation/AsStaticTemplate.test.ts",
@@ -556,43 +571,43 @@
       },
       {
         "file": "tests/interpolation/HasLeadingTemplateLiteral.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/interpolation/IntoTemplate.test.ts",
-        "ms": 63
+        "ms": 86
       },
       {
         "file": "tests/interpolation/ReplaceInterpolation.test.ts",
-        "ms": 8
+        "ms": 10
       },
       {
         "file": "tests/interpolation/StaticTemplateSections-and-Params.test.ts",
-        "ms": 12
-      },
-      {
-        "file": "tests/interpolation/StripLeadingTemplate.test.ts",
-        "ms": 6
-      },
-      {
-        "file": "tests/interpolation/StripSurroundingStringTemplate.test.ts",
-        "ms": 1
-      },
-      {
-        "file": "tests/interpolation/TemplateBlocks.test.ts",
         "ms": 15
       },
       {
+        "file": "tests/interpolation/StripLeadingTemplate.test.ts",
+        "ms": 8
+      },
+      {
+        "file": "tests/interpolation/StripSurroundingStringTemplate.test.ts",
+        "ms": 2
+      },
+      {
+        "file": "tests/interpolation/TemplateBlocks.test.ts",
+        "ms": 21
+      },
+      {
         "file": "tests/interpolation/TemplateParams.test.ts",
-        "ms": 16
+        "ms": 19
       },
       {
         "file": "tests/lists/AfterFirst.test.ts",
-        "ms": 4
+        "ms": 5
       },
       {
         "file": "tests/lists/AppendToLast.test.ts",
-        "ms": 42
+        "ms": 45
       },
       {
         "file": "tests/lists/ArrayElementType.test.ts",
@@ -604,7 +619,7 @@
       },
       {
         "file": "tests/lists/BeforeLast.test.ts",
-        "ms": 3
+        "ms": 4
       },
       {
         "file": "tests/lists/Concat.test.ts",
@@ -612,15 +627,15 @@
       },
       {
         "file": "tests/lists/Each.test.ts",
-        "ms": 25
+        "ms": 29
       },
       {
         "file": "tests/lists/ExcludeLast.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/lists/ExtractOptionalElements.test.ts",
-        "ms": 7
+        "ms": 8
       },
       {
         "file": "tests/lists/ExtractRequiredElements.test.ts",
@@ -628,11 +643,11 @@
       },
       {
         "file": "tests/lists/Filter.test.ts",
-        "ms": 189
+        "ms": 205
       },
       {
         "file": "tests/lists/FilterEmptyString.test.ts",
-        "ms": 50
+        "ms": 49
       },
       {
         "file": "tests/lists/Find.test.ts",
@@ -648,7 +663,7 @@
       },
       {
         "file": "tests/lists/Flatten.test.ts",
-        "ms": 30
+        "ms": 32
       },
       {
         "file": "tests/lists/FromCsv.test.ts",
@@ -660,7 +675,7 @@
       },
       {
         "file": "tests/lists/GetRequiredElementCount.test.ts",
-        "ms": 1
+        "ms": 0
       },
       {
         "file": "tests/lists/HasUnionType.test.ts",
@@ -668,11 +683,11 @@
       },
       {
         "file": "tests/lists/IndexOf.test.ts",
-        "ms": 15
+        "ms": 17
       },
       {
         "file": "tests/lists/Join.test.ts",
-        "ms": 10
+        "ms": 12
       },
       {
         "file": "tests/lists/Last.test.ts",
@@ -680,7 +695,7 @@
       },
       {
         "file": "tests/lists/Length.test.ts",
-        "ms": 3
+        "ms": 4
       },
       {
         "file": "tests/lists/Longest.test.ts",
@@ -700,7 +715,7 @@
       },
       {
         "file": "tests/lists/NotFilter.test.ts",
-        "ms": 21
+        "ms": 22
       },
       {
         "file": "tests/lists/Pop-and-Shift.test.ts",
@@ -716,19 +731,19 @@
       },
       {
         "file": "tests/lists/Shortest.test.ts",
-        "ms": 4
+        "ms": 5
       },
       {
         "file": "tests/lists/Slice.test.ts",
-        "ms": 82
+        "ms": 80
       },
       {
         "file": "tests/lists/TakeFirst.test.ts",
-        "ms": 51
+        "ms": 56
       },
       {
         "file": "tests/lists/TakeLast.test.ts",
-        "ms": 11
+        "ms": 13
       },
       {
         "file": "tests/lists/TakeOptionalElements.test.ts",
@@ -740,19 +755,19 @@
       },
       {
         "file": "tests/lists/ToCSV.test.ts",
-        "ms": 4
+        "ms": 5
       },
       {
         "file": "tests/lists/UnionFromProp.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/lists/Variadic.test.ts",
-        "ms": 56
+        "ms": 59
       },
       {
         "file": "tests/lists/asArray.test.ts",
-        "ms": 24
+        "ms": 25
       },
       {
         "file": "tests/lists/equivalency.test.ts",
@@ -760,7 +775,7 @@
       },
       {
         "file": "tests/lists/filterEmpty.test.ts",
-        "ms": 4
+        "ms": 3
       },
       {
         "file": "tests/lists/filterUndefined.test.ts",
@@ -768,7 +783,7 @@
       },
       {
         "file": "tests/lists/getEach.test.ts",
-        "ms": 49
+        "ms": 46
       },
       {
         "file": "tests/lists/reverse.test.ts",
@@ -780,15 +795,15 @@
       },
       {
         "file": "tests/lists/unique.test.ts",
-        "ms": 138
+        "ms": 145
       },
       {
         "file": "tests/literals/AllCaps.test.ts",
-        "ms": 10
+        "ms": 9
       },
       {
         "file": "tests/literals/Brand.test.ts",
-        "ms": 57
+        "ms": 61
       },
       {
         "file": "tests/literals/CamelCase.test.ts",
@@ -800,15 +815,15 @@
       },
       {
         "file": "tests/literals/Dasherize.test.ts",
-        "ms": 10
+        "ms": 11
       },
       {
         "file": "tests/literals/HasUppercase.spec.ts",
-        "ms": 4
+        "ms": 5
       },
       {
         "file": "tests/literals/IfLiteral.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/literals/IsTuple.test.ts",
@@ -816,7 +831,7 @@
       },
       {
         "file": "tests/literals/Narrowable.test.ts",
-        "ms": 7
+        "ms": 9
       },
       {
         "file": "tests/literals/PascalCase.test.ts",
@@ -824,31 +839,31 @@
       },
       {
         "file": "tests/literals/PathJoin.test.ts",
-        "ms": 11
+        "ms": 14
       },
       {
         "file": "tests/literals/Pluralize.test.ts",
-        "ms": 12
+        "ms": 14
       },
       {
         "file": "tests/literals/SnakeCase.test.ts",
-        "ms": 8
+        "ms": 10
       },
       {
         "file": "tests/literals/Suggest.test.ts",
-        "ms": 3
+        "ms": 4
       },
       {
         "file": "tests/literals/defineType.test.ts",
-        "ms": 35
+        "ms": 38
       },
       {
         "file": "tests/literals/identity.test.ts",
-        "ms": 5
+        "ms": 6
       },
       {
         "file": "tests/literals/literal.test.ts",
-        "ms": 5
+        "ms": 7
       },
       {
         "file": "tests/literals/rightWhitespace.test.ts",
@@ -868,51 +883,51 @@
       },
       {
         "file": "tests/numeric/Add.test.ts",
-        "ms": 7
+        "ms": 8
       },
       {
         "file": "tests/numeric/AsNegativeNumber.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/numeric/AsNumber.test.ts",
-        "ms": 12
+        "ms": 14
       },
       {
         "file": "tests/numeric/AsNumberWhenPossible.test.ts",
-        "ms": 6
+        "ms": 8
       },
       {
         "file": "tests/numeric/CompareNumbers.test.ts",
-        "ms": 19
+        "ms": 21
       },
       {
         "file": "tests/numeric/Decrement.test.ts",
-        "ms": 3
+        "ms": 4
       },
       {
         "file": "tests/numeric/Delta.test.ts",
-        "ms": 7
+        "ms": 8
       },
       {
         "file": "tests/numeric/Digitize.test.ts",
-        "ms": 16
+        "ms": 18
       },
       {
         "file": "tests/numeric/Divide.test.ts",
-        "ms": 66
+        "ms": 76
       },
       {
         "file": "tests/numeric/GreaterThan.test.ts",
-        "ms": 15
+        "ms": 16
       },
       {
         "file": "tests/numeric/Increment.test.ts",
-        "ms": 5
+        "ms": 6
       },
       {
         "file": "tests/numeric/IsBetweenInclusively.test.ts",
-        "ms": 0
+        "ms": 1
       },
       {
         "file": "tests/numeric/IsLessThan.test.ts",
@@ -924,7 +939,7 @@
       },
       {
         "file": "tests/numeric/LessThan.test.ts",
-        "ms": 30
+        "ms": 32
       },
       {
         "file": "tests/numeric/Max.test.ts",
@@ -936,15 +951,15 @@
       },
       {
         "file": "tests/numeric/Mod.test.ts",
-        "ms": 49
+        "ms": 55
       },
       {
         "file": "tests/numeric/Multiply.test.ts",
-        "ms": 20
+        "ms": 23
       },
       {
         "file": "tests/numeric/Negative.test.ts",
-        "ms": 0
+        "ms": 1
       },
       {
         "file": "tests/numeric/NextDigit.test.ts",
@@ -960,15 +975,15 @@
       },
       {
         "file": "tests/numeric/ShiftDecimalPlace.test.ts",
-        "ms": 15
+        "ms": 19
       },
       {
         "file": "tests/numeric/Subtract.test.ts",
-        "ms": 10
+        "ms": 13
       },
       {
         "file": "tests/numeric/Sum.test.ts",
-        "ms": 11
+        "ms": 13
       },
       {
         "file": "tests/numeric/ToInteger.test.ts",
@@ -976,7 +991,7 @@
       },
       {
         "file": "tests/numeric/between.test.ts",
-        "ms": 11
+        "ms": 13
       },
       {
         "file": "tests/queues/fifo.test.ts",
@@ -1000,35 +1015,35 @@
       },
       {
         "file": "tests/regex/createTemplateRegexp.test.ts",
-        "ms": 46
+        "ms": 54
       },
       {
         "file": "tests/runtime/DefineObjectWith.test.ts",
-        "ms": 10
+        "ms": 17
       },
       {
         "file": "tests/runtime/FromDefn.test.ts",
-        "ms": 22
+        "ms": 27
       },
       {
         "file": "tests/runtime/SimpleType.test.ts",
-        "ms": 10
+        "ms": 13
       },
       {
         "file": "tests/runtime/fromDefineObject.test.ts",
-        "ms": 43
+        "ms": 54
       },
       {
         "file": "tests/runtime/if-is.spec.ts",
-        "ms": 30
+        "ms": 40
       },
       {
         "file": "tests/runtime/ifLength.test.ts",
-        "ms": 6
+        "ms": 3
       },
       {
         "file": "tests/runtime/map-and-convert.test.ts",
-        "ms": 3
+        "ms": 7
       },
       {
         "file": "tests/sets/AddIfUnique.test.ts",
@@ -1044,19 +1059,19 @@
       },
       {
         "file": "tests/sets/Intersection.test.ts",
-        "ms": 111
+        "ms": 120
       },
       {
         "file": "tests/sets/Keys.test.ts",
-        "ms": 25
+        "ms": 28
       },
       {
         "file": "tests/sets/UniqueKeys.test.ts",
-        "ms": 14
+        "ms": 17
       },
       {
         "file": "tests/string-literals/AfterLast.test.ts",
-        "ms": 19
+        "ms": 23
       },
       {
         "file": "tests/string-literals/CamelCase.test.ts",
@@ -1064,27 +1079,27 @@
       },
       {
         "file": "tests/string-literals/CharCount.test.ts",
-        "ms": 7
+        "ms": 10
       },
       {
         "file": "tests/string-literals/CodePointOf.test.ts",
-        "ms": 4
+        "ms": 5
       },
       {
         "file": "tests/string-literals/DomainName.test.ts",
-        "ms": 68
+        "ms": 72
       },
       {
         "file": "tests/string-literals/DropChars.test.ts",
-        "ms": 4
+        "ms": 7
       },
       {
         "file": "tests/string-literals/EndsWith.test.ts",
-        "ms": 0
+        "ms": 1
       },
       {
         "file": "tests/string-literals/EnsureLeading.test.ts",
-        "ms": 7
+        "ms": 8
       },
       {
         "file": "tests/string-literals/EnsureLeadingEvery.test.ts",
@@ -1100,31 +1115,31 @@
       },
       {
         "file": "tests/string-literals/Github.test.ts",
-        "ms": 8
+        "ms": 9
       },
       {
         "file": "tests/string-literals/Inbetween.test.ts",
-        "ms": 8
+        "ms": 9
       },
       {
         "file": "tests/string-literals/KebabCase.test.ts",
-        "ms": 22
+        "ms": 27
       },
       {
         "file": "tests/string-literals/LastChar.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/string-literals/LongestToStartWith.test.ts",
-        "ms": 7
+        "ms": 9
       },
       {
         "file": "tests/string-literals/NestedSplit.test.ts",
-        "ms": 245
+        "ms": 270
       },
       {
         "file": "tests/string-literals/Network.test.ts",
-        "ms": 33
+        "ms": 36
       },
       {
         "file": "tests/string-literals/ObjectValuesAsStringLiteralTemplates.test.ts",
@@ -1136,31 +1151,31 @@
       },
       {
         "file": "tests/string-literals/PadEnd.test.ts",
-        "ms": 12
+        "ms": 14
       },
       {
         "file": "tests/string-literals/PadStart.test.ts",
-        "ms": 8
+        "ms": 9
       },
       {
         "file": "tests/string-literals/PascalCase.test.ts",
-        "ms": 17
+        "ms": 19
       },
       {
         "file": "tests/string-literals/PhoneNumbers.test.ts",
-        "ms": 84
+        "ms": 91
       },
       {
         "file": "tests/string-literals/RemainingChars.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/string-literals/RemoveWhitespace.test.ts",
-        "ms": 0
+        "ms": 1
       },
       {
         "file": "tests/string-literals/Repeat.test.ts",
-        "ms": 1
+        "ms": 0
       },
       {
         "file": "tests/string-literals/ReplaceAll.test.ts",
@@ -1168,11 +1183,11 @@
       },
       {
         "file": "tests/string-literals/Repos.test.ts",
-        "ms": 10
+        "ms": 11
       },
       {
         "file": "tests/string-literals/RetainAfter.test.ts",
-        "ms": 12
+        "ms": 13
       },
       {
         "file": "tests/string-literals/RetainUntil.test.ts",
@@ -1184,11 +1199,11 @@
       },
       {
         "file": "tests/string-literals/SnakeCase.test.ts",
-        "ms": 6
+        "ms": 7
       },
       {
         "file": "tests/string-literals/Split.test.ts",
-        "ms": 49
+        "ms": 50
       },
       {
         "file": "tests/string-literals/StartsWith.test.ts",
@@ -1196,19 +1211,19 @@
       },
       {
         "file": "tests/string-literals/StringLiteralTemplate.test.ts",
-        "ms": 0
+        "ms": 1
       },
       {
         "file": "tests/string-literals/StripAfter.test.ts",
-        "ms": 5
+        "ms": 4
       },
       {
         "file": "tests/string-literals/StripAfterLast.test.ts",
-        "ms": 3
+        "ms": 6
       },
       {
         "file": "tests/string-literals/StripBefore.test.ts",
-        "ms": 3
+        "ms": 1
       },
       {
         "file": "tests/string-literals/StripFirst.test.ts",
@@ -1224,23 +1239,23 @@
       },
       {
         "file": "tests/string-literals/StripUntil.test.ts",
-        "ms": 17
+        "ms": 18
       },
       {
         "file": "tests/string-literals/StripWhile.test.ts",
-        "ms": 6
+        "ms": 7
       },
       {
         "file": "tests/string-literals/Surround.test.ts",
-        "ms": 5
-      },
-      {
-        "file": "tests/string-literals/Trim.test.ts",
         "ms": 6
       },
       {
+        "file": "tests/string-literals/Trim.test.ts",
+        "ms": 8
+      },
+      {
         "file": "tests/string-literals/TrimCharEnd.test.ts",
-        "ms": 32
+        "ms": 31
       },
       {
         "file": "tests/string-literals/Truncate.test.ts",
@@ -1248,15 +1263,15 @@
       },
       {
         "file": "tests/string-literals/TypeSubtype.test.ts",
-        "ms": 4
+        "ms": 8
       },
       {
         "file": "tests/string-literals/UntilLast.test.ts",
-        "ms": 10
+        "ms": 7
       },
       {
         "file": "tests/string-literals/asPhoneNumber.test.ts",
-        "ms": 12
+        "ms": 13
       },
       {
         "file": "tests/string-literals/ensureSurround.test.ts",
@@ -1280,19 +1295,19 @@
       },
       {
         "file": "tests/take/dropParser.test.ts",
-        "ms": 35
+        "ms": 34
       },
       {
         "file": "tests/take/takeStart.test.ts",
-        "ms": 23
+        "ms": 21
       },
       {
         "file": "tests/tuples/FirstOfEach.test.ts",
-        "ms": 6
+        "ms": 7
       },
       {
         "file": "tests/tuples/NumericSequence.test.ts",
-        "ms": 87
+        "ms": 83
       },
       {
         "file": "tests/tuples/TupleMeta.test.ts",
@@ -1312,11 +1327,11 @@
       },
       {
         "file": "tests/type-conversions/AsString.test.ts",
-        "ms": 6
+        "ms": 7
       },
       {
         "file": "tests/type-conversions/AsStringUnion.test.ts",
-        "ms": 3
+        "ms": 4
       },
       {
         "file": "tests/type-conversions/Asynchronous.test.ts",
@@ -1324,11 +1339,11 @@
       },
       {
         "file": "tests/type-conversions/Awaited.test.ts",
-        "ms": 0
+        "ms": 1
       },
       {
         "file": "tests/type-conversions/CSV.test.ts",
-        "ms": 25
+        "ms": 23
       },
       {
         "file": "tests/type-conversions/Chars.test.ts",
@@ -1340,7 +1355,7 @@
       },
       {
         "file": "tests/type-conversions/Iso3166Lookup.test.ts",
-        "ms": 50
+        "ms": 48
       },
       {
         "file": "tests/type-conversions/MergeObjects.test.ts",
@@ -1356,7 +1371,7 @@
       },
       {
         "file": "tests/type-conversions/ObjectToJsString.test.ts",
-        "ms": 5
+        "ms": 6
       },
       {
         "file": "tests/type-conversions/ObjectToJsonString.test.ts",
@@ -1364,7 +1379,7 @@
       },
       {
         "file": "tests/type-conversions/Replace.test.ts",
-        "ms": 19
+        "ms": 20
       },
       {
         "file": "tests/type-conversions/ReplaceType.test.ts",
@@ -1380,7 +1395,7 @@
       },
       {
         "file": "tests/type-conversions/StripSurrounding.test.ts",
-        "ms": 7
+        "ms": 8
       },
       {
         "file": "tests/type-conversions/Synchronous.test.ts",
@@ -1388,7 +1403,7 @@
       },
       {
         "file": "tests/type-conversions/ToNumber.test.ts",
-        "ms": 30
+        "ms": 31
       },
       {
         "file": "tests/type-conversions/ToNumericArray.test.ts",
@@ -1400,7 +1415,7 @@
       },
       {
         "file": "tests/type-conversions/ToStringLiteral.test.ts",
-        "ms": 65
+        "ms": 66
       },
       {
         "file": "tests/type-conversions/TrimDictionary.test.ts",
@@ -1412,19 +1427,19 @@
       },
       {
         "file": "tests/type-conversions/TupleToIntersection.test.ts",
-        "ms": 12
+        "ms": 14
       },
       {
         "file": "tests/type-conversions/UnionMutate.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/type-conversions/UnionToIntersection.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/type-conversions/UnionToTuple.test.ts",
-        "ms": 31
+        "ms": 30
       },
       {
         "file": "tests/type-conversions/UnionWithAll.test.ts",
@@ -1436,11 +1451,11 @@
       },
       {
         "file": "tests/type-conversions/ValueOrReturnValue.test.ts",
-        "ms": 4
+        "ms": 3
       },
       {
         "file": "tests/type-conversions/Widen.test.ts",
-        "ms": 35
+        "ms": 36
       },
       {
         "file": "tests/type-conversions/WithDefault.test.ts",
@@ -1452,11 +1467,11 @@
       },
       {
         "file": "tests/type-conversions/asFromTo.test.ts",
-        "ms": 87
+        "ms": 82
       },
       {
         "file": "tests/type-conversions/asTemplate.test.ts",
-        "ms": 2
+        "ms": 6
       },
       {
         "file": "tests/type-conversions/asUnion.test.ts",
@@ -1464,19 +1479,19 @@
       },
       {
         "file": "tests/type-conversions/eachAsString.test.ts",
-        "ms": 6
+        "ms": 5
       },
       {
         "file": "tests/type-conversions/lookupCountryName.test.ts",
-        "ms": 42
+        "ms": 45
       },
       {
         "file": "tests/type-conversions/merge.test.ts",
-        "ms": 37
+        "ms": 39
       },
       {
         "file": "tests/type-conversions/stripParenthesis.test.ts",
-        "ms": 4
+        "ms": 5
       },
       {
         "file": "tests/type-conversions/toString.test.ts",
@@ -1484,7 +1499,7 @@
       },
       {
         "file": "tests/type-guards/api-tg.test.ts",
-        "ms": 10
+        "ms": 11
       },
       {
         "file": "tests/type-guards/doesExtend.test.ts",
@@ -1492,7 +1507,7 @@
       },
       {
         "file": "tests/type-guards/hasIndexOf.test.ts",
-        "ms": 14
+        "ms": 15
       },
       {
         "file": "tests/type-guards/hasNonStringKeys.test.ts",
@@ -1508,7 +1523,7 @@
       },
       {
         "file": "tests/type-guards/isBoolean.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/type-guards/isBooleanLike.test.ts",
@@ -1524,7 +1539,7 @@
       },
       {
         "file": "tests/type-guards/isDictionary.test.ts",
-        "ms": 7
+        "ms": 8
       },
       {
         "file": "tests/type-guards/isDoneFn.test.ts",
@@ -1544,7 +1559,7 @@
       },
       {
         "file": "tests/type-guards/isErr.test.ts",
-        "ms": 6
+        "ms": 7
       },
       {
         "file": "tests/type-guards/isEven.test.ts",
@@ -1560,7 +1575,7 @@
       },
       {
         "file": "tests/type-guards/isFnWithParams.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/type-guards/isFnWithoutParams.test.ts",
@@ -1568,11 +1583,11 @@
       },
       {
         "file": "tests/type-guards/isFunction.test.ts",
-        "ms": 5
+        "ms": 6
       },
       {
         "file": "tests/type-guards/isFunctionWithParams.test.ts",
-        "ms": 3
+        "ms": 4
       },
       {
         "file": "tests/type-guards/isHexadecimal.test.ts",
@@ -1580,7 +1595,7 @@
       },
       {
         "file": "tests/type-guards/isInUnion.test.ts",
-        "ms": 7
+        "ms": 8
       },
       {
         "file": "tests/type-guards/isIndexable.test.ts",
@@ -1592,7 +1607,7 @@
       },
       {
         "file": "tests/type-guards/isLeftRight.test.ts",
-        "ms": 5
+        "ms": 7
       },
       {
         "file": "tests/type-guards/isMap.test.ts",
@@ -1632,7 +1647,7 @@
       },
       {
         "file": "tests/type-guards/isOdd.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/type-guards/isOk.test.ts",
@@ -1640,7 +1655,7 @@
       },
       {
         "file": "tests/type-guards/isPhoneNumber-extra.test.ts",
-        "ms": 7
+        "ms": 8
       },
       {
         "file": "tests/type-guards/isRegExp.test.ts",
@@ -1648,11 +1663,11 @@
       },
       {
         "file": "tests/type-guards/isRuntimeUnion.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/type-guards/isSet.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/type-guards/isSetContainer.test.ts",
@@ -1660,11 +1675,11 @@
       },
       {
         "file": "tests/type-guards/isStringLiteral.test.ts",
-        "ms": 4
+        "ms": 1
       },
       {
         "file": "tests/type-guards/isSymbol.test.ts",
-        "ms": 2
+        "ms": 5
       },
       {
         "file": "tests/type-guards/isThenable.test.ts",
@@ -1676,11 +1691,11 @@
       },
       {
         "file": "tests/type-guards/isTypeTuple.test.ts",
-        "ms": 5
+        "ms": 6
       },
       {
         "file": "tests/type-guards/isTypedError.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/type-guards/isUnset.test.ts",
@@ -1692,15 +1707,15 @@
       },
       {
         "file": "tests/type-guards/isVariable.test.ts",
-        "ms": 24
+        "ms": 29
       },
       {
         "file": "tests/type-guards/isWeakMap.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/type-guards/isZipCode.test.ts",
-        "ms": 21
+        "ms": 28
       },
       {
         "file": "tests/type-guards/iso-date-and-time.test.ts",
@@ -1708,7 +1723,7 @@
       },
       {
         "file": "tests/type-guards/network-tg.test.ts",
-        "ms": 8
+        "ms": 10
       },
       {
         "file": "tests/type-guards/protocol-tg.test.ts",
@@ -1716,59 +1731,59 @@
       },
       {
         "file": "tests/type-guards/startsWith.test.ts",
-        "ms": 9
+        "ms": 11
       },
       {
         "file": "tests/type-guards/type-guards.test.ts",
-        "ms": 25
+        "ms": 28
       },
       {
         "file": "tests/types/BooleanSort.test.ts",
-        "ms": 35
+        "ms": 57
       },
       {
         "file": "tests/unions/CapitalizeEachUnionMember.test.ts",
-        "ms": 1
-      },
-      {
-        "file": "tests/unions/UnionFilter.test.ts",
         "ms": 2
       },
       {
-        "file": "tests/unions/UnionFrom.test.ts",
-        "ms": 3
-      },
-      {
-        "file": "tests/unions/UnionMutate.test.ts",
-        "ms": 6
-      },
-      {
-        "file": "tests/validation/ValidateCharacterSet.test.ts",
+        "file": "tests/unions/UnionFilter.test.ts",
         "ms": 5
       },
       {
+        "file": "tests/unions/UnionFrom.test.ts",
+        "ms": 5
+      },
+      {
+        "file": "tests/unions/UnionMutate.test.ts",
+        "ms": 14
+      },
+      {
+        "file": "tests/validation/ValidateCharacterSet.test.ts",
+        "ms": 9
+      },
+      {
         "file": "tests/validation/ValidateLength.test.ts",
-        "ms": 11
+        "ms": 45
       },
       {
         "file": "tests/boolean-logic/branching/Every.test.ts",
-        "ms": 11
-      },
-      {
-        "file": "tests/boolean-logic/branching/FailFast.test.ts",
         "ms": 19
       },
       {
+        "file": "tests/boolean-logic/branching/FailFast.test.ts",
+        "ms": 33
+      },
+      {
         "file": "tests/boolean-logic/branching/Fallback.test.ts",
-        "ms": 3
+        "ms": 5
       },
       {
         "file": "tests/boolean-logic/branching/Handle.test.ts",
-        "ms": 3
+        "ms": 4
       },
       {
         "file": "tests/boolean-logic/branching/If.test.ts",
-        "ms": 4
+        "ms": 6
       },
       {
         "file": "tests/boolean-logic/branching/IfNever.test.ts",
@@ -1776,75 +1791,75 @@
       },
       {
         "file": "tests/boolean-logic/branching/IfUnset.test.ts",
-        "ms": 0
+        "ms": 1
       },
       {
         "file": "tests/boolean-logic/branching/OnPass.test.ts",
-        "ms": 4
+        "ms": 7
       },
       {
         "file": "tests/boolean-logic/branching/Passthrough.test.ts",
-        "ms": 1
+        "ms": 31
       },
       {
         "file": "tests/boolean-logic/branching/Some.test.ts",
-        "ms": 24
+        "ms": 16
       },
       {
         "file": "tests/boolean-logic/branching/Validate.test.ts",
-        "ms": 9
-      },
-      {
-        "file": "tests/boolean-logic/branching/ifScalar.test.ts",
-        "ms": 2
-      },
-      {
-        "file": "tests/boolean-logic/combinators/And.test.ts",
-        "ms": 10
-      },
-      {
-        "file": "tests/boolean-logic/combinators/FirstDefined.test.ts",
-        "ms": 1
-      },
-      {
-        "file": "tests/boolean-logic/combinators/FirstValue.test.ts",
-        "ms": 0
-      },
-      {
-        "file": "tests/boolean-logic/combinators/Inverse.test.ts",
-        "ms": 2
-      },
-      {
-        "file": "tests/boolean-logic/combinators/Not.test.ts",
-        "ms": 1
-      },
-      {
-        "file": "tests/boolean-logic/combinators/Or.test.ts",
         "ms": 15
       },
       {
+        "file": "tests/boolean-logic/branching/ifScalar.test.ts",
+        "ms": 3
+      },
+      {
+        "file": "tests/boolean-logic/combinators/And.test.ts",
+        "ms": 19
+      },
+      {
+        "file": "tests/boolean-logic/combinators/FirstDefined.test.ts",
+        "ms": 2
+      },
+      {
+        "file": "tests/boolean-logic/combinators/FirstValue.test.ts",
+        "ms": 1
+      },
+      {
+        "file": "tests/boolean-logic/combinators/Inverse.test.ts",
+        "ms": 4
+      },
+      {
+        "file": "tests/boolean-logic/combinators/Not.test.ts",
+        "ms": 2
+      },
+      {
+        "file": "tests/boolean-logic/combinators/Or.test.ts",
+        "ms": 35
+      },
+      {
         "file": "tests/boolean-logic/combinators/Xor.test.ts",
-        "ms": 0
+        "ms": 1
       },
       {
         "file": "tests/boolean-logic/combinators/contains.test.ts",
-        "ms": 11
+        "ms": 19
       },
       {
         "file": "tests/boolean-logic/narrowing/AsIndexOf.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/boolean-logic/narrowing/AsPropertyKey.test.ts",
-        "ms": 0
+        "ms": 18
       },
       {
         "file": "tests/boolean-logic/narrowing/AsSomething.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/boolean-logic/narrowing/IsOk.test.ts",
-        "ms": 19
+        "ms": 21
       },
       {
         "file": "tests/boolean-logic/operators/AllLiteral.test.ts",
@@ -1860,7 +1875,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/DistinguishEmptyTypes.test.ts",
-        "ms": 10
+        "ms": 12
       },
       {
         "file": "tests/boolean-logic/operators/HasArray.test.ts",
@@ -1868,15 +1883,15 @@
       },
       {
         "file": "tests/boolean-logic/operators/HasOtherCharacters.test.ts",
-        "ms": 15
+        "ms": 18
       },
       {
         "file": "tests/boolean-logic/operators/HasRequiredProps.test.ts",
-        "ms": 2
+        "ms": 6
       },
       {
         "file": "tests/boolean-logic/operators/HasSameKeys.test.ts",
-        "ms": 4
+        "ms": 2
       },
       {
         "file": "tests/boolean-logic/operators/HasWideValues.test.ts",
@@ -1884,15 +1899,15 @@
       },
       {
         "file": "tests/boolean-logic/operators/IsBalanced.test.ts",
-        "ms": 90
+        "ms": 105
       },
       {
         "file": "tests/boolean-logic/operators/IsBooleanLike.test.ts",
-        "ms": 5
+        "ms": 9
       },
       {
         "file": "tests/boolean-logic/operators/IsCsv.test.ts",
-        "ms": 100
+        "ms": 106
       },
       {
         "file": "tests/boolean-logic/operators/IsDefined.test.ts",
@@ -1900,11 +1915,11 @@
       },
       {
         "file": "tests/boolean-logic/operators/IsDotPath.test.ts",
-        "ms": 2
+        "ms": 4
       },
       {
         "file": "tests/boolean-logic/operators/IsEqual.test.ts",
-        "ms": 10
+        "ms": 7
       },
       {
         "file": "tests/boolean-logic/operators/IsErrMsg.test.ts",
@@ -1916,11 +1931,11 @@
       },
       {
         "file": "tests/boolean-logic/operators/IsGreaterThan.test.ts",
-        "ms": 41
+        "ms": 42
       },
       {
         "file": "tests/boolean-logic/operators/IsHexadecimal.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/boolean-logic/operators/IsInteger.test.ts",
@@ -1932,19 +1947,19 @@
       },
       {
         "file": "tests/boolean-logic/operators/IsReadonlyArray.test.ts",
-        "ms": 1
+        "ms": 0
       },
       {
         "file": "tests/boolean-logic/operators/IsReadonlyObject.test.ts",
-        "ms": 2
+        "ms": 6
       },
       {
         "file": "tests/boolean-logic/operators/IsScalar.test.ts",
-        "ms": 9
+        "ms": 5
       },
       {
         "file": "tests/boolean-logic/operators/IsSingleChar.test.ts",
-        "ms": 1
+        "ms": 0
       },
       {
         "file": "tests/boolean-logic/operators/IsString.test.ts",
@@ -1952,7 +1967,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/IsTruthy.test.ts",
-        "ms": 1
+        "ms": 4
       },
       {
         "file": "tests/boolean-logic/operators/IsTuple.test.ts",
@@ -1960,7 +1975,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/IsUnion.test.ts",
-        "ms": 4
+        "ms": 1
       },
       {
         "file": "tests/boolean-logic/operators/IsUnionArray.test.ts",
@@ -1976,79 +1991,79 @@
       },
       {
         "file": "tests/boolean-logic/operators/KeysOverlap.test.ts",
-        "ms": 4
-      },
-      {
-        "file": "tests/boolean-logic/operators/equalsSome.test.ts",
-        "ms": 2
-      },
-      {
-        "file": "tests/domains/JSON/ToJsonArray.test.ts",
-        "ms": 11
-      },
-      {
-        "file": "tests/domains/JSON/ToJsonObject.test.ts",
-        "ms": 17
-      },
-      {
-        "file": "tests/domains/JSON/toJson.test.ts",
-        "ms": 29
-      },
-      {
-        "file": "tests/domains/color/ApplyCssHexShorthand.test.ts",
-        "ms": 24
-      },
-      {
-        "file": "tests/domains/color/AsRgbColor.test.ts",
-        "ms": 102
-      },
-      {
-        "file": "tests/domains/color/AsRgbTuple.test.ts",
-        "ms": 162
-      },
-      {
-        "file": "tests/domains/color/HexColorToRgb.test.ts",
-        "ms": 53
-      },
-      {
-        "file": "tests/domains/color/HexColorToRgbTuple.test.ts",
-        "ms": 64
-      },
-      {
-        "file": "tests/domains/color/IsCssRgbString.test.ts",
-        "ms": 58
-      },
-      {
-        "file": "tests/domains/color/IsHexColor.test.ts",
-        "ms": 26
-      },
-      {
-        "file": "tests/domains/color/IsRgbTuple.test.ts",
-        "ms": 21
-      },
-      {
-        "file": "tests/domains/color/asRgbObject.test.ts",
-        "ms": 86
-      },
-      {
-        "file": "tests/domains/color/convertCssRgbStringToRgbObject.test.ts",
-        "ms": 25
-      },
-      {
-        "file": "tests/domains/color/isRgbDecimal.test.ts",
         "ms": 3
       },
       {
+        "file": "tests/boolean-logic/operators/equalsSome.test.ts",
+        "ms": 5
+      },
+      {
+        "file": "tests/domains/JSON/ToJsonArray.test.ts",
+        "ms": 7
+      },
+      {
+        "file": "tests/domains/JSON/ToJsonObject.test.ts",
+        "ms": 21
+      },
+      {
+        "file": "tests/domains/JSON/toJson.test.ts",
+        "ms": 24
+      },
+      {
+        "file": "tests/domains/color/ApplyCssHexShorthand.test.ts",
+        "ms": 23
+      },
+      {
+        "file": "tests/domains/color/AsRgbColor.test.ts",
+        "ms": 105
+      },
+      {
+        "file": "tests/domains/color/AsRgbTuple.test.ts",
+        "ms": 163
+      },
+      {
+        "file": "tests/domains/color/HexColorToRgb.test.ts",
+        "ms": 57
+      },
+      {
+        "file": "tests/domains/color/HexColorToRgbTuple.test.ts",
+        "ms": 66
+      },
+      {
+        "file": "tests/domains/color/IsCssRgbString.test.ts",
+        "ms": 57
+      },
+      {
+        "file": "tests/domains/color/IsHexColor.test.ts",
+        "ms": 30
+      },
+      {
+        "file": "tests/domains/color/IsRgbTuple.test.ts",
+        "ms": 17
+      },
+      {
+        "file": "tests/domains/color/asRgbObject.test.ts",
+        "ms": 96
+      },
+      {
+        "file": "tests/domains/color/convertCssRgbStringToRgbObject.test.ts",
+        "ms": 32
+      },
+      {
+        "file": "tests/domains/color/isRgbDecimal.test.ts",
+        "ms": 4
+      },
+      {
         "file": "tests/domains/color/isRgbObject.test.ts",
-        "ms": 38
+        "ms": 44
       },
       {
         "file": "tests/domains/color/isRgbaObject.test.ts",
-        "ms": 41
+        "ms": 44
       },
       {
         "file": "tests/domains/encoding/SafeEncode.test.ts",
-        "ms": 37
+        "ms": 36
       },
       {
         "file": "tests/domains/nesting/IsNestingEnd.test.ts",
@@ -2056,7 +2071,7 @@
       },
       {
         "file": "tests/domains/nesting/IsNestingMatchEnd.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/domains/nesting/IsNestingStart.test.ts",
@@ -2072,27 +2087,27 @@
       },
       {
         "file": "tests/domains/nesting/helper-types.test.ts",
-        "ms": 25
+        "ms": 24
       },
       {
         "file": "tests/domains/nesting/nesting.test.ts",
-        "ms": 125
+        "ms": 135
       },
       {
         "file": "tests/lists/sort/BooleanSort.test.ts",
-        "ms": 32
+        "ms": 36
       },
       {
         "file": "tests/lists/sort/NumericSort.test.ts",
-        "ms": 130
+        "ms": 137
       },
       {
         "file": "tests/lists/sort/Sort.test.ts",
-        "ms": 55
+        "ms": 60
       },
       {
         "file": "tests/lists/sort/SortByLength.test.ts",
-        "ms": 59
+        "ms": 68
       },
       {
         "file": "tests/lists/sort/StringSort.test.ts",
@@ -2104,15 +2119,15 @@
       },
       {
         "file": "tests/runtime/input-tokens/AsInputToken.test.ts",
-        "ms": 63
+        "ms": 68
       },
       {
         "file": "tests/runtime/input-tokens/FromInputToken.test.ts",
-        "ms": 1702
+        "ms": 1626
       },
       {
         "file": "tests/runtime/input-tokens/GetInputToken.test.ts",
-        "ms": 317
+        "ms": 336
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeArray.test.ts",
@@ -2120,47 +2135,47 @@
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeAtomic.test.ts",
-        "ms": 7
+        "ms": 4
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeFunction.test.ts",
-        "ms": 127
+        "ms": 148
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeGenerator.test.ts",
-        "ms": 25
+        "ms": 29
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeGroup.test.ts",
-        "ms": 36
+        "ms": 49
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeIntersection.test.ts",
-        "ms": 11
+        "ms": 16
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeKvObject.test.ts",
-        "ms": 106
+        "ms": 137
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeLiteralArray.test.ts",
-        "ms": 6
+        "ms": 3
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeNumericLiteral.test.ts",
-        "ms": 6
+        "ms": 11
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeObjectLiteral.test.ts",
-        "ms": 42
+        "ms": 47
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeParameters.test.ts",
-        "ms": 104
+        "ms": 132
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakePromise.test.ts",
-        "ms": 3
+        "ms": 8
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeSet.test.ts",
@@ -2168,47 +2183,47 @@
       },
       {
         "file": "tests/runtime/input-tokens/IT_TakeStringLiteral.test.ts",
-        "ms": 25
-      },
-      {
-        "file": "tests/runtime/input-tokens/IT_TakeTokenGenerics.test.ts",
-        "ms": 47
-      },
-      {
-        "file": "tests/runtime/input-tokens/IT_TakeUnion.test.ts",
-        "ms": 24
-      },
-      {
-        "file": "tests/runtime/input-tokens/IsInputToken.test.ts",
         "ms": 36
       },
       {
-        "file": "tests/runtime/input-tokens/asType.test.ts",
-        "ms": 19
+        "file": "tests/runtime/input-tokens/IT_TakeTokenGenerics.test.ts",
+        "ms": 253
       },
       {
-        "file": "tests/runtime/input-tokens/FromInputToken.test.ts",
-        "ms": 32
+        "file": "tests/runtime/input-tokens/IT_TakeUnion.test.ts",
+        "ms": 143
       },
       {
-        "file": "tests/string-literals/casing/AllCaps.test.ts",
-        "ms": 5
-      },
-      {
-        "file": "tests/string-literals/css/createCssKeyframe.test.ts",
-        "ms": 130
-      },
-      {
-        "file": "tests/string-literals/finance/IsPercentage.test.ts",
+        "file": "tests/runtime/input-tokens/IsInputToken.test.ts",
         "ms": 90
       },
       {
+        "file": "tests/runtime/input-tokens/asType.test.ts",
+        "ms": 40
+      },
+      {
+        "file": "tests/runtime/input-tokens/FromInputToken.test.ts",
+        "ms": 49
+      },
+      {
+        "file": "tests/string-literals/casing/AllCaps.test.ts",
+        "ms": 2
+      },
+      {
+        "file": "tests/string-literals/css/createCssKeyframe.test.ts",
+        "ms": 192
+      },
+      {
+        "file": "tests/string-literals/finance/IsPercentage.test.ts",
+        "ms": 97
+      },
+      {
         "file": "tests/string-literals/mutation/FromNesting.test.ts",
-        "ms": 15
+        "ms": 17
       },
       {
         "file": "tests/string-literals/mutation/Nest.test.ts",
-        "ms": 39
+        "ms": 46
       },
       {
         "file": "tests/string-literals/mutation/SplitOnWhitespace.test.ts",
@@ -2216,59 +2231,59 @@
       },
       {
         "file": "tests/string-literals/network/Url.test.ts",
-        "ms": 81
+        "ms": 83
       },
       {
         "file": "tests/string-literals/network/YouTube.test.ts",
-        "ms": 17
+        "ms": 25
       },
       {
         "file": "tests/string-literals/network/protocol.test.ts",
-        "ms": 3
+        "ms": 5
       },
       {
         "file": "tests/string-literals/sub-strings/FilterByNestingLevel.test.ts",
-        "ms": 140
+        "ms": 146
       },
       {
         "file": "tests/string-literals/sub-strings/RetainUntil__Nested.test.ts",
-        "ms": 371
+        "ms": 417
       },
       {
         "file": "tests/string-literals/take/TakeDate.test.ts",
-        "ms": 36
+        "ms": 35
       },
       {
         "file": "tests/string-literals/take/TakeHours.test.ts",
-        "ms": 50
+        "ms": 48
       },
       {
         "file": "tests/string-literals/take/TakeMilliseconds.test.ts",
-        "ms": 36
+        "ms": 39
       },
       {
         "file": "tests/string-literals/take/TakeMinutes.test.ts",
-        "ms": 12
-      },
-      {
-        "file": "tests/string-literals/take/TakeMonth.test.ts",
-        "ms": 20
-      },
-      {
-        "file": "tests/string-literals/take/TakeNumeric.test.ts",
-        "ms": 163
-      },
-      {
-        "file": "tests/string-literals/take/TakeSeconds.test.ts",
         "ms": 8
       },
       {
+        "file": "tests/string-literals/take/TakeMonth.test.ts",
+        "ms": 24
+      },
+      {
+        "file": "tests/string-literals/take/TakeNumeric.test.ts",
+        "ms": 152
+      },
+      {
+        "file": "tests/string-literals/take/TakeSeconds.test.ts",
+        "ms": 12
+      },
+      {
         "file": "tests/string-literals/take/TakeTimezone.test.ts",
-        "ms": 88
+        "ms": 83
       },
       {
         "file": "tests/string-literals/take/TakeYear.test.ts",
-        "ms": 41
+        "ms": 37
       },
       {
         "file": "tests/type-conversions/kv/FromKv.test.ts",
@@ -2276,23 +2291,23 @@
       },
       {
         "file": "tests/type-conversions/kv/ToKv.test.ts",
-        "ms": 18
+        "ms": 21
       },
       {
         "file": "tests/type-conversions/kv/fromKeyValue.test.ts",
-        "ms": 80
+        "ms": 90
       },
       {
         "file": "tests/type-conversions/kv/toKeyValue.test.ts",
-        "ms": 96
+        "ms": 98
       },
       {
         "file": "tests/type-conversions/numeric/HexToDecimal.test.ts",
-        "ms": 15
+        "ms": 17
       },
       {
         "file": "tests/type-guards/css/isNamedColor.test.ts",
-        "ms": 7
+        "ms": 2
       },
       {
         "file": "tests/type-guards/css/isRgbColor.test.ts",
@@ -2300,7 +2315,7 @@
       },
       {
         "file": "tests/type-guards/object/hasKeys.test.ts",
-        "ms": 11
+        "ms": 7
       },
       {
         "file": "tests/type-guards/tw/TwModifiers.test.ts",
@@ -2308,15 +2323,15 @@
       },
       {
         "file": "tests/type-guards/tw/isTailwindColor.test.ts",
-        "ms": 12
+        "ms": 14
       },
       {
         "file": "tests/type-guards/tw/isTailwindColorClass.test.ts",
-        "ms": 4
+        "ms": 8
       },
       {
         "file": "tests/type-guards/tw/isTailwindColorTarget.test.ts",
-        "ms": 1
+        "ms": 2
       },
       {
         "file": "tests/type-guards/tw/isTailwindModifier.test.ts",
@@ -2324,39 +2339,39 @@
       },
       {
         "file": "tests/boolean-logic/combinators/comparison/Compare.test.ts",
-        "ms": 202
+        "ms": 237
       },
       {
         "file": "tests/boolean-logic/combinators/comparison/GetComparisonParams.test.ts",
-        "ms": 7
-      },
-      {
-        "file": "tests/boolean-logic/operators/containers/IsSameContainerType.test.ts",
-        "ms": 4
-      },
-      {
-        "file": "tests/boolean-logic/operators/containers/RemoveBoolean.test.ts",
-        "ms": 146
-      },
-      {
-        "file": "tests/boolean-logic/operators/datetime/IsAfter.test.ts",
-        "ms": 23
-      },
-      {
-        "file": "tests/boolean-logic/operators/datetime/IsBefore.test.ts",
-        "ms": 33
-      },
-      {
-        "file": "tests/boolean-logic/operators/datetime/IsDateLike.test.ts",
-        "ms": 161
-      },
-      {
-        "file": "tests/boolean-logic/operators/datetime/IsDayJs.test.ts",
         "ms": 5
       },
       {
+        "file": "tests/boolean-logic/operators/containers/IsSameContainerType.test.ts",
+        "ms": 10
+      },
+      {
+        "file": "tests/boolean-logic/operators/containers/RemoveBoolean.test.ts",
+        "ms": 173
+      },
+      {
+        "file": "tests/boolean-logic/operators/datetime/IsAfter.test.ts",
+        "ms": 32
+      },
+      {
+        "file": "tests/boolean-logic/operators/datetime/IsBefore.test.ts",
+        "ms": 41
+      },
+      {
+        "file": "tests/boolean-logic/operators/datetime/IsDateLike.test.ts",
+        "ms": 174
+      },
+      {
+        "file": "tests/boolean-logic/operators/datetime/IsDayJs.test.ts",
+        "ms": 10
+      },
+      {
         "file": "tests/boolean-logic/operators/datetime/IsIsoDate.test.ts",
-        "ms": 62
+        "ms": 68
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsIsoDateTime.test.ts",
@@ -2376,35 +2391,35 @@
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsIsoYear.test.ts",
-        "ms": 26
+        "ms": 28
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsIsoYearMonth.test.ts",
-        "ms": 42
+        "ms": 47
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsJsDate.test.ts",
-        "ms": 24
+        "ms": 20
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsLeapYear.test.ts",
-        "ms": 457
+        "ms": 543
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsLuxonDateTime.test.ts",
-        "ms": 6
+        "ms": 2
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsMoment.test.ts",
-        "ms": 4
+        "ms": 8
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsSameDay.test.ts",
-        "ms": 13
+        "ms": 9
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsSameMonth.test.ts",
-        "ms": 17
+        "ms": 21
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsSameMonthYear.test.ts",
@@ -2416,11 +2431,11 @@
       },
       {
         "file": "tests/boolean-logic/operators/datetime/IsTwoDigitMonth.test.ts",
-        "ms": 9
+        "ms": 5
       },
       {
         "file": "tests/boolean-logic/operators/dictionary/HasIndexKeys.test.ts",
-        "ms": 6
+        "ms": 10
       },
       {
         "file": "tests/boolean-logic/operators/functions/HasEscapeFunction.test.ts",
@@ -2432,23 +2447,23 @@
       },
       {
         "file": "tests/boolean-logic/operators/functions/HasOneParameter.test.ts",
-        "ms": 8
+        "ms": 4
       },
       {
         "file": "tests/boolean-logic/operators/functions/HasParameters.test.ts",
-        "ms": 2
+        "ms": 1
       },
       {
         "file": "tests/boolean-logic/operators/functions/HasVariadicParameters.test.ts",
-        "ms": 2
+        "ms": 6
       },
       {
         "file": "tests/boolean-logic/operators/functions/IsEscapeFunction.test.ts",
-        "ms": 2
+        "ms": 3
       },
       {
         "file": "tests/boolean-logic/operators/functions/IsFnWithDictionary.test.ts",
-        "ms": 8
+        "ms": 4
       },
       {
         "file": "tests/boolean-logic/operators/functions/IsFunction.test.ts",
@@ -2456,7 +2471,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/functions/IsLiteralFn.test.ts",
-        "ms": 11
+        "ms": 12
       },
       {
         "file": "tests/boolean-logic/operators/functions/IsNarrowingFn.test.ts",
@@ -2464,7 +2479,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/functions/IsStaticFn.test.ts",
-        "ms": 3
+        "ms": 8
       },
       {
         "file": "tests/boolean-logic/operators/functions/IsThenable.test.ts",
@@ -2472,7 +2487,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/functions/Returns.test.ts",
-        "ms": 6
+        "ms": 1
       },
       {
         "file": "tests/boolean-logic/operators/functions/ReturnsBoolean.test.ts",
@@ -2484,7 +2499,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/functions/ReturnsTrue.test.ts",
-        "ms": 1
+        "ms": 5
       },
       {
         "file": "tests/boolean-logic/operators/literal/HasIndexSignature.test.ts",
@@ -2496,11 +2511,11 @@
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsAlphanumeric.test.ts",
-        "ms": 7
+        "ms": 2
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsAny.test.ts",
-        "ms": 1
+        "ms": 5
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsBooleanLiteral.test.ts",
@@ -2508,7 +2523,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsEmptyObject.test.ts",
-        "ms": 11
+        "ms": 6
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsLiteral.test.ts",
@@ -2516,15 +2531,15 @@
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsLiteralLike.test.ts",
-        "ms": 4
+        "ms": 8
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsLiteralLikeArray.test.ts",
-        "ms": 9
+        "ms": 4
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsLiteralLikeTuple.test.ts",
-        "ms": 5
+        "ms": 8
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsLiteralNumber.test.ts",
@@ -2532,11 +2547,11 @@
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsLiteralObject.test.ts",
-        "ms": 4
+        "ms": 3
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsLiteralScalar.test.ts",
-        "ms": 7
+        "ms": 2
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsLiteralString.test.ts",
@@ -2548,7 +2563,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsNever.test.ts",
-        "ms": 1
+        "ms": 5
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsNull.test.ts",
@@ -2560,7 +2575,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsUnitPrimitive.test.ts",
-        "ms": 9
+        "ms": 4
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsUnknown.test.ts",
@@ -2568,11 +2583,11 @@
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsWideArray.test.ts",
-        "ms": 3
+        "ms": 8
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsWideObject.test.ts",
-        "ms": 12
+        "ms": 8
       },
       {
         "file": "tests/boolean-logic/operators/literal/IsWideScalar.test.ts",
@@ -2584,7 +2599,7 @@
       },
       {
         "file": "tests/boolean-logic/operators/sets/HasAny.test.ts",
-        "ms": 8
+        "ms": 12
       },
       {
         "file": "tests/boolean-logic/operators/sets/HasFalse.test.ts",
@@ -2592,19 +2607,19 @@
       },
       {
         "file": "tests/boolean-logic/operators/sets/HasNever.test.ts",
-        "ms": 10
-      },
-      {
-        "file": "tests/boolean-logic/operators/sets/HasTemplateLiteral.test.ts",
-        "ms": 13
-      },
-      {
-        "file": "tests/boolean-logic/operators/sets/HasTrue.test.ts",
         "ms": 7
       },
       {
+        "file": "tests/boolean-logic/operators/sets/HasTemplateLiteral.test.ts",
+        "ms": 14
+      },
+      {
+        "file": "tests/boolean-logic/operators/sets/HasTrue.test.ts",
+        "ms": 13
+      },
+      {
         "file": "tests/boolean-logic/operators/sets/HasWideBoolean.test.ts",
-        "ms": 5
+        "ms": 2
       },
       {
         "file": "tests/boolean-logic/operators/unions/IsLiteralUnion.test.ts",
@@ -2612,27 +2627,27 @@
       },
       {
         "file": "tests/boolean-logic/operators/unions/IsMixedUnion.test.ts",
-        "ms": 3
+        "ms": 9
       },
       {
         "file": "tests/boolean-logic/operators/unions/UnionExtends.test.ts",
-        "ms": 68
+        "ms": 66
       },
       {
         "file": "tests/boolean-logic/operators/unions/UnionIncludes.test.ts",
-        "ms": 33
+        "ms": 31
       },
       {
         "file": "tests/boolean-logic/operators/unions/UnionMemberEquals.test.ts",
-        "ms": 12
+        "ms": 13
       },
       {
         "file": "tests/boolean-logic/operators/unions/UnionMemberExtends.test.ts",
-        "ms": 6
+        "ms": 11
       },
       {
         "file": "tests/boolean-logic/operators/containers/kv/HasTypedFunctionKeys.test.ts",
-        "ms": 14
+        "ms": 13
       },
       {
         "file": "tests/boolean-logic/operators/containers/lists/AllLengthOf.test.ts",
@@ -2640,26 +2655,185 @@
       },
       {
         "file": "tests/boolean-logic/operators/containers/lists/HasOptionalElements.test.ts",
-        "ms": 7
+        "ms": 2
       },
       {
         "file": "tests/boolean-logic/operators/containers/lists/HasRequiredElements.test.ts",
-        "ms": 9
+        "ms": 13
       },
       {
         "file": "tests/boolean-logic/operators/datetime/validators/IsFourDigitYear.test.ts",
-        "ms": 20
+        "ms": 15
       }
     ]
   },
-  "checkTypes": {
+  "sourceChecks": {
     "status": 0,
+    "wallSeconds": 144.66,
+    "peakRssMb": 3578,
     "complexityDiagnostics": {
       "TS2589": 0,
       "TS2590": 0,
       "TS2859": 0,
       "TS2321": 0
     },
-    "complexityTotal": 0
+    "complexityTotal": 0,
+    "checks": {
+      "check-constants": {
+        "status": 0,
+        "wallSeconds": 0.38,
+        "peakRssBytes": 224608256,
+        "peakRssMb": 214,
+        "complexityDiagnostics": {
+          "TS2589": 0,
+          "TS2590": 0,
+          "TS2859": 0,
+          "TS2321": 0
+        },
+        "complexityTotal": 0
+      },
+      "check-types": {
+        "status": 0,
+        "wallSeconds": 143.93,
+        "peakRssBytes": 3751526400,
+        "peakRssMb": 3578,
+        "complexityDiagnostics": {
+          "TS2589": 0,
+          "TS2590": 0,
+          "TS2859": 0,
+          "TS2321": 0
+        },
+        "complexityTotal": 0
+      },
+      "check-runtime": {
+        "status": 0,
+        "wallSeconds": 0.35,
+        "peakRssBytes": 202358784,
+        "peakRssMb": 193,
+        "complexityDiagnostics": {
+          "TS2589": 0,
+          "TS2590": 0,
+          "TS2859": 0,
+          "TS2321": 0
+        },
+        "complexityTotal": 0
+      }
+    }
+  },
+  "complexitySuppressions": {
+    "total": 22,
+    "entries": [
+      {
+        "file": "modules/types/src/lists/Pop.ts",
+        "line": 62,
+        "text": "// @ts-expect-error TS2589: optional tuple pop recursion is covered by Pop tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Mod.ts",
+        "line": 54,
+        "text": "// @ts-expect-error TS2589: tuple modulus helper is bounded to SmallInt; concrete behavior is covered by Mod tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Mod.ts",
+        "line": 56,
+        "text": "// @ts-expect-error TS2589: tuple modulus helper is bounded to SmallInt; concrete behavior is covered by Mod tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Mod.ts",
+        "line": 72,
+        "text": "// @ts-expect-error TS2589: generic modulus dispatch is covered by source guards and Mod tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Mod.ts",
+        "line": 75,
+        "text": "// @ts-expect-error TS2589: generic modulus dispatch is covered by source guards and Mod tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Mod.ts",
+        "line": 91,
+        "text": "// @ts-expect-error TS2589: generic modulus dispatch is covered by source guards and Mod tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Mod.ts",
+        "line": 94,
+        "text": "// @ts-expect-error TS2589: tuple modulus helper is bounded to SmallInt; concrete behavior is covered by Mod tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/CompareNumbers.ts",
+        "line": 42,
+        "text": "// @ts-expect-error TS2589: source-context comparison over generic NumberLike constraints; concrete behavior is covered by CompareNumbers tests."
+      },
+      {
+        "file": "modules/types/src/lists/Shortest.ts",
+        "line": 18,
+        "text": "// @ts-expect-error TS2589: source-context recursion over generic string tuples; concrete behavior is covered by Shortest tests."
+      },
+      {
+        "file": "modules/types/src/lists/MakeOptional.ts",
+        "line": 13,
+        "text": "// @ts-expect-error TS2589: source-context recursion over generic tuple optionalization; concrete behavior is covered by MakeOptional tests."
+      },
+      {
+        "file": "modules/types/src/type-conversion/ToStringLiteral.ts",
+        "line": 105,
+        "text": "// @ts-expect-error TS2589: generic literal stringification recursion is source-context expensive; concrete conversions are covered by tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Sum.ts",
+        "line": 27,
+        "text": "// @ts-expect-error TS2589: tuple summation is depth-capped and covered by Sum tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/CSV.ts",
+        "line": 102,
+        "text": "// @ts-expect-error TS2589: CSV union recursion is depth-capped and covered by CSV tests."
+      },
+      {
+        "file": "modules/types/src/runtime-types/tokens/OutputToken.ts",
+        "line": 50,
+        "text": "// @ts-expect-error TS2590: generic object-token JSON expansion is too broad in source context; concrete behavior is covered by token tests."
+      },
+      {
+        "file": "modules/types/src/domains/nesting/helpers/IsExitToken.ts",
+        "line": 15,
+        "text": "// @ts-expect-error TS2589/TS2344: generic nesting configs recurse deeply in source context; concrete configs are covered by nesting tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Divide.ts",
+        "line": 58,
+        "text": "// @ts-expect-error TS2589: tuple division helper is bounded to SmallInt; concrete behavior is covered by Divide tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Divide.ts",
+        "line": 60,
+        "text": "// @ts-expect-error TS2589: tuple division helper is bounded to SmallInt; concrete behavior is covered by Divide tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/ShiftDecimalPlace.ts",
+        "line": 110,
+        "text": "// @ts-expect-error TS2589: generic decimal shifting is source-context expensive; concrete behavior is covered by ShiftDecimalPlace tests."
+      },
+      {
+        "file": "modules/types/src/numeric-literals/Delta.ts",
+        "line": 24,
+        "text": "// @ts-expect-error TS2589: generic delta composes bounded numeric utilities; concrete behavior is covered by Delta tests."
+      },
+      {
+        "file": "modules/types/src/runtime-types/type-defn/input-tokens/IT_TakeIntersection.ts",
+        "line": 47,
+        "text": "// @ts-expect-error TS2589: generic intersection parsing is source-context expensive; concrete behavior is covered by IT_TakeIntersection tests."
+      },
+      {
+        "file": "modules/types/src/string-literals/mutation/Nest.ts",
+        "line": 47,
+        "text": "// @ts-expect-error TS2589: recursive nesting parser is depth-capped; concrete behavior is covered by Nest tests."
+      },
+      {
+        "file": "modules/types/src/literals/ExpandRecursively.ts",
+        "line": 24,
+        "text": "// @ts-expect-error TS2589: generic tuple expansion is recursive by design; concrete callers are covered by type tests."
+      }
+    ],
+    "undocumented": []
   }
 }

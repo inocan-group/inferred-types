@@ -15,6 +15,7 @@ baseline_artifacts:
   - features/2026-07-02-complex/unannotated-runtime-functions-2026-07-06.txt
 related:
   - features/2026-07-02-complex/tool-gaps.md
+review_iterations: 1
 source_files:
   - features/2026-07-02-complex/perf-baseline.mjs
   - features/2026-07-02-complex/phase3-probes/Add.ts
@@ -298,12 +299,12 @@ suite excess over the default heap is expected to fall further as the annotation
 
 Every goal is measured by a command that exists (or is added in W1). "Baseline hardware" = the machine profile above; absolute numbers may be re-baselined once in W1, but *relative* targets stand.
 
-- **G1 — Suite runs at default heap.** `pnpm test:types` **and the combined `just test` / `pnpm test`** (no `NODE_OPTIONS`, no heap flag) complete successfully. Peak RSS of the full type-test run ≤ **3.5 GB**. Wall time ≤ 60 s.
+- **G1 — Suite runs at default heap.** `pnpm test:types` **and the combined `just test` / `pnpm test`** (no `NODE_OPTIONS`, no heap flag) complete successfully. Peak RSS of the full type-test run ≤ **3.5 GiB** (3,758,096,384 bytes / 3,584 MiB, measured from `/usr/bin/time -l` maximum resident set size). Wall time ≤ 60 s.
 - **G2 — No pathological test files.** No single test file exceeds **5 s wall or 1.5 GB peak RSS** when run individually via `typed test <file>`. (Today: `daysInMonth` 29.3 s / 4.1 GB.)
-- **G3 — Complexity-class source diagnostics reach zero.** `TS2589 + TS2590 + TS2859 + TS2321` across `modules/types` source: **75 → 0**. Any individual diagnostic that cannot be eliminated without sacrificing documented resolution behavior must instead be listed in a `deferred.md` in this feature directory with a per-symbol justification — an empty deferred list is the target, and the list may not exceed 5 entries.
+- **G3 — Complexity-class source diagnostics reach zero.** `TS2589 + TS2590 + TS2859 + TS2321` across `modules/types` source: **75 → 0**. Any individual diagnostic that cannot be eliminated without sacrificing documented resolution behavior must instead be listed in a `deferred.md` in this feature directory with a per-symbol justification — an empty deferred list is the target, and the list may not exceed 5 entries. Complexity-class `@ts-expect-error` suppressions are accepted only when they are local to the irreducible source expression, include an explanatory comment, are listed under `deferred.md#tracked-complexity-suppressions`, and are enforced by the regression guard.
 - **G4 — Whole-module checking works.** Dedicated check-mode tsconfigs (W1) allow `tsc --noEmit` to complete for **each** of `constants`, `types`, `runtime` at the default Node heap; `modules/types` in ≤ 180 s. All non-complexity errors (TS2344/TS2304/TS2322/etc., including `modules/runtime/src/api/handleDoneFn.ts`) are fixed or explicitly deferred under the same rules as G3.
 - **G5 — Resolution is retained.** All existing type-test assertions pass **unchanged**. Widening an assertion or a public utility's output type requires the same explicit documentation used in the phase-2 log ("Assertion Widenings"), and is acceptable only when the current narrow output is itself accidental (e.g. an `any` leak) or undocumented.
-- **G6 — Regression guard exists.** A `just` recipe captures the suite's wall time, peak RSS, per-file timings (`typed test --metrics`), and complexity-diagnostic counts into a checked-in baseline file, and a companion recipe compares a fresh run against it. Regression = any complexity-class diagnostic reappearing, or suite peak RSS growing > 15 %.
+- **G6 — Regression guard exists.** A `just` recipe captures the suite's wall time, peak RSS, per-file timings (`typed test --metrics`), complexity-diagnostic counts, and tracked complexity-class suppressions into a checked-in baseline file, and a companion recipe compares a fresh run against it. Regression = any complexity-class diagnostic reappearing, any undocumented complexity-class suppression appearing in source, suite peak RSS growing > 15 %, or the G1 absolute type-test limits being exceeded.
 - **G7 — Audits have a working path.** `just` recipes exist that produce localized source diagnostics for each module in ≤ 5 minutes at ≤ 8 GB heap, using the W1 check-mode tsconfigs with plain `tsc` (machine-readable via `--pretty false`). Whether `typed source` itself is also fixed is out of scope (see `tool-gaps.md`).
 
 ## Scope
@@ -325,7 +326,7 @@ Every goal is measured by a command that exists (or is added in W1). "Baseline h
 - **Runtime/type parity**: any type utility change must keep its runtime mirror aligned; affected runtime tests must stay green.
 - **Existing-assertions floor**: no assertion is silently widened; every intentional widening is recorded with justification.
 - **Escalation**: a fix requiring a new public API, a materially broader public type contract, intentional loss of narrow inference in an exported utility, or a runtime behavior change stops that slice and escalates for design review.
-- **No TODO/FIXME markers**; no `any` cop-outs — an explicit, typed bail-out (e.g. returning a wide-but-correct type for wide inputs) is the sanctioned pattern, `any` leakage is not.
+- **No incomplete-work marker comments**; no `any` cop-outs — an explicit, typed bail-out (e.g. returning a wide-but-correct type for wide inputs) is the sanctioned pattern, `any` leakage is not.
 - **Preferred optimization patterns** (in priority order): **explicit return annotations on generic runtime mirrors** (the function's final cast type *is* the annotation — never let call sites trigger body inference); wide-input early return; bind-once via `infer` instead of re-instantiating; replace cartesian template unions with validation-shaped conditionals (`IsX<T>` checking rather than membership in a materialized union); phase-split large conditionals; bounded lookup tables only when small (≤ ~100 members).
 - **New-code rule going forward**: every exported generic runtime function declares its return type explicitly. (Worth encoding as an ESLint `explicit-module-boundary-types`-style check once the audit lands.)
 

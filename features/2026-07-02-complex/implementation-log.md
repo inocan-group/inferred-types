@@ -9,4 +9,5 @@
 - Cleaned unused imports/locals surfaced by `just lint`.
 - Removed forbidden marker text from existing module comments and verified `rg -i "TODO|FIXME|XXX|HACK" modules/` is clean.
 - Refreshed `features/2026-07-02-complex/perf-baseline.json`; `just perf-compare` passes with zero complexity diagnostics.
-- Runtime whole-module `just check-runtime` remains deferred; see `deferred.md`.
+- Runtime whole-module `just check-runtime` now completes with the runtime
+  check-mode config.
