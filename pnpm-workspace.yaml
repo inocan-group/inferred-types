@@ -14,7 +14,7 @@ catalog:
   '@js-temporal/polyfill': ^0.5.1
   '@type-challenges/utils': ~0.1.1
   '@types/luxon': ^3.7.2
-  '@types/node': ^22.20.0
+  '@types/node': ^22.20.1
   '@typescript/analyze-trace': ^0.11.1
   '@typescript/native-preview': 7.0.0-dev.20251223.1
   '@vitest/ui': ^4.1.10
@@ -36,12 +36,13 @@ catalog:
   oxlint: ^1.73.0
   package-json-validator: ^1.5.2
   pathe: ^2.0.3
-  tsdown: ^0.22.3
+  taze: ^19.14.1
+  tsdown: ^0.22.4
   tsx: ^4.23.0
   typecheck: ^0.1.2
   typed-tester: ~0.13.2
   typescript: ^6.0.3
-  vite: ^8.1.3
+  vite: ^8.1.4
   vite-node: ^6.0.0
   vitest: ^4.1.10
   vue: ^3.5.39
@@ -53,7 +54,7 @@ overrides:
   "braces@<3.0.3": ">=3.0.3"
   "micromatch@<4.0.8": ">=4.0.8"
   "tar@<6.2.1": ">=6.2.1"
-  "vite@>=5.4.0 <=5.4.5": ">=5.4.6"
+  "vite@>=5.4.0 <=5.4.5": ">=5.4.21"
 publicHoistPattern:
   - '*vitest*'
   - vite-node

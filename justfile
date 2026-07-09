@@ -90,15 +90,16 @@ gem *args="":
 codex *args="":
     @claudine codex -y {{ args }}
 
-# the outdated dependencies in this repo
-outdated:
+# list outdated dependencies, incl. the catalog (read-only; mode: patch|minor|major|latest)
+outdated mode="major":
     @echo
-    @pnpm outdated || (echo "\n - updates available" && exit 0)
+    @node_modules/.bin/taze {{ mode }} -r
 
-# upgrade dependencies in the repo
-upgrade:
-    @pnpm upgrade
-    @pnpm outdated
+# upgrade dependencies + catalog, then install (mode: patch|minor|major|latest)
+upgrade mode="minor":
+    @echo
+    @node_modules/.bin/taze {{ mode }} -r -w
+    @pnpm install
 
 # use conventional commits to commit to git
 commit agent="opencode" *args="":

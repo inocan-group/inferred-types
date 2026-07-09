@@ -127,6 +127,7 @@
         "oxlint": "catalog:",
         "package-json-validator": "catalog:",
         "pathe": "catalog:",
+        "taze": "catalog:",
         "tsdown": "catalog:",
         "tsx": "catalog:",
         "typecheck": "catalog:",

@@ -30,8 +30,8 @@
     },
     "dependencies": {
         "@inferred-types/constants": "workspace:*",
-        "@inferred-types/types": "workspace:*",
-        "@inferred-types/runtime": "workspace:*"
+        "@inferred-types/runtime": "workspace:*",
+        "@inferred-types/types": "workspace:*"
     },
     "devDependencies": {
         "@type-challenges/utils": "catalog:",
