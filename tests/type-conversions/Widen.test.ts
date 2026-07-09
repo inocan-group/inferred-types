@@ -1,72 +1,81 @@
-import { IsNarrowingFn, NarrowingFn } from "inferred-types";
+// deno-lint-ignore-file no-explicit-any
 import type {
-    AsNarrowingFn,
+    IsNarrowingFn,
     Dictionary,
     EmptyObject,
     Expect,
     Test,
     Widen,
-    WidenFn,
     WidenFunction,
+    Returns,
+    FnMeta,
+    WidenFunc,
 } from "inferred-types/types";
 
 import { describe, it } from "vitest";
 
 describe("Widen<T>", () => {
     it("widen function", () => {
+        // a narrowing function which uses the generic to specify the return
         type BobNancy = <T extends "Bob" | "Nancy">(name: T) => `hi ${T}`;
-        type CS = AsNarrowingFn<Parameters<BobNancy>, string>;
 
-        type X = BobNancy extends Str ? true : false;
+        // Typescript's built-in ReturnType<T> utility has some surprising
+        // limits; in this case it returns `any` when ideally it would be
+        // `hi ${string}` or at least `string`!
+        type X = ReturnType<BobNancy>;
+        // however the FnMeta utility does a better job; not perfect maybe
+        // but at least we get back `string`!
+        type Y = FnMeta<BobNancy>["returns"];
 
-        type Str = <T extends "Bob" | "Nancy">(name: T) => string;
-        type Number = <T extends "Bob" | "Nancy">(name: T) => number;
-
-        type IsAny<T> = 0 extends 1 & T ? true : false;
-
-        type ReturnOf<F> =
-            // non-generic
-            [F] extends [(...a: any[]) => any]
-                ? ReturnType<F>
-                : // generic call sig (any # of type params)
-                  [F] extends [{ <T extends any>(...a: any[]): infer R }]
-                  ? R
-                  : never;
-
-        // Recursively grab the first candidate C where R <: C
-        type FirstAssignable<R, L extends readonly unknown[]> =
-            IsAny<R> extends true
-                ? unknown
-                : L extends readonly [infer H, ...infer T]
-                  ? [R] extends [H]
-                      ? H
-                      : FirstAssignable<R, T>
-                  : R;
-
-        type Candidates = [
-            string,
-            number,
-            boolean,
-            bigint,
-            symbol,
-            object,
-            void,
-            never,
-        ];
-        type WideReturn<F> = FirstAssignable<ReturnOf<F>, Candidates>;
-
-        type WR = WideReturn<BobNancy>;
-
+        // `IsNarrowingFn` now correctly reports `true` for a union-constrained
+        // generic whose type parameter is woven into a template-literal return
+        // (previously the `any`-collapse of `ReturnType` made it report `false`).
         type Narrowing = IsNarrowingFn<BobNancy>;
-        type Fn = WidenFunction<
-            Narrowing,
+
+        // `WidenFunction` is **deprecated**. It is handed the already-widened
+        // constituent parts of the function — crucially `ReturnType<BobNancy>`,
+        // which TypeScript has collapsed to `any`. With the template return
+        // already destroyed and the parameter pre-widened to `string`, the best
+        // it can produce is `<T extends readonly [string]>(...args: T) => string`.
+        // Prefer `WidenFunc`, which receives the whole function.
+        type W1 = WidenFunction<
+            true,
             Parameters<BobNancy>,
             ReturnType<BobNancy>,
             EmptyObject
         >;
-        type Fn2 = WidenFn<Str>;
 
-        type cases = [/** type tests */];
+        // The `WidenFunc` utility is both more ergonomic AND more correct: it
+        // keeps the narrow input constraint (`"Bob" | "Nancy"`), rebuilds the
+        // single-parameter narrowing form, and recovers the template-literal
+        // return as `hi ${string}` (via the shared prefix of the recovered
+        // `"hi Bob" | "hi Nancy"` union).
+        type W2 = WidenFunc<BobNancy>;
+
+        // we CAN determine the length of the parameters which is how
+        // `WidenFunc` rebuilds the correct single-parameter arity
+        type Num = FnMeta<BobNancy>["params"]["length"];
+
+        type cases = [
+            Expect<Test<Narrowing, "equals", true>>,
+            Expect<Test<Num, "equals", 1>>,
+            // deprecated `WidenFunction`: lossy result from pre-split inputs
+            Expect<
+                Test<
+                    W1,
+                    "equals",
+                    <T extends readonly [string]>(...args: T) => string
+                >
+            >,
+            // `WidenFunc`: ergonomic, arity-correct, template return recovered
+            Expect<
+                Test<
+                    W2,
+                    "equals",
+                    <T extends "Bob" | "Nancy">(x: T) => `hi ${string}`
+                >
+            >,
+        ];
     });
 
     it("happy path", () => {

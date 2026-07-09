@@ -2,7 +2,6 @@ import type {
     AnyFunction,
     Dictionary,
     EmptyObject,
-    IsEqual,
     IsNonEmptyObject,
     TypedFunction,
 } from "inferred-types/types";
@@ -43,10 +42,10 @@ export type AsStaticFn<
     ? StaticFn<TParams>
     : TParams extends readonly any[]
         ? IsNonEmptyObject<TProps> extends true
-            ? IsEqual<TParams, []> extends true
+            ? TParams["length"] extends 0
                 ? (() => TReturn) & TProps
                 : ((...args: TParams) => TReturn) & TProps
-            : IsEqual<TParams, []> extends true
+            : TParams["length"] extends 0
                 ? () => TReturn
                 : (...args: TParams) => TReturn
         : never;

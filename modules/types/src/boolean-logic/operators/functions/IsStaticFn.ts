@@ -8,8 +8,21 @@ import type {
     TypedFunction
 } from "inferred-types/types";
 
+/**
+ * Reconstructs a _non-generic_ function from `Fn`'s parameters and return type.
+ *
+ * The return type is normalized: when `ReturnType<Fn>` collapses to `any` — which
+ * TypeScript does for generic functions whose constraint is a **union** and whose
+ * return weaves the type parameter into a template literal (e.g.
+ * `<T extends "Bob" | "Nancy">(name: T) => `hi ${T}``) — we substitute `unknown`.
+ * Leaving `any` in place would let the reconstruction compare _equal_ to the
+ * original generic signature (an `any` return is bilaterally assignable), which
+ * would misclassify a narrowing function as static.
+ */
 type RegularFn<Fn> = Fn extends ((...args: any[]) => any)
-    ? (...args: Parameters<Fn>) => ReturnType<Fn>
+    ? (...args: Parameters<Fn>) => (
+        [IsAny<ReturnType<Fn>>] extends [true] ? unknown : ReturnType<Fn>
+    )
     : false;
 
 // Check if T has properties beyond being a function (i.e., is an intersection)
