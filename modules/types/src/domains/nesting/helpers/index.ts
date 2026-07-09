@@ -3,7 +3,6 @@ export * from "./GetNextLevelConfig";
 export * from "./GetParentConfig";
 export * from "./IsEntryToken";
 export * from "./IsExitToken";
-export * from "./isNamedNestingConfig";
 export * from "./IsNestingConfig";
 export * from "./IsNestingKeyValue";
 export * from "./IsNestingMatchEnd";

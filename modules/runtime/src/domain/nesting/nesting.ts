@@ -10,6 +10,7 @@ import {
     err,
     fallback,
     isError,
+    isNamedNestingConfig,
     isNestingKeyValue,
     isNestingTuple,
     isString,
@@ -17,10 +18,6 @@ import {
     nestedSplit,
     retainUntil__Nested
 } from "inferred-types/runtime";
-import {
-    isNamedNestingConfig
-
-} from "inferred-types/types";
 import { assignNamedConfig } from "./assignNamedConfig";
 
 /**

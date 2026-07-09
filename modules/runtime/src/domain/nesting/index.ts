@@ -1,4 +1,5 @@
 export * from "./createNestingConfig";
+export * from "./isNamedNestingConfig";
 export * from "./isNestingEnd";
 export * from "./isNestingEndMatch";
 export * from "./isNestingKeyValue";
