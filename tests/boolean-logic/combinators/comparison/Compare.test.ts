@@ -1,6 +1,6 @@
-// deno-lint-ignore-file no-explicit-any
+// deno-lint-ignore-file no-explicit-any ban-ts-comment
 import { describe, it, expect } from "vitest";
-import { compare, isStaticTemplate, startsWith } from "inferred-types/runtime";
+import { compare, isStaticTemplate } from "inferred-types/runtime";
 import type {
     Compare,
     Contains,
@@ -14,9 +14,8 @@ import type {
     IsSameDay,
     Test,
     UpperAlphaChar,
+    StartsWith,
 } from "inferred-types/types";
-
-import type { StartsWith } from "inferred-types";
 
 describe("Compare<TVal,TOp,TComparator> type util", () => {
     describe("general", () => {
@@ -435,7 +434,6 @@ describe("compare() runtime function", () => {
 
             type X = StartsWith<"Hello world", "Hello">;
 
-            const x = startsWith("Hello")("Hello World");
             const t1 = startsWithHello("Hello World");
             const f1 = startsWithHello("Hi World");
             const f2 = startsWithHello(123);
@@ -499,7 +497,6 @@ describe("compare() runtime function", () => {
             const t1 = startsWithNum("123test");
             const f1 = startsWithNum("test123");
 
-            // deno-lint-ignore ban-ts-comment
             // @ts-expect-error
             const b1 = startsWithNum("123" as unknown);
             const e1 = startsWithNum(123 as any);
@@ -570,7 +567,6 @@ describe("compare() runtime function", () => {
             expect((t2 as any) instanceof Error).toBe(false);
 
             // in these case both runtime and type system know it's false
-            // deno-lint-ignore ban-ts-comment
             // @ts-expect-error
             const f1 = isStaticTemplate(42);
             const f2 = compare("isTemplateLiteral")(42);

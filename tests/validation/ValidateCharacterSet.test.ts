@@ -1,10 +1,15 @@
-import { AlphaChar } from "inferred-types";
-import type { AlphanumericChar, Err, Expect, Test, ValidateCharacterSet } from "inferred-types/types";
+import type {
+    AlphaChar,
+    AlphanumericChar,
+    Err,
+    Expect,
+    Test,
+    ValidateCharacterSet,
+} from "inferred-types/types";
 
 import { describe, it } from "vitest";
 
 describe("ValidateCharacterSet<TContent,TCharset,[E]>", () => {
-
     it("Alpha characters", () => {
         type T1 = ValidateCharacterSet<"hello", AlphaChar>;
         type T2 = ValidateCharacterSet<"HeLLo", AlphaChar>;
@@ -13,7 +18,11 @@ describe("ValidateCharacterSet<TContent,TCharset,[E]>", () => {
         type F2 = ValidateCharacterSet<"Hell-o", AlphaChar>;
         type F3 = ValidateCharacterSet<"-Hello", AlphaChar>;
 
-        type E1 = ValidateCharacterSet<"Hello-", AlphaChar, Err<`invalid-char`>>;
+        type E1 = ValidateCharacterSet<
+            "Hello-",
+            AlphaChar,
+            Err<`invalid-char`>
+        >;
 
         type cases = [
             Expect<Test<T1, "equals", "hello">>,
@@ -28,14 +37,12 @@ describe("ValidateCharacterSet<TContent,TCharset,[E]>", () => {
     });
 
     it("AlphaNumericPlus", () => {
-        type T1 = ValidateCharacterSet<"123hello_", AlphanumericChar | "_">
-        type F1 = ValidateCharacterSet<"123hello_", AlphanumericChar | "-">
+        type T1 = ValidateCharacterSet<"123hello_", AlphanumericChar | "_">;
+        type F1 = ValidateCharacterSet<"123hello_", AlphanumericChar | "-">;
 
         type cases = [
             Expect<Test<T1, "equals", "123hello_">>,
             Expect<Test<F1, "isError", "invalid-character">>,
         ];
     });
-
 });
-

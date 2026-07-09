@@ -1,7 +1,10 @@
 import { describe, it } from "vitest";
-import type { Expect, IsWideObject, Keys, Test } from "inferred-types/types";
-
-import { EmptyObject } from "inferred-types";
+import type {
+    Expect,
+    IsWideObject,
+    EmptyObject,
+    Test,
+} from "inferred-types/types";
 
 describe("IsWideObject<T>", () => {
     it("should return true for wide object types", () => {
@@ -66,9 +69,7 @@ describe("IsWideObject<T>", () => {
     it("an empty object is NOT a wide object", () => {
         type F1 = IsWideObject<EmptyObject>;
 
-        type cases = [
-            Expect<Test<F1, "equals", false>>,
-        ];
+        type cases = [Expect<Test<F1, "equals", false>>];
     });
 
     it("should return false for non-object types", () => {

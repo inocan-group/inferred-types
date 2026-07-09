@@ -1,8 +1,12 @@
 // deno-lint-ignore-file ban-types
 import { describe, it } from "vitest";
-import type { DistinguishEmpty, Expect, Test } from "inferred-types/types";
-
-import type { EmptyObject, ExplicitlyEmptyObject } from "inferred-types";
+import type {
+    DistinguishEmpty,
+    Expect,
+    Test,
+    EmptyObject,
+    ExplicitlyEmptyObject,
+} from "inferred-types/types";
 
 // Import the types we're testing
 
@@ -112,7 +116,7 @@ describe("DistinguishEmptyTypes utilities", () => {
             type PartialNeverTest = DistinguishEmpty<{
                 [x: string]: never;
             }>["isNeverIndexed"];
-            // deno-lint-ignore ban-types
+
             type LiteralTest = DistinguishEmpty<{}>["isNeverIndexed"];
             type NonEmptyTest = DistinguishEmpty<{
                 foo: string;

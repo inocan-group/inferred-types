@@ -1,7 +1,11 @@
+// deno-lint-ignore-file no-explicit-any ban-types
 import { describe, it } from "vitest";
-import type { Expect, IsLiteralFn, Test } from "inferred-types/types";
-
-import { TypedFunction } from "inferred-types";
+import type {
+    Expect,
+    IsLiteralFn,
+    Test,
+    TypedFunction,
+} from "inferred-types/types";
 
 describe("IsLiteralFn<T>", () => {
     it("should return true for literal functions with literal parameters and return types", () => {
@@ -21,7 +25,7 @@ describe("IsLiteralFn<T>", () => {
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
             Expect<Test<T3, "equals", true>>,
-            Expect<Test<T4, "equals", true>>
+            Expect<Test<T4, "equals", true>>,
         ];
     });
 
@@ -38,12 +42,15 @@ describe("IsLiteralFn<T>", () => {
         type cases = [
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
-            Expect<Test<T3, "equals", true>>
+            Expect<Test<T3, "equals", true>>,
         ];
     });
 
     it("should return false with variadic parameters unless explicitly allowed for", () => {
-        type T1 = IsLiteralFn<(name: string, ...nickNames: string[]) => string, "allow-variadic-tail">;
+        type T1 = IsLiteralFn<
+            (name: string, ...nickNames: string[]) => string,
+            "allow-variadic-tail"
+        >;
         type F1 = IsLiteralFn<(name: string, ...nickNames: string[]) => string>;
 
         type cases = [
@@ -54,7 +61,7 @@ describe("IsLiteralFn<T>", () => {
 
     it("should return false when a wide array is used for parameters", () => {
         type F1 = IsLiteralFn<TypedFunction>;
-        type F2 = IsLiteralFn<((...params: any[]) => string)>;
+        type F2 = IsLiteralFn<(...params: any[]) => string>;
 
         type cases = [
             Expect<Test<F1, "equals", false>>,
@@ -75,7 +82,7 @@ describe("IsLiteralFn<T>", () => {
         type cases = [
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
-            Expect<Test<T3, "equals", true>>
+            Expect<Test<T3, "equals", true>>,
         ];
     });
 
@@ -93,7 +100,7 @@ describe("IsLiteralFn<T>", () => {
             Expect<Test<T3, "equals", false>>,
             Expect<Test<T4, "equals", false>>,
             Expect<Test<T5, "equals", false>>,
-            Expect<Test<T6, "equals", false>>
+            Expect<Test<T6, "equals", false>>,
         ];
     });
 
@@ -110,7 +117,7 @@ describe("IsLiteralFn<T>", () => {
         type cases = [
             Expect<Test<T1, "equals", false>>,
             Expect<Test<T2, "equals", false>>,
-            Expect<Test<T3, "equals", false>>
+            Expect<Test<T3, "equals", false>>,
         ];
     });
 
@@ -127,7 +134,7 @@ describe("IsLiteralFn<T>", () => {
         type cases = [
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
-            Expect<Test<T3, "equals", true>>
+            Expect<Test<T3, "equals", true>>,
         ];
     });
 });

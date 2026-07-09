@@ -1,8 +1,7 @@
+// deno-lint-ignore-file ban-ts-comment
 import { describe, expect, it } from "vitest";
 import { indexOf } from "inferred-types/runtime";
-import type { Expect, IndexOf, Test } from "inferred-types/types";
-
-import { Dictionary } from "inferred-types";
+import type { Dictionary, Expect, IndexOf, Test } from "inferred-types/types";
 
 describe("IndexOf<T>", () => {
     it("type tests", () => {
@@ -58,12 +57,10 @@ describe("IndexOf<T>", () => {
             Expect<Test<Arr, "equals", "oops">>,
             Expect<Test<Obj, "equals", "oops">>,
         ];
-        const cases: cases = [true, true];
     });
 
     it.todo("type tests for negative offsets", () => {
         type cases = [/** type tests */];
-        const cases: cases = [];
     });
 
     it("runtime", () => {

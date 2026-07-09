@@ -1,7 +1,7 @@
-import { Length } from "inferred-types";
 import type {
     DropVariadicTail,
     Expect,
+    Length,
     MaxSafeInteger,
     Test,
     TupleMeta,

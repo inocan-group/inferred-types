@@ -1,7 +1,10 @@
 import { describe, it } from "vitest";
-import type { Expect, IsIsoYear, Test } from "inferred-types/types";
-
-import type { EmptyObject } from "inferred-types";
+import type {
+    Expect,
+    IsIsoYear,
+    Test,
+    EmptyObject,
+} from "inferred-types/types";
 
 describe("IsIsoYear<T>", () => {
     it("valid 4-digit years", () => {

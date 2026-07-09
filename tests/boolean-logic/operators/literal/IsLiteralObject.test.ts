@@ -1,7 +1,10 @@
 import { describe, it } from "vitest";
-import type { Expect, IsLiteralObject, Test } from "inferred-types/types";
-
-import { EmptyObject } from "inferred-types";
+import type {
+    Expect,
+    IsLiteralObject,
+    Test,
+    EmptyObject,
+} from "inferred-types/types";
 
 describe("IsLiteralObject<T>", () => {
     it("should return true for literal objects", () => {
