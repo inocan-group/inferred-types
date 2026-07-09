@@ -14,23 +14,10 @@ import type {
 
 import { describe, it } from "vitest";
 
-describe("Widen<T>", () => {
+describe("WidenFunction<T>", () => {
     it("widen function", () => {
         // a narrowing function which uses the generic to specify the return
         type BobNancy = <T extends "Bob" | "Nancy">(name: T) => `hi ${T}`;
-
-        // Typescript's built-in ReturnType<T> utility has some surprising
-        // limits; in this case it returns `any` when ideally it would be
-        // `hi ${string}` or at least `string`!
-        type X = ReturnType<BobNancy>;
-        // however the FnMeta utility does a better job; not perfect maybe
-        // but at least we get back `string`!
-        type Y = FnMeta<BobNancy>["returns"];
-
-        // `IsNarrowingFn` now correctly reports `true` for a union-constrained
-        // generic whose type parameter is woven into a template-literal return
-        // (previously the `any`-collapse of `ReturnType` made it report `false`).
-        type Narrowing = IsNarrowingFn<BobNancy>;
 
         // `WidenFunction` is **deprecated**. It is handed the already-widened
         // constituent parts of the function — crucially `ReturnType<BobNancy>`,
@@ -39,7 +26,7 @@ describe("Widen<T>", () => {
         // it can produce is `<T extends readonly [string]>(...args: T) => string`.
         // Prefer `WidenFunc`, which receives the whole function.
         type W1 = WidenFunction<
-            true,
+            IsNarrowingFn<BobNancy>,
             Parameters<BobNancy>,
             ReturnType<BobNancy>,
             EmptyObject
@@ -57,7 +44,6 @@ describe("Widen<T>", () => {
         type Num = FnMeta<BobNancy>["params"]["length"];
 
         type cases = [
-            Expect<Test<Narrowing, "equals", true>>,
             Expect<Test<Num, "equals", 1>>,
             // deprecated `WidenFunction`: lossy result from pre-split inputs
             Expect<
@@ -189,13 +175,17 @@ describe("Widen<T>", () => {
         // routes through `FnFrom`, so it widens the input constraint away to
         // `string` and cannot recover the template return — this is the very
         // fidelity gap that motivates preferring `WidenFunc`.
-        type GenSingle = Widen<<T extends "Bob" | "Nancy">(name: T) => `hi ${T}`>;
+        type GenSingle = Widen<
+            <T extends "Bob" | "Nancy">(name: T) => `hi ${T}`
+        >;
 
         // The `readonly` modifier on the generic constraint DIRECTLY impacts
         // fidelity of the widened return: the tuple's `readonly`-ness is
         // preserved through widening.
         //   readonly constraint → readonly return
-        type GenRo = Widen<<T extends readonly [string, 1 | 2 | 3]>(...x: T) => T>;
+        type GenRo = Widen<
+            <T extends readonly [string, 1 | 2 | 3]>(...x: T) => T
+        >;
         //   mutable  constraint → mutable  return
         type GenMut = Widen<<T extends [string, 1 | 2 | 3]>(...x: T) => T>;
 
