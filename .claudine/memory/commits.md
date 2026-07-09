@@ -156,3 +156,27 @@ keeps the `R old -> new` form) or `git diff --staged --name-status`.
 
 > Source: Group 1 (`refactor(constants): rename tsdown.config.ts to tsdown.config.mjs`)
 > sub-agent, 2026-07-07.
+
+---
+
+## An empty `git status` after a `--only` commit is not always "I committed everything"
+
+When a sub-agent commits its assigned subset with `git commit --only -F - -- <paths>`
+and then runs `git status --short` to find the working tree fully clean, the instinctive
+fear is that the `--only` restriction failed and swept in sibling agents' files. In the
+parallel-orchestration pattern, the opposite is usually true: the sub-agent's commit
+landed correctly with only its pathspecs, and a *sibling* agent committed the remaining
+staged files concurrently in the seconds since, emptying the index.
+
+Recovery / verification: run `git log -N --stat` (or `git show --stat HEAD`) to confirm
+which files are in the most recent commits, rather than assuming something went wrong.
+Don't re-commit or attempt to "fix" the clean status — verify first.
+
+Concrete example from 2026-07-09: the `refactor(runtime): move isNamedNestingConfig…`
+sub-agent committed its 4 nesting files in `10630988`, then saw an empty `git status`.
+The `.npmrc` + `pnpm-lock.yaml` staged files had been committed by the parallel `chore`
+sub-agent in `6cd063f1` moments later, leaving the index clean. Both commits contained
+exactly their assigned files.
+
+> Source: Group 1 (`refactor(runtime): move isNamedNestingConfig helper to runtime module`)
+> sub-agent, 2026-07-09.
