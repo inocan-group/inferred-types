@@ -20,6 +20,7 @@ import type {
     IsLiteralLike,
     IsNarrowingFn,
     IsNonEmptyContainer,
+    IsReadonlyArray,
     IsUnion,
     IsWideArray,
     Keys,
@@ -44,13 +45,15 @@ export type WidenScalar<T extends Scalar> = T extends string
       ? number
       : T extends boolean
         ? boolean
-        : T extends symbol
-          ? symbol
-          : T extends null
-            ? null
-            : T extends undefined
-              ? undefined
-              : never;
+        : T extends bigint
+          ? bigint
+          : T extends symbol
+            ? symbol
+            : T extends null
+              ? null
+              : T extends undefined
+                ? undefined
+                : never;
 
 type Process<T> = T extends Scalar
     ? WidenScalar<T>
@@ -95,14 +98,32 @@ export type WidenLiteral<T> = T extends Scalar
           ? WidenDictionary<T, StringKeys<T>>
           : never;
 
-type WidenArray<
+/**
+ * Widens each element of a _fixed-length_ tuple, accumulating into `R`.
+ *
+ * The recursion peels elements with a **readonly** head/rest pattern so it
+ * matches both mutable and `readonly` tuples (a mutable-only pattern would
+ * fail to match a `readonly` tuple and collapse the result to `[]`).
+ */
+type WidenArrayInner<
     T extends readonly unknown[],
     R extends readonly unknown[] = [],
-> = number extends T["length"]
+> = T extends readonly [infer Head, ...infer Rest]
+    ? WidenArrayInner<Rest, [...R, Widen<Head>]>
+    : R;
+
+/**
+ * Widens the elements of an array/tuple `T` by one level while preserving its
+ * structure. _Wide_ (variadic-length) arrays pass through untouched; a
+ * fixed-length tuple has each element widened and its `readonly` modifier
+ * re-applied so that, e.g., `readonly [string, 1 | 2 | 3]` widens to
+ * `readonly [string, number]` (not the narrower mutable form).
+ */
+type WidenArray<T extends readonly unknown[]> = number extends T["length"]
     ? T
-    : T extends [infer Head, ...infer Rest]
-      ? WidenArray<Rest, [...R, Widen<Head>]>
-      : R;
+    : [IsReadonlyArray<T>] extends [true]
+        ? readonly [...WidenArrayInner<T>]
+        : WidenArrayInner<T>;
 
 type WidenFnProps<
     TObj extends Dictionary,
