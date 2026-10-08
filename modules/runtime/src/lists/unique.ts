@@ -1,17 +1,6 @@
 import type { Unique } from "inferred-types/types";
 
 /**
- * Helper to check if two values are the same, with special handling for NaN
- */
-function isSameValue(a: unknown, b: unknown): boolean {
-    // Handle NaN specially since NaN !== NaN
-    if (typeof a === "number" && typeof b === "number" && Number.isNaN(a) && Number.isNaN(b)) {
-        return true;
-    }
-    return a === b;
-}
-
-/**
  * **unique.by**`<K>(deref, ...values)`
  *
  * Deduplicate objects by a specific property key.
@@ -38,22 +27,14 @@ function uniqueBy<
     deref: K,
     ...values: T
 ): Unique<T, K extends string | number ? K : never> {
+    // Set uses SameValueZero equality, so NaN matches NaN in O(1)
     const seen = new Set<unknown>();
     const result: any[] = [];
 
     for (const item of values) {
         const key = item[deref];
 
-        // Use isSameValue for comparison to handle NaN
-        let isUnique = true;
-        for (const seenKey of seen) {
-            if (isSameValue(key, seenKey)) {
-                isUnique = false;
-                break;
-            }
-        }
-
-        if (isUnique) {
+        if (!seen.has(key)) {
             seen.add(key);
             result.push(item);
         }
@@ -91,24 +72,8 @@ function uniqueBy<
 export function unique<const T extends readonly any[]>(
     ...values: T
 ): Unique<T> {
-    const result: any[] = [];
-
-    for (const value of values) {
-        // Check if value is already in result
-        let found = false;
-        for (const existing of result) {
-            if (isSameValue(value, existing)) {
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) {
-            result.push(value);
-        }
-    }
-
-    return result as Unique<T>;
+    // Set uses SameValueZero equality, so NaN matches NaN in O(1)
+    return [...new Set(values)] as Unique<T>;
 }
 
 // Attach the .by method
