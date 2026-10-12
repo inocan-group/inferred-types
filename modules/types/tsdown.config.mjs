@@ -5,9 +5,7 @@ export default defineConfig([
     {
         entry: ["src/index.ts"],
         format: ["esm","cjs"],
-        dts: {
-            cjsReexport: true,
-        },
+        dts: true,
         sourcemap: true,
         tsconfig: "./tsconfig.tsdown.json",
     }
